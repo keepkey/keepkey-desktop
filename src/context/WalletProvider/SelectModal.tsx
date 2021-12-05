@@ -21,7 +21,12 @@ export const SelectModal = () => {
           {adapters &&
             // TODO: KeepKey adapter may fail due to the USB interface being in use by another tab
             // So not all of the supported wallets will have an initialized adapter
-            Object.values(KeyManager).map(key => {
+            // TODO: hacky shortlist, fixme (why is so fricken hard to disable a wallet), TODO feature flag new wallets?)
+            Object.values({
+              Native: 'native',
+              KeepKey: 'keepkey'
+            }).map(key => {
+              // @ts-ignore
               const option = SUPPORTED_WALLETS[key]
               const Icon = option.icon
               return (
@@ -31,6 +36,7 @@ export const SelectModal = () => {
                   size='lg'
                   py={8}
                   justifyContent='space-between'
+                  // @ts-ignore
                   onClick={() => connect(key)}
                 >
                   <Flex alignItems='center'>
