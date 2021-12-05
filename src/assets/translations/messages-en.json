@@ -52,11 +52,13 @@
     }
   },
   "connectWalletPage": {
-    "shapeshift": "KeepKey",
+    "shapeshift": "ShapeShift",
+    "keepkey": "KeepKey",
+    "client": "Client",
     "alpha": "Alpha",
-    "exploreThe": "",
-    "defiUniverse": "KeepKey Client",
-    "body": "100% Free. Open Source. Community Owned. Non-Custodial. Private.",
+    "exploreThe": "Explore The",
+    "defiUniverse": "DeFi Universe",
+    "body": "A companion app for the KeepKey hardware wallet",
     "header": "Please connect a wallet to get started",
     "cta": "Connect Wallet"
   },
@@ -410,6 +412,8 @@
       }
     },
     "selectModal": {
+      "cta": "dont have a Hardware Wallet?",
+      "demo": "Use a ShapeShift Software wallet to try it out",
       "header": "Connect A Wallet",
       "body": "By connecting a wallet, you agree to ShapeShift's Terms of Service and acknowledge that you have read and understand the ShapeShift disclaimer."
     }

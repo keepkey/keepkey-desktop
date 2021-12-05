@@ -33,13 +33,22 @@ export interface SupportedWalletInfo {
 }
 
 export enum KeyManager {
-  Native = 'native',
   KeepKey = 'keepkey',
+  Native = 'native',
   MetaMask = 'metamask',
   Portis = 'portis'
 }
 
 export const SUPPORTED_WALLETS: Record<KeyManager, SupportedWalletInfo> = {
+  [KeyManager.KeepKey]: {
+    adapter: WebUSBKeepKeyAdapter,
+    icon: KeepKeyIcon,
+    name: 'KeepKey',
+    routes: [
+      { path: '/keepkey/connect', component: KeepKeyConnect },
+      { path: '/keepkey/success', component: KeepKeySuccess }
+    ]
+  },
   [KeyManager.Native]: {
     adapter: NativeAdapter,
     icon: FoxIcon,
@@ -52,15 +61,6 @@ export const SUPPORTED_WALLETS: Record<KeyManager, SupportedWalletInfo> = {
       { path: '/native/create', component: NativeCreate },
       { path: '/native/create-test', component: NativeTestPhrase },
       { path: '/native/success', component: NativeSuccess }
-    ]
-  },
-  [KeyManager.KeepKey]: {
-    adapter: WebUSBKeepKeyAdapter,
-    icon: KeepKeyIcon,
-    name: 'KeepKey',
-    routes: [
-      { path: '/keepkey/connect', component: KeepKeyConnect },
-      { path: '/keepkey/success', component: KeepKeySuccess }
     ]
   },
   [KeyManager.MetaMask]: {

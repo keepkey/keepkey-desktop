@@ -11,7 +11,7 @@ const darkTheme = {
   appBorderRadius: 4,
   fontBase: theme.fonts.body,
   fontCode: "monospace",
-  brandTitle: "ShapeShift",
+  brandTitle: "KeepKey Client",
 };
 
 export const parameters = {
