@@ -62,6 +62,25 @@ export interface IWalletContext {
   disconnect: () => void
 }
 
+function playSound(type: any) {
+  if (type === 'send') {
+    const audio = new Audio(require('../../assets/sounds/send.mp3'))
+    audio.play()
+  }
+  if (type === 'receive') {
+    const audio = new Audio(require('../../assets/sounds/chaching.mp3'))
+    audio.play()
+  }
+  if (type === 'success') {
+    const audio = new Audio(require('../../assets/sounds/success.wav'))
+    audio.play()
+  }
+  if (type === 'fail') {
+    const audio = new Audio(require('../../assets/sounds/fail.mp3'))
+    audio.play()
+  }
+}
+
 export type ActionTypes =
   | { type: WalletActions.SET_ADAPTERS; payload: Adapters }
   | {
@@ -144,7 +163,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
             // useKeyring returns the instance of the adapter. We'll keep it for future reference.
             if (wallet === 'keepkey') {
               console.log('Init bridge for keepkey')
-              await adapter.pairDevice('http://localhost:1646')
+              // await adapter.pairDevice('http://localhost:1646')
             } else {
               await adapter.initialize()
               adapters.set(wallet, adapter)
@@ -162,12 +181,67 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   //onStart()
   useEffect(() => {
     ipcRenderer.send('onStartApp', {})
+
+    //listen to events on main
+    ipcRenderer.on('hardware', (event, data) => {
+      //event
+      //console.log('hardware event: ', data)
+
+      switch (data.event.event) {
+        case 'connect':
+          playSound('success')
+          // code block
+          break
+        case 'disconnect':
+          //playSound('fail')
+
+          // code block
+          break
+        default:
+        //TODO Spammy
+        //console.log("unhandled event! ",data.event)
+      }
+    })
+
+    ipcRenderer.on('playSound', (event, data) => {
+      console.log('sound: ', data)
+      playSound(data.sound)
+    })
+
+    ipcRenderer.on('attach', (event, data) => {
+      console.log('attach', data)
+      playSound('success')
+      //store.commit('deviceConnect',data.state)
+    })
+
+    ipcRenderer.on('detach', (event, data) => {
+      console.log('detach', data)
+      playSound('fail')
+      //store.commit('deviceConnect',data.state)
+    })
+
+    ipcRenderer.on('setKeepKeyState', (event, data) => {
+      console.log('setKeepKeyState', data)
+    })
+
+    ipcRenderer.on('setKeepKeyStatus', (event, data) => {
+      console.log('setKeepKeyStatus', data)
+    })
+
+    ipcRenderer.on('setDevice', (event, data) => {
+      console.log('setDevice', data)
+    })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // we explicitly only want this to happen once
 
   //onStart()
   const connect = useCallback(async (type: KeyManager) => {
-    console.log('Connect: ', type)
+    console.log('WalletProvider Connect: ', type)
+    if (type === 'keepkey') {
+      const adapter = SUPPORTED_WALLETS['keepkey'].adapter.useKeyring(state.keyring)
+      await adapter.pairDevice('http://localhost:1646')
+    }
     dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
     if (SUPPORTED_WALLETS[type]?.routes[0]?.path) {
       dispatch({

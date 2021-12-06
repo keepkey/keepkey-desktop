@@ -32,7 +32,8 @@
  *      * all payment requests are queued in this main process
  *          and must receive manual user approval before signing
  *
- *    P.S. use a keeykey!
+ *    P.S. use a keepkey!
+ *                                                -Highlander
  */
 // import * as core from '@shapeshiftoss/hdwallet-core'
 // import { NodeWebUSBKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-nodewebusb'
@@ -407,6 +408,7 @@ ipcMain.on('onStartApp', async event => {
   try {
     // log.info(tag, 'event: ', event)
     createTray(event)
+    start_bridge(event)
 
     usb.on('attach', function (device) {
       console.log('attach device: ', device)

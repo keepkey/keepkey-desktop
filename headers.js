@@ -4,6 +4,7 @@ const cspMeta = Object.entries({
   'default-src': ["'self'"],
   'connect-src': [
     "'self'",
+    'http://localhost:1646',
     'http://localhost:1646/exchange/device',
     'https://api.0x.org',
     'https://gas.api.0x.org',
@@ -15,10 +16,7 @@ const cspMeta = Object.entries({
     process.env.REACT_APP_UNCHAINED_BITCOIN_HTTP_URL,
     process.env.REACT_APP_UNCHAINED_BITCOIN_WS_URL
   ],
-  'frame-src': [
-    'https://fwd.metamask.io/',
-    'https://widget.portis.io'
-  ],
+  'frame-src': ['https://fwd.metamask.io/', 'https://widget.portis.io'],
   'img-src': [
     "'self'",
     'data:',
@@ -32,7 +30,7 @@ const cspMeta = Object.entries({
   'script-src': [
     "'self'",
     'blob:',
-    "'unsafe-eval'",  //TODO: There are still a couple of libraries we depend on that use eval; notably amqp-ts and google-protobuf.
+    "'unsafe-eval'", //TODO: There are still a couple of libraries we depend on that use eval; notably amqp-ts and google-protobuf.
     "'unsafe-inline'", //TODO: The only inline code we need is the stub injected by Metamask. We can fix this by including the stub in our own bundle.
     "'report-sample'"
   ],
