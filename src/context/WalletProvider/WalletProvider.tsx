@@ -1,6 +1,7 @@
 import { ComponentWithAs, IconProps } from '@chakra-ui/react'
 import { HDWallet, Keyring } from '@shapeshiftoss/hdwallet-core'
 import { getConfig } from 'config'
+import { ipcRenderer } from 'electron'
 import React, {
   createContext,
   useCallback,
@@ -153,7 +154,10 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     }
   }, [state.keyring])
 
+  //onStart()
   const connect = useCallback(async (type: KeyManager) => {
+    //on
+    // ipcRenderer.send('onStartApp', {})
     dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
     if (SUPPORTED_WALLETS[type]?.routes[0]?.path) {
       dispatch({

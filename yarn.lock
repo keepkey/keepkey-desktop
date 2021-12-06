@@ -3833,6 +3833,15 @@
     "@shapeshiftoss/hdwallet-core" "1.18.3"
     "@shapeshiftoss/hdwallet-keepkey" "1.18.3"
 
+"@shapeshiftoss/hdwallet-keepkey-tcp@^1.18.3":
+  version "1.18.3"
+  resolved "https://registry.yarnpkg.com/@shapeshiftoss/hdwallet-keepkey-tcp/-/hdwallet-keepkey-tcp-1.18.3.tgz#435b56a5570ce499eba417f2ef34913460cbf294"
+  integrity sha512-IygLsrQE5SDlXD9lASlknJB2oPfRgvZBWC8oKmD+X7cLsZpKR6gGx9iuOyb2iGbcu8sqSrjzYenJmjVb+1aBOg==
+  dependencies:
+    "@shapeshiftoss/hdwallet-core" "1.18.3"
+    "@shapeshiftoss/hdwallet-keepkey" "1.18.3"
+    axios "^0.21.1"
+
 "@shapeshiftoss/hdwallet-keepkey-webusb@^1.18.3":
   version "1.18.3"
   resolved "https://registry.yarnpkg.com/@shapeshiftoss/hdwallet-keepkey-webusb/-/hdwallet-keepkey-webusb-1.18.3.tgz#6098b79d1a64243b3ea6b1b509eb02399988a726"

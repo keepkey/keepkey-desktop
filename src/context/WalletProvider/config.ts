@@ -1,5 +1,6 @@
 import { ComponentWithAs, IconProps } from '@chakra-ui/react'
-import { WebUSBKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-webusb'
+// import { WebUSBKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-webusb'
+import * as keepkeyTcp from '@shapeshiftoss/hdwallet-keepkey-tcp'
 import { MetaMaskAdapter } from '@shapeshiftoss/hdwallet-metamask'
 import { NativeAdapter } from '@shapeshiftoss/hdwallet-native'
 import { PortisAdapter } from '@shapeshiftoss/hdwallet-portis'
@@ -41,7 +42,7 @@ export enum KeyManager {
 
 export const SUPPORTED_WALLETS: Record<KeyManager, SupportedWalletInfo> = {
   [KeyManager.KeepKey]: {
-    adapter: WebUSBKeepKeyAdapter,
+    adapter: keepkeyTcp,
     icon: KeepKeyIcon,
     name: 'KeepKey',
     routes: [
