@@ -142,8 +142,13 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
                 : undefined
             const adapter = SUPPORTED_WALLETS[wallet].adapter.useKeyring(state.keyring, options)
             // useKeyring returns the instance of the adapter. We'll keep it for future reference.
-            await adapter.initialize()
-            adapters.set(wallet, adapter)
+            if (wallet === 'keepkey') {
+              console.log('Init bridge for keepkey')
+              await adapter.pairDevice('http://localhost:1646')
+            } else {
+              await adapter.initialize()
+              adapters.set(wallet, adapter)
+            }
           } catch (e) {
             console.error('Error initializing HDWallet adapters', e)
           }
@@ -162,8 +167,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   //onStart()
   const connect = useCallback(async (type: KeyManager) => {
-    //on
-
+    console.log('Connect: ', type)
     dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
     if (SUPPORTED_WALLETS[type]?.routes[0]?.path) {
       dispatch({

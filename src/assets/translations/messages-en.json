@@ -303,9 +303,11 @@
         "pinMismatch": "The two PINs you entered do not match"
       },
       "connect": {
-        "header": "Pair Your KeepKey",
-        "body": "Connect a KeepKey device and click Pair.",
-        "button": "Pair",
+        "pair": "Pair Your KeepKey",
+        "header": "KeepKey Status",
+        "body": "Connect a KeepKey device.",
+        "button": "Test",
+        "disconnected": "Could not find your KeepKey. please connect",
         "conflictingApp": "Could not find your KeepKey. Another application may be trying to connect with your KeepKey."
       },
       "pin": {

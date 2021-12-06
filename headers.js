@@ -4,6 +4,7 @@ const cspMeta = Object.entries({
   'default-src': ["'self'"],
   'connect-src': [
     "'self'",
+    'http://localhost:1646/exchange/device',
     'https://api.0x.org',
     'https://gas.api.0x.org',
     'https://api.coingecko.com',

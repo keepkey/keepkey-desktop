@@ -42,7 +42,7 @@ export enum KeyManager {
 
 export const SUPPORTED_WALLETS: Record<KeyManager, SupportedWalletInfo> = {
   [KeyManager.KeepKey]: {
-    adapter: keepkeyTcp,
+    adapter: keepkeyTcp.TCPKeepKeyAdapter,
     icon: KeepKeyIcon,
     name: 'KeepKey',
     routes: [
