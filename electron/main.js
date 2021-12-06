@@ -42,8 +42,8 @@ const KK = require('@shapeshiftoss/hdwallet-keepkey-nodewebusb')
 
 const TAG = ' | KK-MAIN | '
 const log = require('electron-log')
-const { app, Menu, BrowserWindow, nativeTheme, ipcMain } = require('electron')
-// const usb = require('usb')
+const { app, Menu, Tray, BrowserWindow, nativeTheme, ipcMain } = require('electron')
+const usb = require('usb')
 const AutoLaunch = require('auto-launch')
 // eslint-disable-next-line react-hooks/rules-of-hooks
 const adapter = KK.NodeWebUSBKeepKeyAdapter.useKeyring(new core.Keyring())
@@ -142,13 +142,13 @@ const menuTemplate = [
   }
 ]
 
-// const createTray = eventIpc => {
-//   eventIPC = eventIpc
-//   const trayIcon = `${lightDark}/keepKey/unknown.png`
-//   tray = new Tray(path.join(assetsDirectory, trayIcon))
-//   const contextMenu = Menu.buildFromTemplate(menuTemplate)
-//   tray.setContextMenu(contextMenu)
-// }
+const createTray = eventIpc => {
+  eventIPC = eventIpc
+  const trayIcon = `${lightDark}/keepKey/unknown.png`
+  tray = new Tray(path.join(assetsDirectory, trayIcon))
+  const contextMenu = Menu.buildFromTemplate(menuTemplate)
+  tray.setContextMenu(contextMenu)
+}
 
 const updateMenu = status => {
   let icon = 'unknown'
@@ -405,20 +405,20 @@ ipcMain.on('onStartBridge', async event => {
 ipcMain.on('onStartApp', async event => {
   const tag = TAG + ' | onStartApp | '
   try {
-    log.info(tag, 'event: ', event)
-    // createTray(event)
-    //
-    // usb.on('attach', function (device) {
-    //   console.log('attach device: ', device)
-    //   event.sender.send('attach', { device })
-    //   start_bridge(event)
-    // })
-    //
-    // usb.on('detach', function (device) {
-    //   console.log('detach device: ', device)
-    //   event.sender.send('detach', { device })
-    //   stop_bridge(event)
-    // })
+    // log.info(tag, 'event: ', event)
+    createTray(event)
+
+    usb.on('attach', function (device) {
+      console.log('attach device: ', device)
+      event.sender.send('attach', { device })
+      start_bridge(event)
+    })
+
+    usb.on('detach', function (device) {
+      console.log('detach device: ', device)
+      event.sender.send('detach', { device })
+      stop_bridge(event)
+    })
   } catch (e) {
     console.error(tag, e)
   }
