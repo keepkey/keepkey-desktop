@@ -27,6 +27,9 @@ module.exports = {
     config.optimization.splitChunks = config.optimization.splitChunks || {}
     config.optimization.splitChunks.maxSize = 8 * 1024 * 1024
 
+    //patch for electron
+    config.target = 'electron-renderer'
+
     // This will be unnessecary in react-scripts ^4.1
     // ref: https://github.com/facebook/create-react-app/issues/8096#issuecomment-751894155
     // ref: https://github.com/facebook/create-react-app/pull/10004#issuecomment-871945665

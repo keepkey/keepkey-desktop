@@ -2719,10 +2719,10 @@
   dependencies:
     "@ethersproject/logger" "^5.4.0"
 
-"@ethersproject/networks@5.5.0", "@ethersproject/networks@^5.4.0", "@ethersproject/networks@^5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@ethersproject/networks/-/networks-5.5.0.tgz#babec47cab892c51f8dd652ce7f2e3e14283981a"
-  integrity sha512-KWfP3xOnJeF89Uf/FCJdV1a2aDJe5XTN2N52p4fcQ34QhDqQFkgQKZ39VGtiqUgHcLI8DfT0l9azC3KFTunqtA==
+"@ethersproject/networks@5.5.1", "@ethersproject/networks@^5.4.0", "@ethersproject/networks@^5.5.0":
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/@ethersproject/networks/-/networks-5.5.1.tgz#b7f7b9fb88dec1ea48f739b7fb9621311aa8ce6c"
+  integrity sha512-tYRDM4zZtSUcKnD4UMuAlj7SeXH/k5WC4SP2u1Pn57++JdXHkRu2zwNkgNogZoxHzhm9Q6qqurDBVptHOsW49Q==
   dependencies:
     "@ethersproject/logger" "^5.5.0"
 
@@ -2781,10 +2781,10 @@
     bech32 "1.1.4"
     ws "7.4.6"
 
-"@ethersproject/providers@5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@ethersproject/providers/-/providers-5.5.0.tgz#bc2876a8fe5e0053ed9828b1f3767ae46e43758b"
-  integrity sha512-xqMbDnS/FPy+J/9mBLKddzyLLAQFjrVff5g00efqxPzcAwXiR+SiCGVy6eJ5iAIirBOATjx7QLhDNPGV+AEQsw==
+"@ethersproject/providers@5.5.1":
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/@ethersproject/providers/-/providers-5.5.1.tgz#ba87e3c93219bbd2e2edf8b369873aee774abf04"
+  integrity sha512-2zdD5sltACDWhjUE12Kucg2PcgM6V2q9JMyVvObtVGnzJu+QSmibbP+BHQyLWZUBfLApx2942+7DC5D+n4wBQQ==
   dependencies:
     "@ethersproject/abstract-provider" "^5.5.0"
     "@ethersproject/abstract-signer" "^5.5.0"
@@ -3022,10 +3022,10 @@
     "@ethersproject/properties" "^5.4.0"
     "@ethersproject/strings" "^5.4.0"
 
-"@ethersproject/web@5.5.0", "@ethersproject/web@^5.4.0", "@ethersproject/web@^5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@ethersproject/web/-/web-5.5.0.tgz#0e5bb21a2b58fb4960a705bfc6522a6acf461e28"
-  integrity sha512-BEgY0eL5oH4mAo37TNYVrFeHsIXLRxggCRG/ksRIxI2X5uj5IsjGmcNiRN/VirQOlBxcUhCgHhaDLG4m6XAVoA==
+"@ethersproject/web@5.5.1", "@ethersproject/web@^5.4.0", "@ethersproject/web@^5.5.0":
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/@ethersproject/web/-/web-5.5.1.tgz#cfcc4a074a6936c657878ac58917a61341681316"
+  integrity sha512-olvLvc1CB12sREc1ROPSHTdFCdvMh0J5GSJYiQg2D0hdD4QmJDy8QYDb1CvoqD/bF1c++aeKv2sR5uduuG9dQg==
   dependencies:
     "@ethersproject/base64" "^5.5.0"
     "@ethersproject/bytes" "^5.5.0"
@@ -5726,6 +5726,11 @@
   dependencies:
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
+
+"@vertx/core@^4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@vertx/core/-/core-4.2.1.tgz#a2127a38d4bc9f227905f34d5d0aba2451ae6f87"
+  integrity sha512-rqr+h5nH59tfNpCZq1Q7uXWNIcH9yTHqyuHms/dWLdbOw1qCy8LwYnHGZRMUxz1IO07SeXKZQvNYMcsTn7vnUA==
 
 "@visx/axis@^2.4.0":
   version "2.4.0"
@@ -10560,9 +10565,9 @@ ethers@5.4.4:
     "@ethersproject/wordlists" "5.4.0"
 
 ethers@^5.4.0, ethers@^5.4.7:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.5.1.tgz#d3259a95a42557844aa543906c537106c0406fbf"
-  integrity sha512-RodEvUFZI+EmFcE6bwkuJqpCYHazdzeR1nMzg+YWQSmQEsNtfl1KHGfp/FWZYl48bI/g7cgBeP2IlPthjiVngw==
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.5.2.tgz#cd2e508c7342c44fa70392f722e8de8f2416489f"
+  integrity sha512-EF5W+6Wwcu6BqVwpgmyR5U2+L4c1FQzlM/02dkZOugN3KF0cG9bzHZP+TDJglmPm2/IzCEJDT7KBxzayk7SAHw==
   dependencies:
     "@ethersproject/abi" "5.5.0"
     "@ethersproject/abstract-provider" "5.5.1"
@@ -10579,10 +10584,10 @@ ethers@^5.4.0, ethers@^5.4.7:
     "@ethersproject/json-wallets" "5.5.0"
     "@ethersproject/keccak256" "5.5.0"
     "@ethersproject/logger" "5.5.0"
-    "@ethersproject/networks" "5.5.0"
+    "@ethersproject/networks" "5.5.1"
     "@ethersproject/pbkdf2" "5.5.0"
     "@ethersproject/properties" "5.5.0"
-    "@ethersproject/providers" "5.5.0"
+    "@ethersproject/providers" "5.5.1"
     "@ethersproject/random" "5.5.0"
     "@ethersproject/rlp" "5.5.0"
     "@ethersproject/sha2" "5.5.0"
@@ -10592,7 +10597,7 @@ ethers@^5.4.0, ethers@^5.4.7:
     "@ethersproject/transactions" "5.5.0"
     "@ethersproject/units" "5.5.0"
     "@ethersproject/wallet" "5.5.0"
-    "@ethersproject/web" "5.5.0"
+    "@ethersproject/web" "5.5.1"
     "@ethersproject/wordlists" "5.5.0"
 
 ethjs-unit@0.1.6:
@@ -19478,17 +19483,17 @@ svgo@^1.0.0, svgo@^1.2.2:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swagger-ui-dist@^3.18.1:
-  version "3.52.5"
-  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-3.52.5.tgz#9aa8101a2be751f5145195b9e048bc21b12fac60"
-  integrity sha512-8z18eX8G/jbTXYzyNIaobrnD7PSN7yU/YkSasMmajrXtw0FGS64XjrKn5v37d36qmU3o1xLeuYnktshRr7uIFw==
+swagger-ui-dist@>3.52.5:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-4.1.2.tgz#5dd182400eaead52511707b50bde29672a975794"
+  integrity sha512-Pj960coj9L0nAQPE1vgBzHulKGPNw1ifn/1GTIv/mlV9V3PoRM0uTcE0uhTiizx6aHg+vnFFmbA2J1gjFekOaQ==
 
 swagger-ui-express@^4.1.5:
-  version "4.1.6"
-  resolved "https://registry.yarnpkg.com/swagger-ui-express/-/swagger-ui-express-4.1.6.tgz#682294af3d5c70f74a1fa4d6a9b503a9ee55ea82"
-  integrity sha512-Xs2BGGudvDBtL7RXcYtNvHsFtP1DBFPMJFRxHe5ez/VG/rzVOEjazJOOSc/kSCyxreCTKfJrII6MJlL9a6t8vw==
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/swagger-ui-express/-/swagger-ui-express-4.2.0.tgz#98797cc147071170670415c9193951cfbde173bd"
+  integrity sha512-znrHTwh9UpvsjqgWopA4noIet7mi7UGuIYZ465YfUDKQ5Dpas0jxnkfUKCo+0aB17YCBv26AhIjiQYDV4uvJFA==
   dependencies:
-    swagger-ui-dist "^3.18.1"
+    swagger-ui-dist ">3.52.5"
 
 swarm-js@^0.1.40:
   version "0.1.40"
@@ -20643,6 +20648,11 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+vertx@^0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.yarnpkg.com/vertx/-/vertx-0.0.1-security.tgz#886c73319e737e3db295ed658f4ba51eadbe7bff"
+  integrity sha512-QoZfGG4j8AIO7Pe6Fp8X6bYBBEZyxAKDFFEW7Etb5TSq1m8wuDeJ+9HgUFGlRle57AknhPwbNTpa+jjPTmiTog==
 
 vfile-location@^3.0.0, vfile-location@^3.2.0:
   version "3.2.0"

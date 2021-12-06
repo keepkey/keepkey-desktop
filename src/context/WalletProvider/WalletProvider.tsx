@@ -155,9 +155,15 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   }, [state.keyring])
 
   //onStart()
+  useEffect(() => {
+    ipcRenderer.send('onStartApp', {})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // we explicitly only want this to happen once
+
+  //onStart()
   const connect = useCallback(async (type: KeyManager) => {
     //on
-    // ipcRenderer.send('onStartApp', {})
+
     dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
     if (SUPPORTED_WALLETS[type]?.routes[0]?.path) {
       dispatch({

@@ -60,7 +60,7 @@ export const ConnectWallet = ({ dispatch, isConnected }: NoWalletProps) => {
         }}
       >
         <Circle size='100px' mb={6}>
-            <KeepKeyIcon boxSize='100%' color='white' />
+          <KeepKeyIcon boxSize='100%' color='white' />
         </Circle>
         <Flex flexDir='row' textAlign='center' fontSize={{ base: '6xl', lg: '8xl' }} mb={6}>
           <RawText color='white' fontWeight='medium' lineHeight='1'>

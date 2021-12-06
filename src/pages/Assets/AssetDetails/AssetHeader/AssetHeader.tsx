@@ -23,7 +23,7 @@ import { useTranslate } from 'react-polyglot'
 import { Card } from 'components/Card/Card'
 import { Graph } from 'components/Graph/Graph'
 import { TimeControls } from 'components/Graph/TimeControls'
-import { SanitizedHtml } from 'components/SanitizedHtml/SanitizedHtml'
+// import { SanitizedHtml } from 'components/SanitizedHtml/SanitizedHtml'
 import { RawText, Text } from 'components/Text'
 import { useWallet } from 'context/WalletProvider/WalletProvider'
 import { useBalanceChartData } from 'hooks/useBalanceChartData/useBalanceChartData'
@@ -216,7 +216,7 @@ export const AssetHeader = ({ isLoaded }: { isLoaded: boolean }) => {
 
           <Collapse startingHeight={70} in={showDescription}>
             <SkeletonText isLoaded={isLoaded} noOfLines={4} spacing={2} skeletonHeight='20px'>
-              <SanitizedHtml color='gray.500' dirtyHtml={description} />
+              {/*<SanitizedHtml color='gray.500' dirtyHtml={description} />*/}
             </SkeletonText>
           </Collapse>
           <Button size='sm' onClick={handleToggle} mt='1rem'>

@@ -222,7 +222,8 @@ function createWindow() {
     show: false,
     backgroundColor: 'white',
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false
     }
   })
   const startURL = 'http://localhost:3000'
@@ -406,7 +407,7 @@ ipcMain.on('onStartApp', async event => {
   try {
     log.info(tag, 'event: ', event)
     // createTray(event)
-
+    //
     // usb.on('attach', function (device) {
     //   console.log('attach device: ', device)
     //   event.sender.send('attach', { device })
