@@ -314,7 +314,7 @@ const start_bridge = async function (event) {
             console.log('output: ', output)
             EVENT_LOG.push({ read: output })
             event.sender.send('dataSent', { output })
-            res.status(200).json(output)
+            if (res.status) res.status(200).json(output)
           } else if (req.method === 'POST') {
             let body = req.body
             let msg = Buffer.from(body.data, 'hex')
@@ -336,7 +336,8 @@ const start_bridge = async function (event) {
       //catchall
       appExpress.use((err, req, res) => {
         const { status = 500, message = 'something went wrong. ', data = {} } = err
-        log.error(message)
+        console.log(req.body, { status: status, message: message, data: data })
+        // log.error(message)
         res.status(status).json({ message, data })
       })
 

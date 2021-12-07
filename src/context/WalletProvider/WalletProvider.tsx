@@ -250,6 +250,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     if (type === 'keepkey') {
       const adapter = SUPPORTED_WALLETS['keepkey'].adapter.useKeyring(state.keyring)
       await adapter.pairDevice('http://localhost:1646')
+      const adapters: Adapters = new Map()
+      adapters.set('keepkey' as KeyManager, adapter)
+      dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
     }
     dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
     if (SUPPORTED_WALLETS[type]?.routes[0]?.path) {
