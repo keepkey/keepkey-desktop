@@ -24,6 +24,8 @@ export enum WalletActions {
   SET_INITIAL_ROUTE = 'SET_INITIAL_ROUTE',
   SET_IS_CONNECTED = 'SET_IS_CONNECTED',
   SET_WALLET_MODAL = 'SET_WALLET_MODAL',
+  SET_KEEPKEY_STATE = 'SET_KEEPKEY_STATE',
+  SET_KEEPKEY_STATUS = 'SET_KEEPKEY_STATUS',
   RESET_STATE = 'RESET_STATE'
 }
 
@@ -96,6 +98,8 @@ export type ActionTypes =
   | { type: WalletActions.SET_CONNECTOR_TYPE; payload: KeyManager }
   | { type: WalletActions.SET_INITIAL_ROUTE; payload: string }
   | { type: WalletActions.SET_WALLET_MODAL; payload: boolean }
+  | { type: WalletActions.SET_KEEPKEY_STATE; payload: string }
+  | { type: WalletActions.SET_KEEPKEY_STATUS; payload: string }
   | { type: WalletActions.RESET_STATE }
 
 const reducer = (state: InitialState, action: ActionTypes) => {
@@ -163,7 +167,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
             // useKeyring returns the instance of the adapter. We'll keep it for future reference.
             if (wallet === 'keepkey') {
               console.log('Init bridge for keepkey')
-              // await adapter.pairDevice('http://localhost:1646')
+              await adapter.pairDevice('http://localhost:1646')
+              adapters.set(wallet, adapter)
             } else {
               await adapter.initialize()
               adapters.set(wallet, adapter)
@@ -205,27 +210,31 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
     ipcRenderer.on('playSound', (event, data) => {
       console.log('sound: ', data)
-      playSound(data.sound)
+      // playSound(data.sound)
     })
 
     ipcRenderer.on('attach', (event, data) => {
       console.log('attach', data)
-      playSound('success')
-      //store.commit('deviceConnect',data.state)
+      // playSound('success')
+      dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
+      dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
     ipcRenderer.on('detach', (event, data) => {
       console.log('detach', data)
       playSound('fail')
-      //store.commit('deviceConnect',data.state)
+      dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
+      dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
     ipcRenderer.on('setKeepKeyState', (event, data) => {
-      console.log('setKeepKeyState', data)
+      dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
+      dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
     ipcRenderer.on('setKeepKeyStatus', (event, data) => {
-      console.log('setKeepKeyStatus', data)
+      dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
+      dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
     ipcRenderer.on('setDevice', (event, data) => {

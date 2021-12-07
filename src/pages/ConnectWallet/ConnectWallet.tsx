@@ -66,7 +66,7 @@ export const ConnectWallet = ({ dispatch, isConnected }: NoWalletProps) => {
           <RawText color='white' fontWeight='medium' lineHeight='1'>
             {translate('connectWalletPage.keepkey')}
             <RawText color='blue.500' fontWeight='bold' as='span'>
-              -{translate('connectWalletPage.client')}
+              {translate('connectWalletPage.client')}
             </RawText>
           </RawText>
         </Flex>
