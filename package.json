@@ -1,8 +1,11 @@
 {
-  "name": "web",
+  "name": "keepkey-client",
   "version": "0.1.0",
   "private": true,
   "main": "electron/main.js",
+  "repository": {
+    "url": "https://github.com/BitHighlander/web-keepkey-client"
+  },
   "dependencies": {
     "@chakra-ui/icons": "^1.1.1",
     "@chakra-ui/react": "^1.7.2",
@@ -50,7 +53,9 @@
     "crypto-js": "^4.1.1",
     "dayjs": "^1.10.6",
     "dompurify": "^2.3.2",
+    "electron-is": "^3.0.0",
     "electron-log": "^4.4.1",
+    "electron-notarize": "^1.1.1",
     "envalid": "^7.2.1",
     "express": "^4.17.1",
     "framer-motion": "^4",
@@ -89,8 +94,9 @@
     "show-linked-packages": "find node_modules node_modules/@* -depth 1 -type l -print",
     "link-packages": "./scripts/link-packages.sh",
     "unlink-packages": "find node_modules node_modules/@* -depth 1 -type l -print | awk -F/ '{ printf \"%s/%s\\n\",$2,$3; }' | xargs yarn unlink && yarn install --force",
-    "build": "NODE_OPTIONS=--max-old-space-size=4096 IMAGE_INLINE_SIZE_LIMIT=0 INLINE_RUNTIME_CHUNK=false REACT_APP_HIDE_SPLASH=false DISABLE_ESLINT_PLUGIN=true react-app-rewired build && node headers.js",
-    "dev": "react-app-rewired start",
+    "build": "PUBLIC_URL=/ NODE_OPTIONS=--max-old-space-size=4096 IMAGE_INLINE_SIZE_LIMIT=0 INLINE_RUNTIME_CHUNK=false REACT_APP_HIDE_SPLASH=false DISABLE_ESLINT_PLUGIN=true react-app-rewired build && node headers.js",
+    "build:electron": "yarn build-electron && electron-builder build --publish never",
+    "build-electron": "react-scripts build",
     "dev-electron": "concurrently \"yarn dev\" \"wait-on http://localhost:3000 && electron .\"",
     "dev:silent": "BROWSER=none react-app-rewired start",
     "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
@@ -119,6 +125,27 @@
   },
   "jest": {
     "collectCoverageFrom": []
+  },
+  "homepage": "./",
+  "build": {
+    "appId": "com.keepkey.client",
+    "productName": "KeepKey Client",
+    "afterSign": "scripts/afterSignHook.js",
+    "files": [
+      "build/**/*",
+      "electron/entitlements.mac.plist",
+      "build/icon.png",
+      "electron/main.js",
+      "package.json"
+    ],
+    "extends": null,
+    "mac": {
+      "type": "distribution",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "electron/entitlements.mac.plist",
+      "entitlementsInherit": "electron/entitlements.mac.plist"
+    }
   },
   "browserslist": {
     "production": [

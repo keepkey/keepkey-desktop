@@ -56,6 +56,7 @@ appExpress.use(cors())
 appExpress.use(bodyParser.urlencoded({ extended: false }))
 appExpress.use(bodyParser.json())
 const path = require('path')
+const isDev = require('electron-is-dev')
 let server = {}
 let tray = {}
 let STATE = 0
@@ -224,10 +225,13 @@ function createWindow() {
     backgroundColor: 'white',
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
+      devTools: isDev
     }
   })
-  const startURL = 'http://localhost:3000'
+  const startURL = isDev
+    ? 'http://localhost:3000'
+    : `file://${path.join(__dirname, '../build/index.html')}`
 
   mainWindow.loadURL(startURL)
 
