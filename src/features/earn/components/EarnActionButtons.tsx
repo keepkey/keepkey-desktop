@@ -6,11 +6,11 @@ import {
 } from 'features/earn/contexts/EarnManagerProvider/EarnManagerProvider'
 import { useTranslate } from 'react-polyglot'
 import { matchPath } from 'react-router-dom'
-import { useBrowserRouter } from 'context/BrowserRouterProvider/BrowserRouterProvider'
+import { useHashRouter } from 'context/HashRouterProvider/HashRouterProvider'
 
 export const EarnActionButtons = () => {
   const translate = useTranslate()
-  const { location, history } = useBrowserRouter<EarnQueryParams, EarnParams>()
+  const { location, history } = useHashRouter<EarnQueryParams, EarnParams>()
   const match = matchPath<EarnParams>(location.pathname, {
     path: '/earn/:earnType/:provider/:action',
     exact: true

@@ -95,8 +95,9 @@
     "link-packages": "./scripts/link-packages.sh",
     "unlink-packages": "find node_modules node_modules/@* -depth 1 -type l -print | awk -F/ '{ printf \"%s/%s\\n\",$2,$3; }' | xargs yarn unlink && yarn install --force",
     "build": "PUBLIC_URL=/ NODE_OPTIONS=--max-old-space-size=4096 IMAGE_INLINE_SIZE_LIMIT=0 INLINE_RUNTIME_CHUNK=false REACT_APP_HIDE_SPLASH=false DISABLE_ESLINT_PLUGIN=true react-app-rewired build && node headers.js",
-    "build:electron": "yarn build-electron && electron-builder build --publish never",
-    "build-electron": "react-scripts build",
+    "build:electron": "yarn build-bundle-electron && cp electron/icon.png build/icon.png && electron-builder build --publish always",
+    "build-bundle-electron": "react-scripts build",
+    "dev": "react-app-rewired start",
     "dev-electron": "concurrently \"yarn dev\" \"wait-on http://localhost:3000 && electron .\"",
     "dev:silent": "BROWSER=none react-app-rewired start",
     "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
@@ -134,7 +135,7 @@
     "files": [
       "build/**/*",
       "electron/entitlements.mac.plist",
-      "build/icon.png",
+      "electron/icon.png",
       "electron/main.js",
       "package.json"
     ],

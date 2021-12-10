@@ -21,7 +21,7 @@ import { CircularProgress } from 'components/CircularProgress/CircularProgress'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { Row } from 'components/Row/Row'
 import { Text } from 'components/Text'
-import { useBrowserRouter } from 'context/BrowserRouterProvider/BrowserRouterProvider'
+import { useHashRouter } from 'context/HashRouterProvider/HashRouterProvider'
 import { useChainAdapters } from 'context/ChainAdaptersProvider/ChainAdaptersProvider'
 import { useWallet } from 'context/WalletProvider/WalletProvider'
 import { useFlattenedBalances } from 'hooks/useBalances/useFlattenedBalances'
@@ -54,7 +54,7 @@ type YearnWithdrawProps = {
 
 export const YearnWithdraw = ({ api }: YearnWithdrawProps) => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { query, history: browserHistory } = useBrowserRouter<EarnQueryParams, EarnParams>()
+  const { query, history: browserHistory } = useHashRouter<EarnQueryParams, EarnParams>()
   const { chain, contractAddress: vaultAddress, tokenId } = query
 
   const network = NetworkTypes.MAINNET

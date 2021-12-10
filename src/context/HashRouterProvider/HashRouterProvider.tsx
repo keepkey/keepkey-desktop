@@ -3,26 +3,26 @@ import React, { useContext, useMemo } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import { useQuery } from 'hooks/useQuery/useQuery'
 
-type BrowserRouterContextProps<Q, P> = {
+type HashRouterContextProps<Q, P> = {
   location: Location
   history: History
   params: P
   query: Q
 }
 
-const BrowserRouterContext = React.createContext<BrowserRouterContextProps<any, any> | null>(null)
+const HashRouterContext = React.createContext<HashRouterContextProps<any, any> | null>(null)
 
-export function useBrowserRouter<Q, P>() {
-  const ctx = useContext<BrowserRouterContextProps<Q, P> | null>(BrowserRouterContext)
-  if (!ctx) throw new Error("useBrowserRouter can't be used outside of BrowserRouterContext")
+export function useHashRouter<Q, P>() {
+  const ctx = useContext<HashRouterContextProps<Q, P> | null>(HashRouterContext)
+  if (!ctx) throw new Error("useHashRouter can't be used outside of HashRouterContext")
   return ctx
 }
 
-type BrowserRouterProviderProps = {
+type HashRouterProviderProps = {
   children: React.ReactNode
 }
 
-export function BrowserRouterProvider({ children }: BrowserRouterProviderProps) {
+export function HashRouterProvider({ children }: HashRouterProviderProps) {
   const location = useLocation()
   const history = useHistory()
   const params = useParams()
@@ -38,5 +38,5 @@ export function BrowserRouterProvider({ children }: BrowserRouterProviderProps) 
     [query, params, location, history]
   )
 
-  return <BrowserRouterContext.Provider value={router}>{children}</BrowserRouterContext.Provider>
+  return <HashRouterContext.Provider value={router}>{children}</HashRouterContext.Provider>
 }
