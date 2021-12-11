@@ -1,6 +1,6 @@
-import { History, Location } from 'history'
+import { createHashHistory, History, Location } from 'history'
 import React, { useContext, useMemo } from 'react'
-import { useHistory, useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useQuery } from 'hooks/useQuery/useQuery'
 
 type HashRouterContextProps<Q, P> = {
@@ -24,7 +24,7 @@ type HashRouterProviderProps = {
 
 export function HashRouterProvider({ children }: HashRouterProviderProps) {
   const location = useLocation()
-  const history = useHistory()
+  const history = createHashHistory()
   const params = useParams()
   const query = useQuery()
 

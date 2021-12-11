@@ -1,6 +1,5 @@
 import 'lib/polyfills'
 
-import { createBrowserHistory, createHashHistory } from 'history'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { renderConsoleArt } from 'lib/consoleArt'
@@ -9,13 +8,6 @@ import * as serviceWorker from 'lib/serviceWorker'
 
 import { App } from './App'
 import { AppProviders } from './AppProviders'
-
-const isElectron = () => {
-  const userAgent = navigator.userAgent.toLowerCase()
-  return userAgent.indexOf(' electron/') !== -1
-}
-
-export const history = isElectron() ? createHashHistory() : createBrowserHistory()
 
 ReactDOM.render(
   <React.StrictMode>
