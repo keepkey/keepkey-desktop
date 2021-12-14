@@ -152,42 +152,42 @@ const createTray = eventIpc => {
   tray.setContextMenu(contextMenu)
 }
 
-// const updateMenu = status => {
-//   let icon = 'unknown'
-//   // eslint-disable-next-line default-case
-//   switch (status) {
-//     case -1:
-//       menuTemplate[0].label = 'Error'
-//       menuTemplate[0].icon = path.join(assetsDirectory, 'status/error.png')
-//       icon = 'error'
-//       break
-//     case 0:
-//       menuTemplate[0].label = 'Initializing'
-//       menuTemplate[0].icon = path.join(assetsDirectory, 'status/unknown.png')
-//       icon = 'unknown'
-//       break
-//     case 1:
-//       menuTemplate[0].label = 'No Devices'
-//       menuTemplate[0].icon = path.join(assetsDirectory, 'status/unknown.png')
-//       icon = 'unknown'
-//       break
-//     case 2:
-//       menuTemplate[0].label = 'Bridge Not Running'
-//       menuTemplate[0].icon = path.join(assetsDirectory, 'status/unknown.png')
-//       icon = 'unknown'
-//       break
-//     case 3:
-//       menuTemplate[0].label = 'Bridge Running'
-//       menuTemplate[0].icon = path.join(assetsDirectory, 'status/success.png')
-//       menuTemplate[2].enabled = false
-//       menuTemplate[3].enabled = true
-//       icon = 'success'
-//       break
-//   }
-//   const updatedMenu = Menu.buildFromTemplate(menuTemplate)
-//   tray.setContextMenu(updatedMenu)
-//   tray.setImage(path.join(assetsDirectory, `${lightDark}/keepKey/${icon}.png`))
-// }
+const updateMenu = status => {
+  let icon = 'unknown'
+  // eslint-disable-next-line default-case
+  switch (status) {
+    case -1:
+      menuTemplate[0].label = 'Error'
+      menuTemplate[0].icon = path.join(assetsDirectory, 'status/error.png')
+      icon = 'error'
+      break
+    case 0:
+      menuTemplate[0].label = 'Initializing'
+      menuTemplate[0].icon = path.join(assetsDirectory, 'status/unknown.png')
+      icon = 'unknown'
+      break
+    case 1:
+      menuTemplate[0].label = 'No Devices'
+      menuTemplate[0].icon = path.join(assetsDirectory, 'status/unknown.png')
+      icon = 'unknown'
+      break
+    case 2:
+      menuTemplate[0].label = 'Bridge Not Running'
+      menuTemplate[0].icon = path.join(assetsDirectory, 'status/unknown.png')
+      icon = 'unknown'
+      break
+    case 3:
+      menuTemplate[0].label = 'Bridge Running'
+      menuTemplate[0].icon = path.join(assetsDirectory, 'status/success.png')
+      menuTemplate[2].enabled = false
+      menuTemplate[3].enabled = true
+      icon = 'success'
+      break
+  }
+  const updatedMenu = Menu.buildFromTemplate(menuTemplate)
+  tray.setContextMenu(updatedMenu)
+  tray.setImage(path.join(assetsDirectory, `${lightDark}/keepKey/${icon}.png`))
+}
 
 function createWindow() {
   /**
@@ -226,7 +226,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      devTools: true
+      devTools: false
     }
   })
   const startURL = isDev
