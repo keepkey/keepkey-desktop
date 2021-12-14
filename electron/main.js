@@ -99,7 +99,7 @@ const menuTemplate = [
     label: 'Start Bridge',
     click: function () {
       start_bridge(eventIPC)
-      console.log('start bridge!!')
+      log.info('start bridge!!')
     },
     enabled: true
   },
@@ -107,7 +107,7 @@ const menuTemplate = [
     label: 'Stop Bridge',
     enabled: false,
     click: function () {
-      console.log('stop bridge')
+      log.info('stop bridge')
       stop_bridge(eventIPC)
     }
   },
@@ -116,7 +116,7 @@ const menuTemplate = [
   {
     label: 'Toggle App',
     click: function () {
-      console.log('show App')
+      log.info('show App')
       if (mainWindow.isVisible()) {
         mainWindow.hide()
         app.dock.hide()
@@ -129,7 +129,7 @@ const menuTemplate = [
   {
     label: 'Disable Auto Launch',
     click: function () {
-      console.log('show App')
+      log.info('show App')
       //kkAutoLauncher.disable()
     }
   },
@@ -137,7 +137,7 @@ const menuTemplate = [
     label: 'Quit KeepKey Bridge',
     type: 'normal',
     click: function () {
-      console.log('quit bridge')
+      log.info('quit bridge')
       app.quit()
       process.exit(0)
     }
@@ -152,42 +152,42 @@ const createTray = eventIpc => {
   tray.setContextMenu(contextMenu)
 }
 
-const updateMenu = status => {
-  let icon = 'unknown'
-  // eslint-disable-next-line default-case
-  switch (status) {
-    case -1:
-      menuTemplate[0].label = 'Error'
-      menuTemplate[0].icon = path.join(assetsDirectory, 'status/error.png')
-      icon = 'error'
-      break
-    case 0:
-      menuTemplate[0].label = 'Initializing'
-      menuTemplate[0].icon = path.join(assetsDirectory, 'status/unknown.png')
-      icon = 'unknown'
-      break
-    case 1:
-      menuTemplate[0].label = 'No Devices'
-      menuTemplate[0].icon = path.join(assetsDirectory, 'status/unknown.png')
-      icon = 'unknown'
-      break
-    case 2:
-      menuTemplate[0].label = 'Bridge Not Running'
-      menuTemplate[0].icon = path.join(assetsDirectory, 'status/unknown.png')
-      icon = 'unknown'
-      break
-    case 3:
-      menuTemplate[0].label = 'Bridge Running'
-      menuTemplate[0].icon = path.join(assetsDirectory, 'status/success.png')
-      menuTemplate[2].enabled = false
-      menuTemplate[3].enabled = true
-      icon = 'success'
-      break
-  }
-  const updatedMenu = Menu.buildFromTemplate(menuTemplate)
-  tray.setContextMenu(updatedMenu)
-  tray.setImage(path.join(assetsDirectory, `${lightDark}/keepKey/${icon}.png`))
-}
+// const updateMenu = status => {
+//   let icon = 'unknown'
+//   // eslint-disable-next-line default-case
+//   switch (status) {
+//     case -1:
+//       menuTemplate[0].label = 'Error'
+//       menuTemplate[0].icon = path.join(assetsDirectory, 'status/error.png')
+//       icon = 'error'
+//       break
+//     case 0:
+//       menuTemplate[0].label = 'Initializing'
+//       menuTemplate[0].icon = path.join(assetsDirectory, 'status/unknown.png')
+//       icon = 'unknown'
+//       break
+//     case 1:
+//       menuTemplate[0].label = 'No Devices'
+//       menuTemplate[0].icon = path.join(assetsDirectory, 'status/unknown.png')
+//       icon = 'unknown'
+//       break
+//     case 2:
+//       menuTemplate[0].label = 'Bridge Not Running'
+//       menuTemplate[0].icon = path.join(assetsDirectory, 'status/unknown.png')
+//       icon = 'unknown'
+//       break
+//     case 3:
+//       menuTemplate[0].label = 'Bridge Running'
+//       menuTemplate[0].icon = path.join(assetsDirectory, 'status/success.png')
+//       menuTemplate[2].enabled = false
+//       menuTemplate[3].enabled = true
+//       icon = 'success'
+//       break
+//   }
+//   const updatedMenu = Menu.buildFromTemplate(menuTemplate)
+//   tray.setContextMenu(updatedMenu)
+//   tray.setImage(path.join(assetsDirectory, `${lightDark}/keepKey/${icon}.png`))
+// }
 
 function createWindow() {
   /**
@@ -232,7 +232,7 @@ function createWindow() {
   const startURL = isDev
     ? 'http://localhost:3000'
     : `file://${path.join(__dirname, '../build/index.html')}`
-  console.log('startURL: ', startURL)
+  log.info('startURL: ', startURL)
 
   mainWindow.loadURL(startURL)
 
@@ -296,7 +296,7 @@ const start_bridge = async function (event) {
       STATUS = `no devices`
       event.sender.send('setKeepKeyState', { state: STATE })
       event.sender.send('setKeepKeyStatus', { status: STATUS })
-      console.log(tray)
+      log.info(tray)
     }
 
     if (device) {
@@ -316,7 +316,7 @@ const start_bridge = async function (event) {
             let output = {
               data: Buffer.from(resp).toString('hex')
             }
-            console.log('output: ', output)
+            log.info('output: ', output)
             EVENT_LOG.push({ read: output })
             event.sender.send('dataSent', { output })
             if (res.status) res.status(200).json(output)
@@ -324,7 +324,7 @@ const start_bridge = async function (event) {
             let body = req.body
             let msg = Buffer.from(body.data, 'hex')
             transport.writeChunk(msg)
-            console.log('input: ', msg)
+            log.info('input: ', msg)
             // EVENT_LOG.push({ write: output })
             event.sender.send('dataReceive', { output: msg })
             res.status(200).json({})
@@ -341,7 +341,7 @@ const start_bridge = async function (event) {
       //catchall
       appExpress.use((err, req, res) => {
         const { status = 500, message = 'something went wrong. ', data = {} } = err
-        console.log(req.body, { status: status, message: message, data: data })
+        log.info(req.body, { status: status, message: message, data: data })
         // log.error(message)
         res.status(status).json({ message, data })
       })
@@ -350,7 +350,7 @@ const start_bridge = async function (event) {
       try {
         server = appExpress.listen(API_PORT, () => {
           event.sender.send('playSound', { sound: 'success' })
-          console.log(`server started at http://localhost:${API_PORT}`)
+          log.info(`server started at http://localhost:${API_PORT}`)
           STATE = 3
           STATUS = 'bridge online'
           event.sender.send('setKeepKeyState', { state: STATE })
@@ -364,10 +364,10 @@ const start_bridge = async function (event) {
         event.sender.send('setKeepKeyState', { state: STATE })
         event.sender.send('setKeepKeyStatus', { status: STATUS })
         updateMenu(STATE)
-        console.log('e: ', e)
+        log.info('e: ', e)
       }
     } else {
-      console.log('Can not start! waiting for device connect')
+      log.info('Can not start! waiting for device connect')
     }
   } catch (e) {
     console.error(e)
@@ -377,14 +377,14 @@ const start_bridge = async function (event) {
 const stop_bridge = async function (event) {
   try {
     event.sender.send('playSound', { sound: 'fail' })
-    console.log('server: ', server)
+    log.info('server: ', server)
     server.close(() => {
-      console.log('Closed out remaining connections')
+      log.info('Closed out remaining connections')
       STATE = 2
       STATUS = 'device connected'
       event.sender.send('setKeepKeyState', { state: STATE })
       event.sender.send('setKeepKeyStatus', { status: STATUS })
-      updateMenu(STATE)
+      // updateMenu(STATE)
     })
   } catch (e) {
     console.error(e)
@@ -412,22 +412,31 @@ ipcMain.on('onStartBridge', async event => {
 ipcMain.on('onStartApp', async event => {
   const tag = TAG + ' | onStartApp | '
   try {
-    // log.info(tag, 'event: ', event)
-    createTray(event)
-    start_bridge(event)
+    log.info(tag, 'event: onStartApp: ', event)
+    try {
+      createTray(event)
+    } catch (e) {
+      log.error('Failed to create tray! e: ', e)
+    }
+    try {
+      start_bridge(event)
+    } catch (e) {
+      log.error('Failed to start_bridge! e: ', e)
+    }
 
     usb.on('attach', function (device) {
-      console.log('attach device: ', device)
+      log.info('attach device: ', device)
       event.sender.send('attach', { device })
       start_bridge(event)
     })
 
     usb.on('detach', function (device) {
-      console.log('detach device: ', device)
+      log.info('detach device: ', device)
       event.sender.send('detach', { device })
       stop_bridge(event)
     })
   } catch (e) {
+    log.error('e: ', e)
     console.error(tag, e)
   }
 })

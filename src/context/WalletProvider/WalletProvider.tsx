@@ -166,7 +166,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
             const adapter = SUPPORTED_WALLETS[wallet].adapter.useKeyring(state.keyring, options)
             // useKeyring returns the instance of the adapter. We'll keep it for future reference.
             if (wallet === 'keepkey') {
-              console.log('Init bridge for keepkey')
               await adapter.pairDevice('http://localhost:1646')
               adapters.set(wallet, adapter)
             } else {
@@ -185,6 +184,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   //onStart()
   useEffect(() => {
+    console.log('onStartApp: CHECKPOINT')
     ipcRenderer.send('onStartApp', {})
 
     //listen to events on main
@@ -194,10 +194,12 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
       switch (data.event.event) {
         case 'connect':
-          playSound('success')
+          console.log('connect')
+          // playSound('success')
           // code block
           break
         case 'disconnect':
+          console.log('disconnect')
           //playSound('fail')
 
           // code block
