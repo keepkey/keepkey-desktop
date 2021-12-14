@@ -1,0 +1,86 @@
+version: 2.1
+
+
+orbs:
+  win: circleci/windows@2.2.0 # The Windows orb give you everything you need to start using the Windows executor.
+
+executors:
+  pulumi:
+    docker:
+      - image: circleci/node:14
+
+jobs:
+  build-native-mac:
+    macos:
+      xcode: 11.5.0
+    steps:
+      - checkout
+      - run:
+          command: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+      - run: npm install -g @quasar/cli
+      - run: node --version
+      - run: quasar --version
+      - run: npm i
+      - run: GH_TOKEN=$GH_TOKEN npm run build-electron-publish-mac
+      - run: npm run test
+  build-native-linux:
+    executor: pulumi
+    steps:
+      - checkout
+      - run:
+          command: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+      - run: sudo apt-get install libudev-dev libusb-dev libusb-1.0 snapd
+      - run: node --version
+      - run: npm i
+#      - run: npm run fix
+      - run: GH_TOKEN=$GH_TOKEN npm run build-electron-publish-linux
+  build-native-windows:
+    executor:
+      name: win/default # executor type
+      size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium"
+    steps:
+      - checkout
+      - run:
+          command: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+          shell: bash.exe
+          name: set env
+      - run:
+          command: npm i
+          shell: bash.exe
+          name: npm install
+      - run:
+          command: GH_TOKEN=$GH_TOKEN npm run build-electron-publish-windows
+          shell: bash.exe
+          name: npm install
+
+not_master: &not_master
+  filters:
+    branches:
+      ignore: master
+
+only_master: &only_master
+  filters:
+    branches:
+      only:
+        - master
+
+only_develop: &only_develop
+  filters:
+    branches:
+      only:
+        - develop
+
+# Blue* deployment
+only_release_canidate: &only_release_canidate
+  filters:
+    branches:
+      only:
+        - release-canidate
+
+workflows:
+  version: 2
+  keepkey-native:
+    jobs:
+      - build-native-mac
+      - build-native-windows
+      - build-native-linux
