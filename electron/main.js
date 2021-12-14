@@ -226,7 +226,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      devTools: isDev
+      devTools: true
     }
   })
   const startURL = isDev
