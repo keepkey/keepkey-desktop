@@ -247,25 +247,28 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   }, []) // we explicitly only want this to happen once
 
   //onStart()
-  const connect = useCallback(async (type: KeyManager) => {
-    console.log('WalletProvider Connect: ', type)
-    if (type === 'keepkey') {
-      const adapter = SUPPORTED_WALLETS['keepkey'].adapter.useKeyring(state.keyring)
-      try {
-        await adapter.pairDevice('http://localhost:1646')
-      } catch (e) {}
-      const adapters: Adapters = new Map()
-      adapters.set('keepkey' as KeyManager, adapter)
-      dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
-    }
-    dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
-    if (SUPPORTED_WALLETS[type]?.routes[0]?.path) {
-      dispatch({
-        type: WalletActions.SET_INITIAL_ROUTE,
-        payload: SUPPORTED_WALLETS[type].routes[0].path as string
-      })
-    }
-  }, [])
+  const connect = useCallback(
+    async (type: KeyManager) => {
+      console.log('WalletProvider Connect: ', type)
+      if (type === 'keepkey') {
+        const adapter = SUPPORTED_WALLETS['keepkey'].adapter.useKeyring(state.keyring)
+        try {
+          await adapter.pairDevice('http://localhost:1646')
+        } catch (e) {}
+        const adapters: Adapters = new Map()
+        adapters.set('keepkey' as KeyManager, adapter)
+        dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
+      }
+      dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
+      if (SUPPORTED_WALLETS[type]?.routes[0]?.path) {
+        dispatch({
+          type: WalletActions.SET_INITIAL_ROUTE,
+          payload: SUPPORTED_WALLETS[type].routes[0].path as string
+        })
+      }
+    },
+    [state.keyring]
+  )
 
   const disconnect = useCallback(() => {
     state.wallet?.disconnect()
