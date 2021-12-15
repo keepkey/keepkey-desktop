@@ -324,7 +324,7 @@ const start_bridge = async function (event) {
             let body = req.body
             let msg = Buffer.from(body.data, 'hex')
             transport.writeChunk(msg)
-            log.info('input: ', msg)
+            log.info('input: ', msg.toString('hex'))
             // EVENT_LOG.push({ write: output })
             event.sender.send('dataReceive', { output: msg })
             res.status(200).json({})
@@ -333,7 +333,6 @@ const start_bridge = async function (event) {
           }
           next()
         } catch (e) {
-          log.error(e)
           throw e
         }
       })
@@ -341,9 +340,10 @@ const start_bridge = async function (event) {
       //catchall
       appExpress.use((err, req, res) => {
         const { status = 500, message = 'something went wrong. ', data = {} } = err
-        log.info(req.body, { status: status, message: message, data: data })
-        // log.error(message)
-        res.status(status).json({ message, data })
+        //log.info(req.body, { status: status, message: message, data: data })
+        try {
+          res.status(status).json({ message, data })
+        } catch (e) {}
       })
 
       //port

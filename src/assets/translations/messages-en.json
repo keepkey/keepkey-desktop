@@ -310,7 +310,7 @@
         "pair": "Pair Your KeepKey",
         "header": "KeepKey Status",
         "body": "Connect a KeepKey device.",
-        "button": "Test",
+        "button": "Connect",
         "disconnected": "Could not find your KeepKey. please connect",
         "conflictingApp": "Could not find your KeepKey. Another application may be trying to connect with your KeepKey."
       },
