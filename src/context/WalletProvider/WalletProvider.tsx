@@ -254,10 +254,16 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
         const adapter = SUPPORTED_WALLETS['keepkey'].adapter.useKeyring(state.keyring)
         try {
           await adapter.pairDevice('http://localhost:1646')
-        } catch (e) {}
-        const adapters: Adapters = new Map()
-        adapters.set('keepkey' as KeyManager, adapter)
-        dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
+          const adapters: Adapters = new Map()
+          adapters.set('keepkey' as KeyManager, adapter)
+          dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
+        } catch (e) {
+          dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: '-1' })
+          dispatch({
+            type: WalletActions.SET_KEEPKEY_STATUS,
+            payload: 'error: failed to connect to bridge'
+          })
+        }
       }
       dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
       if (SUPPORTED_WALLETS[type]?.routes[0]?.path) {
