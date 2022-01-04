@@ -35,15 +35,13 @@
  *    P.S. use a keepkey!
  *                                                -Highlander
  */
-// import * as core from '@shapeshiftoss/hdwallet-core'
-// import { NodeWebUSBKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-nodewebusb'
 
 const core = require('@shapeshiftoss/hdwallet-core')
 const KK = require('@shapeshiftoss/hdwallet-keepkey-nodewebusb')
 
 const TAG = ' | KK-MAIN | '
 const log = require('electron-log')
-const { app, Menu, Tray, BrowserWindow, nativeTheme, ipcMain } = require('electron')
+const { app, Menu, Tray, BrowserWindow, nativeTheme, ipcMain, nativeImage } = require('electron')
 const usb = require('usb')
 const AutoLaunch = require('auto-launch')
 // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -147,7 +145,7 @@ const menuTemplate = [
 const createTray = eventIpc => {
   eventIPC = eventIpc
   const trayIcon = `${lightDark}/keepKey/unknown.png`
-  tray = new Tray(path.join(assetsDirectory, trayIcon))
+  tray = new Tray(nativeImage.createFromPath(path.join(assetsDirectory, trayIcon)))
   const contextMenu = Menu.buildFromTemplate(menuTemplate)
   tray.setContextMenu(contextMenu)
 }
@@ -184,9 +182,13 @@ const updateMenu = status => {
       icon = 'success'
       break
   }
-  const updatedMenu = Menu.buildFromTemplate(menuTemplate)
-  tray.setContextMenu(updatedMenu)
-  tray.setImage(path.join(assetsDirectory, `${lightDark}/keepKey/${icon}.png`))
+  if (icon) {
+    const updatedMenu = Menu.buildFromTemplate(menuTemplate)
+    tray.setContextMenu(updatedMenu)
+    tray.setImage(
+      nativeImage.createFromPath(path.join(assetsDirectory, `${lightDark}/keepKey/${icon}.png`))
+    )
+  }
 }
 
 function createWindow() {
@@ -210,7 +212,7 @@ function createWindow() {
       kkAutoLauncher.enable()
     })
     .catch(function () {
-      console.error('failed to enable auto launch: ', kkAutoLauncher)
+      log.error('failed to enable auto launch: ', kkAutoLauncher)
     })
 
   /**
@@ -226,7 +228,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      devTools: false
+      devTools: true
     }
   })
   const startURL = isDev
@@ -240,6 +242,7 @@ function createWindow() {
 
   mainWindow.on('closed', () => {
     mainWindow = null
+    stop_bridge()
   })
 
   // mainWindow.on("closed", () => {
@@ -370,7 +373,7 @@ const start_bridge = async function (event) {
       log.info('Can not start! waiting for device connect')
     }
   } catch (e) {
-    console.error(e)
+    log.error(e)
   }
 }
 
@@ -387,7 +390,7 @@ const stop_bridge = async function (event) {
       // updateMenu(STATE)
     })
   } catch (e) {
-    console.error(e)
+    log.error(e)
   }
 }
 
@@ -396,7 +399,7 @@ ipcMain.on('onStopBridge', async event => {
   try {
     stop_bridge(event)
   } catch (e) {
-    console.error(tag, e)
+    log.error(tag, e)
   }
 })
 
@@ -405,7 +408,7 @@ ipcMain.on('onStartBridge', async event => {
   try {
     start_bridge(event)
   } catch (e) {
-    console.error(tag, e)
+    log.error(tag, e)
   }
 })
 
@@ -437,6 +440,6 @@ ipcMain.on('onStartApp', async event => {
     })
   } catch (e) {
     log.error('e: ', e)
-    console.error(tag, e)
+    log.error(tag, e)
   }
 })

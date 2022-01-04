@@ -1,6 +1,6 @@
 {
   "name": "keepkey-client",
-  "version": "0.1.3",
+  "version": "0.1.14",
   "private": true,
   "main": "electron/main.js",
   "repository": {
@@ -95,10 +95,10 @@
     "link-packages": "./scripts/link-packages.sh",
     "unlink-packages": "find node_modules node_modules/@* -depth 1 -type l -print | awk -F/ '{ printf \"%s/%s\\n\",$2,$3; }' | xargs yarn unlink && yarn install --force",
     "build": "PUBLIC_URL=/ NODE_OPTIONS=--max-old-space-size=4096 IMAGE_INLINE_SIZE_LIMIT=0 INLINE_RUNTIME_CHUNK=false REACT_APP_HIDE_SPLASH=false DISABLE_ESLINT_PLUGIN=true react-app-rewired build && node headers.js",
-    "build:electron": "yarn build-bundle-electron && cp electron/icon.png build/icon.png && electron-builder build --publish always",
-    "build-electron-publish-linux": "yarn build-bundle-electron && cp electron/icon.png build/icon.png && electron-builder build --publish always --target linux --debug",
-    "build-electron-publish-mac": "yarn build-bundle-electron && cp electron/icon.png build/icon.png && electron-builder build --publish always --target mac --debug",
-    "build-electron-publish-windows": "yarn build-bundle-electron && cp electron/icon.png build/icon.png && electron-builder build --publish always --target win --debug",
+    "build:electron": "yarn build-bundle-electron && cp -R assets build/ && cp electron/icon.png build/icon.png && electron-builder build --publish always",
+    "build-electron-publish-linux": "yarn build-bundle-electron && cp electron/icon.png build/icon.png && electron-builder build --publish always --target linux",
+    "build-electron-publish-mac": "yarn build-bundle-electron && cp electron/icon.png build/icon.png && electron-builder build --publish always --target mac",
+    "build-electron-publish-windows": "yarn build-bundle-electron && cp electron/icon.png build/icon.png && electron-builder build --publish always --target win",
     "build-bundle-electron": "react-app-rewired build",
     "dev": "react-app-rewired start",
     "dev-electron": "concurrently \"yarn dev\" \"wait-on http://localhost:3000 && electron .\"",
@@ -136,8 +136,15 @@
     "productName": "KeepKey Client",
     "afterSign": "scripts/afterSignHook.js",
     "files": [
+      "assets",
+      "assets/*",
+      "assets/**/*",
       "build/**/*",
       "electron/entitlements.mac.plist",
+      "electron/assets/*",
+      "electron/assets/status/*",
+      "electron/assets/light/*",
+      "electron/assets/dark/*",
       "electron/icon.png",
       "electron/main.js",
       "package.json"
