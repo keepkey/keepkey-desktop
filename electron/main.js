@@ -55,15 +55,19 @@ appExpress.use(bodyParser.urlencoded({ extended: false }))
 appExpress.use(bodyParser.json())
 const path = require('path')
 const isDev = require('electron-is-dev')
+let wait = require('wait-promise');
+let sleep = wait.sleep;
 let server = {}
 let tray = {}
 let STATE = 0
+let USERNAME
+let PIONEER_API
 let isQuitting = false
 let eventIPC = {}
 
 const assetsDirectory = path.join(__dirname, 'assets')
 const EVENT_LOG = []
-
+let SIGNED_TX = null
 /*
     Electron Settings
  */
@@ -311,7 +315,21 @@ const start_bridge = async function (event) {
       event.sender.send('setKeepKeyStatus', { status: STATUS })
 
       let API_PORT = process.env['API_PORT_BRIDGE'] || '1646'
-      //bridge
+
+      /*
+          KeepKey bridge
+
+          TODO: swagger spec
+            host swaggerUI for devs
+
+          endpoints:
+            raw i/o keepkey bridge:
+            status:
+            pubkeys:
+            sign:
+
+
+       */
       appExpress.all('/exchange/device', async function (req, res, next) {
         try {
           if (req.method === 'GET') {
@@ -333,6 +351,87 @@ const start_bridge = async function (event) {
             res.status(200).json({})
           } else {
             throw Error('unhandled')
+          }
+          next()
+        } catch (e) {
+          throw e
+        }
+      })
+
+      //status
+      appExpress.all('/status', async function (req, res, next) {
+        try {
+          if (req.method === 'GET') {
+            res.status(200).json({
+              success: true,
+              username: USERNAME,
+              status: STATUS,
+              state: STATE
+            })
+          }
+          next()
+        } catch (e) {
+          throw e
+        }
+      })
+
+      //TODO pubkeys
+
+      //pair pioneer app
+      appExpress.all('/pair/:code', async function (req, res, next) {
+        try {
+          if (req.method === 'GET') {
+            let code = req.params.code
+            // let host = req.headers.host
+            if (!mainWindow.isVisible()) {
+              mainWindow.show()
+              app.dock.hide()
+            }
+            //mainWindow.setAlwaysOnTop(true)
+            //event.sender.send('pairingCode', { payload: { code, host } })
+            //TODO hold till approval
+            let respPair = await PIONEER_API.instance.Pair(null, { code })
+            log.info('respPair: ', respPair)
+            if (res.status)
+              res.status(200).json({
+                success: true,
+                username: USERNAME,
+                code
+              })
+          }
+          next()
+        } catch (e) {
+          throw e
+        }
+      })
+
+      //userInfo
+      appExpress.all('/user', async function (req, res, next) {
+        try {
+          if (req.method === 'GET') {
+            let userInfo = await PIONEER_API.instance.User()
+            res.status(200).json(userInfo.data)
+          }
+          next()
+        } catch (e) {
+          throw e
+        }
+      })
+
+      //sign
+      appExpress.all('/sign', async function (req, res, next) {
+        try {
+          console.log("checkpoint1: ")
+          if (req.method === 'POST') {
+            let body = req.body
+            console.log("body: ",body)
+            event.sender.send('signTx', { payload: body })
+            //hold till signed
+            while(!SIGNED_TX){
+              await sleep(300)
+            }
+            res.status(200).json({ success: true, status: 'signed', signedTx:SIGNED_TX })
+            SIGNED_TX = null
           }
           next()
         } catch (e) {
@@ -387,7 +486,7 @@ const stop_bridge = async function (event) {
       STATUS = 'device connected'
       event.sender.send('setKeepKeyState', { state: STATE })
       event.sender.send('setKeepKeyStatus', { status: STATUS })
-      // updateMenu(STATE)
+      updateMenu(STATE)
     })
   } catch (e) {
     log.error(e)
@@ -412,10 +511,44 @@ ipcMain.on('onStartBridge', async event => {
   }
 })
 
+// const start_pioneer = async function (event) {
+//   const tag = TAG + ' | start_pioneer | '
+//   try {
+//     let config = Config.getConfig()
+//     if(!config) config = await Config.innitConfig('english')
+//     config.spec = process.env['REACT_APP_URL_PIONEER_SPEC']
+//     if (!config.username) throw Error('Failed to init username!')
+//     if (!config.queryKey) throw Error('Failed to init querKey!')
+//     if (!config.spec) throw Error('Failed to init spec!')
+//
+//     let app = new SDK.SDK(spec,config,true)
+//     let events = await app.startSocket()
+//     let seedChains = ['bitcoin','ethereum','thorchain','litecoin','bitcoincash','osmosis']
+//     PIONEER_API = await app.init(seedChains)
+//     //get user
+//
+//     //if no user, register
+//     //get paths
+//     let paths = await app.getPaths()
+//     console.log('paths: ',paths)
+//     //get pubkeys
+//     event.sender.send('getPubkeys', { paths })
+//   } catch (e) {
+//     log.error(e)
+//   }
+// }
+
 ipcMain.on('onStartApp', async event => {
   const tag = TAG + ' | onStartApp | '
   try {
-    log.info(tag, 'event: onStartApp: ', event)
+    //log.info(tag, 'event: onStartApp: ', event)
+
+    // try {
+    //   start_pioneer()
+    // } catch (e) {
+    //   log.error('failed to connect to pioneer server e: ', e)
+    // }
+
     try {
       createTray(event)
     } catch (e) {

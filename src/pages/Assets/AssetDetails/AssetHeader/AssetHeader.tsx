@@ -23,7 +23,7 @@ import { BalanceChart } from 'components/BalanceChart/BalanceChart'
 import { Card } from 'components/Card/Card'
 import { TimeControls } from 'components/Graph/TimeControls'
 import { PriceChart } from 'components/PriceChart/PriceChart'
-import { SanitizedHtml } from 'components/SanitizedHtml/SanitizedHtml'
+// import { SanitizedHtml } from 'components/SanitizedHtml/SanitizedHtml'
 import { RawText, Text } from 'components/Text'
 import { useWallet } from 'context/WalletProvider/WalletProvider'
 import { useFetchAssetDescription } from 'hooks/useFetchAssetDescription/useFetchAssetDescription'
@@ -198,7 +198,7 @@ export const AssetHeader = ({ isLoaded }: { isLoaded: boolean }) => {
           </Skeleton>
           <Collapse startingHeight={70} in={showDescription}>
             <SkeletonText isLoaded={isLoaded} noOfLines={4} spacing={2} skeletonHeight='20px'>
-              <SanitizedHtml color='gray.500' dirtyHtml={description} />
+              {/*<SanitizedHtml color='gray.500' dirtyHtml={description} />*/}
             </SkeletonText>
           </Collapse>
           <Button size='sm' onClick={handleToggle} mt='1rem'>

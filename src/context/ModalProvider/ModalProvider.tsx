@@ -6,6 +6,7 @@ import { PinModal } from 'components/Modals/KeyManagement/KeepKey/Pin'
 import { PasswordModal } from 'components/Modals/KeyManagement/Native/Password'
 import { ReceiveModal } from 'components/Modals/Receive/Receive'
 import { SendModal } from 'components/Modals/Send/Send'
+import { SignModal } from 'components/Modals/Sign/Sign'
 
 // to add new modals, add a new key: value pair below
 // the key is the name returned by the hook and the
@@ -15,7 +16,8 @@ const MODALS = {
   keepkeyPin: PinModal,
   keepkeyPassphrase: PassphraseModal,
   receive: ReceiveModal,
-  send: SendModal
+  send: SendModal,
+  sign: SignModal
 }
 
 // state

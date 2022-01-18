@@ -1,7 +1,9 @@
 import { ComponentWithAs, IconProps } from '@chakra-ui/react'
 import { HDWallet, Keyring } from '@shapeshiftoss/hdwallet-core'
 import { getConfig } from 'config'
+import cryptoTools from 'crypto'
 import { ipcRenderer } from 'electron'
+import keccak256 from 'keccak256'
 import React, {
   createContext,
   useCallback,
@@ -10,6 +12,7 @@ import React, {
   useMemo,
   useReducer
 } from 'react'
+import { useModal } from 'context/ModalProvider/ModalProvider'
 
 import { KeyManager, SUPPORTED_WALLETS } from './config'
 import { useKeepKeyEventHandler } from './KeepKey/hooks/useKeepKeyEventHandler'
@@ -147,6 +150,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
 const WalletContext = createContext<IWalletContext | null>(null)
 
 export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
+  const { sign } = useModal()
   const [state, dispatch] = useReducer(reducer, initialState)
   useKeyringEventHandler(state)
   useKeepKeyEventHandler(state, dispatch)
@@ -184,57 +188,159 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   //onStart()
   useEffect(() => {
+    console.log('onStartApp: CHECKPOINT')
     ipcRenderer.send('onStartApp', {})
 
     //listen to events on main
     ipcRenderer.on('hardware', (event, data) => {
-      //event
-      //console.log('hardware event: ', data)
-
       switch (data.event.event) {
         case 'connect':
+          console.log('connect')
           playSound('success')
           break
         case 'disconnect':
+          console.log('disconnect')
           playSound('fail')
           break
         default:
-        //TODO Spammy
+        //Spammy
         //console.log("unhandled event! ",data.event)
       }
     })
 
-    ipcRenderer.on('playSound', (event, data) => {})
+    ipcRenderer.on('playSound', (event:any, data:any) => {
+      console.log('sound: ', data)
+      // playSound(data.sound)
+    })
 
-    ipcRenderer.on('attach', (event, data) => {
+    ipcRenderer.on('attach', (event:any, data:any) => {
+      console.log('attach', data)
+      // playSound('success')
       dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
       dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
-    ipcRenderer.on('detach', (event, data) => {
+    ipcRenderer.on('detach', (event:any, data:any) => {
+      console.log('detach', data)
       playSound('fail')
       dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
       dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
-    ipcRenderer.on('setKeepKeyState', (event, data) => {
+    ipcRenderer.on('setKeepKeyState', (event:any, data:any) => {
       dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
       dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
-    ipcRenderer.on('setKeepKeyStatus', (event, data) => {
+    ipcRenderer.on('setKeepKeyStatus', (event:any, data:any) => {
       dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
       dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
-    ipcRenderer.on('setDevice', (event, data) => {})
+    ipcRenderer.on('setDevice', (event:any, data:any) => {
+      console.log('setDevice', data)
+    })
 
+    ipcRenderer.on('getPubkeys', (event:any, data:any) => {
+      console.log('getPubkeys', data)
+    })
+
+    ipcRenderer.on('signTx', async (event:any, data:any) => {
+      console.log('signTransaction', data.payload.data.HDwalletPayload)
+      let unsignedTx = data.payload.data
+      //open signTx
+      sign.open(data.payload.data)
+
+      //send to wallet
+
+      if (state.wallet) {
+        console.log(state.wallet)
+
+        let signedTx
+        let broadcastString
+        let buffer
+        let txid
+        switch (unsignedTx.network) {
+          case 'RUNE':
+            // @ts-ignore
+            signedTx = await state.wallet.thorchainSignTx(unsignedTx.HDwalletPayload)
+
+            broadcastString = {
+              tx: signedTx,
+              type: 'cosmos-sdk/StdTx',
+              mode: 'sync'
+            }
+            buffer = Buffer.from(JSON.stringify(broadcastString), 'base64')
+            txid = cryptoTools.createHash('sha256').update(buffer).digest('hex').toUpperCase()
+
+            signedTx.serialized = JSON.stringify(broadcastString)
+            signedTx.txid = txid
+            break
+          case 'ATOM':
+            // @ts-ignore
+            signedTx = await state.wallet.cosmosSignTx(unsignedTx.HDwalletPayload)
+            broadcastString = {
+              tx: signedTx,
+              type: 'cosmos-sdk/StdTx',
+              mode: 'sync'
+            }
+            console.log('signedTx: ', signedTx)
+            buffer = Buffer.from(JSON.stringify(broadcastString), 'base64')
+            //TODO FIXME
+            txid = cryptoTools.createHash('sha256').update(buffer).digest('hex').toUpperCase()
+
+            signedTx.serialized = JSON.stringify(broadcastString)
+            signedTx.txid = txid
+            break
+          case 'OSMO':
+            // @ts-ignore
+            signedTx = await state.wallet.osmosisSignTx(unsignedTx.HDwalletPayload)
+            broadcastString = {
+              tx: signedTx,
+              type: 'cosmos-sdk/StdTx',
+              mode: 'sync'
+            }
+            buffer = Buffer.from(JSON.stringify(broadcastString), 'base64')
+            //TODO FIXME
+            txid = cryptoTools.createHash('sha256').update(buffer).digest('hex').toUpperCase()
+            signedTx.txid = txid
+            signedTx.serialized = JSON.stringify(broadcastString)
+            break
+          case 'ETH':
+            // @ts-ignore
+            signedTx = await state.wallet.ethSignTx(unsignedTx.HDwalletPayload)
+            txid = keccak256(signedTx.serialized).toString('hex')
+            signedTx.txid = txid
+            break
+          case 'BTC':
+          case 'BCH':
+          case 'LTC':
+          case 'DOGE':
+          case 'DASH':
+          case 'DGB':
+          case 'RDD':
+            // @ts-ignore
+            signedTx = await state.wallet.btcSignTx(unsignedTx.HDwalletPayload)
+            break
+          default:
+            throw Error('network not supported! ' + unsignedTx.network)
+        }
+        console.log('onSignedTx: ', signedTx)
+        ipcRenderer.send('onSignedTx', signedTx)
+
+        //broadcast signedTx
+        //return to main
+      } else {
+        console.error('Wallet not init! can not sign!')
+      }
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // we explicitly only want this to happen once
+  }, [state.wallet]) // we explicitly only want this to happen once
 
-  //onStart()
+  //connect()
   const connect = useCallback(
     async (type: KeyManager) => {
+      console.log('WalletProvider Connect: ', type)
       if (type === 'keepkey') {
         const adapter = SUPPORTED_WALLETS['keepkey'].adapter.useKeyring(state.keyring)
         try {
