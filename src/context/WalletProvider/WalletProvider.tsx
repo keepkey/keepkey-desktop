@@ -189,7 +189,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   //onStart()
   useEffect(() => {
     console.log('onStartApp: CHECKPOINT')
-    ipcRenderer.send('onStartApp', {})
+    if(!state.wallet) ipcRenderer.send('onStartApp', {})
 
     //listen to events on main
     ipcRenderer.on('hardware', (event, data) => {
