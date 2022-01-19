@@ -155,6 +155,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
     case WalletActions.SET_ADAPTERS:
       return { ...state, adapters: action.payload }
     case WalletActions.SET_WALLET:
+      pioneer.pairWallet('keepkey', action.payload.wallet)
       return {
         ...state,
         wallet: action.payload.wallet,
@@ -450,6 +451,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
         //   let invocationInfo = await pioneer.App.getInvocation(event.invocationId)
         //   sign.open(invocationInfo)
         // })
+
       } catch (e) {
         console.error(e)
       }
@@ -468,9 +470,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
         try {
           let HDWallet = await adapter.pairDevice('http://localhost:1646')
           let isInitialized = await HDWallet.isInitialized()
-          if (HDWallet && pioneer.username && isInitialized) {
-            let resultPair = await pioneer.pairWallet('keepkey', HDWallet)
-            console.log('resultPair: ', resultPair)
+          if (HDWallet && pioneer.username && isInitialized && state.keyring) {
+            // let resultPair = await pioneer.pairWallet('keepkey', HDWallet)
+            // console.log('resultPair: ', resultPair)
             const adapters: Adapters = new Map()
             adapters.set('keepkey' as KeyManager, adapter)
             dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })

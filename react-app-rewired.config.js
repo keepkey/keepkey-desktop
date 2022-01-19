@@ -49,9 +49,11 @@ module.exports = {
     _.merge(config, {
       resolve: {
         fallback: {
+          buffer: require.resolve("buffer"),
           crypto: require.resolve('crypto-browserify'),
           http: require.resolve('stream-http'),
           https: require.resolve('https-browserify'),
+          process: require.resolve("process/browser"),
           stream: require.resolve('stream-browserify'),
           zlib: require.resolve('browserify-zlib')
         }
