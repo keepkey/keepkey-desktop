@@ -60,6 +60,7 @@
     "crypto-js": "^4.1.1",
     "dayjs": "^1.10.6",
     "dompurify": "^2.3.2",
+    "dotenv": "^14.2.0",
     "electron-is": "^3.0.0",
     "electron-log": "^4.4.1",
     "electron-notarize": "^1.1.1",

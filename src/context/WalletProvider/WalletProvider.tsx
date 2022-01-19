@@ -247,11 +247,14 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   useEffect(() => {
     console.log('onStartApp: CHECKPOINT')
     console.log('username: ', pioneer.username)
-    ipcRenderer.send('onStartApp', {
-      username: pioneer.username,
-      queryKey: pioneer.queryKey,
-      spec: process.env.REACT_APP_URL_PIONEER_SPEC
-    })
+    if(!state.wallet){
+      ipcRenderer.send('onStartApp', {
+        username: pioneer.username,
+        queryKey: pioneer.queryKey,
+        spec: process.env.REACT_APP_URL_PIONEER_SPEC
+      })
+    }
+
 
     //listen to events on main
     ipcRenderer.on('hardware', (event, data) => {
