@@ -35,7 +35,6 @@
  *    P.S. use a keepkey!
  *                                                -Highlander
  */
-
 const core = require('@shapeshiftoss/hdwallet-core')
 const KK = require('@shapeshiftoss/hdwallet-keepkey-nodewebusb')
 
@@ -44,6 +43,7 @@ const log = require('electron-log')
 const { app, Menu, Tray, BrowserWindow, nativeTheme, ipcMain, nativeImage } = require('electron')
 const usb = require('usb')
 const AutoLaunch = require('auto-launch')
+const pioneerApi = require('@pioneer-platform/pioneer-client')
 // eslint-disable-next-line react-hooks/rules-of-hooks
 const adapter = KK.NodeWebUSBKeepKeyAdapter.useKeyring(new core.Keyring())
 const express = require('express')
@@ -215,8 +215,8 @@ function createWindow() {
       }
       kkAutoLauncher.enable()
     })
-    .catch(function () {
-      log.error('failed to enable auto launch: ', kkAutoLauncher)
+    .catch(function (e) {
+      log.error('failed to enable auto launch: ', e)
     })
 
   /**
@@ -224,7 +224,7 @@ function createWindow() {
    *
    * more options: https://www.electronjs.org/docs/api/browser-window
    */
-  let mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 460,
     height: 780,
     show: false,
@@ -275,6 +275,19 @@ app.on('before-quit', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isQuitting = true
 })
+
+ipcMain.on('onSignedTx', async (event,data) => {
+  const tag = TAG + ' | onSignedTx | '
+  try {
+    log.info(tag, 'event: onSignedTx: ', data)
+    console.log("onSignedTx: ",data)
+    SIGNED_TX = data
+  } catch (e) {
+    log.error('e: ', e)
+    log.error(tag, e)
+  }
+})
+
 
 /*
 
@@ -511,43 +524,25 @@ ipcMain.on('onStartBridge', async event => {
   }
 })
 
-// const start_pioneer = async function (event) {
-//   const tag = TAG + ' | start_pioneer | '
-//   try {
-//     let config = Config.getConfig()
-//     if(!config) config = await Config.innitConfig('english')
-//     config.spec = process.env['REACT_APP_URL_PIONEER_SPEC']
-//     if (!config.username) throw Error('Failed to init username!')
-//     if (!config.queryKey) throw Error('Failed to init querKey!')
-//     if (!config.spec) throw Error('Failed to init spec!')
-//
-//     let app = new SDK.SDK(spec,config,true)
-//     let events = await app.startSocket()
-//     let seedChains = ['bitcoin','ethereum','thorchain','litecoin','bitcoincash','osmosis']
-//     PIONEER_API = await app.init(seedChains)
-//     //get user
-//
-//     //if no user, register
-//     //get paths
-//     let paths = await app.getPaths()
-//     console.log('paths: ',paths)
-//     //get pubkeys
-//     event.sender.send('getPubkeys', { paths })
-//   } catch (e) {
-//     log.error(e)
-//   }
-// }
-
-ipcMain.on('onStartApp', async event => {
+ipcMain.on('onStartApp', async (event, data) => {
   const tag = TAG + ' | onStartApp | '
   try {
-    //log.info(tag, 'event: onStartApp: ', event)
+    log.info(tag, 'event: onStartApp: ', data)
 
-    // try {
-    //   start_pioneer()
-    // } catch (e) {
-    //   log.error('failed to connect to pioneer server e: ', e)
-    // }
+    try {
+      if (!data.username) throw Error('Failed to init username!')
+      if (!data.queryKey) throw Error('Failed to init querKey!')
+      //if (!data.spec) throw Error('Failed to init spec!')
+      data.spec = 'http://127.0.0.1:9001/spec/swagger.json'
+      USERNAME = data.username
+      let pioneer = new pioneerApi(data.spec, data)
+      PIONEER_API = await pioneer.init()
+      //TODO show error if failed to init
+      let status = await PIONEER_API.instance.Status()
+      log.info(tag, 'status: ', status.data)
+    } catch (e) {
+      log.error('failed to connect to pioneer server e: ', e)
+    }
 
     try {
       createTray(event)

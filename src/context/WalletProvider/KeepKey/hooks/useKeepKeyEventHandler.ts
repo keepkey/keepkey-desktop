@@ -13,6 +13,7 @@ export const useKeepKeyEventHandler = (state: KeyringState, dispatch: Dispatch<A
 
   useEffect(() => {
     const handleEvent = (e: [deviceId: string, message: Event]) => {
+      console.info('KeepKey Event', e)
       switch (e[1].message_enum) {
         case MessageType.PASSPHRASEREQUEST:
           if (!keepkeyPassphrase.isOpen) {
