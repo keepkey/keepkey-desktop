@@ -8,6 +8,7 @@ import { reportWebVitals } from 'lib/reportWebVitals'
 import { App } from './App'
 import { AppProviders } from './AppProviders'
 
+
 ReactDOM.render(
   <React.StrictMode>
     <AppProviders>
