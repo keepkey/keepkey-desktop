@@ -3,7 +3,6 @@ import { HDWallet, Keyring } from '@shapeshiftoss/hdwallet-core'
 import { getConfig } from 'config'
 import cryptoTools from 'crypto'
 import { ipcRenderer } from 'electron'
-import keccak256 from 'keccak256'
 import React, {
   createContext,
   useCallback,
@@ -316,95 +315,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       let unsignedTx = data.payload.data
       //open signTx
       sign.open(data.payload.data)
-
-      //send to wallet
-
-      if (state.wallet) {
-        console.log(state.wallet)
-
-        let signedTx
-        let broadcastString
-        let buffer
-        let txid
-        switch (unsignedTx.network) {
-          case 'RUNE':
-            // @ts-ignore
-            signedTx = await state.wallet.thorchainSignTx(unsignedTx.HDwalletPayload)
-
-            broadcastString = {
-              tx: signedTx,
-              type: 'cosmos-sdk/StdTx',
-              mode: 'sync'
-            }
-            buffer = Buffer.from(JSON.stringify(broadcastString), 'base64')
-            txid = cryptoTools.createHash('sha256').update(buffer).digest('hex').toUpperCase()
-
-            signedTx.serialized = JSON.stringify(broadcastString)
-            signedTx.txid = txid
-            break
-          case 'ATOM':
-            // @ts-ignore
-            signedTx = await state.wallet.cosmosSignTx(unsignedTx.HDwalletPayload)
-            broadcastString = {
-              tx: signedTx,
-              type: 'cosmos-sdk/StdTx',
-              mode: 'sync'
-            }
-            console.log('signedTx: ', signedTx)
-            buffer = Buffer.from(JSON.stringify(broadcastString), 'base64')
-            //TODO FIXME
-            txid = cryptoTools.createHash('sha256').update(buffer).digest('hex').toUpperCase()
-
-            signedTx.serialized = JSON.stringify(broadcastString)
-            signedTx.txid = txid
-            break
-          case 'OSMO':
-            // @ts-ignore
-            signedTx = await state.wallet.osmosisSignTx(unsignedTx.HDwalletPayload)
-            broadcastString = {
-              tx: signedTx,
-              type: 'cosmos-sdk/StdTx',
-              mode: 'sync'
-            }
-            buffer = Buffer.from(JSON.stringify(broadcastString), 'base64')
-            //TODO FIXME
-            txid = cryptoTools.createHash('sha256').update(buffer).digest('hex').toUpperCase()
-            signedTx.txid = txid
-            signedTx.serialized = JSON.stringify(broadcastString)
-            break
-          case 'ETH':
-            // @ts-ignore
-            signedTx = await state.wallet.ethSignTx(unsignedTx.HDwalletPayload)
-            console.log("signedTx: ",signedTx)
-            console.log("signedTx: ",typeof(signedTx.serialized))
-            console.log("signedTx: ",signedTx.serialized.toString())
-            signedTx.txid = "broketxid"
-            // if(signedTx.serialized && typeof(signedTx.serialized) === 'string'){
-            //   txid = keccak256(signedTx.serialized).toString('hex')
-            //   signedTx.txid = txid
-            // }
-            break
-          case 'BTC':
-          case 'BCH':
-          case 'LTC':
-          case 'DOGE':
-          case 'DASH':
-          case 'DGB':
-          case 'RDD':
-            // @ts-ignore
-            signedTx = await state.wallet.btcSignTx(unsignedTx.HDwalletPayload)
-            break
-          default:
-            throw Error('network not supported! ' + unsignedTx.network)
-        }
-        console.log('onSignedTx: ', signedTx)
-        ipcRenderer.send('onSignedTx', signedTx)
-
-        //broadcast signedTx
-        //return to main
-      } else {
-        console.error('Wallet not init! can not sign!')
-      }
     })
 
     //start pioneer
@@ -434,7 +344,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
         let status = await pioneer.getStatus()
         if (status) dispatch({ type: WalletActions.SET_STATUS, payload: status })
 
-        pioneer.events.on('message', async (event: any) => {
+        pioneer.events.on('invocations', async (event: any) => {
           console.log('pioneer event: ', event)
           switch (event.type) {
             case 'context':
@@ -443,8 +353,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
             case 'pairing':
               console.log('Paired!', event)
               break
-            case 'unsignedTx':
+            case 'signRequest':
               console.log('unsignedTx!', event)
+              sign.open(event.unsignedTx)
               break
             default:
               console.error(' message unknown type:', event)

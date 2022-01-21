@@ -279,50 +279,38 @@ export class PioneerService {
       }
       console.log('config: ', config)
       this.App = new SDK(config.spec, config)
-      let events = await this.App.startSocket()
-      events.on('message', (event: any) => {
+      this.events = await this.App.startSocket()
+      this.events.on('message', (event: any) => {
         console.log('message event! ', event)
       })
-      events.on('invocations', async (event: any) => {
+      this.events.on('invocations', async (event: any) => {
         console.log('** message invocations! ', event)
+        console.log('** message invocations! ', event.type)
         //get invocation
-        if (event.type == 'signRequest' && event.invocationId) {
+        if (event.type == 'signRequest') {
           let invocationInfo = await this.App.getInvocation(event.invocationId)
           let unsignedTx = invocationInfo.unsignedTx
           console.log('unsignedTx: ', unsignedTx)
+          console.log('unsignedTx: ', JSON.stringify(unsignedTx))
 
+          // let signedTx = await this.App.signTx(unsignedTx)
+          // console.log('signedTx: ', signedTx)
+
+          //updateBody
+          // let updateBody = {
+          //   network: event.network,
+          //   invocationId: event.invocationId,
+          //   invocation: invocationInfo,
+          //   unsignedTx,
+          //   signedTx
+          // }
+          // //update invocation remote
+          // let resultUpdate = await this.App.updateInvocation(updateBody)
+          // console.log('resultUpdate: ', resultUpdate)
           //
-          let lastInvoke = localStorage.getItem('lastInvoke')
-          if (
-            this.ACCEPTED_INVOCATIONS.indexOf(event.invocationId) === -1 &&
-            lastInvoke !== event.invocationId
-          ) {
-            this.ACCEPTED_INVOCATIONS.push(event.invocationId)
-            localStorage.setItem('lastInvoke', event.invocationId)
-            console.log('unsignedTx: ', JSON.stringify(unsignedTx))
+          // let broadcastResult = await this.App.broadcastTransaction(updateBody)
+          // console.log('broadcastResult: ', broadcastResult)
 
-            let signedTx = await this.App.signTx(unsignedTx)
-            console.log('signedTx: ', signedTx)
-
-            //updateBody
-            // let updateBody = {
-            //   network: event.network,
-            //   invocationId: event.invocationId,
-            //   invocation: invocationInfo,
-            //   unsignedTx,
-            //   signedTx
-            // }
-            // //update invocation remote
-            // let resultUpdate = await this.App.updateInvocation(updateBody)
-            // console.log('resultUpdate: ', resultUpdate)
-            //
-            // let broadcastResult = await this.App.broadcastTransaction(updateBody)
-            // console.log('broadcastResult: ', broadcastResult)
-          } else {
-            console.log('lastInvoke: ', lastInvoke)
-            console.log('event.invocationId: ', event.invocationId)
-            console.error('Already accepted invocation!')
-          }
         }
       })
 
@@ -348,13 +336,13 @@ export class PioneerService {
       console.log('status: ', this.status)
 
       // Sub to events
-      try {
-        this.events = await this.App.startSocket()
-      } catch (e) {
-        // delete keypair (force repair)
-        // localStorage.removeItem('username')
-        // localStorage.removeItem('queryKey')
-      }
+      // try {
+      //   this.events = await this.App.startSocket()
+      // } catch (e) {
+      //   // delete keypair (force repair)
+      //   // localStorage.removeItem('username')
+      //   // localStorage.removeItem('queryKey')
+      // }
 
       // handle events
       this.events.on('message', async (event: any) => {
@@ -441,7 +429,6 @@ export class PioneerService {
           assetBalanceUsdValueContext: this.assetBalanceUsdValueContext
         })
 
-        //TODO use x-chain User() class (x-chain compatiblity)?
         return {
           status: 'Online',
           code: this.pairingCode,
