@@ -257,6 +257,31 @@ export class PioneerService {
     }
   }
 
+  async signTx(unsignedTx: any): Promise<any> {
+    try{
+      console.log('signedTx: ', unsignedTx)
+      let signedTx = await this.App.signTx(unsignedTx)
+      console.log('signedTx: ', signedTx)
+
+      //updateBody
+      // let updateBody = {
+      //   network: event.network,
+      //   invocationId: event.invocationId,
+      //   invocation: invocationInfo,
+      //   unsignedTx,
+      //   signedTx
+      // }
+      // //update invocation remote
+      // let resultUpdate = await this.App.updateInvocation(updateBody)
+      // console.log('resultUpdate: ', resultUpdate)
+      //
+      // let broadcastResult = await this.App.broadcastTransaction(updateBody)
+      // console.log('broadcastResult: ', broadcastResult)
+    }catch(e){
+      console.error("failed to sign! e: ",e)
+    }
+  }
+
   async init(): Promise<any> {
     const network = 'mainnet'
     if (!this.queryKey) {

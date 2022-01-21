@@ -103,6 +103,7 @@ export interface IWalletContext {
   dispatch: React.Dispatch<ActionTypes>
   connect: (adapter: KeyManager) => Promise<void>
   disconnect: () => void
+  pioneer: any
 }
 
 function playSound(type: any) {
@@ -355,7 +356,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
               break
             case 'signRequest':
               console.log('unsignedTx!', event)
-              sign.open(event.unsignedTx)
+              sign.open(event)
               break
             default:
               console.error(' message unknown type:', event)
@@ -421,8 +422,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   }, [state.wallet])
 
   const value: IWalletContext = useMemo(
-    () => ({ state, dispatch, connect, disconnect }),
-    [state, connect, disconnect]
+    () => ({ state, dispatch, connect, disconnect, pioneer }),
+    [state, connect, disconnect, pioneer]
   )
 
   return (
