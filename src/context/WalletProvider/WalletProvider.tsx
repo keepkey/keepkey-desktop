@@ -375,8 +375,14 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
           case 'ETH':
             // @ts-ignore
             signedTx = await state.wallet.ethSignTx(unsignedTx.HDwalletPayload)
-            txid = keccak256(signedTx.serialized).toString('hex')
-            signedTx.txid = txid
+            console.log("signedTx: ",signedTx)
+            console.log("signedTx: ",typeof(signedTx.serialized))
+            console.log("signedTx: ",signedTx.serialized.toString())
+            signedTx.txid = "broketxid"
+            // if(signedTx.serialized && typeof(signedTx.serialized) === 'string'){
+            //   txid = keccak256(signedTx.serialized).toString('hex')
+            //   signedTx.txid = txid
+            // }
             break
           case 'BTC':
           case 'BCH':
