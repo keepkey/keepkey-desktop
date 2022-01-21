@@ -155,7 +155,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
     case WalletActions.SET_ADAPTERS:
       return { ...state, adapters: action.payload }
     case WalletActions.SET_WALLET:
-      // pioneer.pairWallet('keepkey', action.payload.wallet)
+      pioneer.pairWallet('keepkey', action.payload.wallet)
       return {
         ...state,
         wallet: action.payload.wallet,
