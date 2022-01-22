@@ -9,7 +9,9 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalHeader,
-  ModalOverlay
+  ModalOverlay,
+  Collapse,
+  Textarea
 } from '@chakra-ui/react'
 import { ipcRenderer } from 'electron'
 import React, { useRef, useState } from 'react'
@@ -21,6 +23,7 @@ export const SignModal = (input: any) => {
   const { pioneer } = useWallet()
   const [error] = useState<string | null>(null)
   const [loading] = useState(false)
+  const [show, setShow] = React.useState(false)
   const { sign } = useModal()
   const { close, isOpen } = sign
 
@@ -34,6 +37,15 @@ export const SignModal = (input: any) => {
     let result = await pioneer.signTx(input.invocation.unsignedTx)
     console.log("result: ",result)
   }
+
+  const HandleReject = async () => {
+    //show sign
+    ipcRenderer.send('unlockWindow', {})
+    close()
+  }
+
+
+  const handleToggle = () => setShow(!show)
 
   // @ts-ignore
   return (
@@ -54,12 +66,34 @@ export const SignModal = (input: any) => {
           <Text translation={'modals.sign.header'} />
         </ModalHeader>
         <ModalBody>
-          <div>invocation: {invocationId}</div>
+
           {/*<div>unsignedTx: {JSON.stringify(unsignedTx)}</div>*/}
-          <div>HDwalletPayload: {JSON.stringify(HDwalletPayload)}</div>
-          <div>Signing Address: {JSON.stringify(HDwalletPayload.addressNList)}</div>
-          <div>gasPrice: {JSON.stringify(HDwalletPayload.gasPrice)}</div>
+          {/*<div>HDwalletPayload: {JSON.stringify(HDwalletPayload)}</div>*/}
+          <div>type: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.type)}</div>
+          <small>
+            {/*<div>invocation: {invocationId}</div>*/}
+            <div>network: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.network)}</div>
+
+            <div>from: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.addressFrom)}</div>
+            <div>to: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.recipient)}</div>
+            <div>amount: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.amount)}</div>
+          </small>
+
           <Text color='gray.500' translation={'modals.sign.body'} />
+
+          <Collapse in={show}>
+            <div>HDwalletPayload:
+              <Textarea
+                  value={JSON.stringify(HDwalletPayload, undefined, 4)}
+                  size='md'
+                  resize='vertical'
+              />
+            </div>
+          </Collapse>
+          <Button size='sm' onClick={handleToggle} mt='1rem'>
+            {show ? 'hide' : 'Advanced'}
+          </Button>
+
           <Input
             ref={inputRef}
             size='lg'
@@ -84,6 +118,14 @@ export const SignModal = (input: any) => {
             disabled={loading}
           >
             <Text translation={'modals.sign.sign'} />
+          </Button>
+          <br />
+          <Button
+              size='sm'
+              colorScheme='red'
+              onClick={HandleReject}
+          >
+            <Text translation={'modals.sign.reject'} />
           </Button>
         </ModalBody>
       </ModalContent>
