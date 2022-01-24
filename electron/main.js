@@ -35,15 +35,21 @@
  *    P.S. use a keepkey!
  *                                                -Highlander
  */
+const TAG = ' | KK-MAIN | '
+
 const core = require('@shapeshiftoss/hdwallet-core')
 const KK = require('@shapeshiftoss/hdwallet-keepkey-nodewebusb')
-
-const TAG = ' | KK-MAIN | '
+const path = require('path')
+const isDev = require('electron-is-dev')
 const log = require('electron-log')
 const { app, Menu, Tray, BrowserWindow, nativeTheme, ipcMain, nativeImage } = require('electron')
 const usb = require('usb')
 const AutoLaunch = require('auto-launch')
 const pioneerApi = require('@pioneer-platform/pioneer-client')
+const swaggerUi = require('swagger-ui-express');
+//path.join(__dirname, 'assets')
+const swaggerDocument = require(path.join(__dirname, './api/dist/swagger.json'))
+
 // eslint-disable-next-line react-hooks/rules-of-hooks
 const adapter = KK.NodeWebUSBKeepKeyAdapter.useKeyring(new core.Keyring())
 const express = require('express')
@@ -53,8 +59,7 @@ const appExpress = express()
 appExpress.use(cors())
 appExpress.use(bodyParser.urlencoded({ extended: false }))
 appExpress.use(bodyParser.json())
-const path = require('path')
-const isDev = require('electron-is-dev')
+
 let wait = require('wait-promise');
 let sleep = wait.sleep;
 let server = {}
@@ -336,9 +341,6 @@ const start_bridge = async function (event) {
       /*
           KeepKey bridge
 
-          TODO: swagger spec
-            host swaggerUI for devs
-
           endpoints:
             raw i/o keepkey bridge:
             status:
@@ -347,6 +349,13 @@ const start_bridge = async function (event) {
 
 
        */
+
+      //docs
+      appExpress.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+      //swagger.json
+      //appExpress.use('/spec', express.static('api/dist'));
+
       appExpress.all('/exchange/device', async function (req, res, next) {
         try {
           if (req.method === 'GET') {
