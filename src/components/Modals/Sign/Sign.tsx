@@ -3,6 +3,7 @@ import {
   AlertDescription,
   AlertIcon,
   Button,
+  Collapse,
   Input,
   Modal,
   ModalBody,
@@ -10,7 +11,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Collapse,
   Textarea
 } from '@chakra-ui/react'
 import { ipcRenderer } from 'electron'
@@ -28,14 +28,11 @@ export const SignModal = (input: any) => {
   const { close, isOpen } = sign
 
   const inputRef = useRef<HTMLInputElement | null>(null)
-  console.log("input: ",input)
-  const invocationId = input.invocationId
   const HDwalletPayload = input.invocation.unsignedTx.HDwalletPayload
 
   const HandleSubmit = async () => {
     //show sign
-    let result = await pioneer.signTx(input.invocation.unsignedTx)
-    console.log("result: ",result)
+    await pioneer.signTx(input.invocation.unsignedTx)
   }
 
   const HandleReject = async () => {
@@ -43,7 +40,6 @@ export const SignModal = (input: any) => {
     ipcRenderer.send('unlockWindow', {})
     close()
   }
-
 
   const handleToggle = () => setShow(!show)
 
@@ -66,15 +62,18 @@ export const SignModal = (input: any) => {
           <Text translation={'modals.sign.header'} />
         </ModalHeader>
         <ModalBody>
-
           {/*<div>unsignedTx: {JSON.stringify(unsignedTx)}</div>*/}
           {/*<div>HDwalletPayload: {JSON.stringify(HDwalletPayload)}</div>*/}
           <div>type: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.type)}</div>
           <small>
             {/*<div>invocation: {invocationId}</div>*/}
-            <div>network: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.network)}</div>
+            <div>
+              network: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.network)}
+            </div>
 
-            <div>from: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.addressFrom)}</div>
+            <div>
+              from: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.addressFrom)}
+            </div>
             <div>to: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.recipient)}</div>
             <div>amount: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.amount)}</div>
           </small>
@@ -82,11 +81,12 @@ export const SignModal = (input: any) => {
           <Text color='gray.500' translation={'modals.sign.body'} />
 
           <Collapse in={show}>
-            <div>HDwalletPayload:
+            <div>
+              HDwalletPayload:
               <Textarea
-                  value={JSON.stringify(HDwalletPayload, undefined, 4)}
-                  size='md'
-                  resize='vertical'
+                value={JSON.stringify(HDwalletPayload, undefined, 4)}
+                size='md'
+                resize='vertical'
               />
             </div>
           </Collapse>
@@ -120,11 +120,7 @@ export const SignModal = (input: any) => {
             <Text translation={'modals.sign.sign'} />
           </Button>
           <br />
-          <Button
-              size='sm'
-              colorScheme='red'
-              onClick={HandleReject}
-          >
+          <Button size='sm' colorScheme='red' onClick={HandleReject}>
             <Text translation={'modals.sign.reject'} />
           </Button>
         </ModalBody>

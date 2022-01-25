@@ -1,7 +1,6 @@
 import { ComponentWithAs, IconProps } from '@chakra-ui/react'
 import { HDWallet, Keyring } from '@shapeshiftoss/hdwallet-core'
 import { getConfig } from 'config'
-import cryptoTools from 'crypto'
 import { ipcRenderer } from 'electron'
 import React, {
   createContext,
@@ -246,9 +245,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   //onStart()
   useEffect(() => {
-    console.log('onStartApp: CHECKPOINT')
-    console.log('username: ', pioneer.username)
-    if(!state.wallet){
+    if (!state.wallet) {
       ipcRenderer.send('onStartApp', {
         username: pioneer.username,
         queryKey: pioneer.queryKey,
@@ -256,16 +253,13 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       })
     }
 
-
     //listen to events on main
     ipcRenderer.on('hardware', (event, data) => {
       switch (data.event.event) {
         case 'connect':
-          console.log('connect')
           playSound('success')
           break
         case 'disconnect':
-          console.log('disconnect')
           playSound('fail')
           break
         default:
@@ -274,57 +268,47 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('playSound', (event:any, data:any) => {
-      console.log('sound: ', data)
+    ipcRenderer.on('playSound', (event: any, data: any) => {
       // playSound(data.sound)
     })
 
-    ipcRenderer.on('attach', (event:any, data:any) => {
-      console.log('attach', data)
+    ipcRenderer.on('attach', (event: any, data: any) => {
       // playSound('success')
       dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
       dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
-    ipcRenderer.on('detach', (event:any, data:any) => {
-      console.log('detach', data)
+    ipcRenderer.on('detach', (event: any, data: any) => {
       playSound('fail')
       dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
       dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
-    ipcRenderer.on('setKeepKeyState', (event:any, data:any) => {
+    ipcRenderer.on('setKeepKeyState', (event: any, data: any) => {
       dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
       dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
-    ipcRenderer.on('setKeepKeyStatus', (event:any, data:any) => {
+    ipcRenderer.on('setKeepKeyStatus', (event: any, data: any) => {
       dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
       dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
-    ipcRenderer.on('setDevice', (event:any, data:any) => {
-      console.log('setDevice', data)
-    })
+    ipcRenderer.on('setDevice', (event: any, data: any) => {})
 
-    ipcRenderer.on('getPubkeys', (event:any, data:any) => {
-      console.log('getPubkeys', data)
-    })
+    ipcRenderer.on('getPubkeys', (event: any, data: any) => {})
 
-    ipcRenderer.on('signTx', async (event:any, data:any) => {
-      console.log('signTransaction', data.payload.data.HDwalletPayload)
+    ipcRenderer.on('signTx', async (event: any, data: any) => {
       let unsignedTx = data.payload.data
       //open signTx
-      sign.open(data.payload.data)
+      sign.open(unsignedTx)
     })
 
     //start pioneer
     async function startPioneer() {
       try {
-        console.log('onStartPioneer')
         //pioneer
         let initResult = await pioneer.init()
-        console.log('initResult: ', initResult)
         if (pioneer.App.isPaired) {
           //set context
           if (initResult.balances)
@@ -335,9 +319,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
             dispatch({ type: WalletActions.SET_USERNAME, payload: initResult.username })
           if (pioneer) dispatch({ type: WalletActions.SET_PIONEER, payload: pioneer })
         } else {
-          console.log('app is not paired! can not start. please connect a wallet')
+          //console.log('app is not paired! can not start. please connect a wallet')
         }
-        console.log('initResult: ', initResult)
 
         if (initResult.code)
           dispatch({ type: WalletActions.SET_PAIRING_CODE, payload: initResult.code })
@@ -346,16 +329,12 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
         if (status) dispatch({ type: WalletActions.SET_STATUS, payload: status })
 
         pioneer.events.on('invocations', async (event: any) => {
-          console.log('pioneer event: ', event)
           switch (event.type) {
             case 'context':
-              console.log('context event! event: ', event)
               break
             case 'pairing':
-              console.log('Paired!', event)
               break
             case 'signRequest':
-              console.log('unsignedTx!', event)
               sign.open(event)
               break
             default:
@@ -369,7 +348,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
         //   let invocationInfo = await pioneer.App.getInvocation(event.invocationId)
         //   sign.open(invocationInfo)
         // })
-
       } catch (e) {
         console.error(e)
       }
@@ -382,7 +360,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   //connect()
   const connect = useCallback(
     async (type: KeyManager) => {
-      console.log('WalletProvider Connect: ', type)
       if (type === 'keepkey') {
         const adapter = SUPPORTED_WALLETS['keepkey'].adapter.useKeyring(state.keyring)
         try {

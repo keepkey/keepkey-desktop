@@ -242,7 +242,7 @@ function createWindow() {
   })
 
   //TODO remove/ flag on dev
-  mainWindow.openDevTools()
+  if(isDev) mainWindow.openDevTools()
 
   const startURL = isDev
     ? 'http://localhost:3000'
@@ -546,7 +546,7 @@ ipcMain.on('onStartApp', async (event, data) => {
       if (!data.username) throw Error('Failed to init username!')
       if (!data.queryKey) throw Error('Failed to init querKey!')
       //if (!data.spec) throw Error('Failed to init spec!')
-      data.spec = 'http://127.0.0.1:9001/spec/swagger.json'
+      data.spec = isDev ? 'http://127.0.0.1:9001/spec/swagger.json' : "https://pioneers.dev/spec/swagger.json"
       USERNAME = data.username
       let pioneer = new pioneerApi(data.spec, data)
       PIONEER_API = await pioneer.init()

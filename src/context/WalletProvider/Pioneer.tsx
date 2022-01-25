@@ -62,7 +62,6 @@ export class PioneerService {
     let queryKey: string | null = localStorage.getItem('queryKey')
     let username: string | null = localStorage.getItem('username')
     if (!queryKey) {
-      console.log('Creating new queryKey~!')
       queryKey = 'key:' + uuidv4()
       localStorage.setItem('queryKey', queryKey)
       this.queryKey = queryKey
@@ -70,10 +69,8 @@ export class PioneerService {
       this.queryKey = queryKey
     }
     if (!username) {
-      console.log('Creating new username~!')
       username = 'user:' + uuidv4()
       username = username.substring(0, 13)
-      console.log('Creating new username~! username: ', username)
       localStorage.setItem('username', username)
       this.username = username
     } else {
@@ -109,27 +106,20 @@ export class PioneerService {
     try {
       if (this.App && this.App.pairWallet) {
         if (!this.isInitialized) {
-          console.log('App not initialized!')
           await this.init()
         }
         if (!this.username) {
           throw Error('Failed to set username!')
         }
         if (!this.App.username) this.App.username = this.username
-        console.log('checkpoint App: ', this.App)
-        console.log('isInitialized: ', this.isInitialized)
-        console.log('pioneer: pairWallet: Checkpoint')
-        console.log('pioneer: pairWallet:', walletType)
 
         if (HDWallet && HDWallet.isInitialized() && this.App.username) {
-          let resultRegister = await this.App.pairWallet(walletType, HDWallet)
-          console.log('resultRegister: ', resultRegister)
+          await this.App.pairWallet(walletType, HDWallet)
         } else {
           console.error('Can not pairWallet! HDWallet not initialized')
         }
 
         let userInfo = await this.App.updateContext()
-        console.log('userInfo: ', userInfo)
         // if (resultRegister?.username) {
         //   this.username = resultRegister.username
         // }
@@ -142,11 +132,8 @@ export class PioneerService {
         // if (resultRegister?.context) {
         //   this.context = resultRegister.context
         // }
-        // return resultRegister
+        return userInfo
       } else {
-        console.log('checkpoint App: ', this.App)
-        console.log('checkpoint this: ', this)
-        console.log('isInitialized: ', this.isInitialized)
         throw Error('App not initialized!')
       }
     } catch (e) {
@@ -155,19 +142,15 @@ export class PioneerService {
   }
 
   async setSendInvocation(invocation: string): Promise<any> {
-    //console.log('sendToAsset: ', invocation)
     if (invocation) this.sendInvocation = invocation
     return true
   }
 
   async setSendToFeeLevel(level: string): Promise<any> {
-    //console.log('sendToAsset: ', level)
     if (this.sendToFeeLevel && this.sendToFeeLevel !== level) {
-      //console.log('Context valid sending request')
       this.sendToFeeLevel = level
       return true
     } else {
-      //console.log('address already set!: ', level)
       return false
     }
   }
@@ -258,10 +241,8 @@ export class PioneerService {
   }
 
   async signTx(unsignedTx: any): Promise<any> {
-    try{
-      console.log('signedTx: ', unsignedTx)
+    try {
       let signedTx = await this.App.signTx(unsignedTx)
-      console.log('signedTx: ', signedTx)
 
       //updateBody
       // let updateBody = {
@@ -277,8 +258,9 @@ export class PioneerService {
       //
       // let broadcastResult = await this.App.broadcastTransaction(updateBody)
       // console.log('broadcastResult: ', broadcastResult)
-    }catch(e){
-      console.error("failed to sign! e: ",e)
+      return signedTx
+    } catch (e) {
+      console.error('failed to sign! e: ', e)
     }
   }
 
@@ -302,42 +284,9 @@ export class PioneerService {
         wss: process.env.REACT_APP_URL_PIONEER_SOCKET,
         spec: process.env.REACT_APP_URL_PIONEER_SPEC
       }
-      console.log('config: ', config)
       this.App = new SDK(config.spec, config)
       this.events = await this.App.startSocket()
-      this.events.on('message', (event: any) => {
-        console.log('message event! ', event)
-      })
-      this.events.on('invocations', async (event: any) => {
-        console.log('** message invocations! ', event)
-        console.log('** message invocations! ', event.type)
-        //get invocation
-        if (event.type == 'signRequest') {
-          let invocationInfo = await this.App.getInvocation(event.invocationId)
-          let unsignedTx = invocationInfo.unsignedTx
-          console.log('unsignedTx: ', unsignedTx)
-          console.log('unsignedTx: ', JSON.stringify(unsignedTx))
-
-          // let signedTx = await this.App.signTx(unsignedTx)
-          // console.log('signedTx: ', signedTx)
-
-          //updateBody
-          // let updateBody = {
-          //   network: event.network,
-          //   invocationId: event.invocationId,
-          //   invocation: invocationInfo,
-          //   unsignedTx,
-          //   signedTx
-          // }
-          // //update invocation remote
-          // let resultUpdate = await this.App.updateInvocation(updateBody)
-          // console.log('resultUpdate: ', resultUpdate)
-          //
-          // let broadcastResult = await this.App.broadcastTransaction(updateBody)
-          // console.log('broadcastResult: ', broadcastResult)
-
-        }
-      })
+      this.events.on('invocations', async (event: any) => {})
 
       //TODO get chains from api endpoint (auto enable new assets)
       const seedChains = [
@@ -351,14 +300,12 @@ export class PioneerService {
         'osmosis'
       ]
       this.Api = await this.App.init(seedChains)
-      console.log('this.Api: ', this.Api)
       await this.App.updateContext()
       //TODO get api health
 
       //TODO get api status
       let statusResp = await this.Api.Status()
       this.status = statusResp.data
-      console.log('status: ', this.status)
 
       // Sub to events
       // try {
@@ -393,7 +340,6 @@ export class PioneerService {
       this.pairingCode = response.code
 
       const info = await this.App.getUserInfo()
-      console.log('INFO: ', info)
       if (!info || info.error) {
         // not paired
         const response = await this.App.createPairingCode()
@@ -424,15 +370,11 @@ export class PioneerService {
         let contextInfo = info.walletDescriptions.filter(
           (e: { context: string | undefined }) => e.context === this.context
         )[0]
-        console.log('contextInfo: ', contextInfo)
 
         if (contextInfo) {
           this.valueUsdContext = contextInfo.valueUsdContext
           this.balances = contextInfo.balances
-          console.log('*** pioneer: this.balances: ', this.balances)
-
           this.pubkeys = contextInfo.pubkeys
-          console.log('*** pioneer: this.pubkeys: ', this.pubkeys)
         }
 
         //await this.App.updateContext()
@@ -472,7 +414,6 @@ export class PioneerService {
         }
       }
     } else {
-      console.log('Already initialized!')
       return {
         status: 'Online',
         paired: true,
@@ -513,9 +454,7 @@ export class PioneerService {
 
   async sendPairingCode(code: any): Promise<any> {
     if (this.isInitialized) {
-      console.log('code: ', { code })
       let result = await this.Api.Pair(null, { code })
-      console.log('checkpoint: ', result)
       return result.data
     } else {
       return {
