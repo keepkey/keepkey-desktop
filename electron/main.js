@@ -60,6 +60,10 @@ appExpress.use(cors())
 appExpress.use(bodyParser.urlencoded({ extended: false }))
 appExpress.use(bodyParser.json())
 
+//DB persistence
+const Datastore = require('nedb')
+    , db = new Datastore({ filename: './.KeepKey/db', autoload: true });
+
 let wait = require('wait-promise');
 let sleep = wait.sleep;
 let server = {}
@@ -69,6 +73,7 @@ let USERNAME
 let PIONEER_API
 let isQuitting = false
 let eventIPC = {}
+let APPROVED_ORIGINS = []
 
 const assetsDirectory = path.join(__dirname, 'assets')
 const EVENT_LOG = []
@@ -297,6 +302,29 @@ ipcMain.on('onSignedTx', async (event,data) => {
   }
 })
 
+ipcMain.on('onApproveOrigin', async (event,data) => {
+  const tag = TAG + ' | onApproveOrigin | '
+  try {
+    log.info(tag,"data: ",data)
+
+    //Approve Origin
+    APPROVED_ORIGINS.push(data.origin)
+
+    //save to db
+    let doc = {
+      origin:data.origin,
+      added: new Date().getTime(),
+      isVerified:false
+    }
+    db.insert(doc, function(err,resp){
+      if(err) log.error("err: ",err)
+      log.info("saved origin: ",resp)
+    })
+  } catch (e) {
+    log.error('e: ', e)
+    log.error(tag, e)
+  }
+})
 
 /*
 
@@ -354,7 +382,29 @@ const start_bridge = async function (event) {
       appExpress.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
       //swagger.json
-      //appExpress.use('/spec', express.static('api/dist'));
+      appExpress.use('/spec', express.static('api/dist'));
+
+      /*
+          Protected endpoint middleware
+          Only allow approved application collect data
+       */
+
+      let authChecker = (req, res, next) => {
+        console.log("header: ",req.headers);
+        const host = req.headers.host;
+        const origin = req.headers.origin;
+        console.log("origin: ",origin);
+        console.log("host: ",host);
+        if(!origin) {
+          res.status(400).json("Unable to determine origin!")
+        } else if(APPROVED_ORIGINS.indexOf(origin) >= 0){
+          next();
+        } else {
+          event.sender.send('approveOrigin', { origin })
+        }
+      };
+      appExpress.use(authChecker);
+
 
       appExpress.all('/exchange/device', async function (req, res, next) {
         try {
@@ -541,6 +591,20 @@ ipcMain.on('onStartApp', async (event, data) => {
   const tag = TAG + ' | onStartApp | '
   try {
     log.info(tag, 'event: onStartApp: ', data)
+
+    //load DB
+    try{
+      db.find({ }, function (err, docs) {
+        for(let i = 0; i < docs.length; i++){
+          let doc = docs[i]
+          APPROVED_ORIGINS.push(doc.origin)
+        }
+      });
+      log.info(tag,"APPROVED_ORIGINS: ",APPROVED_ORIGINS)
+      event.sender.send('loadOrigins', { payload:APPROVED_ORIGINS })
+    }catch(e){
+      log.error("failed to load db: ",e)
+    }
 
     try {
       if (!data.username) throw Error('Failed to init username!')

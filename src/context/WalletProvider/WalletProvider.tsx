@@ -207,7 +207,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
 const WalletContext = createContext<IWalletContext | null>(null)
 
 export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const { sign } = useModal()
+  const { sign, pair } = useModal()
   const [state, dispatch] = useReducer(reducer, initialState)
   useKeyringEventHandler(state)
   useKeepKeyEventHandler(state, dispatch)
@@ -297,6 +297,10 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     ipcRenderer.on('setDevice', (event: any, data: any) => {})
 
     ipcRenderer.on('getPubkeys', (event: any, data: any) => {})
+
+    ipcRenderer.on('approveOrigin', (event: any, data: any) => {
+      pair.open(data)
+    })
 
     ipcRenderer.on('signTx', async (event: any, data: any) => {
       let unsignedTx = data.payload.data
