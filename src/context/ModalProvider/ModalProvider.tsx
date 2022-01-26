@@ -4,10 +4,10 @@ import React, { useContext, useMemo, useReducer } from 'react'
 import { PassphraseModal } from 'components/Modals/KeyManagement/KeepKey/Passphrase'
 import { PinModal } from 'components/Modals/KeyManagement/KeepKey/Pin'
 import { PasswordModal } from 'components/Modals/KeyManagement/Native/Password'
+import { PairModal } from 'components/Modals/Pair/Pair'
 import { ReceiveModal } from 'components/Modals/Receive/Receive'
 import { SendModal } from 'components/Modals/Send/Send'
 import { SignModal } from 'components/Modals/Sign/Sign'
-import { PairModal } from 'components/Modals/Pair/Pair'
 
 // to add new modals, add a new key: value pair below
 // the key is the name returned by the hook and the

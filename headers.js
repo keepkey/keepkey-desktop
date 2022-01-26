@@ -8,6 +8,7 @@ const cspMeta = Object.entries({
     'http://localhost:1646/exchange/device',
     'http://127.0.0.1:9001',
     'ws://127.0.0.1:9001',
+    'https://pioneers.dev/api/v1/register',
     'https://pioneers.dev',
     'wss://pioneers.dev',
     // @shapeshiftoss/swapper@1.15.0: https://github.com/shapeshift/lib/blob/f833ac7f8c70dee801eaa24525336ca6992e5903/packages/swapper/src/swappers/zrx/utils/zrxService.ts#L4

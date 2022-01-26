@@ -78,6 +78,9 @@ let APPROVED_ORIGINS = []
 const assetsDirectory = path.join(__dirname, 'assets')
 const EVENT_LOG = []
 let SIGNED_TX = null
+let USER_APPROVED_PAIR = null
+let USER_REJECT_PAIR = null
+
 /*
     Electron Settings
  */
@@ -108,6 +111,20 @@ const menuTemplate = [
   },
   { label: '', type: 'separator' },
   {
+    label: 'Show App',
+    click: function () {
+      log.info('show App')
+      if (mainWindow.isVisible()) {
+        mainWindow.hide()
+        app.dock.hide()
+      } else {
+        mainWindow.show()
+        app.dock.hide()
+      }
+    }
+  },
+  { label: '', type: 'separator' },
+  {
     label: 'Start Bridge',
     click: function () {
       start_bridge(eventIPC)
@@ -125,19 +142,6 @@ const menuTemplate = [
   },
   //
   { label: '', type: 'separator' },
-  {
-    label: 'Toggle App',
-    click: function () {
-      log.info('show App')
-      if (mainWindow.isVisible()) {
-        mainWindow.hide()
-        app.dock.hide()
-      } else {
-        mainWindow.show()
-        app.dock.hide()
-      }
-    }
-  },
   {
     label: 'Disable Auto Launch',
     click: function () {
@@ -326,6 +330,30 @@ ipcMain.on('onApproveOrigin', async (event,data) => {
   }
 })
 
+ipcMain.on('onRejectOrigin', async (event,data) => {
+  const tag = TAG + ' | onRejectOrigin | '
+  try {
+    log.info(tag,"data: ",data)
+
+    //Approve Origin
+    APPROVED_ORIGINS.push(data.origin)
+
+    //save to db
+    let doc = {
+      origin:data.origin,
+      added: new Date().getTime(),
+      isVerified:false
+    }
+    db.insert(doc, function(err,resp){
+      if(err) log.error("err: ",err)
+      log.info("saved origin: ",resp)
+    })
+  } catch (e) {
+    log.error('e: ', e)
+    log.error(tag, e)
+  }
+})
+
 /*
 
   KeepKey Status codes
@@ -384,9 +412,69 @@ const start_bridge = async function (event) {
       //swagger.json
       appExpress.use('/spec', express.static('api/dist'));
 
+      //status
+      appExpress.all('/status', async function (req, res, next) {
+        try {
+          if (req.method === 'GET') {
+            res.status(200).json({
+              success: true,
+              username: USERNAME,
+              status: STATUS,
+              state: STATE
+            })
+          }
+          next()
+        } catch (e) {
+          throw e
+        }
+      })
+
+      //pair pioneer app
+      appExpress.all('/pair/:code', async function (req, res, next) {
+        try {
+          if (req.method === 'GET') {
+            let code = req.params.code
+            // let host = req.headers.host
+            if (!mainWindow.isVisible()) {
+              mainWindow.show()
+              app.dock.hide()
+            }
+            mainWindow.setAlwaysOnTop(true)
+            event.sender.send('approveOrigin', { origin })
+
+            //hold till signed
+            while(!USER_APPROVED_PAIR && !USER_REJECT_PAIR){
+              await sleep(300)
+            }
+            if(USER_APPROVED_ORIGIN){
+              let respPair = await PIONEER_API.instance.Pair(null, { code })
+              log.info('respPair: ', respPair)
+              if (res.status)
+                res.status(200).json({
+                  success: true,
+                  username: USERNAME,
+                  code
+                })
+            }
+            if(USER_REJECT_PAIR){
+              res.status(200).json({
+                success: false,
+                username: USERNAME,
+                msg:"User rejected pair request!"
+              })
+            }
+          }
+          next()
+        } catch (e) {
+          throw e
+        }
+      })
+
       /*
           Protected endpoint middleware
-          Only allow approved application collect data
+          Only allow approved applications collect data
+
+          all routes below are protected
        */
 
       let authChecker = (req, res, next) => {
@@ -427,53 +515,6 @@ const start_bridge = async function (event) {
             res.status(200).json({})
           } else {
             throw Error('unhandled')
-          }
-          next()
-        } catch (e) {
-          throw e
-        }
-      })
-
-      //status
-      appExpress.all('/status', async function (req, res, next) {
-        try {
-          if (req.method === 'GET') {
-            res.status(200).json({
-              success: true,
-              username: USERNAME,
-              status: STATUS,
-              state: STATE
-            })
-          }
-          next()
-        } catch (e) {
-          throw e
-        }
-      })
-
-      //TODO pubkeys
-
-      //pair pioneer app
-      appExpress.all('/pair/:code', async function (req, res, next) {
-        try {
-          if (req.method === 'GET') {
-            let code = req.params.code
-            // let host = req.headers.host
-            if (!mainWindow.isVisible()) {
-              mainWindow.show()
-              app.dock.hide()
-            }
-            //mainWindow.setAlwaysOnTop(true)
-            //event.sender.send('pairingCode', { payload: { code, host } })
-            //TODO hold till approval
-            let respPair = await PIONEER_API.instance.Pair(null, { code })
-            log.info('respPair: ', respPair)
-            if (res.status)
-              res.status(200).json({
-                success: true,
-                username: USERNAME,
-                code
-              })
           }
           next()
         } catch (e) {
@@ -610,8 +651,9 @@ ipcMain.on('onStartApp', async (event, data) => {
       if (!data.username) throw Error('Failed to init username!')
       if (!data.queryKey) throw Error('Failed to init querKey!')
       //if (!data.spec) throw Error('Failed to init spec!')
-      data.spec = isDev ? 'http://127.0.0.1:9001/spec/swagger.json' : "https://pioneers.dev/spec/swagger.json"
+      // data.spec = isDev ? 'http://127.0.0.1:9001/spec/swagger.json' : "https://pioneers.dev/spec/swagger.json"
       USERNAME = data.username
+      log.info(tag,"data: ",data)
       let pioneer = new pioneerApi(data.spec, data)
       PIONEER_API = await pioneer.init()
       //TODO show error if failed to init
