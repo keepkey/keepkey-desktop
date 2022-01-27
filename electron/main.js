@@ -389,111 +389,117 @@ const start_bridge = async function (event) {
       await transport.connect?.()
       STATE = 2
       STATUS = 'keepkey connected'
-      event.sender.send('setKeepKeyState', { state: STATE })
-      event.sender.send('setKeepKeyStatus', { status: STATUS })
+      event.sender.send('setKeepKeyState', {state: STATE})
+      event.sender.send('setKeepKeyStatus', {status: STATUS})
+    } else {
+      log.info('Can not start! waiting for device connect')
+    }
 
-      let API_PORT = process.env['API_PORT_BRIDGE'] || '1646'
+    let API_PORT = process.env['API_PORT_BRIDGE'] || '1646'
 
-      /*
-          KeepKey bridge
+    /*
+        KeepKey bridge
 
-          endpoints:
-            raw i/o keepkey bridge:
-            status:
-            pubkeys:
-            sign:
+        endpoints:
+          raw i/o keepkey bridge:
+          status:
+          pubkeys:
+          sign:
 
 
-       */
+     */
 
-      //docs
-      appExpress.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    //docs
+    appExpress.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-      //swagger.json
-      appExpress.use('/spec', express.static('api/dist'));
+    //swagger.json
+    appExpress.use('/spec', express.static('api/dist'));
 
-      //status
-      appExpress.all('/status', async function (req, res, next) {
-        try {
-          if (req.method === 'GET') {
+    //status
+    appExpress.all('/status', async function (req, res, next) {
+      try {
+        if (req.method === 'GET') {
+          res.status(200).json({
+            success: true,
+            username: USERNAME,
+            status: STATUS,
+            state: STATE
+          })
+        }
+        next()
+      } catch (e) {
+        throw e
+      }
+    })
+
+    //pair pioneer app
+    appExpress.all('/pair/:code', async function (req, res, next) {
+      try {
+        if (req.method === 'GET') {
+          let code = req.params.code
+          // let host = req.headers.host
+          if (!mainWindow.isVisible()) {
+            mainWindow.show()
+            app.dock.hide()
+          }
+          mainWindow.setAlwaysOnTop(true)
+          event.sender.send('approveOrigin', { origin })
+
+          //hold till signed
+          while(!USER_APPROVED_PAIR && !USER_REJECT_PAIR){
+            await sleep(300)
+          }
+          if(USER_APPROVED_ORIGIN){
+            let respPair = await PIONEER_API.instance.Pair(null, { code })
+            log.info('respPair: ', respPair)
+            if (res.status)
+              res.status(200).json({
+                success: true,
+                username: USERNAME,
+                code
+              })
+          }
+          if(USER_REJECT_PAIR){
             res.status(200).json({
-              success: true,
+              success: false,
               username: USERNAME,
-              status: STATUS,
-              state: STATE
+              msg:"User rejected pair request!"
             })
           }
-          next()
-        } catch (e) {
-          throw e
         }
-      })
+        next()
+      } catch (e) {
+        throw e
+      }
+    })
 
-      //pair pioneer app
-      appExpress.all('/pair/:code', async function (req, res, next) {
-        try {
-          if (req.method === 'GET') {
-            let code = req.params.code
-            // let host = req.headers.host
-            if (!mainWindow.isVisible()) {
-              mainWindow.show()
-              app.dock.hide()
-            }
-            mainWindow.setAlwaysOnTop(true)
-            event.sender.send('approveOrigin', { origin })
+    /*
+        Protected endpoint middleware
+        Only allow approved applications collect data
 
-            //hold till signed
-            while(!USER_APPROVED_PAIR && !USER_REJECT_PAIR){
-              await sleep(300)
-            }
-            if(USER_APPROVED_ORIGIN){
-              let respPair = await PIONEER_API.instance.Pair(null, { code })
-              log.info('respPair: ', respPair)
-              if (res.status)
-                res.status(200).json({
-                  success: true,
-                  username: USERNAME,
-                  code
-                })
-            }
-            if(USER_REJECT_PAIR){
-              res.status(200).json({
-                success: false,
-                username: USERNAME,
-                msg:"User rejected pair request!"
-              })
-            }
-          }
-          next()
-        } catch (e) {
-          throw e
-        }
-      })
+        all routes below are protected
+     */
 
-      /*
-          Protected endpoint middleware
-          Only allow approved applications collect data
+    let authChecker = (req, res, next) => {
+      console.log("header: ",req.headers);
+      const host = req.headers.host;
+      let origin = req.headers.origin;
+      const referer = req.headers.referer;
+      if(!origin) origin = referer
+      console.log("origin: ",origin);
+      console.log("host: ",host);
+      if(!origin) {
+        res.status(400).json("Unable to determine origin!")
+      } else if(APPROVED_ORIGINS.indexOf(origin) >= 0){
+        console.log("Approved origin!")
+        next();
+      } else {
+        event.sender.send('approveOrigin', { origin })
+      }
+    };
+    appExpress.use(authChecker);
 
-          all routes below are protected
-       */
-
-      let authChecker = (req, res, next) => {
-        console.log("header: ",req.headers);
-        const host = req.headers.host;
-        const origin = req.headers.origin;
-        console.log("origin: ",origin);
-        console.log("host: ",host);
-        if(!origin) {
-          res.status(400).json("Unable to determine origin!")
-        } else if(APPROVED_ORIGINS.indexOf(origin) >= 0){
-          next();
-        } else {
-          event.sender.send('approveOrigin', { origin })
-        }
-      };
-      appExpress.use(authChecker);
-
-
+    if (device) {
       appExpress.all('/exchange/device', async function (req, res, next) {
         try {
           if (req.method === 'GET') {
@@ -521,73 +527,86 @@ const start_bridge = async function (event) {
           throw e
         }
       })
-
-      //userInfo
-      appExpress.all('/user', async function (req, res, next) {
+    } else {
+      appExpress.all('/exchange/device', async function (req, res, next) {
         try {
-          if (req.method === 'GET') {
-            let userInfo = await PIONEER_API.instance.User()
-            res.status(200).json(userInfo.data)
-          }
+          res.status(200).json({
+            success:false,
+            msg:"Device not connected!"
+          })
           next()
         } catch (e) {
           throw e
         }
       })
+    }
 
-      //sign
-      appExpress.all('/sign', async function (req, res, next) {
-        try {
-          console.log("checkpoint1: ")
-          if (req.method === 'POST') {
-            let body = req.body
-            console.log("body: ",body)
-            event.sender.send('signTx', { payload: body })
-            //hold till signed
-            while(!SIGNED_TX){
-              await sleep(300)
-            }
-            res.status(200).json({ success: true, status: 'signed', signedTx:SIGNED_TX })
-            SIGNED_TX = null
-          }
-          next()
-        } catch (e) {
-          throw e
-        }
-      })
 
-      //catchall
-      appExpress.use((err, req, res) => {
-        const { status = 500, message = 'something went wrong. ', data = {} } = err
-        //log.info(req.body, { status: status, message: message, data: data })
-        try {
-          res.status(status).json({ message, data })
-        } catch (e) {}
-      })
-
-      //port
+    //userInfo
+    appExpress.all('/user', async function (req, res, next) {
       try {
-        server = appExpress.listen(API_PORT, () => {
-          event.sender.send('playSound', { sound: 'success' })
-          log.info(`server started at http://localhost:${API_PORT}`)
-          STATE = 3
-          STATUS = 'bridge online'
-          event.sender.send('setKeepKeyState', { state: STATE })
-          event.sender.send('setKeepKeyStatus', { status: STATUS })
-          updateMenu(STATE)
-        })
+        if (req.method === 'GET') {
+          let userInfo = await PIONEER_API.instance.User()
+          console.log("userInfo: ",userInfo)
+          res.status(200).json(userInfo.data)
+        }
+        next()
       } catch (e) {
-        event.sender.send('playSound', { sound: 'fail' })
-        STATE = -1
-        STATUS = 'bridge error'
+        throw e
+      }
+    })
+
+    //sign
+    appExpress.all('/sign', async function (req, res, next) {
+      try {
+        console.log("checkpoint1: ")
+        if (req.method === 'POST') {
+          let body = req.body
+          console.log("body: ",body)
+          event.sender.send('signTx', { payload: body })
+          //hold till signed
+          while(!SIGNED_TX){
+            await sleep(300)
+          }
+          res.status(200).json({ success: true, status: 'signed', signedTx:SIGNED_TX })
+          SIGNED_TX = null
+        }
+        next()
+      } catch (e) {
+        throw e
+      }
+    })
+
+    //catchall
+    appExpress.use((err, req, res) => {
+      const { status = 500, message = 'something went wrong. ', data = {} } = err
+      //log.info(req.body, { status: status, message: message, data: data })
+      try {
+        res.status(status).json({ message, data })
+      } catch (e) {}
+    })
+
+    //port
+    try {
+      server = appExpress.listen(API_PORT, () => {
+        event.sender.send('playSound', { sound: 'success' })
+        log.info(`server started at http://localhost:${API_PORT}`)
+        STATE = 3
+        STATUS = 'bridge online'
         event.sender.send('setKeepKeyState', { state: STATE })
         event.sender.send('setKeepKeyStatus', { status: STATUS })
         updateMenu(STATE)
-        log.info('e: ', e)
-      }
-    } else {
-      log.info('Can not start! waiting for device connect')
+      })
+    } catch (e) {
+      event.sender.send('playSound', { sound: 'fail' })
+      STATE = -1
+      STATUS = 'bridge error'
+      event.sender.send('setKeepKeyState', { state: STATE })
+      event.sender.send('setKeepKeyStatus', { status: STATUS })
+      updateMenu(STATE)
+      log.info('e: ', e)
     }
+
   } catch (e) {
     log.error(e)
   }
