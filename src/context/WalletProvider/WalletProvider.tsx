@@ -305,7 +305,12 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     ipcRenderer.on('signTx', async (event: any, data: any) => {
       let unsignedTx = data.payload.data
       //open signTx
-      sign.open(unsignedTx)
+      if(unsignedTx && unsignedTx.invocation && unsignedTx.invocation.unsignedTx && unsignedTx.invocation.unsignedTx.HDwalletPayload){
+        sign.open(unsignedTx)
+      } else {
+        console.error("INVALID SIGN PAYLOAD!",JSON.stringify(unsignedTx))
+      }
+
     })
 
     //start pioneer

@@ -313,7 +313,7 @@ ipcMain.on('onApproveOrigin', async (event,data) => {
 
     //Approve Origin
     APPROVED_ORIGINS.push(data.origin)
-
+    USER_APPROVED_PAIR = true
     //save to db
     let doc = {
       origin:data.origin,
@@ -335,19 +335,7 @@ ipcMain.on('onRejectOrigin', async (event,data) => {
   try {
     log.info(tag,"data: ",data)
 
-    //Approve Origin
-    APPROVED_ORIGINS.push(data.origin)
-
-    //save to db
-    let doc = {
-      origin:data.origin,
-      added: new Date().getTime(),
-      isVerified:false
-    }
-    db.insert(doc, function(err,resp){
-      if(err) log.error("err: ",err)
-      log.info("saved origin: ",resp)
-    })
+    USER_REJECT_PAIR = true
   } catch (e) {
     log.error('e: ', e)
     log.error(tag, e)
@@ -384,8 +372,9 @@ const start_bridge = async function (event) {
       log.info(tray)
     }
 
+    let transport
     if (device) {
-      let transport = await adapter.getTransportDelegate(device)
+      transport = await adapter.getTransportDelegate(device)
       await transport.connect?.()
       STATE = 2
       STATUS = 'keepkey connected'
@@ -437,19 +426,26 @@ const start_bridge = async function (event) {
       try {
         if (req.method === 'GET') {
           let code = req.params.code
+          log.info("code: ",code)
           // let host = req.headers.host
           if (!mainWindow.isVisible()) {
             mainWindow.show()
             app.dock.hide()
           }
           mainWindow.setAlwaysOnTop(true)
+          let origin = req.headers.origin;
+          const referer = req.headers.referer;
+          if(!origin) origin = referer
           event.sender.send('approveOrigin', { origin })
 
           //hold till signed
           while(!USER_APPROVED_PAIR && !USER_REJECT_PAIR){
+            log.info("still not approved!")
             await sleep(300)
           }
-          if(USER_APPROVED_ORIGIN){
+
+          if(USER_APPROVED_PAIR){
+            log.info("user approved!")
             let respPair = await PIONEER_API.instance.Pair(null, { code })
             log.info('respPair: ', respPair)
             if (res.status)
@@ -460,6 +456,7 @@ const start_bridge = async function (event) {
               })
           }
           if(USER_REJECT_PAIR){
+            log.info("user rejected!")
             res.status(200).json({
               success: false,
               username: USERNAME,
@@ -479,25 +476,25 @@ const start_bridge = async function (event) {
 
         all routes below are protected
      */
-
-    let authChecker = (req, res, next) => {
-      console.log("header: ",req.headers);
-      const host = req.headers.host;
-      let origin = req.headers.origin;
-      const referer = req.headers.referer;
-      if(!origin) origin = referer
-      console.log("origin: ",origin);
-      console.log("host: ",host);
-      if(!origin) {
-        res.status(400).json("Unable to determine origin!")
-      } else if(APPROVED_ORIGINS.indexOf(origin) >= 0){
-        console.log("Approved origin!")
-        next();
-      } else {
-        event.sender.send('approveOrigin', { origin })
-      }
-    };
-    appExpress.use(authChecker);
+    //TODO
+    // let authChecker = (req, res, next) => {
+    //   console.log("header: ",req.headers);
+    //   const host = req.headers.host;
+    //   let origin = req.headers.origin;
+    //   const referer = req.headers.referer;
+    //   if(!origin) origin = referer
+    //   console.log("origin: ",origin);
+    //   console.log("host: ",host);
+    //   if(!origin) {
+    //     res.status(400).json("Unable to determine origin!")
+    //   } else if(APPROVED_ORIGINS.indexOf(origin) >= 0){
+    //     console.log("Approved origin!")
+    //     next();
+    //   } else {
+    //     event.sender.send('approveOrigin', { origin })
+    //   }
+    // };
+    // appExpress.use(authChecker);
 
     if (device) {
       appExpress.all('/exchange/device', async function (req, res, next) {
@@ -547,7 +544,7 @@ const start_bridge = async function (event) {
       try {
         if (req.method === 'GET') {
           let userInfo = await PIONEER_API.instance.User()
-          console.log("userInfo: ",userInfo)
+          // console.log("userInfo: ",userInfo)
           res.status(200).json(userInfo.data)
         }
         next()
