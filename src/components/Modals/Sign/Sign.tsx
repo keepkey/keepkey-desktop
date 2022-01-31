@@ -28,8 +28,6 @@ export const SignModal = (input: any) => {
   const { close, isOpen } = sign
 
   const inputRef = useRef<HTMLInputElement | null>(null)
-  console.log("input: ",input)
-  console.log("input: ",JSON.stringify(input))
   const HDwalletPayload = input.invocation.unsignedTx.HDwalletPayload
 
   const HandleSubmit = async () => {
@@ -66,7 +64,6 @@ export const SignModal = (input: any) => {
         <ModalBody>
           {/*<div>unsignedTx: {JSON.stringify(unsignedTx)}</div>*/}
           {/*<div>HDwalletPayload: {JSON.stringify(HDwalletPayload)}</div>*/}
-
 
           {/*<div>type: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.type)}</div>*/}
           <small>
