@@ -342,6 +342,21 @@ ipcMain.on('onRejectOrigin', async (event,data) => {
   }
 })
 
+ipcMain.on('onCloseModal', async (event,data) => {
+  const tag = TAG + ' | onCloseModal | '
+  try {
+    if (mainWindow.isVisible()) {
+      mainWindow.hide()
+    }
+    mainWindow.setAlwaysOnTop(false)
+  } catch (e) {
+    log.error('e: ', e)
+    log.error(tag, e)
+  }
+})
+
+
+
 /*
 
   KeepKey Status codes

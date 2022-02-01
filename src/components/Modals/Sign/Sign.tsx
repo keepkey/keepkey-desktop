@@ -33,11 +33,15 @@ export const SignModal = (input: any) => {
   const HandleSubmit = async () => {
     //show sign
     await pioneer.signTx(input.invocation.unsignedTx)
+    //onCloseModal
+    ipcRenderer.send('onCloseModal', {})
   }
 
   const HandleReject = async () => {
     //show sign
     ipcRenderer.send('unlockWindow', {})
+    //onCloseModal
+    ipcRenderer.send('onCloseModal', {})
     close()
   }
 
@@ -49,6 +53,7 @@ export const SignModal = (input: any) => {
       isOpen={isOpen}
       onClose={() => {
         ipcRenderer.send('unlockWindow', {})
+        ipcRenderer.send('onCloseModal', {})
         close()
       }}
       isCentered
