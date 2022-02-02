@@ -49,7 +49,8 @@ const pioneerApi = require('@pioneer-platform/pioneer-client')
 const swaggerUi = require('swagger-ui-express');
 //path.join(__dirname, 'assets')
 const swaggerDocument = require(path.join(__dirname, './api/dist/swagger.json'))
-
+if(!swaggerDocument) throw Error("Failed to load API SPEC!")
+console.log("swaggerDocument: ",swaggerDocument)
 // eslint-disable-next-line react-hooks/rules-of-hooks
 const adapter = KK.NodeWebUSBKeepKeyAdapter.useKeyring(new core.Keyring())
 const express = require('express')
@@ -417,7 +418,7 @@ const start_bridge = async function (event) {
     appExpress.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     //swagger.json
-    appExpress.use('/spec', express.static('api/dist'));
+    appExpress.use('/spec', express.static(path.join(__dirname, './api/dist')));
 
     //status
     appExpress.all('/status', async function (req, res, next) {
