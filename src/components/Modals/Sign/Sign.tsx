@@ -11,7 +11,9 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Textarea
+  Textarea,
+  Badge,
+  Box
 } from '@chakra-ui/react'
 import { ipcRenderer } from 'electron'
 import React, { useRef, useState } from 'react'
@@ -26,7 +28,7 @@ export const SignModal = (input: any) => {
   const [show, setShow] = React.useState(false)
   const { sign } = useModal()
   const { close, isOpen } = sign
-
+  console.log("*** input: ",input)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const HDwalletPayload = input.invocation.unsignedTx.HDwalletPayload
 
@@ -74,17 +76,37 @@ export const SignModal = (input: any) => {
           <small>
             {/*<div>invocation: {invocationId}</div>*/}
             <div>
-              network: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.network)}
+              Transation Type: {JSON.stringify(input?.invocation?.unsignedTx?.type)}
             </div>
+            <div>
+              network: {JSON.stringify(input?.invocation?.unsignedTx?.network)}
+            </div>
+
+            <Box w='100%' p={4} color='white'>
+              <div>
+                Extended Validation: <Badge>FAIL</Badge>
+              </div>
+              <div>
+                verbal summary: {JSON.stringify(input?.invocation?.unsignedTx?.verbal)}
+              </div>
+            </Box>
+
 
             <div>
-              from: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.addressFrom)}
+              from: {JSON.stringify(input?.invocation?.unsignedTx?.swap?.addressFrom)}
             </div>
-            <div>to: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.recipient)}</div>
-            <div>amount: {JSON.stringify(input?.invocation?.unsignedTx?.transaction?.amount)}</div>
+            <div>to: {JSON.stringify(input?.invocation?.unsignedTx?.swap?.inboundAddress.address)}</div>
+
+            <Text color='gray.500' translation={'modals.sign.body'} />
+            <div>protocol: {JSON.stringify(input?.invocation?.unsignedTx?.swap?.protocol)}</div>
+            <Box w='100%' p={4} color='white'>
+              <div>router: {JSON.stringify(input?.invocation?.unsignedTx?.swap?.inboundAddress.router)}</div>
+              <div>memo: {JSON.stringify(input?.invocation?.unsignedTx?.swap?.memo)}</div>
+            </Box>
+            <div>amount: {JSON.stringify(input?.invocation?.unsignedTx?.swap?.amount)}</div>
           </small>
 
-          <Text color='gray.500' translation={'modals.sign.body'} />
+
 
           <Collapse in={show}>
             <div>
