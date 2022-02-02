@@ -346,9 +346,6 @@ ipcMain.on('onRejectOrigin', async (event,data) => {
 ipcMain.on('onCloseModal', async (event,data) => {
   const tag = TAG + ' | onCloseModal | '
   try {
-    if (mainWindow.isVisible()) {
-      mainWindow.hide()
-    }
     mainWindow.setAlwaysOnTop(false)
   } catch (e) {
     log.error('e: ', e)
@@ -576,6 +573,11 @@ const start_bridge = async function (event) {
         if (req.method === 'POST') {
           let body = req.body
           console.log("body: ",body)
+          mainWindow.setAlwaysOnTop(true)
+          if (!mainWindow.isVisible()) {
+            mainWindow.show()
+            app.dock.show()
+          }
           event.sender.send('signTx', { payload: body })
           //hold till signed
           while(!SIGNED_TX){
