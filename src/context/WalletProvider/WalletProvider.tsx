@@ -67,7 +67,6 @@ export interface InitialState {
   //
   keepkeyStatus: string | null
   keepkeyState: number
-  //
   username: any
   context: any
   balances: any | null
