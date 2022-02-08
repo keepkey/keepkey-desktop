@@ -64,7 +64,6 @@ export interface InitialState {
   walletInfo: { name: string; icon: ComponentWithAs<'svg', IconProps>; deviceId: string } | null
   isConnected: boolean
   modal: boolean
-  //
   keepkeyStatus: string | null
   keepkeyState: number
   username: any
