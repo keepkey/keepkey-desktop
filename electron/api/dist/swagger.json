@@ -97,7 +97,7 @@
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "@KeepKey/keepkey-bridge",
+		"title": "@KeepKey/keepkey-api",
 		"version": "0.0.12",
 		"description": "A REST interface for the KeepKey Client",
 		"contact": {
