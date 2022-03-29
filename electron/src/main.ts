@@ -65,7 +65,7 @@ import { shared } from './shared'
 import { createTray, tray } from './tray'
 import { isWin, isLinux, ALLOWED_HOSTS } from './constants'
 import { db } from './db'
-import { pairWalletConnect } from './connect'
+import { getWalletconnectSession, pairWalletConnect, walletConnectClient } from './connect'
 import { Settings } from './settings'
 
 export const settings = new Settings()
@@ -191,8 +191,12 @@ export const createWindow = () => new Promise<boolean>(async (resolve, reject) =
         if (skipUpdateCheckCompleted) windows.mainWindow?.show()
     });
 
-    ipcMain.on('@wallet/connected', (event, data) => {
+    ipcMain.on('@wallet/connected', async (event, data) => {
         resolve(true)
+        const previousSession = await getWalletconnectSession()
+        if (!walletConnectClient && previousSession) {
+            pairWalletConnect(event, undefined, previousSession)
+        }
     })
 
     db.findOne({ type: 'user' }, (err, doc) => {
@@ -522,8 +526,13 @@ ipcMain.on('@app/start', async (event, data) => {
         } catch (e) {
             log.error('Failed to start_bridge! e: ', e)
         }
+
+        if (walletConnectClient && walletConnectClient.connected && walletConnectClient.session.peerMeta) {
+            event.sender.send('@walletconnect/paired', walletConnectClient.session.peerMeta)
+        }
     } catch (e) {
         log.error('e: ', e)
         log.error(tag, e)
     }
 })
+

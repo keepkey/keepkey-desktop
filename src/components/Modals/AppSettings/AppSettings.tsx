@@ -8,6 +8,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Progress,
   Spinner,
   Stack,
   Switch
@@ -54,6 +55,7 @@ export const AppSettingsModal = () => {
   const [currentAppVer, setCurrentAppVer] = useState<Array<string>>([])
   const [updateState, setUpdateState] = useState(UpdateState.UNCHECKED)
   const [updateData, setUpdateData] = useState<UpdateInfo>()
+  const [updateProgress, setUpdateProgress] = useState(0)
 
   const compareVersions = useCallback(
     (update: UpdateInfo) => {
@@ -107,6 +109,10 @@ export const AppSettingsModal = () => {
 
     ipcRenderer.on('@app/download-updates', (event, data) => {
       setUpdateState(UpdateState.DOWNLOADED)
+    })
+
+    ipcRenderer.on("@update/percentage", (event, progress) => {
+      setUpdateProgress(progress)
     })
 
     return () => setUpdateState(UpdateState.UNCHECKED)
@@ -225,25 +231,25 @@ export const AppSettingsModal = () => {
                   updateState === UpdateState.UNCHECKED
                     ? checkUpdates
                     : updateState === UpdateState.AVAILABLE
-                    ? downloadUpdates
-                    : updateState === UpdateState.DOWNLOADED
-                    ? installUpdates
-                    : checkUpdates
+                      ? downloadUpdates
+                      : updateState === UpdateState.DOWNLOADED
+                        ? installUpdates
+                        : checkUpdates
                 }
-                isDisabled={updateState === UpdateState.LATEST}
+                isDisabled={updateState === UpdateState.LATEST || updateState === UpdateState.DOWNLOADING}
                 colorScheme={
                   updateState === UpdateState.UNCHECKED
                     ? 'gray'
                     : updateState === UpdateState.AVAILABLE
-                    ? 'blue'
-                    : updateState === UpdateState.DOWNLOADED
-                    ? 'red'
-                    : updateState === UpdateState.LATEST
-                    ? 'green'
-                    : 'gray'
+                      ? 'blue'
+                      : updateState === UpdateState.DOWNLOADED
+                        ? 'red'
+                        : updateState === UpdateState.LATEST
+                          ? 'green'
+                          : 'gray'
                 }
                 isLoading={
-                  updateState === UpdateState.CHECKING || updateState === UpdateState.DOWNLOADING
+                  updateState === UpdateState.CHECKING
                 }
                 leftIcon={
                   updateState === UpdateState.UNCHECKED ? (
@@ -271,6 +277,9 @@ export const AppSettingsModal = () => {
                 )}
                 {updateState === UpdateState.LATEST && (
                   <Text translation={'modals.appSettings.cta.update.latest'} />
+                )}
+                {updateState === UpdateState.DOWNLOADING && (
+                  <Progress colorScheme='gray' size='sm' width='100%' rounded='lg' value={updateProgress} />
                 )}
               </Button>
               <Button onClick={saveSettings} colorScheme='blue'>
