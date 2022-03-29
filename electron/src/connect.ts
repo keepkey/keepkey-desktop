@@ -16,29 +16,12 @@ import wait from 'wait-promise'
 import { createWindow, windows } from './main';
 import axios from "axios";
 import { openSignTxWindow } from "./utils";
+import { db } from "./db";
 const sleep = wait.sleep;
 export let walletConnectClient: WalletConnect
 const keccak256 = require('keccak256')
 
-export function getCachedSession(): any {
-    const local = localStorage ? localStorage.getItem("walletconnect") : null;
 
-    let session = null;
-    if (local) {
-        try {
-            session = JSON.parse(local);
-        } catch (error) {
-            throw error;
-        }
-    }
-    return session;
-}
-
-/*
-
-
-
- */
 
 export async function approveWalletConnect(proposal: any, accounts: Array<string>) {
     let tag = " | approveWalletConnect | "
@@ -57,8 +40,8 @@ export async function approveWalletConnect(proposal: any, accounts: Array<string
         log.info(tag, "debug: ", JSON.stringify({ chainId: 1, accounts }))
         const approve = await walletConnectClient.approveSession({ chainId: 1, accounts })
         log.info(tag, "approve response: ", approve)
-        if (windows.mainWindow && !windows.mainWindow.isDestroyed()) 
-        windows.mainWindow.webContents.send('@walletconnect/paired', proposal.params[0]?.peerMeta)
+        if (windows.mainWindow && !windows.mainWindow.isDestroyed())
+            windows.mainWindow.webContents.send('@walletconnect/paired', proposal.params[0]?.peerMeta)
     } catch (e) {
         log.error(e)
     }
@@ -96,17 +79,24 @@ session_request
 
  */
 
-export async function pairWalletConnect(event: any, payload: any) {
+export async function pairWalletConnect(event: any, uri?: string, session?: any) {
     let tag = " | pairWalletConnect | "
     try {
-        log.info(tag, "payload: ", payload)
+        log.info(tag, "uri: ", uri)
+        log.info(tag, "session: ", session)
         //connect to URI
-        walletConnectClient = new WalletConnect({ uri: payload });
+        if (uri) walletConnectClient = new WalletConnect({ uri });
+        if (session) walletConnectClient = new WalletConnect({ session });
 
         if (!walletConnectClient.connected) {
             let success = await walletConnectClient.createSession();
             log.info(tag, "success: ", success)
+        } else {
+            if (walletConnectClient.session.peerMeta)
+                event.sender.send('@walletconnect/paired', walletConnectClient.session.peerMeta)
         }
+
+        updateWalletconnectSession(walletConnectClient.session)
 
         walletConnectClient.on("session_request", (error, payload) => {
             console.log("EVENT", "session_request");
@@ -245,7 +235,7 @@ export async function pairWalletConnect(event: any, payload: any) {
             }
 
 
-           
+
             log.info(tag, "HDwalletPayload: ", HDwalletPayload)
             const internalNonce = uniqueId()
             let args = {
@@ -282,7 +272,7 @@ export async function pairWalletConnect(event: any, payload: any) {
             log.info(tag, "args: ", JSON.stringify(args))
 
             openSignTxWindow(args)
-        
+
             ipcMain.once(`@account/tx-signed-${internalNonce}`, async (event, data) => {
                 const tag = ' | onSignedTx | '
                 if (data.nonce === internalNonce) {
@@ -357,29 +347,24 @@ export async function pairWalletConnect(event: any, payload: any) {
         walletConnectClient.on("connect", (error, payload) => {
             console.log("EVENT", "connect");
             console.log("payload: ", payload);
-
+            updateWalletconnectSession(walletConnectClient.session)
         });
 
         walletConnectClient.on("session_update", (error, payload) => {
             console.log("EVENT", "session_update");
             console.log("payload: ", payload);
-
-        });
-
-        walletConnectClient.on("connect", (error, payload) => {
-            console.log("EVENT", "connect");
-            console.log("payload: ", payload);
-
+            updateWalletconnectSession(walletConnectClient.session)
         });
 
         walletConnectClient.on("disconnect", (error, payload) => {
             console.log("EVENT", "disconnect");
             console.log("payload: ", payload);
-
+            updateWalletconnectSession(walletConnectClient.session)
         });
 
         ipcMain.on('@walletconnect/disconnect', (event, data) => {
             walletConnectClient.killSession()
+            updateWalletconnectSession(undefined)
         })
 
         // //TODO UX pairing
@@ -389,22 +374,25 @@ export async function pairWalletConnect(event: any, payload: any) {
     }
 }
 
-
-export async function createWalletConnectClient(event: IpcMainEvent) {
-    let tag = " | createWalletConnectClient | "
-    try {
-        //
-        const session = getCachedSession();
-        log.info(tag, "session: ", session)
-
-        if (session) {
-            walletConnectClient = new WalletConnect({ session });
-        } else {
-            log.info(tag, "no session found!")
-        }
-
-    } catch (e) {
-        log.error(e)
+export const updateWalletconnectSession = (newSession: any) => new Promise<void>(async (resolve, reject) => {
+    const currentSession = await getWalletconnectSession()
+    if (!currentSession) {
+        db.insert({ type: 'walletconnect-session', session: newSession })
+        return resolve(newSession)
     }
-}
+    if (!newSession) {
+        db.remove({ type: 'walletconnect-session' })
+        return resolve(newSession)
+    }
+    db.update({ type: 'walletconnect-session' }, { type: 'walletconnect-session', session: newSession })
+    return resolve(newSession)
+})
+
+export const getWalletconnectSession = () => new Promise<any>((resolve, reject) => {
+    db.findOne({ type: 'walletconnect-session' }, (err, doc) => {
+        if (err) return reject()
+        if (!doc) return resolve(undefined)
+        return resolve(doc.session)
+    })
+})
 
