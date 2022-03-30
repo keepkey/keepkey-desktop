@@ -1,6 +1,6 @@
 {
   "name": "keepkey-desktop",
-  "version": "0.1.46",
+  "version": "0.1.47",
   "author": "Highlander <bithighlander@gmail.com>",
   "email": "bithighlander@gmail.com",
   "private": true,
@@ -197,6 +197,14 @@
       "target": [
         "dmg",
         "zip"
+      ],
+      "protocols": [
+        {
+          "name": "Keepkey Desktop",
+          "schemes": [
+            "keepkey"
+          ]
+        }
       ]
     },
     "win": {

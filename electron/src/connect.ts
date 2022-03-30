@@ -79,11 +79,13 @@ session_request
 
  */
 
-export async function pairWalletConnect(event: any, uri?: string, session?: any) {
+export async function pairWalletConnect(uri?: string, session?: any) {
     let tag = " | pairWalletConnect | "
     try {
         log.info(tag, "uri: ", uri)
         log.info(tag, "session: ", session)
+
+        if (!uri && !session) return
         //connect to URI
         if (uri) walletConnectClient = new WalletConnect({ uri });
         if (session) walletConnectClient = new WalletConnect({ session });
@@ -92,8 +94,8 @@ export async function pairWalletConnect(event: any, uri?: string, session?: any)
             let success = await walletConnectClient.createSession();
             log.info(tag, "success: ", success)
         } else {
-            if (walletConnectClient.session.peerMeta)
-                event.sender.send('@walletconnect/paired', walletConnectClient.session.peerMeta)
+            if (walletConnectClient.session.peerMeta && windows.mainWindow && !windows.mainWindow.isDestroyed())
+                windows.mainWindow.webContents.send('@walletconnect/paired', walletConnectClient.session.peerMeta)
         }
 
         updateWalletconnectSession(walletConnectClient.session)
@@ -108,11 +110,13 @@ export async function pairWalletConnect(event: any, uri?: string, session?: any)
                 data: payload,
                 nonce
             }))
-            event.sender.send("@modal/pair", {
-                type: 'walletconnect',
-                data: payload,
-                nonce
-            });
+
+            if (windows.mainWindow && !windows.mainWindow.isDestroyed())
+                windows.mainWindow.webContents.send("@modal/pair", {
+                    type: 'walletconnect',
+                    data: payload,
+                    nonce
+                });
 
             //
             ipcMain.once(`@walletconnect/approve-${nonce}`, (event, data) => {
