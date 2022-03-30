@@ -197,6 +197,14 @@
       "target": [
         "dmg",
         "zip"
+      ],
+      "protocols": [
+        {
+          "name": "Keepkey Desktop",
+          "schemes": [
+            "keepkey"
+          ]
+        }
       ]
     },
     "win": {
