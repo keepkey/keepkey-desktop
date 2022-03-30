@@ -34,5 +34,5 @@ export const openSignTxWindow = async (signArgs: any) => {
 export const getWallectConnectUri = (inputUri: string): string | undefined => {
     const uri = inputUri.replace("keepkey://", "")
     if (!uri.startsWith('wc')) return
-    else return decodeURIComponent(uri.replace("wc/?uri=", ""))
+    else return decodeURIComponent(uri.replace("wc/?uri=", "").replace("wc?uri=", ""))
 }
