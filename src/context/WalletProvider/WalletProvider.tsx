@@ -346,11 +346,14 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     //   firmware.open({})
     // })
 
-    const openHardwareError = useCallback((event, data) => {
-      if (!onboard.isOpen) hardwareError.open(data)
+    useEffect(() => {
+      ipcRenderer.on('openHardwareError', (event, data) => {
+        if (!onboard.isOpen) hardwareError.open(data)
+      })
+
+      return () => { ipcRenderer.removeAllListeners('openHardwareError') }
     }, [onboard.isOpen])
 
-    ipcRenderer.on('openHardwareError', openHardwareError)
 
     ipcRenderer.on('closeHardwareError', (event, data) => {
       hardwareError.close()
