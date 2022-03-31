@@ -1,5 +1,6 @@
 import { ipcMain } from "electron";
 import { createWindow, windows } from "./main";
+import log from 'electron-log'
 
 export const openSignTxWindow = async (signArgs: any) => {
     let prevContentSize = { width: 0, height: 0 }
@@ -28,4 +29,10 @@ export const openSignTxWindow = async (signArgs: any) => {
         }
         else if (windows.mainWindow.closable) windows.mainWindow.close()
     })
+}
+
+export const getWallectConnectUri = (inputUri: string): string | undefined => {
+    const uri = inputUri.replace("keepkey://", "")
+    if (!uri.startsWith('wc')) return
+    else return decodeURIComponent(uri.replace("wc/?uri=", "").replace("wc?uri=", ""))
 }

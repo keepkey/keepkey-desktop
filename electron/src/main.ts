@@ -38,7 +38,7 @@ import path from 'path'
 import isDev from 'electron-is-dev'
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
-import { app, BrowserWindow, nativeTheme, ipcMain, shell } from 'electron'
+import { app, BrowserWindow, nativeTheme, ipcMain, shell, protocol } from 'electron'
 import usb from 'usb'
 import AutoLaunch from 'auto-launch'
 import * as Sentry from "@sentry/electron";
@@ -67,6 +67,7 @@ import { isWin, isLinux, ALLOWED_HOSTS } from './constants'
 import { db } from './db'
 import { getWalletconnectSession, pairWalletConnect, walletConnectClient } from './connect'
 import { Settings } from './settings'
+import { getWallectConnectUri } from './utils'
 
 export const settings = new Settings()
 
@@ -193,9 +194,11 @@ export const createWindow = () => new Promise<boolean>(async (resolve, reject) =
 
     ipcMain.on('@wallet/connected', async (event, data) => {
         resolve(true)
+        const walletConnectUri = getWallectConnectUri(process.argv[process.argv.length - 1])
+        if (walletConnectUri) pairWalletConnect(walletConnectUri)
         const previousSession = await getWalletconnectSession()
-        if (!walletConnectClient && previousSession) {
-            pairWalletConnect(event, undefined, previousSession)
+        if (!walletConnectClient && previousSession && !walletConnectUri) {
+            pairWalletConnect(undefined, previousSession)
         }
     })
 
@@ -241,19 +244,30 @@ app.on('ready', async () => {
     })
 })
 
+if (!isWin) {
+    app.on('open-url', (event, url) => {
+        const walletConnectUri = getWallectConnectUri(url)
+        if (walletConnectUri) pairWalletConnect(walletConnectUri)
+    })
+}
+
 if (!instanceLock) {
     app.quit();
 } else {
-    app.on("second-instance", (event, argv, workingDirectory) => {
+    app.on("second-instance", async (event, argv, workingDirectory) => {
         if (windows.mainWindow) {
             if (windows.mainWindow.isDestroyed()) {
-                createWindow();
+               await createWindow();
             } else if (windows.mainWindow.isMinimized()) {
                 windows.mainWindow.restore();
             }
             windows.mainWindow.focus();
         } else {
-            createWindow();
+           await createWindow();
+        }
+        if (isWin) {
+            const walletConnectUri = getWallectConnectUri(argv[argv.length - 1])
+            if (walletConnectUri) pairWalletConnect(walletConnectUri)
         }
     });
 }
@@ -471,7 +485,7 @@ ipcMain.on('@walletconnect/pair', async (event, data) => {
     const tag = TAG + ' | onPairWalletConnect | '
     console.log(data)
     try {
-        pairWalletConnect(event, data)
+        pairWalletConnect(data)
     } catch (e) {
         log.error(tag, e)
     }
