@@ -14,10 +14,11 @@ import { updateMenu } from '../tray'
 import { db } from '../db'
 import { RegisterRoutes } from './routes/routes'
 import { KeepKeyHDWallet, TransportDelegate } from '@shapeshiftoss/hdwallet-keepkey'
-import { windows } from '../main'
+import { appStartCalled, windows } from '../main'
 import { updateConfig } from "keepkey-config";
 import { shared } from "../shared";
 import { KeepKey } from '@keepkey/keepkey-hardware-controller'
+import { IpcQueueItem } from './types'
 
 const Controller = new KeepKey({})
 
@@ -32,7 +33,7 @@ if (!swaggerDocument) throw Error("Failed to load API SPEC!")
 
 export let server: Server
 export let bridgeRunning = false
-
+const ipcQueue = new Array<IpcQueueItem>()
 
 export const keepkey: {
     STATE: number,
@@ -51,6 +52,13 @@ export const keepkey: {
 }
 
 export const start_bridge = (port?: number) => new Promise<void>(async (resolve, reject) => {
+    ipcMain.on('@app/start', (event, data) => {
+        ipcQueue.forEach((item, idx) => {
+            log.info('ipcEventCalledFromQueue: ' + item.eventName)
+            windows.mainWindow?.webContents.send(item.eventName, item.args)
+            ipcQueue.splice(idx, 1);
+        })
+    })
     let tag = " | start_bridge | "
     try {
 
@@ -90,7 +98,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
             server = appExpress.listen(API_PORT, () => {
                 windows.mainWindow?.webContents.send('playSound', { sound: 'success' })
                 log.info(`server started at http://localhost:${API_PORT}`)
-                windows?.mainWindow?.webContents.send('closeHardwareError', {})
+                queueIpcEvent('closeHardwareError', {})
                 // keepkey.STATE = 3
                 // keepkey.STATUS = 'bridge online'
                 // windows.mainWindow?.webContents.send('setKeepKeyState', { state: keepkey.STATE })
@@ -121,17 +129,17 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                 switch (event.state) {
                     case 0:
                         log.info(tag, "No Devices connected")
-                        windows?.mainWindow?.webContents.send('closeBootloaderUpdate', {})
-                        windows?.mainWindow?.webContents.send('closeFirmwareUpdate', {})
-                        windows?.mainWindow?.webContents.send('openHardwareError', { error: event.error, code: event.code, event })
+                        queueIpcEvent('closeBootloaderUpdate', {})
+                        queueIpcEvent('closeFirmwareUpdate', {})
+                        queueIpcEvent('openHardwareError', { error: event.error, code: event.code, event })
                         break;
                     case 1:
                         windows.mainWindow?.webContents.send('setUpdaterMode', true)
                         break;
                     case 4:
-                        windows?.mainWindow?.webContents.send('closeHardwareError', { error: event.error, code: event.code, event })
-                        windows?.mainWindow?.webContents.send('closeBootloaderUpdate', {})
-                        windows?.mainWindow?.webContents.send('closeFirmwareUpdate', {})
+                        queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
+                        queueIpcEvent('closeBootloaderUpdate', {})
+                        queueIpcEvent('closeFirmwareUpdate', {})
                         //launch init seed window?
                         log.info("Setting device controller: ", Controller)
                         keepkey.device = Controller.device
@@ -139,7 +147,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                         keepkey.transport = Controller.transport
                         break;
                     case 5:
-                        windows?.mainWindow?.webContents.send('closeHardwareError', { error: event.error, code: event.code, event })
+                        queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
                         log.info("Setting device Controller: ", Controller)
                         keepkey.device = Controller.device
                         keepkey.wallet = Controller.wallet
@@ -153,7 +161,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
             //errors
             Controller.events.on('error', function (event) {
                 log.info("error event: ", event)
-                windows?.mainWindow?.webContents.send('openHardwareError', { error: event.error, code: event.code, event })
+                queueIpcEvent('openHardwareError', { error: event.error, code: event.code, event })
             })
 
             //logs
@@ -161,15 +169,15 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                 log.info("logs event: ", event)
                 if (event.bootloaderUpdateNeeded) {
                     log.info(tag, "Open Bootloader Update")
-                    windows?.mainWindow?.webContents.send('closeHardwareError', { error: event.error, code: event.code, event })
-                    // windows?.mainWindow?.webContents.send('openBootloaderUpdate', event)
-                    windows?.mainWindow?.webContents.send('@onboard/open', event)
+                    queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
+                    // queueIpcEvent('openBootloaderUpdate', event)
+                    queueIpcEvent('@onboard/open', event)
                 }
 
                 if (event.firmwareUpdateNeeded) {
                     log.info(tag, "Open Firmware Update")
-                    windows?.mainWindow?.webContents.send('closeHardwareError', { error: event.error, code: event.code, event })
-                    windows?.mainWindow?.webContents.send('openFirmwareUpdate', event)
+                    queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
+                    queueIpcEvent('openFirmwareUpdate', event)
                 }
             })
             //Init MUST be AFTER listeners are made (race condition)
@@ -261,3 +269,14 @@ export const stop_bridge = () => new Promise<void>((resolve, reject) => {
         reject()
     }
 })
+
+const queueIpcEvent = (eventName: string, args: any) => {
+    if (!appStartCalled) {
+        log.info('ipcEventQueued: ' + eventName)
+        return ipcQueue.push({ eventName, args })
+    }
+    else if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
+        log.info('ipcEventCalled: ' + eventName)
+        return windows.mainWindow.webContents.send(eventName, args)
+    }
+}
