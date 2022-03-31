@@ -43,18 +43,37 @@ export const OnboardModal = () => {
 
   const content = (
       <Flex py={4}>
-        <small>blablabla</small>
+        <small></small>
+      </Flex>
+  );
+
+  const content1 = (
+      <Flex py={4}>
+        <small></small>
+      </Flex>
+  );
+
+  const content2 = (
+      <Flex py={4}>
+        <small></small>
+      </Flex>
+  );
+
+  const content3 = (
+      <Flex py={4}>
+        <small></small>
       </Flex>
   );
 
   const steps = [
-    { label: 'Step 1', content },
-    { label: 'Step 2', content },
-    { label: 'Step 3', content },
+    { label: 'Update Bootloader', content1 },
+    { label: 'Update Firmware', content2 },
+    { label: 'Initialize KeepKey', content3 },
   ];
   const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
+  // @ts-ignore
   return (
     <Modal
       isOpen={isOpen}
