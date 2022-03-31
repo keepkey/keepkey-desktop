@@ -17,7 +17,6 @@ import { Row } from '../../../Row/Row'
 export const BootloaderModal = () => {
   const { keepkey } = useWallet()
   const [loading, setLoading] = useState(false)
-  const { bootloader } = useModal()
 
   const [kkConnect, setKKConnect] = useState(KeepKeyConnect)
   const [kkRelease, setKKRelease] = useState(KeepKeyRelease)
@@ -33,7 +32,7 @@ export const BootloaderModal = () => {
   }
 
   return (
-    <div>
+    <div id="meowmeow">
       {loading ? (
         <div>
           <Spinner />

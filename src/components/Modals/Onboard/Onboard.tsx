@@ -51,9 +51,9 @@ export const OnboardModal = () => {
   );
 
   const steps = [
-    { label: 'Step 1', content: BootloaderModal },
-    { label: 'Step 2', content: FirmwareModal },
-    { label: 'Step 3', content: InitializeModal },
+    { label: 'Step 1', Content: BootloaderModal },
+    { label: 'Step 2', Content: FirmwareModal },
+    { label: 'Step 3', Content: InitializeModal },
   ];
   const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
     initialStep: 0,
@@ -81,9 +81,9 @@ export const OnboardModal = () => {
           <div>
             <Flex flexDir="column" width="100%">
               <Steps activeStep={activeStep}>
-                {steps.map(({ label, content }) => (
+                {steps.map(({ label, Content }) => (
                     <Step label={label} key={label}>
-                      {content}
+                      <Content />
                     </Step>
                 ))}
               </Steps>
