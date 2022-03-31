@@ -21,9 +21,9 @@ import { getAssetUrl } from 'lib/getAssetUrl'
 import { Step, Steps, useSteps } from 'chakra-ui-steps';
 
 import { Row } from '../../Row/Row'
-import { BootloaderModal } from './stages/Bootloader'
-import { FirmwareModal } from './stages/Firmware'
-import { InitializeModal } from './stages/Initialize'
+import { BootloaderModal } from './steps/Bootloader'
+import { FirmwareModal } from './steps/Firmware'
+import { InitializeModal } from './steps/Initialize'
 
 export const OnboardModal = () => {
   const { keepkey } = useWallet()
