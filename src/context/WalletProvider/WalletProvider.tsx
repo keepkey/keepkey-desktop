@@ -247,16 +247,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   }, [state.keyring])
 
   //onStart()
-
-  useEffect(() => {
-    ipcRenderer.on('openHardwareError', (event, data) => {
-      if (!onboard.isOpen) hardwareError.open(data)
-    })
-
-    return () => { ipcRenderer.removeAllListeners('openHardwareError') }
-  }, [onboard.isOpen])
-
-
   useEffect(() => {
     if (!state.wallet) {
       //hardwareError.open({})
@@ -356,6 +346,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     //   firmware.open({})
     // })
 
+    ipcRenderer.on('openHardwareError', (event, data) => {
+      hardwareError.open(data)
+    })
 
     ipcRenderer.on('closeHardwareError', (event, data) => {
       hardwareError.close()

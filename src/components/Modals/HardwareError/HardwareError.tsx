@@ -17,7 +17,7 @@ import { useModal } from 'context/ModalProvider/ModalProvider'
 import { getAssetUrl } from '../../../lib/getAssetUrl'
 
 export const HardwareErrorModal = (error: any) => {
-  const { hardwareError } = useModal()
+  const { hardwareError, onboard } = useModal()
   const { close, isOpen } = hardwareError
 
   const [kkConnect, setKKConnect] = useState(KeepKeyConnect)
@@ -28,6 +28,10 @@ export const HardwareErrorModal = (error: any) => {
   // if(error.errorCode === 1){
   //   errorNoDevice = true
   // }}
+
+  useEffect(() => {
+    if (onboard.isOpen && isOpen) close()
+  }, [isOpen, onboard.isOpen])
 
   const HandleTroubleShoot = async () => {
     //
