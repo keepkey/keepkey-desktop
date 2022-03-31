@@ -46,7 +46,7 @@ export const OnboardModal = () => {
 
   const content = (
       <Flex py={4}>
-        <small>blablabla</small>
+        <small></small>
       </Flex>
   );
 
@@ -58,6 +58,7 @@ export const OnboardModal = () => {
   const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
+  // @ts-ignore
   return (
     <Modal
       isOpen={isOpen}
