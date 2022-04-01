@@ -55,7 +55,7 @@ export const OnboardModal = (event: any) => {
   useEffect(() => {
     if (currentEvent.bootloaderUpdateNeeded) setStep(0)
     if (currentEvent.firmwareUpdateNeeded) setStep(1)
-  }, [event])
+  }, [currentEvent])
 
   const steps = [
     { label: 'Update Bootloader', Content: BootloaderModal },
