@@ -222,7 +222,10 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
             Controller.events.on('logs', function (event) {
                 log.info("logs event: ", event)
                 queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
-                if (event.bootloaderUpdateNeeded || event.firmwareUpdateNeeded) queueIpcEvent('@onboard/open', event)
+                if (event.bootloaderUpdateNeeded || event.firmwareUpdateNeeded) {
+                    queueIpcEvent('@onboard/open', event)
+                    queueIpcEvent('@onboard/state', event)
+                }
             })
             //Init MUST be AFTER listeners are made (race condition)
             Controller.init()
