@@ -12,7 +12,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { CircularProgress } from 'components/CircularProgress/CircularProgress'
 import { Text } from 'components/Text'
-import { useModal } from 'context/ModalProvider/ModalProvider'
 import { KeyManager, SUPPORTED_WALLETS } from 'context/WalletProvider/config'
 import { setLocalWalletTypeAndDeviceId } from 'context/WalletProvider/local-wallet'
 
@@ -50,7 +49,7 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
   const { dispatch, state, connect } = useWallet()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { initialize } = useModal()
+  // const { initialize } = useModal()
   // eslint-disable-next-line no-sequences
   const setErrorLoading = (e: string | null) => (setError(e), setLoading(false))
 
@@ -89,7 +88,7 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
         let features = await wallet.getFeatures()
         ipcRenderer.send('@keepkey/info', features)
         if (!features.initialized) {
-          initialize.open({})
+          // initialize.open({})
         } else {
           // Show the label from the wallet instead of a generic name
           const label = (await wallet.getLabel()) || name
@@ -131,7 +130,7 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
       }
     }
     setLoading(false)
-  }, [state.adapters, dispatch, history, initialize, state.keyring])
+  }, [state.adapters, dispatch, history, state.keyring])
 
   useEffect(() => {
     let tries = 0

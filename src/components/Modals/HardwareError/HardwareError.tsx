@@ -31,7 +31,7 @@ export const HardwareErrorModal = (error: any) => {
 
   useEffect(() => {
     if (onboard.isOpen && isOpen) close()
-  }, [isOpen, onboard.isOpen])
+  }, [isOpen, onboard.isOpen, close])
 
   const HandleTroubleShoot = async () => {
     //

@@ -68,7 +68,7 @@ export const useKeepKeyEventHandler = (state: KeyringState, dispatch: Dispatch<A
           let features = await wallet.getFeatures()
           ipcRenderer.send('@keepkey/info', features)
           if (!features.initialized) {
-           // initialize.open({})
+            // initialize.open({})
           }
           // Show the label from the wallet instead of a generic name
           const name = (await wallet.getLabel()) || state.walletInfo.name
