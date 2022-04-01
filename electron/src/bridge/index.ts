@@ -119,7 +119,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
 
         try {
             log.info("Starting Hardware Controller")
-            
+
             //Starts with no device
 
             // //simuate connection of OOB keepkey
@@ -182,7 +182,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
 
             //push log needs firmware
 
-            let updateState = function(event:any){
+            let updateState = function (event: any) {
                 keepkey.STATE = event.state
                 keepkey.STATUS = event.status
 
@@ -218,19 +218,12 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                 }
             }
 
-            let pushLog = function(event:any){
+            let pushLog = function (event: any) {
                 log.info("logs event: ", event)
-                if (event.bootloaderUpdateNeeded) {
-                    log.info(tag, "Open Bootloader Update")
+                if (event.bootloaderUpdateNeeded || event.firmwareUpdateNeeded) {
                     queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
-                    // queueIpcEvent('openBootloaderUpdate', event)
                     queueIpcEvent('@onboard/open', event)
-                }
-
-                if (event.firmwareUpdateNeeded) {
-                    log.info(tag, "Open Firmware Update")
-                    queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
-                    queueIpcEvent('openFirmwareUpdate', event)
+                    queueIpcEvent('@onboard/state', event)
                 }
             }
 
@@ -283,8 +276,8 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
             //logs
             Controller.events.on('logs', function (event) {
                 log.info("logs event: ", event)
-                queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
                 if (event.bootloaderUpdateNeeded || event.firmwareUpdateNeeded) {
+                    queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
                     queueIpcEvent('@onboard/open', event)
                     queueIpcEvent('@onboard/state', event)
                 }
