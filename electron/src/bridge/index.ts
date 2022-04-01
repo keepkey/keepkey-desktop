@@ -283,18 +283,8 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
             //logs
             Controller.events.on('logs', function (event) {
                 log.info("logs event: ", event)
-                if (event.bootloaderUpdateNeeded) {
-                    log.info(tag, "Open Bootloader Update")
-                    queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
-                    // queueIpcEvent('openBootloaderUpdate', event)
-                    queueIpcEvent('@onboard/open', event)
-                }
-
-                if (event.firmwareUpdateNeeded) {
-                    log.info(tag, "Open Firmware Update")
-                    queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
-                    queueIpcEvent('openFirmwareUpdate', event)
-                }
+                queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
+                if (event.bootloaderUpdateNeeded || event.firmwareUpdateNeeded) queueIpcEvent('@onboard/open', event)
             })
             //Init MUST be AFTER listeners are made (race condition)
             Controller.init()
