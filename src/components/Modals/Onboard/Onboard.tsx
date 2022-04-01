@@ -21,8 +21,9 @@ import { useModal } from 'context/ModalProvider/ModalProvider'
 import { BootloaderModal } from './steps/Bootloader'
 import { FirmwareModal } from './steps/Firmware'
 import { InitializeModal } from './steps/Initialize'
+import { useEffect } from 'react'
 
-export const OnboardModal = () => {
+export const OnboardModal = (event: any) => {
   const { onboard } = useModal()
   const { close, isOpen } = onboard
 
@@ -40,14 +41,21 @@ export const OnboardModal = () => {
   //   ipcRenderer.send('@keepkey/update-firmware', {})
   // }
 
+  const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
+    initialStep: 0,
+  });
+
+  useEffect(() => {
+    if (event.bootloaderUpdateNeeded) setStep(0)
+    if (event.firmwareUpdateNeeded) setStep(1)
+  }, [event])
+
   const steps = [
     { label: 'Update Bootloader', Content: BootloaderModal },
     { label: 'Update Firmware', Content: FirmwareModal },
     { label: 'Initialize KeepKey', Content: InitializeModal },
   ];
-  const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
-    initialStep: 0,
-  });
+
   // @ts-ignore
   return (
     <Modal
