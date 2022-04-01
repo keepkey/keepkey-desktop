@@ -51,9 +51,9 @@ export const OnboardModal = () => {
   );
 
   const steps = [
-    { label: 'Step 1', Content: BootloaderModal },
-    { label: 'Step 2', Content: FirmwareModal },
-    { label: 'Step 3', Content: InitializeModal },
+    { label: 'Update Bootloader', Content: BootloaderModal },
+    { label: 'Update Firmware', Content: FirmwareModal },
+    { label: 'Initialize KeepKey', Content: InitializeModal },
   ];
   const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
     initialStep: 0,

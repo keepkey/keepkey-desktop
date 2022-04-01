@@ -119,6 +119,60 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
         try {
             log.info("Starting Hardware Controller")
             //start hardware controller
+            // let pushStateNoDevice = function(){
+            //     let event = { prevState: 1, state: 0, status: 'no devices' }
+            //     updateState(event)
+            //
+            // }
+            // setTimeout(pushStateNoDevice,15000)
+            //
+            // //push event open in bootloader mode
+            // let pushStateBootloaderMode = function(){
+            //     let event = { prevState: 0, state: 1, status: 'Bootloader mode' }
+            //     updateState(event)
+            // }
+            // setTimeout(pushStateBootloaderMode,30000)
+            //
+            // setTimeout(pushStateNoDevice,45000)
+            //
+            // setTimeout(pushStateNoDevice,45000)
+            //
+            // let updateState = function(event:any){
+            //     keepkey.STATE = event.state
+            //     keepkey.STATUS = event.status
+            //
+            //     switch (event.state) {
+            //         case 0:
+            //             log.info(tag, "No Devices connected")
+            //             queueIpcEvent('closeBootloaderUpdate', {})
+            //             queueIpcEvent('closeFirmwareUpdate', {})
+            //             queueIpcEvent('openHardwareError', { error: event.error, code: event.code, event })
+            //             break;
+            //         case 1:
+            //             windows.mainWindow?.webContents.send('setUpdaterMode', true)
+            //             break;
+            //         case 4:
+            //             queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
+            //             queueIpcEvent('closeBootloaderUpdate', {})
+            //             queueIpcEvent('closeFirmwareUpdate', {})
+            //             //launch init seed window?
+            //             log.info("Setting device controller: ", Controller)
+            //             keepkey.device = Controller.device
+            //             keepkey.wallet = Controller.wallet
+            //             keepkey.transport = Controller.transport
+            //             break;
+            //         case 5:
+            //             queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
+            //             log.info("Setting device Controller: ", Controller)
+            //             keepkey.device = Controller.device
+            //             keepkey.wallet = Controller.wallet
+            //             keepkey.transport = Controller.transport
+            //             break;
+            //         default:
+            //         //unhandled
+            //     }
+            // }
+
             //sub ALL events
             //state
             Controller.events.on('state', function (event) {
@@ -165,21 +219,21 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
             })
             queueIpcEvent('@onboard/open', {})
             //logs
-            // Controller.events.on('logs', function (event) {
-            //     log.info("logs event: ", event)
-            //     if (event.bootloaderUpdateNeeded) {
-            //         log.info(tag, "Open Bootloader Update")
-            //         queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
-            //         // queueIpcEvent('openBootloaderUpdate', event)
-            //         queueIpcEvent('@onboard/open', event)
-            //     }
+            Controller.events.on('logs', function (event) {
+                log.info("logs event: ", event)
+                if (event.bootloaderUpdateNeeded) {
+                    log.info(tag, "Open Bootloader Update")
+                    queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
+                    // queueIpcEvent('openBootloaderUpdate', event)
+                    queueIpcEvent('@onboard/open', event)
+                }
 
-            //     if (event.firmwareUpdateNeeded) {
-            //         log.info(tag, "Open Firmware Update")
-            //         queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
-            //         queueIpcEvent('openFirmwareUpdate', event)
-            //     }
-            // })
+                if (event.firmwareUpdateNeeded) {
+                    log.info(tag, "Open Firmware Update")
+                    queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
+                    queueIpcEvent('openFirmwareUpdate', event)
+                }
+            })
             //Init MUST be AFTER listeners are made (race condition)
             Controller.init()
 
