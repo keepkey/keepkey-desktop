@@ -26,7 +26,8 @@ const appExpress = express()
 appExpress.use(cors())
 appExpress.use(bodyParser.urlencoded({ extended: true }))
 appExpress.use(bodyParser.json())
-
+import wait from 'wait-promise'
+const sleep = wait.sleep;
 //OpenApi spec generated from template project https://github.com/BitHighlander/keepkey-bridge
 const swaggerDocument = require(path.join(__dirname, '../../api/dist/swagger.json'))
 if (!swaggerDocument) throw Error("Failed to load API SPEC!")
@@ -118,14 +119,32 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
 
         try {
             log.info("Starting Hardware Controller")
-            //start hardware controller
+            
+            //Starts with no device
+
+            // //simuate connection of OOB keepkey
+            // let pushLogNeedsBootloader = function(){
+            //     let event = {
+            //         prompt: 'update bootloader',
+            //         bootloaderUpdateNeeded: true,
+            //         firmware: undefined,
+            //         bootloader: 'v1.0.3',
+            //         recommendedBootloader: 'v1.1.0',
+            //         recommendedFirmware: 'v7.2.1'
+            //     }
+            //     pushLog(event)
+            // }
+            // setTimeout(pushLogNeedsBootloader,15000)
+            //
+            // //Simulate user unplug
             // let pushStateNoDevice = function(){
             //     let event = { prevState: 1, state: 0, status: 'no devices' }
             //     updateState(event)
             //
             // }
-            // setTimeout(pushStateNoDevice,15000)
+            // setTimeout(pushStateNoDevice,20000)
             //
+            // //Simulate user pluigin with bootloader mode
             // //push event open in bootloader mode
             // let pushStateBootloaderMode = function(){
             //     let event = { prevState: 0, state: 1, status: 'Bootloader mode' }
@@ -133,45 +152,88 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
             // }
             // setTimeout(pushStateBootloaderMode,30000)
             //
+            // //user updates booloader
+            //
+            // //simulate disconnect
             // setTimeout(pushStateNoDevice,45000)
             //
-            // setTimeout(pushStateNoDevice,45000)
+            // //TODO VERIFY SHOW USER TO GO BACK TO UPDATER MODE!
             //
-            // let updateState = function(event:any){
-            //     keepkey.STATE = event.state
-            //     keepkey.STATUS = event.status
+            // setTimeout(pushStateBootloaderMode,60000)
             //
-            //     switch (event.state) {
-            //         case 0:
-            //             log.info(tag, "No Devices connected")
-            //             queueIpcEvent('closeBootloaderUpdate', {})
-            //             queueIpcEvent('closeFirmwareUpdate', {})
-            //             queueIpcEvent('openHardwareError', { error: event.error, code: event.code, event })
-            //             break;
-            //         case 1:
-            //             windows.mainWindow?.webContents.send('setUpdaterMode', true)
-            //             break;
-            //         case 4:
-            //             queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
-            //             queueIpcEvent('closeBootloaderUpdate', {})
-            //             queueIpcEvent('closeFirmwareUpdate', {})
-            //             //launch init seed window?
-            //             log.info("Setting device controller: ", Controller)
-            //             keepkey.device = Controller.device
-            //             keepkey.wallet = Controller.wallet
-            //             keepkey.transport = Controller.transport
-            //             break;
-            //         case 5:
-            //             queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
-            //             log.info("Setting device Controller: ", Controller)
-            //             keepkey.device = Controller.device
-            //             keepkey.wallet = Controller.wallet
-            //             keepkey.transport = Controller.transport
-            //             break;
-            //         default:
-            //         //unhandled
+            // //user plugs in with no firmware but updated bootloader
+            // let pushLogNeedsFirmware = function(){
+            //     let event = {
+            //         prompt: 'update firmware',
+            //         firmwareUpdateNeeded: true,
+            //         firmware: undefined,
+            //         bootloader: 'v1.1.0',
+            //         recommendedBootloader: 'v1.1.0',
+            //         recommendedFirmware: 'v7.2.1'
             //     }
+            //     pushLog(event)
             // }
+            // setTimeout(pushLogNeedsFirmware,75000)
+
+            //simulate user updates firmware
+
+            //exit app
+            //open app
+
+            //push log needs firmware
+
+            let updateState = function(event:any){
+                keepkey.STATE = event.state
+                keepkey.STATUS = event.status
+
+                switch (event.state) {
+                    case 0:
+                        log.info(tag, "No Devices connected")
+                        queueIpcEvent('closeBootloaderUpdate', {})
+                        queueIpcEvent('closeFirmwareUpdate', {})
+                        queueIpcEvent('openHardwareError', { error: event.error, code: event.code, event })
+                        break;
+                    case 1:
+                        windows.mainWindow?.webContents.send('setUpdaterMode', true)
+                        break;
+                    case 4:
+                        queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
+                        queueIpcEvent('closeBootloaderUpdate', {})
+                        queueIpcEvent('closeFirmwareUpdate', {})
+                        //launch init seed window?
+                        log.info("Setting device controller: ", Controller)
+                        keepkey.device = Controller.device
+                        keepkey.wallet = Controller.wallet
+                        keepkey.transport = Controller.transport
+                        break;
+                    case 5:
+                        queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
+                        log.info("Setting device Controller: ", Controller)
+                        keepkey.device = Controller.device
+                        keepkey.wallet = Controller.wallet
+                        keepkey.transport = Controller.transport
+                        break;
+                    default:
+                    //unhandled
+                }
+            }
+
+            let pushLog = function(event:any){
+                log.info("logs event: ", event)
+                if (event.bootloaderUpdateNeeded) {
+                    log.info(tag, "Open Bootloader Update")
+                    queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
+                    // queueIpcEvent('openBootloaderUpdate', event)
+                    queueIpcEvent('@onboard/open', event)
+                }
+
+                if (event.firmwareUpdateNeeded) {
+                    log.info(tag, "Open Firmware Update")
+                    queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
+                    queueIpcEvent('openFirmwareUpdate', event)
+                }
+            }
+
 
             //sub ALL events
             //state
