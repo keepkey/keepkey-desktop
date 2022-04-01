@@ -1,14 +1,9 @@
-import {
-  Button,
-  Image,
-  Spinner
-} from '@chakra-ui/react'
+import { Button, Image, Spinner } from '@chakra-ui/react'
 import { ipcRenderer } from 'electron'
 import { useEffect, useState } from 'react'
 import KeepKeyConnect from 'assets/hold-and-connect.svg'
 import KeepKeyRelease from 'assets/hold-and-release.svg'
 import { Text } from 'components/Text'
-import { useModal } from 'context/ModalProvider/ModalProvider'
 import { useWallet } from 'context/WalletProvider/WalletProvider'
 import { getAssetUrl } from 'lib/getAssetUrl'
 
@@ -32,7 +27,7 @@ export const BootloaderModal = () => {
   }
 
   return (
-    <div id="meowmeow">
+    <div id='meowmeow'>
       {loading ? (
         <div>
           <Spinner />
@@ -73,8 +68,8 @@ export const BootloaderModal = () => {
               </Row>
               <Image src={kkConnect} alt='Approve Transaction On Device!' />
               <small>
-                Please disconnect, hold down button, and reconnect device to enter bootloader
-                mode to continue.
+                Please disconnect, hold down button, and reconnect device to enter bootloader mode
+                to continue.
               </small>
             </div>
           )}

@@ -1,6 +1,4 @@
-import {
-  Button,
-} from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Text } from 'components/Text'
 
