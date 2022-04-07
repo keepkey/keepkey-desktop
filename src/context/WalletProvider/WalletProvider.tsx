@@ -11,6 +11,7 @@ import React, {
   useMemo,
   useReducer
 } from 'react'
+import { useHistory } from 'react-router'
 import { useModal } from 'context/ModalProvider/ModalProvider'
 
 import { KeyManager, SUPPORTED_WALLETS } from './config'
@@ -208,8 +209,10 @@ const reducer = (state: InitialState, action: ActionTypes) => {
 const WalletContext = createContext<IWalletContext | null>(null)
 
 export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const { sign, pair, hardwareError, onboard } = useModal()
+  const { sign, pair, hardwareError } = useModal()
   const [state, dispatch] = useReducer(reducer, initialState)
+  const history = useHistory()
+
   useKeyringEventHandler(state)
   useKeepKeyEventHandler(state, dispatch)
   useNativeEventHandler(state, dispatch)
@@ -250,7 +253,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   useEffect(() => {
     if (!state.wallet) {
       //hardwareError.open({})
-      onboard.open({})
+      history.push('/onboarding')
       console.info('Starting bridge')
       ipcRenderer.send('@app/start', {
         username: keepkey.username,
@@ -266,11 +269,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     })
 
     ipcRenderer.on('@onboard/open', (event, data) => {
-      onboard.open({})
-    })
-
-    ipcRenderer.on('@onboard/close', (event, data) => {
-      onboard.close()
+      history.push('/flags')
     })
 
     //listen to events on main

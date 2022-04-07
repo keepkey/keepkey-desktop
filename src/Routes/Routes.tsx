@@ -34,6 +34,7 @@ import { Flags } from 'pages/Flags/Flags'
 import { PrivacyPolicy } from 'pages/Legal/PrivacyPolicy'
 import { TermsOfService } from 'pages/Legal/TermsOfService'
 import { NotFound } from 'pages/NotFound/NotFound'
+import { Onboarding } from 'pages/Onboarding/Onboarding'
 import { TransactionHistory } from 'pages/TransactionHistory/TransactionHistory'
 
 import { generateAppRoutes, Route as NestedRoute } from './helpers'
@@ -156,6 +157,12 @@ export const routes: Array<NestedRoute> = [
     label: 'navBar.apps',
     icon: <MdOutlineApps />,
     main: Apps
+  },
+  {
+    path: '/onboarding',
+    label: 'Onboarding',
+    hide: true,
+    main: Onboarding
   },
   {
     path: '/transaction-history',

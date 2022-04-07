@@ -7,10 +7,11 @@ import { Text } from 'components/Text'
 import { useWallet } from 'context/WalletProvider/WalletProvider'
 import { getAssetUrl } from 'lib/getAssetUrl'
 
-import { Row } from '../../../Row/Row'
+import { Row } from '../../../components/Row/Row'
 
-export const FirmwareModal = () => {
+export const BootloaderModal = () => {
   const { keepkey } = useWallet()
+  const [loading, setLoading] = useState(false)
 
   const [kkConnect, setKKConnect] = useState(KeepKeyConnect)
   const [kkRelease, setKKRelease] = useState(KeepKeyRelease)
@@ -20,15 +21,14 @@ export const FirmwareModal = () => {
     getAssetUrl(KeepKeyRelease).then(setKKRelease)
   }, [])
 
-  const HandleUpdateFirmware = async () => {
-    console.info('Updating firmware (firmware modal)')
-    // setLoadingFirmware(true)
-    ipcRenderer.send('@keepkey/update-firmware', {})
+  const HandleUpdateBootloader = async () => {
+    setLoading(true)
+    ipcRenderer.send('@keepkey/update-bootloader', {})
   }
 
   return (
-    <div>
-      {false ? (
+    <div id='meowmeow'>
+      {loading ? (
         <div>
           <Spinner />
         </div>
@@ -36,18 +36,27 @@ export const FirmwareModal = () => {
         <div>
           {keepkey.isInUpdaterMode ? (
             <div>
-              <Text translation={'modals.firmware.firmwareUpdate'} />
+              <h2>Updating Bootloader</h2>
               <small>click to perform action</small>
-              <Button isFullWidth size='lg' colorScheme='blue' onClick={HandleUpdateFirmware}>
-                <Text translation={'modals.firmware.continue'} />
+              <Button
+                isFullWidth
+                size='lg'
+                colorScheme='blue'
+                onClick={HandleUpdateBootloader}
+                disabled={loading}
+              >
+                <Text translation={'modals.bootloader.continue'} />
               </Button>
               <Image src={kkRelease} alt='Approve Transaction On Device!' />
             </div>
           ) : (
             <div>
+              <h3>
+                <Text translation={'modals.bootloader.cta'} />
+              </h3>
               <Row>
                 <Row.Label>
-                  <Text translation={'modals.firmware.bootloader'} />
+                  <Text translation={'modals.bootloader.bootloader'} />
                 </Row.Label>
                 <Row.Value>{keepkey?.bootloaderVersion}</Row.Value>
               </Row>
@@ -59,7 +68,8 @@ export const FirmwareModal = () => {
               </Row>
               <Image src={kkConnect} alt='Approve Transaction On Device!' />
               <small>
-                <Text translation={'modals.firmware.cta'} />
+                Please disconnect, hold down button, and reconnect device to enter bootloader mode
+                to continue.
               </small>
             </div>
           )}
