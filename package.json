@@ -209,6 +209,7 @@
     "win": {
       "icon": "electron/icon.png",
       "target": "nsis",
+      "certificateSubjectName": "Key",
       "publish": [
         "github"
       ]
