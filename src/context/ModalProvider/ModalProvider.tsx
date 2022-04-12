@@ -9,7 +9,6 @@ import { HardwareErrorModal } from 'components/Modals/HardwareError/HardwareErro
 import { PassphraseModal } from 'components/Modals/KeyManagement/KeepKey/Passphrase'
 import { PinModal } from 'components/Modals/KeyManagement/KeepKey/Pin'
 import { PasswordModal } from 'components/Modals/KeyManagement/Native/Password'
-import { OnboardModal } from 'components/Modals/Onboard/Onboard'
 import { PairModal } from 'components/Modals/Pair/Pair'
 import { PairedAppsModal } from 'components/Modals/PairedApps/PairedApps'
 import { ReceiveModal } from 'components/Modals/Receive/Receive'
@@ -36,8 +35,7 @@ const MODALS = {
   walletConnect: WalletConnectModal,
   hardwareError: HardwareErrorModal,
   appSettings: AppSettingsModal,
-  troubleshoot: TroubleshootModal,
-  onboard: OnboardModal
+  troubleshoot: TroubleshootModal
 }
 
 // state
