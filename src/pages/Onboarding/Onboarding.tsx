@@ -49,6 +49,7 @@ export const Onboarding = ({ route }: { route?: Route }) => {
     if (!currentEvent) return
     if (currentEvent.bootloaderUpdateNeeded) setStep(0)
     if (currentEvent.firmwareUpdateNeeded) setStep(1)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentEvent])
 
   const steps = [
