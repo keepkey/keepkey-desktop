@@ -253,7 +253,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   useEffect(() => {
     if (!state.wallet) {
       //hardwareError.open({})
-      history.push('/onboarding')
       console.info('Starting bridge')
       ipcRenderer.send('@app/start', {
         username: keepkey.username,
