@@ -39,7 +39,6 @@ import isDev from 'electron-is-dev'
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 import { app, BrowserWindow, nativeTheme, ipcMain, shell, protocol } from 'electron'
-import usb from 'usb'
 import AutoLaunch from 'auto-launch'
 import * as Sentry from "@sentry/electron";
 import { config as dotenvConfig } from 'dotenv'
@@ -91,6 +90,7 @@ let skipUpdateTimeout: NodeJS.Timeout
 let windowShowInterval: NodeJS.Timeout
 let shouldShowWindow = false;
 let skipUpdateCheckCompleted = false
+export let appStartCalled = false
 
 
 export const windows: {
@@ -257,13 +257,13 @@ if (!instanceLock) {
     app.on("second-instance", async (event, argv, workingDirectory) => {
         if (windows.mainWindow) {
             if (windows.mainWindow.isDestroyed()) {
-               await createWindow();
+                await createWindow();
             } else if (windows.mainWindow.isMinimized()) {
                 windows.mainWindow.restore();
             }
             windows.mainWindow.focus();
         } else {
-           await createWindow();
+            await createWindow();
         }
         if (isWin) {
             const walletConnectUri = getWallectConnectUri(argv[argv.length - 1])
@@ -492,6 +492,7 @@ ipcMain.on('@walletconnect/pair', async (event, data) => {
 })
 
 ipcMain.on('@app/start', async (event, data) => {
+    appStartCalled = true
     const tag = TAG + ' | onStartApp | '
     try {
         log.info(tag, 'event: onStartApp: ', data)

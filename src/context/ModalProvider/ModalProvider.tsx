@@ -4,11 +4,8 @@ import { GetStartedModal } from 'plugins/cosmos/components/modals/GetStarted/Get
 import { StakingModal } from 'plugins/cosmos/components/modals/Staking/Staking'
 import React, { useContext, useMemo, useReducer } from 'react'
 import { AppSettingsModal } from 'components/Modals/AppSettings/AppSettings'
-import { BootloaderModal } from 'components/Modals/Bootloader/Bootloader'
 import { FiatRampsModal } from 'components/Modals/FiatRamps/FiatRamps'
-import { FirmwareModal } from 'components/Modals/Firmware/Firmware'
 import { HardwareErrorModal } from 'components/Modals/HardwareError/HardwareError'
-import { InitializeModal } from 'components/Modals/Initialize/Initialize'
 import { PassphraseModal } from 'components/Modals/KeyManagement/KeepKey/Passphrase'
 import { PinModal } from 'components/Modals/KeyManagement/KeepKey/Pin'
 import { PasswordModal } from 'components/Modals/KeyManagement/Native/Password'
@@ -32,9 +29,6 @@ const MODALS = {
   sign: SignModal,
   pair: PairModal,
   pairedApps: PairedAppsModal,
-  firmware: FirmwareModal,
-  bootloader: BootloaderModal,
-  initialize: InitializeModal,
   fiatRamps: FiatRampsModal,
   cosmosGetStarted: GetStartedModal,
   cosmosStaking: StakingModal,

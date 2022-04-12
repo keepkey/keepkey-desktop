@@ -11,6 +11,7 @@ import React, {
   useMemo,
   useReducer
 } from 'react'
+import { useHistory } from 'react-router'
 import { useModal } from 'context/ModalProvider/ModalProvider'
 
 import { KeyManager, SUPPORTED_WALLETS } from './config'
@@ -208,8 +209,10 @@ const reducer = (state: InitialState, action: ActionTypes) => {
 const WalletContext = createContext<IWalletContext | null>(null)
 
 export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const { sign, pair, firmware, bootloader, hardwareError } = useModal()
+  const { sign, pair, hardwareError } = useModal()
   const [state, dispatch] = useReducer(reducer, initialState)
+  const history = useHistory()
+
   useKeyringEventHandler(state)
   useKeepKeyEventHandler(state, dispatch)
   useNativeEventHandler(state, dispatch)
@@ -249,7 +252,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   //onStart()
   useEffect(() => {
     if (!state.wallet) {
-      hardwareError.open({})
+      //hardwareError.open({})
+      history.push('/onboarding')
       console.info('Starting bridge')
       ipcRenderer.send('@app/start', {
         username: keepkey.username,
@@ -262,6 +266,10 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
     ipcRenderer.on('@walletconnect/paired', (event, data) => {
       dispatch({ type: WalletActions.SET_WALLET_CONNECT_APP, payload: data })
+    })
+
+    ipcRenderer.on('@onboard/open', (event, data) => {
+      history.push('/flags')
     })
 
     //listen to events on main
@@ -329,13 +337,13 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       keepkey.setNeedsBootloaderUpdate(false)
     })
 
-    ipcRenderer.on('onCompleteFirmwareUpload', (event, data) => {
-      firmware.close()
-    })
+    // ipcRenderer.on('onCompleteFirmwareUpload', (event, data) => {
+    //   firmware.close()
+    // })
 
-    ipcRenderer.on('openFirmwareUpdate', (event, data) => {
-      firmware.open({})
-    })
+    // ipcRenderer.on('openFirmwareUpdate', (event, data) => {
+    //   firmware.open({})
+    // })
 
     ipcRenderer.on('openHardwareError', (event, data) => {
       hardwareError.open(data)
@@ -345,13 +353,13 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       hardwareError.close()
     })
 
-    ipcRenderer.on('openBootloaderUpdate', (event, data) => {
-      bootloader.open({})
-    })
+    // ipcRenderer.on('openBootloaderUpdate', (event, data) => {
+    //   bootloader.open({})
+    // })
 
-    ipcRenderer.on('closeBootloaderUpdate', (event, data) => {
-      bootloader.close()
-    })
+    // ipcRenderer.on('closeBootloaderUpdate', (event, data) => {
+    //   bootloader.close()
+    // })
 
     //HDwallet API
     //TODO moveme into own file

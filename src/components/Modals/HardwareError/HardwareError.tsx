@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import { ipcRenderer } from 'electron'
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
 import KeepKeyConnect from 'assets/connect-keepkey.svg'
 import { Text } from 'components/Text'
 import { useModal } from 'context/ModalProvider/ModalProvider'
@@ -22,12 +23,19 @@ export const HardwareErrorModal = (error: any) => {
 
   const [kkConnect, setKKConnect] = useState(KeepKeyConnect)
 
+  const history = useHistory()
+
   // let errorNoDevice = false
   // let errorReconnectDevice = false
   //
   // if(error.errorCode === 1){
   //   errorNoDevice = true
   // }}
+
+  useEffect(() => {
+    console.log(history.location.pathname)
+    if (history.location.pathname === '/onboarding') close()
+  }, [history.location.pathname])
 
   const HandleTroubleShoot = async () => {
     //

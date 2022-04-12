@@ -9,7 +9,7 @@ import { FailureType, MessageType } from '../KeepKeyTypes'
 type KeyringState = Pick<InitialState, 'keyring' | 'walletInfo'>
 
 export const useKeepKeyEventHandler = (state: KeyringState, dispatch: Dispatch<ActionTypes>) => {
-  const { keepkeyPin, keepkeyPassphrase, initialize } = useModal()
+  const { keepkeyPin, keepkeyPassphrase } = useModal()
   const { keyring } = state
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export const useKeepKeyEventHandler = (state: KeyringState, dispatch: Dispatch<A
           let features = await wallet.getFeatures()
           ipcRenderer.send('@keepkey/info', features)
           if (!features.initialized) {
-            initialize.open({})
+            // initialize.open({})
           }
           // Show the label from the wallet instead of a generic name
           const name = (await wallet.getLabel()) || state.walletInfo.name
@@ -114,5 +114,5 @@ export const useKeepKeyEventHandler = (state: KeyringState, dispatch: Dispatch<A
       keyring.off(['*', '*', Events.CONNECT], handleConnect)
       keyring.off(['*', '*', Events.DISCONNECT], handleDisconnect)
     }
-  }, [dispatch, keepkeyPassphrase, keepkeyPin, keyring, state.walletInfo, initialize])
+  }, [dispatch, keepkeyPassphrase, keepkeyPin, keyring, state.walletInfo])
 }
