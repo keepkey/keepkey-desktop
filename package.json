@@ -209,7 +209,6 @@
     "win": {
       "icon": "electron/icon.png",
       "target": "nsis",
-      "certificateSubjectName": "KeyHodlers LLC",
       "publish": [
         "github"
       ]
