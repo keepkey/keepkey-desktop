@@ -101,7 +101,6 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
           })
           await wallet.initialize()
 
-
           dispatch({
             type: WalletActions.SET_WALLET,
             payload: { wallet, name: label, icon, deviceId, meta: { label } },
