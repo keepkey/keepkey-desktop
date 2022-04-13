@@ -15,8 +15,8 @@ const mockApiFactory = <T extends unknown>(reducerPath: T) => ({
     middlewareRegistered: false,
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false,
-    refetchOnReconnect: false
-  }
+    refetchOnReconnect: false,
+  },
 })
 
 export const mockStore: ReduxState = {
@@ -24,37 +24,46 @@ export const mockStore: ReduxState = {
   portfolioApi: mockApiFactory('portfolioApi' as const),
   marketApi: mockApiFactory('marketApi' as const),
   txHistoryApi: mockApiFactory('txHistoryApi' as const),
+  stakingDataApi: mockApiFactory('stakingDataApi' as const),
   portfolio: {
     accounts: {
       byId: {},
-      ids: []
+      ids: [],
     },
     assetBalances: {
       byId: {},
-      ids: []
+      ids: [],
     },
     accountBalances: {
       byId: {},
-      ids: []
+      ids: [],
     },
     accountSpecifiers: {
       byId: {},
-      ids: []
-    }
+      ids: [],
+    },
   },
   accountSpecifiers: {
-    accountSpecifiers: []
+    accountSpecifiers: [],
   },
   preferences: {
     featureFlags: {
       CosmosInvestor: false,
-      CosmosPlugin: false,
-      GemRamp: false
-    }
+      FoxyInvestor: false,
+      ReduxLogging: false,
+      KeepKeySettings: false,
+    },
+    selectedLocale: 'en',
+    balanceThreshold: '0',
+    // the following object is required by redux-persist
+    _persist: {
+      version: 0,
+      rehydrated: false,
+    },
   },
   assets: {
     byId: {},
-    ids: []
+    ids: [],
   },
   marketData: {
     byId: {},
@@ -65,15 +74,29 @@ export const mockStore: ReduxState = {
       [HistoryTimeframe.WEEK]: {},
       [HistoryTimeframe.MONTH]: {},
       [HistoryTimeframe.YEAR]: {},
-      [HistoryTimeframe.ALL]: {}
+      [HistoryTimeframe.ALL]: {},
     },
-    loading: false
+    loading: false,
   },
   txHistory: {
-    byId: {},
-    byAssetId: {},
-    byAccountId: {},
-    ids: [],
-    status: 'idle'
-  }
+    txs: {
+      byId: {},
+      byAssetId: {},
+      byAccountId: {},
+      ids: [],
+      status: 'idle',
+    },
+    rebases: {
+      byAssetId: {},
+      byAccountId: {},
+      ids: [],
+      byId: {},
+    },
+  },
+  stakingData: {
+    byAccountSpecifier: {},
+    status: 'idle',
+    validatorStatus: 'idle',
+    byValidator: {},
+  },
 }

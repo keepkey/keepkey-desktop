@@ -1,5 +1,6 @@
 import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import { Box, Collapse, Flex, Link, SimpleGrid } from '@chakra-ui/react'
+import { TxType } from '@shapeshiftoss/types/dist/chain-adapters'
 import dayjs from 'dayjs'
 import { useState } from 'react'
 import { FaStickyNote, FaThumbsUp } from 'react-icons/fa'
@@ -9,7 +10,7 @@ import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { Row } from 'components/Row/Row'
 import { RawText, Text } from 'components/Text'
 import { TransactionStatus } from 'components/Transactions/TransactionStatus'
-import { TxDetails } from 'hooks/useTxDetails/useTxDetails'
+import { ContractMethod, TxDetails } from 'hooks/useTxDetails/useTxDetails'
 import { fromBaseUnit } from 'lib/math'
 
 export const TransactionContract = ({ txDetails }: { txDetails: TxDetails }) => {
@@ -30,6 +31,12 @@ export const TransactionContract = ({ txDetails }: { txDetails: TxDetails }) => 
         return <FaStickyNote />
     }
   })()
+
+  const isReceive = txDetails.tradeTx?.type === TxType.Receive
+  const interactsWithWithdrawMethod = txDetails.tx.data?.method === ContractMethod.Withdraw
+  const isSend = txDetails.tradeTx?.type === TxType.Send
+  const i18n = isReceive ? txDetails.tradeTx?.type : txDetails.tx.data?.method
+  const sendInteractsWithWithdrawMethod = interactsWithWithdrawMethod && isSend
 
   return (
     <>
@@ -58,8 +65,8 @@ export const TransactionContract = ({ txDetails }: { txDetails: TxDetails }) => 
                 whiteSpace='nowrap'
                 mb={2}
                 translation={[
-                  `transactionRow.parser.${txDetails.tx.data?.parser}.${txDetails.tx.data?.method}`,
-                  { symbol: '' }
+                  `transactionRow.parser.${txDetails.tx.data?.parser}.${i18n}`,
+                  { symbol: '' },
                 ]}
               />
               <RawText color='gray.500' fontSize='sm' lineHeight='1'>
@@ -73,6 +80,7 @@ export const TransactionContract = ({ txDetails }: { txDetails: TxDetails }) => 
                   {...(txDetails.direction === 'inbound'
                     ? { color: 'green.500' }
                     : { color: 'inherit', prefix: '-' })}
+                  prefix={sendInteractsWithWithdrawMethod ? '-' : ''}
                   value={fromBaseUnit(txDetails.value, txDetails.precision)}
                   symbol={txDetails.symbol}
                   maximumFractionDigits={6}
@@ -112,8 +120,8 @@ export const TransactionContract = ({ txDetails }: { txDetails: TxDetails }) => 
             <Row.Value>
               <Amount.Crypto
                 value={fromBaseUnit(
-                  txDetails.sellTx?.value ?? '0',
-                  txDetails.sellAsset?.precision ?? 18
+                  txDetails.sellTransfer?.value ?? '0',
+                  txDetails.sellAsset?.precision ?? 18,
                 )}
                 symbol={txDetails.sellAsset?.symbol ?? ''}
                 maximumFractionDigits={6}
@@ -121,8 +129,8 @@ export const TransactionContract = ({ txDetails }: { txDetails: TxDetails }) => 
               <Text translation='transactionRow.for' />
               <Amount.Crypto
                 value={fromBaseUnit(
-                  txDetails.buyTx?.value ?? '0',
-                  txDetails.buyAsset?.precision ?? 18
+                  txDetails.buyTransfer?.value ?? '0',
+                  txDetails.buyAsset?.precision ?? 18,
                 )}
                 symbol={txDetails.buyAsset?.symbol ?? ''}
                 maximumFractionDigits={6}
@@ -139,7 +147,7 @@ export const TransactionContract = ({ txDetails }: { txDetails: TxDetails }) => 
                 <Amount.Crypto
                   value={fromBaseUnit(
                     txDetails.tx?.fee?.value,
-                    txDetails.feeAsset?.precision ?? 18
+                    txDetails.feeAsset?.precision ?? 18,
                   )}
                   symbol={txDetails.feeAsset.symbol}
                   maximumFractionDigits={6}

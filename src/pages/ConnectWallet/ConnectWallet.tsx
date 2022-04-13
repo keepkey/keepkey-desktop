@@ -12,16 +12,18 @@ import { useHistory } from 'react-router-dom'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { Page } from 'components/Layout/Page'
 import { RawText, Text } from 'components/Text'
-import { KeyManager, SUPPORTED_WALLETS } from 'context/WalletProvider/config'
-import { ActionTypes, useWallet, WalletActions } from 'context/WalletProvider/WalletProvider'
+import { ActionTypes, WalletActions } from 'context/WalletProvider/actions'
+import { SUPPORTED_WALLETS } from 'context/WalletProvider/config'
+import { KeyManager } from 'context/WalletProvider/KeyManager'
 import { useQuery } from 'hooks/useQuery/useQuery'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import { colors } from 'theme/colors'
 
 async function connectCypressWallet(
   keyring: Keyring,
   dispatch: Dispatch<ActionTypes>,
   walletSeed: string,
-  walletPassword: string
+  walletPassword: string,
 ) {
   // Import wallet
   const vault = await Vault.create()
@@ -46,8 +48,8 @@ async function connectCypressWallet(
       name,
       icon,
       deviceId,
-      meta: { label: vault.meta.get('name') as string }
-    }
+      meta: { label: vault.meta.get('name') as string },
+    },
   })
   dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
 }
@@ -114,7 +116,7 @@ export const ConnectWallet = () => {
           width: '100vw',
           height: '100vh',
           backgroundSize: 'cover',
-          backgroundPosition: 'center center'
+          backgroundPosition: 'center center',
         }}
       >
         <Circle size='100px' mb={6}>

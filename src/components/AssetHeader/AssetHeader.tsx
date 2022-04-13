@@ -1,14 +1,14 @@
 import { Box, Flex, Heading, Image, Skeleton, SkeletonCircle } from '@chakra-ui/react'
 import { CAIP19 } from '@shapeshiftoss/caip'
 import { useMemo } from 'react'
-import { useWallet } from 'context/WalletProvider/WalletProvider'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import { useWalletSupportsChain } from 'hooks/useWalletSupportsChain/useWalletSupportsChain'
 import { AccountSpecifier } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
 import {
   selectAccountIdsByAssetId,
   selectAssetByCAIP19,
   selectMarketDataById,
-  selectPortfolioCryptoHumanBalanceByFilter
+  selectPortfolioCryptoHumanBalanceByFilter,
 } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 
@@ -29,14 +29,14 @@ export const AssetHeader: React.FC<AssetHeaderProps> = ({ assetId, accountId }) 
   const { name, symbol, icon } = asset || {}
 
   const {
-    state: { wallet }
+    state: { wallet },
   } = useWallet()
 
   const walletSupportsChain = useWalletSupportsChain({ chainId, wallet })
 
   const filter = useMemo(() => ({ assetId, accountId }), [assetId, accountId])
   const cryptoBalance = useAppSelector(state =>
-    selectPortfolioCryptoHumanBalanceByFilter(state, filter)
+    selectPortfolioCryptoHumanBalanceByFilter(state, filter),
   )
 
   if (!chainId) return null

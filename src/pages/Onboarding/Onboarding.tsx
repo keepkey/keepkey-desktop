@@ -42,7 +42,7 @@ export const Onboarding = ({ route }: { route?: Route }) => {
   }, [])
 
   const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
-    initialStep: 0
+    initialStep: 0,
   })
 
   useEffect(() => {
@@ -55,12 +55,12 @@ export const Onboarding = ({ route }: { route?: Route }) => {
   const steps = [
     { label: 'Update Bootloader', Content: BootloaderModal },
     { label: 'Update Firmware', Content: FirmwareModal },
-    { label: 'Initialize KeepKey', Content: InitializeModal }
+    { label: 'Initialize KeepKey', Content: InitializeModal },
   ]
 
   // @ts-ignore
   return (
-    <Main route={route}>
+    <Main>
       <Flex flexDir='column' width='100%'>
         <Steps activeStep={activeStep}>
           {steps.map(({ label, Content }) => (

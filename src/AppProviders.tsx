@@ -1,26 +1,22 @@
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import { DefiManagerProvider } from 'features/defi/contexts/DefiManagerProvider/DefiManagerProvider'
 import React from 'react'
-import { I18n } from 'react-polyglot'
 import { Provider as ReduxProvider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
 import { ScrollToTop } from 'Routes/ScrollToTop'
-import { translations } from 'assets/translations'
 import { BrowserRouterProvider } from 'context/BrowserRouterProvider/BrowserRouterProvider'
+import { I18nProvider } from 'context/I18nProvider/I18nProvider'
 import { MarketDataProvider } from 'context/MarketDataProvider/MarketDataProvider'
 import { ModalProvider } from 'context/ModalProvider/ModalProvider'
 import { PluginProvider } from 'context/PluginProvider/PluginProvider'
 import { PortfolioProvider } from 'context/PortfolioProvider/PortfolioContext'
 import { TransactionsProvider } from 'context/TransactionsProvider/TransactionsProvider'
+import { KeepKeyProvider } from 'context/WalletProvider/KeepKeyProvider'
 import { WalletProvider } from 'context/WalletProvider/WalletProvider'
-import { simpleLocale } from 'lib/browserLocale'
 import { SplashScreen } from 'pages/SplashScreen/SplashScreen'
 import { persistor, store } from 'state/store'
 import { theme } from 'theme/theme'
-
-const locale: string = simpleLocale()
-const messages = translations[locale]
 
 type ProvidersProps = {
   children: React.ReactNode
@@ -33,24 +29,26 @@ export function AppProviders({ children }: ProvidersProps) {
         <ChakraProvider theme={theme}>
           <ColorModeScript />
           <PersistGate loading={<SplashScreen />} persistor={persistor}>
-            <BrowserRouter>
+            <HashRouter basename='/'>
               <ScrollToTop />
               <BrowserRouterProvider>
-                <I18n locale={locale} messages={messages}>
+                <I18nProvider>
                   <WalletProvider>
-                    <PortfolioProvider>
-                      <MarketDataProvider>
-                        <TransactionsProvider>
-                          <ModalProvider>
-                            <DefiManagerProvider>{children}</DefiManagerProvider>
-                          </ModalProvider>
-                        </TransactionsProvider>
-                      </MarketDataProvider>
-                    </PortfolioProvider>
+                    <KeepKeyProvider>
+                      <ModalProvider>
+                        <PortfolioProvider>
+                          <MarketDataProvider>
+                            <TransactionsProvider>
+                              <DefiManagerProvider>{children}</DefiManagerProvider>
+                            </TransactionsProvider>
+                          </MarketDataProvider>
+                        </PortfolioProvider>
+                      </ModalProvider>
+                    </KeepKeyProvider>
                   </WalletProvider>
-                </I18n>
+                </I18nProvider>
               </BrowserRouterProvider>
-            </BrowserRouter>
+            </HashRouter>
           </PersistGate>
         </ChakraProvider>
       </PluginProvider>

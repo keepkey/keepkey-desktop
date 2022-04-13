@@ -9,14 +9,14 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  Text as ChakraText
+  Text as ChakraText,
 } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import { ipcRenderer } from 'electron'
 import { useEffect, useState } from 'react'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
-import { useModal } from 'context/ModalProvider/ModalProvider'
+import { useModal } from 'hooks/useModal/useModal'
 
 export type PairedAppProps = {
   addedOn: number

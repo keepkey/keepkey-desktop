@@ -5,20 +5,26 @@ import {
   Modal,
   ModalCloseButton,
   ModalContent,
-  ModalOverlay
+  ModalOverlay,
 } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/toast'
+import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
 import { AnimatePresence } from 'framer-motion'
 import { useEffect } from 'react'
+import { useTranslate } from 'react-polyglot'
 import { Route, Switch, useHistory, useLocation, useRouteMatch } from 'react-router-dom'
 import { SlideTransition } from 'components/SlideTransition'
+import { WalletActions } from 'context/WalletProvider/actions'
+import { useWallet } from 'hooks/useWallet/useWallet'
 
 import { SUPPORTED_WALLETS } from './config'
 import { SelectModal } from './SelectModal'
-import { useWallet, WalletActions } from './WalletProvider'
 
 export const WalletViewsSwitch = () => {
   const history = useHistory()
   const location = useLocation()
+  const toast = useToast()
+  const translate = useTranslate()
   const match = useRouteMatch('/')
   const { state, dispatch } = useWallet()
 
@@ -27,13 +33,25 @@ export const WalletViewsSwitch = () => {
     dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
   }
 
-  const handleBack = () => {
+  const handleBack = async () => {
     history.goBack()
-    dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: true })
     // If we're back at the select wallet modal, remove the initial route
     // otherwise clicking the button for the same wallet doesn't do anything
     if (history.location.pathname === '/') {
       dispatch({ type: WalletActions.SET_INITIAL_ROUTE, payload: '' })
+    }
+
+    // If we are interacting with a KeepKey, cancel any active requests on back
+    if (state.wallet && isKeepKey(state.wallet)) {
+      await state.wallet.cancel().catch(e => {
+        console.error(e)
+        toast({
+          title: translate('common.error'),
+          description: e?.message ?? translate('common.somethingWentWrong'),
+          status: 'error',
+          isClosable: true,
+        })
+      })
     }
   }
 
@@ -55,7 +73,7 @@ export const WalletViewsSwitch = () => {
         <ModalOverlay />
         <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
           <Flex justifyContent='space-between' alignItems='center' position='relative'>
-            {!match?.isExact && (
+            {!match?.isExact && state.showBackButton && (
               <IconButton
                 icon={<ArrowBackIcon />}
                 aria-label='Back'

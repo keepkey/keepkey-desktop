@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import KeepKeyConnect from 'assets/hold-and-connect.svg'
 import KeepKeyRelease from 'assets/hold-and-release.svg'
 import { Text } from 'components/Text'
-import { useWallet } from 'context/WalletProvider/WalletProvider'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import { getAssetUrl } from 'lib/getAssetUrl'
 
 import { Row } from '../../../components/Row/Row'

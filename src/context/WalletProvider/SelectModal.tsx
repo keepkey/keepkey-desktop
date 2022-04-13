@@ -1,13 +1,13 @@
 import { Button, Center, Flex, ModalBody, ModalHeader, Stack, Tag } from '@chakra-ui/react'
 import { RawText, Text } from 'components/Text'
+import { useWallet } from 'hooks/useWallet/useWallet'
 
 import { SUPPORTED_WALLETS } from './config'
-import { useWallet } from './WalletProvider'
 
 export const SelectModal = () => {
   const {
     state: { adapters, walletInfo },
-    connect
+    connect,
   } = useWallet()
 
   return (
@@ -24,7 +24,7 @@ export const SelectModal = () => {
               // So not all of the supported wallets will have an initialized adapter
               // TODO: hacky shortlist, fixme (why is so fricken hard to disable a wallet), TODO feature flag new wallets?)
               Object.values({
-                KeepKey: 'keepkey'
+                KeepKey: 'keepkey',
               }).map(key => {
                 // @ts-ignore
                 const option = SUPPORTED_WALLETS[key]

@@ -11,7 +11,7 @@ import {
   Progress,
   Spinner,
   Stack,
-  Switch
+  Switch,
 } from '@chakra-ui/react'
 import { ipcRenderer } from 'electron'
 import { UpdateCheckResult, UpdateInfo } from 'electron-updater'
@@ -21,7 +21,7 @@ import { HiRefresh } from 'react-icons/hi'
 import { Row } from 'components/Row/Row'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
-import { useModal } from 'context/ModalProvider/ModalProvider'
+import { useModal } from 'hooks/useModal/useModal'
 
 export type AppSettings = {
   shouldAutoLunch: boolean
@@ -37,7 +37,7 @@ export enum UpdateState {
   LATEST,
   AVAILABLE,
   DOWNLOADING,
-  DOWNLOADED
+  DOWNLOADED,
 }
 
 export const AppSettingsModal = () => {
@@ -49,7 +49,7 @@ export const AppSettingsModal = () => {
     shouldAutoStartBridge: true,
     shouldMinimizeToTray: true,
     shouldAutoUpdate: true,
-    bridgeApiPort: 1646
+    bridgeApiPort: 1646,
   })
 
   const [currentAppVer, setCurrentAppVer] = useState<Array<string>>([])
@@ -70,7 +70,7 @@ export const AppSettingsModal = () => {
         setUpdateState(UpdateState.AVAILABLE)
       else setUpdateState(UpdateState.LATEST)
     },
-    [currentAppVer]
+    [currentAppVer],
   )
 
   const saveSettings = useCallback(() => {
@@ -160,7 +160,7 @@ export const AppSettingsModal = () => {
                     setSettings(currentSettings => {
                       return {
                         ...currentSettings,
-                        shouldAutoLunch: !currentSettings.shouldAutoLunch
+                        shouldAutoLunch: !currentSettings.shouldAutoLunch,
                       }
                     })
                   }}
@@ -174,7 +174,7 @@ export const AppSettingsModal = () => {
                     setSettings(currentSettings => {
                       return {
                         ...currentSettings,
-                        shouldAutoStartBridge: !currentSettings.shouldAutoStartBridge
+                        shouldAutoStartBridge: !currentSettings.shouldAutoStartBridge,
                       }
                     })
                   }}
@@ -188,7 +188,7 @@ export const AppSettingsModal = () => {
                     setSettings(currentSettings => {
                       return {
                         ...currentSettings,
-                        shouldMinimizeToTray: !currentSettings.shouldMinimizeToTray
+                        shouldMinimizeToTray: !currentSettings.shouldMinimizeToTray,
                       }
                     })
                   }}
@@ -202,7 +202,7 @@ export const AppSettingsModal = () => {
                     setSettings(currentSettings => {
                       return {
                         ...currentSettings,
-                        shouldAutoUpdate: !currentSettings.shouldAutoUpdate
+                        shouldAutoUpdate: !currentSettings.shouldAutoUpdate,
                       }
                     })
                   }}
@@ -220,7 +220,7 @@ export const AppSettingsModal = () => {
                     setSettings(currentSettings => {
                       return {
                         ...currentSettings,
-                        bridgeApiPort: Number(e.target.value)
+                        bridgeApiPort: Number(e.target.value),
                       }
                     })
                   }}
@@ -268,7 +268,7 @@ export const AppSettingsModal = () => {
                   <Text
                     translation={[
                       'modals.appSettings.cta.update.available',
-                      { version: updateData?.version }
+                      { version: updateData?.version },
                     ]}
                   />
                 )}

@@ -12,7 +12,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  Text as ChakraText
+  Text as ChakraText,
 } from '@chakra-ui/react'
 import { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 // import { SessionTypes } from '@walletconnect/types'
@@ -20,8 +20,9 @@ import { ipcRenderer } from 'electron'
 import { useEffect, useState } from 'react'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
-import { useModal } from 'context/ModalProvider/ModalProvider'
-import { useWallet, WalletActions } from 'context/WalletProvider/WalletProvider'
+import { WalletActions } from 'context/WalletProvider/actions'
+import { useModal } from 'hooks/useModal/useModal'
+import { useWallet } from 'hooks/useWallet/useWallet'
 
 export type PairingProps = NativePairingProps | WalletConnectPairingProps
 
@@ -54,7 +55,7 @@ export const PairModal = (input: PairingProps) => {
       ;(state.wallet as KeepKeyHDWallet)
         .ethGetAddress({
           addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
-          showDisplay: false
+          showDisplay: false,
         })
         .then(address => {
           setAccounts([address])
@@ -68,7 +69,7 @@ export const PairModal = (input: PairingProps) => {
       ipcRenderer.send(`@walletconnect/approve-${input.nonce}`, { proposal: input.data, accounts })
       dispatch({
         type: WalletActions.SET_WALLET_CONNECT_APP,
-        payload: input.data?.params[0]?.peerMeta
+        payload: input.data?.params[0]?.peerMeta,
       })
     }
     close()
@@ -125,8 +126,8 @@ export const PairModal = (input: PairingProps) => {
                         serviceName:
                           input.type === 'native'
                             ? input.data.serviceName
-                            : input?.data?.params[0]?.peerMeta.name
-                      }
+                            : input?.data?.params[0]?.peerMeta.name,
+                      },
                     ]}
                     pl='2'
                   />

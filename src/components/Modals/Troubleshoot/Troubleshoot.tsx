@@ -5,12 +5,12 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalHeader,
-  ModalOverlay
+  ModalOverlay,
 } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 // import KeepKeyConnect from 'assets/connect-keepkey.svg'
 import { Text } from 'components/Text'
-import { useModal } from 'context/ModalProvider/ModalProvider'
+import { useModal } from 'hooks/useModal/useModal'
 
 export const TroubleshootModal = () => {
   const { troubleshoot } = useModal()
