@@ -677,7 +677,7 @@
         "balanceThreshold": "Balance Threshold",
         "balanceThresholdTooltip": "Hide balances below this value"
       }
-    },
+    }
   },
   "walletProvider": {
     "errors": {
