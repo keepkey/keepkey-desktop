@@ -11,9 +11,9 @@ import {
   PopoverContent,
   PopoverTrigger,
   useColorModeValue,
-  useOutsideClick
+  useOutsideClick,
 } from '@chakra-ui/react'
-import { TradeType, TxType } from '@shapeshiftoss/types/dist/chain-adapters'
+import { chainAdapters } from '@shapeshiftoss/types'
 import dayjs from 'dayjs'
 import { useRef, useState } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
@@ -30,7 +30,7 @@ export enum FilterFormFields {
   FromDate = 'fromDate',
   ToDate = 'toDate',
   DayRange = 'dayRange',
-  Types = 'types'
+  Types = 'types',
 }
 
 export type FilterFormFieldsType = {
@@ -49,7 +49,7 @@ type TransactionHistoryFilterProps = {
 export const TransactionHistoryFilter = ({
   setFilters,
   resetFilters,
-  hasAppliedFilter = false
+  hasAppliedFilter = false,
 }: TransactionHistoryFilterProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const popoverRef = useRef(null)
@@ -63,7 +63,7 @@ export const TransactionHistoryFilter = ({
     ref: popoverRef,
     handler: () => {
       setIsOpen(false)
-    }
+    },
   })
   const translate = useTranslate()
   const { control, handleSubmit, watch, reset } = useForm({ mode: 'onChange' })
@@ -73,7 +73,7 @@ export const TransactionHistoryFilter = ({
       fromDate,
       toDate,
       dayRange,
-      types
+      types,
     }
     if (!!dayRange && dayRange !== customRangeOption) {
       const today = dayjs().endOf('day')
@@ -166,11 +166,11 @@ export const TransactionHistoryFilter = ({
                   [
                     'transactionHistory.filters.custom',
                     customRangeOption,
-                    <RangeCustomComponent />
+                    <RangeCustomComponent />,
                   ],
                   ['transactionHistory.filters.10days', '10'],
                   ['transactionHistory.filters.30days', '30'],
-                  ['transactionHistory.filters.90days', '90']
+                  ['transactionHistory.filters.90days', '90'],
                 ]}
               />
               <Divider />
@@ -180,9 +180,9 @@ export const TransactionHistoryFilter = ({
                 title='transactionHistory.filters.categories'
                 allowMultipleOptions
                 options={[
-                  ['transactionHistory.filters.send', TxType.Send],
-                  ['transactionHistory.filters.trade', TradeType.Trade],
-                  ['transactionHistory.filters.receive', TxType.Receive]
+                  ['transactionHistory.filters.send', chainAdapters.TxType.Send],
+                  ['transactionHistory.filters.trade', chainAdapters.TradeType.Trade],
+                  ['transactionHistory.filters.receive', chainAdapters.TxType.Receive],
                 ]}
               />
               <Flex justifyContent='center' alignItems='center'>

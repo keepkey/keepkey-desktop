@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { AccountRow } from 'components/AccountRow/AccountRow'
 import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text'
-import { useWallet } from 'context/WalletProvider/WalletProvider'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import { useYearnVaults } from 'hooks/useYearnVaults/useYearnVaults'
 import { AccountSpecifier } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
 import { selectAssetByCAIP19 } from 'state/slices/selectors'
@@ -30,7 +30,7 @@ export const UnderlyingToken = ({ assetId, accountId }: UnderlyingTokenProps) =>
   const asset = useAppSelector(state => selectAssetByCAIP19(state, assetId))
 
   const {
-    state: { wallet }
+    state: { wallet },
   } = useWallet()
 
   const vault = useMemo(() => {

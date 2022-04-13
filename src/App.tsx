@@ -11,10 +11,8 @@ import { PairingProps } from 'components/Modals/Pair/Pair'
 import { useModal } from 'context/ModalProvider/ModalProvider'
 import { usePlugins } from 'context/PluginProvider/PluginProvider'
 import { useHasAppUpdated } from 'hooks/useHasAppUpdated/useHasAppUpdated'
-// import { setupSentry } from 'lib/setupSentry'
 
 export const App = () => {
-  const { routes } = usePlugins()
   const shouldUpdate = useHasAppUpdated()
   const toast = useToast()
   const toastIdRef = useRef<ToastId | null>(null)
@@ -35,18 +33,13 @@ export const App = () => {
       const toastId = toast({
         render: () => {
           return (
-            <Alert status='info' variant='subtle' borderRadius='lg'>
-              <IconCircle boxSize={8} color='blue.300'>
+            <Alert status='info' variant='update-box' borderRadius='lg'>
+              <IconCircle boxSize={8} color='gray.500'>
                 <FaSync />
               </IconCircle>
               <AlertDescription ml={3}>{translate('updateToast.body')}</AlertDescription>
-              <Button
-                variant='solid'
-                colorScheme='blue'
-                size='sm'
-                onClick={() => window.location.reload()}
-                ml={4}
-              >
+
+              <Button colorScheme='blue' size='sm' onClick={() => window.location.reload()} ml={4}>
                 {translate('updateToast.cta')}
               </Button>
             </Alert>
@@ -55,12 +48,12 @@ export const App = () => {
         id: updateId,
         duration: null,
         isClosable: false,
-        position: 'bottom-right'
+        position: 'bottom-right',
       })
       if (!toastId) return
       toastIdRef.current = toastId
     }
   }, [shouldUpdate, toast, translate])
 
-  return <Routes additionalRoutes={routes} />
+  return <Routes />
 }

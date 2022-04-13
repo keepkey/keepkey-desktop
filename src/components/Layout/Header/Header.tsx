@@ -8,7 +8,7 @@ import {
   HStack,
   IconButton,
   useColorModeValue,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react'
 import { useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -18,20 +18,19 @@ import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 // import { FoxIcon } from 'components/Icons/FoxIcon'
 import { ReduxState } from 'state/reducer'
 import { selectFeatureFlag } from 'state/slices/preferencesSlice/selectors'
+import { FoxIcon } from 'components/Icons/FoxIcon'
 
-// import { useWallet } from '../../../context/WalletProvider/WalletProvider'
 import { AutoCompleteSearch } from './AutoCompleteSearch/AutoCompleteSearch'
 import { FiatRamps } from './NavBar/FiatRamps'
 import { UserMenu } from './NavBar/UserMenu'
 import { WalletConnectMenu } from './NavBar/WalletConnectMenu'
 import { SideNavContent } from './SideNavContent'
 
-export const Header = ({ route }: { route: Route }) => {
+export const Header = () => {
   const { onToggle, isOpen, onClose } = useDisclosure()
   const history = useHistory()
   const bg = useColorModeValue('white', 'gray.800')
   const borderColor = useColorModeValue('gray.100', 'gray.750')
-  // const { state, dispatch } = useWallet()
 
   /**
    * FOR DEVELOPERS:
@@ -43,7 +42,7 @@ export const Header = ({ route }: { route: Route }) => {
         history.push('/flags')
       }
     },
-    [history]
+    [history],
   )
 
   useEffect(() => {
@@ -51,11 +50,6 @@ export const Header = ({ route }: { route: Route }) => {
     return () => document.removeEventListener('keydown', handleKeyPress)
   }, [handleKeyPress])
 
-  // TODO(gomes): There's currently a runtime error when using the typed useAppSelector here.
-  // Find out the root cause and use it instead
-  const gemRampFlag = useSelector((state: ReduxState) => selectFeatureFlag(state, 'GemRamp'))
-
-  // @ts-ignore
   return (
     <>
       <Flex
@@ -81,7 +75,6 @@ export const Header = ({ route }: { route: Route }) => {
             <Link to='/'>
               <KeepKeyIcon boxSize='7' />
             </Link>
-            {/*<small>{state.keepkeyState}: {state.keepkeyStatus}</small>*/}
           </Flex>
           <HStack
             width='100%'
@@ -92,17 +85,12 @@ export const Header = ({ route }: { route: Route }) => {
             <AutoCompleteSearch />
           </HStack>
           <Flex justifyContent='flex-end' flex={1}>
-            {gemRampFlag && (
-              <Box
-                display={{ base: 'none', md: 'block' }}
-                mr={{ base: 0, md: 4 }}
-                mb={{ base: 4, md: 0 }}
-              >
-                <FiatRamps />
-              </Box>
-            )}
-            <Box display={{ base: 'none', md: 'block' }} mr={{ base: 0, md: 4 }}>
-              <WalletConnectMenu />
+            <Box
+              display={{ base: 'none', md: 'block' }}
+              mr={{ base: 0, md: 4 }}
+              mb={{ base: 4, md: 0 }}
+            >
+              <FiatRamps />
             </Box>
             <Box display={{ base: 'none', md: 'block' }}>
               <UserMenu />
@@ -112,7 +100,9 @@ export const Header = ({ route }: { route: Route }) => {
       </Flex>
       <Drawer isOpen={isOpen} onClose={onClose} placement='left'>
         <DrawerOverlay />
-        <DrawerContent>{route && <SideNavContent route={route} />}</DrawerContent>
+        <DrawerContent>
+          <SideNavContent />
+        </DrawerContent>
       </Drawer>
     </>
   )

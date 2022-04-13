@@ -3,8 +3,7 @@ import { ListChildComponentProps } from 'react-window'
 import { Amount } from 'components/Amount/Amount'
 import { AssetIcon } from 'components/AssetIcon'
 
-import { FiatRampAction } from '../../const'
-import { GemCurrency } from '../../FiatRamps'
+import { FiatRampAction, GemCurrency } from '../../FiatRampsCommon'
 import { getAssetLogoUrl } from '../../utils'
 
 export const AssetRow: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
@@ -24,7 +23,7 @@ export const AssetRow: React.FC<ListChildComponentProps> = ({ data, index, style
       alignItems='center'
       style={style}
       _focus={{
-        shadow: 'outline-inset'
+        shadow: 'outline-inset',
       }}
     >
       <Box style={{ display: 'flex', flexDirection: 'row' }}>

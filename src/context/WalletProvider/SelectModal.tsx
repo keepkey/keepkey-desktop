@@ -1,14 +1,18 @@
 import { Button, Center, Flex, ModalBody, ModalHeader, Stack, Tag } from '@chakra-ui/react'
+import { useTranslate } from 'react-polyglot'
 import { RawText, Text } from 'components/Text'
+import { useWallet } from 'hooks/useWallet/useWallet'
 
 import { SUPPORTED_WALLETS } from './config'
-import { useWallet } from './WalletProvider'
+import { KeyManager } from './KeyManager'
 
 export const SelectModal = () => {
   const {
     state: { adapters, walletInfo },
-    connect
+    connect,
+    create
   } = useWallet()
+  const translate = useTranslate()
 
   return (
     <>
@@ -94,6 +98,23 @@ export const SelectModal = () => {
           {/*    })}*/}
           {/*</div>*/}
         </Stack>
+        <Flex direction={['column', 'row']} mt={2} justifyContent='center' alignItems='center'>
+          <Text
+            mb={[3]}
+            color='gray.500'
+            translation={walletInfo?.name ? 'common.or' : 'walletProvider.selectModal.footer'}
+          />
+          <Button
+            variant='link'
+            mb={[3]}
+            ml={[0, 1.5]}
+            borderTopRadius='none'
+            colorScheme='blue'
+            onClick={() => create(KeyManager.Native)}
+          >
+            {translate('walletProvider.selectModal.create')}
+          </Button>
+        </Flex>
       </ModalBody>
     </>
   )
