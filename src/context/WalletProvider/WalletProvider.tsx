@@ -5,22 +5,9 @@ import { ipcRenderer } from 'electron'
 import findIndex from 'lodash/findIndex'
 import React, { useCallback, useEffect, useMemo, useReducer } from 'react'
 import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useReducer
-} from 'react'
-import { useHistory } from 'react-router'
-import { useModal } from 'context/ModalProvider/ModalProvider'
 
 import { ActionTypes, Outcome, WalletActions } from './actions'
 import { SUPPORTED_WALLETS } from './config'
-import { KeyManager, SUPPORTED_WALLETS } from './config'
-import { KeepKeyService } from './KeepKey'
-import { useKeepKeyEventHandler } from './KeepKey/hooks/useKeepKeyEventHandler'
 import { useKeyringEventHandler } from './KeepKey/hooks/useKeyringEventHandler'
 import { PinMatrixRequestType } from './KeepKey/KeepKeyTypes'
 import { KeyManager } from './KeyManager'
@@ -28,23 +15,8 @@ import { clearLocalWallet, getLocalWalletDeviceId, getLocalWalletType } from './
 import { useNativeEventHandler } from './NativeWallet/hooks/useNativeEventHandler'
 import { IWalletContext, WalletContext } from './WalletContext'
 import { WalletViewsRouter } from './WalletViewsRouter'
-
+import { KeepKeyService } from './KeepKey'
 const keepkey = new KeepKeyService()
-
-export enum WalletActions {
-  SET_ADAPTERS = 'SET_ADAPTERS',
-  SET_WALLET = 'SET_WALLET',
-  SET_CONNECTOR_TYPE = 'SET_CONNECTOR_TYPE',
-  SET_INITIAL_ROUTE = 'SET_INITIAL_ROUTE',
-  SET_IS_CONNECTED = 'SET_IS_CONNECTED',
-  SET_WALLET_MODAL = 'SET_WALLET_MODAL',
-  SET_KEEPKEY_STATE = 'SET_KEEPKEY_STATE',
-  SET_KEEPKEY_STATUS = 'SET_KEEPKEY_STATUS',
-  SET_PIONEER = 'SET_PIONEER',
-  RESET_STATE = 'RESET_STATE',
-  SET_LOCAL_WALLET_LOADING = 'SET_LOCAL_WALLET_LOADING',
-  SET_WALLET_CONNECT_APP = 'SET_WALLET_CONNECT_APP'
-}
 
 type GenericAdapter = {
   initialize: (...args: any[]) => Promise<any>
@@ -99,23 +71,14 @@ const initialState: InitialState = {
   initialRoute: null,
   walletInfo: null,
   isConnected: false,
+  keepkey: null,
   modal: false,
   isLoadingLocalWallet: false,
   deviceId: '',
   noBackButton: false,
   keepKeyPinRequestType: null,
   awaitingDeviceInteraction: false,
-  lastDeviceInteractionStatus: undefined,
-  isLoadingLocalWallet: false
-}
-
-export interface IWalletContext {
-  state: InitialState
-  dispatch: React.Dispatch<ActionTypes>
-  connect: (adapter: KeyManager) => Promise<void>
-  create: (adapter: KeyManager) => Promise<void>
-  disconnect: () => void
-  keepkey: any
+  lastDeviceInteractionStatus: undefined
 }
 
 function playSound(type: any) {
@@ -138,36 +101,13 @@ function playSound(type: any) {
   }
 }
 
-export type ActionTypes =
-  | { type: WalletActions.SET_ADAPTERS; payload: Adapters }
-  | {
-      type: WalletActions.SET_WALLET
-      payload: {
-        wallet: HDWallet | null
-        name: string
-        icon: ComponentWithAs<'svg', IconProps>
-        deviceId: string
-        meta?: { label: string }
-      }
-    }
-  | { type: WalletActions.SET_IS_CONNECTED; payload: boolean }
-  | { type: WalletActions.SET_CONNECTOR_TYPE; payload: KeyManager }
-  | { type: WalletActions.SET_INITIAL_ROUTE; payload: string }
-  | { type: WalletActions.SET_WALLET_MODAL; payload: boolean }
-  | { type: WalletActions.SET_KEEPKEY_STATE; payload: string }
-  | { type: WalletActions.SET_KEEPKEY_STATUS; payload: string }
-  | { type: WalletActions.SET_PIONEER; payload: any | null }
-  | { type: WalletActions.SET_LOCAL_WALLET_LOADING; payload: boolean }
-  | { type: WalletActions.SET_WALLET_CONNECT_APP; payload: WalletConnectApp | null }
-  | { type: WalletActions.RESET_STATE }
-
 const reducer = (state: InitialState, action: ActionTypes) => {
   switch (action.type) {
     case WalletActions.SET_ADAPTERS:
       return { ...state, adapters: action.payload }
     case WalletActions.SET_WALLET:
       keepkey.pairWallet('keepkey', action.payload.wallet)
-      const stateData = {
+      return {
         ...state,
         wallet: action.payload.wallet,
         walletInfo: {
@@ -241,7 +181,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         deviceId: action.payload.deviceId,
         initialRoute: '/keepkey/new',
       }
-    case WalletActions.SET_PIONEER:
+    case WalletActions.SET_KEEPKEY:
       return { ...state, keepkey: action.payload }
     case WalletActions.SET_LOCAL_WALLET_LOADING:
       return { ...state, isLoadingLocalWallet: action.payload }
@@ -282,365 +222,9 @@ const getInitialState = () => {
   return initialState
 }
 
-const WalletContext = createContext<IWalletContext | null>(null)
-
 export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
+  // @ts-ignore
   const [state, dispatch] = useReducer(reducer, getInitialState())
-  const { sign, pair, hardwareError } = useModal()
-  const [state, dispatch] = useReducer(reducer, initialState)
-  const history = useHistory()
-
-  useKeyringEventHandler(state)
-  useKeepKeyEventHandler(state, dispatch)
-  useNativeEventHandler(state, dispatch)
-
-  useEffect(() => {
-    if (state.keyring) {
-      ;(async () => {
-        const adapters: Adapters = new Map()
-        let options: undefined | { portisAppId: string }
-        for (const wallet of Object.values(KeyManager)) {
-          try {
-            options =
-              wallet === 'portis'
-                ? { portisAppId: getConfig().REACT_APP_PORTIS_DAPP_ID }
-                : undefined
-            const adapter = SUPPORTED_WALLETS[wallet].adapter.useKeyring(state.keyring, options)
-            // useKeyring returns the instance of the adapter. We'll keep it for future reference.
-            if (wallet === 'keepkey') {
-              // TODO: add ability to pass serviceKey to adapter
-              // const serviceKey = keepkey.getServiceKey()
-              await adapter.pairDevice('http://localhost:1646')
-              adapters.set(wallet, adapter)
-            } else {
-              await adapter.initialize()
-              adapters.set(wallet, adapter)
-            }
-          } catch (e) {
-            console.error('Error initializing HDWallet adapters', e)
-          }
-        }
-
-        dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
-      })()
-    }
-  }, [state.keyring])
-
-  //onStart()
-  useEffect(() => {
-    if (!state.wallet) {
-      //hardwareError.open({})
-      console.info('Starting bridge')
-      ipcRenderer.send('@app/start', {
-        username: keepkey.username,
-        queryKey: keepkey.queryKey,
-        spec: process.env.REACT_APP_URL_PIONEER_SPEC
-      })
-    } else {
-      ipcRenderer.send('@wallet/connected')
-    }
-
-    ipcRenderer.on('@walletconnect/paired', (event, data) => {
-      dispatch({ type: WalletActions.SET_WALLET_CONNECT_APP, payload: data })
-    })
-
-    ipcRenderer.on('@onboard/open', (event, data) => {
-      history.push('/flags')
-    })
-
-    //listen to events on main
-    ipcRenderer.on('hardware', (event, data) => {
-      //event
-      //console.log('hardware event: ', data)
-
-      switch (data.event.event) {
-        case 'connect':
-          playSound('success')
-          break
-        case 'disconnect':
-          playSound('fail')
-          break
-        default:
-        //TODO Spammy
-        //console.log("unhandled event! ",data.event)
-      }
-    })
-
-    ipcRenderer.on('playSound', (event, data) => {})
-
-    ipcRenderer.on('attach', (event, data) => {
-      dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
-      dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
-    })
-
-    ipcRenderer.on('detach', (event, data) => {
-      playSound('fail')
-      dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
-      dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
-    })
-
-    ipcRenderer.on('setKeepKeyState', (event, data) => {
-      dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
-      dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
-    })
-
-    ipcRenderer.on('setKeepKeyStatus', (event, data) => {
-      dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
-      dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
-    })
-
-    ipcRenderer.on('approveOrigin', (event: any, data: any) => {
-      pair.open(data)
-    })
-
-    ipcRenderer.on('loadKeepKeyInfo', (event, data) => {
-      keepkey.updateFeatures(data.payload)
-    })
-
-    ipcRenderer.on('setUpdaterMode', (event, data) => {
-      keepkey.setUpdaterMode(data.payload)
-    })
-
-    ipcRenderer.on('setNeedsBootloaderUpdate', (event, data) => {
-      keepkey.setNeedsBootloaderUpdate(true)
-    })
-
-    ipcRenderer.on('loadKeepKeyFirmwareLatest', (event, data) => {
-      keepkey.updateKeepKeyFirmwareLatest(data.payload)
-    })
-
-    ipcRenderer.on('onCompleteBootloaderUpload', (event, data) => {
-      keepkey.setNeedsBootloaderUpdate(false)
-    })
-
-    // ipcRenderer.on('onCompleteFirmwareUpload', (event, data) => {
-    //   firmware.close()
-    // })
-
-    // ipcRenderer.on('openFirmwareUpdate', (event, data) => {
-    //   firmware.open({})
-    // })
-
-    ipcRenderer.on('openHardwareError', (event, data) => {
-      hardwareError.open(data)
-    })
-
-    ipcRenderer.on('closeHardwareError', (event, data) => {
-      hardwareError.close()
-    })
-
-    // ipcRenderer.on('openBootloaderUpdate', (event, data) => {
-    //   bootloader.open({})
-    // })
-
-    // ipcRenderer.on('closeBootloaderUpdate', (event, data) => {
-    //   bootloader.close()
-    // })
-
-    //HDwallet API
-    //TODO moveme into own file
-    ipcRenderer.on('@hdwallet/getPublicKeys', async (event, data) => {
-      if (state.wallet) {
-        // @ts-ignore
-        let pubkeys = await state.wallet.getPublicKeys(data.payload.paths)
-        console.info('pubkeys: ', pubkeys)
-        ipcRenderer.send('@hdwallet/response/getPublicKeys', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/btcGetAddress', async (event, data) => {
-      let payload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        console.info('payload: ', payload)
-        // @ts-ignore
-        let pubkeys = await state.wallet.btcGetAddress(payload)
-        ipcRenderer.send('@hdwallet/response/btcGetAddress', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/ethGetAddress', async (event, data) => {
-      let payload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        console.info('payload: ', payload)
-        // @ts-ignore
-        let pubkeys = await state.wallet.ethGetAddress(payload)
-        ipcRenderer.send('@hdwallet/response/ethGetAddress', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/thorchainGetAddress', async (event, data) => {
-      let payload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.thorchainGetAddress(payload)
-        ipcRenderer.send('@hdwallet/response/thorchainGetAddress', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/osmosisGetAddress', async (event, data) => {
-      let payload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.osmosisGetAddress(payload)
-        ipcRenderer.send('@hdwallet/response/osmosisGetAddress', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/binanceGetAddress', async (event, data) => {
-      let payload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.binanceGetAddress(payload)
-        ipcRenderer.send('@hdwallet/response', pubkeys)
-      } else {
-        ipcRenderer.send('@hdwallet/response/binanceGetAddress', { error: 'wallet not online!' })
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/cosmosGetAddress', async (event, data) => {
-      let payload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.cosmosGetAddress(payload)
-        ipcRenderer.send('@hdwallet/response', pubkeys)
-      } else {
-        ipcRenderer.send('@hdwallet/response/cosmosGetAddress', { error: 'wallet not online!' })
-      }
-    })
-
-    //signTx
-    ipcRenderer.on('@hdwallet/btcSignTx', async (event, data) => {
-      let HDwalletPayload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.btcSignTx(HDwalletPayload)
-        ipcRenderer.send('@hdwallet/response/btcSignTx', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/thorchainSignTx', async (event, data) => {
-      let HDwalletPayload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.thorchainSignTx(HDwalletPayload)
-        ipcRenderer.send('@hdwallet/response/thorchainSignTx', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/cosmosSignTx', async (event, data) => {
-      let HDwalletPayload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.thorchainSignTx(HDwalletPayload)
-        ipcRenderer.send('@hdwallet/cosmosSignTx', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/osmosisSignTx', async (event, data) => {
-      let HDwalletPayload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.osmosisSignTx(HDwalletPayload)
-        ipcRenderer.send('@hdwallet/response/osmosisSignTx', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/ethSignTx', async (event, data) => {
-      let HDwalletPayload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.ethSignTx(HDwalletPayload)
-        ipcRenderer.send('@hdwallet/response/ethSignTx', pubkeys)
-      }
-    })
-
-    //END HDwallet API
-
-    ipcRenderer.on('setDevice', (event, data) => {})
-
-    ipcRenderer.on('@account/sign-tx', async (event: any, data: any) => {
-      let unsignedTx = data.payload.data
-      //open signTx
-      if (
-        unsignedTx &&
-        unsignedTx.invocation &&
-        unsignedTx.invocation.unsignedTx &&
-        unsignedTx.invocation.unsignedTx.HDwalletPayload
-      ) {
-        sign.open({ unsignedTx, nonce: data.nonce })
-      } else {
-        console.error('INVALID SIGN PAYLOAD!', JSON.stringify(unsignedTx))
-      }
-    })
-
-    //start keepkey
-    async function startPioneer() {
-      try {
-        //keepkey
-        await keepkey.init()
-      } catch (e) {
-        console.error(e)
-      }
-    }
-    startPioneer()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.wallet]) // we explicitly only want this to happen once
-
-  //onStart()
-  const connect = useCallback(
-    async (type: KeyManager) => {
-      if (type === 'keepkey') {
-        const adapter = SUPPORTED_WALLETS['keepkey'].adapter.useKeyring(state.keyring)
-        try {
-          // TODO: add ability to pass serviceKey to adapter
-          // const serviceKey = keepkey.getServiceKey()
-          await adapter.pairDevice('http://localhost:1646')
-          const adapters: Adapters = new Map()
-          adapters.set('keepkey' as KeyManager, adapter)
-          dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
-        } catch (e) {
-          dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: '-1' })
-          dispatch({
-            type: WalletActions.SET_KEEPKEY_STATUS,
-            payload: 'error: failed to connect to bridge'
-          })
-        }
-      }
-      dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
-      if (SUPPORTED_WALLETS[type]?.routes[0]?.path) {
-        dispatch({
-          type: WalletActions.SET_INITIAL_ROUTE,
-          payload: SUPPORTED_WALLETS[type].routes[0].path as string
-        })
-      }
-    },
-    [state.keyring]
-  )
-
-  const create = useCallback(async (type: KeyManager) => {
-    dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
-    const routeIndex = findIndex(SUPPORTED_WALLETS[type]?.routes, ({ path }) =>
-      String(path).endsWith('create')
-    )
-    if (routeIndex > -1) {
-      dispatch({
-        type: WalletActions.SET_INITIAL_ROUTE,
-        payload: SUPPORTED_WALLETS[type].routes[routeIndex].path as string
-      })
-    }
-  }, [])
 
   const disconnect = useCallback(() => {
     /**
@@ -648,6 +232,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
      * the disconnect function is undefined
      */
     state.wallet?.disconnect?.()
+    // @ts-ignore
     dispatch({ type: WalletActions.RESET_STATE })
     clearLocalWallet()
   }, [state.wallet])
@@ -690,6 +275,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
                   await localKeepKeyWallet.initialize()
 
+                  // @ts-ignore
                   dispatch({
                     type: WalletActions.SET_WALLET,
                     payload: {
@@ -700,6 +286,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
                       meta: { label },
                     },
                   })
+                  // @ts-ignore
                   dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
                 } else {
                   /**
@@ -713,6 +300,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
               } catch (e) {
                 disconnect()
               }
+              // @ts-ignore
               dispatch({ type: WalletActions.SET_LOCAL_WALLET_LOADING, payload: false })
               break
             case KeyManager.Portis:
@@ -722,6 +310,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
                 try {
                   await localPortisWallet.initialize()
                   const deviceId = await localPortisWallet.getDeviceID()
+                  // @ts-ignore
                   dispatch({
                     type: WalletActions.SET_WALLET,
                     payload: {
@@ -731,6 +320,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
                       deviceId,
                     },
                   })
+                  // @ts-ignore
                   dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
                 } catch (e) {
                   disconnect()
@@ -738,6 +328,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
               } else {
                 disconnect()
               }
+              // @ts-ignore
               dispatch({ type: WalletActions.SET_LOCAL_WALLET_LOADING, payload: false })
               break
             case KeyManager.MetaMask:
@@ -749,6 +340,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
                 try {
                   await localMetaMaskWallet.initialize()
                   const deviceId = await localMetaMaskWallet.getDeviceID()
+                  // @ts-ignore
                   dispatch({
                     type: WalletActions.SET_WALLET,
                     payload: {
@@ -758,6 +350,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
                       deviceId,
                     },
                   })
+                  // @ts-ignore
                   dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
                 } catch (e) {
                   disconnect()
@@ -765,6 +358,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
               } else {
                 disconnect()
               }
+              // @ts-ignore
               dispatch({ type: WalletActions.SET_LOCAL_WALLET_LOADING, payload: false })
               break
             default:
@@ -797,17 +391,20 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
           }
         }
 
+        // @ts-ignore
         dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
       })()
     }
   }, [state.keyring])
 
   const connect = useCallback(async (type: KeyManager) => {
+    // @ts-ignore
     dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
     const routeIndex = findIndex(SUPPORTED_WALLETS[type]?.routes, ({ path }) =>
       String(path).endsWith('connect'),
     )
     if (routeIndex > -1) {
+      // @ts-ignore
       dispatch({
         type: WalletActions.SET_INITIAL_ROUTE,
         payload: SUPPORTED_WALLETS[type].routes[routeIndex].path as string,
@@ -816,11 +413,13 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   }, [])
 
   const create = useCallback(async (type: KeyManager) => {
+    // @ts-ignore
     dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
     const routeIndex = findIndex(SUPPORTED_WALLETS[type]?.routes, ({ path }) =>
       String(path).endsWith('create'),
     )
     if (routeIndex > -1) {
+      // @ts-ignore
       dispatch({
         type: WalletActions.SET_INITIAL_ROUTE,
         payload: SUPPORTED_WALLETS[type].routes[routeIndex].path as string,
@@ -829,6 +428,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   }, [])
 
   const setAwaitingDeviceInteraction = useCallback((awaitingDeviceInteraction: boolean) => {
+    // @ts-ignore
     dispatch({
       type: WalletActions.SET_AWAITING_DEVICE_INTERACTION,
       payload: awaitingDeviceInteraction,
@@ -836,6 +436,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   }, [])
 
   const setLastDeviceInteractionStatus = useCallback((lastDeviceInteractionStatus: Outcome) => {
+    // @ts-ignore
     dispatch({
       type: WalletActions.SET_LAST_DEVICE_INTERACTION_STATUS,
       payload: lastDeviceInteractionStatus,
@@ -884,6 +485,3 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     </WalletContext.Provider>
   )
 }
-
-export const useWallet = (): IWalletContext =>
-    useContext(WalletContext as React.Context<IWalletContext>)

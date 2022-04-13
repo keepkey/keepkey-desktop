@@ -14,12 +14,16 @@ export enum WalletActions {
   SET_WALLET_MODAL = 'SET_WALLET_MODAL',
   RESET_STATE = 'RESET_STATE',
   SET_LOCAL_WALLET_LOADING = 'SET_LOCAL_WALLET_LOADING',
+  SET_KEEPKEY_STATE = 'SET_KEEPKEY_STATE',
+  SET_KEEPKEY_STATUS = 'SET_KEEPKEY_STATUS',
+  SET_KEEPKEY = 'SET_KEEPKEY',
   NATIVE_PASSWORD_OPEN = 'NATIVE_PASSWORD_OPEN',
   OPEN_KEEPKEY_PIN = 'OPEN_KEEPKEY_PIN',
   OPEN_KEEPKEY_PASSPHRASE = 'OPEN_KEEPKEY_PASSPHRASE',
   OPEN_KEEPKEY_INITIALIZE = 'OPEN_KEEPKEY_INITIALIZE',
   SET_AWAITING_DEVICE_INTERACTION = 'SET_AWAITING_DEVICE_INTERACTION',
   SET_LAST_DEVICE_INTERACTION_STATUS = 'SET_LAST_DEVICE_INTERACTION_STATUS',
+  SET_WALLET_CONNECT_APP = 'SET_WALLET_CONNECT_APP'
 }
 
 export type Outcome = 'success' | 'error' | undefined
@@ -40,6 +44,10 @@ export type ActionTypes =
   | { type: WalletActions.SET_CONNECTOR_TYPE; payload: KeyManager }
   | { type: WalletActions.SET_INITIAL_ROUTE; payload: string }
   | { type: WalletActions.SET_WALLET_MODAL; payload: boolean }
+  | { type: WalletActions.SET_KEEPKEY; payload: any | null }
+  | { type: WalletActions.SET_KEEPKEY_STATE; payload: string }
+  | { type: WalletActions.SET_KEEPKEY_STATUS; payload: string }
+  | { type: WalletActions.SET_WALLET_CONNECT_APP; payload: string }
   | { type: WalletActions.SET_LOCAL_WALLET_LOADING; payload: boolean }
   | { type: WalletActions.SET_AWAITING_DEVICE_INTERACTION; payload: boolean }
   | { type: WalletActions.SET_LAST_DEVICE_INTERACTION_STATUS; payload: Outcome }

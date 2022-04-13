@@ -58,8 +58,9 @@ export const Onboarding = ({ route }: { route?: Route }) => {
     { label: 'Initialize KeepKey', Content: InitializeModal }
   ]
 
-  // @ts-ignore
+
   return (
+    // @ts-ignore
     <Main route={route}>
       <Flex flexDir='column' width='100%'>
         <Steps activeStep={activeStep}>

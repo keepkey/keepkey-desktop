@@ -2,15 +2,14 @@ import merge from 'lodash/merge'
 import noop from 'lodash/noop'
 import { GetStartedModal } from 'plugins/cosmos/components/modals/GetStarted/GetStarted'
 import { StakingModal } from 'plugins/cosmos/components/modals/Staking/Staking'
-import React, { useContext, useMemo, useReducer } from 'react'
-import { AppSettingsModal } from 'components/Modals/AppSettings/AppSettings'
 import React, { useMemo, useReducer } from 'react'
+import { AppSettingsModal } from 'components/Modals/AppSettings/AppSettings'
 import { WipeModal } from 'components/Layout/Header/NavBar/KeepKey/Modals/Wipe'
 import { FiatRampsModal } from 'components/Modals/FiatRamps/FiatRamps'
 import { HardwareErrorModal } from 'components/Modals/HardwareError/HardwareError'
-import { PassphraseModal } from 'components/Modals/KeyManagement/KeepKey/Passphrase'
-import { PinModal } from 'components/Modals/KeyManagement/KeepKey/Pin'
-import { PasswordModal } from 'components/Modals/KeyManagement/Native/Password'
+// import { PassphraseModal } from 'components/Modals/KeyManagement/KeepKey/Passphrase'
+// import { PinModal } from 'components/Modals/KeyManagement/KeepKey/Pin'
+// import { PasswordModal } from 'components/Modals/KeyManagement/Native/Password'
 import { PairModal } from 'components/Modals/Pair/Pair'
 import { PairedAppsModal } from 'components/Modals/PairedApps/PairedApps'
 import { ReceiveModal } from 'components/Modals/Receive/Receive'
@@ -19,7 +18,6 @@ import { SignModal } from 'components/Modals/Sign/Sign'
 import { TroubleshootModal } from 'components/Modals/Troubleshoot/Troubleshoot'
 import { WalletConnectModal } from 'components/Modals/WalletConnect/WalletConnect'
 import { SettingsModal } from 'components/Modals/Settings/Settings'
-
 import { ModalContext } from './ModalContext'
 
 // to add new modals, add a new key: value pair below
@@ -37,8 +35,7 @@ const MODALS = {
   walletConnect: WalletConnectModal,
   hardwareError: HardwareErrorModal,
   appSettings: AppSettingsModal,
-  troubleshoot: TroubleshootModal
-  cosmosStaking: StakingModal,
+  troubleshoot: TroubleshootModal,
   settings: SettingsModal,
   keepKeyWipe: WipeModal,
 }
