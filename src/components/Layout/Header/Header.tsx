@@ -12,15 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { useCallback, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-<<<<<<< HEAD
-import { Route } from 'Routes/helpers'
-import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
-// import { FoxIcon } from 'components/Icons/FoxIcon'
-import { ReduxState } from 'state/reducer'
-import { selectFeatureFlag } from 'state/slices/preferencesSlice/selectors'
-=======
 import { FoxIcon } from 'components/Icons/FoxIcon'
->>>>>>> 476edb7ad399f9bf9a2142647d01921edb54be25
 
 // import { useWallet } from '../../../context/WalletProvider/WalletProvider'
 import { AutoCompleteSearch } from './AutoCompleteSearch/AutoCompleteSearch'
@@ -54,14 +46,6 @@ export const Header = () => {
     return () => document.removeEventListener('keydown', handleKeyPress)
   }, [handleKeyPress])
 
-<<<<<<< HEAD
-  // TODO(gomes): There's currently a runtime error when using the typed useAppSelector here.
-  // Find out the root cause and use it instead
-  const gemRampFlag = useSelector((state: ReduxState) => selectFeatureFlag(state, 'GemRamp'))
-
-  // @ts-ignore
-=======
->>>>>>> 476edb7ad399f9bf9a2142647d01921edb54be25
   return (
     <>
       <Flex
@@ -98,26 +82,15 @@ export const Header = () => {
             <AutoCompleteSearch />
           </HStack>
           <Flex justifyContent='flex-end' flex={1}>
-<<<<<<< HEAD
-            {gemRampFlag && (
-              <Box
-                display={{ base: 'none', md: 'block' }}
-                mr={{ base: 0, md: 4 }}
-                mb={{ base: 4, md: 0 }}
-              >
-                <FiatRamps />
-              </Box>
-            )}
-            <Box display={{ base: 'none', md: 'block' }} mr={{ base: 0, md: 4 }}>
-              <WalletConnectMenu />
-=======
             <Box
               display={{ base: 'none', md: 'block' }}
               mr={{ base: 0, md: 4 }}
               mb={{ base: 4, md: 0 }}
             >
               <FiatRamps />
->>>>>>> 476edb7ad399f9bf9a2142647d01921edb54be25
+            </Box>
+            <Box display={{ base: 'none', md: 'block' }} mr={{ base: 0, md: 4 }}>
+              <WalletConnectMenu />
             </Box>
             <Box display={{ base: 'none', md: 'block' }}>
               <UserMenu />

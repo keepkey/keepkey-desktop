@@ -24,11 +24,8 @@
     "connectWallet": "Connect Wallet",
     "connectApp": "Connect App",
     "connectedWallet": "Connected Wallet",
-<<<<<<< HEAD:src/assets/translations/messages-en.json
     "connectedApp": "Connected App",
-=======
     "connectedWalletSettings": "Wallet Settings",
->>>>>>> 476edb7ad399f9bf9a2142647d01921edb54be25:src/assets/translations/main.json
     "noWallet": "No Wallet Connected",
     "noApp": "No App Connected",
     "seeAll": "See All",
@@ -634,7 +631,6 @@
     "connect": {
       "loadingText": "Pairing Wallet"
     },
-<<<<<<< HEAD:src/assets/translations/messages-en.json
     "pair": {
       "header": "Wallet Connect",
       "native": {
@@ -675,14 +671,12 @@
           "downloaded": "Install updates (requires restart)"
         },
         "saveSettings": "Save Settings"
-      }
-=======
+      },
     "settings": {
       "settings": "Settings",
       "language": "Language",
       "balanceThreshold": "Balance Threshold",
       "balanceThresholdTooltip": "Hide balances below this value"
->>>>>>> 476edb7ad399f9bf9a2142647d01921edb54be25:src/assets/translations/main.json
     }
   },
   "walletProvider": {
@@ -1025,4 +1019,5 @@
     "for": "For",
     "transfers": "Transfers"
   }
+}
 }

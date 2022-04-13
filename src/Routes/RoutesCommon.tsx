@@ -27,6 +27,9 @@ import { Flags } from 'pages/Flags/Flags'
 import { TransactionHistory } from 'pages/TransactionHistory/TransactionHistory'
 
 import { Route as NestedRoute } from './helpers'
+import { MdOutlineApps } from 'react-icons/md'
+import { Onboarding } from 'pages/Onboarding/Onboarding'
+import { Apps } from 'pages/Apps/Apps'
 
 export const routes: Array<NestedRoute> = [
   {
@@ -153,4 +156,16 @@ export const routes: Array<NestedRoute> = [
     hide: window.location.hostname !== 'localhost',
     main: Flags,
   },
+  {
+    path: '/apps',
+    label: 'navBar.apps',
+    icon: <MdOutlineApps />,
+    main: Apps
+  },
+  {
+    path: '/onboarding',
+    label: 'Onboarding',
+    hide: true,
+    main: Onboarding
+  }
 ]
