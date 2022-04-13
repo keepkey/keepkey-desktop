@@ -10,7 +10,7 @@ import { Text } from 'components/Text'
 import {
   selectPortfolioAssetIds,
   selectPortfolioLoading,
-  selectPortfolioTotalFiatBalance
+  selectPortfolioTotalFiatBalanceWithDelegations,
 } from 'state/slices/selectors'
 
 import { AccountTable } from './components/AccountList/AccountTable'
@@ -19,7 +19,8 @@ export const Portfolio = () => {
   const [timeframe, setTimeframe] = useState(HistoryTimeframe.DAY)
   const [percentChange, setPercentChange] = useState(0)
   const assetIds = useSelector(selectPortfolioAssetIds)
-  const totalBalance = useSelector(selectPortfolioTotalFiatBalance)
+  const totalBalance = useSelector(selectPortfolioTotalFiatBalanceWithDelegations)
+
   const loading = useSelector(selectPortfolioLoading)
   const isLoaded = !loading
 

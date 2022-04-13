@@ -9,6 +9,9 @@ const cspMeta = Object.entries({
     'http://localhost:1646/exchange/device',
     'https://registry.walletconnect.com/api/v1/dapps',
     'data:',
+    // Explicitly whitelist our KeepKey versions file
+    // TODO: File manually added to IPFS - we need to instead add it to version control and use a persistent URL.
+    'https://bafybeied24gc2ipvlxdbs4v676dwho2l5aafmngrleic3do2czdvgb546u.ipfs.dweb.link/keepKey.json',
     // @shapeshiftoss/swapper@1.15.0: https://github.com/shapeshift/lib/blob/f833ac7f8c70dee801eaa24525336ca6992e5903/packages/swapper/src/swappers/zrx/utils/zrxService.ts#L4
     'https://api.0x.org',
     // @shapeshiftoss/chain-adapters@1.22.1: https://github.com/shapeshift/lib/blob/476550629be9485bfc089decc4df85456968464a/packages/chain-adapters/src/ethereum/EthereumChainAdapter.ts#L226
@@ -40,11 +43,11 @@ const cspMeta = Object.entries({
     'https://api.coincap.io/v2/assets',
     // @shapeshiftoss/market-service@1.7.0: https://github.com/shapeshift/lib/blob/9123527ebbcf0fd62a619ab2824d970123bd5ac2/packages/market-service/src/coincap/coincap.ts#L21
     'https://api.coincap.io/v2/assets/',
-    // @gem(onramp) to get coinify supported currencies
+    // https://github.com/shapeshift/web/blob/70111acd6236759675cf81ddcd196c31472989a6/src/components/Modals/FiatRamps/utils.ts#L40
     process.env.REACT_APP_GEM_COINIFY_SUPPORTED_COINS,
-    // @gem(onramp) to get wyre supported currencies
+    // https://github.com/shapeshift/web/blob/70111acd6236759675cf81ddcd196c31472989a6/src/components/Modals/FiatRamps/utils.ts#L50
     process.env.REACT_APP_GEM_WYRE_SUPPORTED_COINS,
-    // @gem(onramp) to get gem asset logos
+    // https://github.com/shapeshift/web/blob/70111acd6236759675cf81ddcd196c31472989a6/src/components/Modals/FiatRamps/utils.ts#L13
     process.env.REACT_APP_GEM_ASSET_LOGO,
     'https://onramp.gem.co',
     // @shapeshiftoss/market-service@2.0.0: https://github.com/shapeshift/lib/blob/1efccc3401eccb3125e1f09b7f829b886b457b89/packages/market-service/src/osmosis/osmosis.ts#L21
@@ -56,7 +59,7 @@ const cspMeta = Object.entries({
     process.env.REACT_APP_UNCHAINED_BITCOIN_HTTP_URL,
     process.env.REACT_APP_UNCHAINED_BITCOIN_WS_URL,
     process.env.REACT_APP_UNCHAINED_COSMOS_HTTP_URL,
-    process.env.REACT_APP_UNCHAINED_COSMOS_WS_URL
+    process.env.REACT_APP_UNCHAINED_COSMOS_WS_URL,
   ],
   'frame-src': ['https://fwd.metamask.io/', 'https://widget.portis.io'],
   'img-src': [
@@ -65,7 +68,8 @@ const cspMeta = Object.entries({
     'data:',
     'blob:',
     'filesystem:',
-    'https://gem-widgets-assets.s3-us-west-2.amazonaws.com/currencies/crypto/',
+    // https://github.com/shapeshift/web/blob/70111acd6236759675cf81ddcd196c31472989a6/src/components/Modals/FiatRamps/utils.ts#L13
+    process.env.REACT_APP_GEM_ASSET_LOGO,
     'https://assets.coincap.io/assets/icons/',
     'https://static.coincap.io/assets/icons/',
     'https://assets.coingecko.com/coins/images/',
@@ -75,18 +79,21 @@ const cspMeta = Object.entries({
     'https://assets.yearn.network/tokens/',
     'https://raw.githubusercontent.com/yearn/yearn-assets/',
     'https://rawcdn.githack.com/trustwallet/assets/',
-    'https://raw.githubusercontent.com/osmosis-labs/'
+    'https://raw.githubusercontent.com/osmosis-labs/',
+    'https://raw.githack.com/shapeshift/lib/',
+    'https://raw.githubusercontent.com/shapeshift/lib/',
+    'https://raw.githubusercontent.com/cosmostation/',
   ],
   'script-src': [
     "'self'",
     'blob:',
     "'unsafe-eval'", //TODO: There are still a couple of libraries we depend on that use eval; notably amqp-ts and google-protobuf.
     "'unsafe-inline'", //TODO: The only inline code we need is the stub injected by Metamask. We can fix this by including the stub in our own bundle.
-    "'report-sample'"
+    "'report-sample'",
   ],
   'style-src': ["'self'", "'unsafe-inline'", "'report-sample'"],
   'base-uri': ["'none'"],
-  'object-src': ["'none'"]
+  'object-src': ["'none'"],
 })
   .map(([k, v]) => `${[k, ...v].join(' ')}`)
   .join('; ')
@@ -98,12 +105,12 @@ const headers = {
   'Permissions-Policy': 'document-domain=()',
   'Referrer-Policy': 'no-referrer',
   'X-Content-Type-Options': 'nosniff',
-  'X-Frame-Options': 'DENY'
+  'X-Frame-Options': 'DENY',
 }
 
 module.exports = {
   headers,
-  cspMeta
+  cspMeta,
 }
 
 if (!module.parent) {
@@ -111,6 +118,6 @@ if (!module.parent) {
     './build/_headers',
     `/*\n${Object.entries(headers)
       .map(([k, v]) => `  ${k}: ${v}\n`)
-      .join('')}`
+      .join('')}`,
   )
 }

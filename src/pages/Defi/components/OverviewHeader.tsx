@@ -30,12 +30,12 @@ function EarnStat({ label, value }: EarnStatProps) {
 
 export const OverviewHeader = ({
   earnBalance,
-  walletBalance
+  walletBalance,
 }: {
   earnBalance: UseEarnBalancesReturn
   walletBalance: string
 }) => {
-  if (earnBalance.vaults.loading) return null
+  if (earnBalance.loading) return null
 
   const netWorth = bn(earnBalance.totalEarningBalance).plus(bn(walletBalance)).toString()
 

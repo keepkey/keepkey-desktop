@@ -35,7 +35,7 @@ export const Approve = ({
   loadingText,
   preFooter,
   onCancel,
-  onConfirm
+  onConfirm,
 }: ApproveProps) => {
   const translate = useTranslate()
   return (
@@ -79,7 +79,7 @@ export const Approve = ({
         </Row>
       </ModalFooter>
       <ModalFooter py={4} justifyContent='space-between'>
-        <Button onClick={onCancel} size='lg' colorScheme='gray'>
+        <Button onClick={onCancel} size='lg' colorScheme='gray' isDisabled={loading}>
           {translate('modals.approve.reject')}
         </Button>
         <Button

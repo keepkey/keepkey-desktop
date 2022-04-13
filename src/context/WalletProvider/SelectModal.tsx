@@ -1,13 +1,15 @@
 import { Button, Center, Flex, ModalBody, ModalHeader, Stack, Tag } from '@chakra-ui/react'
 import { RawText, Text } from 'components/Text'
+import { useWallet } from 'hooks/useWallet/useWallet'
 
 import { SUPPORTED_WALLETS } from './config'
-import { useWallet } from './WalletProvider'
+import { KeyManager } from './KeyManager'
 
 export const SelectModal = () => {
   const {
     state: { adapters, walletInfo },
-    connect
+    connect,
+    create,
   } = useWallet()
 
   return (

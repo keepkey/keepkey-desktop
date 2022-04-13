@@ -3,11 +3,12 @@ import { Link, Text, useToast } from '@chakra-ui/react'
 import { ChainAdapter } from '@shapeshiftoss/chain-adapters'
 import { chainAdapters, ChainTypes } from '@shapeshiftoss/types'
 import { useTranslate } from 'react-polyglot'
-import { SendInput } from 'components/Modals/Send/Form'
-import { useModal } from 'context/ModalProvider/ModalProvider'
 import { useChainAdapters } from 'context/PluginProvider/PluginProvider'
-import { useWallet } from 'context/WalletProvider/WalletProvider'
+import { useModal } from 'hooks/useModal/useModal'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+
+import { SendInput } from '../../Form'
 
 export const useFormSend = () => {
   const toast = useToast()
@@ -15,7 +16,7 @@ export const useFormSend = () => {
   const chainAdapterManager = useChainAdapters()
   const { send } = useModal()
   const {
-    state: { wallet }
+    state: { wallet },
   } = useWallet()
 
   const handleSend = async (data: SendInput) => {
@@ -30,7 +31,7 @@ export const useFormSend = () => {
 
         let result
 
-        const { estimatedFees, feeType, address: to } = data
+        const { memo, estimatedFees, feeType, address: to } = data
         if (adapterType === ChainTypes.Cosmos) {
           const fees = estimatedFees[feeType] as chainAdapters.FeeData<ChainTypes.Cosmos>
           const gas = fees.chainSpecific.gasLimit
@@ -38,10 +39,11 @@ export const useFormSend = () => {
           const address = to
           result = await (adapter as ChainAdapter<ChainTypes.Cosmos>).buildSendTransaction({
             to: address,
+            memo,
             value,
             wallet,
             chainSpecific: { gas, fee },
-            sendMax: data.sendMax
+            sendMax: data.sendMax,
           })
         } else if (adapterType === ChainTypes.Osmosis) {
           // TODO(gomes): implement this
@@ -66,7 +68,7 @@ export const useFormSend = () => {
               <Text>
                 {translate('modals.send.youHaveSent', {
                   amount: data.cryptoAmount,
-                  symbol: data.cryptoSymbol
+                  symbol: data.cryptoSymbol,
                 })}
               </Text>
               {data.asset.explorerTxLink && (
@@ -79,18 +81,18 @@ export const useFormSend = () => {
           status: 'success',
           duration: 9000,
           isClosable: true,
-          position: 'top-right'
+          position: 'top-right',
         })
       } catch (error) {
         toast({
           title: translate('modals.send.errorTitle', {
-            asset: data.asset.name
+            asset: data.asset.name,
           }),
           description: translate('modals.send.errors.transactionRejected'),
           status: 'error',
           duration: 9000,
           isClosable: true,
-          position: 'top-right'
+          position: 'top-right',
         })
       } finally {
         send.close()
@@ -98,6 +100,6 @@ export const useFormSend = () => {
     }
   }
   return {
-    handleSend
+    handleSend,
   }
 }
