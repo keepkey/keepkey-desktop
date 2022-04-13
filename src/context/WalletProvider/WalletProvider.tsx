@@ -418,10 +418,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       dispatch({ type: WalletActions.SET_WALLET_CONNECT_APP, payload: data })
     })
 
-    ipcRenderer.on('@onboard/open', (event, data) => {
-      history.push('/flags')
-    })
-
     //listen to events on main
     ipcRenderer.on('hardware', (event, data) => {
       //event

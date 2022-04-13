@@ -10,6 +10,7 @@ import { IconCircle } from 'components/IconCircle'
 import { PairingProps } from 'components/Modals/Pair/Pair'
 import { useHasAppUpdated } from 'hooks/useHasAppUpdated/useHasAppUpdated'
 import { useModal } from 'hooks/useModal/useModal'
+import { useHistory } from 'react-router'
 // import { setupSentry } from 'lib/setupSentry'
 
 export const App = () => {
@@ -19,6 +20,7 @@ export const App = () => {
   const updateId = 'update-app'
   const translate = useTranslate()
   const { pair } = useModal()
+  const history = useHistory()
 
   // useEffect(setupSentry, [])
 
@@ -26,7 +28,11 @@ export const App = () => {
     ipcRenderer.on('@modal/pair', (event, data: PairingProps) => {
       pair.open(data)
     })
+    ipcRenderer.on('@onboard/open', (event, data) => {
+      history.push('/onboarding')
+    })
   }, [pair])
+  
 
   useEffect(() => {
     if (shouldUpdate && !toast.isActive(updateId)) {
