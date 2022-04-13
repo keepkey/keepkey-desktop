@@ -5,12 +5,12 @@ import { ipcRenderer } from 'electron'
 import { useEffect, useRef } from 'react'
 import { FaSync } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'
+import { useHistory } from 'react-router'
 import { Routes } from 'Routes/Routes'
 import { IconCircle } from 'components/IconCircle'
 import { PairingProps } from 'components/Modals/Pair/Pair'
 import { useHasAppUpdated } from 'hooks/useHasAppUpdated/useHasAppUpdated'
 import { useModal } from 'hooks/useModal/useModal'
-import { useHistory } from 'react-router'
 // import { setupSentry } from 'lib/setupSentry'
 
 export const App = () => {
@@ -31,8 +31,7 @@ export const App = () => {
     ipcRenderer.on('@onboard/open', (event, data) => {
       history.push('/onboarding')
     })
-  }, [pair])
-  
+  }, [pair, history])
 
   useEffect(() => {
     if (shouldUpdate && !toast.isActive(updateId)) {
