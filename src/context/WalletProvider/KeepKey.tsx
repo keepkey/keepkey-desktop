@@ -50,7 +50,7 @@ export class KeepKeyService {
       ipcRenderer.send('@bridge/add-service', {
         serviceKey,
         serviceName: 'ShapeShift',
-        serviceImageUrl: 'https://app.shapeshift.com/icon-512x512.png'
+        serviceImageUrl: 'https://app.shapeshift.com/icon-512x512.png',
       })
     }
     return serviceKey
@@ -140,7 +140,7 @@ export class KeepKeyService {
           broadcastString = {
             tx: signedTx,
             type: 'cosmos-sdk/StdTx',
-            mode: 'sync'
+            mode: 'sync',
           }
           buffer = Buffer.from(JSON.stringify(broadcastString), 'base64')
           //TODO FIXME
@@ -202,7 +202,7 @@ export class KeepKeyService {
       this.isInitialized = true
     } else {
       return {
-        status: 'Online'
+        status: 'Online',
       }
     }
   }

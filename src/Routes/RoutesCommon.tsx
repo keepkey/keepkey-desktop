@@ -8,6 +8,7 @@ import {
   FaWallet,
   FaWater,
 } from 'react-icons/fa'
+import { MdOutlineApps } from 'react-icons/md'
 import { AssetsIcon } from 'components/Icons/Assets'
 import { DashboardIcon } from 'components/Icons/Dashboard'
 import { Account } from 'pages/Accounts/Account'
@@ -15,6 +16,7 @@ import { Accounts } from 'pages/Accounts/Accounts'
 import { AccountToken } from 'pages/Accounts/AccountToken/AccountToken'
 import { AccountTokenTxHistory } from 'pages/Accounts/AccountToken/AccountTokenTxHistory'
 import { AccountTxHistory } from 'pages/Accounts/AccountTxHistory'
+import { Apps } from 'pages/Apps/Apps'
 import { Asset } from 'pages/Assets/Asset'
 import { Assets } from 'pages/Assets/Assets'
 import { AssetTxHistory } from 'pages/Assets/AssetTxHistory'
@@ -24,12 +26,10 @@ import { LiquidityPools } from 'pages/Defi/views/LiquidityPools'
 import { Overview } from 'pages/Defi/views/Overview'
 import { StakingVaults } from 'pages/Defi/views/StakingVaults'
 import { Flags } from 'pages/Flags/Flags'
+import { Onboarding } from 'pages/Onboarding/Onboarding'
 import { TransactionHistory } from 'pages/TransactionHistory/TransactionHistory'
 
 import { Route as NestedRoute } from './helpers'
-import { MdOutlineApps } from 'react-icons/md'
-import { Onboarding } from 'pages/Onboarding/Onboarding'
-import { Apps } from 'pages/Apps/Apps'
 
 export const routes: Array<NestedRoute> = [
   {
@@ -160,12 +160,12 @@ export const routes: Array<NestedRoute> = [
     path: '/apps',
     label: 'navBar.apps',
     icon: <MdOutlineApps />,
-    main: Apps
+    main: Apps,
   },
   {
     path: '/onboarding',
     label: 'Onboarding',
     hide: true,
-    main: Onboarding
-  }
+    main: Onboarding,
+  },
 ]

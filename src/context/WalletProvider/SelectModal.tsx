@@ -3,13 +3,11 @@ import { RawText, Text } from 'components/Text'
 import { useWallet } from 'hooks/useWallet/useWallet'
 
 import { SUPPORTED_WALLETS } from './config'
-import { KeyManager } from './KeyManager'
 
 export const SelectModal = () => {
   const {
     state: { adapters, walletInfo },
     connect,
-    create,
   } = useWallet()
 
   return (
@@ -26,7 +24,7 @@ export const SelectModal = () => {
               // So not all of the supported wallets will have an initialized adapter
               // TODO: hacky shortlist, fixme (why is so fricken hard to disable a wallet), TODO feature flag new wallets?)
               Object.values({
-                KeepKey: 'keepkey'
+                KeepKey: 'keepkey',
               }).map(key => {
                 // @ts-ignore
                 const option = SUPPORTED_WALLETS[key]

@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import React, { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useChainAdapters } from 'context/PluginProvider/PluginProvider'
+import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { walletSupportChain } from 'hooks/useWalletSupportsChain/useWalletSupportsChain'
 import { AccountSpecifierMap } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
@@ -19,8 +20,6 @@ import {
 import { txHistoryApi } from 'state/slices/txHistorySlice/txHistorySlice'
 import { txHistory } from 'state/slices/txHistorySlice/txHistorySlice'
 import { store, useAppSelector } from 'state/store'
-import { useModal } from 'hooks/useModal/useModal'
-
 
 type TransactionsProviderProps = {
   children: React.ReactNode
@@ -145,6 +144,7 @@ export const TransactionsProvider = ({ children }: TransactionsProviderProps): J
     accountSpecifiers,
     getAccountSpecifiersByChainId,
     portfolioAssetIds,
+    hardwareError,
   ])
 
   /**

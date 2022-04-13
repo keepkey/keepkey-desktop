@@ -1,6 +1,12 @@
-import { ChevronDownIcon, ChevronRightIcon, WarningTwoIcon } from '@chakra-ui/icons'
+import {
+  ChevronDownIcon,
+  ChevronRightIcon,
+  ExternalLinkIcon,
+  SettingsIcon,
+  WarningTwoIcon,
+} from '@chakra-ui/icons'
 import { Menu, MenuButton, MenuGroup, MenuItem, MenuList } from '@chakra-ui/menu'
-import { Button, Flex, HStack, useColorModeValue } from '@chakra-ui/react'
+import { Button, Flex, HStack, Link, useColorModeValue } from '@chakra-ui/react'
 import { FC, useEffect, useState } from 'react'
 import { FaPuzzlePiece, FaWallet } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'
@@ -12,6 +18,7 @@ import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { RawText, Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import type { InitialState } from 'context/WalletProvider/WalletProvider'
+import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { ensReverseLookup } from 'lib/ens'
 

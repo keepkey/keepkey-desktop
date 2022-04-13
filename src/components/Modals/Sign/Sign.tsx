@@ -14,14 +14,14 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Textarea
+  Textarea,
 } from '@chakra-ui/react'
 import { ipcRenderer } from 'electron'
 import React, { useCallback, useEffect, useState } from 'react'
 import KeepKey from 'assets/hold-and-release.svg'
 import { Text } from 'components/Text'
-import { useModal } from 'context/ModalProvider/ModalProvider'
-import { useWallet } from 'context/WalletProvider/WalletProvider'
+import { useModal } from 'hooks/useModal/useModal'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import { getAssetUrl } from 'lib/getAssetUrl'
 
@@ -68,8 +68,8 @@ export const SignModal = (input: any) => {
         ...input?.unsignedTx.invocation?.unsignedTx?.HDwalletPayload,
         nonce,
         gasLimit,
-        gasPrice
-      }
+        gasPrice,
+      },
     }
     let signedTx = await keepkey.signTx(unsignedTx)
     ipcRenderer.send(`@account/tx-signed-${input.nonce}`, { signedTx, nonce: input.nonce })
@@ -84,7 +84,7 @@ export const SignModal = (input: any) => {
     close,
     keepkey,
     input?.unsignedTx?.invocation?.unsignedTx,
-    input.nonce
+    input.nonce,
   ])
 
   const HandleReject = async () => {

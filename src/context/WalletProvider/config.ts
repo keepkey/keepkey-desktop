@@ -1,5 +1,7 @@
 import { ComponentWithAs, IconProps } from '@chakra-ui/react'
+import * as keepkeyTcp from '@shapeshiftoss/hdwallet-keepkey-tcp'
 import { RouteProps } from 'react-router-dom'
+import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { KeepKeyLabel } from 'context/WalletProvider/KeepKey/components/Label'
 import { KeepKeyRecoverySentence } from 'context/WalletProvider/KeepKey/components/RecoverySentence'
 import { WipedSuccessfully } from 'context/WalletProvider/KeepKey/components/WipedSuccessfully'
@@ -11,7 +13,6 @@ import { KeepKeyPin } from './KeepKey/components/Pin'
 import { KeepKeySuccess } from './KeepKey/components/Success'
 import { KeepKeyConfig } from './KeepKey/config'
 import { KeyManager } from './KeyManager'
-import * as keepkeyTcp from '@shapeshiftoss/hdwallet-keepkey-tcp'
 import { MetaMaskConnect } from './MetaMask/components/Connect'
 import { MetaMaskFailure } from './MetaMask/components/Failure'
 import { MetaMaskSuccess } from './MetaMask/components/Success'
@@ -30,7 +31,6 @@ import { PortisConnect } from './Portis/components/Connect'
 import { PortisFailure } from './Portis/components/Failure'
 import { PortisSuccess } from './Portis/components/Success'
 import { PortisConfig } from './Portis/config'
-import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 
 export interface SupportedWalletInfo {
   adapter: any
@@ -41,13 +41,19 @@ export interface SupportedWalletInfo {
 
 export const SUPPORTED_WALLETS: Record<KeyManager, SupportedWalletInfo> = {
   [KeyManager.KeepKey]: {
+    ...KeepKeyConfig,
     adapter: keepkeyTcp.TCPKeepKeyAdapter,
     icon: KeepKeyIcon,
     name: 'KeepKey',
     routes: [
-      { path: '/keepkey/connect', component: KeepKeyConnect },
-      { path: '/keepkey/success', component: KeepKeySuccess }
-    ]
+      { path: KeepKeyRoutes.Connect, component: KeepKeyConnect },
+      { path: KeepKeyRoutes.Success, component: KeepKeySuccess },
+      { path: KeepKeyRoutes.Pin, component: KeepKeyPin },
+      { path: KeepKeyRoutes.Passphrase, component: KeepKeyPassphrase },
+      { path: KeepKeyRoutes.WipeSuccessful, component: WipedSuccessfully },
+      { path: KeepKeyRoutes.NewLabel, component: KeepKeyLabel },
+      { path: KeepKeyRoutes.NewRecoverySentence, component: KeepKeyRecoverySentence },
+    ],
   },
   [KeyManager.Native]: {
     ...NativeConfig,
@@ -61,18 +67,6 @@ export const SUPPORTED_WALLETS: Record<KeyManager, SupportedWalletInfo> = {
       { path: '/native/create-test', component: NativeTestPhrase },
       { path: '/native/success', component: NativeSuccess },
       { path: '/native/enter-password', component: EnterPassword },
-    ],
-  },
-  [KeyManager.KeepKey]: {
-    ...KeepKeyConfig,
-    routes: [
-      { path: KeepKeyRoutes.Connect, component: KeepKeyConnect },
-      { path: KeepKeyRoutes.Success, component: KeepKeySuccess },
-      { path: KeepKeyRoutes.Pin, component: KeepKeyPin },
-      { path: KeepKeyRoutes.Passphrase, component: KeepKeyPassphrase },
-      { path: KeepKeyRoutes.WipeSuccessful, component: WipedSuccessfully },
-      { path: KeepKeyRoutes.NewLabel, component: KeepKeyLabel },
-      { path: KeepKeyRoutes.NewRecoverySentence, component: KeepKeyRecoverySentence },
     ],
   },
   [KeyManager.MetaMask]: {

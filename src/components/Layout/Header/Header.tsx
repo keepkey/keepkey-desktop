@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { useCallback, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { FoxIcon } from 'components/Icons/FoxIcon'
+import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 
 // import { useWallet } from '../../../context/WalletProvider/WalletProvider'
 import { AutoCompleteSearch } from './AutoCompleteSearch/AutoCompleteSearch'

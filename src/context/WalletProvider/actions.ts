@@ -22,7 +22,7 @@ export enum WalletActions {
   SET_LAST_DEVICE_INTERACTION_STATUS = 'SET_LAST_DEVICE_INTERACTION_STATUS',
   SET_KEEPKEY_STATE = 'SET_KEEPKEY_STATE',
   SET_KEEPKEY_STATUS = 'SET_KEEPKEY_STATUS',
-  SET_WALLET_CONNECT_APP = 'SET_WALLET_CONNECT_APP'
+  SET_WALLET_CONNECT_APP = 'SET_WALLET_CONNECT_APP',
 }
 
 export type Outcome = 'success' | 'error' | undefined
@@ -30,15 +30,15 @@ export type Outcome = 'success' | 'error' | undefined
 export type ActionTypes =
   | { type: WalletActions.SET_ADAPTERS; payload: Adapters }
   | {
-    type: WalletActions.SET_WALLET
-    payload: {
-      wallet: HDWallet | null
-      name: string
-      icon: ComponentWithAs<'svg', IconProps>
-      deviceId: string
-      meta?: { label: string }
+      type: WalletActions.SET_WALLET
+      payload: {
+        wallet: HDWallet | null
+        name: string
+        icon: ComponentWithAs<'svg', IconProps>
+        deviceId: string
+        meta?: { label: string }
+      }
     }
-  }
   | { type: WalletActions.SET_IS_CONNECTED; payload: boolean }
   | { type: WalletActions.SET_CONNECTOR_TYPE; payload: KeyManager }
   | { type: WalletActions.SET_INITIAL_ROUTE; payload: string }
@@ -47,32 +47,32 @@ export type ActionTypes =
   | { type: WalletActions.SET_AWAITING_DEVICE_INTERACTION; payload: boolean }
   | { type: WalletActions.SET_LAST_DEVICE_INTERACTION_STATUS; payload: Outcome }
   | {
-    type: WalletActions.NATIVE_PASSWORD_OPEN
-    payload: {
-      modal: boolean
-      deviceId: string
+      type: WalletActions.NATIVE_PASSWORD_OPEN
+      payload: {
+        modal: boolean
+        deviceId: string
+      }
     }
-  }
   | {
-    type: WalletActions.OPEN_KEEPKEY_PIN
-    payload: {
-      deviceId: string
-      pinRequestType?: PinMatrixRequestType
+      type: WalletActions.OPEN_KEEPKEY_PIN
+      payload: {
+        deviceId: string
+        pinRequestType?: PinMatrixRequestType
+      }
     }
-  }
   | {
-    type: WalletActions.OPEN_KEEPKEY_PASSPHRASE
-    payload: {
-      deviceId: string
+      type: WalletActions.OPEN_KEEPKEY_PASSPHRASE
+      payload: {
+        deviceId: string
+      }
     }
-  }
   | { type: WalletActions.RESET_STATE }
   | {
-    type: WalletActions.OPEN_KEEPKEY_INITIALIZE
-    payload: {
-      deviceId: string
+      type: WalletActions.OPEN_KEEPKEY_INITIALIZE
+      payload: {
+        deviceId: string
+      }
     }
-  }
   | { type: WalletActions.SET_KEEPKEY_STATE; payload: string }
   | { type: WalletActions.SET_KEEPKEY_STATUS; payload: string }
   | { type: WalletActions.SET_WALLET_CONNECT_APP; payload: WalletConnectApp | null }

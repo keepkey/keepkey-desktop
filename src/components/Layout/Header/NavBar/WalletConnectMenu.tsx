@@ -6,8 +6,10 @@ import { useTranslate } from 'react-polyglot'
 import { WalletConnectIcon } from 'components/Icons/WalletConnect'
 // import { WalletConnectIcon } from 'components/Icons/WalletConnect'
 import { RawText, Text } from 'components/Text'
-import { useModal } from 'context/ModalProvider/ModalProvider'
-import { InitialState, useWallet, WalletActions } from 'context/WalletProvider/WalletProvider'
+import { WalletActions } from 'context/WalletProvider/actions'
+import { InitialState } from 'context/WalletProvider/WalletProvider'
+import { useModal } from 'hooks/useModal/useModal'
+import { useWallet } from 'hooks/useWallet/useWallet'
 
 const NoApp = ({ onClick }: { onClick: () => void }) => {
   const translate = useTranslate()
@@ -30,7 +32,7 @@ const AppConnected = ({
   walletConnectApp,
   isConnected,
   onDisconnect,
-  onSwitchProvider
+  onSwitchProvider,
 }: WalletConnectedProps) => {
   const translate = useTranslate()
   console.info(walletConnectApp)
