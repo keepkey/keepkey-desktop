@@ -205,7 +205,7 @@
     "transactionComplete": "Transaction Complete",
     "transactionFailed": "Transaction Failed",
     "validator": "Validator",
-    "validatorMoniker":"%{moniker} Validator",
+    "validatorMoniker": "%{moniker} Validator",
     "stakedAmount": "Staked Amount",
     "unstakeFrom": "Unstake From",
     "gasFee": "Gas Fee",
@@ -671,12 +671,13 @@
         },
         "saveSettings": "Save Settings"
       },
-    "settings": {
-      "settings": "Settings",
-      "language": "Language",
-      "balanceThreshold": "Balance Threshold",
-      "balanceThresholdTooltip": "Hide balances below this value"
-    }
+      "settings": {
+        "settings": "Settings",
+        "language": "Language",
+        "balanceThreshold": "Balance Threshold",
+        "balanceThresholdTooltip": "Hide balances below this value"
+      }
+    },
   },
   "walletProvider": {
     "errors": {
@@ -1018,5 +1019,4 @@
     "for": "For",
     "transfers": "Transfers"
   }
-}
 }
