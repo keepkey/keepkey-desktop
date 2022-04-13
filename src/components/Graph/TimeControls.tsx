@@ -10,12 +10,12 @@ type TimeControlsProps = {
 
 export const TimeControls = ({ onChange, defaultTime, buttonGroupProps }: TimeControlsProps) => {
   const options = Object.freeze([
-    { value: HistoryTimeframe.HOUR, label: 'graph.timeControls.1H' },
-    { value: HistoryTimeframe.DAY, label: 'graph.timeControls.24H' },
-    { value: HistoryTimeframe.WEEK, label: 'graph.timeControls.1W' },
-    { value: HistoryTimeframe.MONTH, label: 'graph.timeControls.1M' },
-    { value: HistoryTimeframe.YEAR, label: 'graph.timeControls.1Y' },
-    { value: HistoryTimeframe.ALL, label: 'graph.timeControls.all' },
+    { value: HistoryTimeframe.HOUR, label: 'modals.graph.timeControls.1H' },
+    { value: HistoryTimeframe.DAY, label: 'modals.graph.timeControls.24H' },
+    { value: HistoryTimeframe.WEEK, label: 'modals.graph.timeControls.1W' },
+    { value: HistoryTimeframe.MONTH, label: 'modals.graph.timeControls.1M' },
+    { value: HistoryTimeframe.YEAR, label: 'modals.graph.timeControls.1Y' },
+    { value: HistoryTimeframe.ALL, label: 'modals.graph.timeControls.all' },
   ])
   return (
     <Radio

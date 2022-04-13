@@ -44,7 +44,7 @@ const translateError = (event: Event) => {
       t = 'unknown'
   }
 
-  return `walletProvider.keepKey.errors.${t}`
+  return `modals.walletProvider.keepKey.errors.${t}`
 }
 
 export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
@@ -60,7 +60,7 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
     setLoading(true)
     if (state.adapters && !state.adapters.has(KeyManager.KeepKey)) {
       // if keepkey is connected to another tab, it does not get added to state.adapters.
-      setErrorLoading('walletProvider.keepKey.connect.conflictingApp')
+      setErrorLoading('modals.walletProvider.keepKey.connect.conflictingApp')
       return
     }
     if (state.adapters && state.adapters?.has(KeyManager.KeepKey)) {
@@ -70,16 +70,16 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
         .catch(err => {
           console.error('conflict err', err)
           if (err.name === 'ConflictingApp') {
-            setErrorLoading('walletProvider.keepKey.connect.conflictingApp')
+            setErrorLoading('modals.walletProvider.keepKey.connect.conflictingApp')
             return
           }
           console.error('KeepKey Connect: There was an error initializing the wallet', err)
-          setErrorLoading('walletProvider.errors.walletNotFound')
+          setErrorLoading('modals.walletProvider.errors.walletNotFound')
           return
         })
       if (!wallet) {
         console.error('wallet not found!')
-        setErrorLoading('walletProvider.errors.walletNotFound')
+        setErrorLoading('modals.walletProvider.errors.walletNotFound')
         return
       }
 
@@ -130,7 +130,7 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
     ipcRenderer.on('@bridge/running', async (event, bridgeRunning) => {
       if (tries > 0) {
         setLoading(false)
-        setErrorLoading('walletProvider.keepKey.connect.conflictingApp')
+        setErrorLoading('modals.walletProvider.keepKey.connect.conflictingApp')
         return (tries = 0)
       }
       tries++
@@ -154,10 +154,10 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
   return (
     <>
       <ModalHeader>
-        <Text translation={'walletProvider.keepKey.connect.header'} />
+        <Text translation={'modals.walletProvider.keepKey.connect.header'} />
       </ModalHeader>
       <ModalBody>
-        <Text mb={4} color='gray.500' translation={'walletProvider.keepKey.connect.body'} />
+        <Text mb={4} color='gray.500' translation={'modals.walletProvider.keepKey.connect.body'} />
 
         <Button
           isFullWidth
@@ -171,7 +171,7 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
           {loading ? (
             <CircularProgress size='5' />
           ) : (
-            <Text translation={'walletProvider.keepKey.connect.button'} />
+            <Text translation={'modals.walletProvider.keepKey.connect.button'} />
           )}
         </Button>
         {error && (

@@ -79,18 +79,18 @@ export const KeepKeyPin = () => {
         switch (e.message?.code as FailureType) {
           // Device has a programmed PIN
           case FailureType.PININVALID:
-            setError(`walletProvider.keepKey.errors.pinInvalid`)
+            setError(`modals.walletProvider.keepKey.errors.pinInvalid`)
             break
           // A "cancel" command was sent while showing the PIN screen on the KK
           case FailureType.PINCANCELLED:
-            setError(`walletProvider.keepKey.errors.pinCancelled`)
+            setError(`modals.walletProvider.keepKey.errors.pinCancelled`)
             break
           // Creating a NEW PIN, the user didn't enter the same PIN in steps 1 and 2
           case FailureType.PINMISMATCH:
-            setError(`walletProvider.keepKey.errors.pinMismatch`)
+            setError(`modals.walletProvider.keepKey.errors.pinMismatch`)
             break
           default:
-            setError('walletProvider.keepKey.errors.unknown')
+            setError('modals.walletProvider.keepKey.errors.unknown')
         }
       }
     }
@@ -105,10 +105,10 @@ export const KeepKeyPin = () => {
   return (
     <>
       <ModalHeader>
-        <Text translation={`walletProvider.keepKey.${translationType}.header`} />
+        <Text translation={`modals.walletProvider.keepKey.${translationType}.header`} />
       </ModalHeader>
       <ModalBody>
-        <Text color='gray.500' translation={`walletProvider.keepKey.${translationType}.body`} />
+        <Text color='gray.500' translation={`modals.walletProvider.keepKey.${translationType}.body`} />
         <SimpleGrid columns={3} spacing={6} my={6} maxWidth='250px' ml='auto' mr='auto'>
           {pinNumbers.map(number => (
             <Button key={number} size='lg' p={8} onClick={() => handlePinPress(number)}>
@@ -133,7 +133,7 @@ export const KeepKeyPin = () => {
           </Alert>
         )}
         <Button isFullWidth size='lg' colorScheme='blue' onClick={handleSubmit} disabled={loading}>
-          <Text translation={`walletProvider.keepKey.${translationType}.button`} />
+          <Text translation={`modals.walletProvider.keepKey.${translationType}.button`} />
         </Button>
       </ModalBody>
     </>
