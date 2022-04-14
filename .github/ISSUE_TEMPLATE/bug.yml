@@ -1,0 +1,49 @@
+name: Bug
+description: Create a Bug Report
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bounty. Please give your bounty a short and succinct title.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of what the bug is.
+      placeholder: A clear and concise description of what the bug is. 
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+      placeholder: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce the behavior
+      placeholder: Steps to reproduce the behavior
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Screenshots that provide more context to this bug report
+      placeholder: Screenshots that provide more context to this bug report
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Logs from the KeepKey Desktop Application
+      placeholder: |
+              Logs for Windows can be found at: C:\Users\{username}\AppData\Roaming\keepkey-desktop\logs\main.log
+              Logs for MacOS can be found at: ~/Library/Logs/keepkey-desktop/main.log
+    validations:
+      required: false
