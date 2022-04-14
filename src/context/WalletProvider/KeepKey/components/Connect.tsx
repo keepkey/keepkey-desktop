@@ -23,9 +23,9 @@ import { FailureType, MessageType } from '../KeepKeyTypes'
 
 export interface KeepKeySetupProps
   extends RouteComponentProps<
-    {},
-    any, // history
-    LocationState
+  {},
+  any, // history
+  LocationState
   > {
   dispatch: React.Dispatch<ActionTypes>
 }
@@ -123,20 +123,24 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
   }, [state.adapters, dispatch, history, state.keyring])
 
   useEffect(() => {
+    console.log(0)
     let tries = 0
     ipcRenderer.removeAllListeners('@bridge/running')
     ipcRenderer.removeAllListeners('@bridge/start')
     ipcRenderer.on('@bridge/running', async (event, bridgeRunning) => {
       if (tries > 0) {
+        console.log(1)
         setLoading(false)
         setErrorLoading('walletProvider.keepKey.connect.conflictingApp')
         return (tries = 0)
       }
       tries++
-
+      console.log(2)
       if (!bridgeRunning) {
+        console.log(3)
         ipcRenderer.send('@bridge/start')
       } else {
+        console.log(4)
         await connect(KeyManager.KeepKey)
         ipcRenderer.removeAllListeners('@bridge/running')
         ipcRenderer.removeAllListeners('@bridge/start')
@@ -144,7 +148,7 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
         return (tries = 0)
       }
     })
-
+    console.log(5)
     ipcRenderer.on('@bridge/start', async (event, data) => {
       ipcRenderer.send('@bridge/running')
     })
