@@ -20,10 +20,6 @@ import { WalletViewsRouter } from './WalletViewsRouter'
 
 const keepkey = new KeepKeyService()
 
-// SET_KEEPKEY_STATE = 'SET_KEEPKEY_STATE',
-// SET_KEEPKEY_STATUS = 'SET_KEEPKEY_STATUS',
-// SET_WALLET_CONNECT_APP = 'SET_WALLET_CONNECT_APP'
-
 type GenericAdapter = {
   initialize: (...args: any[]) => Promise<any>
   pairDevice: (...args: any[]) => Promise<HDWallet>
