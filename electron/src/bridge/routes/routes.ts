@@ -3,11 +3,19 @@
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute, HttpStatusCodeLiteral, TsoaResponse } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { SecuredController } from './../controllers/1-secured-controller';
+import { CIndexController } from './../controllers/c-index.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { DeviceController } from './../controllers/2-device-controller';
+import { DPubkeyController } from './../controllers/d-pubkey-controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { IndexController } from './../controllers/0-index.controller';
+import { DPubkeyController } from './../controllers/e-sign-controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { DPubkeyController } from './../controllers/f-developer-controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { DPubkeyController } from './../controllers/g-recovery-controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { DPubkeyController } from './../controllers/h-device-info-controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { BDeviceController } from './../controllers/b-device-controller';
 import { expressAuthentication } from './../auth';
 // @ts-ignore - no great way to install types from subpackage
 const promiseAny = require('promise.any');
@@ -16,6 +24,39 @@ import * as express from 'express';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "Status": {
+        "dataType": "refObject",
+        "properties": {
+            "success": {"dataType":"boolean","required":true},
+            "status": {"dataType":"string","required":true},
+            "state": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Record_string.unknown_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PairResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "success": {"dataType":"boolean","required":true},
+            "reason": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PairBody": {
+        "dataType": "refObject",
+        "properties": {
+            "serviceName": {"dataType":"string","required":true},
+            "serviceImageUrl": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "GenericResponse": {
         "dataType": "refObject",
         "properties": {
@@ -112,6 +153,25 @@ const models: TsoaRoute.Models = {
         "properties": {
             "addressNList": {"ref":"BIP32Path","required":true},
             "showDisplay": {"dataType":"boolean"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RippleGetAddress": {
+        "dataType": "refObject",
+        "properties": {
+            "addressNList": {"ref":"BIP32Path","required":true},
+            "showDisplay": {"dataType":"boolean"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "EosGetPublicKey": {
+        "dataType": "refObject",
+        "properties": {
+            "addressNList": {"dataType":"array","array":{"dataType":"double"},"required":true},
+            "showDisplay": {"dataType":"boolean"},
+            "kind": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":[0]},{"dataType":"enum","enums":[1]},{"dataType":"enum","enums":[2]}],"required":true},
         },
         "additionalProperties": false,
     },
@@ -264,6 +324,63 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "sdk.Msg": {
+        "dataType": "refObject",
+        "properties": {
+            "type": {"dataType":"string","required":true},
+            "value": {"dataType":"any","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Ripple.StdTx": {
+        "dataType": "refObject",
+        "properties": {
+            "msg": {"dataType":"array","array":{"dataType":"refObject","ref":"sdk.Msg"},"required":true},
+            "fee": {"ref":"StdFee","required":true},
+            "signatures": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":[null]},{"dataType":"array","array":{"dataType":"refObject","ref":"StdSignature"}}],"required":true},
+            "memo": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RippleTx": {
+        "dataType": "refObject",
+        "properties": {
+            "type": {"dataType":"string","required":true},
+            "value": {"ref":"Ripple.StdTx","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RippleSignedTx": {
+        "dataType": "refAlias",
+        "type": {"ref":"RippleTx","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RipplePayment": {
+        "dataType": "refObject",
+        "properties": {
+            "amount": {"dataType":"string","required":true},
+            "destination": {"dataType":"string","required":true},
+            "destinationTag": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RippleSignTx": {
+        "dataType": "refObject",
+        "properties": {
+            "addressNList": {"ref":"BIP32Path","required":true},
+            "tx": {"ref":"RippleTx","required":true},
+            "flags": {"dataType":"string"},
+            "sequence": {"dataType":"string","required":true},
+            "lastLedgerSequence": {"dataType":"string","required":true},
+            "payment": {"ref":"RipplePayment","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ETHSignedTx": {
         "dataType": "refObject",
         "properties": {
@@ -326,6 +443,45 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "LoadDevice": {
+        "dataType": "refObject",
+        "properties": {
+            "mnemonic": {"dataType":"string","required":true},
+            "label": {"dataType":"string"},
+            "passphrase": {"dataType":"boolean"},
+            "pin": {"dataType":"string"},
+            "skipChecksum": {"dataType":"boolean"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ResetDevice": {
+        "dataType": "refObject",
+        "properties": {
+            "entropy": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":[128]},{"dataType":"enum","enums":[192]},{"dataType":"enum","enums":[256]}]},
+            "label": {"dataType":"string","required":true},
+            "passphrase": {"dataType":"boolean"},
+            "pin": {"dataType":"boolean"},
+            "autoLockDelayMs": {"dataType":"double"},
+            "u2fCounter": {"dataType":"double"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RecoverDevice": {
+        "dataType": "refObject",
+        "properties": {
+            "entropy": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":[128]},{"dataType":"enum","enums":[192]},{"dataType":"enum","enums":[256]}],"required":true},
+            "label": {"dataType":"string","required":true},
+            "passphrase": {"dataType":"boolean","required":true},
+            "pin": {"dataType":"boolean","required":true},
+            "language": {"dataType":"string"},
+            "autoLockDelayMs": {"dataType":"double"},
+            "u2fCounter": {"dataType":"double"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Read": {
         "dataType": "refObject",
         "properties": {
@@ -350,39 +506,6 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Status": {
-        "dataType": "refObject",
-        "properties": {
-            "success": {"dataType":"boolean","required":true},
-            "status": {"dataType":"string","required":true},
-            "state": {"dataType":"double","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Record_string.unknown_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "PairResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "success": {"dataType":"boolean","required":true},
-            "reason": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "PairBody": {
-        "dataType": "refObject",
-        "properties": {
-            "serviceName": {"dataType":"string","required":true},
-            "serviceImageUrl": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const validationService = new ValidationService(models);
 
@@ -393,10 +516,9 @@ export function RegisterRoutes(app: express.Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-        app.get('/auth/verify',
-            authenticateMiddleware([{"api_key":[]}]),
+        app.get('/status',
 
-            function SecuredController_verifyAuth(request: any, response: any, next: any) {
+            function CIndexController_status(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -406,7 +528,76 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new CIndexController();
+
+
+              const promise = controller.status.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/device',
+
+            function CIndexController_device(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new CIndexController();
+
+
+              const promise = controller.device.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/pair',
+
+            function CIndexController_pair(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"ref":"PairBody"},
+                    serviceKey: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new CIndexController();
+
+
+              const promise = controller.pair.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/auth/verify',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function CIndexController_verifyAuth(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new CIndexController();
 
 
               const promise = controller.verifyAuth.apply(controller, validatedArgs as any);
@@ -419,7 +610,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/user',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_user(request: any, response: any, next: any) {
+            function CIndexController_user(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -429,7 +620,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new CIndexController();
 
 
               const promise = controller.user.apply(controller, validatedArgs as any);
@@ -442,7 +633,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/getPublicKeys',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_getPublicKeys(request: any, response: any, next: any) {
+            function DPubkeyController_getPublicKeys(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"array","array":{"dataType":"refObject","ref":"GetPublicKey"}},
             };
@@ -453,7 +644,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
 
 
               const promise = controller.getPublicKeys.apply(controller, validatedArgs as any);
@@ -466,7 +657,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/btcGetAddress',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_btcGetAddress(request: any, response: any, next: any) {
+            function DPubkeyController_btcGetAddress(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"BTCGetAddress"},
             };
@@ -477,7 +668,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
 
 
               const promise = controller.btcGetAddress.apply(controller, validatedArgs as any);
@@ -490,7 +681,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/ethGetAddress',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_ethGetAddress(request: any, response: any, next: any) {
+            function DPubkeyController_ethGetAddress(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"ETHGetAddress"},
             };
@@ -501,7 +692,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
 
 
               const promise = controller.ethGetAddress.apply(controller, validatedArgs as any);
@@ -514,7 +705,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/thorchainGetAddress',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_thorchainGetAddress(request: any, response: any, next: any) {
+            function DPubkeyController_thorchainGetAddress(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"ThorchainGetAddress"},
             };
@@ -525,7 +716,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
 
 
               const promise = controller.thorchainGetAddress.apply(controller, validatedArgs as any);
@@ -538,7 +729,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/osmosisGetAddress',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_osmosisGetAddress(request: any, response: any, next: any) {
+            function DPubkeyController_osmosisGetAddress(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"OsmosisGetAddress"},
             };
@@ -549,7 +740,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
 
 
               const promise = controller.osmosisGetAddress.apply(controller, validatedArgs as any);
@@ -562,7 +753,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/binanceGetAddress',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_binanceGetAddress(request: any, response: any, next: any) {
+            function DPubkeyController_binanceGetAddress(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"BinanceGetAddress"},
             };
@@ -573,7 +764,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
 
 
               const promise = controller.binanceGetAddress.apply(controller, validatedArgs as any);
@@ -586,7 +777,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/cosmosGetAddress',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_cosmosGetAddress(request: any, response: any, next: any) {
+            function DPubkeyController_cosmosGetAddress(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"CosmosGetAddress"},
             };
@@ -597,7 +788,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
 
 
               const promise = controller.cosmosGetAddress.apply(controller, validatedArgs as any);
@@ -607,10 +798,58 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/rippleGetAddress',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_rippleGetAddress(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"ref":"RippleGetAddress"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.rippleGetAddress.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/eosGetPublicKey',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_eosGetPublicKey(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"ref":"EosGetPublicKey"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.eosGetPublicKey.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/btcSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_btcSignTx(request: any, response: any, next: any) {
+            function DPubkeyController_btcSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"any"},
             };
@@ -621,7 +860,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
 
 
               const promise = controller.btcSignTx.apply(controller, validatedArgs as any);
@@ -634,7 +873,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/thorchainSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_thorchainSignTx(request: any, response: any, next: any) {
+            function DPubkeyController_thorchainSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"ThorchainSignTx"},
             };
@@ -645,7 +884,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
 
 
               const promise = controller.thorchainSignTx.apply(controller, validatedArgs as any);
@@ -658,7 +897,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/cosmosSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_cosmosSignTx(request: any, response: any, next: any) {
+            function DPubkeyController_cosmosSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"CosmosSignTx"},
             };
@@ -669,7 +908,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
 
 
               const promise = controller.cosmosSignTx.apply(controller, validatedArgs as any);
@@ -682,7 +921,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/osmosisSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_osmosisSignTx(request: any, response: any, next: any) {
+            function DPubkeyController_osmosisSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"any"},
             };
@@ -693,7 +932,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
 
 
               const promise = controller.osmosisSignTx.apply(controller, validatedArgs as any);
@@ -703,10 +942,58 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/rippleSignTx',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_rippleSignTx(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"ref":"RippleSignTx"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.rippleSignTx.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/binanceSignTx',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_binanceSignTx(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"any"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.binanceSignTx.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/ethSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_ethSignTx(request: any, response: any, next: any) {
+            function DPubkeyController_ethSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"ETHSignTx"},
             };
@@ -717,7 +1004,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
 
 
               const promise = controller.ethSignTx.apply(controller, validatedArgs as any);
@@ -727,10 +1014,10 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/sign',
+        app.post('/eosSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function SecuredController_signTransaction(request: any, response: any, next: any) {
+            function DPubkeyController_eosSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"any"},
             };
@@ -741,7 +1028,31 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new SecuredController();
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.eosSignTx.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/sign',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_signTransaction(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"any"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
 
 
               const promise = controller.signTransaction.apply(controller, validatedArgs as any);
@@ -751,9 +1062,418 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/exchange/device',
+        app.post('/loadDevice',
+            authenticateMiddleware([{"api_key":[]}]),
 
-            function DeviceController_readDevice(request: any, response: any, next: any) {
+            function DPubkeyController_loadDevice(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"ref":"LoadDevice"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.loadDevice.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/removePin',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_removePin(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"void"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.removePin.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/softReset',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_softReset(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"void"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.softReset.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/clearSession',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_clearSession(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"void"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.clearSession.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/reset',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_reset(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"ref":"ResetDevice"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.reset.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/wipe',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_wipe(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"void"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.wipe.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/disconnect',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_disconnect(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"void"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.disconnect.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/applyPolicy',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_applyPolicy(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"any"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.applyPolicy.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/applySettings',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_applySettings(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"any"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.applySettings.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/firmwareErase',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_firmwareErase(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"void"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.firmwareErase.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/firmwareUpload',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_firmwareUpload(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"any"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.firmwareUpload.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/recover',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_recover(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"ref":"RecoverDevice"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.recover.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/changePin',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_changePin(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"void"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.changePin.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/sendWord',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_sendWord(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.sendWord.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/sendCharacter',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_sendCharacter(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.sendCharacter.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/sendCharacterDelete',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_sendCharacterDelete(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"void"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.sendCharacterDelete.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/sendCharacterDone',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_sendCharacterDone(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"dataType":"void"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.sendCharacterDone.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/getNumCoins',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_getNumCoins(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -763,7 +1483,305 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DeviceController();
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.getNumCoins.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/getCoinTable',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_getCoinTable(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.getCoinTable.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/getDeviceID',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_getDeviceID(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.getDeviceID.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/getVendor',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_getVendor(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.getVendor.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/getModel',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_getModel(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.getModel.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/getFirmwareVersion',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_getFirmwareVersion(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.getFirmwareVersion.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/getLabel',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_getLabel(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.getLabel.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/isInitialized',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_isInitialized(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.isInitialized.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/isLocked',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_isLocked(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.isLocked.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/hasOnDevicePinEntry',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_hasOnDevicePinEntry(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.hasOnDevicePinEntry.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/hasOnDevicePassphrase',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_hasOnDevicePassphrase(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.hasOnDevicePassphrase.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/hasOnDeviceDisplay',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_hasOnDeviceDisplay(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.hasOnDeviceDisplay.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/hasOnDeviceRecovery',
+            authenticateMiddleware([{"api_key":[]}]),
+
+            function DPubkeyController_hasOnDeviceRecovery(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DPubkeyController();
+
+
+              const promise = controller.hasOnDeviceRecovery.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/exchange/device',
+
+            function BDeviceController_readDevice(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new BDeviceController();
 
 
               const promise = controller.readDevice.apply(controller, validatedArgs as any);
@@ -775,7 +1793,7 @@ export function RegisterRoutes(app: express.Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/exchange/device',
 
-            function DeviceController_writeDevice(request: any, response: any, next: any) {
+            function BDeviceController_writeDevice(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"WriteBody"},
             };
@@ -786,78 +1804,10 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DeviceController();
+                const controller = new BDeviceController();
 
 
               const promise = controller.writeDevice.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/status',
-
-            function IndexController_status(request: any, response: any, next: any) {
-            const args = {
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new IndexController();
-
-
-              const promise = controller.status.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/device',
-
-            function IndexController_device(request: any, response: any, next: any) {
-            const args = {
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new IndexController();
-
-
-              const promise = controller.device.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/pair',
-
-            function IndexController_pair(request: any, response: any, next: any) {
-            const args = {
-                    body: {"in":"body","name":"body","required":true,"ref":"PairBody"},
-                    serviceKey: {"in":"header","name":"authorization","required":true,"dataType":"string"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new IndexController();
-
-
-              const promise = controller.pair.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

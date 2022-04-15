@@ -2,11 +2,11 @@ import { ipcMain } from 'electron';
 import { uniqueId } from 'lodash';
 import { db } from '../../db';
 import { createWindow, windows } from '../../main';
-import { shared } from '../../shared';
+import {shared, userType} from '../../shared';
 
-import { Body, Controller, Get, Post, Header, Route, Tags, Response, SuccessResponse } from 'tsoa';
+import {Body, Controller, Get, Post, Header, Route, Tags, Response, SuccessResponse, Security} from 'tsoa';
 import { keepkey } from '../';
-import { PairBody, PairResponse, Status } from '../types';
+import {GenericResponse, PairBody, PairResponse, Status} from '../types';
 
 
 export class ApiError extends Error {
@@ -20,7 +20,7 @@ export class ApiError extends Error {
 
 @Tags('Client Endpoints')
 @Route('')
-export class IndexController extends Controller {
+export class CIndexController extends Controller {
 
     /*
         Health endpoint
@@ -106,4 +106,22 @@ export class IndexController extends Controller {
             })
         })
     }
+
+    @Get('/auth/verify')
+    @Security("api_key")
+    @Response(401, "Please provide a valid serviceKey")
+    public async verifyAuth(): Promise<GenericResponse> {
+        return {
+            success: true
+        }
+    }
+
+    @Get('/user')
+    @Security("api_key")
+    @Response(401, "Please provide a valid serviceKey")
+    public async user(): Promise<userType> {
+        return shared.USER
+    }
+
+
 }

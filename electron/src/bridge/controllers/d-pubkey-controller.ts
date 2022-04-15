@@ -5,31 +5,15 @@ import { keepkey } from '../';
 import { GenericResponse, SignedTx, GetPublicKey, Error } from '../types';
 import { shared, userType } from '../../shared';
 import wait from 'wait-promise'
-import { BinanceGetAddress, BTCGetAddress, BTCSignedTx, BTCSignTxKK, CosmosGetAddress, CosmosSignedTx, CosmosSignTx, ETHGetAddress, ETHSignedTx, ETHSignTx, OsmosisGetAddress, PublicKey, ThorchainGetAddress, ThorchainSignTx, ThorchainTx } from '@shapeshiftoss/hdwallet-core'
+import { EosGetPublicKey, RippleGetAddress, BinanceGetAddress, BTCGetAddress, BTCSignedTx, BTCSignTxKK, CosmosGetAddress, CosmosSignedTx, CosmosSignTx, ETHGetAddress, ETHSignedTx, ETHSignTx, OsmosisGetAddress, PublicKey, ThorchainGetAddress, ThorchainSignTx, ThorchainTx } from '@shapeshiftoss/hdwallet-core'
 import { uniqueId } from 'lodash';
 import { openSignTxWindow } from '../../utils';
 
-@Tags('Secured Endpoints')
+@Tags('KeepKey Wallet Endpoints')
 @Route('')
-export class SecuredController extends Controller {
+export class DPubkeyController extends Controller {
 
     private sleep = wait.sleep;
-
-    @Get('/auth/verify')
-    @Security("api_key")
-    @Response(401, "Please provide a valid serviceKey")
-    public async verifyAuth(): Promise<GenericResponse> {
-        return {
-            success: true
-        }
-    }
-
-    @Get('/user')
-    @Security("api_key")
-    @Response(401, "Please provide a valid serviceKey")
-    public async user(): Promise<userType> {
-        return shared.USER
-    }
 
     @Post('/getPublicKeys')
     @Security("api_key")
@@ -112,85 +96,26 @@ export class SecuredController extends Controller {
         })
     }
 
-    @Post('/btcSignTx')
+    @Post('/rippleGetAddress')
     @Security("api_key")
     @Response(500, "Internal server error")
-    public async btcSignTx(@Body() body: any): Promise<BTCSignedTx> {
-        // BTCSignTxKK results in a circular import
-        return new Promise<BTCSignedTx>((resolve, reject) => {
+    public async rippleGetAddress(@Body() body: RippleGetAddress): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
             if (!keepkey.wallet) return reject()
 
-            keepkey.wallet.btcSignTx(body).then(resolve)
+            keepkey.wallet.rippleGetAddress(body).then(resolve)
         })
     }
 
-
-    @Post('/thorchainSignTx')
+    @Post('/eosGetPublicKey')
     @Security("api_key")
     @Response(500, "Internal server error")
-    public async thorchainSignTx(@Body() body: ThorchainSignTx): Promise<ThorchainTx> {
-        return new Promise<ThorchainTx>((resolve, reject) => {
+    public async eosGetPublicKey(@Body() body: EosGetPublicKey): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
             if (!keepkey.wallet) return reject()
 
-            keepkey.wallet.thorchainSignTx(body).then(resolve)
+            keepkey.wallet.eosGetPublicKey(body).then(resolve)
         })
     }
 
-    @Post('/cosmosSignTx')
-    @Security("api_key")
-    @Response(500, "Internal server error")
-    public async cosmosSignTx(@Body() body: CosmosSignTx): Promise<CosmosSignedTx> {
-        return new Promise<CosmosSignedTx>((resolve, reject) => {
-            if (!keepkey.wallet) return reject()
-
-            keepkey.wallet.cosmosSignTx(body).then(resolve)
-        })
-    }
-
-    @Post('/osmosisSignTx')
-    @Security("api_key")
-    @Response(500, "Internal server error")
-    public async osmosisSignTx(@Body() body: any): Promise<any> {
-        return new Promise<any>((resolve, reject) => {
-            if (!windows.mainWindow || windows.mainWindow.isDestroyed()) return reject()
-
-            windows.mainWindow.webContents.send('@hdwallet/osmosisSignTx', { body })
-            ipcMain.once(`@hdwallet/response/osmosisSignTx`, (event, data) => {
-                resolve(data)
-            })
-        })
-    }
-
-    @Post('/ethSignTx')
-    @Security("api_key")
-    @Response(500, "Internal server error")
-    public async ethSignTx(@Body() body: ETHSignTx): Promise<ETHSignedTx> {
-        return new Promise<ETHSignedTx>((resolve, reject) => {
-            if (!keepkey.wallet) return reject()
-
-            keepkey.wallet.ethSignTx(body).then(resolve)
-        })
-    }
-
-    @Post('/sign')
-    @Security("api_key")
-    @Response(500, "Internal server error")
-    public async signTransaction(@Body() body: any): Promise<SignedTx | Error> {
-        return new Promise<SignedTx | Error>(async (resolve, reject) => {
-            const internalNonce = uniqueId()
-            openSignTxWindow({ payload: body, nonce: internalNonce })
-
-            ipcMain.once(`@account/tx-signed-${internalNonce}`, async (event, data) => {
-                if (data.nonce === internalNonce) {
-                    resolve({ success: true, status: 'signed', signedTx: data.signedTx })
-                }
-            })
-
-            ipcMain.once(`@account/tx-rejected-${internalNonce}`, async (event, data) => {
-                if (data.nonce === internalNonce) {
-                    resolve({ success: false, reason: 'User rejected TX' })
-                }
-            })
-        })
-    }
 }
