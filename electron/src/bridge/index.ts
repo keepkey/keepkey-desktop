@@ -235,8 +235,6 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                 keepkey.STATE = event.state
                 keepkey.STATUS = event.status
 
-                console.log('transporttt', Controller.transport)
-
                 switch (event.state) {
                     case 0:
                         log.info(tag, "No Devices connected")

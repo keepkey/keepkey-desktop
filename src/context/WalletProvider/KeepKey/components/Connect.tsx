@@ -23,9 +23,9 @@ import { FailureType, MessageType } from '../KeepKeyTypes'
 
 export interface KeepKeySetupProps
   extends RouteComponentProps<
-  {},
-  any, // history
-  LocationState
+    {},
+    any, // history
+    LocationState
   > {
   dispatch: React.Dispatch<ActionTypes>
 }
@@ -55,7 +55,7 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
   // eslint-disable-next-line no-sequences
   const setErrorLoading = (e: string | null) => (setError(e), setLoading(false))
 
-  const pairDevice = async () => {
+  const pairDevice = useCallback(async () => {
     setError(null)
     setLoading(true)
     if (state.adapters && !state.adapters.has(KeyManager.KeepKey)) {
@@ -85,7 +85,8 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
       try {
         const deviceId = await wallet.getDeviceID()
         // This gets the firmware version needed for some KeepKey "supportsX" functions
-        await wallet.getFeatures()
+        let features = await wallet.getFeatures()
+        ipcRenderer.send('@keepkey/info', features)
         // Show the label from the wallet instead of a generic name
         const label = (await wallet.getLabel()) || name
         state.keyring.on(['KeepKey', deviceId, '*'], (e: [deviceId: string, event: Event]) => {
@@ -114,14 +115,13 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
       }
     }
     setLoading(false)
-  }
+  }, [dispatch, history, state.adapters, state.keyring])
 
   useEffect(() => {
     let tries = 0
     ipcRenderer.removeAllListeners('@bridge/running')
     ipcRenderer.removeAllListeners('@bridge/start')
     ipcRenderer.on('@bridge/running', async (event, bridgeRunning) => {
-      console.log('bridgeRunning', bridgeRunning)
       if (tries > 0) {
         setLoading(false)
         setErrorLoading('walletProvider.keepKey.connect.conflictingApp')

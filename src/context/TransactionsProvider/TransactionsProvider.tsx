@@ -54,7 +54,7 @@ export const TransactionsProvider = ({ children }: TransactionsProviderProps): J
     if (isEmpty(assets)) return
     const supportedChains = chainAdapter.getSupportedChains()
     ;(async () => {
-      if(!await wallet.isInitialized()) return
+      if (!(await wallet.isInitialized())) return
       for (const chain of supportedChains) {
         const adapter = chainAdapter.byChain(chain)
         const chainId = adapter.getCaip2()
@@ -90,7 +90,6 @@ export const TransactionsProvider = ({ children }: TransactionsProviderProps): J
               (err: any) => console.error(err),
             )
           } catch (e) {
-            
             hardwareError.open({})
             //Note, need to reconnect KeepKey
             console.error(
