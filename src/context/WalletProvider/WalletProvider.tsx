@@ -17,6 +17,7 @@ import { clearLocalWallet, getLocalWalletDeviceId, getLocalWalletType } from './
 import { useNativeEventHandler } from './NativeWallet/hooks/useNativeEventHandler'
 import { IWalletContext, WalletContext } from './WalletContext'
 import { WalletViewsRouter } from './WalletViewsRouter'
+import { useHistory } from 'react-router'
 
 const keepkey = new KeepKeyService()
 
@@ -226,6 +227,7 @@ const getInitialState = () => {
 export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, getInitialState())
   const { sign, pair, hardwareError } = useModal()
+  const history = useHistory()
 
   const disconnect = useCallback(() => {
     /**
@@ -403,6 +405,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
         queryKey: keepkey.queryKey,
         spec: process.env.REACT_APP_URL_PIONEER_SPEC,
       })
+
+      history.push('/connect-wallet')
     } else {
       ipcRenderer.send('@wallet/connected')
     }
