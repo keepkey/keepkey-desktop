@@ -54,7 +54,7 @@ export const keepkey: {
 
 export const start_bridge = (port?: number) => new Promise<void>(async (resolve, reject) => {
     ipcMain.on('@app/start', (event, data) => {
-        console.log('Checking ipcEvent queue')
+        log.info('Checking ipcEvent queue')
         ipcQueue.forEach((item, idx) => {
             log.info('ipcEventCalledFromQueue: ' + item.eventName)
             queueIpcEvent(item.eventName, item.args)
