@@ -398,7 +398,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   useEffect(() => {
     if (!state.wallet) {
-      //hardwareError.open({})
       console.info('Starting bridge')
       ipcRenderer.send('@app/start', {
         username: keepkey.username,
@@ -487,22 +486,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     // ipcRenderer.on('openFirmwareUpdate', (event, data) => {
     //   firmware.open({})
     // })
-
-    ipcRenderer.on('openHardwareError', (event, data) => {
-      if(hardwareError){
-        hardwareError.open(data)
-      } else {
-        console.error("Modals not init!")
-      }
-    })
-
-    ipcRenderer.on('closeHardwareError', (event, data) => {
-      if(hardwareError){
-        hardwareError.close()
-      } else {
-        console.error("Modals not init!2")
-      }
-    })
 
     // ipcRenderer.on('openBootloaderUpdate', (event, data) => {
     //   bootloader.open({})
