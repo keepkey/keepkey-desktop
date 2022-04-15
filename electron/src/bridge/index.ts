@@ -235,6 +235,8 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                 keepkey.STATE = event.state
                 keepkey.STATUS = event.status
 
+                console.log('transporttt', Controller.transport)
+
                 switch (event.state) {
                     case 0:
                         log.info(tag, "No Devices connected")
@@ -246,7 +248,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                         queueIpcEvent('setUpdaterMode', true)
                         break;
                     case 4:
-                        queueIpcEvent('@wallet/not-initialized', event.deviceId)
+                        //queueIpcEvent('@wallet/not-initialized', event.deviceId)
                         queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
                         queueIpcEvent('closeBootloaderUpdate', {})
                         queueIpcEvent('closeFirmwareUpdate', {})

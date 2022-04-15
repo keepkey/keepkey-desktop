@@ -55,7 +55,7 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
   // eslint-disable-next-line no-sequences
   const setErrorLoading = (e: string | null) => (setError(e), setLoading(false))
 
-  const pairDevice = useCallback(async () => {
+  const pairDevice = async () => {
     setError(null)
     setLoading(true)
     if (state.adapters && !state.adapters.has(KeyManager.KeepKey)) {
@@ -68,7 +68,6 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
         .get(KeyManager.KeepKey)
         ?.pairDevice('http://localhost:1646')
         .catch(err => {
-          console.error('conflict err', err)
           if (err.name === 'ConflictingApp') {
             setErrorLoading('walletProvider.keepKey.connect.conflictingApp')
             return
@@ -78,7 +77,6 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
           return
         })
       if (!wallet) {
-        console.error('wallet not found!')
         setErrorLoading('walletProvider.errors.walletNotFound')
         return
       }
@@ -87,60 +85,52 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
       try {
         const deviceId = await wallet.getDeviceID()
         // This gets the firmware version needed for some KeepKey "supportsX" functions
-        let features = await wallet.getFeatures()
-        ipcRenderer.send('@keepkey/info', features)
-        if (!features.initialized) {
-          // initialize.open({})
-        } else {
-          // Show the label from the wallet instead of a generic name
-          const label = (await wallet.getLabel()) || name
-          state.keyring.on(['KeepKey', deviceId, '*'], (e: [deviceId: string, event: Event]) => {
-            if (e[1].message_enum === MessageType.FAILURE) {
-              setErrorLoading(translateError(e[1]))
-            }
-          })
-          await wallet.initialize()
+        await wallet.getFeatures()
+        // Show the label from the wallet instead of a generic name
+        const label = (await wallet.getLabel()) || name
+        state.keyring.on(['KeepKey', deviceId, '*'], (e: [deviceId: string, event: Event]) => {
+          if (e[1].message_enum === MessageType.FAILURE) {
+            setErrorLoading(translateError(e[1]))
+          }
+        })
 
-          dispatch({
-            type: WalletActions.SET_WALLET,
-            payload: { wallet, name: label, icon, deviceId, meta: { label } },
-          })
-          dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
-          /**
-           * The real deviceId of KeepKey wallet could be different from the
-           * deviceId recieved from the wallet, so we need to keep
-           * aliases[deviceId] in the local wallet storage.
-           */
-          setLocalWalletTypeAndDeviceId(KeyManager.KeepKey, state.keyring.getAlias(deviceId))
-          history.push('/keepkey/success')
-        }
+        await wallet.initialize()
+
+        dispatch({
+          type: WalletActions.SET_WALLET,
+          payload: { wallet, name: label, icon, deviceId, meta: { label } },
+        })
+        dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
+        /**
+         * The real deviceId of KeepKey wallet could be different from the
+         * deviceId recieved from the wallet, so we need to keep
+         * aliases[deviceId] in the local wallet storage.
+         */
+        setLocalWalletTypeAndDeviceId(KeyManager.KeepKey, state.keyring.getAlias(deviceId))
+        history.push('/keepkey/success')
       } catch (e) {
         console.error('KeepKey Connect: There was an error initializing the wallet', e)
         setErrorLoading('walletProvider.keepKey.errors.unknown')
       }
     }
     setLoading(false)
-  }, [state.adapters, dispatch, history, state.keyring])
+  }
 
   useEffect(() => {
-    console.log(0)
     let tries = 0
     ipcRenderer.removeAllListeners('@bridge/running')
     ipcRenderer.removeAllListeners('@bridge/start')
     ipcRenderer.on('@bridge/running', async (event, bridgeRunning) => {
+      console.log('bridgeRunning', bridgeRunning)
       if (tries > 0) {
-        console.log(1)
         setLoading(false)
         setErrorLoading('walletProvider.keepKey.connect.conflictingApp')
         return (tries = 0)
       }
       tries++
-      console.log(2)
       if (!bridgeRunning) {
-        console.log(3)
         ipcRenderer.send('@bridge/start')
       } else {
-        console.log(4)
         await connect(KeyManager.KeepKey)
         ipcRenderer.removeAllListeners('@bridge/running')
         ipcRenderer.removeAllListeners('@bridge/start')
@@ -148,7 +138,6 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
         return (tries = 0)
       }
     })
-    console.log(5)
     ipcRenderer.on('@bridge/start', async (event, data) => {
       ipcRenderer.send('@bridge/running')
     })
