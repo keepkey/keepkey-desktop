@@ -56,7 +56,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
     ipcMain.on('@app/start', (event, data) => {
         ipcQueue.forEach((item, idx) => {
             log.info('ipcEventCalledFromQueue: ' + item.eventName)
-            windows.mainWindow?.webContents.send(item.eventName, item.args)
+            queueIpcEvent(item.eventName, item.args)
             ipcQueue.splice(idx, 1);
         })
     })
@@ -68,7 +68,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
         // send paired apps when requested
         ipcMain.on('@bridge/paired-apps', (event) => {
             db.find({ type: 'service' }, (err, docs) => {
-                windows.mainWindow?.webContents.send('@bridge/paired-apps', docs)
+                queueIpcEvent('@bridge/paired-apps', docs)
             })
         })
 
@@ -97,20 +97,20 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
         try {
             log.info(tag, "starting server! **** ")
             server = appExpress.listen(API_PORT, () => {
-                windows.mainWindow?.webContents.send('playSound', { sound: 'success' })
+                queueIpcEvent('playSound', { sound: 'success' })
                 log.info(`server started at http://localhost:${API_PORT}`)
                 queueIpcEvent('closeHardwareError', {})
                 // keepkey.STATE = 3
                 // keepkey.STATUS = 'bridge online'
-                // windows.mainWindow?.webContents.send('setKeepKeyState', { state: keepkey.STATE })
-                // windows.mainWindow?.webContents.send('setKeepKeyStatus', { status: keepkey.STATUS })
+                // queueIpcEvent('setKeepKeyState', { state: keepkey.STATE })
+                // queueIpcEvent('setKeepKeyStatus', { status: keepkey.STATUS })
                 updateMenu(keepkey.STATE)
             })
         } catch (e) {
             keepkey.STATE = -1
             keepkey.STATUS = 'bridge error'
-            windows.mainWindow?.webContents.send('setKeepKeyState', { state: keepkey.STATE })
-            windows.mainWindow?.webContents.send('setKeepKeyStatus', { status: keepkey.STATUS })
+            queueIpcEvent('setKeepKeyState', { state: keepkey.STATE })
+            queueIpcEvent('setKeepKeyStatus', { status: keepkey.STATUS })
             updateMenu(keepkey.STATE)
             log.info('e: ', e)
         }
@@ -194,7 +194,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                         queueIpcEvent('openHardwareError', { error: event.error, code: event.code, event })
                         break;
                     case 1:
-                        windows.mainWindow?.webContents.send('setUpdaterMode', true)
+                        queueIpcEvent('setUpdaterMode', true)
                         break;
                     case 4:
                         queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
@@ -243,9 +243,10 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                         queueIpcEvent('openHardwareError', { error: event.error, code: event.code, event })
                         break;
                     case 1:
-                        windows.mainWindow?.webContents.send('setUpdaterMode', true)
+                        queueIpcEvent('setUpdaterMode', true)
                         break;
                     case 4:
+                        //queueIpcEvent('@wallet/not-initialized', event.deviceId)
                         queueIpcEvent('closeHardwareError', { error: event.error, code: event.code, event })
                         queueIpcEvent('closeBootloaderUpdate', {})
                         queueIpcEvent('closeFirmwareUpdate', {})
@@ -360,8 +361,8 @@ export const stop_bridge = () => new Promise<void>((resolve, reject) => {
             log.info('Closed out remaining connections')
             keepkey.STATE = 2
             keepkey.STATUS = 'device connected'
-            windows.mainWindow?.webContents.send('setKeepKeyState', { state: keepkey.STATE })
-            windows.mainWindow?.webContents.send('setKeepKeyStatus', { status: keepkey.STATUS })
+            queueIpcEvent('setKeepKeyState', { state: keepkey.STATE })
+            queueIpcEvent('setKeepKeyStatus', { status: keepkey.STATUS })
             updateMenu(keepkey.STATE)
         })
         bridgeRunning = false

@@ -661,6 +661,17 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.wallet]) // we explicitly only want this to happen once
 
+  useEffect(() => {
+    ipcRenderer.on('@wallet/not-initialized', (event, deviceId) => {
+      dispatch({
+        type: WalletActions.OPEN_KEEPKEY_INITIALIZE,
+        payload: {
+          deviceId,
+        },
+      })
+    })
+  }, [])
+
   const connect = useCallback(async (type: KeyManager) => {
     dispatch({ type: WalletActions.SET_CONNECTOR_TYPE, payload: type })
     const routeIndex = findIndex(SUPPORTED_WALLETS[type]?.routes, ({ path }) =>

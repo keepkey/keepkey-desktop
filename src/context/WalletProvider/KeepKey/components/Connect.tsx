@@ -68,7 +68,6 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
         .get(KeyManager.KeepKey)
         ?.pairDevice('http://localhost:1646')
         .catch(err => {
-          console.error('conflict err', err)
           if (err.name === 'ConflictingApp') {
             setErrorLoading('walletProvider.keepKey.connect.conflictingApp')
             return
@@ -78,7 +77,6 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
           return
         })
       if (!wallet) {
-        console.error('wallet not found!')
         setErrorLoading('walletProvider.errors.walletNotFound')
         return
       }
@@ -89,38 +87,35 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
         // This gets the firmware version needed for some KeepKey "supportsX" functions
         let features = await wallet.getFeatures()
         ipcRenderer.send('@keepkey/info', features)
-        if (!features.initialized) {
-          // initialize.open({})
-        } else {
-          // Show the label from the wallet instead of a generic name
-          const label = (await wallet.getLabel()) || name
-          state.keyring.on(['KeepKey', deviceId, '*'], (e: [deviceId: string, event: Event]) => {
-            if (e[1].message_enum === MessageType.FAILURE) {
-              setErrorLoading(translateError(e[1]))
-            }
-          })
-          await wallet.initialize()
+        // Show the label from the wallet instead of a generic name
+        const label = (await wallet.getLabel()) || name
+        state.keyring.on(['KeepKey', deviceId, '*'], (e: [deviceId: string, event: Event]) => {
+          if (e[1].message_enum === MessageType.FAILURE) {
+            setErrorLoading(translateError(e[1]))
+          }
+        })
 
-          dispatch({
-            type: WalletActions.SET_WALLET,
-            payload: { wallet, name: label, icon, deviceId, meta: { label } },
-          })
-          dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
-          /**
-           * The real deviceId of KeepKey wallet could be different from the
-           * deviceId recieved from the wallet, so we need to keep
-           * aliases[deviceId] in the local wallet storage.
-           */
-          setLocalWalletTypeAndDeviceId(KeyManager.KeepKey, state.keyring.getAlias(deviceId))
-          history.push('/keepkey/success')
-        }
+        await wallet.initialize()
+
+        dispatch({
+          type: WalletActions.SET_WALLET,
+          payload: { wallet, name: label, icon, deviceId, meta: { label } },
+        })
+        dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
+        /**
+         * The real deviceId of KeepKey wallet could be different from the
+         * deviceId recieved from the wallet, so we need to keep
+         * aliases[deviceId] in the local wallet storage.
+         */
+        setLocalWalletTypeAndDeviceId(KeyManager.KeepKey, state.keyring.getAlias(deviceId))
+        history.push('/keepkey/success')
       } catch (e) {
         console.error('KeepKey Connect: There was an error initializing the wallet', e)
         setErrorLoading('walletProvider.keepKey.errors.unknown')
       }
     }
     setLoading(false)
-  }, [state.adapters, dispatch, history, state.keyring])
+  }, [dispatch, history, state.adapters, state.keyring])
 
   useEffect(() => {
     let tries = 0
@@ -133,7 +128,6 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
         return (tries = 0)
       }
       tries++
-
       if (!bridgeRunning) {
         ipcRenderer.send('@bridge/start')
       } else {
@@ -144,7 +138,6 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
         return (tries = 0)
       }
     })
-
     ipcRenderer.on('@bridge/start', async (event, data) => {
       ipcRenderer.send('@bridge/running')
     })
