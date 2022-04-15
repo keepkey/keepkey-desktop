@@ -29,14 +29,13 @@ export const App = () => {
       pair.open(data)
     })
     ipcRenderer.on('@modal/hardwareError', (event, data) => {
-      console.log('@modal/hardwareError', data)
       if (!data.close) hardwareError.open(data.data)
       else hardwareError.close()
     })
     ipcRenderer.on('@onboard/open', (event, data) => {
       history.push('/onboarding')
     })
-  }, [pair, history])
+  }, [pair, hardwareError, history])
 
   useEffect(() => {
     if (shouldUpdate && !toast.isActive(updateId)) {

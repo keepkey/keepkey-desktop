@@ -4,6 +4,7 @@ import { getConfig } from 'config'
 import { ipcRenderer } from 'electron'
 import findIndex from 'lodash/findIndex'
 import React, { useCallback, useEffect, useMemo, useReducer } from 'react'
+import { useHistory } from 'react-router'
 import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
 import { useModal } from 'hooks/useModal/useModal'
 
@@ -17,7 +18,6 @@ import { clearLocalWallet, getLocalWalletDeviceId, getLocalWalletType } from './
 import { useNativeEventHandler } from './NativeWallet/hooks/useNativeEventHandler'
 import { IWalletContext, WalletContext } from './WalletContext'
 import { WalletViewsRouter } from './WalletViewsRouter'
-import { useHistory } from 'react-router'
 
 const keepkey = new KeepKeyService()
 
@@ -226,7 +226,7 @@ const getInitialState = () => {
 
 export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, getInitialState())
-  const { sign, pair, hardwareError } = useModal()
+  const { sign, pair } = useModal()
   const history = useHistory()
 
   const disconnect = useCallback(() => {
