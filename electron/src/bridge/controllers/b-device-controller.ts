@@ -8,7 +8,7 @@ import { app } from 'electron'
 //route
 @Tags('Raw KeepKey Device I/0 Endpoints')
 @Route('exchange')
-export class DeviceController extends Controller {
+export class BDeviceController extends Controller {
 
     private EVENT_LOG: Array<{ read: { data: string } }> = []
 

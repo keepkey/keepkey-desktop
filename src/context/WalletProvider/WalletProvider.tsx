@@ -485,11 +485,19 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     // })
 
     ipcRenderer.on('openHardwareError', (event, data) => {
-      hardwareError.open(data)
+      if(hardwareError){
+        hardwareError.open(data)
+      } else {
+        console.error("Modals not init!")
+      }
     })
 
     ipcRenderer.on('closeHardwareError', (event, data) => {
-      hardwareError.close()
+      if(hardwareError){
+        hardwareError.close()
+      } else {
+        console.error("Modals not init!2")
+      }
     })
 
     // ipcRenderer.on('openBootloaderUpdate', (event, data) => {
