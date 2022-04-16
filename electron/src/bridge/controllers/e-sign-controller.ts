@@ -11,7 +11,7 @@ import { openSignTxWindow } from '../../utils';
 
 @Tags('KeepKey signTx Endpoints')
 @Route('')
-export class DPubkeyController extends Controller {
+export class ESignController extends Controller {
 
     private sleep = wait.sleep;
 

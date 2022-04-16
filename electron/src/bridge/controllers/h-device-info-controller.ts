@@ -11,7 +11,7 @@ import { openSignTxWindow } from '../../utils';
 
 @Tags('Device Info Endpoints')
 @Route('')
-export class DPubkeyController extends Controller {
+export class HDeviceInfoController extends Controller {
 
     private sleep = wait.sleep;
 

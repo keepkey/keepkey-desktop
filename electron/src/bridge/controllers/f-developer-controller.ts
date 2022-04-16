@@ -16,7 +16,7 @@ export type policy = {
 
 @Tags('Developer Endpoints')
 @Route('')
-export class DPubkeyController extends Controller {
+export class FDeveloperController extends Controller {
 
     private sleep = wait.sleep;
 
