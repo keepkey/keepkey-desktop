@@ -8,6 +8,7 @@ export type FeatureFlags = {
   FoxyInvestor: boolean
   ReduxLogging: boolean
   KeepKeySettings: boolean
+  ElectronChannels: boolean
 }
 
 export type Preferences = {
@@ -22,6 +23,7 @@ const initialState: Preferences = {
     FoxyInvestor: getConfig().REACT_APP_FEATURE_FOXY_INVESTOR,
     ReduxLogging: getConfig().REACT_APP_REDUX_LOGGING,
     KeepKeySettings: getConfig().REACT_APP_FEATURE_KEEPKEY_SETTINGS,
+    ElectronChannels: getConfig().REACT_APP_FEATURE_ELECTRON_CHANNELS,
   },
   selectedLocale: simpleLocale(),
   balanceThreshold: '0',

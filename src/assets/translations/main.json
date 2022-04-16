@@ -662,6 +662,7 @@
       "minimizeToTray": "Minimize to tray",
       "bridgeApiPort": "Bridge api port",
       "autoUpdate": "Automatically install updates",
+      "downloadPreRelease": "Download pre release builds",
       "cta": {
         "update": {
           "check": "Check for updates",

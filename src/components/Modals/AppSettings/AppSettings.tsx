@@ -18,16 +18,20 @@ import { UpdateCheckResult, UpdateInfo } from 'electron-updater'
 import { useCallback, useEffect, useState } from 'react'
 import { FaCheck } from 'react-icons/fa'
 import { HiRefresh } from 'react-icons/hi'
+import { useSelector } from 'react-redux'
 import { Row } from 'components/Row/Row'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
+import { ReduxState } from 'state/reducer'
+import { selectFeatureFlag } from 'state/slices/preferencesSlice/selectors'
 
 export type AppSettings = {
   shouldAutoLunch: boolean
   shouldAutoStartBridge: boolean
   shouldMinimizeToTray: boolean
   shouldAutoUpdate: boolean
+  allowPreRelease: boolean
   bridgeApiPort: number
 }
 
@@ -44,11 +48,16 @@ export const AppSettingsModal = () => {
   const { appSettings } = useModal()
   const { close, isOpen } = appSettings
 
+  const electronChannelsFlag = useSelector((state: ReduxState) =>
+    selectFeatureFlag(state, 'ElectronChannels'),
+  )
+
   const [settings, setSettings] = useState<AppSettings>({
     shouldAutoLunch: true,
     shouldAutoStartBridge: true,
     shouldMinimizeToTray: true,
     shouldAutoUpdate: true,
+    allowPreRelease: false,
     bridgeApiPort: 1646,
   })
 
@@ -208,6 +217,22 @@ export const AppSettingsModal = () => {
                   }}
                 />
               </Row>
+              {electronChannelsFlag && (
+                <Row>
+                  <Text translation={'modals.appSettings.downloadPreRelease'} />
+                  <Switch
+                    isChecked={settings.allowPreRelease}
+                    onChange={() => {
+                      setSettings(currentSettings => {
+                        return {
+                          ...currentSettings,
+                          allowPreRelease: !currentSettings.allowPreRelease,
+                        }
+                      })
+                    }}
+                  />
+                </Row>
+              )}
               <Row>
                 <Text translation={'modals.appSettings.bridgeApiPort'} />
                 <Input
