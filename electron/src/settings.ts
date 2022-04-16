@@ -3,8 +3,8 @@ import { bridgeRunning, server, start_bridge, stop_bridge } from "./bridge";
 import { db } from "./db";
 import { kkAutoLauncher } from "./main";
 import { AddressInfo } from "net";
-import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
+import { setAllowPreRelease } from "./updater";
 
 let instance: Settings;
 
@@ -125,7 +125,7 @@ export class Settings {
 
     setAllowPreRelease(value: boolean, bulk = false) {
         this.allowPreRelease = value
-        autoUpdater.allowPrerelease = value
+        setAllowPreRelease(value)
         if (!bulk) this.syncSettingsWithDB()
     }
 

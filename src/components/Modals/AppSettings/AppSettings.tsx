@@ -68,16 +68,17 @@ export const AppSettingsModal = () => {
 
   const compareVersions = useCallback(
     (update: UpdateInfo) => {
-      const updateVer = update.version.split('.')
+      const updateVer = update.version.replace('-beta', '').split('.')
 
       console.info(currentAppVer, updateVer)
 
-      if (Number(updateVer[0]) > Number(currentAppVer[0])) setUpdateState(UpdateState.AVAILABLE)
-      else if (Number(updateVer[1]) > Number(currentAppVer[1]))
-        setUpdateState(UpdateState.AVAILABLE)
-      else if (Number(updateVer[2]) > Number(currentAppVer[2]))
-        setUpdateState(UpdateState.AVAILABLE)
-      else setUpdateState(UpdateState.LATEST)
+      if (
+        Number(updateVer[0]) === Number(currentAppVer[0]) &&
+        Number(updateVer[1]) === Number(currentAppVer[1]) &&
+        Number(updateVer[2]) === Number(currentAppVer[2])
+      )
+        setUpdateState(UpdateState.LATEST)
+      else setUpdateState(UpdateState.AVAILABLE)
     },
     [currentAppVer],
   )
@@ -103,10 +104,10 @@ export const AppSettingsModal = () => {
 
   useEffect(() => {
     if (!isOpen) setUpdateState(UpdateState.UNCHECKED)
+    else ipcRenderer.send('@app/settings')
   }, [isOpen])
 
   useEffect(() => {
-    ipcRenderer.send('@app/settings')
     ipcRenderer.on('@app/settings', (event, data) => {
       setSettings(data)
     })
@@ -129,6 +130,7 @@ export const AppSettingsModal = () => {
 
   useEffect(() => {
     ipcRenderer.on('@app/update', (event, data: UpdateCheckResult) => {
+      console.info('@app/update', data)
       setUpdateData(data.updateInfo)
       compareVersions(data.updateInfo)
     })

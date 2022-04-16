@@ -657,7 +657,7 @@
     },
     "appSettings": {
       "header": "App Settings",
-      "autoLaunch": "Automatically launch on app startup",
+      "autoLaunch": "Automatically launch app on startup",
       "autoStartBridge": "Automatically start the bridge api on app start",
       "minimizeToTray": "Minimize to tray",
       "bridgeApiPort": "Bridge api port",

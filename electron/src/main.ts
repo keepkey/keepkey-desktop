@@ -37,16 +37,24 @@
 import path from 'path'
 import isDev from 'electron-is-dev'
 import log from 'electron-log'
-import { autoUpdater } from 'electron-updater'
 import { app, BrowserWindow, nativeTheme, ipcMain, shell, protocol } from 'electron'
 import AutoLaunch from 'auto-launch'
 import * as Sentry from "@sentry/electron";
 import { config as dotenvConfig } from 'dotenv'
+import { bridgeRunning, keepkey, start_bridge, stop_bridge } from './bridge'
+import { shared } from './shared'
+import { createTray, tray } from './tray'
+import { isWin, isLinux, ALLOWED_HOSTS } from './constants'
+import { db } from './db'
+import { getWalletconnectSession, pairWalletConnect, walletConnectClient } from './connect'
+import { Settings } from './settings'
+import { getWallectConnectUri } from './utils'
+import { setupAutoUpdater, skipUpdateCheckCompleted } from './updater'
 
 dotenvConfig()
 
 log.transports.file.level = "debug";
-autoUpdater.logger = log;
+setupAutoUpdater()
 
 let {
     getConfig,
@@ -59,14 +67,7 @@ let {
 Sentry.init({ dsn: process.env.SENTRY_DSN });
 Sentry.init({ dsn: process.env.SENTRY_DSN });
 //Modules
-import { bridgeRunning, keepkey, start_bridge, stop_bridge } from './bridge'
-import { shared } from './shared'
-import { createTray, tray } from './tray'
-import { isWin, isLinux, ALLOWED_HOSTS } from './constants'
-import { db } from './db'
-import { getWalletconnectSession, pairWalletConnect, walletConnectClient } from './connect'
-import { Settings } from './settings'
-import { getWallectConnectUri } from './utils'
+
 
 export const settings = new Settings()
 
@@ -86,11 +87,8 @@ let APPROVED_ORIGINS: string[] = []
 
 let USER_APPROVED_PAIR: boolean
 let USER_REJECT_PAIR: boolean
-let skipUpdateTimeout: NodeJS.Timeout
-let windowShowInterval: NodeJS.Timeout
-let shouldShowWindow = false;
-let skipUpdateCheckCompleted = false
 export let appStartCalled = false
+export let shouldShowWindow = false;
 
 
 export const windows: {
@@ -228,23 +226,6 @@ export const createWindow = () => new Promise<boolean>(async (resolve, reject) =
 app.setAsDefaultProtocolClient('keepkey')
 // Export so you can access it from the renderer thread
 
-app.on('ready', async () => {
-    try {
-        if (!tray) createTray()
-    } catch (e) {
-        log.error('Failed to create tray! e: ', e)
-    }
-
-    createSplashWindow()
-    settings.loadSettingsFromDb().then(async (settings) => {
-        autoUpdater.autoDownload = settings.shouldAutoUpdate
-        autoUpdater.allowPrerelease = settings.allowPreRelease
-        if (!windows.splash) return
-        if (isDev || isLinux || !settings.shouldAutoUpdate) skipUpdateCheck(windows.splash)
-        if (!isDev && !isLinux) await autoUpdater.checkForUpdates()
-    })
-})
-
 if (!isWin) {
     app.on('open-url', (event, url) => {
         const walletConnectUri = getWallectConnectUri(url)
@@ -286,56 +267,7 @@ app.on('before-quit', async () => {
     isQuitting = true
 })
 
-autoUpdater.on("update-available", (info) => {
-    if (skipUpdateCheckCompleted) return
-    if (!windows.splash) return
-    windows.splash.webContents.send("@update/download", info);
-    // skip the update if it takes more than 1 minute
-    skipUpdateTimeout = setTimeout(() => {
-        if (!windows.splash) return
-        skipUpdateCheck(windows.splash);
-    }, 60000);
-});
 
-
-autoUpdater.on("download-progress", (progress) => {
-    let prog = Math.floor(progress.percent);
-    if (windows.splash && !windows.splash.isDestroyed()) windows.splash.webContents.send("@update/percentage", prog);
-    if (windows.splash && !windows.splash.isDestroyed()) windows.splash.setProgressBar(prog / 100);
-    if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.webContents.send("@update/percentage", prog);
-    if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.setProgressBar(prog / 100);
-    // stop timeout that skips the update
-    if (skipUpdateTimeout) {
-        clearTimeout(skipUpdateTimeout);
-    }
-});
-
-
-autoUpdater.on("update-downloaded", () => {
-    if (skipUpdateCheckCompleted) return
-    if (windows.splash) windows.splash.webContents.send("@update/relaunch");
-    // stop timeout that skips the update
-    if (skipUpdateTimeout) {
-        clearTimeout(skipUpdateTimeout);
-    }
-    setTimeout(() => {
-        autoUpdater.quitAndInstall();
-    }, 1000);
-});
-
-
-autoUpdater.on("update-not-available", () => {
-    if (skipUpdateCheckCompleted) return
-    if (!windows.splash) return
-    skipUpdateCheck(windows.splash);
-});
-
-
-autoUpdater.on("error", () => {
-    if (skipUpdateCheckCompleted) return
-    if (!windows.splash) return
-    skipUpdateCheck(windows.splash);
-});
 
 
 ipcMain.on('@account/info', async (event, data) => {
@@ -400,60 +332,11 @@ ipcMain.on('@app/sentry-dsn', (event, data) => {
     event.sender.send('@app/sentry-dsn', process.env.SENTRY_DSN)
 })
 
-ipcMain.on('@app/update', async (event, data) => {
-    if (isDev) return event.sender.send('@app/update', { updateInfo: { version: app.getVersion() } })
-    const update = await autoUpdater.checkForUpdates()
-    event.sender.send('@app/update', update)
-})
 
-ipcMain.on('@app/download-updates', async (event, data) => {
-    await autoUpdater.downloadUpdate()
-    event.sender.send('@app/download-updates')
-})
 
-ipcMain.on('@app/install-updates', async (event, data) => {
-    autoUpdater.quitAndInstall()
-})
 
-const skipUpdateCheck = (splash: BrowserWindow) => {
-    createWindow();
-    splash.webContents.send("@update/notfound");
-    if (isLinux || isDev) {
-        splash.webContents.send("@update/skipCheck");
-    }
-    // stop timeout that skips the update
-    if (skipUpdateTimeout) {
-        clearTimeout(skipUpdateTimeout);
-    }
-    windowShowInterval = setInterval(() => {
-        if (shouldShowWindow) {
-            if (windows.splash) splash.webContents.send("@update/launch");
-            clearInterval(windowShowInterval);
-            setTimeout(() => {
-                if (windows.splash) splash.destroy();
-                if (windows.mainWindow) windows.mainWindow.show();
-            }, 800);
-        }
-    }, 1000);
-    skipUpdateCheckCompleted = true
-}
 
-const createSplashWindow = () => {
-    windows.splash = new BrowserWindow({
-        width: 300,
-        height: 410,
-        transparent: true,
-        frame: false,
-        resizable: false,
-        webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false,
-        },
-    });
-    windows.splash.loadFile(
-        path.join(__dirname, "../resources/splash/splash-screen.html")
-    );
-}
+
 
 
 ipcMain.on('@bridge/stop', async event => {
