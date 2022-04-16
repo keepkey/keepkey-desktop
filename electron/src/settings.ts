@@ -3,6 +3,8 @@ import { bridgeRunning, server, start_bridge, stop_bridge } from "./bridge";
 import { db } from "./db";
 import { kkAutoLauncher } from "./main";
 import { AddressInfo } from "net";
+import { autoUpdater } from 'electron-updater'
+import log from 'electron-log'
 
 let instance: Settings;
 
@@ -12,6 +14,7 @@ export class Settings {
     public shouldMinimizeToTray = true
     public shouldAutoUpdate = true
     public bridgeApiPort = 1646
+    public allowPreRelease = true
 
     constructor() {
         if (instance) {
@@ -29,7 +32,8 @@ export class Settings {
                 shouldAutoStartBridge: this.shouldAutoStartBridge,
                 shouldMinimizeToTray: this.shouldMinimizeToTray,
                 shouldAutoUpdate: this.shouldAutoUpdate,
-                bridgeApiPort: this.bridgeApiPort
+                bridgeApiPort: this.bridgeApiPort,
+                allowPreRelease: this.allowPreRelease
             })
         })
     }
@@ -44,13 +48,14 @@ export class Settings {
 
             if (doc.settings.shouldAutoLunch === undefined || doc.settings.shouldAutoStartBridge === undefined ||
                 doc.settings.shouldMinimizeToTray === undefined || doc.settings.shouldAutoUpdate === undefined ||
-                doc.settings.bridgeApiPort === undefined) await this.syncSettingsWithDB()
+                doc.settings.bridgeApiPort === undefined || doc.settings.allowPreRelease === undefined) await this.syncSettingsWithDB()
 
             this.shouldAutoLunch = doc.settings.shouldAutoLunch
             this.shouldAutoStartBridge = doc.settings.shouldAutoStartBridge
             this.shouldMinimizeToTray = doc.settings.shouldMinimizeToTray
             this.shouldAutoUpdate = doc.settings.shouldAutoUpdate
             this.bridgeApiPort = doc.settings.bridgeApiPort
+            this.allowPreRelease = doc.settings.allowPreRelease
             resolve(this)
         })
     })
@@ -118,19 +123,27 @@ export class Settings {
         if (!bulk) this.syncSettingsWithDB()
     }
 
-    updateBulkSettings({ shouldAutoLunch, shouldAutoStartBridge, shouldMinimizeToTray, shouldAutoUpdate, bridgeApiPort }: {
+    setAllowPreRelease(value: boolean, bulk = false) {
+        this.allowPreRelease = value
+        autoUpdater.allowPrerelease = value
+        if (!bulk) this.syncSettingsWithDB()
+    }
+
+    updateBulkSettings({ shouldAutoLunch, shouldAutoStartBridge, shouldMinimizeToTray, shouldAutoUpdate, bridgeApiPort, allowPreRelease }: {
         shouldAutoLunch?: boolean,
         shouldAutoStartBridge?: boolean,
         shouldMinimizeToTray?: boolean,
         shouldAutoUpdate?: boolean,
-        bridgeApiPort?: number
+        bridgeApiPort?: number,
+        allowPreRelease?: boolean
     }) {
-        console.log(shouldAutoLunch, shouldAutoStartBridge, shouldMinimizeToTray, bridgeApiPort)
+        log.info(shouldAutoLunch, shouldAutoStartBridge, shouldMinimizeToTray, bridgeApiPort, allowPreRelease)
         if (shouldAutoLunch !== undefined) this.setShouldAutoLunch(shouldAutoLunch, true)
         if (shouldAutoStartBridge !== undefined) this.setShouldAutoStartBridge(shouldAutoStartBridge, true)
         if (shouldMinimizeToTray !== undefined) this.setShouldMinimizeToTray(shouldMinimizeToTray, true)
         if (shouldAutoUpdate !== undefined) this.setShouldAutoUpdate(shouldAutoUpdate, true)
         if (bridgeApiPort !== undefined) this.setBridgeApiPort(bridgeApiPort, true)
+        if (allowPreRelease !== undefined) this.setAllowPreRelease(allowPreRelease, true)
         this.syncSettingsWithDB()
     }
 }
