@@ -238,6 +238,7 @@ app.on('ready', async () => {
     createSplashWindow()
     settings.loadSettingsFromDb().then(async (settings) => {
         autoUpdater.autoDownload = settings.shouldAutoUpdate
+        autoUpdater.allowPrerelease = settings.allowPreRelease
         if (!windows.splash) return
         if (isDev || isLinux || !settings.shouldAutoUpdate) skipUpdateCheck(windows.splash)
         if (!isDev && !isLinux) await autoUpdater.checkForUpdates()

@@ -7,13 +7,13 @@ import { CIndexController } from './../controllers/c-index.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DPubkeyController } from './../controllers/d-pubkey-controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { DPubkeyController } from './../controllers/e-sign-controller';
+import { ESignController } from './../controllers/e-sign-controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { DPubkeyController } from './../controllers/f-developer-controller';
+import { FDeveloperController } from './../controllers/f-developer-controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { DPubkeyController } from './../controllers/g-recovery-controller';
+import { GRecoveryController } from './../controllers/g-recovery-controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { DPubkeyController } from './../controllers/h-device-info-controller';
+import { HDeviceInfoController } from './../controllers/h-device-info-controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { BDeviceController } from './../controllers/b-device-controller';
 import { expressAuthentication } from './../auth';
@@ -849,7 +849,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/btcSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_btcSignTx(request: any, response: any, next: any) {
+            function ESignController_btcSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"any"},
             };
@@ -860,7 +860,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new ESignController();
 
 
               const promise = controller.btcSignTx.apply(controller, validatedArgs as any);
@@ -873,7 +873,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/thorchainSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_thorchainSignTx(request: any, response: any, next: any) {
+            function ESignController_thorchainSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"ThorchainSignTx"},
             };
@@ -884,7 +884,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new ESignController();
 
 
               const promise = controller.thorchainSignTx.apply(controller, validatedArgs as any);
@@ -897,7 +897,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/cosmosSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_cosmosSignTx(request: any, response: any, next: any) {
+            function ESignController_cosmosSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"CosmosSignTx"},
             };
@@ -908,7 +908,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new ESignController();
 
 
               const promise = controller.cosmosSignTx.apply(controller, validatedArgs as any);
@@ -921,7 +921,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/osmosisSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_osmosisSignTx(request: any, response: any, next: any) {
+            function ESignController_osmosisSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"any"},
             };
@@ -932,7 +932,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new ESignController();
 
 
               const promise = controller.osmosisSignTx.apply(controller, validatedArgs as any);
@@ -945,7 +945,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/rippleSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_rippleSignTx(request: any, response: any, next: any) {
+            function ESignController_rippleSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"RippleSignTx"},
             };
@@ -956,7 +956,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new ESignController();
 
 
               const promise = controller.rippleSignTx.apply(controller, validatedArgs as any);
@@ -969,7 +969,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/binanceSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_binanceSignTx(request: any, response: any, next: any) {
+            function ESignController_binanceSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"any"},
             };
@@ -980,7 +980,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new ESignController();
 
 
               const promise = controller.binanceSignTx.apply(controller, validatedArgs as any);
@@ -993,7 +993,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/ethSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_ethSignTx(request: any, response: any, next: any) {
+            function ESignController_ethSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"ETHSignTx"},
             };
@@ -1004,7 +1004,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new ESignController();
 
 
               const promise = controller.ethSignTx.apply(controller, validatedArgs as any);
@@ -1017,7 +1017,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/eosSignTx',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_eosSignTx(request: any, response: any, next: any) {
+            function ESignController_eosSignTx(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"any"},
             };
@@ -1028,7 +1028,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new ESignController();
 
 
               const promise = controller.eosSignTx.apply(controller, validatedArgs as any);
@@ -1041,7 +1041,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/sign',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_signTransaction(request: any, response: any, next: any) {
+            function ESignController_signTransaction(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"any"},
             };
@@ -1052,7 +1052,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new ESignController();
 
 
               const promise = controller.signTransaction.apply(controller, validatedArgs as any);
@@ -1065,7 +1065,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/loadDevice',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_loadDevice(request: any, response: any, next: any) {
+            function FDeveloperController_loadDevice(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"LoadDevice"},
             };
@@ -1076,7 +1076,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new FDeveloperController();
 
 
               const promise = controller.loadDevice.apply(controller, validatedArgs as any);
@@ -1089,7 +1089,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/removePin',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_removePin(request: any, response: any, next: any) {
+            function FDeveloperController_removePin(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"void"},
             };
@@ -1100,7 +1100,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new FDeveloperController();
 
 
               const promise = controller.removePin.apply(controller, validatedArgs as any);
@@ -1113,7 +1113,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/softReset',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_softReset(request: any, response: any, next: any) {
+            function FDeveloperController_softReset(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"void"},
             };
@@ -1124,7 +1124,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new FDeveloperController();
 
 
               const promise = controller.softReset.apply(controller, validatedArgs as any);
@@ -1137,7 +1137,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/clearSession',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_clearSession(request: any, response: any, next: any) {
+            function FDeveloperController_clearSession(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"void"},
             };
@@ -1148,7 +1148,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new FDeveloperController();
 
 
               const promise = controller.clearSession.apply(controller, validatedArgs as any);
@@ -1161,7 +1161,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/reset',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_reset(request: any, response: any, next: any) {
+            function FDeveloperController_reset(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"ResetDevice"},
             };
@@ -1172,7 +1172,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new FDeveloperController();
 
 
               const promise = controller.reset.apply(controller, validatedArgs as any);
@@ -1185,7 +1185,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/wipe',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_wipe(request: any, response: any, next: any) {
+            function FDeveloperController_wipe(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"void"},
             };
@@ -1196,7 +1196,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new FDeveloperController();
 
 
               const promise = controller.wipe.apply(controller, validatedArgs as any);
@@ -1209,7 +1209,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/disconnect',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_disconnect(request: any, response: any, next: any) {
+            function FDeveloperController_disconnect(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"void"},
             };
@@ -1220,7 +1220,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new FDeveloperController();
 
 
               const promise = controller.disconnect.apply(controller, validatedArgs as any);
@@ -1233,7 +1233,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/applyPolicy',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_applyPolicy(request: any, response: any, next: any) {
+            function FDeveloperController_applyPolicy(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"any"},
             };
@@ -1244,7 +1244,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new FDeveloperController();
 
 
               const promise = controller.applyPolicy.apply(controller, validatedArgs as any);
@@ -1257,7 +1257,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/applySettings',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_applySettings(request: any, response: any, next: any) {
+            function FDeveloperController_applySettings(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"any"},
             };
@@ -1268,7 +1268,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new FDeveloperController();
 
 
               const promise = controller.applySettings.apply(controller, validatedArgs as any);
@@ -1281,7 +1281,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/firmwareErase',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_firmwareErase(request: any, response: any, next: any) {
+            function FDeveloperController_firmwareErase(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"void"},
             };
@@ -1292,7 +1292,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new FDeveloperController();
 
 
               const promise = controller.firmwareErase.apply(controller, validatedArgs as any);
@@ -1305,7 +1305,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/firmwareUpload',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_firmwareUpload(request: any, response: any, next: any) {
+            function FDeveloperController_firmwareUpload(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"any"},
             };
@@ -1316,7 +1316,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new FDeveloperController();
 
 
               const promise = controller.firmwareUpload.apply(controller, validatedArgs as any);
@@ -1329,7 +1329,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/recover',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_recover(request: any, response: any, next: any) {
+            function GRecoveryController_recover(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"RecoverDevice"},
             };
@@ -1340,7 +1340,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new GRecoveryController();
 
 
               const promise = controller.recover.apply(controller, validatedArgs as any);
@@ -1353,7 +1353,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/changePin',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_changePin(request: any, response: any, next: any) {
+            function GRecoveryController_changePin(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"void"},
             };
@@ -1364,7 +1364,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new GRecoveryController();
 
 
               const promise = controller.changePin.apply(controller, validatedArgs as any);
@@ -1377,7 +1377,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/sendWord',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_sendWord(request: any, response: any, next: any) {
+            function GRecoveryController_sendWord(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"string"},
             };
@@ -1388,7 +1388,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new GRecoveryController();
 
 
               const promise = controller.sendWord.apply(controller, validatedArgs as any);
@@ -1401,7 +1401,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/sendCharacter',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_sendCharacter(request: any, response: any, next: any) {
+            function GRecoveryController_sendCharacter(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"string"},
             };
@@ -1412,7 +1412,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new GRecoveryController();
 
 
               const promise = controller.sendCharacter.apply(controller, validatedArgs as any);
@@ -1425,7 +1425,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/sendCharacterDelete',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_sendCharacterDelete(request: any, response: any, next: any) {
+            function GRecoveryController_sendCharacterDelete(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"void"},
             };
@@ -1436,7 +1436,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new GRecoveryController();
 
 
               const promise = controller.sendCharacterDelete.apply(controller, validatedArgs as any);
@@ -1449,7 +1449,7 @@ export function RegisterRoutes(app: express.Router) {
         app.post('/sendCharacterDone',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_sendCharacterDone(request: any, response: any, next: any) {
+            function GRecoveryController_sendCharacterDone(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"dataType":"void"},
             };
@@ -1460,7 +1460,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new GRecoveryController();
 
 
               const promise = controller.sendCharacterDone.apply(controller, validatedArgs as any);
@@ -1473,7 +1473,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/getNumCoins',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_getNumCoins(request: any, response: any, next: any) {
+            function HDeviceInfoController_getNumCoins(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1483,7 +1483,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.getNumCoins.apply(controller, validatedArgs as any);
@@ -1496,7 +1496,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/getCoinTable',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_getCoinTable(request: any, response: any, next: any) {
+            function HDeviceInfoController_getCoinTable(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1506,7 +1506,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.getCoinTable.apply(controller, validatedArgs as any);
@@ -1519,7 +1519,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/getDeviceID',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_getDeviceID(request: any, response: any, next: any) {
+            function HDeviceInfoController_getDeviceID(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1529,7 +1529,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.getDeviceID.apply(controller, validatedArgs as any);
@@ -1542,7 +1542,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/getVendor',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_getVendor(request: any, response: any, next: any) {
+            function HDeviceInfoController_getVendor(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1552,7 +1552,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.getVendor.apply(controller, validatedArgs as any);
@@ -1565,7 +1565,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/getModel',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_getModel(request: any, response: any, next: any) {
+            function HDeviceInfoController_getModel(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1575,7 +1575,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.getModel.apply(controller, validatedArgs as any);
@@ -1588,7 +1588,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/getFirmwareVersion',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_getFirmwareVersion(request: any, response: any, next: any) {
+            function HDeviceInfoController_getFirmwareVersion(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1598,7 +1598,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.getFirmwareVersion.apply(controller, validatedArgs as any);
@@ -1611,7 +1611,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/getLabel',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_getLabel(request: any, response: any, next: any) {
+            function HDeviceInfoController_getLabel(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1621,7 +1621,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.getLabel.apply(controller, validatedArgs as any);
@@ -1634,7 +1634,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/isInitialized',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_isInitialized(request: any, response: any, next: any) {
+            function HDeviceInfoController_isInitialized(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1644,7 +1644,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.isInitialized.apply(controller, validatedArgs as any);
@@ -1657,7 +1657,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/isLocked',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_isLocked(request: any, response: any, next: any) {
+            function HDeviceInfoController_isLocked(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1667,7 +1667,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.isLocked.apply(controller, validatedArgs as any);
@@ -1680,7 +1680,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/hasOnDevicePinEntry',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_hasOnDevicePinEntry(request: any, response: any, next: any) {
+            function HDeviceInfoController_hasOnDevicePinEntry(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1690,7 +1690,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.hasOnDevicePinEntry.apply(controller, validatedArgs as any);
@@ -1703,7 +1703,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/hasOnDevicePassphrase',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_hasOnDevicePassphrase(request: any, response: any, next: any) {
+            function HDeviceInfoController_hasOnDevicePassphrase(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1713,7 +1713,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.hasOnDevicePassphrase.apply(controller, validatedArgs as any);
@@ -1726,7 +1726,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/hasOnDeviceDisplay',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_hasOnDeviceDisplay(request: any, response: any, next: any) {
+            function HDeviceInfoController_hasOnDeviceDisplay(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1736,7 +1736,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.hasOnDeviceDisplay.apply(controller, validatedArgs as any);
@@ -1749,7 +1749,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/hasOnDeviceRecovery',
             authenticateMiddleware([{"api_key":[]}]),
 
-            function DPubkeyController_hasOnDeviceRecovery(request: any, response: any, next: any) {
+            function HDeviceInfoController_hasOnDeviceRecovery(request: any, response: any, next: any) {
             const args = {
             };
 
@@ -1759,7 +1759,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new DPubkeyController();
+                const controller = new HDeviceInfoController();
 
 
               const promise = controller.hasOnDeviceRecovery.apply(controller, validatedArgs as any);

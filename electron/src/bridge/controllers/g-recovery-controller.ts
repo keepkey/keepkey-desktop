@@ -11,7 +11,7 @@ import { openSignTxWindow } from '../../utils';
 
 @Tags('Recovery Endpoints')
 @Route('')
-export class DPubkeyController extends Controller {
+export class GRecoveryController extends Controller {
 
     private sleep = wait.sleep;
 
