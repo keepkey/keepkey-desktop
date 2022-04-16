@@ -19,7 +19,7 @@ export const App = () => {
   const toastIdRef = useRef<ToastId | null>(null)
   const updateId = 'update-app'
   const translate = useTranslate()
-  const { pair } = useModal()
+  const { pair, hardwareError } = useModal()
   const history = useHistory()
 
   // useEffect(setupSentry, [])
@@ -28,10 +28,14 @@ export const App = () => {
     ipcRenderer.on('@modal/pair', (event, data: PairingProps) => {
       pair.open(data)
     })
+    ipcRenderer.on('@modal/hardwareError', (event, data) => {
+      if (!data.close) hardwareError.open(data.data)
+      else hardwareError.close()
+    })
     ipcRenderer.on('@onboard/open', (event, data) => {
       history.push('/onboarding')
     })
-  }, [pair, history])
+  }, [pair, hardwareError, history])
 
   useEffect(() => {
     if (shouldUpdate && !toast.isActive(updateId)) {
