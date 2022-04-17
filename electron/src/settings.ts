@@ -69,7 +69,8 @@ export class Settings {
                     shouldAutoStartBridge: this.shouldAutoStartBridge,
                     shouldMinimizeToTray: this.shouldMinimizeToTray,
                     shouldAutoUpdate: this.shouldAutoUpdate,
-                    bridgeApiPort: this.bridgeApiPort
+                    bridgeApiPort: this.bridgeApiPort,
+                    allowPreRelease: this.allowPreRelease
                 }
             })
 
@@ -79,7 +80,8 @@ export class Settings {
                     shouldAutoStartBridge: this.shouldAutoStartBridge,
                     shouldMinimizeToTray: this.shouldMinimizeToTray,
                     shouldAutoUpdate: this.shouldAutoUpdate,
-                    bridgeApiPort: this.bridgeApiPort
+                    bridgeApiPort: this.bridgeApiPort,
+                    allowPreRelease: this.allowPreRelease
                 }
             })
             resolve()
