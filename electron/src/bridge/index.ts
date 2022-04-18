@@ -109,8 +109,8 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
         } catch (e) {
             keepkey.STATE = -1
             keepkey.STATUS = 'bridge error'
-            queueIpcEvent('setKeepKeyState', { state: keepkey.STATE })
-            queueIpcEvent('setKeepKeyStatus', { status: keepkey.STATUS })
+            queueIpcEvent('@keepkey/state', { state: keepkey.STATE })
+            queueIpcEvent('@keepkey/status', { status: keepkey.STATUS })
             updateMenu(keepkey.STATE)
             log.info('e: ', e)
         }
@@ -234,6 +234,8 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                 log.info("state change: ", event)
                 keepkey.STATE = event.state
                 keepkey.STATUS = event.status
+                queueIpcEvent('@keepkey/state', { state: keepkey.STATE })
+                queueIpcEvent('@keepkey/status', { status: keepkey.STATUS })
 
                 switch (event.state) {
                     case 0:
@@ -268,6 +270,14 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                 }
             })
 
+            // queueIpcEvent('@onboard/open', {
+            //     prompt: 'update bootloader',
+            //     bootloaderUpdateNeeded: true,
+            //     firmware: 'v4.0.0',
+            //     bootloader: 'v1.0.3',
+            //     recommendedBootloader: 'v1.1.0',
+            //     recommendedFirmware: 'v7.2.1'
+            // })
             //errors
             Controller.events.on('error', function (event) {
                 log.info("error event: ", event)
@@ -361,8 +371,8 @@ export const stop_bridge = () => new Promise<void>((resolve, reject) => {
             log.info('Closed out remaining connections')
             keepkey.STATE = 2
             keepkey.STATUS = 'device connected'
-            queueIpcEvent('setKeepKeyState', { state: keepkey.STATE })
-            queueIpcEvent('setKeepKeyStatus', { status: keepkey.STATUS })
+            queueIpcEvent('@keepkey/state', { state: keepkey.STATE })
+            queueIpcEvent('@keepkey/status', { status: keepkey.STATUS })
             updateMenu(keepkey.STATE)
         })
         bridgeRunning = false
@@ -373,7 +383,7 @@ export const stop_bridge = () => new Promise<void>((resolve, reject) => {
     }
 })
 
-const queueIpcEvent = (eventName: string, args: any) => {
+export const queueIpcEvent = (eventName: string, args: any) => {
     if (!appStartCalled) {
         log.info('ipcEventQueued: ' + eventName)
         return ipcQueue.push({ eventName, args })
