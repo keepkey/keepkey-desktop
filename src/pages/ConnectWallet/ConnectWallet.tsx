@@ -8,7 +8,7 @@ import { NativeHDWallet } from '@shapeshiftoss/hdwallet-native'
 import { Vault } from '@shapeshiftoss/hdwallet-native-vault'
 import { Dispatch, useEffect } from 'react'
 import { useTranslate } from 'react-polyglot'
-import { useHistory } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { Page } from 'components/Layout/Page'
 import { RawText, Text } from 'components/Text'
@@ -143,6 +143,9 @@ export const ConnectWallet = () => {
           textAlign='center'
           translation='connectWalletPage.body'
         />
+        {state.keepkeyState === 1 && <Redirect
+          to={'/onboarding'}
+        />}
         {state.keepkeyState === 5 ? (
           <Button
             size='lg'
