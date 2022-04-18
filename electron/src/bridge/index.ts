@@ -122,114 +122,6 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
         try {
             log.info("Starting Hardware Controller")
 
-            //Starts with no device
-
-            // //simuate connection of OOB keepkey
-            // let pushLogNeedsBootloader = function(){
-            //     let event = {
-            //         prompt: 'update bootloader',
-            //         bootloaderUpdateNeeded: true,
-            //         firmware: undefined,
-            //         bootloader: 'v1.0.3',
-            //         recommendedBootloader: 'v1.1.0',
-            //         recommendedFirmware: 'v7.2.1'
-            //     }
-            //     pushLog(event)
-            // }
-            // setTimeout(pushLogNeedsBootloader,15000)
-            //
-            // //Simulate user unplug
-            // let pushStateNoDevice = function(){
-            //     let event = { prevState: 1, state: 0, status: 'no devices' }
-            //     updateState(event)
-            //
-            // }
-            // setTimeout(pushStateNoDevice,20000)
-            //
-            // //Simulate user pluigin with bootloader mode
-            // //push event open in bootloader mode
-            // let pushStateBootloaderMode = function(){
-            //     let event = { prevState: 0, state: 1, status: 'Bootloader mode' }
-            //     updateState(event)
-            // }
-            // setTimeout(pushStateBootloaderMode,30000)
-            //
-            // //user updates booloader
-            //
-            // //simulate disconnect
-            // setTimeout(pushStateNoDevice,45000)
-            //
-            // //TODO VERIFY SHOW USER TO GO BACK TO UPDATER MODE!
-            //
-            // setTimeout(pushStateBootloaderMode,60000)
-            //
-            // //user plugs in with no firmware but updated bootloader
-            // let pushLogNeedsFirmware = function(){
-            //     let event = {
-            //         prompt: 'update firmware',
-            //         firmwareUpdateNeeded: true,
-            //         firmware: undefined,
-            //         bootloader: 'v1.1.0',
-            //         recommendedBootloader: 'v1.1.0',
-            //         recommendedFirmware: 'v7.2.1'
-            //     }
-            //     pushLog(event)
-            // }
-            // setTimeout(pushLogNeedsFirmware,75000)
-
-            //simulate user updates firmware
-
-            //exit app
-            //open app
-
-            //push log needs firmware
-
-            let updateState = function (event: any) {
-                keepkey.STATE = event.state
-                keepkey.STATUS = event.status
-
-                switch (event.state) {
-                    case 0:
-                        log.info(tag, "No Devices connected")
-                        queueIpcEvent('closeBootloaderUpdate', {})
-                        queueIpcEvent('closeFirmwareUpdate', {})
-                        queueIpcEvent('@modal/hardwareError', { close: false, data: { error: event.error, code: event.code, event } })
-                        break;
-                    case 1:
-                        queueIpcEvent('setUpdaterMode', true)
-                        break;
-                    case 4:
-                        queueIpcEvent('@modal/hardwareError', { close: true, data: { error: event.error, code: event.code, event } })
-                        queueIpcEvent('closeBootloaderUpdate', {})
-                        queueIpcEvent('closeFirmwareUpdate', {})
-                        //launch init seed window?
-                        log.info("Setting device controller: ", Controller)
-                        keepkey.device = Controller.device
-                        keepkey.wallet = Controller.wallet
-                        keepkey.transport = Controller.transport
-                        break;
-                    case 5:
-                        queueIpcEvent('@modal/hardwareError', { close: true, data: { error: event.error, code: event.code, event } })
-                        log.info("Setting device Controller: ", Controller)
-                        keepkey.device = Controller.device
-                        keepkey.wallet = Controller.wallet
-                        keepkey.transport = Controller.transport
-                        break;
-                    default:
-                    //unhandled
-                }
-            }
-
-            let pushLog = function (event: any) {
-                log.info("logs event: ", event)
-                if (event.bootloaderUpdateNeeded || event.firmwareUpdateNeeded) {
-                    queueIpcEvent('@modal/hardwareError', { close: true, data: { error: event.error, code: event.code, event } })
-                    queueIpcEvent('@onboard/open', event)
-                    queueIpcEvent('@onboard/state', event)
-                }
-            }
-
-
             //sub ALL events
             //state
             Controller.events.on('state', function (event) {
@@ -247,9 +139,12 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                         queueIpcEvent('@modal/hardwareError', { close: false, data: { error: event.error, code: event.code, event } })
                         break;
                     case 1:
+                        queueIpcEvent('@onboard/open', event)
+                        break;
+                    case 2:
                         queueIpcEvent('setUpdaterMode', true)
                         break;
-                    case 4:
+                    case 5:
                         //queueIpcEvent('@wallet/not-initialized', event.deviceId)
                         queueIpcEvent('@modal/hardwareError', { close: true, data: { error: event.error, code: event.code, event } })
                         queueIpcEvent('closeBootloaderUpdate', {})
@@ -260,7 +155,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                         keepkey.wallet = Controller.wallet
                         keepkey.transport = Controller.transport
                         break;
-                    case 5:
+                    case 6:
                         queueIpcEvent('@modal/hardwareError', { close: true, data: { error: event.error, code: event.code, event } })
                         log.info("Setting device Controller: ", Controller)
                         keepkey.device = Controller.device

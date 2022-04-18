@@ -143,7 +143,7 @@ export const ConnectWallet = () => {
           textAlign='center'
           translation='connectWalletPage.body'
         />
-        {state.keepkeyState === 5 ? (
+        {state.keepkeyState === 6 ? (
           <Button
             size='lg'
             zIndex={1}
