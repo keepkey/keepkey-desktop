@@ -231,7 +231,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
             //sub ALL events
             //state
             Controller.events.on('state', function (event) {
-                log.info("state change: ", event)
+                log.info("*** state change: ", event)
                 keepkey.STATE = event.state
                 keepkey.STATUS = event.status
                 queueIpcEvent('@keepkey/state', { state: keepkey.STATE })
@@ -281,6 +281,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                 log.info("logs event: ", event)
                 if (event.newDevice) {
                     //push new event
+                    queueIpcEvent('@onboard/newKeepKey', event)
                 }
 
                 if (event.bootloaderUpdateNeeded || event.firmwareUpdateNeeded) {

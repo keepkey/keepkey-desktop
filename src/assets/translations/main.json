@@ -114,7 +114,8 @@
     "defiUniverse": "DeFi Universe",
     "body": "A companion app for the KeepKey hardware wallet",
     "header": "Please connect a wallet to get started",
-    "cta": "Connect Wallet"
+    "cta": "Connect Wallet",
+    "troubleshoot": "Troubleshoot KeepKey Connection"
   },
   "walletConnect": {
     "menu": {

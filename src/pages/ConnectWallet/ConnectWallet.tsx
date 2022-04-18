@@ -106,7 +106,7 @@ export const ConnectWallet = () => {
               onClick={() => history.push('/troubleshoot')}
               data-test='connect-wallet-button'
           >
-            <Text translation='connectWalletPage.cta' />
+            <Text translation='connectWalletPage.troubleshoot' />
           </Button>
           <Badge colorScheme='blue' ml={2}>
             {state.keepkeyState}
