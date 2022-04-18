@@ -146,7 +146,7 @@ export const ConnectWallet = () => {
         {state.keepkeyState === 1 && <Redirect
           to={'/onboarding'}
         />}
-        {state.keepkeyState === 5 ? (
+        {state.keepkeyState === 6 ? (
           <Button
             size='lg'
             zIndex={1}
