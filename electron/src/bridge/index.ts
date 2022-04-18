@@ -60,8 +60,8 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                 log.info('ipcEventCalledFromQueue: ' + item.eventName)
                 if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.webContents.send(item.eventName, item.args)
                 ipcQueue.splice(idx, 1);
-            }, 2000)
-        })
+            })
+        }, 2000)
     })
     let tag = " | start_bridge | "
     try {
@@ -139,7 +139,10 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                         queueIpcEvent('@modal/hardwareError', { close: false, data: { error: event.error, code: event.code, event } })
                         break;
                     case 1:
-                        queueIpcEvent('@onboard/open', event)
+                        setTimeout(() => {
+                            queueIpcEvent('@onboard/open', event)
+                        },5000)
+                        // queueIpcEvent('@onboard/open', event)
                         break;
                     case 2:
                         queueIpcEvent('setUpdaterMode', true)
