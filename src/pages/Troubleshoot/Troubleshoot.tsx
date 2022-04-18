@@ -12,83 +12,80 @@ import { Main } from 'components/Layout/Main'
 // import { getAssetUrl } from 'lib/getAssetUrl'
 import { USBModal } from './steps/USB'
 
-
 export const Troubleshoot = ({ route }: { route?: Route }) => {
-    const [currentEvent, setCurrentEvent] = useState<any>({})
+  const [currentEvent, setCurrentEvent] = useState<any>({})
 
-    // const [kkConnect, setKKConnect] = useState(KeepKeyConnect)
-    // const [kkRelease, setKKRelease] = useState(KeepKeyRelease)
+  // const [kkConnect, setKKConnect] = useState(KeepKeyConnect)
+  // const [kkRelease, setKKRelease] = useState(KeepKeyRelease)
 
-    // useEffect(() => {
-    //   getAssetUrl(KeepKeyConnect).then(setKKConnect)
-    //   getAssetUrl(KeepKeyRelease).then(setKKRelease)
-    // }, [])
+  // useEffect(() => {
+  //   getAssetUrl(KeepKeyConnect).then(setKKConnect)
+  //   getAssetUrl(KeepKeyRelease).then(setKKRelease)
+  // }, [])
 
-    // const HandleUpdateFirmware = async () => {
-    //   console.info('Updating firmware (firmware modal)')
-    //   // setLoadingFirmware(true)
-    //   ipcRenderer.send('@keepkey/update-firmware', {})
-    // }
+  // const HandleUpdateFirmware = async () => {
+  //   console.info('Updating firmware (firmware modal)')
+  //   // setLoadingFirmware(true)
+  //   ipcRenderer.send('@keepkey/update-firmware', {})
+  // }
 
-    useEffect(() => {
-        ipcRenderer.on('@onboard/state', (event, data) => {
-            setCurrentEvent(data)
-        })
-
-        return () => {
-            ipcRenderer.removeAllListeners('@onboard/state')
-        }
-    }, [])
-
-    const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
-        initialStep: 0,
+  useEffect(() => {
+    ipcRenderer.on('@onboard/state', (event, data) => {
+      setCurrentEvent(data)
     })
 
-    useEffect(() => {
-        if (!currentEvent) return
-        if (currentEvent.bootloaderUpdateNeeded) setStep(0)
-        if (currentEvent.firmwareUpdateNeeded) setStep(1)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentEvent])
+    return () => {
+      ipcRenderer.removeAllListeners('@onboard/state')
+    }
+  }, [])
 
-    const steps = [
-        { label: 'Update Bootloader', Content: USBModal }
-    ]
+  const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
+    initialStep: 0,
+  })
 
-    // @ts-ignore
-    return (
-        <Main>
-            <Flex flexDir='column' width='100%'>
-    <Steps activeStep={activeStep}>
-        {steps.map(({ label, Content }) => (
-                <Step label={label} key={label}>
-            <Content />
+  useEffect(() => {
+    if (!currentEvent) return
+    if (currentEvent.bootloaderUpdateNeeded) setStep(0)
+    if (currentEvent.firmwareUpdateNeeded) setStep(1)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentEvent])
+
+  const steps = [{ label: 'Update Bootloader', Content: USBModal }]
+
+  // @ts-ignore
+  return (
+    <Main>
+      <Flex flexDir='column' width='100%'>
+        <Steps activeStep={activeStep}>
+          {steps.map(({ label, Content }) => (
+            <Step label={label} key={label}>
+              <Content />
             </Step>
-))}
-    </Steps>
-    {activeStep === steps.length ? (
-        <Flex p={4}>
-        <Button mx='auto' size='sm' onClick={reset}>
-        Reset
-        </Button>
-        </Flex>
-    ) : (
-        <Flex width='100%' justify='flex-end'>
-    <Button
-        isDisabled={activeStep === 0}
-        mr={4}
-        onClick={prevStep}
-        size='sm'
-        variant='ghost'
+          ))}
+        </Steps>
+        {activeStep === steps.length ? (
+          <Flex p={4}>
+            <Button mx='auto' size='sm' onClick={reset}>
+              Reset
+            </Button>
+          </Flex>
+        ) : (
+          <Flex width='100%' justify='flex-end'>
+            <Button
+              isDisabled={activeStep === 0}
+              mr={4}
+              onClick={prevStep}
+              size='sm'
+              variant='ghost'
             >
-            Prev
+              Prev
             </Button>
             <Button size='sm' onClick={nextStep}>
-    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-        </Button>
-        </Flex>
-    )}
-    </Flex>
+              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+            </Button>
+          </Flex>
+        )}
+      </Flex>
     </Main>
-)
+  )
 }

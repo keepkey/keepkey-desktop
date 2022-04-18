@@ -27,8 +27,8 @@ import { Overview } from 'pages/Defi/views/Overview'
 import { StakingVaults } from 'pages/Defi/views/StakingVaults'
 import { Flags } from 'pages/Flags/Flags'
 import { Onboarding } from 'pages/Onboarding/Onboarding'
-import { Troubleshoot } from 'pages/Troubleshoot/Troubleshoot'
 import { TransactionHistory } from 'pages/TransactionHistory/TransactionHistory'
+import { Troubleshoot } from 'pages/Troubleshoot/Troubleshoot'
 
 import { Route as NestedRoute } from './helpers'
 
@@ -167,12 +167,14 @@ export const routes: Array<NestedRoute> = [
     path: '/onboarding',
     label: 'Onboarding',
     hide: true,
+    needsWallet: false,
     main: Onboarding,
   },
   {
     path: '/troubleshoot',
     label: 'Troubleshoot',
     hide: true,
+    needsWallet: false,
     main: Troubleshoot,
   },
 ]

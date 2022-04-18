@@ -1,13 +1,14 @@
 import { Redirect, Route, RouteProps } from 'react-router-dom'
 
 type PrivateRouteProps = {
-  hasWallet: boolean
+  hasWallet: boolean,
+  needsWallet?: boolean
 } & RouteProps
 
-export const PrivateRoute = ({ hasWallet, ...rest }: PrivateRouteProps) => {
+export const PrivateRoute = ({ hasWallet, needsWallet = true, ...rest }: PrivateRouteProps) => {
   const { location } = rest
 
-  return hasWallet ? (
+  return hasWallet || !needsWallet ? (
     <Route {...rest} />
   ) : (
     <Redirect
