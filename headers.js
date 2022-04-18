@@ -8,6 +8,7 @@ const cspMeta = Object.entries({
     'http://localhost:1646',
     'http://localhost:1646/exchange/device',
     'https://registry.walletconnect.com/api/v1/dapps',
+    'http://localhost:8545',
     'data:',
     // Explicitly whitelist our KeepKey versions file
     // TODO: File manually added to IPFS - we need to instead add it to version control and use a persistent URL.
