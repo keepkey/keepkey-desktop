@@ -1,7 +1,7 @@
 import { Redirect, Route, RouteProps } from 'react-router-dom'
 
 type PrivateRouteProps = {
-  hasWallet: boolean,
+  hasWallet: boolean
   needsWallet?: boolean
 } & RouteProps
 

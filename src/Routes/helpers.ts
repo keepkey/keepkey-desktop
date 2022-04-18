@@ -21,7 +21,7 @@ export type Route = {
   icon?: JSX.Element
   disable?: boolean
   hide?: boolean
-  needsWallet?: boolean,
+  needsWallet?: boolean
   breadcrumb?: string | React.ReactNode
 }
 

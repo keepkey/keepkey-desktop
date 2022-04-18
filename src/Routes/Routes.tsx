@@ -27,7 +27,13 @@ export const Routes = () => {
       {appRoutes.map((route, index) => {
         const MainComponent = route.main
         return (
-          <PrivateRoute key={index} path={route.path} exact hasWallet={hasWallet} needsWallet={route.needsWallet}>
+          <PrivateRoute
+            key={index}
+            path={route.path}
+            exact
+            hasWallet={hasWallet}
+            needsWallet={route.needsWallet}
+          >
             <Layout>{MainComponent && <MainComponent />}</Layout>
           </PrivateRoute>
         )

@@ -4,7 +4,6 @@ import { getConfig } from 'config'
 import { ipcRenderer } from 'electron'
 import { findIndex } from 'lodash'
 import React, { useCallback, useEffect, useMemo, useReducer } from 'react'
-import { useHistory } from 'react-router'
 import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
 import { useModal } from 'hooks/useModal/useModal'
 
@@ -227,7 +226,6 @@ const getInitialState = () => {
 export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, getInitialState())
   const { sign, pair } = useModal()
-  const history = useHistory()
 
   const disconnect = useCallback(() => {
     /**
@@ -635,7 +633,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
         queryKey: keepkey.queryKey,
         spec: process.env.REACT_APP_URL_PIONEER_SPEC,
       })
-
     } else {
       ipcRenderer.send('@wallet/connected')
     }
