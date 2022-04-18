@@ -270,14 +270,15 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                 }
             })
 
-            // queueIpcEvent('@onboard/open', {
-            //     prompt: 'update bootloader',
-            //     bootloaderUpdateNeeded: true,
-            //     firmware: 'v4.0.0',
-            //     bootloader: 'v1.0.3',
-            //     recommendedBootloader: 'v1.1.0',
-            //     recommendedFirmware: 'v7.2.1'
-            // })
+            queueIpcEvent('@onboard/open', {
+                prompt: 'update bootloader',
+                bootloaderUpdateNeeded: true,
+                firmware: 'v4.0.0',
+                bootloader: 'v1.0.3',
+                recommendedBootloader: 'v1.1.0',
+                recommendedFirmware: 'v7.2.1'
+            })
+
             //errors
             Controller.events.on('error', function (event) {
                 log.info("error event: ", event)

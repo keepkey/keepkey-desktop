@@ -98,12 +98,12 @@ export const ConnectWallet = () => {
       >
         <DarkMode>
           <Text color='white' fontWeight='bold' translation='connectWalletPage.keepkey' />
-          <Badge colorScheme='blue' ml={2}>
-            {state.keepkeyState}
-          </Badge>
-          <Badge colorScheme='blue' ml={2}>
-            {state.keepkeyStatus}
-          </Badge>
+          {/*<Badge colorScheme='blue' ml={2}>*/}
+          {/*  {state.keepkeyState}*/}
+          {/*</Badge>*/}
+          {/*<Badge colorScheme='blue' ml={2}>*/}
+          {/*  {state.keepkeyStatus}*/}
+          {/*</Badge>*/}
           <Badge colorScheme='blue' ml={2}>
             {translate('connectWalletPage.alpha')}
           </Badge>
