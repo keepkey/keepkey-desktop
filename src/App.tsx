@@ -33,7 +33,6 @@ export const App = () => {
       else hardwareError.close()
     })
     ipcRenderer.on('@onboard/open', (event, data) => {
-      
       history.push('/onboarding')
     })
   }, [pair, hardwareError, history])

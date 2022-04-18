@@ -243,7 +243,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     const localWalletType = getLocalWalletType()
     const localWalletDeviceId = getLocalWalletDeviceId()
     if (localWalletType && localWalletDeviceId && state.adapters) {
-      ; (async () => {
+      ;(async () => {
         if (state.adapters?.has(localWalletType)) {
           switch (localWalletType) {
             case KeyManager.Native:
@@ -366,7 +366,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   useEffect(() => {
     if (state.keyring) {
-      ; (async () => {
+      ;(async () => {
         const adapters: Adapters = new Map()
         let options: undefined | { portisAppId: string }
         for (const wallet of Object.values(KeyManager)) {
@@ -419,7 +419,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('playSound', (event, data) => { })
+    ipcRenderer.on('playSound', (event, data) => {})
 
     ipcRenderer.on('@keepkey/state', (event, data) => {
       console.info('@keepkey/state', data)
@@ -429,8 +429,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     ipcRenderer.on('@keepkey/status', (event, data) => {
       dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
-
-
 
     ipcRenderer.on('approveOrigin', (event: any, data: any) => {
       pair.open(data)
@@ -602,7 +600,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
     //END HDwallet API
 
-    ipcRenderer.on('setDevice', (event, data) => { })
+    ipcRenderer.on('setDevice', (event, data) => {})
 
     ipcRenderer.on('@account/sign-tx', async (event: any, data: any) => {
       let unsignedTx = data.payload.data
@@ -642,7 +640,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     } else {
       ipcRenderer.send('@wallet/connected')
     }
-
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.wallet]) // we explicitly only want this to happen once

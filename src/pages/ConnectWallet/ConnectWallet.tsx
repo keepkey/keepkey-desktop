@@ -98,12 +98,12 @@ export const ConnectWallet = () => {
       >
         <DarkMode>
           <Text color='white' fontWeight='bold' translation='connectWalletPage.keepkey' />
-          {/*<Badge colorScheme='blue' ml={2}>*/}
-          {/*  {state.keepkeyState}*/}
-          {/*</Badge>*/}
-          {/*<Badge colorScheme='blue' ml={2}>*/}
-          {/*  {state.keepkeyStatus}*/}
-          {/*</Badge>*/}
+          <Badge colorScheme='blue' ml={2}>
+            {state.keepkeyState}
+          </Badge>
+          <Badge colorScheme='blue' ml={2}>
+            {state.keepkeyStatus}
+          </Badge>
           <Badge colorScheme='blue' ml={2}>
             {translate('connectWalletPage.alpha')}
           </Badge>
@@ -143,16 +143,18 @@ export const ConnectWallet = () => {
           textAlign='center'
           translation='connectWalletPage.body'
         />
-        <Button
-          size='lg'
-          zIndex={1}
-          colorScheme='blue'
-          rightIcon={<ArrowForwardIcon />}
-          onClick={() => dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: true })}
-          data-test='connect-wallet-button'
-        >
-          <Text translation='connectWalletPage.cta' />
-        </Button>
+        {state.keepkeyState === 5 && (
+          <Button
+            size='lg'
+            zIndex={1}
+            colorScheme='blue'
+            rightIcon={<ArrowForwardIcon />}
+            onClick={() => dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: true })}
+            data-test='connect-wallet-button'
+          >
+            <Text translation='connectWalletPage.cta' />
+          </Button>
+        )}
       </Center>
     </Page>
   )
