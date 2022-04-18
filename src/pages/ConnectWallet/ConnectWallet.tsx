@@ -98,16 +98,6 @@ export const ConnectWallet = () => {
       >
         <DarkMode>
           <Text color='white' fontWeight='bold' translation='connectWalletPage.keepkey' />
-          <Button
-              size='lg'
-              zIndex={1}
-              colorScheme='blue'
-              rightIcon={<ArrowForwardIcon />}
-              onClick={() => history.push('/troubleshoot')}
-              data-test='connect-wallet-button'
-          >
-            <Text translation='connectWalletPage.cta' />
-          </Button>
           <Badge colorScheme='blue' ml={2}>
             {state.keepkeyState}
           </Badge>
@@ -153,7 +143,7 @@ export const ConnectWallet = () => {
           textAlign='center'
           translation='connectWalletPage.body'
         />
-        {state.keepkeyState === 5 && (
+        {state.keepkeyState === 5 ? (
           <Button
             size='lg'
             zIndex={1}
@@ -163,6 +153,17 @@ export const ConnectWallet = () => {
             data-test='connect-wallet-button'
           >
             <Text translation='connectWalletPage.cta' />
+          </Button>
+        ) : (
+          <Button
+            size='lg'
+            zIndex={1}
+            colorScheme='blue'
+            rightIcon={<ArrowForwardIcon />}
+            onClick={() => history.push('/troubleshoot')}
+            data-test='connect-wallet-button'
+          >
+            <Text translation='connectWalletPage.cta.troubleshoot' />
           </Button>
         )}
       </Center>

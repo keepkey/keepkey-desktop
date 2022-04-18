@@ -55,10 +55,12 @@ export const keepkey: {
 export const start_bridge = (port?: number) => new Promise<void>(async (resolve, reject) => {
     ipcMain.on('@app/start', (event, data) => {
         log.info('Checking ipcEvent queue')
-        ipcQueue.forEach((item, idx) => {
-            log.info('ipcEventCalledFromQueue: ' + item.eventName)
-            if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.webContents.send(item.eventName, item.args)
-            ipcQueue.splice(idx, 1);
+        setTimeout(() => {
+            ipcQueue.forEach((item, idx) => {
+                log.info('ipcEventCalledFromQueue: ' + item.eventName)
+                if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.webContents.send(item.eventName, item.args)
+                ipcQueue.splice(idx, 1);
+            }, 2000)
         })
     })
     let tag = " | start_bridge | "

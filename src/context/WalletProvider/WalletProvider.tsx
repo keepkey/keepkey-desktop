@@ -636,7 +636,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
         spec: process.env.REACT_APP_URL_PIONEER_SPEC,
       })
 
-      history.push('/connect-wallet')
     } else {
       ipcRenderer.send('@wallet/connected')
     }
