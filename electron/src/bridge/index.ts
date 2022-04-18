@@ -57,7 +57,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
         log.info('Checking ipcEvent queue')
         ipcQueue.forEach((item, idx) => {
             log.info('ipcEventCalledFromQueue: ' + item.eventName)
-            queueIpcEvent(item.eventName, item.args)
+            if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.webContents.send(item.eventName, item.args)
             ipcQueue.splice(idx, 1);
         })
     })
