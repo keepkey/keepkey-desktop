@@ -3436,26 +3436,26 @@
     google-protobuf "^3.7.0-rc.2"
     pbjs "^0.0.5"
 
-"@keepkey/device-protocol@^7.2.4", "@keepkey/device-protocol@^7.7.1":
-  version "7.7.1"
-  resolved "https://registry.yarnpkg.com/@keepkey/device-protocol/-/device-protocol-7.7.1.tgz#bf2b945e86ce4f3dceb681fdd3cff558cf3b652c"
-  integrity sha512-WBPRsPC+pD6vcuZRgczt7Q8UXllcBghEGvzxfpLQ4Qx9tgrVeLRF93032Nu57G8zWvTJvKrcV4OrbKovIcRFpg==
+"@keepkey/device-protocol@^7.2.4", "@keepkey/device-protocol@^7.7.1", "@keepkey/device-protocol@^7.8.1":
+  version "7.8.1"
+  resolved "https://registry.yarnpkg.com/@keepkey/device-protocol/-/device-protocol-7.8.1.tgz#e7b1f90390d8314247f5af4f7975c2824f758d9b"
+  integrity sha512-+QY+ivAIxkfN/U50w979WpdHruU9tPVIRddaAItIcfZVKZxs5aNs8/ciUyso0/47p/rRxJpaEJSKz2K0lEes1w==
   dependencies:
     google-protobuf "^3.7.0-rc.2"
     pbjs "^0.0.5"
 
-"@keepkey/keepkey-hardware-controller@0.0.13":
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@keepkey/keepkey-hardware-controller/-/keepkey-hardware-controller-0.0.13.tgz#d2be9ac6b18e7798de4e9de184f3671c8589a236"
-  integrity sha512-mGdWAwESQUkiaNsYYA7HWxIByAL4eVhDpCn61qCQcbNLvO3blNljJr3EVbYEKol7oBkFUSHJity1azrZoCp02g==
+"@keepkey/keepkey-hardware-controller@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@keepkey/keepkey-hardware-controller/-/keepkey-hardware-controller-0.0.15.tgz#03bd1ea4e020d1699c5bb4c2e627669e03a691bf"
+  integrity sha512-II1SQ2xMkPETluGmNUZgJ5XBYuwx6dIt+8jX7pkhQyf2P/sl1PnjCMDtKHLUF2R0olF1ftGLyS+xZD6TOO9/RA==
   dependencies:
     "@babel/runtime" "^7.16.7"
     "@bithighlander/hdwallet-core" "2.14.2"
     "@bithighlander/hdwallet-keepkey-nodehid" "^2.14.3"
     "@pioneer-platform/loggerdog" "^8.1.5"
-    "@shapeshiftoss/hdwallet-core" "^1.19.0"
-    "@shapeshiftoss/hdwallet-keepkey" "^1.19.0"
-    "@shapeshiftoss/hdwallet-keepkey-nodewebusb" "^1.19.0"
+    "@shapeshiftoss/hdwallet-core" "^1.21.0"
+    "@shapeshiftoss/hdwallet-keepkey" "^1.21.0"
+    "@shapeshiftoss/hdwallet-keepkey-nodewebusb" "^1.21.0"
     "@types/bytebuffer" "^5.0.42"
     "@types/google-protobuf" "^3.7.4"
     "@types/node" "^13.13.48"
@@ -4044,7 +4044,7 @@
     rxjs "^6.4.0"
     type-assertions "^1.1.0"
 
-"@shapeshiftoss/hdwallet-core@1.19.1", "@shapeshiftoss/hdwallet-core@^1.14.1-alpha.0", "@shapeshiftoss/hdwallet-core@^1.19.0":
+"@shapeshiftoss/hdwallet-core@1.19.1":
   version "1.19.1"
   resolved "https://registry.yarnpkg.com/@shapeshiftoss/hdwallet-core/-/hdwallet-core-1.19.1.tgz#74bc39e259ec63922482ad4d8904daedfd25005b"
   integrity sha512-QO4Sbw0NSOExWb0pUSHkZkWOK2Ti7N4DK4X5mvsMs05nZqEsAFWbxom+yqVM6RpRPGBml9BEJy0P/uoroui30w==
@@ -4054,13 +4054,23 @@
     rxjs "^6.4.0"
     type-assertions "^1.1.0"
 
-"@shapeshiftoss/hdwallet-keepkey-nodewebusb@^1.19.0":
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/@shapeshiftoss/hdwallet-keepkey-nodewebusb/-/hdwallet-keepkey-nodewebusb-1.19.0.tgz#0ca5a81e94cfc4f40a4b3308d4d6a5c449a4d2ff"
-  integrity sha512-W2VARRtQe8pfD0Jl6Qt8ZPFRiGrZ7u4K6lqtkcgb/N7Z+Zotx2yITV6Nan05CNB3zZDmebP1i0K3MM5Ey4xwyw==
+"@shapeshiftoss/hdwallet-core@1.21.0", "@shapeshiftoss/hdwallet-core@^1.14.1-alpha.0", "@shapeshiftoss/hdwallet-core@^1.19.0", "@shapeshiftoss/hdwallet-core@^1.21.0":
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/@shapeshiftoss/hdwallet-core/-/hdwallet-core-1.21.0.tgz#0dd81983742d38ec53f840bc0e0a45b52da646aa"
+  integrity sha512-jiO2k0fo7jDwMYsTX0+YWpHGyCmJO+O0ohe0LtbCLMxYYH8kZaG1lKZs7UEqnmbGLcju9RiKhVDO6kZH70tTow==
   dependencies:
-    "@shapeshiftoss/hdwallet-core" "1.19.0"
-    "@shapeshiftoss/hdwallet-keepkey" "1.19.0"
+    eventemitter2 "^5.0.1"
+    lodash "^4.17.21"
+    rxjs "^6.4.0"
+    type-assertions "^1.1.0"
+
+"@shapeshiftoss/hdwallet-keepkey-nodewebusb@^1.19.0", "@shapeshiftoss/hdwallet-keepkey-nodewebusb@^1.21.0":
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/@shapeshiftoss/hdwallet-keepkey-nodewebusb/-/hdwallet-keepkey-nodewebusb-1.21.0.tgz#6db0c61660c0aae8573a7bf427bab1d82e207458"
+  integrity sha512-2YiMyLkH7GHipxzWJb3NQe3izjVhstBsxpF0g5s1EkA4N7iKD2IN5LzfHPr8FIHU4Xh6RFVa1lkjKY64/vxfaQ==
+  dependencies:
+    "@shapeshiftoss/hdwallet-core" "1.21.0"
+    "@shapeshiftoss/hdwallet-keepkey" "1.21.0"
 
 "@shapeshiftoss/hdwallet-keepkey-tcp@^1.19.0":
   version "1.19.0"
@@ -4099,16 +4109,16 @@
     semver "^6.3.0"
     tiny-secp256k1 "^1.1.6"
 
-"@shapeshiftoss/hdwallet-keepkey@^1.19.0", "@shapeshiftoss/hdwallet-keepkey@^1.19.1":
-  version "1.19.1"
-  resolved "https://registry.yarnpkg.com/@shapeshiftoss/hdwallet-keepkey/-/hdwallet-keepkey-1.19.1.tgz#2f91bd4cec1dca2174721ec8143db61e15b9e05f"
-  integrity sha512-4KNrldsrT0f6sQCAbs2QH7cvvZ85C+l9eAftTpWXdyF6ADtU9iQjlZHkGu490S87ylla0KWNACt+1tTbf+wTEw==
+"@shapeshiftoss/hdwallet-keepkey@1.21.0", "@shapeshiftoss/hdwallet-keepkey@^1.19.1", "@shapeshiftoss/hdwallet-keepkey@^1.21.0":
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/@shapeshiftoss/hdwallet-keepkey/-/hdwallet-keepkey-1.21.0.tgz#f9dd7583f968f2a2d3873f2c4b41d1ef3251941c"
+  integrity sha512-sHpwqRgwAMYJLhKgz5aIbtrf0uDI5o5xDDkW946yyVugnuGa1BFNCYWrxm5yWL4cyf39ILkg321oUg/aynpxHA==
   dependencies:
     "@ethereumjs/common" "^2.4.0"
     "@ethereumjs/tx" "^3.3.0"
-    "@keepkey/device-protocol" "^7.7.1"
+    "@keepkey/device-protocol" "^7.8.1"
     "@shapeshiftoss/bitcoinjs-lib" "5.2.0-shapeshift.2"
-    "@shapeshiftoss/hdwallet-core" "1.19.1"
+    "@shapeshiftoss/hdwallet-core" "1.21.0"
     bignumber.js "^9.0.1"
     bnb-javascript-sdk-nobroadcast "^2.16.14"
     crypto-js "^4.0.0"
@@ -4116,6 +4126,7 @@
     google-protobuf "^3.15.8"
     icepick "^2.4.0"
     lodash "^4.17.21"
+    p-lazy "^3.1.0"
     semver "^6.3.0"
     tiny-secp256k1 "^1.1.6"
 
@@ -17450,6 +17461,11 @@ p-finally@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-finally/-/p-finally-1.0.0.tgz#3fbcfb15b899a44123b34b6dcc18b724336a2cae"
   integrity sha1-P7z7FbiZpEEjs0ttzBi3JDNqLK4=
+
+p-lazy@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/p-lazy/-/p-lazy-3.1.0.tgz#4b1e40482b7ee87853abbcf31824ff64e1816d61"
+  integrity sha512-sCJn0Cdahs6G6SX9+DUihVFUhrzDEduzE5xeViVBGtoqy5dBWko7W8T6Kk6TjR2uevRXJO7CShfWrqdH5s3w3g==
 
 p-limit@^1.1.0:
   version "1.3.0"
