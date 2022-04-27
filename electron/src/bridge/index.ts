@@ -74,11 +74,11 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
         let API_PORT = port || 1646
 
         // send paired apps when requested
-        // ipcMain.on('@bridge/paired-apps', (event) => {
-        //     db.find({ type: 'service' }, (err, docs) => {
-        //         queueIpcEvent('@bridge/paired-apps', docs)
-        //     })
-        // })
+        ipcMain.on('@bridge/paired-apps', (event) => {
+            db.find({ type: 'service' }, (err, docs) => {
+                queueIpcEvent('@bridge/paired-apps', docs)
+            })
+        })
 
         // used only for implicitly pairing the KeepKey web app
         ipcMain.on(`@bridge/add-service`, (event, data) => {
