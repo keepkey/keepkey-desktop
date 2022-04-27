@@ -34,7 +34,7 @@ if (!swaggerDocument) throw Error("Failed to load API SPEC!")
 
 export let server: Server
 export let bridgeRunning = false
-const ipcQueue = new Array<IpcQueueItem>()
+let ipcQueue = new Array<IpcQueueItem>()
 
 export const keepkey: {
     STATE: number,
@@ -53,15 +53,20 @@ export const keepkey: {
 }
 
 export const start_bridge = (port?: number) => new Promise<void>(async (resolve, reject) => {
-    ipcMain.on('@app/start', (event, data) => {
+    ipcMain.on('@app/start', async (event, data) => {
         log.info('Checking ipcEvent queue')
-        setTimeout(() => {
+        let newQueue = [...ipcQueue]
+        await new Promise(() => {
+            const endIdx = ipcQueue.length - 1
             ipcQueue.forEach((item, idx) => {
                 log.info('ipcEventCalledFromQueue: ' + item.eventName)
                 if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.webContents.send(item.eventName, item.args)
-                ipcQueue.splice(idx, 1);
+                const newQIdx = newQueue.indexOf(item)
+                newQueue.splice(newQIdx, 1);
+                if (idx == endIdx) resolve()
             })
-        }, 2000)
+        })
+        ipcQueue = [...newQueue]
     })
     let tag = " | start_bridge | "
     try {
@@ -69,11 +74,11 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
         let API_PORT = port || 1646
 
         // send paired apps when requested
-        ipcMain.on('@bridge/paired-apps', (event) => {
-            db.find({ type: 'service' }, (err, docs) => {
-                queueIpcEvent('@bridge/paired-apps', docs)
-            })
-        })
+        // ipcMain.on('@bridge/paired-apps', (event) => {
+        //     db.find({ type: 'service' }, (err, docs) => {
+        //         queueIpcEvent('@bridge/paired-apps', docs)
+        //     })
+        // })
 
         // used only for implicitly pairing the KeepKey web app
         ipcMain.on(`@bridge/add-service`, (event, data) => {
@@ -139,13 +144,12 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                         queueIpcEvent('@modal/hardwareError', { close: false, data: { error: event.error, code: event.code, event } })
                         break;
                     case 1:
-                        setTimeout(() => {
-                            queueIpcEvent('@onboard/open', event)
-                        },5000)
+                        queueIpcEvent('@onboard/open', event)
                         // queueIpcEvent('@onboard/open', event)
                         break;
                     case 2:
                         queueIpcEvent('setUpdaterMode', true)
+                        queueIpcEvent('@onboard/open', event)
                         break;
                     case 5:
                         //queueIpcEvent('@wallet/not-initialized', event.deviceId)
