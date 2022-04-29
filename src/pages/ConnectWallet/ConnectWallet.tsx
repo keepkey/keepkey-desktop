@@ -143,9 +143,7 @@ export const ConnectWallet = () => {
           textAlign='center'
           translation='connectWalletPage.body'
         />
-        {state.keepkeyState === 1 && <Redirect
-          to={'/onboarding'}
-        />}
+        {state.keepkeyState === 1 && <Redirect to={'/onboarding'} />}
         {state.keepkeyState === 6 ? (
           <Button
             size='lg'

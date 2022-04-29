@@ -34,7 +34,7 @@ if (!swaggerDocument) throw Error("Failed to load API SPEC!")
 
 export let server: Server
 export let bridgeRunning = false
-const ipcQueue = new Array<IpcQueueItem>()
+let ipcQueue = new Array<IpcQueueItem>()
 
 export const keepkey: {
     STATE: number,
@@ -53,15 +53,18 @@ export const keepkey: {
 }
 
 export const start_bridge = (port?: number) => new Promise<void>(async (resolve, reject) => {
-    ipcMain.on('@app/start', (event, data) => {
+    ipcMain.on('@app/start', async (event, data) => {
         log.info('Checking ipcEvent queue')
-        setTimeout(() => {
+        let newQueue = [...ipcQueue]
+        await new Promise(() => {
+            const endIdx = ipcQueue.length - 1
             ipcQueue.forEach((item, idx) => {
                 log.info('ipcEventCalledFromQueue: ' + item.eventName)
                 if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.webContents.send(item.eventName, item.args)
                 ipcQueue.splice(idx, 1);
             })
-        }, 2000)
+        })
+        ipcQueue = [...newQueue]
     })
     let tag = " | start_bridge | "
     try {
@@ -139,13 +142,12 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                         queueIpcEvent('@modal/hardwareError', { close: false, data: { error: event.error, code: event.code, event } })
                         break;
                     case 1:
-                        setTimeout(() => {
-                            queueIpcEvent('@onboard/open', event)
-                        },6000)
+                        queueIpcEvent('@onboard/open', event)
                         // queueIpcEvent('@onboard/open', event)
                         break;
                     case 2:
                         queueIpcEvent('setUpdaterMode', true)
+                        queueIpcEvent('@onboard/open', event)
                         break;
                     case 5:
                         //queueIpcEvent('@wallet/not-initialized', event.deviceId)
