@@ -273,7 +273,7 @@ app.on('before-quit', async () => {
 ipcMain.on('@account/info', async (event, data) => {
     const tag = TAG + ' | onAccountInfo | '
     try {
-        console.log("data: ", data)
+        //console.log("data: ", data)
         if (data.length > 0 && shared.USER.accounts.length === 0) {
             shared.USER.online = true
             for (let i = 0; i < data.length; i++) {
@@ -307,7 +307,7 @@ ipcMain.on('@account/info', async (event, data) => {
 ipcMain.on('@account/balance', async (event, data) => {
     const tag = TAG + ' | onBalanceInfo | '
     try {
-        console.log("data: ", data)
+        // console.log("data: ", data)
         if (data.length > 0) {
             shared.USER.balances = data
         }

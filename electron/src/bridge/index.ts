@@ -141,7 +141,7 @@ export const start_bridge = (port?: number) => new Promise<void>(async (resolve,
                     case 1:
                         setTimeout(() => {
                             queueIpcEvent('@onboard/open', event)
-                        },5000)
+                        },6000)
                         // queueIpcEvent('@onboard/open', event)
                         break;
                     case 2:

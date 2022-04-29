@@ -437,7 +437,11 @@
       "continue": "approve and continue",
       "bootloaderNeeded": "to continue you must updater your bootloader!",
       "bootloader": "BootLoader version",
-      "firmware": "Firmware version"
+      "firmware": "Firmware version",
+      "updater": "To continue you must place your KeepKey into Updater Mode",
+      "step1": "Please disconnect",
+      "step2": "hold down button",
+      "step3": "reconnect (while holding the button) the device to enter bootloader mode and continue."
     },
     "firmware": {
       "header": "Firmware Update Required for Your KeepKey!",

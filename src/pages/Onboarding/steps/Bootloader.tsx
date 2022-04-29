@@ -66,11 +66,15 @@ export const BootloaderModal = () => {
                 </Row.Label>
                 <Row.Value>{keepkey?.firmwareVersion}</Row.Value>
               </Row>
-              <Image src={kkConnect} alt='Approve Transaction On Device!' />
+              <Image src={kkConnect} alt='Approve Transaction On Device!' width="200" height="300" />
               <small>
-                Please disconnect, hold down button, and reconnect device to enter bootloader mode
-                to continue.
+                <Text translation={'modals.bootloader.updater'} />
               </small>
+              <ol>
+                <li><Text translation={'modals.bootloader.step1'} /></li>
+                <li><Text translation={'modals.bootloader.step2'} /></li>
+                <li><Text translation={'modals.bootloader.step3'} /></li>
+              </ol>
             </div>
           )}
         </div>

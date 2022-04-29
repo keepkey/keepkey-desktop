@@ -228,6 +228,9 @@ export async function pairWalletConnect(uri?: string, session?: any) {
                         "chainId": 1
                     }
                     break;
+                case 'get_accounts':
+                    HDwalletPayload = ['0xfEb8bf56e554fc47639e5Ed9E1dAe21DfF69d6A9']
+                    break;
                 case 'eth_sign':
                     throw Error("eth_sign not supported on Keepkey!")
                     break;
