@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/button'
 import { DarkMode } from '@chakra-ui/color-mode'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
-import { Badge, Center, Circle, Flex } from '@chakra-ui/layout'
+import { Badge, Center, Circle, Flex , Link} from '@chakra-ui/layout'
 import { Keyring } from '@shapeshiftoss/hdwallet-core'
 import * as native from '@shapeshiftoss/hdwallet-native'
 import { NativeHDWallet } from '@shapeshiftoss/hdwallet-native'
@@ -11,10 +11,6 @@ import { useTranslate } from 'react-polyglot'
 import { Redirect, useHistory } from 'react-router-dom'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { generatePath, matchPath } from 'react-router-dom'
-import { useHistory } from 'react-router-dom'
-import Orbs from 'assets/orbs.svg'
-import OrbsStatic from 'assets/orbs-static.png'
-import { FoxIcon } from 'components/Icons/FoxIcon'
 import { Page } from 'components/Layout/Page'
 import { RawText, Text } from 'components/Text'
 import { ActionTypes, WalletActions } from 'context/WalletProvider/actions'
@@ -194,6 +190,7 @@ export const ConnectWallet = () => {
           >
             <Text translation='connectWalletPage.troubleshoot' />
             </Button>
+        )}
         {demoWalletFeatureFlag && (
           <Button
             size='md'
