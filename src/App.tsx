@@ -26,14 +26,14 @@ export const App = () => {
   // useEffect(setupSentry, [])
 
   useEffect(() => {
-    ipcRenderer.on('@modal/pair', (event, data: PairingProps) => {
+    ipcRenderer.on('@modal/pair', (_event, data: PairingProps) => {
       pair.open(data)
     })
-    ipcRenderer.on('@modal/hardwareError', (event, data) => {
+    ipcRenderer.on('@modal/hardwareError', (_event, data) => {
       if (!data.close) hardwareError.open(data.data)
       else hardwareError.close()
     })
-    ipcRenderer.on('@onboard/open', (event, data) => {
+    ipcRenderer.on('@onboard/open', () => {
       history.push('/onboarding')
     })
   }, [pair, hardwareError, history])

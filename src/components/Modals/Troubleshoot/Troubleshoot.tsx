@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 // import KeepKeyConnect from 'assets/connect-keepkey.svg'
 import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'

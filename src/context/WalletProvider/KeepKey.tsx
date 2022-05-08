@@ -70,7 +70,7 @@ export class KeepKeyService {
     return true
   }
 
-  async setUpdaterMode(status: any): Promise<any> {
+  async setUpdaterMode(): Promise<any> {
     try {
       this.isInUpdaterMode = true
     } catch (e) {
@@ -111,7 +111,7 @@ export class KeepKeyService {
     }
   }
 
-  async pairWallet(walletType: string, HDWallet: any): Promise<any> {
+  async pairWallet(_walletType: string, HDWallet: any): Promise<any> {
     try {
       this.HDWallet = HDWallet
     } catch (e) {

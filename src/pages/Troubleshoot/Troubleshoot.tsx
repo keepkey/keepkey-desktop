@@ -2,7 +2,6 @@ import { Button, Flex } from '@chakra-ui/react'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import { ipcRenderer } from 'electron'
 import { useEffect, useState } from 'react'
-import { Route } from 'Routes/helpers'
 import { Main } from 'components/Layout/Main'
 
 // import { useEffect, useState } from 'react'
@@ -12,7 +11,7 @@ import { Main } from 'components/Layout/Main'
 // import { getAssetUrl } from 'lib/getAssetUrl'
 import { USBModal } from './steps/USB'
 
-export const Troubleshoot = ({ route }: { route?: Route }) => {
+export const Troubleshoot = () => {
   const [currentEvent, setCurrentEvent] = useState<any>({})
 
   // const [kkConnect, setKKConnect] = useState(KeepKeyConnect)
@@ -30,7 +29,7 @@ export const Troubleshoot = ({ route }: { route?: Route }) => {
   // }
 
   useEffect(() => {
-    ipcRenderer.on('@onboard/state', (event, data) => {
+    ipcRenderer.on('@onboard/state', (_event, data) => {
       setCurrentEvent(data)
     })
 

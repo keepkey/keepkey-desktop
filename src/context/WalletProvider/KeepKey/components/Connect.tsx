@@ -7,6 +7,7 @@ import {
   ModalHeader,
 } from '@chakra-ui/react'
 import { Event } from '@shapeshiftoss/hdwallet-core'
+import { ipcRenderer } from 'electron'
 import { useCallback, useEffect, useState } from 'react'
 import { CircularProgress } from 'components/CircularProgress/CircularProgress'
 import { Text } from 'components/Text'
@@ -14,7 +15,7 @@ import { WalletActions } from 'context/WalletProvider/actions'
 import { KeyManager } from 'context/WalletProvider/KeyManager'
 import { setLocalWalletTypeAndDeviceId } from 'context/WalletProvider/local-wallet'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { ipcRenderer } from 'electron'
+
 import { KeepKeyConfig } from '../config'
 import { FailureType, MessageType } from '../KeepKeyTypes'
 
@@ -103,13 +104,13 @@ export const KeepKeyConnect = () => {
       }
     }
     setLoading(false)
-  }, [dispatch, history, state.adapters, state.keyring])
+  }, [dispatch, state.adapters, state.keyring])
 
   useEffect(() => {
     let tries = 0
     ipcRenderer.removeAllListeners('@bridge/running')
     ipcRenderer.removeAllListeners('@bridge/start')
-    ipcRenderer.on('@bridge/running', async (event, bridgeRunning) => {
+    ipcRenderer.on('@bridge/running', async (_event, bridgeRunning) => {
       if (tries > 0) {
         setLoading(false)
         setErrorLoading('walletProvider.keepKey.connect.conflictingApp')
@@ -126,7 +127,7 @@ export const KeepKeyConnect = () => {
         return (tries = 0)
       }
     })
-    ipcRenderer.on('@bridge/start', async (event, data) => {
+    ipcRenderer.on('@bridge/start', async () => {
       ipcRenderer.send('@bridge/running')
     })
   }, [pairDevice, connect])

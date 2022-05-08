@@ -1,14 +1,12 @@
 import { ComponentWithAs, IconProps } from '@chakra-ui/react'
 import { HDWallet, Keyring } from '@shapeshiftoss/hdwallet-core'
-import { MetaMaskHDWallet } from '@shapeshiftoss/hdwallet-metamask'
 import * as native from '@shapeshiftoss/hdwallet-native'
 import { NativeHDWallet } from '@shapeshiftoss/hdwallet-native'
-import { PortisHDWallet } from '@shapeshiftoss/hdwallet-portis'
 import { getConfig } from 'config'
 import { PublicWalletXpubs } from 'constants/PublicWalletXpubs'
+import { ipcRenderer } from 'electron'
 import findIndex from 'lodash/findIndex'
 import omit from 'lodash/omit'
-import { ipcRenderer } from 'electron'
 import React, { useCallback, useEffect, useMemo, useReducer } from 'react'
 import { Entropy, VALID_ENTROPY } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
@@ -465,12 +463,12 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   }, [state.keyring])
 
   useEffect(() => {
-    ipcRenderer.on('@walletconnect/paired', (event, data) => {
+    ipcRenderer.on('@walletconnect/paired', (_event, data) => {
       dispatch({ type: WalletActions.SET_WALLET_CONNECT_APP, payload: data })
     })
 
     //listen to events on main
-    ipcRenderer.on('hardware', (event, data) => {
+    ipcRenderer.on('hardware', (_event, data) => {
       //event
       //console.log('hardware event: ', data)
 
@@ -487,38 +485,38 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('playSound', (event, data) => {})
+    ipcRenderer.on('playSound', (_event, _data) => {})
 
-    ipcRenderer.on('@keepkey/state', (event, data) => {
+    ipcRenderer.on('@keepkey/state', (_event, data) => {
       console.info('@keepkey/state', data)
       dispatch({ type: WalletActions.SET_KEEPKEY_STATE, payload: data.state })
     })
 
-    ipcRenderer.on('@keepkey/status', (event, data) => {
+    ipcRenderer.on('@keepkey/status', (_event, data) => {
       dispatch({ type: WalletActions.SET_KEEPKEY_STATUS, payload: data.status })
     })
 
-    ipcRenderer.on('approveOrigin', (event: any, data: any) => {
+    ipcRenderer.on('approveOrigin', (_event: any, data: any) => {
       pair.open(data)
     })
 
-    ipcRenderer.on('loadKeepKeyInfo', (event, data) => {
+    ipcRenderer.on('loadKeepKeyInfo', (_event, data) => {
       keepkey.updateFeatures(data.payload)
     })
 
-    ipcRenderer.on('setUpdaterMode', (event, data) => {
-      keepkey.setUpdaterMode(data.payload)
+    ipcRenderer.on('setUpdaterMode', (_event, _data) => {
+      keepkey.setUpdaterMode()
     })
 
-    ipcRenderer.on('setNeedsBootloaderUpdate', (event, data) => {
+    ipcRenderer.on('setNeedsBootloaderUpdate', (_event, _data) => {
       keepkey.setNeedsBootloaderUpdate(true)
     })
 
-    ipcRenderer.on('loadKeepKeyFirmwareLatest', (event, data) => {
+    ipcRenderer.on('loadKeepKeyFirmwareLatest', (_event, data) => {
       keepkey.updateKeepKeyFirmwareLatest(data.payload)
     })
 
-    ipcRenderer.on('onCompleteBootloaderUpload', (event, data) => {
+    ipcRenderer.on('onCompleteBootloaderUpload', (_event, _data) => {
       keepkey.setNeedsBootloaderUpdate(false)
     })
 
@@ -540,7 +538,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
     //HDwallet API
     //TODO moveme into own file
-    ipcRenderer.on('@hdwallet/getPublicKeys', async (event, data) => {
+    ipcRenderer.on('@hdwallet/getPublicKeys', async (_event, data) => {
       if (state.wallet) {
         // @ts-ignore
         let pubkeys = await state.wallet.getPublicKeys(data.payload.paths)
@@ -549,7 +547,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/btcGetAddress', async (event, data) => {
+    ipcRenderer.on('@hdwallet/btcGetAddress', async (_event, data) => {
       let payload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -560,7 +558,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/ethGetAddress', async (event, data) => {
+    ipcRenderer.on('@hdwallet/ethGetAddress', async (_event, data) => {
       let payload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -571,7 +569,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/thorchainGetAddress', async (event, data) => {
+    ipcRenderer.on('@hdwallet/thorchainGetAddress', async (_event, data) => {
       let payload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -581,7 +579,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/osmosisGetAddress', async (event, data) => {
+    ipcRenderer.on('@hdwallet/osmosisGetAddress', async (_event, data) => {
       let payload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -591,7 +589,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/binanceGetAddress', async (event, data) => {
+    ipcRenderer.on('@hdwallet/binanceGetAddress', async (_event, data) => {
       let payload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -603,7 +601,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/cosmosGetAddress', async (event, data) => {
+    ipcRenderer.on('@hdwallet/cosmosGetAddress', async (_event, data) => {
       let payload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -616,7 +614,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     })
 
     //signTx
-    ipcRenderer.on('@hdwallet/btcSignTx', async (event, data) => {
+    ipcRenderer.on('@hdwallet/btcSignTx', async (_event, data) => {
       let HDwalletPayload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -626,7 +624,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/thorchainSignTx', async (event, data) => {
+    ipcRenderer.on('@hdwallet/thorchainSignTx', async (_event, data) => {
       let HDwalletPayload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -636,7 +634,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/cosmosSignTx', async (event, data) => {
+    ipcRenderer.on('@hdwallet/cosmosSignTx', async (_event, data) => {
       let HDwalletPayload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -646,7 +644,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/osmosisSignTx', async (event, data) => {
+    ipcRenderer.on('@hdwallet/osmosisSignTx', async (_event, data) => {
       let HDwalletPayload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -656,7 +654,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/ethSignTx', async (event, data) => {
+    ipcRenderer.on('@hdwallet/ethSignTx', async (_event, data) => {
       let HDwalletPayload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -668,9 +666,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
     //END HDwallet API
 
-    ipcRenderer.on('setDevice', (event, data) => {})
+    ipcRenderer.on('setDevice', () => {})
 
-    ipcRenderer.on('@account/sign-tx', async (event: any, data: any) => {
+    ipcRenderer.on('@account/sign-tx', async (_event: any, data: any) => {
       let unsignedTx = data.payload.data
       //open signTx
       if (
@@ -711,7 +709,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   }, [state.wallet]) // we explicitly only want this to happen once
 
   useEffect(() => {
-    ipcRenderer.on('@wallet/not-initialized', (event, deviceId) => {
+    ipcRenderer.on('@wallet/not-initialized', (_event, deviceId) => {
       dispatch({
         type: WalletActions.OPEN_KEEPKEY_INITIALIZE,
         payload: {

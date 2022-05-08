@@ -12,7 +12,7 @@ export interface IWalletContext {
   disconnect: () => void
   load: () => void
   setDeviceState: (deviceState: Partial<DeviceState>) => void
-  connectDemo: () => Promise<void>,
+  connectDemo: () => Promise<void>
   keepkey: any
 }
 

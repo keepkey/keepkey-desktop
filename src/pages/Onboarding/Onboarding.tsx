@@ -2,7 +2,6 @@ import { Button, Flex } from '@chakra-ui/react'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import { ipcRenderer } from 'electron'
 import { useEffect, useState } from 'react'
-import { Route } from 'Routes/helpers'
 import { Main } from 'components/Layout/Main'
 
 // import { useEffect, useState } from 'react'
@@ -14,7 +13,7 @@ import { BootloaderModal } from './steps/Bootloader'
 import { FirmwareModal } from './steps/Firmware'
 import { InitializeModal } from './steps/Initialize'
 
-export const Onboarding = ({ route }: { route?: Route }) => {
+export const Onboarding = () => {
   const [currentEvent, setCurrentEvent] = useState<any>({})
 
   // const [kkConnect, setKKConnect] = useState(KeepKeyConnect)
@@ -32,7 +31,7 @@ export const Onboarding = ({ route }: { route?: Route }) => {
   // }
 
   useEffect(() => {
-    ipcRenderer.on('@onboard/state', (event, data) => {
+    ipcRenderer.on('@onboard/state', (_event, data) => {
       setCurrentEvent(data)
     })
 
