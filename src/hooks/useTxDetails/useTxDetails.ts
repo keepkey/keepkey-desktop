@@ -2,7 +2,12 @@ import { Asset, chainAdapters, MarketData } from '@shapeshiftoss/types'
 import { useEffect, useState } from 'react'
 import { ensReverseLookup } from 'lib/ens'
 import { ReduxState } from 'state/reducer'
-import { selectAssetByCAIP19, selectMarketDataById, selectTxById } from 'state/slices/selectors'
+import {
+  selectAssetById,
+  selectFeeAssetByChainId,
+  selectMarketDataById,
+  selectTxById,
+} from 'state/slices/selectors'
 import { Tx } from 'state/slices/txHistorySlice/txHistorySlice'
 import { useAppSelector } from 'state/store'
 
@@ -14,6 +19,10 @@ export enum ContractMethod {
   AddLiquidityEth = 'addLiquidityETH',
   RemoveLiquidityEth = 'removeLiquidityETH',
   TransferOut = 'transferOut',
+  Stake = 'stake',
+  Unstake = 'unstake',
+  InstantUnstake = 'instantUnstake',
+  ClaimWithdraw = 'claimWithdraw',
 }
 
 export enum Direction {
@@ -52,7 +61,7 @@ export const getTransferByType = (tx: Tx, txType: chainAdapters.TxType) =>
 export const getBuyTransfer = (tx: Tx) => getTransferByType(tx, chainAdapters.TxType.Receive)
 export const getSellTransfer = (tx: Tx) => getTransferByType(tx, chainAdapters.TxType.Send)
 export const getTransferByAsset = (tx: Tx, asset: Asset) =>
-  tx.transfers.find(t => t.caip19 === asset.caip19)
+  tx.transfers.find(t => t.caip19 === asset.assetId)
 
 export const isSupportedContract = (tx: Tx) =>
   Object.values(ContractMethod).includes(tx.data?.method as ContractMethod)
@@ -82,16 +91,19 @@ export const useTxDetails = (txId: string, activeAsset?: Asset): TxDetails => {
   const buyTransfer = getTransferByType(tx, chainAdapters.TxType.Receive)
   const sellTransfer = getTransferByType(tx, chainAdapters.TxType.Send)
   const tradeTx = (activeAsset && getTransferByAsset(tx, activeAsset)) ?? buyTransfer
-  // const tradeTx = activeAsset?.caip19 === sellTransfer?.caip19 ? sellTransfer : buyTransfer
 
   const direction: Direction | undefined = (() => {
     switch (method) {
       case ContractMethod.Deposit:
       case ContractMethod.AddLiquidityEth:
       case ContractMethod.TransferOut:
+      case ContractMethod.Stake:
         return Direction.Outbound
       case ContractMethod.Withdraw:
       case ContractMethod.RemoveLiquidityEth:
+      case ContractMethod.Unstake:
+      case ContractMethod.InstantUnstake:
+      case ContractMethod.ClaimWithdraw:
         return Direction.Inbound
       case ContractMethod.Approve:
         return Direction.InPlace
@@ -101,13 +113,14 @@ export const useTxDetails = (txId: string, activeAsset?: Asset): TxDetails => {
   })()
 
   const standardAsset = useAppSelector((state: ReduxState) =>
-    selectAssetByCAIP19(state, standardTx?.caip19 ?? ''),
+    selectAssetById(state, standardTx?.caip19 ?? ''),
   )
 
   // stables need precision of eth (18) rather than 10
-  const feeAsset = useAppSelector(state => selectAssetByCAIP19(state, tx.fee?.caip19 ?? ''))
-  const buyAsset = useAppSelector(state => selectAssetByCAIP19(state, buyTransfer?.caip19 ?? ''))
-  const sellAsset = useAppSelector(state => selectAssetByCAIP19(state, sellTransfer?.caip19 ?? ''))
+  const defaultFeeAsset = useAppSelector(state => selectFeeAssetByChainId(state, tx.caip2))
+  const feeAsset = useAppSelector(state => selectAssetById(state, tx.fee?.caip19 ?? ''))
+  const buyAsset = useAppSelector(state => selectAssetById(state, buyTransfer?.caip19 ?? ''))
+  const sellAsset = useAppSelector(state => selectAssetById(state, sellTransfer?.caip19 ?? ''))
   const tradeAsset = activeAsset?.symbol === sellAsset?.symbol ? sellAsset : buyAsset
   const sourceMarketData = useAppSelector(state =>
     selectMarketDataById(state, sellTransfer?.caip19 ?? ''),
@@ -142,11 +155,16 @@ export const useTxDetails = (txId: string, activeAsset?: Asset): TxDetails => {
   const symbol = standardAsset?.symbol ?? tradeAsset?.symbol ?? ''
   const precision = standardAsset?.precision ?? tradeAsset?.precision ?? 18
   const explorerTxLink =
-    standardAsset?.explorerTxLink ?? tradeAsset?.explorerTxLink ?? feeAsset?.explorerTxLink ?? ''
+    standardAsset?.explorerTxLink ??
+    tradeAsset?.explorerTxLink ??
+    feeAsset?.explorerTxLink ??
+    defaultFeeAsset?.explorerTxLink ??
+    ''
   const explorerAddressLink =
     standardAsset?.explorerAddressLink ??
     tradeAsset?.explorerAddressLink ??
     feeAsset?.explorerAddressLink ??
+    defaultFeeAsset?.explorerAddressLink ??
     ''
 
   return {

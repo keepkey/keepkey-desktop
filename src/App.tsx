@@ -12,6 +12,7 @@ import { PairingProps } from 'components/Modals/Pair/Pair'
 import { useHasAppUpdated } from 'hooks/useHasAppUpdated/useHasAppUpdated'
 import { useModal } from 'hooks/useModal/useModal'
 // import { setupSentry } from 'lib/setupSentry'
+import { logger } from 'lib/logger'
 
 export const App = () => {
   const shouldUpdate = useHasAppUpdated()
@@ -38,6 +39,7 @@ export const App = () => {
   }, [pair, hardwareError, history])
 
   useEffect(() => {
+    logger.debug({ shouldUpdate, updateId }, 'Update Check')
     if (shouldUpdate && !toast.isActive(updateId)) {
       const toastId = toast({
         render: () => {

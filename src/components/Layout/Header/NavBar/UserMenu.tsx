@@ -105,7 +105,9 @@ const WalletButton: FC<WalletButtonProps> = ({
       isLoading={isLoadingLocalWallet}
       leftIcon={
         <HStack>
-          {isConnected ? undefined : <WarningTwoIcon ml={2} w={3} h={3} color='yellow.500' />}
+          {!(isConnected || walletInfo?.deviceId === 'DemoWallet') && (
+            <WarningTwoIcon ml={2} w={3} h={3} color='yellow.500' />
+          )}
           <WalletImage walletInfo={walletInfo} />
         </HStack>
       }
@@ -135,13 +137,14 @@ const WalletButton: FC<WalletButtonProps> = ({
   )
 }
 
-export const UserMenu = () => {
+export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   const { state, dispatch, disconnect } = useWallet()
   const { pairedApps, appSettings } = useModal()
   const { isConnected, walletInfo, type } = state
   const hasWallet = Boolean(walletInfo?.deviceId)
 
   const handleConnect = () => {
+    onClick && onClick()
     dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: true })
   }
 
@@ -165,7 +168,7 @@ export const UserMenu = () => {
       >
         {hasWallet ? (
           <WalletConnected
-            isConnected={isConnected}
+            isConnected={isConnected || walletInfo?.deviceId === 'DemoWallet'}
             walletInfo={walletInfo}
             onDisconnect={disconnect}
             onSwitchProvider={handleConnect}

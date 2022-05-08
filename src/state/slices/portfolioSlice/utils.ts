@@ -1,13 +1,7 @@
-import { CAIP2, CAIP10, caip10, CAIP19 } from '@shapeshiftoss/caip'
+import { AccountId, AssetId, ChainId, fromCAIP19, toCAIP2, toCAIP10 } from '@shapeshiftoss/caip'
 import { utxoAccountParams } from '@shapeshiftoss/chain-adapters'
-import { BTCInputScriptType } from '@shapeshiftoss/hdwallet-core'
-import {
-  Asset,
-  BIP44Params,
-  chainAdapters,
-  ChainTypes,
-  UtxoAccountType,
-} from '@shapeshiftoss/types'
+import { HDWallet, supportsBTC, supportsCosmos, supportsETH } from '@shapeshiftoss/hdwallet-core'
+import { Asset, chainAdapters, ChainTypes, UtxoAccountType } from '@shapeshiftoss/types'
 import cloneDeep from 'lodash/cloneDeep'
 import last from 'lodash/last'
 import toLower from 'lodash/toLower'
@@ -16,15 +10,13 @@ import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { AccountSpecifier } from '../accountSpecifiersSlice/accountSpecifiersSlice'
 import { initialState, Portfolio } from './portfolioSliceCommon'
 
-export type UtxoParamsAndAccountType = {
-  utxoParams: { scriptType: BTCInputScriptType; bip44Params: BIP44Params }
-  accountType: UtxoAccountType
-}
-
 // TODO(0xdef1cafe): these should be exported from caip2
 export const ethChainId = 'eip155:1'
 export const btcChainId = 'bip122:000000000019d6689c085ae165831e93'
 export const cosmosChainId = 'cosmos:cosmoshub-4'
+
+export const chainIds = [ethChainId, btcChainId, cosmosChainId] as const
+export type ChainIdType = typeof chainIds[number]
 
 // we only need to update this when we support additional chains, which is infrequent
 // so it's ok to hardcode this map here
@@ -34,11 +26,10 @@ const caip2toCaip19: Record<string, string> = {
   [cosmosChainId]: 'cosmos:cosmoshub-4/slip44:118',
 }
 
-export const assetIdtoChainId = (caip19: CAIP19): string => {
-  return caip19.split('/')[0]
-}
+export const assetIdToChainId = (caip19: AssetId): ChainIdType =>
+  caip19.split('/')[0] as ChainIdType
 
-export const accountIdToChainId = (accountId: AccountSpecifier): CAIP2 => {
+export const accountIdToChainId = (accountId: AccountSpecifier): ChainId => {
   // accountId = 'eip155:1:0xdef1...cafe
   const [chain, network] = accountId.split(':')
   return `${chain}:${network}`
@@ -95,9 +86,11 @@ export const accountIdToLabel = (accountId: AccountSpecifier): string => {
   }
 }
 
+export const chainIdToFeeAssetId = (chainId: ChainId): AssetId => caip2toCaip19[chainId]
+
 // note - this is not really a selector, more of a util
-export const accountIdToFeeAssetId = (accountId: AccountSpecifier) =>
-  caip2toCaip19[accountIdToChainId(accountId)]
+export const accountIdToFeeAssetId = (accountId: AccountSpecifier): AssetId =>
+  chainIdToFeeAssetId(accountIdToChainId(accountId))
 
 export const accountIdToAccountType = (accountId: AccountSpecifier): UtxoAccountType | null => {
   const pubkeyVariant = last(accountId.split(':'))
@@ -121,7 +114,7 @@ export const accountIdToUtxoParams = (
 
 export const findAccountsByAssetId = (
   portfolioAccounts: { [k: string]: string[] },
-  assetId: CAIP19,
+  assetId: AssetId,
 ): AccountSpecifier[] => {
   const result = Object.entries(portfolioAccounts).reduce<AccountSpecifier[]>(
     (acc, [accountId, accountAssets]) => {
@@ -135,14 +128,14 @@ export const findAccountsByAssetId = (
   // return the account(s) for that given assets chain
   if (result.length === 0) {
     return Object.keys(portfolioAccounts).filter(
-      accountId => assetIdtoChainId(assetId) === accountIdToChainId(accountId),
+      accountId => assetIdToChainId(assetId) === accountIdToChainId(accountId),
     )
   }
   return result
 }
 
 type PortfolioAccounts = {
-  [k: CAIP10]: chainAdapters.Account<ChainTypes>
+  [k: AccountId]: chainAdapters.Account<ChainTypes>
 }
 
 type AccountToPortfolioArgs = {
@@ -170,7 +163,7 @@ export const accountToPortfolio: AccountToPortfolio = args => {
         const ethAccount = account as chainAdapters.Account<ChainTypes.Ethereum>
         const { caip2, caip19, pubkey } = account
         const accountSpecifier = `${caip2}:${toLower(pubkey)}`
-        const CAIP10 = caip10.toCAIP10({ caip2, account: _xpubOrAccount })
+        const CAIP10 = toCAIP10({ caip2, account: _xpubOrAccount })
         portfolio.accountBalances.ids.push(accountSpecifier)
         portfolio.accountSpecifiers.ids.push(accountSpecifier)
 
@@ -250,10 +243,10 @@ export const accountToPortfolio: AccountToPortfolio = args => {
           .plus(bnOrZero(balance))
           .toString()
 
-        // For tx history, we need to have CAIP10's of addresses that may have 0 balances
-        // for accountSpecifier to CAIP10 mapping
+        // For tx history, we need to have CAIP10/AccountIds of addresses that may have 0 balances
+        // for accountSpecifier to CAIP10/AccountId mapping
         addresses.forEach(({ pubkey }) => {
-          const CAIP10 = caip10.toCAIP10({ caip2, account: pubkey })
+          const CAIP10 = toCAIP10({ caip2, account: pubkey })
           if (!portfolio.accountSpecifiers.byId[accountSpecifier]) {
             portfolio.accountSpecifiers.byId[accountSpecifier] = []
           }
@@ -267,7 +260,7 @@ export const accountToPortfolio: AccountToPortfolio = args => {
       case ChainTypes.Osmosis: {
         const { caip2, caip19 } = account
         const accountSpecifier = `${caip2}:${_xpubOrAccount}`
-        const accountId = caip10.toCAIP10({ caip2, account: _xpubOrAccount })
+        const accountId = toCAIP10({ caip2, account: _xpubOrAccount })
         portfolio.accountBalances.ids.push(accountSpecifier)
         portfolio.accountSpecifiers.ids.push(accountSpecifier)
 
@@ -310,11 +303,11 @@ export const makeSortedAccountBalances = (totalAccountBalances: {
 
 export const makeBalancesByChainBucketsFlattened = (
   accountBalances: string[],
-  assets: { [k: CAIP19]: Asset },
+  assets: { [k: AssetId]: Asset },
 ) => {
-  const initial = {} as Record<ChainTypes, CAIP10[]>
-  const balancesByChainBuckets = accountBalances.reduce<Record<ChainTypes, CAIP10[]>>(
-    (acc: Record<ChainTypes, CAIP10[]>, accountId) => {
+  const initial = {} as Record<ChainTypes, AccountId[]>
+  const balancesByChainBuckets = accountBalances.reduce<Record<ChainTypes, AccountId[]>>(
+    (acc: Record<ChainTypes, AccountId[]>, accountId) => {
       const assetId = accountIdToFeeAssetId(accountId)
       const asset = assets[assetId]
       acc[asset.chain] = [...(acc[asset.chain] ?? []), accountId]
@@ -323,4 +316,20 @@ export const makeBalancesByChainBucketsFlattened = (
     initial,
   )
   return Object.values(balancesByChainBuckets).flat()
+}
+
+export const isAssetSupportedByWallet = (assetId: AssetId, wallet: HDWallet): boolean => {
+  if (!assetId) return false
+  const { chain, network } = fromCAIP19(assetId)
+  const chainId = toCAIP2({ chain, network })
+  switch (chainId) {
+    case ethChainId:
+      return supportsETH(wallet)
+    case btcChainId:
+      return supportsBTC(wallet)
+    case cosmosChainId:
+      return supportsCosmos(wallet)
+    default:
+      return false
+  }
 }
