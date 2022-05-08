@@ -4,12 +4,15 @@ import { simpleLocale } from 'lib/browserLocale'
 import { getConfig } from '../../../config'
 
 export type FeatureFlags = {
-  CosmosInvestor: boolean
   FoxyInvestor: boolean
   ReduxLogging: boolean
   KeepKeySettings: boolean
+  WalletMigration: boolean
+  DemoWallet: boolean
   ElectronChannels: boolean
 }
+
+export type Flag = keyof FeatureFlags
 
 export type Preferences = {
   featureFlags: FeatureFlags
@@ -19,10 +22,11 @@ export type Preferences = {
 
 const initialState: Preferences = {
   featureFlags: {
-    CosmosInvestor: getConfig().REACT_APP_FEATURE_COSMOS_INVESTOR,
     FoxyInvestor: getConfig().REACT_APP_FEATURE_FOXY_INVESTOR,
     ReduxLogging: getConfig().REACT_APP_REDUX_LOGGING,
     KeepKeySettings: getConfig().REACT_APP_FEATURE_KEEPKEY_SETTINGS,
+    WalletMigration: getConfig().REACT_APP_FEATURE_WALLET_MIGRATION,
+    DemoWallet: getConfig().REACT_APP_FEATURE_DEMO_WALLET,
     ElectronChannels: getConfig().REACT_APP_FEATURE_ELECTRON_CHANNELS,
   },
   selectedLocale: simpleLocale(),

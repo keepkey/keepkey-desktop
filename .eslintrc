@@ -71,6 +71,7 @@
           ]
         ]
       }
-    ]
+    ],
+    "object-shorthand": "error"
   }
 }

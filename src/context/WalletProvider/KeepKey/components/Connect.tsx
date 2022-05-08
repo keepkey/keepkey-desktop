@@ -8,27 +8,16 @@ import {
 } from '@chakra-ui/react'
 import { Event } from '@shapeshiftoss/hdwallet-core'
 import { ipcRenderer } from 'electron'
-import React, { useCallback, useEffect, useState } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { useCallback, useEffect, useState } from 'react'
 import { CircularProgress } from 'components/CircularProgress/CircularProgress'
 import { Text } from 'components/Text'
-import { ActionTypes, WalletActions } from 'context/WalletProvider/actions'
+import { WalletActions } from 'context/WalletProvider/actions'
 import { KeyManager } from 'context/WalletProvider/KeyManager'
 import { setLocalWalletTypeAndDeviceId } from 'context/WalletProvider/local-wallet'
 import { useWallet } from 'hooks/useWallet/useWallet'
 
-import { LocationState } from '../../NativeWallet/types'
 import { KeepKeyConfig } from '../config'
 import { FailureType, MessageType } from '../KeepKeyTypes'
-
-export interface KeepKeySetupProps
-  extends RouteComponentProps<
-    {},
-    any, // history
-    LocationState
-  > {
-  dispatch: React.Dispatch<ActionTypes>
-}
 
 const translateError = (event: Event) => {
   let t: string
@@ -47,7 +36,7 @@ const translateError = (event: Event) => {
   return `walletProvider.keepKey.errors.${t}`
 }
 
-export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
+export const KeepKeyConnect = () => {
   const { dispatch, state, connect } = useWallet()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -108,20 +97,20 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
          * aliases[deviceId] in the local wallet storage.
          */
         setLocalWalletTypeAndDeviceId(KeyManager.KeepKey, state.keyring.getAlias(deviceId))
-        history.push('/keepkey/success')
+        dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
       } catch (e) {
         console.error('KeepKey Connect: There was an error initializing the wallet', e)
         setErrorLoading('walletProvider.keepKey.errors.unknown')
       }
     }
     setLoading(false)
-  }, [dispatch, history, state.adapters, state.keyring])
+  }, [dispatch, state.adapters, state.keyring])
 
   useEffect(() => {
     let tries = 0
     ipcRenderer.removeAllListeners('@bridge/running')
     ipcRenderer.removeAllListeners('@bridge/start')
-    ipcRenderer.on('@bridge/running', async (event, bridgeRunning) => {
+    ipcRenderer.on('@bridge/running', async (_event, bridgeRunning) => {
       if (tries > 0) {
         setLoading(false)
         setErrorLoading('walletProvider.keepKey.connect.conflictingApp')
@@ -138,7 +127,7 @@ export const KeepKeyConnect = ({ history }: KeepKeySetupProps) => {
         return (tries = 0)
       }
     })
-    ipcRenderer.on('@bridge/start', async (event, data) => {
+    ipcRenderer.on('@bridge/start', async () => {
       ipcRenderer.send('@bridge/running')
     })
   }, [pairDevice, connect])

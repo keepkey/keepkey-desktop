@@ -12,6 +12,7 @@ import { PairingProps } from 'components/Modals/Pair/Pair'
 import { useHasAppUpdated } from 'hooks/useHasAppUpdated/useHasAppUpdated'
 import { useModal } from 'hooks/useModal/useModal'
 // import { setupSentry } from 'lib/setupSentry'
+import { logger } from 'lib/logger'
 
 export const App = () => {
   const shouldUpdate = useHasAppUpdated()
@@ -25,19 +26,20 @@ export const App = () => {
   // useEffect(setupSentry, [])
 
   useEffect(() => {
-    ipcRenderer.on('@modal/pair', (event, data: PairingProps) => {
+    ipcRenderer.on('@modal/pair', (_event, data: PairingProps) => {
       pair.open(data)
     })
-    ipcRenderer.on('@modal/hardwareError', (event, data) => {
+    ipcRenderer.on('@modal/hardwareError', (_event, data) => {
       if (!data.close) hardwareError.open(data.data)
       else hardwareError.close()
     })
-    ipcRenderer.on('@onboard/open', (event, data) => {
+    ipcRenderer.on('@onboard/open', () => {
       history.push('/onboarding')
     })
   }, [pair, hardwareError, history])
 
   useEffect(() => {
+    logger.debug({ shouldUpdate, updateId }, 'Update Check')
     if (shouldUpdate && !toast.isActive(updateId)) {
       const toastId = toast({
         render: () => {

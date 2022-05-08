@@ -28,14 +28,14 @@ export type PairingProps = {
   nonce: string
 }
 
-export const WalletConnectSessionModal = (input: any) => {
+export const WalletConnectSessionModal = () => {
   const [error] = useState<string | null>(null)
   // const [loading] = useState(false)
   const [uri, setUri] = useState('uri:.....')
   const { walletConnect } = useModal()
   const { close, isOpen } = walletConnect
 
-  const HandleSubmit = async (e: any) => {
+  const HandleSubmit = async () => {
     ipcRenderer.send(`@walletconnect/session`, uri)
   }
 

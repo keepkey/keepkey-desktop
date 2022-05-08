@@ -32,7 +32,7 @@ export const PairedAppsModal = () => {
 
   useEffect(() => {
     ipcRenderer.send('@bridge/paired-apps')
-    ipcRenderer.on('@bridge/paired-apps', (event, data: PairedAppProps[]) => {
+    ipcRenderer.on('@bridge/paired-apps', (_event, data: PairedAppProps[]) => {
       setApps(data)
     })
   }, [])

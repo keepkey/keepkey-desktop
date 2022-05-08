@@ -108,20 +108,20 @@ export const AppSettingsModal = () => {
   }, [isOpen])
 
   useEffect(() => {
-    ipcRenderer.on('@app/settings', (event, data) => {
+    ipcRenderer.on('@app/settings', (_event, data) => {
       setSettings(data)
     })
 
     ipcRenderer.send('@app/version')
-    ipcRenderer.on('@app/version', (event, version) => {
+    ipcRenderer.on('@app/version', (_event, version) => {
       setCurrentAppVer(version.split('.'))
     })
 
-    ipcRenderer.on('@app/download-updates', (event, data) => {
+    ipcRenderer.on('@app/download-updates', (_event, _data) => {
       setUpdateState(UpdateState.DOWNLOADED)
     })
 
-    ipcRenderer.on('@update/percentage', (event, progress) => {
+    ipcRenderer.on('@update/percentage', (_event, progress) => {
       setUpdateProgress(progress)
     })
 
@@ -129,7 +129,7 @@ export const AppSettingsModal = () => {
   }, [])
 
   useEffect(() => {
-    ipcRenderer.on('@app/update', (event, data: UpdateCheckResult) => {
+    ipcRenderer.on('@app/update', (_event, data: UpdateCheckResult) => {
       console.info('@app/update', data)
       setUpdateData(data.updateInfo)
       compareVersions(data.updateInfo)
