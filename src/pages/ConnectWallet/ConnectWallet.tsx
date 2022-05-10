@@ -123,6 +123,15 @@ export const ConnectWallet = () => {
               {translate('connectWalletPage.alpha')}
             </Badge>
           </Flex>
+          <Flex width='full' alignItems='center' justifyContent='center'>
+            <Text color='white' fontWeight='bold' translation='connectWalletPage.keepkeyState' />
+            <Badge colorScheme='blue' ml={2}>
+              {state.keepkeyState}
+            </Badge>
+            <Badge colorScheme='blue' ml={2}>
+              {state.keepkeyStatus}
+            </Badge>
+          </Flex>
           <Flex width='full' alignItems='center' justifyContent='center' gap={8}>
             <Link href='/#/legal/terms-of-service'>
               <Text color='gray.500' translation='common.terms' />
