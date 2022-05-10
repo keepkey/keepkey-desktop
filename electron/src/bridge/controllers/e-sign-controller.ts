@@ -90,7 +90,7 @@ export class ESignController extends Controller {
     @Post('/ethSignTx')
     @Security("api_key")
     @Response(500, "Internal server error")
-    public async ethSignTx(@Body() body: ETHSignTx): Promise<ETHSignedTx> {
+    public async ethSignTx(@Body() body: any): Promise<ETHSignedTx> {
         return new Promise<ETHSignedTx>((resolve, reject) => {
             if (!keepkey.wallet) return reject()
 
