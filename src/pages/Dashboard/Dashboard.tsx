@@ -1,8 +1,8 @@
 import { Stack } from '@chakra-ui/react'
-import { Main } from 'components/Layout/Main'
-import { useWallet } from 'hooks/useWallet/useWallet'
 import { useEffect } from 'react'
 import { useHistory } from 'react-router'
+import { Main } from 'components/Layout/Main'
+import { useWallet } from 'hooks/useWallet/useWallet'
 
 import { DashboardSidebar } from './DashboardSidebar'
 import { Portfolio } from './Portfolio'
@@ -17,7 +17,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     if (state.keepkeyState <= 0) history.push('/connect-wallet')
-  }, [state.keepkeyState])
+  }, [state.keepkeyState, history])
 
   return (
     <Main>
