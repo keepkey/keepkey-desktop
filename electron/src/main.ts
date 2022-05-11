@@ -113,13 +113,13 @@ try {
     }
 } catch (_) { }
 
-/**
- * Set `__statics` path to static files in production;
- * The reason we are setting it here is that the path needs to be evaluated at runtime
- */
-if (process.env.PROD) {
-    global.__statics = __dirname
-}
+// /**
+//  * Set `__statics` path to static files in production;
+//  * The reason we are setting it here is that the path needs to be evaluated at runtime
+//  */
+// if (process.env.PROD) {
+//     global.__statics = __dirname
+// }
 
 export const createWindow = () => new Promise<boolean>(async (resolve, reject) => {
     log.info('Creating window!')
