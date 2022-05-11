@@ -19,7 +19,7 @@ import { openSignTxWindow } from "./utils";
 import { db } from "./db";
 const sleep = wait.sleep;
 export let walletConnectClient: WalletConnect
-const keccak256 = require('keccak256')
+import keccak256 from 'keccak256'
 
 
 
