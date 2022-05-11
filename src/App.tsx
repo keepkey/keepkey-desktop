@@ -36,7 +36,8 @@ export const App = () => {
     ipcRenderer.on('@onboard/open', () => {
       history.push('/onboarding')
     })
-  }, [pair, hardwareError, history])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     logger.debug({ shouldUpdate, updateId }, 'Update Check')
