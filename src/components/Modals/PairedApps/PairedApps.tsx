@@ -37,6 +37,10 @@ export const PairedAppsModal = () => {
     })
   }, [])
 
+  useEffect(() => {
+    ipcRenderer.send('@bridge/paired-apps')
+  }, [isOpen])
+
   const unpair = (app: PairedAppProps) => {
     ipcRenderer.send('@bridge/remove-service', app)
     ipcRenderer.send('@bridge/paired-apps')
