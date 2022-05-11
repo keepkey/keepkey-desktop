@@ -5,7 +5,7 @@ function setupMsw() {
   let worker: SetupWorkerApi | undefined
   let server: SetupServerApi | undefined
 
-  if (typeof global.process === 'undefined') {
+  if (global && typeof global.process === 'undefined') {
     // Setup mock service worker for browser environment
     worker = setupWorker()
   } else {
