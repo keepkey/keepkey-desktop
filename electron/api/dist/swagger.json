@@ -593,9 +593,7 @@
 				},
 				"required": [
 					"msg",
-					"fee",
-					"signatures",
-					"memo"
+					"fee"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -771,101 +769,6 @@
 					"r",
 					"s",
 					"serialized"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ExchangeType": {
-				"properties": {
-					"signedExchangeResponse": {
-						"type": "string",
-						"description": "`SignedExchangeResponse` from the `/sendamountProto2` ShapeShift endpoint, base64 encoded"
-					},
-					"withdrawalCoinName": {
-						"type": "string"
-					},
-					"withdrawalAddressNList": {
-						"$ref": "#/components/schemas/BIP32Path"
-					},
-					"withdrawalScriptType": {
-						"$ref": "#/components/schemas/BTCInputScriptType"
-					},
-					"returnAddressNList": {
-						"$ref": "#/components/schemas/BIP32Path"
-					},
-					"returnScriptType": {
-						"$ref": "#/components/schemas/BTCInputScriptType"
-					}
-				},
-				"required": [
-					"signedExchangeResponse",
-					"withdrawalCoinName",
-					"withdrawalAddressNList",
-					"returnAddressNList"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ETHSignTx": {
-				"properties": {
-					"addressNList": {
-						"$ref": "#/components/schemas/BIP32Path",
-						"description": "bip32 path to sign the transaction from"
-					},
-					"nonce": {
-						"type": "string",
-						"description": "big-endian hex, prefixed with '0x'"
-					},
-					"gasPrice": {
-						"type": "string",
-						"description": "big-endian hex, prefixed with '0x'"
-					},
-					"gasLimit": {
-						"type": "string",
-						"description": "big-endian hex, prefixed with '0x'"
-					},
-					"maxFeePerGas": {
-						"type": "string",
-						"description": "EIP-1559 - The maximum total fee per gas the sender is willing to pay. <=256 bit unsigned big endian (in wei)"
-					},
-					"maxPriorityFeePerGas": {
-						"type": "string",
-						"description": "EIP-1559 - Maximum fee per gas the sender is willing to pay to miners. <=256 bit unsigned big endian (in wei)"
-					},
-					"to": {
-						"type": "string",
-						"description": "address, with '0x' prefix"
-					},
-					"toAddressNList": {
-						"$ref": "#/components/schemas/BIP32Path",
-						"description": "bip32 path for destination (device must `ethSupportsSecureTransfer()`)"
-					},
-					"value": {
-						"type": "string",
-						"description": "big-endian hex, prefixed with '0x'"
-					},
-					"data": {
-						"type": "string",
-						"description": "prefixed with '0x'"
-					},
-					"chainId": {
-						"type": "number",
-						"format": "double",
-						"description": "mainnet: 1, ropsten: 3, kovan: 42"
-					},
-					"exchangeType": {
-						"$ref": "#/components/schemas/ExchangeType",
-						"description": "Device must `ethSupportsNativeShapeShift()`"
-					}
-				},
-				"required": [
-					"addressNList",
-					"nonce",
-					"gasLimit",
-					"to",
-					"value",
-					"data",
-					"chainId"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1054,7 +957,7 @@
 	},
 	"info": {
 		"title": "keepkey-desktop",
-		"version": "0.1.52",
+		"version": "0.1.57",
 		"contact": {
 			"name": "Highlander ",
 			"email": "bithighlander@gmail.com"
@@ -1824,9 +1727,7 @@
 					"required": true,
 					"content": {
 						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/ETHSignTx"
-							}
+							"schema": {}
 						}
 					}
 				}
