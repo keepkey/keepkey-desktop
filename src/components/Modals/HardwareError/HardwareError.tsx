@@ -33,7 +33,11 @@ export const HardwareErrorModal = (error: any) => {
   // }}
 
   useEffect(() => {
-    if (history.location.pathname === '/onboarding') close()
+    if (
+      history.location.pathname === '/onboarding' ||
+      history.location.pathname === '/#/onboarding'
+    )
+      close()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.pathname])
 

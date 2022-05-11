@@ -305,8 +305,8 @@ const models: TsoaRoute.Models = {
         "properties": {
             "msg": {"dataType":"array","array":{"dataType":"refObject","ref":"Msg"},"required":true},
             "fee": {"ref":"StdFee","required":true},
-            "signatures": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":[null]},{"dataType":"array","array":{"dataType":"refObject","ref":"StdSignature"}}],"required":true},
-            "memo": {"dataType":"string","required":true},
+            "signatures": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":[null]},{"dataType":"array","array":{"dataType":"refObject","ref":"StdSignature"}}]},
+            "memo": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -388,38 +388,6 @@ const models: TsoaRoute.Models = {
             "r": {"dataType":"string","required":true},
             "s": {"dataType":"string","required":true},
             "serialized": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ExchangeType": {
-        "dataType": "refObject",
-        "properties": {
-            "signedExchangeResponse": {"dataType":"string","required":true},
-            "withdrawalCoinName": {"dataType":"string","required":true},
-            "withdrawalAddressNList": {"ref":"BIP32Path","required":true},
-            "withdrawalScriptType": {"ref":"BTCInputScriptType"},
-            "returnAddressNList": {"ref":"BIP32Path","required":true},
-            "returnScriptType": {"ref":"BTCInputScriptType"},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ETHSignTx": {
-        "dataType": "refObject",
-        "properties": {
-            "addressNList": {"ref":"BIP32Path","required":true},
-            "nonce": {"dataType":"string","required":true},
-            "gasPrice": {"dataType":"string"},
-            "gasLimit": {"dataType":"string","required":true},
-            "maxFeePerGas": {"dataType":"string"},
-            "maxPriorityFeePerGas": {"dataType":"string"},
-            "to": {"dataType":"string","required":true},
-            "toAddressNList": {"ref":"BIP32Path"},
-            "value": {"dataType":"string","required":true},
-            "data": {"dataType":"string","required":true},
-            "chainId": {"dataType":"double","required":true},
-            "exchangeType": {"ref":"ExchangeType"},
         },
         "additionalProperties": false,
     },
@@ -995,7 +963,7 @@ export function RegisterRoutes(app: express.Router) {
 
             function ESignController_ethSignTx(request: any, response: any, next: any) {
             const args = {
-                    body: {"in":"body","name":"body","required":true,"ref":"ETHSignTx"},
+                    body: {"in":"body","name":"body","required":true,"dataType":"any"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

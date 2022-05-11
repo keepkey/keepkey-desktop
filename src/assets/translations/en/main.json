@@ -123,7 +123,8 @@
     "header": "Please connect a wallet to get started",
     "cta": "Connect Wallet",
     "troubleshoot": "Troubleshoot KeepKey Connection",
-    "orViewADemo": "or view a demo"
+    "orViewADemo": "or view a demo",
+    "keepkeyState": "KeepKey State"
   },
   "walletConnect": {
     "menu": {
