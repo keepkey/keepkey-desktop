@@ -1,18 +1,11 @@
-import { setupWorker, SetupWorkerApi } from 'msw'
+
 import { setupServer, SetupServerApi } from 'msw/node'
 
 function setupMsw() {
-  let worker: SetupWorkerApi | undefined
   let server: SetupServerApi | undefined
 
-  if (global && typeof global.process === 'undefined') {
-    // Setup mock service worker for browser environment
-    worker = setupWorker()
-  } else {
-    // Setup mock service server for node environment
-    server = setupServer()
-  }
-  return { worker, server }
+  server = setupServer()
+  return {server, worker: null }
 }
 
 export const { worker, server } = setupMsw()
