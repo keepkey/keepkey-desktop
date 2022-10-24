@@ -24,6 +24,8 @@ import { WalletProvider } from 'context/WalletProvider/WalletProvider'
 import { SplashScreen } from 'pages/SplashScreen/SplashScreen'
 import { persistor, store } from 'state/store'
 import { theme } from 'theme/theme'
+import { WalletConnectBridgeProvider } from 'plugins/walletConnectToDapps/WalletConnextBridgeProvider'
+import { ContractABIProvider } from 'plugins/walletConnectToDapps/ContractABIContext'
 
 type ProvidersProps = {
   children: React.ReactNode
@@ -47,17 +49,21 @@ export function AppProviders({ children }: ProvidersProps) {
                 <BrowserRouterProvider>
                   <I18nProvider>
                     <WalletProvider>
-                      <KeepKeyProvider>
-                        <ModalProvider>
-                          <TransactionsProvider>
-                            <AppProvider>
-                              <FoxEthProvider>
-                                <DefiManagerProvider>{children}</DefiManagerProvider>
-                              </FoxEthProvider>
-                            </AppProvider>
-                          </TransactionsProvider>
-                        </ModalProvider>
-                      </KeepKeyProvider>
+                      <ContractABIProvider>
+                        <WalletConnectBridgeProvider>
+                          <KeepKeyProvider>
+                            <ModalProvider>
+                              <TransactionsProvider>
+                                <AppProvider>
+                                  <FoxEthProvider>
+                                    <DefiManagerProvider>{children}</DefiManagerProvider>
+                                  </FoxEthProvider>
+                                </AppProvider>
+                              </TransactionsProvider>
+                            </ModalProvider>
+                          </KeepKeyProvider>
+                        </WalletConnectBridgeProvider>
+                      </ContractABIProvider>
                     </WalletProvider>
                   </I18nProvider>
                 </BrowserRouterProvider>

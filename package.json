@@ -156,7 +156,7 @@
     "@shapeshiftoss/caip": "^8.4.2",
     "@shapeshiftoss/chain-adapters": "^10.1.0",
     "@shapeshiftoss/errors": "^1.1.3",
-    "@shapeshiftoss/hdwallet-core": "^1.33.0",
+    "@shapeshiftoss/hdwallet-core": "^1.37.0",
     "@shapeshiftoss/hdwallet-keepkey": "^1.33.0",
     "@shapeshiftoss/hdwallet-keepkey-nodewebusb": "^1.35.0",
     "@shapeshiftoss/hdwallet-keepkey-tcp": "^1.35.0",

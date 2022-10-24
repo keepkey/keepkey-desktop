@@ -4266,10 +4266,20 @@
     rxjs "^6.4.0"
     type-assertions "^1.1.0"
 
-"@shapeshiftoss/hdwallet-core@1.35.0", "@shapeshiftoss/hdwallet-core@^1.33.0":
+"@shapeshiftoss/hdwallet-core@1.35.0":
   version "1.35.0"
   resolved "https://registry.yarnpkg.com/@shapeshiftoss/hdwallet-core/-/hdwallet-core-1.35.0.tgz#fe056d61c79a43d40951bb92a58ec4655681f514"
   integrity sha512-QENbf7kLEUWFHuw4X6uZQJTyDPFAVRTJCnJ+wpTLw1CgvmDcBSTrRR/X/HF2Ao6M86Fm6GtKY/hfdEV3JKHc0w==
+  dependencies:
+    eventemitter2 "^5.0.1"
+    lodash "^4.17.21"
+    rxjs "^6.4.0"
+    type-assertions "^1.1.0"
+
+"@shapeshiftoss/hdwallet-core@^1.37.0":
+  version "1.37.0"
+  resolved "https://registry.yarnpkg.com/@shapeshiftoss/hdwallet-core/-/hdwallet-core-1.37.0.tgz#7e4ce138c6caf1cdb5862554185b5e225ec2e34b"
+  integrity sha512-EjbpSBdJqHF3K/UrU6MsxmhH7C7V9xRw2m+a8qQYvh92JIf9ta1lqHC2qszLD5Glv+d7xXvoSTyjh+maNeyeZA==
   dependencies:
     eventemitter2 "^5.0.1"
     lodash "^4.17.21"

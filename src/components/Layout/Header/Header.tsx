@@ -22,6 +22,8 @@ import { ChainMenu } from './NavBar/ChainMenu'
 import { FiatRamps } from './NavBar/FiatRamps'
 import { UserMenu } from './NavBar/UserMenu'
 import { SideNavContent } from './SideNavContent'
+import { useFeatureFlag } from 'hooks/useFeatureFlag/useFeatureFlag'
+import { WalletConnectToDappsHeaderButton } from 'plugins/walletConnectToDapps/components/header/WalletConnectToDappsHeaderButton'
 
 export const Header = () => {
   const { onToggle, isOpen, onClose } = useDisclosure()
@@ -32,6 +34,8 @@ export const Header = () => {
     state: { isDemoWallet },
     dispatch,
   } = useWallet()
+
+  const isWalletConnectToDappsAvailable = useFeatureFlag('WalletConnectToDapps')
 
   /**
    * FOR DEVELOPERS:
@@ -122,6 +126,11 @@ export const Header = () => {
               <Box display={{ base: 'none', md: 'block' }}>
                 <UserMenu />
               </Box>
+              {isWalletConnectToDappsAvailable && (
+                <Box display={{ base: 'none', md: 'block' }}>
+                  <WalletConnectToDappsHeaderButton />
+                </Box>
+              )}
               <ChainMenu display={{ base: 'none', md: 'block' }} />
               <FiatRamps />
             </Flex>
