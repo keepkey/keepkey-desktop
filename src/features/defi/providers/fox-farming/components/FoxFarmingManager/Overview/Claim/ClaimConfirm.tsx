@@ -56,7 +56,7 @@ export const ClaimConfirm = ({
   const { claimRewards, getClaimGasData, foxFarmingContract } = useFoxFarming(contractAddress)
   const translate = useTranslate()
   const history = useHistory()
-  const { onOngoingTxIdChange } = useFoxEth()
+  const { onOngoingFarmingTxIdChange } = useFoxEth()
 
   const accountAddress = useMemo(
     () => (accountId ? fromAccountId(accountId).account : null),
@@ -65,6 +65,7 @@ export const ClaimConfirm = ({
 
   // Asset Info
   const asset = useAppSelector(state => selectAssetById(state, assetId))
+  const assetMarketData = useAppSelector(state => selectMarketDataById(state, assetId))
   const feeAssetId = toAssetId({
     chainId,
     assetNamespace: 'slip44',
@@ -81,7 +82,7 @@ export const ClaimConfirm = ({
     try {
       const txid = await claimRewards()
       if (!txid) throw new Error(`Transaction failed`)
-      onOngoingTxIdChange(txid)
+      onOngoingFarmingTxIdChange(txid, contractAddress)
       history.push('/status', {
         txid,
         assetId,
@@ -89,6 +90,7 @@ export const ClaimConfirm = ({
         userAddress: accountAddress,
         estimatedGas,
         chainId,
+        contractAddress,
       })
     } catch (error) {
       moduleLogger.error(error, 'ClaimWithdraw error')
@@ -149,6 +151,13 @@ export const ClaimConfirm = ({
               />
             </Skeleton>
           </Stack>
+          <Skeleton minWidth='100px' isLoaded={!!amount} textAlign='center'>
+            <Amount.Fiat
+              value={bnOrZero(amount).times(assetMarketData.price).toString()}
+              color='gray.500'
+              prefix='≈'
+            />
+          </Skeleton>
         </Stack>
       </ModalBody>
       <ModalFooter flexDir='column'>

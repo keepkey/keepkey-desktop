@@ -177,13 +177,13 @@ export const PairDeposit = ({
   }
 
   const handlePercentClick = (percent: number, isForAsset1: boolean) => {
-    const asssetMarketData = isForAsset1 ? marketData1 : marketData2
+    const assetMarketData = isForAsset1 ? marketData1 : marketData2
     const fiatField = isForAsset1 ? Field.FiatAmount1 : Field.FiatAmount2
     const cryptoField = isForAsset1 ? Field.CryptoAmount1 : Field.CryptoAmount2
     const cryptoAmount = bnOrZero(
       isForAsset1 ? cryptoAmountAvailable1 : cryptoAmountAvailable2,
     ).times(percent)
-    const fiatAmount = bnOrZero(cryptoAmount).times(asssetMarketData.price)
+    const fiatAmount = bnOrZero(cryptoAmount).times(assetMarketData.price)
     setValue(fiatField, fiatAmount.toString(), {
       shouldValidate: true,
     })
@@ -227,7 +227,7 @@ export const PairDeposit = ({
             balance={cryptoAmountAvailable1}
             fiatBalance={fiatAmountAvailable1}
             onAccountIdChange={handleAccountIdChange}
-            onMaxClick={value => handlePercentClick(value, true)}
+            onPercentOptionClick={value => handlePercentClick(value, true)}
             percentOptions={percentOptions}
             errors={cryptoError1 || fiatError1}
           />
@@ -243,7 +243,7 @@ export const PairDeposit = ({
             balance={cryptoAmountAvailable2}
             fiatBalance={fiatAmountAvailable2}
             onAccountIdChange={handleAccountIdChange}
-            onMaxClick={value => handlePercentClick(value, false)}
+            onPercentOptionClick={value => handlePercentClick(value, false)}
             percentOptions={percentOptions}
             errors={cryptoError2 || fiatError2}
           />

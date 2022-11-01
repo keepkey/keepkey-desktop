@@ -7,13 +7,15 @@ import { useCallback, useMemo } from 'react'
 import { useHistory, useLocation } from 'react-router'
 import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text'
-import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useSortedVaults } from 'hooks/useSortedVaults/useSortedVaults'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useCosmosSdkStakingBalances } from 'pages/Defi/hooks/useCosmosSdkStakingBalances'
 import { useFoxyBalances } from 'pages/Defi/hooks/useFoxyBalances'
-import { selectFeatureFlags } from 'state/slices/selectors'
+import {
+  selectFoxEthLpAccountsOpportunitiesAggregated,
+  selectVisibleFoxFarmingAccountOpportunitiesAggregated,
+} from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 
 import { StakingTable } from './StakingTable'
@@ -28,9 +30,15 @@ export const AllEarnOpportunities = () => {
 
   const sortedVaults = useSortedVaults()
 
-  const { data: foxyBalancesData } = useFoxyBalances({ accountNumber: 0 })
-  const { onlyVisibleFoxFarmingOpportunities, foxEthLpOpportunity } = useFoxEth()
+  const { data: foxyBalancesData } = useFoxyBalances()
 
+  const emptyFilter = useMemo(() => ({}), [])
+  const visibleFoxFarmingOpportunities = useAppSelector(state =>
+    selectVisibleFoxFarmingAccountOpportunitiesAggregated(state, emptyFilter),
+  )
+  const foxEthLpOpportunity = useAppSelector(state =>
+    selectFoxEthLpAccountsOpportunitiesAggregated(state, emptyFilter),
+  )
   const { cosmosSdkStakingOpportunities: cosmosStakingOpportunities } = useCosmosSdkStakingBalances(
     {
       assetId: cosmosAssetId,
@@ -40,7 +48,6 @@ export const AllEarnOpportunities = () => {
     useCosmosSdkStakingBalances({
       assetId: osmosisAssetId,
     })
-  const featureFlags = useAppSelector(selectFeatureFlags)
   const allRows = useNormalizeOpportunities({
     vaultArray: sortedVaults,
     foxyArray: foxyBalancesData?.opportunities ?? [],
@@ -48,10 +55,8 @@ export const AllEarnOpportunities = () => {
       () => cosmosStakingOpportunities.concat(osmosisStakingOpportunities),
       [cosmosStakingOpportunities, osmosisStakingOpportunities],
     ),
-    foxEthLpOpportunity: featureFlags.FoxLP ? foxEthLpOpportunity : undefined,
-    foxFarmingOpportunities: featureFlags.FoxFarming
-      ? onlyVisibleFoxFarmingOpportunities
-      : undefined,
+    foxEthLpOpportunity,
+    foxFarmingOpportunities: visibleFoxFarmingOpportunities,
   })
 
   const handleClick = useCallback(
@@ -70,6 +75,7 @@ export const AllEarnOpportunities = () => {
           chainId,
           contractAddress,
           assetReference,
+          highestBalanceAccountAddress: opportunity.highestBalanceAccountAddress,
           rewardId: rewardAddress,
           modal: 'overview',
         }),

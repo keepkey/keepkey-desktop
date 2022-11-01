@@ -36,6 +36,7 @@ export const Header = () => {
   } = useWallet()
 
   const isWalletConnectToDappsAvailable = useFeatureFlag('WalletConnectToDapps')
+  const isWalletConnectToDappsEnabled = useFeatureFlag('WalletConnectToDapps')
 
   /**
    * FOR DEVELOPERS:
@@ -126,11 +127,16 @@ export const Header = () => {
               <Box display={{ base: 'none', md: 'block' }}>
                 <UserMenu />
               </Box>
-              {isWalletConnectToDappsAvailable && (
+              {isWalletConnectToDappsEnabled && (
                 <Box display={{ base: 'none', md: 'block' }}>
                   <WalletConnectToDappsHeaderButton />
                 </Box>
               )}
+              {/*{isWalletConnectToDappsAvailable && (*/}
+              {/*  <Box display={{ base: 'none', md: 'block' }}>*/}
+              {/*    <WalletConnectToDappsHeaderButton />*/}
+              {/*  </Box>*/}
+              {/*)}*/}
               <ChainMenu display={{ base: 'none', md: 'block' }} />
               <FiatRamps />
             </Flex>

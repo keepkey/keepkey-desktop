@@ -40,6 +40,7 @@ import type { TradeAssetInputProps } from './Components/TradeAssetInput'
 import { TradeAssetInput } from './Components/TradeAssetInput'
 import { AssetClickAction, useTradeRoutes } from './hooks/useTradeRoutes/useTradeRoutes'
 import { ReceiveSummary } from './TradeConfirm/ReceiveSummary'
+import type { TS } from './types'
 import { type TradeState, TradeAmountInputField, TradeRoutePaths } from './types'
 
 const moduleLogger = logger.child({ namespace: ['TradeInput'] })
@@ -55,10 +56,11 @@ export const TradeInput = () => {
     getSupportedSellableAssets,
     getSupportedBuyAssetsFromSellAsset,
     swapperSupportsCrossAccountTrade,
+    receiveAddress,
   } = useSwapper()
   const history = useHistory()
   const borderColor = useColorModeValue('gray.100', 'gray.750')
-  const { control, setValue, getValues, handleSubmit } = useFormContext<TradeState<KnownChainIds>>()
+  const { control, setValue, getValues, handleSubmit } = useFormContext<TS>()
   const {
     state: { wallet },
   } = useWallet()
@@ -165,13 +167,14 @@ export const TradeInput = () => {
       // The below values all change on asset change. Clear them so no inaccurate data is shown in the UI.
       setValue('feeAssetFiatRate', undefined)
       setValue('quote', undefined)
+      setValue('trade', undefined)
       setValue('fees', undefined)
     } catch (e) {
       moduleLogger.error(e, 'handleToggle error')
     }
   }, [getValues, setValue])
 
-  const handleSendMax: TradeAssetInputProps['onMaxClick'] = useCallback(async () => {
+  const handleSendMax: TradeAssetInputProps['onPercentOptionClick'] = useCallback(async () => {
     if (!(sellTradeAsset?.asset && quote)) return
     const maxSendAmount = getSendMaxAmount(
       sellTradeAsset.asset,
@@ -209,22 +212,19 @@ export const TradeInput = () => {
       try {
         const isApproveNeeded = await checkApprovalNeeded()
         if (isApproveNeeded) {
-          history.push({
-            pathname: TradeRoutePaths.Approval,
-            state: { fiatRate: feeAssetFiatRate },
-          })
+          history.push({ pathname: TradeRoutePaths.Approval })
           return
         }
         const trade = await getTrade()
         setValue('trade', trade)
-        history.push({ pathname: TradeRoutePaths.Confirm, state: { fiatRate: feeAssetFiatRate } })
+        history.push({ pathname: TradeRoutePaths.Confirm })
       } catch (e) {
         moduleLogger.error(e, 'onSubmit error')
       } finally {
         setIsLoading(false)
       }
     },
-    [checkApprovalNeeded, feeAssetFiatRate, getTrade, history, setValue],
+    [checkApprovalNeeded, getTrade, history, setValue],
   )
 
   const onSellAssetInputChange: TradeAssetInputProps['onChange'] = useCallback(
@@ -306,25 +306,39 @@ export const TradeInput = () => {
     if (!bestTradeSwapper) return 'trade.errors.invalidTradePairBtnText'
     if (!hasValidTradeBalance) return 'common.insufficientFunds'
     if (hasValidTradeBalance && !hasEnoughBalanceForGas && hasValidSellAmount)
-      return 'common.insufficientAmountForGas'
+      return [
+        'common.insufficientAmountForGas',
+        { assetSymbol: sellTradeAsset?.asset?.symbol ?? 'sell asset' },
+      ]
     if (isBelowMinSellAmount) return ['trade.errors.amountTooSmall', { minLimit }]
     if (feesExceedsSellAmount) return 'trade.errors.sellAmountDoesNotCoverFee'
     if (isTradeQuotePending && quoteAvailableForCurrentAssetPair) return 'trade.updatingQuote'
+    if (!receiveAddress)
+      return [
+        'trade.errors.noReceiveAddress',
+        { assetSymbol: buyTradeAsset?.asset?.symbol ?? 'buy asset' },
+      ]
 
     return 'trade.previewTrade'
   }, [
     bestTradeSwapper,
-    buyTradeAsset,
+    buyTradeAsset?.asset?.symbol,
     feeAssetBalance,
     feesExceedsSellAmount,
     hasValidSellAmount,
     isBelowMinSellAmount,
     isTradeQuotePending,
-    quote,
+    quote?.feeData.networkFee,
+    quote?.minimum,
+    quote?.sellAsset.symbol,
     quoteAvailableForCurrentAssetPair,
+    receiveAddress,
     sellAssetBalanceHuman,
-    sellFeeAsset,
-    sellTradeAsset,
+    sellFeeAsset?.assetId,
+    sellFeeAsset?.precision,
+    sellTradeAsset?.amount,
+    sellTradeAsset?.asset?.assetId,
+    sellTradeAsset?.asset?.symbol,
     wallet,
     walletSupportsBuyAssetChain,
     walletSupportsSellAssetChain,
@@ -375,10 +389,10 @@ export const TradeInput = () => {
             assetIcon={sellTradeAsset?.asset?.icon ?? ''}
             cryptoAmount={positiveOrZero(sellTradeAsset?.amount).toString()}
             fiatAmount={positiveOrZero(fiatSellAmount).toString()}
-            isSendMaxDisabled={!quote}
+            isSendMaxDisabled={isSwapperApiPending || !quoteAvailableForCurrentAssetPair}
             onChange={onSellAssetInputChange}
             percentOptions={[1]}
-            onMaxClick={handleSendMax}
+            onPercentOptionClick={handleSendMax}
             onAssetClick={() => handleInputAssetClick(AssetClickAction.Sell)}
             onAccountIdChange={handleSellAccountIdChange}
             showFiatSkeleton={isUsdRatesPending}

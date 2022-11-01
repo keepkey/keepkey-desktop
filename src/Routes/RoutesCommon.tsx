@@ -171,6 +171,13 @@ export const routes: NestedRoute[] = [
     main: Trade,
     category: RouteCategory.Explore,
   },
+  // {
+  //   path: '/buy',
+  //   label: 'navBar.buyCrypto',
+  //   icon: <FaCreditCard />,
+  //   main: Buy,
+  //   category: RouteCategory.Wallet,
+  // },
   {
     path: '/pairings',
     label: 'navBar.pairings',
