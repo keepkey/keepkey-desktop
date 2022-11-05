@@ -206,11 +206,14 @@ export const TradeConfirm = ({ history }: RouterProps) => {
     history.push(TradeRoutePaths.Input)
   }
 
+  // @ts-ignore
   const sellAmountCrypto = fromBaseUnit(
+      // @ts-ignore
     bnOrZero(trade.sellAmountCryptoPrecision),
     trade.sellAsset?.precision ?? 0,
   )
   const buyAmountCrypto = fromBaseUnit(
+      // @ts-ignore
     bnOrZero(trade.buyAmountCryptoPrecision),
     trade.buyAsset?.precision ?? 0,
   )
