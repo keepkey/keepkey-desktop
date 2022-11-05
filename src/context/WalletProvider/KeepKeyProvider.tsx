@@ -26,8 +26,11 @@ import React, {
 } from 'react'
 import { RiFlashlightLine } from 'react-icons/ri'
 import { useTranslate } from 'react-polyglot'
+import Web3 from 'web3'
 import type { RadioOption } from 'components/Radio/Radio'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { erc20Abi } from 'pages/Leaderboard/helpers/erc20Abi'
+import { nftAbi } from 'pages/Leaderboard/helpers/nftAbi'
 
 import { useKeepKeyVersions } from './KeepKey/hooks/useKeepKeyVersions'
 
@@ -95,6 +98,10 @@ export interface IKeepKeyContext {
   setHasPassphrase: (enabled: boolean) => void
   keepKeyWallet: KeepKeyHDWallet | undefined
   getKeepkeyAssets: () => KKAsset[]
+  getKeepkeyAsset: (geckoId: string) => KKAsset | undefined
+  kkWeb3: Web3 | undefined
+  kkNftContract: any
+  kkErc20Contract: any
 }
 
 export type KeepKeyActionTypes =
@@ -124,7 +131,7 @@ const overrideGeckoName = (name: string) => {
   else return name
 }
 
-export type KKAsset = Asset & { rank: number; marketCap: number; link: string }
+export type KKAsset = Asset & { rank: number; marketCap: number; link: string; geckoId: string }
 
 const KeepKeyContext = createContext<IKeepKeyContext | null>(null)
 
@@ -140,6 +147,10 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
   const toastRef = useRef<ToastId | undefined>()
 
   const [keepkeyAssets, setKeepkeyAssets] = useState<KKAsset[]>([])
+
+  const [kkWeb3, setkkWeb3] = useState<Web3>()
+  const [kkNftContract, setkkNftContract] = useState<any>()
+  const [kkErc20Contract, setkkErc20Contract] = useState<any>()
 
   const loadKeepkeyAssets = useCallback(async () => {
     const { data } = await axios.get(
@@ -162,6 +173,7 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
         // kk specific
         rank: geckoAsset.market_cap_rank,
         marketCap: geckoAsset.market_cap,
+        geckoId: geckoAsset.id,
         link: `https://www.coingecko.com/en/coins/${geckoAsset.id}`,
       }
       return kkAsset
@@ -173,7 +185,36 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
     loadKeepkeyAssets()
   }, [loadKeepkeyAssets])
 
+  const loadWeb3 = useCallback(() => {
+    const network = 'goerli'
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(
+        `https://${network}.infura.io/v3/fb05c87983c4431baafd4600fd33de7e`,
+      ),
+    )
+
+    const erc20Address = '0xcc5a5975E8f6dF4dDD9Ff4Eb57471a3Ff32526a3'
+    const nftAddress = '0xa869a28a7185df50e4abdba376284c44497c4753'
+    const nftContract = new web3.eth.Contract(nftAbi as any, nftAddress)
+    const erc20Contract = new web3.eth.Contract(erc20Abi as any, erc20Address)
+
+    setkkWeb3(web3)
+    setkkNftContract(nftContract)
+    setkkErc20Contract(erc20Contract)
+  }, [])
+
+  useEffect(() => {
+    loadWeb3()
+  }, [loadWeb3])
+
   const getKeepkeyAssets = useMemo(() => () => keepkeyAssets, [keepkeyAssets])
+
+  const getKeepkeyAsset = useCallback(
+    (geckoId: string) => {
+      return keepkeyAssets.find(kkAsset => kkAsset.geckoId === geckoId)
+    },
+    [keepkeyAssets],
+  )
 
   const onClose = useCallback(() => {
     if (toastRef.current) {
@@ -264,6 +305,7 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
     versions,
     onClose,
     updaterUrl,
+    getKeepkeyAsset,
   ])
 
   const value: IKeepKeyContext = useMemo(
@@ -272,8 +314,21 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
       keepKeyWallet,
       setHasPassphrase,
       getKeepkeyAssets,
+      getKeepkeyAsset,
+      kkWeb3,
+      kkNftContract,
+      kkErc20Contract,
     }),
-    [keepKeyWallet, setHasPassphrase, state, getKeepkeyAssets],
+    [
+      state,
+      keepKeyWallet,
+      setHasPassphrase,
+      getKeepkeyAssets,
+      getKeepkeyAsset,
+      kkWeb3,
+      kkNftContract,
+      kkErc20Contract,
+    ],
   )
 
   return <KeepKeyContext.Provider value={value}>{children}</KeepKeyContext.Provider>

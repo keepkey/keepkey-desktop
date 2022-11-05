@@ -9,6 +9,7 @@ import wait from 'wait-promise'
 import { EosToSignTx, EosTxSigned, BinanceSignedTx, BinanceSignTx, RippleSignedTx, RippleSignTx, BinanceGetAddress, BTCGetAddress, BTCSignedTx, BTCSignTxKK, CosmosGetAddress, CosmosSignedTx, CosmosSignTx, ETHGetAddress, ETHSignedTx, ETHSignTx, OsmosisGetAddress, PublicKey, ThorchainGetAddress, ThorchainSignTx, ThorchainTx } from '@shapeshiftoss/hdwallet-core'
 import { uniqueId } from 'lodash';
 import { openSignTxWindow } from '../../utils';
+import { checkKeepKeyUnlocked } from '../../utils';
 
 @Tags('KeepKey signTx Endpoints')
 @Route('')
@@ -21,7 +22,8 @@ export class ESignController extends Controller {
     @Response(500, "Internal server error")
     public async btcSignTx(@Body() body: any): Promise<BTCSignedTx> {
         // BTCSignTxKK results in a circular import
-        return new Promise<BTCSignedTx>((resolve, reject) => {
+        return new Promise<BTCSignedTx>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
             if (!lastKnownKeepkeyState.wallet) return reject()
 
             lastKnownKeepkeyState.wallet.btcSignTx(body).then(resolve)
@@ -33,7 +35,8 @@ export class ESignController extends Controller {
     @Security("api_key")
     @Response(500, "Internal server error")
     public async thorchainSignTx(@Body() body: ThorchainSignTx): Promise<ThorchainTx> {
-        return new Promise<ThorchainTx>((resolve, reject) => {
+        return new Promise<ThorchainTx>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
             if (!lastKnownKeepkeyState.wallet) return reject()
 
             lastKnownKeepkeyState.wallet.thorchainSignTx(body).then(resolve)
@@ -44,7 +47,8 @@ export class ESignController extends Controller {
     @Security("api_key")
     @Response(500, "Internal server error")
     public async cosmosSignTx(@Body() body: CosmosSignTx): Promise<CosmosSignedTx> {
-        return new Promise<CosmosSignedTx>((resolve, reject) => {
+        return new Promise<CosmosSignedTx>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
             if (!lastKnownKeepkeyState.wallet) return reject()
 
             lastKnownKeepkeyState.wallet.cosmosSignTx(body).then(resolve)
@@ -55,7 +59,8 @@ export class ESignController extends Controller {
     @Security("api_key")
     @Response(500, "Internal server error")
     public async osmosisSignTx(@Body() body: any): Promise<any> {
-        return new Promise<any>((resolve, reject) => {
+        return new Promise<any>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
             if (!windows.mainWindow || windows.mainWindow.isDestroyed()) return reject()
 
             windows.mainWindow.webContents.send('@hdwallet/osmosisSignTx', { body })
@@ -69,7 +74,8 @@ export class ESignController extends Controller {
     @Security("api_key")
     @Response(500, "Internal server error")
     public async rippleSignTx(@Body() body: RippleSignTx): Promise<RippleSignedTx> {
-        return new Promise<RippleSignedTx>((resolve, reject) => {
+        return new Promise<RippleSignedTx>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
             if (!lastKnownKeepkeyState.wallet) return reject()
 
             lastKnownKeepkeyState.wallet.rippleSignTx(body).then(resolve)
@@ -81,7 +87,8 @@ export class ESignController extends Controller {
     @Response(500, "Internal server error")
     //TODO unknown type  Error: Unknown type: TupleType
     public async binanceSignTx(@Body() body: any): Promise<any> {
-        return new Promise<BinanceSignedTx>((resolve, reject) => {
+        return new Promise<BinanceSignedTx>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
             if (!lastKnownKeepkeyState.wallet) return reject()
 
             lastKnownKeepkeyState.wallet.binanceSignTx(body).then(resolve)
@@ -92,7 +99,8 @@ export class ESignController extends Controller {
     @Security("api_key")
     @Response(500, "Internal server error")
     public async ethSignTx(@Body() body: any): Promise<ETHSignedTx> {
-        return new Promise<ETHSignedTx>((resolve, reject) => {
+        return new Promise<ETHSignedTx>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
             if (!lastKnownKeepkeyState.wallet) return reject()
 
             lastKnownKeepkeyState.wallet.ethSignTx(body).then(resolve)
@@ -103,7 +111,8 @@ export class ESignController extends Controller {
     @Security("api_key")
     @Response(500, "Internal server error")
     public async eosSignTx(@Body() body: any): Promise<any> {
-        return new Promise<EosTxSigned>((resolve, reject) => {
+        return new Promise<EosTxSigned>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
             if (!lastKnownKeepkeyState.wallet) return reject()
 
             lastKnownKeepkeyState.wallet.eosSignTx(body).then(resolve)
@@ -115,6 +124,7 @@ export class ESignController extends Controller {
     @Response(500, "Internal server error")
     public async signTransaction(@Body() body: any): Promise<SignedTx | Error> {
         return new Promise<SignedTx | Error>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
             const internalNonce = uniqueId()
             openSignTxWindow({ payload: body, nonce: internalNonce })
 

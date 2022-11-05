@@ -1,4 +1,4 @@
-import { FaFlag, FaLock, FaTable, FaTractor, FaWater, FaPlug } from 'react-icons/fa'
+import { FaFlag, FaGlobe, FaLock, FaPlug, FaTable, FaTractor, FaWater } from 'react-icons/fa'
 import { IoSwapVertical } from 'react-icons/io5'
 import { AccountsIcon } from 'components/Icons/Accounts'
 import { AssetsIcon } from 'components/Icons/Assets'
@@ -14,18 +14,20 @@ import { Asset } from 'pages/Assets/Asset'
 import { Assets } from 'pages/Assets/Assets'
 import { AssetTxHistory } from 'pages/Assets/AssetTxHistory'
 import { KeepkeyAsset } from 'pages/Assets/KeepkeyAsset'
+import { Browser } from 'pages/Browser/Browser'
 import { Dashboard } from 'pages/Dashboard/Dashboard'
 import { Farming } from 'pages/Defi/views/Farming'
 import { LiquidityPools } from 'pages/Defi/views/LiquidityPools'
 import { Overview } from 'pages/Defi/views/Overview'
 import { StakingVaults } from 'pages/Defi/views/StakingVaults'
 import { Flags } from 'pages/Flags/Flags'
+import { Leaderboard } from 'pages/Leaderboard/Leaderboard'
+import { Pairings } from 'pages/Pairings/Pairings'
 import { Trade } from 'pages/Trade/Trade'
 import { TransactionHistory } from 'pages/TransactionHistory/TransactionHistory'
 
 import type { Route as NestedRoute } from './helpers'
 import { RouteCategory } from './helpers'
-import { Pairings } from 'pages/Pairings/Pairings'
 
 export const routes: NestedRoute[] = [
   {
@@ -34,6 +36,13 @@ export const routes: NestedRoute[] = [
     icon: <DashboardIcon />,
     main: Dashboard,
     category: RouteCategory.Wallet,
+  },
+  {
+    path: '/leaderboard',
+    label: 'Leaderboard',
+    icon: <IoSwapVertical />,
+    main: Leaderboard,
+    category: RouteCategory.Explore,
   },
   {
     path: '/assets',
@@ -156,6 +165,13 @@ export const routes: NestedRoute[] = [
         disable: true,
       },
     ],
+  },
+  {
+    path: '/browser',
+    label: 'navBar.browser',
+    icon: <FaGlobe />,
+    category: RouteCategory.Explore,
+    main: Browser,
   },
   {
     path: '/transaction-history',

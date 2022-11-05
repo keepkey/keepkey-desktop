@@ -16,7 +16,7 @@
     "insufficientFunds": "Insufficient Funds",
     "estimatedGas": "Estimated Gas Fee",
     "relayerGasFee": "Relayer Gas Fee",
-    "insufficientAmountForGas": "Not enough %{assetSymbol} to cover gas",
+    "insufficientAmountForGas": "Not enough ETH to cover gas",
     "invalidAddress": "Invalid Address",
     "invalidAddressOrYat": "Invalid Address or Yat",
     "deposit": "Deposit",
@@ -77,25 +77,7 @@
     "selectAsset": "Select an Asset",
     "switchNetwork": "Switch Network",
     "unsupportedNetwork": "Unsupported Network",
-    "chartUnavailable": "Balance chart data is temporarily unavailable for %{unavailableAssetNames}.",
-    "search": "Search",
-    "enterAmount": "Enter Amount",
-    "pageNotFound": "The page you're looking for cannot be found"
-  },
-  "buyPage": {
-    "title": {
-      "first": "Buy Crypto",
-      "second": "in Seconds"
-    },
-    "body": "Use a credit card, debit card or bank account. Buy Bitcoin, Ethereum, USDT, USDC or hundreds of other cryptocurrencies.",
-    "disclaimer": "*You can also sell crypto directly for cash into your bank account.",
-    "cta": {
-      "title": {
-        "first": "You can also use ShapeShift with all the top wallets to trade, earn yield and",
-        "second": "track your crypto across 8 chains"
-      }
-    },
-    "topAssets": "Top Assets"
+    "chartUnavailable": "Balance chart data is temporarily unavailable for %{unavailableAssetNames}."
   },
   "updateToast": {
     "body": "A new version of the app is available",
@@ -126,8 +108,6 @@
       "value": "Value",
       "priceChange": "Price Change",
       "allocation": "Allocation",
-      "marketCap": "Market Cap",
-      "sparkLine": "Sparkline",
       "empty": {
         "title": "Cricket noises...",
         "cta": "Send yourself some crypto!"
@@ -136,10 +116,6 @@
     },
     "recentTransactions": {
       "recentTransactions": "Recent Transactions"
-    },
-    "tradeCard": {
-      "trade": "Trade",
-      "bridge": "Bridge"
     }
   },
   "fiatRamps": {
@@ -173,12 +149,15 @@
     "noProvidersBody": "Looks like we don't have any providers for that asset yet."
   },
   "connectWalletPage": {
+    "nextFrontier": "The Next Frontier of Crypto Security",
+    "protectYourCrypto": "Protect your cryptocurrencies, store your private keys offline, and safeguard your assets from hackers. It’s time to achieve financial freedom in the most secure way with KeepKey.",
     "shapeshift": "ShapeShift",
     "exploreThe": "Explore the",
     "defiUniverse": "DeFi Universe",
     "body": "100% Free. Open Source. Community Owned. Non-Custodial. Private.",
     "body2": "Welcome to the new ShapeShift. 100% Free. Open Source. Community Owned. Non-Custodial. Private.",
     "betaSunset": "Beta has been sunset, Learn More",
+    "poweredBy": "Powered by ShapeShift",
     "header": "Please connect a wallet to get started",
     "cta": "Connect Wallet",
     "viewADemo": "View a Demo",
@@ -309,7 +288,6 @@
     "asset": "Asset",
     "category": "Category",
     "tvl": "TVL",
-    "type": "Type",
     "apy": "APY",
     "apr": "APR",
     "ended": "Ended",
@@ -391,7 +369,6 @@
     "assetStakingBalance": "%{assetSymbol} Staking Balance"
   },
   "navBar": {
-    "home": "Home",
     "dashboard": "Dashboard",
     "assets": "Assets",
     "assetDetails": "Asset Details",
@@ -413,7 +390,7 @@
     "wallet": "Wallet",
     "explore": "Explore",
     "trade": "Trade",
-    "buyCrypto": "Buy Crypto"
+    "browser": "Browser"
   },
   "transactionRow": {
     "send": "Sent",
@@ -437,7 +414,6 @@
       "weth": {
         "deposit": "Deposit",
         "approve": "Approve",
-        "revoke": "Revoke",
         "withdraw": "Withdraw",
         "receive": "Receive"
       },
@@ -468,25 +444,6 @@
         "approve": "Approve",
         "revoke": "Revoke",
         "infinite": "Infinite ∞"
-      },
-      "staking": {
-        "delegate": "Delegate",
-        "begin_unbonding": "Undelegate",
-        "begin_redelegate": "Redelegate",
-        "withdraw_delegator_reward": "Claim Reward"
-      },
-      "swap": {
-        "deposit": "Swap",
-        "out": "Swap",
-        "refund": "Refund",
-        "outbound": "Outbound"
-      },
-      "ibc": {
-        "transfer": "Sent",
-        "recv_packet": "Received"
-      },
-      "lp": {
-        "deposit": "Add Liquidity"
       }
     },
     "unknown": "Transaction"
@@ -594,7 +551,6 @@
       "unsupportedChain": "This chain is not currently supported.",
       "rateError": "We're not able to get a quote for this pair",
       "assetNotSupportedByWallet": "%{assetSymbol} not supported by wallet",
-      "noReceiveAddress": "No receive address for %{assetSymbol}",
       "signing": {
         "failed": "An error occurred signing the transaction",
         "required": "A signed transaction is required"
@@ -798,7 +754,8 @@
       "verify": "Verify",
       "verified": "Verified",
       "notVerified": "Address Mismatch",
-      "blockExplorer": "Explorer"
+      "blockExplorer": "Explorer",
+      "toggleXpub": "XPub"
     },
     "deposit": {
       "amountToDeposit": "Amount To Deposit",
@@ -1020,6 +977,11 @@
         "body": "Re-enter your PIN using the layout displayed on your KeepKey.",
         "button": "Save PIN"
       },
+      "remove": {
+        "header": "Confirm Your PIN",
+        "body": "Please confirm your PIN to remove the PIN from your KeepKey",
+        "button": "Confirm"
+      },
       "settings": {
         "menuLabels": {
           "bootloader": "Bootloader",
@@ -1029,6 +991,7 @@
           "deviceTimeout": "Device Timeout",
           "passphrase": "Passphrase",
           "wipeDevice": "Wipe Device",
+          "removePin": "Remove Pin",
           "label": "Label"
         },
         "status": {
@@ -1439,10 +1402,9 @@
       "outputAddress": "Output address"
     },
     "transactionTypes": {
-      "Send": "Send",
-      "Receive": "Receive",
-      "Trade": "Trade",
-      "Refund": "Refund"
+      "send": "Send",
+      "receive": "Receive",
+      "trade": "Trade"
     },
     "assets": "Assets",
     "txid": "TX ID",
@@ -1517,34 +1479,6 @@
       }
     },
     "walletConnectToDapps": {
-      "modal": {
-        "title": "WalletConnect",
-        "ethereum": "Ethereum",
-        "signMessage": {
-          "signingFrom": "Signing From",
-          "requestFrom": "Request From",
-          "message": "Message",
-          "description": "You will need to confirm signing this message with your connected wallet.",
-          "confirm": "Confirm",
-          "reject": "Reject"
-        },
-        "signTransaction": {
-          "advancedParameters": {
-            "title": "Advanced Parameters",
-            "alert": "For advanced use only. Modifying these settings could result in stuck transactions.",
-            "nonce": {
-              "title": "Nonce",
-              "placeholder": "Nonce...",
-              "tooltip": "The number of transactions sent from a given address. Advanced users only."
-            },
-            "gasLimit": {
-              "title": "Gas Limit",
-              "placeholder": "Gas Limit...",
-              "tooltip": "The gas limit refers to the maximum amount of gas a user can consume to conduct a transaction."
-            }
-          }
-        }
-      },
       "registry": {
         "availableDapps": "Available dApps",
         "getStarted": "Get Started",
@@ -1624,27 +1558,6 @@
         "description": "Your Yat is your universal emoji username, website URL, payment address, and more."
       }
     }
-  },
-  "gasInput": {
-    "duration": {
-      "slow": "~ 10 mins",
-      "average": "~ 3 mins",
-      "fast": "~ 3 secs"
-    },
-    "estGasCost": "Est. Gas Cost",
-    "gasPrice": {
-      "label": "Gas Price",
-      "tooltip": "The amount you want to pay per unit of gas as a fee to the miner or validator"
-    },
-    "base": {
-      "label": "Base fee",
-      "tooltip": "The base fee is set by the network and changes every 13-14 seconds depending on demand. Set the maximum price (not including priority fee) in gwei that you're willing to pay for each unit of gas."
-    },
-    "priority": {
-      "label": "Priority fee",
-      "tooltip": "The priority fee is an optional tip to incentivize block producers to prioritize your transaction. Set the priority fee in gwei that you'd like to pay for each unit of gas."
-    },
-    "custom": "Custom"
   },
   "gasInput": {
     "gasPrice": {

@@ -6,6 +6,7 @@ import { WipeModal } from 'components/Layout/Header/NavBar/KeepKey/Modals/Wipe'
 import { AssetSearchModal } from 'components/Modals/AssetSearch/AssetSearch'
 import { FiatRampsModal } from 'components/Modals/FiatRamps/FiatRamps'
 import { HardwareErrorModal } from 'components/Modals/HardwareError/HardwareError'
+import { KKVote } from 'components/Modals/kkVote/KKVote'
 import { PairModal } from 'components/Modals/Pair/Pair'
 import { ReceiveModal } from 'components/Modals/Receive/Receive'
 import { RequestBootloaderMode } from 'components/Modals/RequestBootloaderMode/RequestBootloaderMode'
@@ -36,6 +37,7 @@ const MODALS = {
   requestBootloaderMode: RequestBootloaderMode,
   updateBootloader: UpdateBootloader,
   updateFirmware: UpdateFirmware,
+  kkVote: KKVote,
 }
 
 // state
@@ -80,6 +82,7 @@ type ModalSetup<S extends ModalSetup<S>> = {
 
 export function createInitialState<S>(modalSetup: S): ModalState<S> {
   const modalMethods = { isOpen: false, open: noop, close: noop }
+  // @ts-ignore
   const modalNames = Object.keys(modalSetup) as (keyof S)[]
   const result = modalNames.reduce(
     (acc, modalName) => ({
@@ -143,6 +146,7 @@ export function createModalProvider<M>({
     )
 
     const value = useMemo(() => {
+      // @ts-ignore
       const modalKeys = Object.keys(instanceInitialState) as (keyof M)[]
       const fns = modalKeys.reduce((acc, cur) => {
         const open = openFactory(cur)
@@ -153,12 +157,18 @@ export function createModalProvider<M>({
       return result
     }, [state, openFactory, closeFactory])
 
+    // @ts-ignore
     return (
+      // @ts-ignore
       <InstanceModalContext.Provider value={value}>
         {children}
-        {Object.values(value).map((Modal, key) => (
-          <Modal.Component key={key} {...Modal.props} />
-        ))}
+        {
+          // @ts-ignore
+          Object.values(value).map((Modal, key) => (
+            // @ts-ignore
+            <Modal.Component key={key} {...Modal.props} />
+          ))
+        }
       </InstanceModalContext.Provider>
     )
   }

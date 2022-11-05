@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
 import { createWindow, windows } from "./main";
-import log from 'electron-log'
+import { lastKnownKeepkeyState } from "./bridge";
 
 export const openSignTxWindow = async (signArgs: any) => {
     let prevContentSize = { width: 0, height: 0 }
@@ -31,6 +31,37 @@ export const openSignTxWindow = async (signArgs: any) => {
         }
         else if (windows.mainWindow.closable) windows.mainWindow.close()
     })
+}
+
+
+
+
+
+export const checkKeepKeyUnlocked = async () => {
+    if (!lastKnownKeepkeyState.wallet) return
+    if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
+        if (!await createWindow()) return
+    } else {
+        let isLocked
+        try {
+            isLocked = await lastKnownKeepkeyState.wallet.isLocked()
+        }catch(e) {
+            console.log('error is', e)
+        }
+        console.log("KEEPKEY LOCKED: ", isLocked)
+        if (isLocked) {
+            windows.mainWindow.focus()
+            windows.mainWindow.webContents.send('@modal/pin');
+        } else {
+            return
+        }
+    }
+    const p = new Promise( (resolve: any) => {
+        ipcMain.once("@modal/pin-close", () => {
+            return resolve()
+        })
+    })
+    await p
 }
 
 export const getWallectConnectUri = (inputUri: string): string | undefined => {
