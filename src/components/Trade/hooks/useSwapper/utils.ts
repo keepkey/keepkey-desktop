@@ -103,6 +103,7 @@ const getEvmFees = <T extends EvmChainId>(
   const estimatedGas = bnOrZero(trade.feeData.chainSpecific.estimatedGas).toString()
 
   return {
+    fee: "", tradeFee: "",
     chainSpecific: {
       approvalFee,
       gasPrice,
@@ -112,7 +113,7 @@ const getEvmFees = <T extends EvmChainId>(
     tradeFeeSource,
     buyAssetTradeFeeUsd: trade.feeData.buyAssetTradeFeeUsd,
     sellAssetTradeFeeUsd: trade.feeData.sellAssetTradeFeeUsd,
-    networkFeeCryptoHuman,
+    networkFeeCryptoHuman
   }
 }
 
@@ -134,14 +135,16 @@ export const getFormFees = ({
       )
     case CHAIN_NAMESPACE.CosmosSdk: {
       return {
+        fee: "", tradeFee: "",
         networkFeeCryptoHuman,
         sellAssetTradeFeeUsd: trade.feeData.sellAssetTradeFeeUsd ?? '',
         buyAssetTradeFeeUsd: trade.feeData.buyAssetTradeFeeUsd ?? '',
-        tradeFeeSource,
+        tradeFeeSource
       }
     }
     case CHAIN_NAMESPACE.Utxo: {
       const utxoTrade = trade as Trade<UtxoSupportedChainIds>
+      // @ts-ignore
       return {
         networkFeeCryptoHuman,
         chainSpecific: utxoTrade.feeData.chainSpecific,
