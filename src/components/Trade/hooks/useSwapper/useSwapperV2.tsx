@@ -150,8 +150,10 @@ export const useSwapper = () => {
     if (!bestTradeSwapper) throw new Error('No swapper available')
     if (!wallet) throw new Error('no wallet available')
     if (!quote) throw new Error('no quote available')
+
     const txid = isExactAllowance
       ? await bestTradeSwapper.approveAmount({
+          // @ts-ignore
           amount: quote.sellAmountCryptoPrecision,
           quote,
           wallet,
@@ -181,6 +183,7 @@ export const useSwapper = () => {
     }
     const sellAssetChainId = sellAsset.chainId
     if (isSupportedNonUtxoSwappingChain(sellAssetChainId)) {
+      // @ts-ignore
       return bestTradeSwapper.buildTrade({
         ...buildTradeCommonArgs,
         chainId: sellAssetChainId,
@@ -197,6 +200,7 @@ export const useSwapper = () => {
         utxoParams.bip44Params,
         accountType,
       )
+      // @ts-ignore
       return bestTradeSwapper.buildTrade({
         ...buildTradeCommonArgs,
         chainId: sellAssetChainId,
