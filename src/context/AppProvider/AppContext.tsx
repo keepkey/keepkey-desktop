@@ -106,7 +106,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     disconnected && moduleLogger.info('Wallet disconnected')
     if (switched || disconnected) {
       setNeedsReset(true)
-      dispatch(accountSpecifiers.actions.clear())
+      // dispatch(accountSpecifiers.actions.clear())
       dispatch(portfolio.actions.clear())
       dispatch(txHistory.actions.clear())
     }
