@@ -3,7 +3,7 @@ import type { Asset } from '@shapeshiftoss/asset-service'
 import { fromAssetId } from '@shapeshiftoss/caip'
 import type { UtxoBaseAdapter } from '@shapeshiftoss/chain-adapters'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
-import { type GetTradeQuoteInput, type UtxoSupportedChainIds } from '@shapeshiftoss/swapper'
+//import { type GetTradeQuoteInput, type UtxoSupportedChainIds } from '@shapeshiftoss/swapper'
 import type { BIP44Params, UtxoAccountType } from '@shapeshiftoss/types'
 import { useEffect, useState } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
@@ -64,7 +64,7 @@ export const getTradeQuoteArgs = async ({
     if (!sellAccountType) return
     const sellAssetChainAdapter = getChainAdapterManager().get(
       sellAsset.chainId,
-    ) as unknown as UtxoBaseAdapter<UtxoSupportedChainIds>
+    ) as unknown as UtxoBaseAdapter<any>
     const { xpub } = await sellAssetChainAdapter.getPublicKey(
       wallet,
       sellAccountBip44Params,
@@ -147,7 +147,7 @@ export const useTradeQuoteService = () => {
         if (!chainAdapter)
           throw new Error(`couldn't get chain adapter for ${receiveAddressChainId}`)
 
-        const tradeQuoteInputArgs: GetTradeQuoteInput | undefined = await getTradeQuoteArgs({
+        const tradeQuoteInputArgs: any | undefined = await getTradeQuoteArgs({
           sellAsset,
           sellAccountBip44Params: sellAccountMetadata.bip44Params,
           sellAccountType: sellAccountMetadata.accountType,
