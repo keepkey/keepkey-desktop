@@ -36,7 +36,7 @@ export const Header = () => {
     dispatch,
   } = useWallet()
 
-  const isWalletConnectToDappsAvailable = useFeatureFlag('WalletConnectToDapps')
+  // const isWalletConnectToDappsAvailable = useFeatureFlag('WalletConnectToDapps')
   const isWalletConnectToDappsEnabled = useFeatureFlag('WalletConnectToDapps')
 
   /**

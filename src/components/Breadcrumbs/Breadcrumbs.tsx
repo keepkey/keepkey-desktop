@@ -6,9 +6,9 @@ import type { RouteComponentProps } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { AccountLabel } from 'components/AssetHeader/AccountLabel'
 import { Text } from 'components/Text/Text'
+import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { selectAssetById } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
-import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 
 const GetTranslatedPathPart = ({ match }: { match: RouteComponentProps['match'] }) => {
   // a hack to gain the ability to translate the breadcrumbs
