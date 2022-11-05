@@ -193,7 +193,9 @@ export const useTradeAmounts = () => {
         isSendMax: sendMax ?? isSendMaxFormState,
       })
 
+      // @ts-ignore
       const quoteResponse = tradeQuoteArgs
+        // @ts-ignore
         ? await dispatch(getTradeQuote.initiate(tradeQuoteArgs))
         : undefined
 
