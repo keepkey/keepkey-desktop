@@ -1,7 +1,7 @@
 import type { ethereum } from '@keepkey/chain-adapters'
-import * as core from '@shapeshiftoss/hdwallet-core'
 import { Logger } from '@keepkey/logger'
 import { KnownChainIds } from '@keepkey/types'
+import * as core from '@shapeshiftoss/hdwallet-core'
 import WalletConnect from '@walletconnect/client'
 import type { IWalletConnectSession } from '@walletconnect/types'
 import { convertHexToUtf8 } from '@walletconnect/utils'
@@ -18,6 +18,7 @@ type WCServiceOptions = {
 
 export class WCService {
   private logger = new Logger({ name: 'WCService', level: 'debug' })
+  public sessionKey: string | undefined
 
   constructor(
     private readonly wallet: core.ETHWallet,
@@ -35,6 +36,10 @@ export class WCService {
     options?: WCServiceOptions,
   ) {
     return new WCService(wallet, new WalletConnect({ session }), options)
+  }
+
+  setSessionKey(key: string) {
+    this.sessionKey = key
   }
 
   async connect() {

@@ -4,6 +4,7 @@ import { Box, HStack, MenuDivider, MenuItem, VStack } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import type { FC } from 'react'
+import { useState } from 'react'
 import { useMemo } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
@@ -11,11 +12,13 @@ import { RawText, Text } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useEvm } from 'hooks/useEvm/useEvm'
 
+import { ConnectModal } from '../modal/connectModal'
 import { DappAvatar } from './DappAvatar'
 
 export const DappHeaderMenuSummary: FC = () => {
   const { supportedEvmChainIds } = useEvm()
   const chainAdapterManager = getChainAdapterManager()
+  const [isOpen, setOpen] = useState(false)
 
   const translate = useTranslate()
 
@@ -77,6 +80,15 @@ export const DappHeaderMenuSummary: FC = () => {
       </VStack>
 
       <MenuDivider />
+      <ConnectModal isOpen={isOpen} onClose={() => setOpen(false)} />
+      <MenuItem
+        fontWeight='medium'
+        icon={<CloseIcon />}
+        onClick={() => setOpen(true)}
+        color='red.500'
+      >
+        Connect another app
+      </MenuItem>
       <MenuItem fontWeight='medium' icon={<CloseIcon />} onClick={handleDisconnect} color='red.500'>
         {translate('plugins.walletConnectToDapps.header.menu.disconnect')}
       </MenuItem>
