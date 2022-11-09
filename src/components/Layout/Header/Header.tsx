@@ -20,7 +20,6 @@ import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
 
 import { AutoCompleteSearch } from './AutoCompleteSearch/AutoCompleteSearch'
-import { ChainMenu } from './NavBar/ChainMenu'
 import { UserMenu } from './NavBar/UserMenu'
 import { SideNavContent } from './SideNavContent'
 
@@ -126,7 +125,6 @@ export const Header = () => {
               <Box display={{ base: 'none', md: 'block' }}>
                 <WalletConnectToDappsHeaderButton />
               </Box>
-              <ChainMenu display={{ base: 'none', md: 'block' }} />
             </Flex>
           </HStack>
         </HStack>

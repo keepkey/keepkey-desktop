@@ -81,8 +81,6 @@ const chainIdFeeAssetReferenceMap = (
         }
       case CHAIN_NAMESPACE.Evm:
         switch (chainReference) {
-          case CHAIN_REFERENCE.AvalancheCChain:
-            return ASSET_REFERENCE.AvalancheC
           case CHAIN_REFERENCE.EthereumMainnet:
             return ASSET_REFERENCE.Ethereum
           default:

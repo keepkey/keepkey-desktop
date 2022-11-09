@@ -1,4 +1,3 @@
-import avalanche from 'plugins/avalanche'
 import bitcoin from 'plugins/bitcoin'
 import bitcoincash from 'plugins/bitcoincash'
 import cosmos from 'plugins/cosmos'
@@ -20,7 +19,6 @@ export const activePlugins = [
   ethereum,
   foxPage,
   osmosis,
-  avalanche,
   pendo,
   thorchain,
   mobile,

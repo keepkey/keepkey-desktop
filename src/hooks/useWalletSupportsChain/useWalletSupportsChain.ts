@@ -1,6 +1,5 @@
 import type { ChainId } from '@keepkey/caip'
 import {
-  avalancheChainId,
   bchChainId,
   btcChainId,
   cosmosChainId,
@@ -15,7 +14,6 @@ import {
   supportsBTC,
   supportsCosmos,
   supportsETH,
-  supportsEthSwitchChain,
   supportsOsmosis,
   supportsThorchain,
 } from '@shapeshiftoss/hdwallet-core'
@@ -36,8 +34,6 @@ export const walletSupportsChain: UseWalletSupportsChain = ({ chainId, wallet })
       return supportsBTC(wallet)
     case ethChainId:
       return supportsETH(wallet)
-    case avalancheChainId:
-      return supportsEthSwitchChain(wallet)
     case cosmosChainId:
       return supportsCosmos(wallet)
     case osmosisChainId:

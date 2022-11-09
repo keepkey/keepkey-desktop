@@ -104,7 +104,7 @@ export class WCService {
 
   public async approveRequest(request: WalletConnectCallRequest, txData: TxData) {
     const adapterManager = getChainAdapterManager()
-    // TODO work for any chain (avalanche etc)
+    // TODO work for any chain (gnosis etc)
     const adapter = adapterManager.get(
       KnownChainIds.EthereumMainnet,
     ) as unknown as ethereum.ChainAdapter

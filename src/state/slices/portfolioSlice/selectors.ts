@@ -1,7 +1,6 @@
 import type { Asset } from '@keepkey/asset-service'
 import type { AccountId, AssetId, ChainId } from '@keepkey/caip'
 import {
-  avalancheAssetId,
   bchAssetId,
   btcAssetId,
   cosmosAssetId,
@@ -27,7 +26,6 @@ import sum from 'lodash/sum'
 import toNumber from 'lodash/toNumber'
 import values from 'lodash/values'
 import { createCachedSelector } from 're-reselect'
-import type { BridgeAsset } from 'components/Bridge/types'
 import type { BigNumber, BN } from 'lib/bignumber/bignumber'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { fromBaseUnit } from 'lib/math'
@@ -102,7 +100,6 @@ const FEE_ASSET_IDS = [
   thorchainAssetId,
   dogeAssetId,
   ltcAssetId,
-  avalancheAssetId,
 ]
 
 const selectAssetIdParamFromFilter = selectParamFromFilter('assetId')
@@ -1040,24 +1037,6 @@ export const selectPortfolioAccountRows = createDeepEqualOutputSelector(
       [],
     )
     return assetRows
-  },
-)
-
-export const selectPortfolioBridgeAssets = createSelector(
-  selectPortfolioAccountRows,
-  (portfolioAssets): BridgeAsset[] => {
-    return Object.entries(portfolioAssets).map(([_, v]) => {
-      const implementations = undefined // TODO: implement here
-      return {
-        assetId: v.assetId,
-        symbol: v.symbol,
-        icon: v.icon,
-        name: v.name,
-        cryptoAmount: v.cryptoAmount,
-        fiatAmount: v.fiatAmount,
-        implementations,
-      }
-    })
   },
 )
 

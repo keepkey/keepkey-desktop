@@ -1,5 +1,5 @@
 import type { ChainId } from '@keepkey/caip'
-import { avalancheChainId, ethChainId } from '@keepkey/caip'
+import { ethChainId } from '@keepkey/caip'
 import { getConfig } from 'config'
 import Web3 from 'web3'
 
@@ -9,8 +9,6 @@ const web3ProviderMap: Map<ChainId, HttpProvider> = new Map()
 
 const httpProviderByChainId = (chainId: ChainId): string => {
   switch (chainId) {
-    case avalancheChainId:
-      return getConfig().REACT_APP_AVALANCHE_NODE_URL
     case ethChainId:
     default:
       return getConfig().REACT_APP_ETHEREUM_NODE_URL

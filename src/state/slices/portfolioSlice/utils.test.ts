@@ -1,6 +1,6 @@
 import type { Asset } from '@keepkey/asset-service'
 import type { AssetId } from '@keepkey/caip'
-import { avalancheAssetId, ethAssetId } from '@keepkey/caip'
+import { ethAssetId } from '@keepkey/caip'
 import { KnownChainIds } from '@keepkey/types'
 import { mockChainAdapters } from 'test/mocks/portfolio'
 
@@ -23,11 +23,6 @@ describe('accountIdToFeeAssetId', () => {
     const accountId = 'eip155:1:0xdef1cafe'
     const result = accountIdToFeeAssetId(accountId)
     expect(result).toEqual(ethAssetId)
-  })
-  it('can get avalanche feeAssetId from accountId', () => {
-    const accountId = 'eip155:43114:0xdef1cafe'
-    const result = accountIdToFeeAssetId(accountId)
-    expect(result).toEqual(avalancheAssetId)
   })
 })
 

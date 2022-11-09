@@ -2,7 +2,6 @@ import type { Asset } from '@keepkey/asset-service'
 import type { AccountId, AssetId, ChainId } from '@keepkey/caip'
 import {
   accountIdToChainId,
-  avalancheChainId,
   bchChainId,
   btcChainId,
   CHAIN_NAMESPACE,
@@ -26,7 +25,6 @@ import {
   supportsBTC,
   supportsCosmos,
   supportsETH,
-  supportsEthSwitchChain,
   supportsThorchain,
 } from '@shapeshiftoss/hdwallet-core'
 import cloneDeep from 'lodash/cloneDeep'
@@ -87,7 +85,6 @@ export const accountIdToLabel = (accountId: AccountSpecifier): string => {
   const chainId = fromAccountId(accountId).chainId
   const specifier = accountIdToSpecifier(accountId)
   switch (chainId) {
-    case avalancheChainId:
     case ethChainId:
       // this will be the 0x account
       return firstFourLastFour(specifier)
@@ -436,8 +433,6 @@ export const isAssetSupportedByWallet = (assetId: AssetId, wallet: HDWallet): bo
   if (!assetId) return false
   const { chainId } = fromAssetId(assetId)
   switch (chainId) {
-    case avalancheChainId:
-      return supportsEthSwitchChain(wallet)
     case ethChainId:
       return supportsETH(wallet)
     case btcChainId:

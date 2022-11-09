@@ -1,7 +1,7 @@
 import { CHAIN_REFERENCE, fromChainId, toAccountId } from '@keepkey/caip'
 import type { EvmChainId } from '@keepkey/chain-adapters'
 import { evmChainIds } from '@keepkey/chain-adapters'
-import { supportsETH, supportsEthSwitchChain } from '@shapeshiftoss/hdwallet-core'
+import { supportsETH } from '@shapeshiftoss/hdwallet-core'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import type { AccountMetadataById } from 'state/slices/portfolioSlice/portfolioSliceCommon'
 
@@ -18,9 +18,6 @@ export const deriveEvmAccountIdsAndMetadata: DeriveAccountIdsAndMetadata = async
       const adapter = getChainAdapterManager().get(chainId)!
       if (chainReference === CHAIN_REFERENCE.EthereumMainnet) {
         if (!supportsETH(wallet)) continue
-      }
-      if (chainReference === CHAIN_REFERENCE.AvalancheCChain) {
-        if (!supportsEthSwitchChain(wallet)) continue
       }
       const bip44Params = adapter.getBIP44Params({ accountNumber })
       const pubkey = await adapter.getAddress({ bip44Params, wallet })

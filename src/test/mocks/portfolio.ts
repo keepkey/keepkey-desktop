@@ -1,4 +1,4 @@
-import { avalancheAssetId, btcAssetId, cosmosAssetId, ethAssetId } from '@keepkey/caip'
+import { btcAssetId, cosmosAssetId, ethAssetId } from '@keepkey/caip'
 import type { Account } from '@keepkey/chain-adapters'
 import { KnownChainIds } from '@keepkey/types'
 import { accountToPortfolio } from 'state/slices/portfolioSlice/utils'
@@ -43,12 +43,6 @@ export const mockChainAdapters = new Map([
     KnownChainIds.EthereumMainnet,
     {
       getFeeAssetId: () => ethAssetId,
-    },
-  ],
-  [
-    KnownChainIds.AvalancheMainnet,
-    {
-      getFeeAssetId: () => avalancheAssetId,
     },
   ],
 ])
