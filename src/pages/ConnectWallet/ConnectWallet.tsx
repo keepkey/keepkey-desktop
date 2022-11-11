@@ -24,22 +24,25 @@ export const ConnectWallet = () => {
   const query = useQuery<{ returnUrl: string }>()
   const { hardwareError } = useModal()
   const [initialized, setInitialized] = useState(false)
+  const [connected, setConnected] = useState(false)
 
   useEffect(() => {
-    if (!hardwareError.isOpen && !initialized) {
+    if (!hardwareError.isOpen && !initialized && !connected) {
       hardwareError.open({})
     }
     if (hardwareError.isOpen && !initialized) {
       setInitialized(true)
     }
-  }, [hardwareError, setInitialized, initialized])
+  }, [hardwareError, setInitialized, initialized, connected])
 
   useEffect(() => {
-    ipcRenderer.on('@bridge/connected', (_event, connected: boolean) => {
-      if (hardwareError.isOpen && connected) hardwareError.close()
-    })
-    ipcRenderer.send('@bridge/connected')
-  }, [hardwareError])
+    if (!connected) {
+      ipcRenderer.on('@bridge/connected', (_event, _connected: boolean) => {
+        setConnected(_connected)
+      })
+      ipcRenderer.send('@bridge/connected')
+    }
+  }, [connected])
 
   useEffect(() => {
     // This handles reloading an asset's account page on Native/KeepKey. Without this, routing will break.
