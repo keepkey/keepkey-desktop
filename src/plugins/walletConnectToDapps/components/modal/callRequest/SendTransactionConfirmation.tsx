@@ -56,11 +56,18 @@ export const SendTransactionConfirmation = () => {
   })
 
   const [loading, setLoading] = useState(false)
+  const [shouldShowGas, setShouldShowGas] = useState(true)
 
   const { bridge, requests, removeRequest } = useWalletConnect()
   const toast = useToast()
 
   const currentRequest = requests[0]
+
+  useEffect(() => {
+    if (!currentRequest) return
+    if (currentRequest.method === "eth_signTypedData") return setShouldShowGas(false)
+    return setShouldShowGas(true)
+  }, [currentRequest])
 
   const onConfirm = useCallback(
     async (txData: any) => {
@@ -131,7 +138,7 @@ export const SendTransactionConfirmation = () => {
   }, [form, txInputGas, walletConnect.bridge?.connector.chainId])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (chainWeb3?.coinGeckoId)
         try {
           const { data } = await axios.get(
@@ -165,16 +172,16 @@ export const SendTransactionConfirmation = () => {
     !!inputMaxFeePerGas
       ? inputMaxFeePerGas
       : !!requestMaxFeePerGas
-      ? requestMaxFeePerGas
-      : fastMaxFeePerGas,
+        ? requestMaxFeePerGas
+        : fastMaxFeePerGas,
   )
 
   const txMaxPriorityFeePerGas = Web3.utils.toHex(
     !!inputMaxPriorityFeePerGas
       ? inputMaxPriorityFeePerGas
       : !!requestMaxPriorityFeePerGas
-      ? requestMaxPriorityFeePerGas
-      : fastMaxPriorityFeePerGas,
+        ? requestMaxPriorityFeePerGas
+        : fastMaxPriorityFeePerGas,
   )
 
   // Recalculate estimated fee amount if txMaxFeePerGas changes
@@ -188,7 +195,7 @@ export const SendTransactionConfirmation = () => {
   const inputNonce = useWatch({ control: form.control, name: 'nonce' })
   const [trueNonce, setTrueNonce] = useState('0')
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const count = await chainWeb3?.web3.eth.getTransactionCount(address ?? '')
       setTrueNonce(`${count}`)
     })()
@@ -199,7 +206,7 @@ export const SendTransactionConfirmation = () => {
 
   useEffect(() => {
     try {
-      ;(chainWeb3 as any).web3.eth
+      ; (chainWeb3 as any).web3.eth
         .estimateGas({
           from: walletConnect.bridge?.connector.accounts[0],
           nonce: txInputNonce,
@@ -288,7 +295,7 @@ export const SendTransactionConfirmation = () => {
           </Card>
         </Box>
 
-        <ModalSection
+        {shouldShowGas && <ModalSection
           title={
             <HStack justify='space-between'>
               <Text translation='plugins.walletConnectToDapps.modal.sendTransaction.estGasCost' />
@@ -310,7 +317,7 @@ export const SendTransactionConfirmation = () => {
             />
           </Box>
         </ModalSection>
-
+        }
         <ModalSection
           title={translate(
             'plugins.walletConnectToDapps.modal.sendTransaction.advancedParameters.title',
