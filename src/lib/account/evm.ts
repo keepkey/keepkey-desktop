@@ -1,7 +1,7 @@
 import { CHAIN_REFERENCE, fromChainId, toAccountId } from '@keepkey/caip'
 import type { EvmChainId } from '@keepkey/chain-adapters'
 import { evmChainIds } from '@keepkey/chain-adapters'
-import { supportsETH, supportsEthSwitchChain } from '@shapeshiftoss/hdwallet-core'
+import { supportsETH, supportsEthSwitchChain } from '@keepkey/hdwallet-core'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import type { AccountMetadataById } from 'state/slices/portfolioSlice/portfolioSliceCommon'
 

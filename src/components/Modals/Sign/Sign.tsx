@@ -16,7 +16,7 @@ import {
   ModalOverlay,
   Textarea,
 } from '@chakra-ui/react'
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
 import cryptoTools from 'crypto'
 import { ipcRenderer } from 'electron'
 import React, { useCallback, useEffect, useState } from 'react'
