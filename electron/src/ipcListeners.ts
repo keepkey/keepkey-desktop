@@ -1,10 +1,10 @@
-import { app, ipcMain } from "electron"
+import { app, ipcMain, shell, webContents } from "electron"
 import { bridgeLogger, db, ipcQueue, isWalletBridgeRunning, kkStateController, setRenderListenersReady, windows } from "./globalState"
 import isDev from 'electron-is-dev'
 import {
-  downloadFirmware,
-  getLatestFirmwareData,
-  loadFirmware,
+    downloadFirmware,
+    getLatestFirmwareData,
+    loadFirmware,
 } from './helpers/kk-state-controller/firmwareUtils'
 import * as path from 'path'
 import { queueIpcEvent } from './helpers/utils'
@@ -74,25 +74,25 @@ export const startIpcListeners = () => {
         db.findOne({
             type: 'service', serviceKey
         }, (err, doc) => {
-            if(!doc) return
+            if (!doc) return
             const logs = bridgeLogger.fetchLogs(serviceKey)
             if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.webContents.send("@bridge/service-details", {
                 app: doc,
-                logs 
+                logs
             })
         })
     })
 
     ipcMain.on('@bridge/connected', (event, serviceKey) => {
         if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-          windows.mainWindow.webContents.send('@bridge/connected', isWalletBridgeRunning())
-      })
+            windows.mainWindow.webContents.send('@bridge/connected', isWalletBridgeRunning())
+    })
 
     ipcMain.on("@bridge/service-name", (event, serviceKey) => {
         db.findOne({
             type: 'service', serviceKey
         }, (err, doc) => {
-            if(!doc) return
+            if (!doc) return
             if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.webContents.send("@bridge/service-name", doc.serviceName)
         })
     })
