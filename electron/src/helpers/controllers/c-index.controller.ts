@@ -40,6 +40,15 @@ export class CIndexController extends Controller {
     @Post('/pair')
     public async pair(@Body() body: PairBody, @Header('authorization') serviceKey: string): Promise<PairResponse> {
         return new Promise<PairResponse>(async (resolve, reject) => {
+            const isAlreadyPaired = await new Promise<boolean>((innerResolve, _reject) => {
+                db.findOne({ type: 'service', serviceName: body.serviceName, serviceKey }, (err, doc) => {
+                    if (!doc) innerResolve(false)
+                    innerResolve(true)
+                })
+            })
+
+            if (isAlreadyPaired) return resolve({ success: true, reason: 'Service already exists' })
+
             if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
                 if (!await createMainWindow()) {
                     this.setStatus(500)
@@ -51,15 +60,6 @@ export class CIndexController extends Controller {
                 this.setStatus(500)
                 return resolve({ success: false, reason: 'Missing body parameters' })
             }
-
-            const isAlreadyPaired = await new Promise<boolean>((innerResolve, _reject) => {
-                db.findOne({ type: 'service', serviceName: body.serviceName, serviceKey }, (err, doc) => {
-                    if (!doc) innerResolve(false)
-                    innerResolve(true)
-                })
-            })
-
-            if (isAlreadyPaired) return resolve({ success: true, reason: 'Service already exists' })
 
             const nonce = uniqueId()
 

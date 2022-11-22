@@ -14,7 +14,7 @@ export const openSignTxWindow = async (signArgs: any) => {
     if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
         if (!await createMainWindow()) return
     }
-    if(!windows.mainWindow) throw Error("Failed to start App!")
+    if (!windows.mainWindow) throw Error("Failed to start App!")
     windows.mainWindow.focus()
     windows.mainWindow.setAlwaysOnTop(true)
     windowWasPreviouslyOpen = true
@@ -40,24 +40,26 @@ export const openSignTxWindow = async (signArgs: any) => {
 
 export const checkKeepKeyUnlocked = async () => {
     if (!kkStateController.wallet) return
-    if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
-        if (!await createMainWindow()) return
-    } else {
-        let isLocked
-        try {
-            isLocked = await kkStateController.wallet.isLocked()
-        }catch(e) {
-            console.log('error is', e)
+    let isLocked
+    try {
+        isLocked = await kkStateController.wallet.isLocked()
+    } catch (e) {
+        console.log('error is', e)
+    }
+    console.log("KEEPKEY LOCKED: ", isLocked)
+    if (isLocked) {
+        if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
+            if (!await createMainWindow()) return
         }
-        console.log("KEEPKEY LOCKED: ", isLocked)
-        if (isLocked) {
+        if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
             windows.mainWindow.focus()
             windows.mainWindow.webContents.send('@modal/pin');
-        } else {
-            return
         }
+    } else {
+        return
     }
-    const p = new Promise( (resolve: any) => {
+
+    const p = new Promise((resolve: any) => {
         ipcMain.once("@modal/pin-close", () => {
             return resolve()
         })
@@ -89,10 +91,10 @@ export const createMainWindow = async () => {
     } catch (e: any) {
         if (e.toString().includes('claimInterface error')) {
             windows?.splash?.webContents.send("@update/errorClaimed")
-            await new Promise( () => 0 )
+            await new Promise(() => 0)
         } else {
             windows?.splash?.webContents.send("@update/errorReset")
-            await new Promise( () => 0 )
+            await new Promise(() => 0)
         }
     }
 
@@ -126,11 +128,10 @@ export const createMainWindow = async () => {
 export const watchForDeviceBusy = () => {
     let lastDeviceBusyRead = false
     let lastDeviceBusyWrite = false
-    setInterval( () => {
+    setInterval(() => {
         // busy state has changed somehow
-        if(lastDeviceBusyRead !== deviceBusyRead || lastDeviceBusyWrite !== deviceBusyWrite)
-        {
-            if(deviceBusyRead === false && deviceBusyWrite === false) {
+        if (lastDeviceBusyRead !== deviceBusyRead || lastDeviceBusyWrite !== deviceBusyWrite) {
+            if (deviceBusyRead === false && deviceBusyWrite === false) {
                 queueIpcEvent('deviceNotBusy', {})
             } else {
                 queueIpcEvent('deviceBusy', {})
