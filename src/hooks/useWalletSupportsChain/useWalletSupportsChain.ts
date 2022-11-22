@@ -10,7 +10,7 @@ import {
   osmosisChainId,
   thorchainChainId,
 } from '@keepkey/caip'
-import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import type { HDWallet } from '@keepkey/hdwallet-core'
 import {
   supportsBTC,
   supportsCosmos,
@@ -18,7 +18,7 @@ import {
   supportsEthSwitchChain,
   supportsOsmosis,
   supportsThorchain,
-} from '@shapeshiftoss/hdwallet-core'
+} from '@keepkey/hdwallet-core'
 import { logger } from 'lib/logger'
 const moduleLogger = logger.child({ namespace: ['useWalletSupportsChain'] })
 

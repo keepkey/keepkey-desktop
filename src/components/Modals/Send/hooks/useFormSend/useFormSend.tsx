@@ -12,7 +12,7 @@ import {
   utxoChainIds,
 } from '@keepkey/chain-adapters'
 import type { KnownChainIds } from '@keepkey/types'
-import { supportsETH } from '@shapeshiftoss/hdwallet-core'
+import { supportsETH } from '@keepkey/hdwallet-core'
 import { useTranslate } from 'react-polyglot'
 import { useSelector } from 'react-redux'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'

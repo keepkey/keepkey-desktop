@@ -6,7 +6,7 @@ import {
   utxoAccountParams,
   utxoChainIds,
 } from '@keepkey/chain-adapters'
-import { bip32ToAddressNList, supportsBTC } from '@shapeshiftoss/hdwallet-core'
+import { bip32ToAddressNList, supportsBTC } from '@keepkey/hdwallet-core'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import type { AccountMetadataById } from 'state/slices/portfolioSlice/portfolioSliceCommon'
 

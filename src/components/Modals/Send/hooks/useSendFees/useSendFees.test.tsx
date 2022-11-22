@@ -1,6 +1,6 @@
 import type { AssetId } from '@keepkey/caip'
 import { FeeDataKey } from '@keepkey/chain-adapters'
-import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import type { HDWallet } from '@keepkey/hdwallet-core'
 import { renderHook, waitFor } from '@testing-library/react'
 import type { PropsWithChildren } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
