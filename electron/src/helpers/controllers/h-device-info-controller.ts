@@ -20,7 +20,7 @@ export class HDeviceInfoController extends Controller {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
 
-            kkStateController.wallet.getDeviceID().then(resolve)
+            kkStateController.wallet.getNumCoins().then(resolve)
         })
     }
 
