@@ -1,4 +1,4 @@
-import * as core from '@shapeshiftoss/hdwallet-core'
+import * as core from '@keepkey/hdwallet-core'
 import type WalletConnect from '@walletconnect/client'
 import { convertHexToUtf8 } from '@walletconnect/utils'
 import { ipcRenderer } from 'electron'

@@ -2,9 +2,9 @@
 import type { ComponentWithAs, IconProps } from '@chakra-ui/react'
 import type { KeepKeySDK } from '@keepkey/keepkey-sdk'
 import { getKeepKeySDK } from '@keepkey/keepkey-sdk'
-import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
-import { Keyring } from '@shapeshiftoss/hdwallet-core'
-import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-walletconnect'
+import type { HDWallet } from '@keepkey/hdwallet-core'
+import { Keyring } from '@keepkey/hdwallet-core'
+import type { WalletConnectProviderConfig } from '@keepkey/hdwallet-walletconnect'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
 import { randomUUID } from 'crypto'
 import { ipcRenderer } from 'electron'
@@ -362,6 +362,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       let options: undefined | { portisAppId: string } | WalletConnectProviderConfig
       for (const walletName of Object.values(KeyManager)) {
         try {
+          console.log('SUPPORTED_WALLETS', SUPPORTED_WALLETS)
           const adapter = SUPPORTED_WALLETS[walletName].adapter.useKeyring(state.keyring, options)
 
           const wallet = await adapter.pairDevice('http://localhost:1646')

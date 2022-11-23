@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Security, Route, Tags, Response, Middlewares } from 'tsoa';
 import wait from 'wait-promise'
-import { ResetDevice, LoadDevice, ETHSignedTx } from '@shapeshiftoss/hdwallet-core'
+import { ResetDevice, LoadDevice, ETHSignedTx } from '@keepkey/hdwallet-core'
 import { checkKeepKeyUnlocked } from '../utils';
 import { kkStateController } from '../../globalState';
 import { logger } from '../middlewares/logger';
@@ -10,11 +10,59 @@ export type policy = {
     enabled?: boolean,
 }
 
+export type GetFeatures = {
+    cached?: boolean,
+}
+
+export type GetEntropy = {
+    size: number,
+}
+
+
 @Tags('Developer Endpoints')
 @Route('')
 export class FDeveloperController extends Controller {
 
     private sleep = wait.sleep;
+
+    @Post('/getFeatures')
+    @Security("api_key")
+    @Middlewares([logger])
+    @Response(500, "Internal server error")
+    public async getFeatures(@Body() body: GetFeatures): Promise<ETHSignedTx> {
+        return new Promise<any>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
+            if (!kkStateController.wallet) return reject()
+
+            kkStateController.wallet.getFeatures(body.cached).then(resolve)
+        })
+    }
+
+    @Post('/getEntropy')
+    @Security("api_key")
+    @Middlewares([logger])
+    @Response(500, "Internal server error")
+    public async getEntropy(@Body() body: GetEntropy): Promise<ETHSignedTx> {
+        return new Promise<any>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
+            if (!kkStateController.wallet) return reject()
+
+            kkStateController.wallet.getEntropy(body.size).then(resolve)
+        })
+    }
+
+    @Post('/initialize')
+    @Security("api_key")
+    @Middlewares([logger])
+    @Response(500, "Internal server error")
+    public async initialize(@Body() body: void): Promise<ETHSignedTx> {
+        return new Promise<any>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
+            if (!kkStateController.wallet) return reject()
+
+            kkStateController.wallet.initialize().then(resolve)
+        })
+    }
 
     @Post('/loadDevice')
     @Security("api_key")
@@ -127,6 +175,19 @@ export class FDeveloperController extends Controller {
             if (!kkStateController.wallet) return reject()
 
             kkStateController.wallet.applySettings(body).then(resolve)
+        })
+    }
+
+    @Post('/cancel')
+    @Security("api_key")
+    @Middlewares([logger])
+    @Response(500, "Internal server error")
+    public async cancel(@Body() body: void): Promise<ETHSignedTx> {
+        return new Promise<any>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
+            if (!kkStateController.wallet) return reject()
+
+            kkStateController.wallet.cancel().then(resolve)
         })
     }
 

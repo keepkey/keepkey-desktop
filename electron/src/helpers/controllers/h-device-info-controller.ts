@@ -1,6 +1,6 @@
 import { Controller, Get, Security, Route, Tags, Response, Middlewares } from 'tsoa';
 import wait from 'wait-promise'
-import { ETHSignedTx } from '@shapeshiftoss/hdwallet-core'
+import { ETHSignedTx } from '@keepkey/hdwallet-core'
 import { checkKeepKeyUnlocked } from '../utils'
 import { kkStateController } from '../../globalState';
 import { logger } from '../middlewares/logger';
@@ -20,7 +20,7 @@ export class HDeviceInfoController extends Controller {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
 
-            kkStateController.wallet.getDeviceID().then(resolve)
+            kkStateController.wallet.getNumCoins().then(resolve)
         })
     }
 

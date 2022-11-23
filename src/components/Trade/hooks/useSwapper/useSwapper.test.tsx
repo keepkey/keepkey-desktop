@@ -1,6 +1,6 @@
 import { SwapperManager } from '@keepkey/swapper'
 import { KnownChainIds } from '@keepkey/types'
-import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import type { HDWallet } from '@keepkey/hdwallet-core'
 import { act, renderHook } from '@testing-library/react'
 import debounce from 'lodash/debounce'
 import type { PropsWithChildren } from 'react'

@@ -1,6 +1,6 @@
 import { Alert, AlertIcon, Box, Stack, useToast } from '@chakra-ui/react'
 import { ASSET_REFERENCE, ethAssetId, foxAssetId, toAssetId } from '@keepkey/caip'
-import { supportsETH } from '@shapeshiftoss/hdwallet-core'
+import { supportsETH } from '@keepkey/hdwallet-core'
 import { Confirm as ReusableConfirm } from 'features/defi/components/Confirm/Confirm'
 import { Summary } from 'features/defi/components/Summary'
 import type {
