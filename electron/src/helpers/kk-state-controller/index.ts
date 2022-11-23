@@ -1,6 +1,6 @@
-import { Keyring } from '@shapeshiftoss/hdwallet-core'
-import { Device } from '@shapeshiftoss/hdwallet-keepkey-nodewebusb'
-import { KeepKeyHDWallet, TransportDelegate } from '@shapeshiftoss/hdwallet-keepkey'
+import { Keyring } from '@keepkey/hdwallet-core'
+import { Device } from '@keepkey/hdwallet-keepkey-nodewebusb'
+import { KeepKeyHDWallet, TransportDelegate } from '@keepkey/hdwallet-keepkey'
 import { getLatestFirmwareData } from './firmwareUtils';
 import { initializeWallet } from './walletUtils'
 import { usb } from 'usb';
