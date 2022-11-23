@@ -186,19 +186,6 @@ export class GRecoveryController extends Controller {
         })
     }
 
-    @Post('/clearSession')
-    @Security("api_key")
-    @Middlewares([logger])
-    @Response(500, "Internal server error")
-    public async clearSession(@Body() body: void): Promise<ETHSignedTx> {
-        return new Promise<any>(async (resolve, reject) => {
-            await checkKeepKeyUnlocked()
-            if (!kkStateController.wallet) return reject()
-
-            kkStateController.wallet.clearSession().then(resolve)
-        })
-    }
-
     @Post('/decryptKeyValue')
     @Security("api_key")
     @Middlewares([logger])
