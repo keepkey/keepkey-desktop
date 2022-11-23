@@ -367,9 +367,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
           const adapter = SUPPORTED_WALLETS[walletName].adapter.useKeyring(state.keyring, options)
           console.log(" adapter: ",adapter)
           console.log("keepkeyRest: ",keepkeyRest)
-          // const wallet = await adapter.pairDevice('http://localhost:1646')
+          const wallet = await adapter.pairDevice('http://localhost:1646')
           console.log("adapter: ",adapter)
-          const wallet = adapter.KeepKeyRestHDWallet
+          // const wallet = adapter.KeepKeyRestHDWallet
           console.log("Checkpoint post pairDevice: ",wallet)
           adapters.set(walletName, adapter)
           dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })

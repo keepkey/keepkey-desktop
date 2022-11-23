@@ -33,7 +33,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async recover(@Body() body: RecoverDevice): Promise<ETHSignedTx> {
+    public async recover(@Body() body: RecoverDevice): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -46,7 +46,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async pressYes(@Body() body: void): Promise<ETHSignedTx> {
+    public async pressYes(@Body() body: void): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -59,7 +59,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async pressNo(@Body() body: void): Promise<ETHSignedTx> {
+    public async pressNo(@Body() body: void): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -72,7 +72,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async press(@Body() body: Press ): Promise<ETHSignedTx> {
+    public async press(@Body() body: Press ): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -85,7 +85,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async sendPin(@Body() body: SendPin ): Promise<ETHSignedTx> {
+    public async sendPin(@Body() body: SendPin ): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -98,7 +98,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async sendPassphrase(@Body() body: SendPassphrase ): Promise<ETHSignedTx> {
+    public async sendPassphrase(@Body() body: SendPassphrase ): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -112,7 +112,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async changePin(@Body() body: void): Promise<ETHSignedTx> {
+    public async changePin(@Body() body: void): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -125,7 +125,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async sendWord(@Body() body: string): Promise<ETHSignedTx> {
+    public async sendWord(@Body() body: string): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -138,7 +138,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async sendCharacter(@Body() body: string): Promise<ETHSignedTx> {
+    public async sendCharacter(@Body() body: string): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -164,7 +164,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async sendCharacterDelete(@Body() body: void): Promise<ETHSignedTx> {
+    public async sendCharacterDelete(@Body() body: void): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -177,7 +177,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async sendCharacterDone(@Body() body: void): Promise<ETHSignedTx> {
+    public async sendCharacterDone(@Body() body: void): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -190,7 +190,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async decryptKeyValue(@Body() body: any): Promise<ETHSignedTx> {
+    public async decryptKeyValue(@Body() body: any): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -203,7 +203,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async cipherKeyValue(@Body() body: any): Promise<ETHSignedTx> {
+    public async cipherKeyValue(@Body() body: any): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()

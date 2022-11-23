@@ -29,7 +29,7 @@ export class FDeveloperController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async getFeatures(@Body() body: GetFeatures): Promise<ETHSignedTx> {
+    public async getFeatures(@Body() body: GetFeatures): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -42,7 +42,7 @@ export class FDeveloperController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async getEntropy(@Body() body: GetEntropy): Promise<ETHSignedTx> {
+    public async getEntropy(@Body() body: GetEntropy): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -55,7 +55,7 @@ export class FDeveloperController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async initialize(@Body() body: void): Promise<ETHSignedTx> {
+    public async initialize(@Body() body: void): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -69,7 +69,7 @@ export class FDeveloperController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async loadDevice(@Body() body: LoadDevice): Promise<ETHSignedTx> {
+    public async loadDevice(@Body() body: LoadDevice): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -93,7 +93,7 @@ export class FDeveloperController extends Controller {
     @Post('/softReset')
     @Security("api_key")
     @Response(500, "Internal server error")
-    public async softReset(@Body() body: void): Promise<ETHSignedTx> {
+    public async softReset(@Body() body: void): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -106,7 +106,7 @@ export class FDeveloperController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async clearSession(@Body() body: void): Promise<ETHSignedTx> {
+    public async clearSession(@Body() body: void): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -118,7 +118,7 @@ export class FDeveloperController extends Controller {
     @Post('/reset')
     @Security("api_key")
     @Response(500, "Internal server error")
-    public async reset(@Body() body: ResetDevice): Promise<ETHSignedTx> {
+    public async reset(@Body() body: ResetDevice): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -131,7 +131,7 @@ export class FDeveloperController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async wipe(@Body() body: void): Promise<ETHSignedTx> {
+    public async wipe(@Body() body: void): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -144,7 +144,7 @@ export class FDeveloperController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async disconnect(@Body() body: void): Promise<ETHSignedTx> {
+    public async disconnect(@Body() body: void): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -157,7 +157,7 @@ export class FDeveloperController extends Controller {
     @Middlewares([logger])
     @Response(500, "Internal server error")
     //TODO get policy type
-    public async applyPolicy(@Body() body: any): Promise<ETHSignedTx> {
+    public async applyPolicy(@Body() body: any): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -171,7 +171,7 @@ export class FDeveloperController extends Controller {
     @Middlewares([logger])
     @Response(500, "Internal server error")
     //TODO get settings type
-    public async applySettings(@Body() body: any): Promise<ETHSignedTx> {
+    public async applySettings(@Body() body: any): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -184,7 +184,7 @@ export class FDeveloperController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async cancel(@Body() body: void): Promise<ETHSignedTx> {
+    public async cancel(@Body() body: void): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -197,7 +197,7 @@ export class FDeveloperController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async firmwareErase(@Body() body: void): Promise<ETHSignedTx> {
+    public async firmwareErase(@Body() body: void): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -211,7 +211,7 @@ export class FDeveloperController extends Controller {
     @Middlewares([logger])
     @Response(500, "Internal server error")
     //TODO Firmware sent as buffer, express in types
-    public async firmwareUpload(@Body() body: any): Promise<ETHSignedTx> {
+    public async firmwareUpload(@Body() body: any): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
