@@ -3707,18 +3707,19 @@
     "@keepkey/hdwallet-core" "1.38.5"
     "@keepkey/hdwallet-keepkey" "1.38.5"
 
-"@keepkey/hdwallet-keepkey-rest@^1.38.5":
-  version "1.38.5"
-  resolved "https://registry.yarnpkg.com/@keepkey/hdwallet-keepkey-rest/-/hdwallet-keepkey-rest-1.38.5.tgz#c26ce4b0b85d69b6a3a8be66551bf975fe94b17e"
-  integrity sha512-vVi+DrWqepbhhvJ0WmZCkSv/a7u3IQE1yV/ZJyrRzJ176Xq2526LNuPGxdVf/YdWeAy3cy5aAj9w/owLkwAZqg==
+"@keepkey/hdwallet-keepkey-rest@1.38.15":
+  version "1.38.15"
+  resolved "https://registry.yarnpkg.com/@keepkey/hdwallet-keepkey-rest/-/hdwallet-keepkey-rest-1.38.15.tgz#89c4aee115c3b78b7d57179920bb9ce8ae1a6341"
+  integrity sha512-3cbHeon/Ob9Q0RRHoOybaIS4PDej2TyViwDcyGAV1k2aUm18lXGGVBh3cPaEIrhk5Gbv7Cy/3GSqq3VhBHrtrg==
   dependencies:
     "@ethereumjs/common" "^2.4.0"
     "@ethereumjs/tx" "^3.3.0"
     "@keepkey/device-protocol" "^7.10.2"
     "@keepkey/hdwallet-core" "1.38.5"
-    "@keepkey/keepkey-sdk" "^0.0.11"
+    "@keepkey/keepkey-sdk" "0.0.21"
     "@shapeshiftoss/bitcoinjs-lib" "5.2.0-shapeshift.2"
     "@shapeshiftoss/proto-tx-builder" "^0.4.0"
+    axios "^1.2.0"
     bignumber.js "^9.0.1"
     bnb-javascript-sdk-nobroadcast "^2.16.14"
     crypto-js "^4.0.0"
@@ -3916,10 +3917,10 @@
     web3-core "1.7.4"
     web3-utils "1.7.4"
 
-"@keepkey/keepkey-sdk@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@keepkey/keepkey-sdk/-/keepkey-sdk-0.0.11.tgz#d6dbddf0f9f47286c4430ac62e975b3da554bcf5"
-  integrity sha512-A7KAEzdniu/C04xw7G0EFzCq+2Gf0auVytGEUXDLX3DN5J6OxE90g/b9EbiA4xunNzl9qQx8T546msJIMTxm5Q==
+"@keepkey/keepkey-sdk@0.0.21":
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/@keepkey/keepkey-sdk/-/keepkey-sdk-0.0.21.tgz#52061f277355c0514d3751063b02d48c8acdd555"
+  integrity sha512-fr81LbLX3J0AlNBKgFPRadfMyGtvu5ydLidzv8hQWR6YUwRreJ/lOY27oLwJ/BoroBX/UoVWxGWvA35GlS1vAA==
   dependencies:
     "@openapitools/openapi-generator-cli" "^2.5.2"
     "@types/node" "^13.13.14"
@@ -8449,10 +8450,10 @@ axios@^0.21.0, axios@^0.21.1, axios@^0.21.2, axios@^0.21.4:
   dependencies:
     follow-redirects "^1.14.0"
 
-axios@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.1.3.tgz#8274250dada2edf53814ed7db644b9c2866c1e35"
-  integrity sha512-00tXVRwKx/FZr/IDVFt4C+f9FYairX517WoGCL6dpOntqLkZofjhu43F/Xl44UOpqa+9sLFDrG/XAnFsUYgkDA==
+axios@^1.1.3, axios@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.2.0.tgz#1cb65bd75162c70e9f8d118a905126c4a201d383"
+  integrity sha512-zT7wZyNYu3N5Bu0wuZ6QccIf93Qk1eV8LOewxgjOZFd2DenOs98cJ7+Y6703d0wkaXGY6/nZd4EweJaHz9uzQw==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
