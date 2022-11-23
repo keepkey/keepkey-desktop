@@ -151,7 +151,7 @@ export class GRecoveryController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async sendCharacterProto(@Body() body: SendCharacterProto): Promise<ETHSignedTx> {
+    public async sendCharacterProto(@Body() body: SendCharacterProto): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()

@@ -1,5 +1,5 @@
 import type { ComponentWithAs, IconProps } from '@chakra-ui/react'
-import * as keepkeyTcp from '@keepkey/hdwallet-keepkey-tcp'
+// import * as keepkeyTcp from '@keepkey/hdwallet-keepkey-tcp'
 import * as keepkeyRest from '@keepkey/hdwallet-keepkey-rest'
 import type { RouteProps } from 'react-router-dom'
 import { WalletConnectedRoutes } from 'components/Layout/Header/NavBar/hooks/useMenuRoutes'
