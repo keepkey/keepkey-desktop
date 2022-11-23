@@ -369,18 +369,17 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
           console.log("keepkeyRest: ",keepkeyRest)
           const wallet = await adapter.pairDevice('http://localhost:1646')
           console.log("adapter: ",adapter)
-          // const wallet = adapter.KeepKeyRestHDWallet
-          console.log("Checkpoint post pairDevice: ",wallet)
+          console.log("Checkpoint post wallet: ",wallet)
           adapters.set(walletName, adapter)
           dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
           const { name, icon } = KeepKeyConfig
           console.log("Checkpoint pre deviceId")
-          const deviceId = await wallet.getDeviceID()
+          const deviceId = "12345"
           console.log("deviceId: ",deviceId)
           // Show the label from the wallet instead of a generic name
           const label = (await wallet.getLabel()) || name
           console.log("Checkpoint initialize")
-          await wallet.initialize()
+          // await wallet.initialize()
           console.log("Checkpoint post initialize")
           dispatch({
             type: WalletActions.SET_WALLET,

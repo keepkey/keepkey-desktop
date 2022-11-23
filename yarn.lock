@@ -3707,16 +3707,16 @@
     "@keepkey/hdwallet-core" "1.38.5"
     "@keepkey/hdwallet-keepkey" "1.38.5"
 
-"@keepkey/hdwallet-keepkey-rest@1.38.17":
-  version "1.38.17"
-  resolved "https://registry.yarnpkg.com/@keepkey/hdwallet-keepkey-rest/-/hdwallet-keepkey-rest-1.38.17.tgz#3e2e5d07318a6fe64ab49946e32a682916575da8"
-  integrity sha512-mPY9YXTDgerDGgaL1U9NrKGt7f6iix6RtZlYqPE6lPqSMwnfLfLfe20P/06A00YOdmvffvcdiTW598DWRS5jcQ==
+"@keepkey/hdwallet-keepkey-rest@1.38.24":
+  version "1.38.24"
+  resolved "https://registry.yarnpkg.com/@keepkey/hdwallet-keepkey-rest/-/hdwallet-keepkey-rest-1.38.24.tgz#2356b3fe0c50f9152ca87f223c3ac2ba70b09709"
+  integrity sha512-1EL66swrAIJ3iaQyU1BNdrKa86vFX2l3ZIKZBMRH71xWkOmzB7MNTO24RuZGLy0NmhZm96B0DWu4aQWprySwQA==
   dependencies:
     "@ethereumjs/common" "^2.4.0"
     "@ethereumjs/tx" "^3.3.0"
     "@keepkey/device-protocol" "^7.10.2"
     "@keepkey/hdwallet-core" "1.38.5"
-    "@keepkey/keepkey-sdk" "0.0.22"
+    "@keepkey/keepkey-sdk" "0.0.23"
     "@shapeshiftoss/bitcoinjs-lib" "5.2.0-shapeshift.2"
     "@shapeshiftoss/proto-tx-builder" "^0.4.0"
     axios "^1.2.0"
@@ -3917,10 +3917,10 @@
     web3-core "1.7.4"
     web3-utils "1.7.4"
 
-"@keepkey/keepkey-sdk@0.0.22":
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/@keepkey/keepkey-sdk/-/keepkey-sdk-0.0.22.tgz#d6885be2f16289e62f3f901b34b30efeda115206"
-  integrity sha512-/V5/BrKlHs1zGs/D8eaLrrcrENod9lXTEgASqgPBvWMRzlJtUTHCwyM0cmzv3ULPB7Ic4OawaQ5TUB6H/bzaFA==
+"@keepkey/keepkey-sdk@0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@keepkey/keepkey-sdk/-/keepkey-sdk-0.0.23.tgz#e493556e3f8fe654e2f4589ed6c421e1986778c2"
+  integrity sha512-6fyJW6waSnB5zLGkDksHNgZhxJMdT39KHoLV1ZP53KMSqHh9cUssFz46+szbhnvoQmnX62x6Uit/eXQiLglYiw==
   dependencies:
     "@openapitools/openapi-generator-cli" "^2.5.2"
     "@types/node" "^13.13.14"
