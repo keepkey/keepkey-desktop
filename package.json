@@ -157,7 +157,7 @@
     "@keepkey/hdwallet-core": "^1.38.5",
     "@keepkey/hdwallet-keepkey": "^1.38.5",
     "@keepkey/hdwallet-keepkey-nodewebusb": "^1.38.5",
-    "@keepkey/hdwallet-keepkey-rest": "^1.38.5",
+    "@keepkey/hdwallet-keepkey-rest": "^1.38.9",
     "@keepkey/hdwallet-keepkey-tcp": "^1.38.5",
     "@keepkey/hdwallet-keepkey-webusb": "^1.38.5",
     "@keepkey/hdwallet-keplr": "^1.38.5",
