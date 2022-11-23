@@ -362,6 +362,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       let options: undefined | { portisAppId: string } | WalletConnectProviderConfig
       for (const walletName of Object.values(KeyManager)) {
         try {
+          console.log('SUPPORTED_WALLETS', SUPPORTED_WALLETS)
           const adapter = SUPPORTED_WALLETS[walletName].adapter.useKeyring(state.keyring, options)
 
           const wallet = await adapter.pairDevice('http://localhost:1646')
