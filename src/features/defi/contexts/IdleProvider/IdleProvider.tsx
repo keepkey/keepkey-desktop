@@ -1,3 +1,4 @@
+import type { IdleInvestor } from '@keepkey/investor-idle'
 import type { PropsWithChildren } from 'react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useFeatureFlag } from 'hooks/useFeatureFlag/useFeatureFlag'

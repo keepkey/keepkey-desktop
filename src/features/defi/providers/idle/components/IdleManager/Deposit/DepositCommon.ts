@@ -1,3 +1,4 @@
+import type { IdleOpportunity } from '@keepkey/investor-idle'
 import type { DepositValues } from 'features/defi/components/Deposit/Deposit'
 import type { StakingEarnOpportunityType } from 'state/slices/opportunitiesSlice/types'
 

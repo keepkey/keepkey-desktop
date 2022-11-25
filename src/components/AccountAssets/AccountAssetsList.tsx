@@ -1,5 +1,5 @@
 import { Box, Button, Collapse, Stack, useDisclosure } from '@chakra-ui/react'
-import type { AccountId, AssetId } from '@shapeshiftoss/caip'
+import type { AssetId } from '@keepkey/caip'
 import { useMemo } from 'react'
 import { FaArrowCircleDown, FaArrowCircleUp } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'
@@ -15,7 +15,7 @@ import { AssetAccountRow } from '../AssetAccounts/AssetAccountRow'
 
 type AccountAssetListProps = {
   assetIds: AssetId[]
-  accountId: AccountId
+  accountId: AccountSpecifier
   limit?: number
 }
 export const AccountAssetsList = ({ assetIds, accountId, limit }: AccountAssetListProps) => {

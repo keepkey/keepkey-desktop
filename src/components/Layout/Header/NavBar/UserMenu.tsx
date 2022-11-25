@@ -8,13 +8,15 @@ import { useTranslate } from 'react-polyglot'
 import { MemoryRouter } from 'react-router-dom'
 import { useEnsName } from 'wagmi'
 import { WalletConnectedRoutes } from 'components/Layout/Header/NavBar/hooks/useMenuRoutes'
-import { WalletConnectedMenu } from 'components/Layout/Header/NavBar/WalletConnectedMenu'
+// import { WalletConnectedMenu } from 'components/Layout/Header/NavBar/WalletConnectedMenu'
 import { WalletImage } from 'components/Layout/Header/NavBar/WalletImage'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { RawText, Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import type { InitialState } from 'context/WalletProvider/WalletProvider'
 import { useWallet } from 'hooks/useWallet/useWallet'
+
+import { WalletConnectedMenu } from './WalletConnectedMenu'
 
 export const entries = [WalletConnectedRoutes.Connected]
 
@@ -32,19 +34,21 @@ const NoWallet = ({ onClick }: { onClick: () => void }) => {
 
 export type WalletConnectedProps = {
   onDisconnect: () => void
-  onSwitchProvider: () => void
 } & Pick<InitialState, 'walletInfo' | 'isConnected' | 'type'>
 
 export const WalletConnected = (props: WalletConnectedProps) => {
   return (
     <MemoryRouter initialEntries={entries}>
-      <WalletConnectedMenu
-        isConnected={props.isConnected}
-        walletInfo={props.walletInfo}
-        onDisconnect={props.onDisconnect}
-        onSwitchProvider={props.onSwitchProvider}
-        type={props.type}
-      />
+      <Switch>
+        <Route path='/'>
+          <WalletConnectedMenu
+            isConnected={props.isConnected}
+            walletInfo={props.walletInfo}
+            onDisconnect={props.onDisconnect}
+            type={props.type}
+          />
+        </Route>
+      </Switch>
     </MemoryRouter>
   )
 }
@@ -54,6 +58,7 @@ type WalletButtonProps = {
   isDemoWallet: boolean
   isLoadingLocalWallet: boolean
   onConnect: () => void
+  deviceBusy: boolean
 } & Pick<InitialState, 'walletInfo'>
 
 const WalletButton: FC<WalletButtonProps> = ({
@@ -62,6 +67,7 @@ const WalletButton: FC<WalletButtonProps> = ({
   walletInfo,
   onConnect,
   isLoadingLocalWallet,
+  deviceBusy,
 }) => {
   const [walletLabel, setWalletLabel] = useState('')
   const [shouldShorten, setShouldShorten] = useState(true)
@@ -122,10 +128,13 @@ const WalletButton: FC<WalletButtonProps> = ({
             pr='2'
             shouldShorten={shouldShorten}
             bgColor={bgColor}
-            value={walletLabel}
+            value={`${walletLabel} ${deviceBusy ? '- Busy' : ''}`}
           />
         ) : (
-          <RawText>{walletInfo?.name}</RawText>
+          <RawText>
+            sadfsdfasdfasdfsadfasdffdsa
+            {walletInfo?.name}
+          </RawText>
         )}
       </Flex>
     </Button>
@@ -137,8 +146,8 @@ const WalletButton: FC<WalletButtonProps> = ({
 }
 
 export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
-  const { state, dispatch, disconnect } = useWallet()
-  const { isConnected, isDemoWallet, walletInfo, type, isLocked } = state
+  const { state, dispatch, disconnect, deviceBusy } = useWallet()
+  const { isConnected, isDemoWallet, walletInfo, isLocked, type } = state
 
   if (isLocked) disconnect()
   const hasWallet = Boolean(walletInfo?.deviceId)
@@ -149,6 +158,7 @@ export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
     <ButtonGroup width='full'>
       <WalletButton
+        deviceBusy={deviceBusy}
         onConnect={handleConnect}
         walletInfo={walletInfo}
         isConnected={isConnected}
@@ -174,7 +184,6 @@ export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
               isConnected={isConnected || isDemoWallet}
               walletInfo={walletInfo}
               onDisconnect={disconnect}
-              onSwitchProvider={handleConnect}
               type={type}
             />
           ) : (

@@ -5,6 +5,8 @@ import {
   createStandaloneToast,
 } from '@chakra-ui/react'
 import { DefiManagerProvider } from 'features/defi/contexts/DefiManagerProvider/DefiManagerProvider'
+import { ContractABIProvider } from 'plugins/walletConnectToDapps/ContractABIContext'
+import { WalletConnectBridgeProvider } from 'plugins/walletConnectToDapps/WalletConnectBridgeProvider'
 import React from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { HelmetProvider } from 'react-helmet-async'
@@ -37,42 +39,46 @@ const manager = createLocalStorageManager('ss-theme')
 export function AppProviders({ children }: ProvidersProps) {
   const { ToastContainer } = createStandaloneToast()
   return (
-    <HelmetProvider>
-      <ReduxProvider store={store}>
-        <WagmiProvider>
-          <PluginProvider>
-            <ColorModeScript storageKey='ss-theme' />
-            <ChakraProvider theme={theme} colorModeManager={manager} cssVarsRoot='body'>
-              <ToastContainer />
-              <Zendesk />
-              <PersistGate loading={<SplashScreen />} persistor={persistor}>
-                <HashRouter basename='/'>
-                  <ScrollToTop />
-                  <BrowserRouterProvider>
-                    <I18nProvider>
-                      <WalletProvider>
-                        <KeepKeyProvider>
-                          <ErrorBoundary FallbackComponent={ErrorPage}>
-                            <ModalProvider>
-                              <TransactionsProvider>
-                                <AppProvider>
-                                  <FoxEthProvider>
-                                    <DefiManagerProvider>{children}</DefiManagerProvider>
-                                  </FoxEthProvider>
-                                </AppProvider>
-                              </TransactionsProvider>
-                            </ModalProvider>
-                          </ErrorBoundary>
-                        </KeepKeyProvider>
-                      </WalletProvider>
-                    </I18nProvider>
-                  </BrowserRouterProvider>
-                </HashRouter>
-              </PersistGate>
-            </ChakraProvider>
-          </PluginProvider>
-        </WagmiProvider>
-      </ReduxProvider>
-    </HelmetProvider>
+      <HelmetProvider>
+        <ReduxProvider store={store}>
+          <WagmiProvider>
+            <PluginProvider>
+              <ColorModeScript storageKey='ss-theme' />
+              <ChakraProvider theme={theme} colorModeManager={manager} cssVarsRoot='body'>
+                <ToastContainer />
+                <Zendesk />
+                <PersistGate loading={<SplashScreen />} persistor={persistor}>
+                  <HashRouter basename='/'>
+                    <ScrollToTop />
+                    <BrowserRouterProvider>
+                      <I18nProvider>
+                        <WalletProvider>
+                          <ContractABIProvider>
+                            <WalletConnectBridgeProvider>
+                              <KeepKeyProvider>
+                                <ErrorBoundary FallbackComponent={ErrorPage}>
+                                  <ModalProvider>
+                                    <TransactionsProvider>
+                                      <AppProvider>
+                                        <FoxEthProvider>
+                                          <DefiManagerProvider>{children}</DefiManagerProvider>
+                                        </FoxEthProvider>
+                                      </AppProvider>
+                                    </TransactionsProvider>
+                                  </ModalProvider>
+                                </ErrorBoundary>
+                              </KeepKeyProvider>
+                            </WalletConnectBridgeProvider>
+                          </ContractABIProvider>
+                        </WalletProvider>
+                      </I18nProvider>
+                    </BrowserRouterProvider>
+                  </HashRouter>
+                </PersistGate>
+              </ChakraProvider>
+            </PluginProvider>
+          </WagmiProvider>
+        </ReduxProvider>
+      </HelmetProvider>
   )
 }

@@ -15,8 +15,8 @@ import {
   Stack,
   useDisclosure,
 } from '@chakra-ui/react'
-import type { AccountId, ChainId } from '@shapeshiftoss/caip'
-import { fromAccountId } from '@shapeshiftoss/caip'
+import type { AccountId, ChainId } from '@keepkey/caip'
+import { fromAccountId } from '@keepkey/caip'
 import { useMemo } from 'react'
 import { MdOutlineMoreVert } from 'react-icons/md'
 import { RiWindow2Line } from 'react-icons/ri'

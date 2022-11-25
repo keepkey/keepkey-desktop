@@ -12,10 +12,10 @@ import {
   Tabs,
   Text as CText,
 } from '@chakra-ui/react'
-import type { AssetId } from '@shapeshiftoss/caip'
-import { foxAssetId } from '@shapeshiftoss/caip'
-import { supportsETH } from '@shapeshiftoss/hdwallet-core/dist/wallet'
-import { foxyAddresses } from '@shapeshiftoss/investor-foxy'
+import type { AssetId } from '@keepkey/caip'
+import { foxAssetId } from '@keepkey/caip'
+import { foxyAddresses } from '@keepkey/investor-foxy'
+import { supportsETH } from '@keepkey/hdwallet-core/dist/wallet'
 import { DefiProvider } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import isEqual from 'lodash/isEqual'
 import qs from 'qs'

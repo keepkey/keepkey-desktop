@@ -1,6 +1,7 @@
 import type { ButtonProps, SimpleGridProps } from '@chakra-ui/react'
 import { Alert, AlertDescription, AlertIcon, Button, Input, SimpleGrid } from '@chakra-ui/react'
-import type { Event } from '@shapeshiftoss/hdwallet-core'
+import type { Event } from '@keepkey/hdwallet-core'
+import { ipcRenderer } from 'electron'
 import type { KeyboardEvent } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { CircleIcon } from 'components/Icons/Circle'
@@ -55,15 +56,19 @@ export const KeepKeyPin = ({
 
   const handleSubmit = async () => {
     setError(null)
-    setDeviceState({
-      isDeviceLoading: true,
-    })
+    if (translationType !== 'remove')
+      setDeviceState({
+        isDeviceLoading: true,
+      })
     setLoading(true)
     const pin = pinFieldRef.current?.value
     if (pin && pin.length > 0) {
       try {
         // The event handler will pick up the response to the sendPin request
+        // console.log('about to send pin', wallet)
         await wallet?.sendPin(pin)
+        // console.log('done sending pin')
+        if (translationType === 'remove') return setLoading(false)
         switch (disposition) {
           case 'recovering':
             setDeviceState({ awaitingDeviceInteraction: true })
@@ -85,6 +90,7 @@ export const KeepKeyPin = ({
         if (pinFieldRef?.current) {
           pinFieldRef.current.value = ''
         }
+        ipcRenderer.send('@modal/pin-close')
         setLoading(false)
       }
     }

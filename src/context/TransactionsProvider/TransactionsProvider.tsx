@@ -1,13 +1,5 @@
-import type { AccountId } from '@shapeshiftoss/caip'
-import {
-  cosmosChainId,
-  ethChainId,
-  foxAssetId,
-  fromAccountId,
-  osmosisChainId,
-} from '@shapeshiftoss/caip'
-import type { Transaction } from '@shapeshiftoss/chain-adapters'
-import React, { useCallback, useEffect, useState } from 'react'
+import { cosmosChainId, fromAccountId, osmosisChainId } from '@keepkey/caip'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useWallet } from 'hooks/useWallet/useWallet'

@@ -1,4 +1,5 @@
-import type { AccountId, AssetId, ChainId } from '@shapeshiftoss/caip'
+import type { Asset } from '@keepkey/asset-service'
+import type { AccountId, AssetId, ChainId } from '@keepkey/caip'
 import {
   accountIdToChainId,
   avalancheChainId,
@@ -15,19 +16,19 @@ import {
   osmosisChainId,
   thorchainChainId,
   toAccountId,
-} from '@shapeshiftoss/caip'
-import type { Account } from '@shapeshiftoss/chain-adapters'
-import { utxoAccountParams } from '@shapeshiftoss/chain-adapters'
-import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
+} from '@keepkey/caip'
+import type { Account } from '@keepkey/chain-adapters'
+import { utxoAccountParams } from '@keepkey/chain-adapters'
+import type { KnownChainIds } from '@keepkey/types'
+import { UtxoAccountType } from '@keepkey/types'
+import type { HDWallet } from '@keepkey/hdwallet-core'
 import {
   supportsAvalanche,
   supportsBTC,
   supportsCosmos,
   supportsETH,
   supportsThorchain,
-} from '@shapeshiftoss/hdwallet-core'
-import type { KnownChainIds } from '@shapeshiftoss/types'
-import { UtxoAccountType } from '@shapeshiftoss/types'
+} from '@keepkey/hdwallet-core'
 import cloneDeep from 'lodash/cloneDeep'
 import groupBy from 'lodash/groupBy'
 import last from 'lodash/last'
@@ -45,7 +46,7 @@ import type {
 import { initialState } from './portfolioSliceCommon'
 
 export const firstFourLastFour = (address: string): string =>
-  `${address.slice(0, 6)}...${address.slice(-4)}`
+  address ? `${address.slice(0, 6)}...${address.slice(-4)}` : ''
 
 export const trimWithEndEllipsis = (content?: string, trimmedContentLength?: number): string => {
   if (!content) return ''

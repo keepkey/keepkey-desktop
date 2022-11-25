@@ -1,6 +1,5 @@
 import { Box, Flex, Heading } from '@chakra-ui/react'
-import type { AccountId, AssetId } from '@shapeshiftoss/caip'
-import isEqual from 'lodash/isEqual'
+import type { AssetId } from '@keepkey/caip'
 import { useMemo } from 'react'
 import { AssetIcon } from 'components/AssetIcon'
 import { SEO } from 'components/Layout/Seo'

@@ -10,11 +10,12 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import axios from 'axios'
-import { useCallback, useEffect, useState } from 'react'
-import { isMobile } from 'react-device-detect'
+import { useEffect, useState } from 'react'
 import { Card } from 'components/Card/Card'
 import { Row } from 'components/Row/Row'
 import { RawText } from 'components/Text'
+import { getLogLevel, saveLogLevel } from 'lib/logger'
+import { logger } from 'lib/logger'
 import { showDeveloperModal } from 'context/WalletProvider/MobileWallet/mobileMessageHandlers'
 import { getLogLevel, logger, saveLogLevel } from 'lib/logger'
 
@@ -65,16 +66,6 @@ export const Debugging = () => {
 
   const handleReloadClick = window.location.reload
 
-  const handleEnvironmentSwitch = useCallback(() => {
-    ;(async () => {
-      try {
-        await showDeveloperModal()
-      } catch (e) {
-        moduleLogger.error(e, 'failed to open developer modal')
-      }
-    })()
-  }, [])
-
   return (
     <Stack my={8} spacing={4} flex={1}>
       <Card>
@@ -82,16 +73,6 @@ export const Debugging = () => {
           <Card.Heading>Debugging</Card.Heading>
         </Card.Header>
         <Card.Body as={Stack}>
-          {isMobile && (
-            <Row alignItems='center'>
-              <Row.Label>Mobile environment</Row.Label>
-              <Row.Value fontFamily={'monospace'}>
-                <Button onClick={handleEnvironmentSwitch}>
-                  {window.location.host.split('.')[0]}
-                </Button>
-              </Row.Value>
-            </Row>
-          )}
           {buildMetadata && (
             <>
               <Row alignItems='center'>

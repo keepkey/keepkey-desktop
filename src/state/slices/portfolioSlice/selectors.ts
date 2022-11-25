@@ -1,5 +1,5 @@
-import { createSelector } from '@reduxjs/toolkit'
-import type { AccountId, AssetId, ChainId } from '@shapeshiftoss/caip'
+import type { Asset } from '@keepkey/asset-service'
+import type { AccountId, AssetId, ChainId } from '@keepkey/caip'
 import {
   avalancheAssetId,
   bchAssetId,
@@ -13,8 +13,12 @@ import {
   osmosisAssetId,
   thorchainAssetId,
 } from '@shapeshiftoss/caip'
-import type { cosmossdk } from '@shapeshiftoss/chain-adapters'
-import type { BIP44Params } from '@shapeshiftoss/types'
+import type { cosmossdk } from '@keepkey/chain-adapters'
+import type { BIP44Params } from '@keepkey/types'
+} from '@keepkey/caip'
+import type { cosmossdk } from '@keepkey/chain-adapters'
+import type { BIP44Params, UtxoAccountType } from '@keepkey/types'
+import { createSelector } from '@reduxjs/toolkit'
 import { uniq } from 'lodash'
 import cloneDeep from 'lodash/cloneDeep'
 import entries from 'lodash/entries'

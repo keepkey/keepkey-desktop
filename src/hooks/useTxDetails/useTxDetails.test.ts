@@ -1,9 +1,54 @@
-import type { AssetId } from '@shapeshiftoss/caip'
-import type { MarketData } from '@shapeshiftoss/types'
-import { TradeType, TransferType } from '@shapeshiftoss/unchained-client'
-import { mockAssetState, usdc } from 'test/mocks/assets'
-import { createMockEthTxs, EthReceive, EthSend, TradeTx } from 'test/mocks/txs'
-import { getTransfers, getTxType } from 'hooks/useTxDetails/useTxDetails'
+import type { Asset } from '@keepkey/asset-service'
+import type { TxTransfer } from '@keepkey/chain-adapters'
+import { TransferType } from '@keepkey/unchained-client'
+import { BtcSend, createMockEthTxs, EthReceive, EthSend, TradeTx } from 'test/mocks/txs'
+import {
+  getBuyTransfer,
+  getSellTransfer,
+  getStandardTx,
+  getTransferByAsset,
+  getTransferByType,
+  isSupportedContract,
+  isTradeContract,
+} from 'hooks/useTxDetails/useTxDetails'
+import type { Tx } from 'state/slices/txHistorySlice/txHistorySlice'
+
+describe('getStandardTx', () => {
+  it('returns the expected values', () => {
+    expect(getStandardTx(EthSend)).toEqual(EthSend.transfers[0]) // When 1 transfer (an ETH tx)
+    expect(getStandardTx(BtcSend)).toBeUndefined() // When !== 1 transfer (a BTC tx)
+  })
+})
+
+describe('getBuyTransfer', () => {
+  it('returns the expected values', () => {
+    expect(getBuyTransfer(EthSend)).toBeUndefined()
+    expect(getBuyTransfer(EthReceive)).toEqual(EthReceive.transfers[0])
+    expect(getBuyTransfer(TradeTx)).toEqual(TradeTx.transfers[0])
+  })
+})
+
+describe('getSellTransfer', () => {
+  it('returns the expected values', () => {
+    expect(getSellTransfer(EthSend)).toEqual(EthSend.transfers[0])
+    expect(getSellTransfer(EthReceive)).toBeUndefined()
+    expect(getSellTransfer(TradeTx)).toEqual(TradeTx.transfers[1])
+  })
+})
+
+describe('isTradeContract', () => {
+  it('returns true for trade', () => {
+    const account = '0xfoxy'
+    const buy = {
+      from: '0xpoolA',
+      to: account,
+    } as TxTransfer
+    const sell = {
+      from: account,
+      to: '0xpoolB',
+    } as TxTransfer
+    expect(isTradeContract(buy, sell)).toEqual(true)
+  })
 
 const [deposit, , withdrawUsdc] = createMockEthTxs('foo')
 

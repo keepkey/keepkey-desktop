@@ -4,6 +4,16 @@ import type { AccountId } from '@shapeshiftoss/caip'
 import { ethAssetId, ethChainId, foxAssetId, fromAccountId, fromAssetId } from '@shapeshiftoss/caip'
 import type { ethereum, EvmChainId, FeeData } from '@shapeshiftoss/chain-adapters'
 import { supportsETH } from '@shapeshiftoss/hdwallet-core'
+import { ethAssetId, ethChainId, foxAssetId, toAccountId } from '@keepkey/caip'
+import type {
+  ChainAdapter,
+  ethereum,
+  EvmBaseAdapter,
+  EvmChainId,
+  FeeData,
+} from '@keepkey/chain-adapters'
+import type { KnownChainIds } from '@keepkey/types'
+import { supportsETH } from '@keepkey/hdwallet-core'
 import IUniswapV2Pair from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import isNumber from 'lodash/isNumber'
 import { FOX_TOKEN_CONTRACT_ADDRESS } from 'plugins/foxPage/const'

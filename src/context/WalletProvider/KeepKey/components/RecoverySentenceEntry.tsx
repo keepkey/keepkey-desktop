@@ -12,7 +12,7 @@ import {
   Progress,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
+import { isKeepKey } from '@keepkey/hdwallet-keepkey'
 import type { KeyboardEvent, MouseEvent } from 'react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
@@ -210,7 +210,11 @@ export const KeepKeyRecoverySentenceEntry = () => {
 
   // Only the next expected input field should be in focus, else we get out of sync with the KeepKey
   const preventClickIfNotCurrentIndex = (e: MouseEvent<HTMLInputElement>, inputIndex: number) => {
-    if (inputIndex !== recoveryCharacterIndex) {
+    // if at end (4) then allow for selecting final box
+    if (
+      inputIndex !== recoveryCharacterIndex &&
+      !(inputIndex === 3 && recoveryCharacterIndex === 4)
+    ) {
       e.preventDefault()
     }
   }

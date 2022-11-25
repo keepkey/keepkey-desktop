@@ -1,14 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { createApi } from '@reduxjs/toolkit/dist/query/react'
-import type { AssetId } from '@shapeshiftoss/caip'
+import type { AssetId } from '@keepkey/caip'
 import type {
   FiatMarketDataArgs,
   FiatPriceHistoryArgs,
   SupportedFiatCurrencies,
-} from '@shapeshiftoss/market-service'
-import { findByFiatSymbol, findPriceHistoryByFiatSymbol } from '@shapeshiftoss/market-service'
-import type { HistoryData, MarketCapResult, MarketData } from '@shapeshiftoss/types'
-import merge from 'lodash/merge'
+} from '@keepkey/market-service'
+import {
+  findByFiatSymbol,
+  findPriceHistoryByFiatSymbol,
+  MarketServiceManager,
+} from '@keepkey/market-service'
+import type { HistoryData, MarketCapResult, MarketData } from '@keepkey/types'
+import { HistoryTimeframe } from '@keepkey/types'
+import { createSlice } from '@reduxjs/toolkit'
+import { createApi } from '@reduxjs/toolkit/dist/query/react'
+import { getConfig } from 'config'
 import { logger } from 'lib/logger'
 import { BASE_RTK_CREATE_API_CONFIG } from 'state/apis/const'
 import { getMarketServiceManager } from 'state/slices/marketDataSlice/marketServiceManagerSingleton'

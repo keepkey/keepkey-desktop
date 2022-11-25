@@ -1,8 +1,7 @@
-import type { AccountId, AssetId } from '@shapeshiftoss/caip'
-import type { cosmossdk } from '@shapeshiftoss/chain-adapters'
-import type { BIP44Params, UtxoAccountType } from '@shapeshiftoss/types'
-import type { PartialRecord } from 'lib/utils'
-import type { Nominal } from 'types/common'
+import type { Asset } from '@keepkey/asset-service'
+import type { AccountId, AssetId } from '@keepkey/caip'
+import type { cosmossdk } from '@keepkey/chain-adapters'
+import type { BIP44Params, UtxoAccountType } from '@keepkey/types'
 
 import type { PubKey } from '../validatorDataSlice/validatorDataSlice'
 

@@ -17,6 +17,7 @@ export const Dashboard = () => {
         mx='auto'
         direction={{ base: 'column', xl: 'row' }}
       >
+        <FiatRamps />
         <Stack spacing={4} flex='1 1 0%' width='full'>
           <Portfolio />
         </Stack>

@@ -1,3 +1,5 @@
+import { WalletConnectToDapps } from 'plugins/walletConnectToDapps/WalletConnectToDapps'
+import { FaFlag, FaGlobe, FaLock, FaPlug, FaTable, FaTractor, FaWater } from 'react-icons/fa'
 import { getConfig } from 'config'
 import { FaCreditCard, FaFlag, FaLock, FaTable, FaTractor, FaWater } from 'react-icons/fa'
 import { IoSwapVertical } from 'react-icons/io5'
@@ -6,6 +8,7 @@ import { AssetsIcon } from 'components/Icons/Assets'
 import { DashboardIcon } from 'components/Icons/Dashboard'
 import { DefiIcon } from 'components/Icons/DeFi'
 import { TxHistoryIcon } from 'components/Icons/TxHistory'
+import { WalletConnectCurrentColorIcon } from 'components/Icons/WalletConnectIcon'
 import { Account } from 'pages/Accounts/Account'
 import { Accounts } from 'pages/Accounts/Accounts'
 import { AccountToken } from 'pages/Accounts/AccountToken/AccountToken'
@@ -14,6 +17,8 @@ import { AccountTxHistory } from 'pages/Accounts/AccountTxHistory'
 import { Asset } from 'pages/Assets/Asset'
 import { Assets } from 'pages/Assets/Assets'
 import { AssetTxHistory } from 'pages/Assets/AssetTxHistory'
+import { KeepkeyAsset } from 'pages/Assets/KeepkeyAsset'
+import { Browser } from 'pages/Browser/Browser'
 import { Buy } from 'pages/Buy/Buy'
 import { Dashboard } from 'pages/Dashboard/Dashboard'
 import { Farming } from 'pages/Defi/views/Farming'
@@ -21,6 +26,9 @@ import { LiquidityPools } from 'pages/Defi/views/LiquidityPools'
 import { Overview } from 'pages/Defi/views/Overview'
 import { StakingVaults } from 'pages/Defi/views/StakingVaults'
 import { Flags } from 'pages/Flags/Flags'
+import { Leaderboard } from 'pages/Leaderboard/Leaderboard'
+import { PairingDetails } from 'pages/Pairings/PairingDetails'
+import { Pairings } from 'pages/Pairings/Pairings'
 import { Trade } from 'pages/Trade/Trade'
 import { TransactionHistory } from 'pages/TransactionHistory/TransactionHistory'
 
@@ -29,11 +37,55 @@ import { RouteCategory } from './helpers'
 
 export const routes: NestedRoute[] = [
   {
+    path: '/dapps',
+    label: 'navBar.dApps',
+    main: WalletConnectToDapps,
+    icon: <WalletConnectCurrentColorIcon />,
+    category: RouteCategory.Wallet,
+  },
+  {
     path: '/dashboard',
     label: 'navBar.dashboard',
     icon: <DashboardIcon />,
     main: Dashboard,
     category: RouteCategory.Wallet,
+  },
+  {
+    path: '/pairings',
+    label: 'navBar.pairings',
+    icon: <FaPlug />,
+    category: RouteCategory.Wallet,
+    main: Pairings,
+    routes: [
+      {
+        path: '/:serviceKey',
+        label: 'Pairing Detail',
+        icon: <FaPlug />,
+        main: PairingDetails,
+        hide: true,
+      },
+    ],
+  },
+  {
+    path: '/leaderboard',
+    label: 'Leaderboard',
+    icon: <IoSwapVertical />,
+    main: Leaderboard,
+    category: RouteCategory.Wallet,
+  },
+  {
+    path: '/browser',
+    label: 'navBar.browser',
+    icon: <FaGlobe />,
+    category: RouteCategory.Explore,
+    main: Browser,
+  },
+  {
+    path: '/trade',
+    label: 'navBar.trade',
+    icon: <IoSwapVertical />,
+    main: Trade,
+    category: RouteCategory.Explore,
   },
   {
     path: '/assets',
@@ -58,6 +110,20 @@ export const routes: NestedRoute[] = [
             path: '/transactions',
             label: 'navBar.transactions',
             main: AssetTxHistory,
+          },
+        ],
+      },
+      {
+        path: '/keepkey/:chainId/:assetSubId',
+        label: 'Overview',
+        icon: <AssetsIcon />,
+        main: null,
+        hide: true,
+        routes: [
+          {
+            path: '/',
+            label: 'navBar.overview',
+            main: KeepkeyAsset,
           },
         ],
       },
@@ -175,9 +241,7 @@ export const routes: NestedRoute[] = [
     path: '/flags',
     label: 'navBar.featureFlags',
     icon: <FaFlag />,
-    hide:
-      window.location.hostname !== 'localhost' &&
-      window.location.hostname !== getConfig().REACT_APP_LOCAL_IP,
+    category: RouteCategory.Explore,
     main: Flags,
   },
 ]

@@ -1,7 +1,7 @@
 import { Button, Input, ModalBody, ModalHeader } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/toast'
-import type { ResetDevice } from '@shapeshiftoss/hdwallet-core'
-import { useState } from 'react'
+import type { ResetDevice } from '@keepkey/hdwallet-core'
+import { useEffect, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { Text } from 'components/Text'
 import { useWallet } from 'hooks/useWallet/useWallet'
@@ -11,7 +11,7 @@ import { useKeepKeyRecover } from '../hooks/useKeepKeyRecover'
 const moduleLogger = logger.child({ namespace: ['Label'] })
 
 export const KeepKeyLabel = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const {
     setDeviceState,
     state: {
@@ -27,8 +27,10 @@ export const KeepKeyLabel = () => {
   const handleInitializeSubmit = async () => {
     setLoading(true)
     const resetMessage: ResetDevice = { label: label ?? '', pin: true }
-    setDeviceState({ awaitingDeviceInteraction: true })
+    setDeviceState({ awaitingDeviceInteraction: true, disposition })
     await wallet?.reset(resetMessage).catch(e => {
+      setLoading(false)
+      setDeviceState({ awaitingDeviceInteraction: false, disposition })
       moduleLogger.error(e)
       toast({
         title: translate('common.error'),
@@ -38,6 +40,14 @@ export const KeepKeyLabel = () => {
       })
     })
   }
+
+  useEffect(() => {
+    // Label screen hangs if you click skip too quickly
+    // Hack to keep that from happening
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }, [])
 
   const handleRecoverSubmit = async () => {
     setLoading(true)
@@ -54,6 +64,7 @@ export const KeepKeyLabel = () => {
         <Input
           type='text'
           value={label}
+          disabled={loading}
           placeholder={translate('modals.keepKey.label.placeholder')}
           onChange={e => setLabel(e.target.value)}
           size='lg'

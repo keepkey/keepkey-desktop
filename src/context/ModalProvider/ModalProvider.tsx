@@ -3,6 +3,11 @@ import noop from 'lodash/noop'
 import { OptInModal } from 'plugins/pendo/components/OptInModal/OptInModal'
 import React, { useMemo, useReducer } from 'react'
 import { WipeModal } from 'components/Layout/Header/NavBar/KeepKey/Modals/Wipe'
+import { AssetSearchModal } from 'components/Modals/AssetSearch/AssetSearch'
+import { FiatRampsModal } from 'components/Modals/FiatRamps/FiatRamps'
+import { KKVote } from 'components/Modals/kkVote/KKVote'
+import { LoadingModal } from 'components/Modals/Loading/Loading'
+import { PairModal } from 'components/Modals/Pair/Pair'
 import { BackupPassphraseModal } from 'components/Layout/Header/NavBar/Native/BackupPassphraseModal/BackupPassphraseModal'
 import { AssetSearchModal } from 'components/Modals/AssetSearch/AssetSearchModal'
 import { FiatRampsModal } from 'components/Modals/FiatRamps/FiatRampsModal'
@@ -11,6 +16,10 @@ import { PopupWindowModal } from 'components/Modals/PopupWindowModal'
 import { ReceiveModal } from 'components/Modals/Receive/Receive'
 import { SendModal } from 'components/Modals/Send/Send'
 import { SettingsModal } from 'components/Modals/Settings/Settings'
+import { SignModal } from 'components/Modals/Sign/Sign'
+import { HardwareErrorModal } from 'components/Modals/UpdateKeepKey/HardwareError/HardwareError'
+import { RequestBootloaderMode } from 'components/Modals/UpdateKeepKey/RequestBootloaderMode/RequestBootloaderMode'
+import { UpdateKeepKey } from 'components/Modals/UpdateKeepKey/UpdateKeepKey'
 import { AddAccountModal } from 'pages/Accounts/AddAccountModal'
 
 import { ModalContext } from './ModalContext'
@@ -21,15 +30,19 @@ import { ModalContext } from './ModalContext'
 const MODALS = {
   receive: ReceiveModal,
   send: SendModal,
+  sign: SignModal,
+  pair: PairModal,
+  hardwareError: HardwareErrorModal,
   fiatRamps: FiatRampsModal,
   settings: SettingsModal,
   keepKeyWipe: WipeModal,
   consentOptin: OptInModal,
-  backupNativePassphrase: BackupPassphraseModal,
-  mobileWelcomeModal: MobileWelcomeModal,
   addAccount: AddAccountModal,
   assetSearch: AssetSearchModal,
-  popup: PopupWindowModal,
+  requestBootloaderMode: RequestBootloaderMode,
+  updateKeepKey: UpdateKeepKey,
+  kkVote: KKVote,
+  loading: LoadingModal,
 }
 
 // state
@@ -74,6 +87,7 @@ type ModalSetup<S extends ModalSetup<S>> = {
 
 export function createInitialState<S extends {}>(modalSetup: S): ModalState<S> {
   const modalMethods = { isOpen: false, open: noop, close: noop }
+  // @ts-ignore
   const modalNames = Object.keys(modalSetup) as (keyof S)[]
   const result = modalNames.reduce(
     (acc, modalName) => ({
@@ -137,6 +151,7 @@ export function createModalProvider<M extends {}>({
     )
 
     const value = useMemo(() => {
+      // @ts-ignore
       const modalKeys = Object.keys(instanceInitialState) as (keyof M)[]
       const fns = modalKeys.reduce((acc, cur) => {
         const open = openFactory(cur)
@@ -147,12 +162,18 @@ export function createModalProvider<M extends {}>({
       return result
     }, [state, openFactory, closeFactory])
 
+    // @ts-ignore
     return (
+      // @ts-ignore
       <InstanceModalContext.Provider value={value}>
         {children}
-        {Object.values(value).map((Modal: any, key) => (
-          <Modal.Component key={key} {...Modal.props} />
-        ))}
+        {
+          // @ts-ignore
+          Object.values(value).map((Modal, key) => (
+            // @ts-ignore
+            <Modal.Component key={key} {...Modal.props} />
+          ))
+        }
       </InstanceModalContext.Provider>
     )
   }

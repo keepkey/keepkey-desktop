@@ -1,8 +1,15 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
-import { ethAssetId, fromAccountId, fromAssetId } from '@shapeshiftoss/caip'
-import type { ethereum, EvmChainId, FeeData } from '@shapeshiftoss/chain-adapters'
-import { supportsETH } from '@shapeshiftoss/hdwallet-core'
+import { ethAssetId, ethChainId, toAccountId } from '@keepkey/caip'
+import type {
+  ChainAdapter,
+  ethereum,
+  EvmBaseAdapter,
+  EvmChainId,
+  FeeData,
+} from '@keepkey/chain-adapters'
+import type { KnownChainIds } from '@keepkey/types'
+import { supportsETH } from '@keepkey/hdwallet-core'
 import IUniswapV2Pair from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import { getEthersProvider } from 'plugins/foxPage/utils'
 import { useCallback, useMemo } from 'react'

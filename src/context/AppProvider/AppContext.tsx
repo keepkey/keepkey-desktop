@@ -1,7 +1,13 @@
 import { AlertDescription, Button, Flex, useToast } from '@chakra-ui/react'
-import type { AccountId, ChainId } from '@shapeshiftoss/caip'
-import { cosmosChainId, ethChainId, fromAccountId, osmosisChainId } from '@shapeshiftoss/caip'
-import { supportsCosmos, supportsOsmosis } from '@shapeshiftoss/hdwallet-core'
+import type { AccountId } from '@keepkey/caip'
+import {
+  cosmosChainId,
+  ethChainId,
+  fromAccountId,
+  osmosisChainId,
+  toAccountId,
+} from '@keepkey/caip'
+import { supportsCosmos, supportsOsmosis } from '@keepkey/hdwallet-core'
 import { DEFAULT_HISTORY_TIMEFRAME } from 'constants/Config'
 import { entries } from 'lodash'
 import isEmpty from 'lodash/isEmpty'

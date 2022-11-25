@@ -5,7 +5,6 @@ import {
   AlertIcon,
   AlertTitle,
   Box,
-  Button,
   Divider,
   Flex,
   Link,
@@ -13,6 +12,11 @@ import {
   StackDivider,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
+import { fromAccountId, osmosisAssetId, thorchainAssetId } from '@keepkey/caip'
+import { type TradeTxs } from '@keepkey/swapper'
+import { TxStatus } from '@keepkey/unchained-client'
+import { useEffect, useMemo, useState } from 'react'
 import type { ChainId } from '@shapeshiftoss/caip'
 import { fromAccountId, osmosisAssetId, thorchainAssetId } from '@shapeshiftoss/caip'
 import type { Swapper } from '@shapeshiftoss/swapper'
@@ -203,7 +207,16 @@ export const TradeConfirm = () => {
       reset()
     }
     history.push(TradeRoutePaths.Input)
-  }, [history, reset, sellTxid])
+  }
+
+  const sellAmountCrypto = fromBaseUnit(
+    bnOrZero(trade.sellAmountCryptoPrecision),
+    trade?.sellAsset?.precision ?? 0,
+  )
+
+  const sellAmountFiat = bnOrZero(sellAmountCrypto)
+    .times(bnOrZero(sellAssetFiatRate))
+    .times(selectedCurrencyToUsdRate)
 
   const networkFeeFiat = bnOrZero(fees?.networkFeeCryptoHuman)
     .times(feeAssetFiatRate ?? 1)
@@ -218,6 +231,87 @@ export const TradeConfirm = () => {
   const isFeeRatioOverThreshold =
     networkFeeToTradeRatioPercentage > networkFeeToTradeRatioPercentageThreshold
 
+  return (
+    <SlideTransition>
+      <Box as='form' onSubmit={handleSubmit(onSubmit)}>
+        <Card variant='unstyled'>
+          <Card.Header px={0} pt={0}>
+            <WithBackButton handleBack={handleBack}>
+              <Card.Heading textAlign='center'>
+                <Text
+                  translation={
+                    status === TxStatus.Confirmed ? 'trade.complete' : 'trade.confirmDetails'
+                  }
+                />
+              </Card.Heading>
+            </WithBackButton>
+          </Card.Header>
+          <Divider />
+          <Card.Body pb={0} px={0}>
+            <Stack
+              spacing={4}
+              borderColor={borderColor}
+              divider={<StackDivider />}
+              fontSize='sm'
+              fontWeight='medium'
+            >
+              <AssetToAsset
+                buyIcon={trade.buyAsset.icon}
+                sellIcon={trade.sellAsset.icon}
+                status={sellTxid || isSubmitting ? status : undefined}
+              />
+              <Flex direction='column' gap={2}>
+                {fees?.tradeFeeSource === 'Thorchain' && (
+                  <Alert status='info' width='auto' fontSize='sm'>
+                    <AlertIcon />
+                    <Stack spacing={0}>
+                      <AlertTitle>
+                        {translate('trade.slowSwapTitle', { protocol: 'THORChain' })}
+                      </AlertTitle>
+                      <AlertDescription lineHeight='short'>
+                        {translate('trade.slowSwapBody')}
+                      </AlertDescription>
+                    </Stack>
+                  </Alert>
+                )}
+                {trade?.buyAsset.assetId === thorchainAssetId && (
+                  <Alert status='info' width='auto' mb={3} fontSize='sm'>
+                    <AlertIcon />
+                    <Stack spacing={0}>
+                      <AlertDescription lineHeight='short'>
+                        {translate('trade.intoRUNEBody')}
+                      </AlertDescription>
+                    </Stack>
+                  </Alert>
+                )}
+              </Flex>
+              <Stack spacing={4}>
+                <Row colorScheme={undefined}>
+                  <Row.Label>{translate('common.send')}</Row.Label>
+                  <Row.Value textAlign='right'>
+                    <Amount.Crypto value={sellAmountCrypto} symbol={trade.sellAsset.symbol} />
+                    <Amount.Fiat color='gray.500' value={sellAmountFiat.toString()} prefix='≈' />
+                  </Row.Value>
+                </Row>
+                <ReceiveSummary
+                  symbol={trade.buyAsset.symbol ?? ''}
+                  amount={buyTradeAsset?.amount ?? ''}
+                  beforeFees={
+                    executedTradeAmountConstants?.beforeFeesBuyAsset ??
+                    tradeAmountConstants?.beforeFeesBuyAsset ??
+                    ''
+                  }
+                  protocolFee={
+                    executedTradeAmountConstants?.totalTradeFeeBuyAsset ??
+                    tradeAmountConstants?.totalTradeFeeBuyAsset ??
+                    ''
+                  }
+                  shapeShiftFee='0'
+                  slippage={slippage}
+                  swapperName={swapperName}
+                  colorScheme={undefined}
+                />
+              </Stack>
   const header: JSX.Element = useMemo(
     () => (
       <>
@@ -364,7 +458,7 @@ export const TradeConfirm = () => {
               {sendReceiveSummary}
               <Stack spacing={4}>
                 {sellTxid && (
-                  <Row>
+                  <Row colorScheme={undefined}>
                     <Row.Label>
                       <RawText>{translate('common.txId')}</RawText>
                     </Row.Label>
@@ -375,7 +469,7 @@ export const TradeConfirm = () => {
                     </Box>
                   </Row>
                 )}
-                <Row>
+                <Row colorScheme={undefined}>
                   <HelperTooltip label={translate('trade.tooltip.rate')}>
                     <Row.Label>
                       <Text translation='trade.rate' />
@@ -390,17 +484,15 @@ export const TradeConfirm = () => {
                     )}
                   </Box>
                 </Row>
-                <Row>
+                <Row colorScheme={undefined}>
                   <HelperTooltip label={translate('trade.tooltip.minerFee')}>
                     <Row.Label>
                       <Text translation='trade.minerFee' />
                     </Row.Label>
                   </HelperTooltip>
                   <Row.Value>
-                    {defaultFeeAsset &&
-                      `${bnOrZero(fees?.networkFeeCryptoHuman).toNumber()} ${
-                        defaultFeeAsset.symbol
-                      } ≃ ${toFiat(networkFeeFiat.toNumber())}`}
+                    {bnOrZero(fees?.networkFeeCryptoHuman).toNumber()} {defaultFeeAsset.symbol} ≃{' '}
+                    {toFiat(networkFeeFiat.toNumber())}
                   </Row.Value>
                 </Row>
                 {isFeeRatioOverThreshold && (

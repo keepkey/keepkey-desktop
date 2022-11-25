@@ -1,6 +1,5 @@
-import type { AccountId, AssetId } from '@shapeshiftoss/caip'
-import { fromAccountId } from '@shapeshiftoss/caip'
-import type { RebaseHistory } from '@shapeshiftoss/investor-foxy'
+import type { AccountId, AssetId } from '@keepkey/caip'
+import { fromAccountId } from '@keepkey/caip'
 import intersection from 'lodash/intersection'
 import isEmpty from 'lodash/isEmpty'
 import pickBy from 'lodash/pickBy'

@@ -1,3 +1,4 @@
+import type { IdleOpportunity } from '@keepkey/investor-idle'
 import type { WithdrawValues } from 'features/defi/components/Withdraw/Withdraw'
 import type { StakingEarnOpportunityType } from 'state/slices/opportunitiesSlice/types'
 

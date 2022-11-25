@@ -14,16 +14,15 @@ import {
   fromChainId,
   ltcAssetId,
   osmosisAssetId,
-  thorchainAssetId,
-} from '@shapeshiftoss/caip'
-import { type EvmChainId } from '@shapeshiftoss/chain-adapters'
+} from '@keepkey/caip'
+import { type EvmChainId } from '@keepkey/chain-adapters'
 import {
   type Swapper,
   type Trade,
   type TradeQuote,
   type UtxoSupportedChainIds,
-} from '@shapeshiftoss/swapper'
-import { KnownChainIds } from '@shapeshiftoss/types'
+} from '@keepkey/swapper'
+import { KnownChainIds } from '@keepkey/types'
 import { getSwapperManager } from 'components/Trade/hooks/useSwapper/swapperManager'
 import type { GetReceiveAddressArgs } from 'components/Trade/types'
 import {

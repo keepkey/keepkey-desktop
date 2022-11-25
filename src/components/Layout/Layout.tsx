@@ -8,6 +8,7 @@ import {
   Container,
   Flex,
 } from '@chakra-ui/react'
+import { fromAccountId } from '@keepkey/caip'
 import React, { useCallback } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { useSelector } from 'react-redux'

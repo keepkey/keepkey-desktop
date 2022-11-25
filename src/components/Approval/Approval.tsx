@@ -11,8 +11,8 @@ import {
   Text as CText,
   Tooltip,
 } from '@chakra-ui/react'
-import type { EvmChainId } from '@shapeshiftoss/chain-adapters'
-import { useCallback, useRef, useState } from 'react'
+import type { KnownChainIds } from '@keepkey/types'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { useFormContext, useWatch } from 'react-hook-form'
 import { FaInfoCircle } from 'react-icons/fa'
@@ -182,7 +182,7 @@ export const Approval = () => {
             <Divider my={4} />
             <Flex flexDirection='column' width='full'>
               {approvalTxId && quote?.sellAsset?.explorerTxLink && (
-                <Row>
+                <Row colorScheme={undefined}>
                   <Row.Label>
                     <Text translation={['trade.approvingAsset', { symbol }]} />
                   </Row.Label>
@@ -197,7 +197,7 @@ export const Approval = () => {
                   </Row.Value>
                 </Row>
               )}
-              <Row>
+              <Row colorScheme={undefined}>
                 <Row.Label display='flex' alignItems='center'>
                   <Text color='gray.500' translation='trade.allowance' />
                   <Tooltip label={translate('trade.allowanceTooltip')}>
@@ -240,7 +240,7 @@ export const Approval = () => {
                 </Button>
               )}
               <Divider my={4} />
-              <Row>
+              <Row colorScheme={undefined}>
                 <Row.Label>
                   <Text color='gray.500' translation='trade.estimatedGasFee' />
                 </Row.Label>

@@ -9,6 +9,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import type { ChainId } from '@shapeshiftoss/caip'
+import { Circle, Collapse, IconButton, ListItem, Stack, useDisclosure } from '@chakra-ui/react'
+import type { ChainId } from '@keepkey/caip'
 import { useMemo } from 'react'
 import { useHistory } from 'react-router'
 import { Amount } from 'components/Amount/Amount'
@@ -41,9 +43,7 @@ export const ChainRow: React.FC<ChainRowProps> = ({ chainId }) => {
     selectPortfolioAccountsGroupedByNumberByChainId(s, filter),
   )
 
-  const hoverBorderColor = useColorModeValue('gray.300', 'gray.700')
-  const color = asset?.color
-  const name = asset?.name
+  const { color, name } = asset
 
   const accountRows = useMemo(() => {
     return Object.entries(accountIdsByAccountNumber).map(([accountNumber, accountIds]) => (
@@ -62,26 +62,13 @@ export const ChainRow: React.FC<ChainRowProps> = ({ chainId }) => {
     ))
   }, [accountIdsByAccountNumber, chainId, history])
 
-  return asset ? (
-    <ListItem
-      as={Card}
-      py={4}
-      pl={2}
-      fontWeight='semibold'
-      transitionProperty='common'
-      transitionDuration='normal'
-      fontSize={{ base: 'sm', md: 'md' }}
-      borderWidth={{ base: 0, md: 1 }}
-      _hover={{ borderColor: hoverBorderColor }}
-    >
+  return (
+    <ListItem as={Card} py={4} pl={2} fontWeight='semibold' fontSize={{ base: 'sm', md: 'md' }}>
       <Stack
         direction='row'
-        cursor='pointer'
         justifyContent='space-between'
         alignItems='center'
         px={{ base: 2, md: 4 }}
-        data-test='expand-accounts-button'
-        onClick={onToggle}
         py={2}
       >
         <Stack direction='row' alignItems='center' spacing={4}>
@@ -90,12 +77,20 @@ export const ChainRow: React.FC<ChainRowProps> = ({ chainId }) => {
         </Stack>
         <Stack direction='row' alignItems='center' spacing={6}>
           <Amount.Fiat value={chainFiatBalance} />
-          <Center boxSize='32px'>{isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}</Center>
+          <IconButton
+            size='sm'
+            variant='ghost'
+            isActive={isOpen}
+            aria-label='Expand Accounts'
+            data-test='expand-accounts-button'
+            onClick={onToggle}
+            icon={isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
+          />
         </Stack>
       </Stack>
       <NestedList as={Collapse} in={isOpen}>
         {accountRows}
       </NestedList>
     </ListItem>
-  ) : null
+  )
 }

@@ -1,6 +1,5 @@
-import { btcAssetId, ethAssetId } from '@shapeshiftoss/caip'
-import { UtxoAccountType } from '@shapeshiftoss/types'
-import { TxStatus } from '@shapeshiftoss/unchained-client'
+import { UtxoAccountType } from '@keepkey/types'
+import { TxStatus } from '@keepkey/unchained-client'
 import { map, reverse } from 'lodash'
 import { mockStore } from 'test/mocks/store'
 import { BtcSend, ethereumTransactions, EthReceive, EthSend } from 'test/mocks/txs'

@@ -1,4 +1,4 @@
-import { MoonIcon, SunIcon } from '@chakra-ui/icons'
+import { ExternalLinkIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
 import {
   Divider,
   Flex,
@@ -15,17 +15,21 @@ import type { FC } from 'react'
 import { useCallback, useState } from 'react'
 import { FaCoins, FaDollarSign, FaGreaterThanEqual, FaTrash } from 'react-icons/fa'
 import { IoDocumentTextOutline, IoLockClosed } from 'react-icons/io5'
+import { ipcRenderer } from 'electron'
+import { useCallback, useEffect, useState } from 'react'
+import { FaCoins, FaDollarSign, FaGreaterThanEqual, FaRocket, FaTrash } from 'react-icons/fa'
+import { HiRefresh } from 'react-icons/hi'
+import { IoDocumentTextOutline, IoFileTray, IoLockClosed } from 'react-icons/io5'
 import { MdChevronRight, MdLanguage } from 'react-icons/md'
+import { TbRefreshAlert } from 'react-icons/tb'
 import { useTranslate } from 'react-polyglot'
 import type { RouteComponentProps } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import { getLocaleLabel } from 'assets/translations/utils'
+import { Link } from 'react-router-dom'
 import { SlideTransition } from 'components/SlideTransition'
 import { RawText } from 'components/Text'
-import { mobileLogger } from 'context/WalletProvider/MobileWallet/config'
-import { deleteWallet } from 'context/WalletProvider/MobileWallet/mobileMessageHandlers'
 import { useModal } from 'hooks/useModal/useModal'
-import { useWallet } from 'hooks/useWallet/useWallet'
 import { isMobile as isMobileApp } from 'lib/globals'
 import {
   selectCurrencyFormat,
@@ -42,9 +46,16 @@ type SettingsListProps = {
   appHistory: RouteComponentProps['history']
 }
 
-export const SettingsList: FC<SettingsListProps> = ({ appHistory }) => {
-  const history = useHistory()
-  const { disconnect } = useWallet()
+export type AppSettings = {
+  shouldAutoLunch: boolean
+  shouldAutoStartBridge: boolean
+  shouldMinimizeToTray: boolean
+  shouldAutoUpdate: boolean
+  allowPreRelease: boolean
+  bridgeApiPort: number
+}
+
+export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) => {
   const translate = useTranslate()
   const { settings } = useModal()
   const { toggleColorMode } = useColorMode()
@@ -55,6 +66,17 @@ export const SettingsList: FC<SettingsListProps> = ({ appHistory }) => {
   const selectedCurrencyFormat = useAppSelector(selectCurrencyFormat)
   // for both locale and currency
   const selectedPreferenceValueColor = useColorModeValue('blue.500', 'blue.200')
+
+  const [appSettings, setAppSettings] = useState<AppSettings>({
+    shouldAutoLunch: true,
+    shouldAutoStartBridge: true,
+    shouldMinimizeToTray: true,
+    shouldAutoUpdate: true,
+    allowPreRelease: false,
+    bridgeApiPort: 1646,
+  })
+
+  const [prevAppSettings, setPrevAppSettings] = useState<AppSettings>(appSettings)
 
   /**
    * tapping 5 times on the settings header will close this modal and take you to the flags page
@@ -70,22 +92,37 @@ export const SettingsList: FC<SettingsListProps> = ({ appHistory }) => {
     }
   }, [appHistory, clickCount, setClickCount, settings])
 
+  useEffect(() => {
+    ipcRenderer.on('@app/settings', (_event, data) => {
+      // console.log('APP SETTINGS RECIEVED', data)
+      setAppSettings(data)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (
+      prevAppSettings &&
+      appSettings.shouldAutoLunch === prevAppSettings.shouldAutoLunch &&
+      appSettings.shouldAutoUpdate === prevAppSettings.shouldAutoUpdate &&
+      appSettings.shouldMinimizeToTray === prevAppSettings.shouldMinimizeToTray &&
+      appSettings.allowPreRelease === prevAppSettings.allowPreRelease
+    )
+      return
+    setPrevAppSettings(appSettings)
+    // console.log('APP SETTINGS SAVED')
+    ipcRenderer.send('@app/update-settings', appSettings)
+  }, [appSettings, prevAppSettings])
+
+  useEffect(() => {
+    if (settings.isOpen) ipcRenderer.send('@app/settings')
+  }, [settings.isOpen])
+
   const closeModalAndNavigateTo = (linkHref: string) => {
     settings.close()
     appHistory.push(linkHref)
   }
 
-  const handleDeleteAccountsClick = async () => {
-    if (window.confirm(translate('modals.settings.deleteAccountsConfirm'))) {
-      try {
-        await deleteWallet('*')
-        settings.close()
-        disconnect()
-      } catch (e) {
-        mobileLogger.error(e, 'Error deleting wallets')
-      }
-    }
-  }
+  const handleDeleteAccountsClick = async () => {}
 
   return (
     <SlideTransition>
@@ -102,6 +139,66 @@ export const SettingsList: FC<SettingsListProps> = ({ appHistory }) => {
             icon={<Icon as={isLightMode ? SunIcon : MoonIcon} color='gray.500' />}
           >
             <Switch isChecked={isLightMode} pointerEvents='none' />
+          </SettingsListItem>
+          <Divider my={1} />
+          <SettingsListItem
+            label={'modals.settings.autoUpdate'}
+            onClick={() => {
+              setAppSettings(currentSettings => {
+                return {
+                  ...currentSettings,
+                  shouldAutoUpdate: !currentSettings.shouldAutoUpdate,
+                }
+              })
+            }}
+            icon={<Icon as={HiRefresh} color='gray.500' />}
+          >
+            <Switch isChecked={appSettings.shouldAutoUpdate} pointerEvents='none' />
+          </SettingsListItem>
+          <Divider my={1} />
+          <SettingsListItem
+            label={'modals.settings.autoLaunch'}
+            onClick={() => {
+              setAppSettings(currentSettings => {
+                return {
+                  ...currentSettings,
+                  shouldAutoLunch: !currentSettings.shouldAutoLunch,
+                }
+              })
+            }}
+            icon={<Icon as={FaRocket} color='gray.500' />}
+          >
+            <Switch isChecked={appSettings.shouldAutoLunch} pointerEvents='none' />
+          </SettingsListItem>
+          <Divider my={1} />
+          <SettingsListItem
+            label={'modals.settings.minimizeToTray'}
+            onClick={() => {
+              setAppSettings(currentSettings => {
+                return {
+                  ...currentSettings,
+                  shouldMinimizeToTray: !currentSettings.shouldMinimizeToTray,
+                }
+              })
+            }}
+            icon={<Icon as={IoFileTray} color='gray.500' />}
+          >
+            <Switch isChecked={appSettings.shouldMinimizeToTray} pointerEvents='none' />
+          </SettingsListItem>
+          <Divider my={1} />
+          <SettingsListItem
+            label={'modals.settings.downloadPreRelease'}
+            onClick={() => {
+              setAppSettings(currentSettings => {
+                return {
+                  ...currentSettings,
+                  allowPreRelease: !currentSettings.allowPreRelease,
+                }
+              })
+            }}
+            icon={<Icon as={TbRefreshAlert} color='gray.500' />}
+          >
+            <Switch isChecked={appSettings.allowPreRelease} pointerEvents='none' />
           </SettingsListItem>
           <Divider my={1} />
           <>
@@ -152,6 +249,13 @@ export const SettingsList: FC<SettingsListProps> = ({ appHistory }) => {
           >
             <BalanceThresholdInput />
           </SettingsListItem>
+          <Divider my={1} />
+          <Link to={{ pathname: 'http://localhost:1646/docs' }} target='_blank'>
+            <SettingsListItem
+              icon={<Icon as={ExternalLinkIcon} color='gray.500' />}
+              label='connectWallet.menu.openDev'
+            />
+          </Link>
           <Divider my={1} />
           <SettingsListItem
             label='common.terms'

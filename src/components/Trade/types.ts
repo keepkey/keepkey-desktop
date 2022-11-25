@@ -1,7 +1,7 @@
-import { type Asset } from '@shapeshiftoss/asset-service'
-import type { AccountId, AssetId } from '@shapeshiftoss/caip'
-import { type ChainId } from '@shapeshiftoss/caip'
-import { type HDWallet } from '@shapeshiftoss/hdwallet-core'
+import { type Asset } from '@keepkey/asset-service'
+import type { AccountId, AssetId } from '@keepkey/caip'
+import { type ChainId } from '@keepkey/caip'
+import { type HDWallet } from '@keepkey/hdwallet-core'
 import {
   type BuildTradeInput,
   type CowTrade,
@@ -10,7 +10,11 @@ import {
   type Trade,
   type TradeQuote,
 } from '@shapeshiftoss/swapper'
-import type { BIP44Params, KnownChainIds, UtxoAccountType } from '@shapeshiftoss/types'
+import type { BIP44Params, KnownChainIds, UtxoAccountType } from '@keepkey/types'
+} from '@keepkey/swapper'
+import type { BIP44Params, KnownChainIds, UtxoAccountType } from '@keepkey/types'
+import { type HDWallet } from '@keepkey/hdwallet-core'
+import { type AccountSpecifier } from 'state/slices/portfolioSlice/portfolioSliceCommon'
 
 export enum TradeAmountInputField {
   BUY_CRYPTO = 'BUY_CRYPTO',

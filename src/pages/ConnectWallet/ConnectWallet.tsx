@@ -1,26 +1,27 @@
-import { Button } from '@chakra-ui/button'
 import { DarkMode } from '@chakra-ui/color-mode'
-import { Center, Circle, Flex, Link, Stack } from '@chakra-ui/layout'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { Flex, Link } from '@chakra-ui/layout'
+import { Button, Image } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { generatePath, matchPath, useHistory } from 'react-router-dom'
-import AuroraBg from 'assets/aurorabg.jpg'
-import { AuroraBackground } from 'components/AuroraBackground'
-import { FoxIcon } from 'components/Icons/FoxIcon'
+import logo from 'assets/kk-icon-gold.png'
+import heroBgImage from 'assets/splash-bg.png'
 import { Page } from 'components/Layout/Page'
 import { SEO } from 'components/Layout/Seo'
 import { RawText, Text } from 'components/Text'
-import { WalletActions } from 'context/WalletProvider/actions'
+import { useFeatureFlag } from 'hooks/useFeatureFlag/useFeatureFlag'
 import { useQuery } from 'hooks/useQuery/useQuery'
 import { useWallet } from 'hooks/useWallet/useWallet'
 
 export const ConnectWallet = () => {
-  const { state, dispatch, connectDemo } = useWallet()
-  const hasWallet = Boolean(state.walletInfo?.deviceId)
-
+  const isMigrationMessageEnabled = useFeatureFlag('MigrationMessage')
+  const { state, dispatch } = useWallet()
+  const hasWallet = Boolean(state.walletInfo?.deviceId) && state.isConnected
   const history = useHistory()
   const translate = useTranslate()
   const query = useQuery<{ returnUrl: string }>()
+
   useEffect(() => {
     // This handles reloading an asset's account page on Native/KeepKey. Without this, routing will break.
     // /:accountId/:assetId really is /:accountId/:chainId/:assetSubId e.g /accounts/eip155:1:0xmyPubKey/eip155:1/erc20:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48
@@ -38,37 +39,50 @@ export const ConnectWallet = () => {
           assetId: `${match?.params?.chainId ?? ''}/${match?.params?.assetSubId ?? ''}`,
         })
       : query?.returnUrl
-    hasWallet && history.push(path ?? '/dashboard')
+    hasWallet && history.push(path ?? '/dapps')
   }, [history, hasWallet, query, state, dispatch])
+
   return (
     <Page>
       <SEO title={translate('common.connectWallet')} />
       <DarkMode>
         <Flex
-          backgroundImage={AuroraBg}
+          backgroundImage={heroBgImage}
           backgroundSize='cover'
           backgroundPosition='bottom center'
-          width='100vw'
+          width='100%'
+          height='100%'
           alignItems='center'
           justifyContent='center'
         >
-          <Flex flexDir='column' zIndex={4} width='full'>
-            <Center flexDir='column' height='100vh' px={6}>
-              <Circle size='100px' mb={6}>
-                <FoxIcon boxSize='100%' color='white' />
-              </Circle>
-              <Flex
-                flexDir='row'
-                textAlign='center'
-                letterSpacing='-4px'
-                fontSize={{ base: '6xl', lg: '8xl' }}
-                mb={6}
-              >
-                <RawText color='white' fontWeight='light' lineHeight='1' userSelect={'none'}>
-                  {translate('connectWalletPage.exploreThe')}{' '}
-                  <RawText color='white' fontWeight='bold' as='span'>
-                    {translate('connectWalletPage.defiUniverse')}
-                  </RawText>
+          <Flex
+            flexDir='column'
+            alignItems='center'
+            justifyContent='center'
+            zIndex={4}
+            width='100vw'
+            height='100vh'
+          >
+            <Flex
+              flex={1}
+              flexDir='column'
+              justifyContent='center'
+              height='100vh'
+              width='60%'
+              px={6}
+            >
+              <Image objectFit='cover' width='70px' src={logo} />
+              <Flex flexDir='row' letterSpacing='-2px' my={6}>
+                <RawText
+                  textAlign='left'
+                  color='white'
+                  width='80%'
+                  fontWeight='light'
+                  lineHeight={1}
+                  fontSize='6xl'
+                  userSelect={'none'}
+                >
+                  {translate('connectWalletPage.nextFrontier')}
                 </RawText>
               </Flex>
               <Text
@@ -76,45 +90,20 @@ export const ConnectWallet = () => {
                 color='white'
                 fontSize='lg'
                 mb={12}
-                textAlign='center'
-                translation={'connectWalletPage.body2'}
+                textAlign='left'
+                translation='connectWalletPage.protectYourCrypto'
               />
-              <Stack
-                alignItems='center'
-                spacing={{ base: 2, md: 8 }}
-                mx='auto'
-                direction={{ base: 'column', md: 'row' }}
+              <Button
+                as={Link}
+                isExternal
+                width='160px'
+                href='https://keepkey.myshopify.com/'
+                rightIcon={<ExternalLinkIcon />}
+                colorScheme='blue'
               >
-                <Button
-                  size='lg'
-                  zIndex={1}
-                  colorScheme='blue'
-                  onClick={() => dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: true })}
-                  data-test='connect-wallet-button'
-                >
-                  <Text translation='connectWalletPage.cta' />
-                </Button>
-                <Flex alignItems='center' justifyContent='center'>
-                  <Text
-                    color='whiteAlpha.500'
-                    fontSize='lg'
-                    fontWeight='bold'
-                    textAlign='center'
-                    translation='common.or'
-                  />
-                </Flex>
-                <Button
-                  size='lg'
-                  zIndex={1}
-                  variant='outline'
-                  onClick={connectDemo}
-                  isLoading={state.isLoadingLocalWallet}
-                  data-test='connect-demo-wallet-button'
-                >
-                  <Text translation='connectWalletPage.viewADemo' />
-                </Button>
-              </Stack>
-            </Center>
+                {translate('connectWalletPage.buyKeepKey')}
+              </Button>
+            </Flex>
             <Flex
               direction={'column'}
               gap={4}
@@ -141,18 +130,19 @@ export const ConnectWallet = () => {
                 >
                   <Text translation='common.privacy' />
                 </Link>
-                <Link
-                  href='https://shapeshift.zendesk.com/hc/en-us/articles/9172454414861'
-                  isExternal
-                  color='whiteAlpha.500'
-                  _hover={{ color: 'white' }}
-                >
-                  <Text translation='connectWalletPage.betaSunset' />
-                </Link>
+                {isMigrationMessageEnabled && (
+                  <Link
+                    href='https://github.com/shapeshift'
+                    isExternal
+                    color='whiteAlpha.500'
+                    _hover={{ color: 'white' }}
+                  >
+                    <Text translation='connectWalletPage.poweredBy' />
+                  </Link>
+                )}
               </Flex>
             </Flex>
           </Flex>
-          <AuroraBackground />
         </Flex>
       </DarkMode>
     </Page>

@@ -2,10 +2,10 @@ import { WarningIcon } from '@chakra-ui/icons'
 import { Menu, MenuButton, MenuGroup, MenuItem, MenuList } from '@chakra-ui/menu'
 import type { BoxProps } from '@chakra-ui/react'
 import { Box, Button, Flex, Text, Tooltip, useColorModeValue } from '@chakra-ui/react'
-import type { ChainId } from '@shapeshiftoss/caip'
-import { fromChainId } from '@shapeshiftoss/caip'
-import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
-import { supportsEthSwitchChain } from '@shapeshiftoss/hdwallet-core'
+import type { ChainId } from '@keepkey/caip'
+import { fromChainId } from '@keepkey/caip'
+import type { ETHWallet } from '@keepkey/hdwallet-core'
+import { supportsEthSwitchChain } from '@keepkey/hdwallet-core'
 import { useMemo } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { AssetIcon } from 'components/AssetIcon'
@@ -50,7 +50,7 @@ const ChainMenuItem: React.FC<{
 type ChainMenuProps = BoxProps
 
 export const ChainMenu = (props: ChainMenuProps) => {
-  const { state, load } = useWallet()
+  const { state } = useWallet()
   const { isLoading, supportedEvmChainIds, connectedEvmChainId, setEthNetwork } = useEvm()
   const chainAdapterManager = getChainAdapterManager()
   const translate = useTranslate()
@@ -59,7 +59,6 @@ export const ChainMenu = (props: ChainMenuProps) => {
     try {
       await (state.wallet as ETHWallet).ethSwitchChain?.(Number(chainId))
       setEthNetwork(chainId)
-      load()
     } catch (e) {
       // TODO: Handle me after https://github.com/shapeshift/hdwallet/pull/551 is published
     }

@@ -1,6 +1,6 @@
-import type { Asset } from '@shapeshiftoss/asset-service'
-import { btcAssetId, btcChainId, ethAssetId, ethChainId, foxAssetId } from '@shapeshiftoss/caip'
-import type { KnownChainIds } from '@shapeshiftoss/types'
+import type { Asset } from '@keepkey/asset-service'
+import { btcAssetId, btcChainId, ethAssetId, ethChainId, foxAssetId } from '@keepkey/caip'
+import type { KnownChainIds } from '@keepkey/types'
 
 import type { DisplayFeeData } from '../components/Trade/types'
 

@@ -1,4 +1,4 @@
-import type { ChainId } from '@shapeshiftoss/caip'
+import type { ChainId } from '@keepkey/caip'
 import {
   avalancheChainId,
   bchChainId,
@@ -9,8 +9,8 @@ import {
   ltcChainId,
   osmosisChainId,
   thorchainChainId,
-} from '@shapeshiftoss/caip'
-import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
+} from '@keepkey/caip'
+import type { HDWallet } from '@keepkey/hdwallet-core'
 import {
   supportsAvalanche,
   supportsBTC,
@@ -18,7 +18,7 @@ import {
   supportsETH,
   supportsOsmosis,
   supportsThorchain,
-} from '@shapeshiftoss/hdwallet-core'
+} from '@keepkey/hdwallet-core'
 import { logger } from 'lib/logger'
 const moduleLogger = logger.child({ namespace: ['useWalletSupportsChain'] })
 

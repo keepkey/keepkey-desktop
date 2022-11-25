@@ -1,7 +1,7 @@
-import { CloseIcon } from '@chakra-ui/icons'
+import { CloseIcon, LockIcon } from '@chakra-ui/icons'
 import { MenuDivider, MenuGroup, MenuItem } from '@chakra-ui/menu'
-import { Box, Collapse, Flex, useDisclosure } from '@chakra-ui/react'
-import { useEffect } from 'react'
+import { Flex } from '@chakra-ui/react'
+import { useCallback, useEffect } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { ExpandedMenuItem } from 'components/Layout/Header/NavBar/ExpandedMenuItem'
 import {
@@ -12,14 +12,15 @@ import { SubMenuContainer } from 'components/Layout/Header/NavBar/SubMenuContain
 import { SubmenuHeader } from 'components/Layout/Header/NavBar/SubmenuHeader'
 import { WalletImage } from 'components/Layout/Header/NavBar/WalletImage'
 import { RawText, Text } from 'components/Text'
+import { WalletActions } from 'context/WalletProvider/actions'
 import { useKeepKeyVersions } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyVersions'
+import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 
 export const KeepKeyMenu = () => {
   const { navigateToRoute } = useMenuRoutes()
-  const { isOpen, onToggle } = useDisclosure()
   const translate = useTranslate()
   const {
     state: { deviceTimeout, features },
@@ -27,9 +28,11 @@ export const KeepKeyMenu = () => {
   const { versions, updaterUrl } = useKeepKeyVersions()
   const {
     setDeviceState,
-    state: { isConnected, walletInfo },
+    dispatch,
+    disconnect,
+    state: { isConnected, walletInfo, keepkeySdk, deviceId },
   } = useWallet()
-  const { keepKeyWipe } = useModal()
+  const { keepKeyWipe, hardwareError } = useModal()
 
   // Reset ephemeral device state properties when opening the KeepKey menu
   useEffect(() => {
@@ -55,6 +58,19 @@ export const KeepKeyMenu = () => {
     keepKeyWipe.open({})
   }
 
+  const handleRemovePinClick = useCallback(() => {
+    // console.log('KEEPKEY SDK', keepkeySdk)
+    if (!keepkeySdk) return
+    keepkeySdk.developer.removePin({ body: {} })
+    dispatch({
+      type: WalletActions.OPEN_KEEPKEY_PIN,
+      payload: {
+        deviceId,
+        pinRequestType: PinMatrixRequestType.REMOVE,
+      },
+    })
+  }, [keepkeySdk, dispatch, deviceId])
+
   const deviceTimeoutTranslation: string =
     typeof deviceTimeout?.label === 'object'
       ? translate(...deviceTimeout?.label)
@@ -63,7 +79,10 @@ export const KeepKeyMenu = () => {
   const RenderMenu = () => {
     const keepKeyStateLoading = (
       <>
-        <SubmenuHeader title={translate('common.connectedWalletSettings')} />
+        <SubmenuHeader
+          title={translate('common.connectedWalletSettings')}
+          shouldShowBackClick={false}
+        />
         <MenuGroup>
           <Flex px={4} py={2}>
             <WalletImage walletInfo={walletInfo} />
@@ -84,7 +103,10 @@ export const KeepKeyMenu = () => {
 
     const keepKeyStateLoaded = (
       <>
-        <SubmenuHeader title={translate('common.connectedWalletSettings')} />
+        <SubmenuHeader
+          title={translate('common.connectedWalletSettings')}
+          shouldShowBackClick={false}
+        />
         <MenuGroup>
           <Flex px={4} py={2}>
             <WalletImage walletInfo={walletInfo} />
@@ -133,36 +155,36 @@ export const KeepKeyMenu = () => {
             hasSubmenu={true}
           />
           <MenuDivider />
-        </MenuGroup>
-        <MenuGroup>
           <ExpandedMenuItem
-            label='walletProvider.keepKey.settings.menuLabels.advanced'
-            onClick={onToggle}
-            isOpen={isOpen}
-            closeOnSelect={false}
-            hasSubmenu
+            onClick={() => navigateToRoute(WalletConnectedRoutes.KeepKeyTimeout)}
+            label='walletProvider.keepKey.settings.menuLabels.deviceTimeout'
+            value={deviceTimeoutTranslation}
+            hasSubmenu={true}
           />
-          <Collapse in={isOpen}>
-            <Box ml={3}>
-              <ExpandedMenuItem
-                onClick={() => navigateToRoute(WalletConnectedRoutes.KeepKeyTimeout)}
-                label='walletProvider.keepKey.settings.menuLabels.deviceTimeout'
-                value={deviceTimeoutTranslation}
-                hasSubmenu={true}
-              />
-              <ExpandedMenuItem
-                onClick={() => navigateToRoute(WalletConnectedRoutes.KeepKeyPassphrase)}
-                label='walletProvider.keepKey.settings.menuLabels.passphrase'
-                value={getBooleanLabel(features?.passphraseProtection)}
-                valueDisposition={features?.passphraseProtection ? 'positive' : 'neutral'}
-                hasSubmenu={true}
-              />
-              <MenuDivider />
-              <MenuItem onClick={handleWipeClick} color='red.500' icon={<CloseIcon />}>
-                {translate('walletProvider.keepKey.settings.menuLabels.wipeDevice')}
-              </MenuItem>
-            </Box>
-          </Collapse>
+          <ExpandedMenuItem
+            onClick={() => navigateToRoute(WalletConnectedRoutes.KeepKeyPassphrase)}
+            label='walletProvider.keepKey.settings.menuLabels.passphrase'
+            value={getBooleanLabel(features?.passphraseProtection)}
+            valueDisposition={features?.passphraseProtection ? 'positive' : 'neutral'}
+            hasSubmenu={true}
+          />
+          <MenuDivider />
+          <MenuItem onClick={handleRemovePinClick} color='red.500' icon={<LockIcon />}>
+            {translate('walletProvider.keepKey.settings.menuLabels.removePin')}
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              hardwareError.open({})
+              disconnect()
+            }}
+            color='red.500'
+            icon={<CloseIcon />}
+          >
+            {translate('connectWallet.menu.disconnect')}
+          </MenuItem>
+          <MenuItem onClick={handleWipeClick} color='red.500' icon={<CloseIcon />}>
+            {translate('walletProvider.keepKey.settings.menuLabels.wipeDevice')}
+          </MenuItem>
         </MenuGroup>
       </>
     )

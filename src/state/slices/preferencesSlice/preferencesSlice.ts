@@ -1,5 +1,5 @@
+import type { SupportedFiatCurrencies } from '@keepkey/market-service'
 import { createSlice } from '@reduxjs/toolkit'
-import type { SupportedFiatCurrencies } from '@shapeshiftoss/market-service'
 import { getConfig } from 'config'
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
@@ -18,6 +18,9 @@ export type FeatureFlags = {
   Axelar: boolean
   Zendesk: boolean
   Yat: boolean
+  MultiAccounts: boolean
+  SwapperV2: boolean
+  MigrationMessage: boolean
   WalletConnectToDapps: boolean
   DashboardBreakdown: boolean
   FiatPopup: boolean
@@ -51,6 +54,9 @@ const initialState: Preferences = {
     Axelar: getConfig().REACT_APP_FEATURE_AXELAR,
     Zendesk: getConfig().REACT_APP_FEATURE_ZENDESK,
     Yat: getConfig().REACT_APP_FEATURE_YAT,
+    MultiAccounts: getConfig().REACT_APP_FEATURE_MULTI_ACCOUNTS,
+    SwapperV2: getConfig().REACT_APP_FEATURE_SWAPPER_V2,
+    MigrationMessage: getConfig().REACT_APP_FEATURE_MIGRATION_MESSAGE,
     WalletConnectToDapps: getConfig().REACT_APP_FEATURE_WALLET_CONNECT_TO_DAPPS,
     DashboardBreakdown: getConfig().REACT_APP_DASHBOARD_BREAKDOWN,
     FiatPopup: getConfig().REACT_APP_FEATURE_FIAT_POPUP,

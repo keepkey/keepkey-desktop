@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Skeleton, Text as CText } from '@chakra-ui/react'
-import { supportsETH } from '@shapeshiftoss/hdwallet-core/dist/wallet'
+import { supportsETH } from '@keepkey/hdwallet-core/dist/wallet'
 import { useMemo } from 'react'
 import { Amount } from 'components/Amount/Amount'
 import { AssetIcon } from 'components/AssetIcon'

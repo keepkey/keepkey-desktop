@@ -20,8 +20,9 @@ import {
   CHAIN_NAMESPACE,
   fromAssetId,
   fromChainId,
-} from '@shapeshiftoss/caip'
-import { UtxoAccountType } from '@shapeshiftoss/types'
+  ltcChainId,
+} from '@keepkey/caip'
+import { UtxoAccountType } from '@keepkey/types'
 import { chain } from 'lodash'
 import isEmpty from 'lodash/isEmpty'
 import sortBy from 'lodash/sortBy'

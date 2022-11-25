@@ -9,7 +9,7 @@
     "jest",
     "prettier",
     "simple-import-sort",
-    "@shapeshiftoss/logger"
+    "@keepkey/logger"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -40,41 +40,12 @@
     ],
     "default-case": "error",
     "import/no-default-export": "error",
-    "simple-import-sort/imports": [
-      "error",
-      {
-        "groups": [
-          [
-            "^\\u0000"
-          ],
-          [
-            "^@?\\w",
-            "^assets(/.*|$)",
-            "^components(/.*|$)",
-            "^context(/.*|$)",
-            "^hooks(/.*|$)",
-            "^jest(/.*|$)",
-            "^lib(/.*|$)",
-            "^pages(/.*|$)",
-            "^services(/.*|$)",
-            "^state(/.*|$)",
-            "^theme(/.*|$)",
-            "^types(/.*|$)"
-          ],
-          [
-            "^\\."
-          ]
-        ]
-      }
-    ],
     "object-shorthand": "error",
     "eqeqeq": "error",
     "react-hooks/exhaustive-deps": "error",
     "@typescript-eslint/array-type": "error",
     "@typescript-eslint/consistent-type-imports": "error",
     "react/jsx-handler-names": "error",
-    "@shapeshiftoss/logger/no-native-console": "error",
-    "require-await": "error",
-    "import/no-duplicates": "error"
+    "@keepkey/logger/no-native-console": "error"
   }
 }

@@ -7,7 +7,7 @@ import {
   ModalOverlay,
   useMediaQuery,
 } from '@chakra-ui/react'
-import type { Asset } from '@shapeshiftoss/asset-service'
+import type { Asset } from '@keepkey/asset-service'
 import type { FC } from 'react'
 import { useCallback } from 'react'
 import { useTranslate } from 'react-polyglot'

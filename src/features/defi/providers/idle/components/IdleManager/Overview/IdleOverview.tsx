@@ -1,8 +1,9 @@
 import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons'
-import { Center } from '@chakra-ui/react'
-import type { Asset } from '@shapeshiftoss/asset-service'
-import type { AccountId } from '@shapeshiftoss/caip'
-import { ethChainId, toAssetId } from '@shapeshiftoss/caip'
+import { Center, useToast } from '@chakra-ui/react'
+import { toAssetId } from '@keepkey/caip'
+import type { ClaimableToken, IdleOpportunity } from '@keepkey/investor-idle'
+import { KnownChainIds } from '@keepkey/types'
+import { USDC_PRECISION } from 'constants/UsdcPrecision'
 import type { DefiButtonProps } from 'features/defi/components/DefiActionButtons'
 import { Overview } from 'features/defi/components/Overview/Overview'
 import type {

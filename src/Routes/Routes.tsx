@@ -11,6 +11,7 @@ import { Flags } from 'pages/Flags/Flags'
 import { PrivacyPolicy } from 'pages/Legal/PrivacyPolicy'
 import { TermsOfService } from 'pages/Legal/TermsOfService'
 import { NotFound } from 'pages/NotFound/NotFound'
+import { Pairings } from 'pages/Pairings/Pairings'
 import { preferences } from 'state/slices/preferencesSlice/preferencesSlice'
 import { selectSelectedLocale } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
@@ -26,10 +27,11 @@ function useLocationBackground() {
 export const Routes = () => {
   const dispatch = useDispatch()
   const { background, location } = useLocationBackground()
-  const { connectDemo, state } = useWallet()
+  const { state } = useWallet()
   const { appRoutes } = useBrowserRouter()
   const hasWallet = Boolean(state.walletInfo?.deviceId) || state.isLoadingLocalWallet
   const [shouldRedirectDemoRoute, setShouldRedirectDemoRoute] = useState(false)
+  // @ts-ignore
   const { lang } = useQuery()
   const selectedLocale = useAppSelector(selectSelectedLocale)
   const matchDemoPath = matchPath<{ appRoute: string }>(location.pathname, {
@@ -46,14 +48,13 @@ export const Routes = () => {
     if (!matchDemoPath && shouldRedirectDemoRoute) return setShouldRedirectDemoRoute(false)
     if (!matchDemoPath || state.isLoadingLocalWallet) return
 
-    state.isDemoWallet ? setShouldRedirectDemoRoute(true) : connectDemo()
+    setShouldRedirectDemoRoute(true)
   }, [
     matchDemoPath,
     shouldRedirectDemoRoute,
     location.pathname,
     state.isDemoWallet,
     state.isLoadingLocalWallet,
-    connectDemo,
   ])
 
   /**
@@ -106,10 +107,13 @@ export const Routes = () => {
           <Flags />
         </Layout>
       </Route>
-      <Redirect from='/' to='/dashboard' />
-      <Route>
-        <NotFound />
+      <Route path='/pairings'>
+        <Layout>
+          <Pairings />
+        </Layout>
       </Route>
+      <Redirect from='/' to='/dapps' />
+      <Route component={NotFound} />
     </Switch>
   )
 }

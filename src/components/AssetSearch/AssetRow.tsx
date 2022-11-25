@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Text, useColorModeValue } from '@chakra-ui/react'
-import type { Asset } from '@shapeshiftoss/asset-service'
-import { bnOrZero } from '@shapeshiftoss/investor-foxy'
+import type { Asset } from '@keepkey/asset-service'
+import { bnOrZero } from '@keepkey/investor-foxy'
 import type { FC } from 'react'
 import { useMemo } from 'react'
 import type { ListChildComponentProps } from 'react-window'

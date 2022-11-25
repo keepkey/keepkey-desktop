@@ -8,7 +8,7 @@ import {
   Text as CText,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { ethAssetId, ethChainId, foxAssetId, fromAssetId } from '@shapeshiftoss/caip'
+import { ethAssetId, ethChainId, foxAssetId } from '@keepkey/caip'
 import { DefiProvider } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { FOX_TOKEN_CONTRACT_ADDRESS } from 'plugins/foxPage/const'
 import qs from 'qs'

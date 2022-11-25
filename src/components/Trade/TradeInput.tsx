@@ -1,8 +1,7 @@
-import { ArrowDownIcon } from '@chakra-ui/icons'
-import { Button, IconButton, Stack, useColorModeValue } from '@chakra-ui/react'
-import type { Asset } from '@shapeshiftoss/asset-service'
-import { ethAssetId } from '@shapeshiftoss/caip'
-import type { KnownChainIds } from '@shapeshiftoss/types'
+import { Box, Button, FormControl, FormErrorMessage, IconButton } from '@chakra-ui/react'
+import { fromAccountId } from '@keepkey/caip'
+import type { SwapErrorTypes } from '@keepkey/swapper'
+import type { KnownChainIds } from '@keepkey/types'
 import type { InterpolationOptions } from 'node-polyglot'
 import { useCallback, useMemo, useState } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
@@ -156,25 +155,36 @@ export const TradeInput = () => {
     ],
   )
 
-  const handleToggle = useCallback(() => {
+  // when trading from ETH, the value of TX in ETH is deducted
+  const tradeDeduction =
+    feeAsset?.assetId === sellTradeAsset?.asset?.assetId ? bnOrZero(sellTradeAsset.amount) : bn(0)
+
+  const hasEnoughBalanceForGas = bnOrZero(feeAssetBalance)
+    .minus(fromBaseUnit(bnOrZero(quote?.feeData.networkFee), feeAsset?.precision))
+    .minus(tradeDeduction)
+    .gte(0)
+
+  const onSubmit = async () => {
+    if (!(quote?.sellAsset && quote?.buyAsset && quote.sellAmount && sellAssetAccountId)) return
+    setIsUpdatingTrade(true)
+
     try {
-      const currentValues = Object.freeze(getValues())
-      const currentSellTradeAsset = currentValues.sellTradeAsset
-      const currentBuyTradeAsset = currentValues.buyTradeAsset
-      if (!(currentSellTradeAsset && currentBuyTradeAsset)) return
-
-      setValue('buyTradeAsset', { asset: currentSellTradeAsset.asset, amount: '0' })
-      setValue('sellTradeAsset', { asset: currentBuyTradeAsset.asset, amount: '0' })
-      setValue('fiatSellAmount', '0')
-      setValue('fiatBuyAmount', '0')
-      setValue('buyAssetFiatRate', currentValues.sellAssetFiatRate)
-      setValue('sellAssetFiatRate', currentValues.buyAssetFiatRate)
-
-      // The below values all change on asset change. Clear them so no inaccurate data is shown in the UI.
-      setValue('feeAssetFiatRate', undefined)
-      setValue('quote', undefined)
-      setValue('trade', undefined)
-      setValue('fees', undefined)
+      const approvalNeeded = await checkApprovalNeeded()
+      if (approvalNeeded) {
+        history.push({
+          pathname: TradeRoutePaths.Approval,
+          state: {
+            fiatRate: feeAssetFiatRate,
+          },
+        })
+        return
+      }
+      await updateTrade({
+        sellAsset: quote?.sellAsset,
+        buyAsset: quote?.buyAsset,
+        amount: quote?.sellAmount,
+      })
+      history.push({ pathname: TradeRoutePaths.Confirm, state: { fiatRate: feeAssetFiatRate } })
     } catch (e) {
       moduleLogger.error(e, 'handleToggle error')
     }

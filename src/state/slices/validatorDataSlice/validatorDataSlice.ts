@@ -1,7 +1,9 @@
+import type { ChainId } from '@keepkey/caip'
+import type { cosmossdk, CosmosSdkBaseAdapter, CosmosSdkChainId } from '@keepkey/chain-adapters'
 import { createSlice } from '@reduxjs/toolkit'
 import { createApi } from '@reduxjs/toolkit/query/react'
-import type { AccountId } from '@shapeshiftoss/caip'
-import { fromAccountId } from '@shapeshiftoss/caip'
+import type { AccountId } from '@keepkey/caip'
+import { fromAccountId } from '@keepkey/caip'
 import type {
   cosmossdk,
   CosmosSdkBaseAdapter,

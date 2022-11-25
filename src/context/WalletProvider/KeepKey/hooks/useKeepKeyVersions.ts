@@ -1,5 +1,5 @@
 import type { Features } from '@keepkey/device-protocol/lib/messages_pb'
-import { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
 import axios from 'axios'
 import { getConfig } from 'config'
 import { MINIMUM_KK_FIRMWARE_VERSION_SUPPORTING_LITECOIN } from 'constants/Config'
@@ -48,7 +48,7 @@ export const useKeepKeyVersions = () => {
   } = useWallet()
 
   useEffect(() => {
-    if (!wallet || !(wallet instanceof KeepKeyHDWallet)) return
+    if (!wallet) return
 
     const getBootloaderVersion = (
       releases: FirmwareReleases,
@@ -61,7 +61,7 @@ export const useKeepKeyVersions = () => {
     }
 
     ;(async () => {
-      const features = await wallet.getFeatures()
+      const features = await (wallet as KeepKeyHDWallet).getFeatures()
       const { data: releases } = await axios.get<FirmwareReleases>(
         getConfig().REACT_APP_KEEPKEY_VERSIONS_URL,
         {

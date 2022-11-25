@@ -15,9 +15,10 @@ import {
   useColorMode,
   useToast,
 } from '@chakra-ui/react'
-import type { AccountId, AssetId } from '@shapeshiftoss/caip'
-import { fromAccountId } from '@shapeshiftoss/caip'
-import { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import type { AccountId } from '@keepkey/caip'
+import { fromAccountId } from '@keepkey/caip'
+import { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
+import { DefiModalHeader } from 'features/defi/components/DefiModal/DefiModalHeader'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { FaCreditCard } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'

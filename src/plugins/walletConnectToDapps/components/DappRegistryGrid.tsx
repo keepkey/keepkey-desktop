@@ -15,9 +15,12 @@ import {
 import type { FC } from 'react'
 import { useEffect, useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
+import { useHistory } from 'react-router'
 import { useTranslate } from 'react-polyglot'
 import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text'
+import { WalletActions } from 'context/WalletProvider/actions'
+import { useWallet } from 'hooks/useWallet/useWallet'
 
 import type { RegistryItem } from '../types'
 import { PageInput } from './PageInput'
@@ -36,6 +39,8 @@ export const DappRegistryGrid: FC = () => {
   const search = useWatch({ control, name: 'search' })
   const page = useWatch({ control, name: 'page' })
   useEffect(() => setValue('page', 0), [search, setValue])
+  const history = useHistory()
+  const { dispatch } = useWallet()
 
   const filteredListings = useMemo(
     () =>
@@ -46,6 +51,11 @@ export const DappRegistryGrid: FC = () => {
   )
 
   const maxPage = Math.floor(filteredListings.length / PAGE_SIZE)
+
+  const openDapp = (app: RegistryItem) => {
+    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.homepage })
+    history.push('/browser')
+  }
 
   return (
     <Box>
@@ -73,12 +83,7 @@ export const DappRegistryGrid: FC = () => {
       {!!filteredListings.length ? (
         <SimpleGrid columns={{ lg: 4, sm: 2, base: 1 }} spacing={4}>
           {filteredListings.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE).map(listing => (
-            <Link
-              key={listing.id}
-              href={listing.homepage}
-              isExternal
-              data-test={`dapp-button-${listing.name.toLowerCase().split(' ').join('-')}`}
-            >
+            <Link key={listing.id} href={listing.homepage} isExternal>
               <Box
                 borderRadius='lg'
                 p={2}

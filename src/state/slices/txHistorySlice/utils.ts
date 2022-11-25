@@ -1,4 +1,6 @@
-import type { AccountId, AssetId } from '@shapeshiftoss/caip'
+import type { AccountId, AssetId } from '@keepkey/caip'
+import intersection from 'lodash/intersection'
+import union from 'lodash/union'
 
 import type { Tx } from './txHistorySlice'
 
