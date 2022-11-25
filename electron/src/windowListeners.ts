@@ -1,6 +1,6 @@
 import { shell, app } from "electron"
 import { ALLOWED_HOSTS, deviceBusyRead, deviceBusyWrite, setShouldShowWindow, windows } from "./globalState"
-import { queueIpcEvent } from "./helpers/utils"
+import { queueIpcEvent } from "./bridge/utils"
 import { stopTcpBridge } from "./tcpBridge"
 import { skipUpdateCheckCompleted } from "./updaterListeners"
 

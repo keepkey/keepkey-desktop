@@ -5,9 +5,9 @@ import {
   downloadFirmware,
   getLatestFirmwareData,
   loadFirmware,
-} from './helpers/kk-state-controller/firmwareUtils'
+} from './bridge/kk-state-controller/firmwareUtils'
 import * as path from 'path'
-import { queueIpcEvent } from './helpers/utils'
+import { queueIpcEvent } from './bridge/utils'
 import log from 'electron-log'
 
 export const startIpcListeners = () => {

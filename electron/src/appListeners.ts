@@ -3,7 +3,7 @@ import { isLinux, settings, windows, bridgeLogger } from "./globalState";
 import { createUpdaterSplashWindow, skipUpdateCheck } from "./updaterListeners";
 import isDev from 'electron-is-dev'
 import { autoUpdater } from 'electron-updater'
-import { createMainWindow } from "./helpers/utils";
+import { createMainWindow } from "./bridge/utils";
 
 export const startAppListeners = () => {
 

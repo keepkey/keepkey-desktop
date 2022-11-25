@@ -3,14 +3,14 @@ import nedb from 'nedb'
 import fs from 'fs'
 import { Server } from 'http'
 import { BrowserWindow, IpcMainEvent } from "electron";
-import { UserType } from "./helpers/types";
-import { CONNECTED, DISCONNECTED, HARDWARE_ERROR, KKStateController, NEEDS_INITIALIZE } from "./helpers/kk-state-controller";
-import { Settings } from "./helpers/settings";
+import { UserType } from "./bridge/types";
+import { CONNECTED, DISCONNECTED, HARDWARE_ERROR, KKStateController, NEEDS_INITIALIZE } from "./bridge/kk-state-controller";
+import { Settings } from "./bridge/settings";
 import AutoLaunch from "auto-launch";
 import { startTcpBridge, stopTcpBridge } from "./tcpBridge";
 import { createAndUpdateTray } from "./tray";
-import { queueIpcEvent } from "./helpers/utils";
-import { BridgeLogger } from "./helpers/bridgeLogger";
+import { queueIpcEvent } from "./bridge/utils";
+import { BridgeLogger } from "./bridge/bridgeLogger";
 import log from 'electron-log'
 
 export const assetsDirectory = path.join(__dirname, '../assets')

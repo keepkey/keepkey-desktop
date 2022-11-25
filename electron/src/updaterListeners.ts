@@ -4,7 +4,7 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import log from 'electron-log'
 import path from 'path'
 import { isLinux, settings, shouldShowWindow, windows } from './globalState'
-import { createMainWindow } from './helpers/utils'
+import { createMainWindow } from './bridge/utils'
 
 let skipUpdateTimeout: NodeJS.Timeout;
 let windowShowInterval: NodeJS.Timeout

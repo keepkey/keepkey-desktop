@@ -1,5 +1,5 @@
 import { server, setServer, setTcpBridgeClosing, setTcpBridgeRunning, setTcpBridgeStarting, tcpBridgeClosing, tcpBridgeRunning, tcpBridgeStarting } from "./globalState"
-import { RegisterRoutes } from "./helpers/routes/routes"
+import { RegisterRoutes } from "./bridge/routes/routes"
 import swaggerUi from 'swagger-ui-express'
 import express from 'express'
 import bodyParser from 'body-parser'

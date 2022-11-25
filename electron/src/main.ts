@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/electron'
 import { config as dotenvConfig } from 'dotenv'
 import { startUpdaterListeners } from './updaterListeners'
 import fs from 'fs'
-import { PLUGIN } from './helpers/kk-state-controller'
+import { PLUGIN } from './bridge/kk-state-controller'
 import {
   isWin,
   kkAutoLauncher,
@@ -14,7 +14,7 @@ import {
 } from './globalState'
 import { startIpcListeners } from './ipcListeners'
 import { startAppListeners } from './appListeners'
-import { queueIpcEvent, watchForDeviceBusy } from './helpers/utils'
+import { queueIpcEvent, watchForDeviceBusy } from './bridge/utils'
 
 if (!app.requestSingleInstanceLock()) app.quit()
 
