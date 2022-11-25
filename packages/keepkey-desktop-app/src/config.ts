@@ -85,6 +85,7 @@ const validators = {
   REACT_APP_KEEPKEY_UPDATER_RELEASE_PAGE: url(),
   REACT_APP_KEEPKEY_UPDATER_BASE_URL: url(),
   REACT_APP_ETHERSCAN_API_KEY: str(),
+  REACT_APP_WALLET_CONNECT_PROJECT_ID: str(),
 }
 
 function reporter<T>({ errors }: envalid.ReporterOptions<T>) {
