@@ -1,7 +1,5 @@
 import { WalletConnectToDapps } from 'plugins/walletConnectToDapps/WalletConnectToDapps'
 import { FaFlag, FaGlobe, FaLock, FaPlug, FaTable, FaTractor, FaWater } from 'react-icons/fa'
-import { getConfig } from 'config'
-import { FaCreditCard, FaFlag, FaLock, FaTable, FaTractor, FaWater } from 'react-icons/fa'
 import { IoSwapVertical } from 'react-icons/io5'
 import { AccountsIcon } from 'components/Icons/Accounts'
 import { AssetsIcon } from 'components/Icons/Assets'
@@ -222,20 +220,6 @@ export const routes: NestedRoute[] = [
     icon: <IoSwapVertical />,
     main: Trade,
     category: RouteCategory.Explore,
-  },
-  {
-    path: '/buy-crypto',
-    label: 'navBar.buyCrypto',
-    icon: <FaCreditCard />,
-    main: Buy,
-    category: RouteCategory.Wallet,
-    routes: [
-      {
-        label: 'Buy Asset',
-        path: '/:chainId/:assetSubId',
-        main: Buy,
-      },
-    ],
   },
   {
     path: '/flags',
