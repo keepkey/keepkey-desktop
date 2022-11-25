@@ -36,6 +36,9 @@ const validators = {
   REACT_APP_AVALANCHE_NODE_URL: url(),
   REACT_APP_ALCHEMY_POLYGON_URL: url(),
   REACT_APP_KEEPKEY_VERSIONS_URL: url(),
+  REACT_APP_DAPP_URL: url({
+    default: 'https://pioneers.dev/spec/swagger.json',
+  }),
   REACT_APP_WALLET_MIGRATION_URL: url(),
   REACT_APP_PORTIS_DAPP_ID: str({ devDefault: 'fakePortisId' }),
   REACT_APP_JUNOPAY_BASE_API_URL: url(),
