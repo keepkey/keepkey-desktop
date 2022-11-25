@@ -8,7 +8,7 @@ import type {
   cosmossdk,
   CosmosSdkBaseAdapter,
   CosmosSdkChainId,
-} from '@shapeshiftoss/chain-adapters'
+} from 'keepkey/chain-adapters'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { logger } from 'lib/logger'
 import { BASE_RTK_CREATE_API_CONFIG } from 'state/apis/const'

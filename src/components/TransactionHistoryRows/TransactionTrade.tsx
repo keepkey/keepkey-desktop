@@ -1,4 +1,4 @@
-import { TransferType } from '@shapeshiftoss/unchained-client'
+import { TransferType } from 'keepkey/unchained-client'
 import { useMemo } from 'react'
 import { Amount } from 'components/Amount/Amount'
 
