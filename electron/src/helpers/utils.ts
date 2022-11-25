@@ -7,22 +7,23 @@ import path from 'path';
 import log from 'electron-log'
 
 export const openSignTxWindow = async (signArgs: any) => {
+    log.info(" | openSignTxWindow | ")
     let prevContentSize = { width: 0, height: 0 }
     let windowWasPreviouslyOpen = false
 
     if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
         if (!await createMainWindow()) return
-    } else {
-        windows.mainWindow.focus()
-        windows.mainWindow.setAlwaysOnTop(true)
-        windowWasPreviouslyOpen = true
-        const contentSize = windows.mainWindow.getContentSize()
-        prevContentSize = { width: contentSize[0], height: contentSize[1] }
     }
+    if(!windows.mainWindow) throw Error("Failed to start App!")
+    windows.mainWindow.focus()
+    windows.mainWindow.setAlwaysOnTop(true)
+    windowWasPreviouslyOpen = true
+    const contentSize = windows.mainWindow.getContentSize()
+    prevContentSize = { width: contentSize[0], height: contentSize[1] }
 
     if (!windows.mainWindow || windows.mainWindow.isDestroyed()) return
     if (!windowWasPreviouslyOpen) windows.mainWindow.focus()
-    windows.mainWindow.setContentSize(400, 780)
+    // windows.mainWindow.setContentSize(400, 780)
     windows.mainWindow.webContents.send('@account/sign-tx', signArgs);
 
     ipcMain.once('@modal/sign-close', () => {

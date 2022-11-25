@@ -149,6 +149,7 @@
     "noProvidersBody": "Looks like we don't have any providers for that asset yet."
   },
   "connectWalletPage": {
+    "troubleshoot": "troubleshoot connection",
     "nextFrontier": "The Next Frontier of Crypto Security",
     "protectYourCrypto": "Protect your cryptocurrencies, store your private keys offline, and safeguard your assets from hackers. It’s time to achieve financial freedom in the most secure way with KeepKey.",
     "shapeshift": "ShapeShift",
@@ -893,6 +894,7 @@
     },
     "settings": {
       "settings": "Settings",
+      "devTools": "you can press \n\n Cmd + Opt + I \n\n on macOS, or \n\n Ctrl + Shift + I \n\n on Windows or Linux, to trigger Developer Tools.",
       "currency": "Currency",
       "clearWalletAccountData": "Delete all accounts & wallet data",
       "deleteAccountsConfirm": "Are you sure?\n\nThis will remove all personal data including wallets, accounts, balances.\n\nVerify that you have backed up your wallets before continuing.",
