@@ -17,7 +17,7 @@ import { VALID_ENTROPY } from 'context/WalletProvider/KeepKey/components/Recover
 import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
 import { KeepKeyRoutes } from 'context/WalletProvider/routes'
 import { logger } from 'lib/logger'
-
+import * as keepkeyRest from '@keepkey/hdwallet-keepkey-rest'
 import type { ActionTypes } from './actions'
 import { WalletActions } from './actions'
 import { SUPPORTED_WALLETS } from './config'
@@ -363,16 +363,25 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       for (const walletName of Object.values(KeyManager)) {
         try {
           console.log('SUPPORTED_WALLETS', SUPPORTED_WALLETS)
+          console.log("Checkpoint pre keyring")
           const adapter = SUPPORTED_WALLETS[walletName].adapter.useKeyring(state.keyring, options)
-
+          console.log(" adapter: ",adapter)
+          console.log("keepkeyRest: ",keepkeyRest)
           const wallet = await adapter.pairDevice('http://localhost:1646')
+          console.log("adapter: ",adapter)
+          // const wallet = adapter.KeepKeyRestHDWallet
+          console.log("Checkpoint post pairDevice: ",wallet)
           adapters.set(walletName, adapter)
           dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
           const { name, icon } = KeepKeyConfig
+          console.log("Checkpoint pre deviceId")
           const deviceId = await wallet.getDeviceID()
+          console.log("deviceId: ",deviceId)
           // Show the label from the wallet instead of a generic name
           const label = (await wallet.getLabel()) || name
+          console.log("Checkpoint initialize")
           await wallet.initialize()
+          console.log("Checkpoint post initialize")
           dispatch({
             type: WalletActions.SET_WALLET,
             payload: { wallet, name: label, icon, deviceId, meta: { label } },
