@@ -30,13 +30,16 @@ import client from '@pioneer-platform/pioneer-client'
 const PAGE_SIZE = 20
 
 export const DappRegistryGrid: FC = () => {
-  const [registryItems, setRegistryItems] = useState([  {
-    "category": "dapp",
-    "id": "a85fb60f37b9971969e00caa241ed2b6ccd8fce369f59d3a965202595a4a9462",
-    "homepage": "https://gnosis-safe.io/",
-    "name": "Gnosis Safe Multisig",
-    "image": "https://explorer-api.walletconnect.com/v3/logo/md/0b7e0f05-0a5b-4f3c-315d-59c1c4c22c00?projectId=2f05ae7f1116030fde2d36508f472bfb"
-  }])
+  const [registryItems, setRegistryItems] = useState([
+    {
+      category: 'dapp',
+      id: 'a85fb60f37b9971969e00caa241ed2b6ccd8fce369f59d3a965202595a4a9462',
+      homepage: 'https://gnosis-safe.io/',
+      name: 'Gnosis Safe Multisig',
+      image:
+        'https://explorer-api.walletconnect.com/v3/logo/md/0b7e0f05-0a5b-4f3c-315d-59c1c4c22c00?projectId=2f05ae7f1116030fde2d36508f472bfb',
+    },
+  ])
   const { register, setValue, control } = useForm<{ search: string; page: number }>({
     mode: 'onChange',
     defaultValues: { search: '', page: 0 },
@@ -53,31 +56,30 @@ export const DappRegistryGrid: FC = () => {
       registryItems.filter(
         registryItem => !search || registryItem.name.toLowerCase().includes(search.toLowerCase()),
       ),
-    [search,registryItems],
+    [search, registryItems],
   )
 
-
-  let findDapps = async function (){
-    try{
+  let findDapps = async function () {
+    try {
       let spec = getConfig().REACT_APP_DAPP_URL
       let config = {
-        queryKey:'key:public',
-        username:"user:public",
-        spec
+        queryKey: 'key:public',
+        username: 'user:public',
+        spec,
       }
-      let pioneer = new client(spec,config)
+      let pioneer = new client(spec, config)
       pioneer = await pioneer.init()
 
       let dapps = await pioneer.ListApps()
-      console.log("apps: ",dapps.data)
+      console.log('apps: ', dapps.data)
       setRegistryItems(dapps.data)
-    }catch(e){
-      console.error(' e: ',e)
+    } catch (e) {
+      console.error(' e: ', e)
     }
   }
   useEffect(() => {
     findDapps()
-  }, []);
+  }, [])
 
   const maxPage = Math.floor(filteredListings.length / PAGE_SIZE)
 

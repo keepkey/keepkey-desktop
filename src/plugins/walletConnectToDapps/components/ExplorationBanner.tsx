@@ -7,14 +7,14 @@ type Props = {
   spotlight: {
     image: string
     name: string
-    homepage:string
-    description:string
-  },
+    homepage: string
+    description: string
+  }
   size: number
   openDapp: any
 }
 
-export const ExplorationBanner: FC<Props> = ({spotlight, openDapp}) => (
+export const ExplorationBanner: FC<Props> = ({ spotlight, openDapp }) => (
   <Box
     borderWidth={1}
     borderColor={useColorModeValue('blackAlpha.50', 'gray.750')}
@@ -32,18 +32,10 @@ export const ExplorationBanner: FC<Props> = ({spotlight, openDapp}) => (
         />
 
         <Box>
-          <Text
-            as='b'
-            fontSize='lg'
-            translation={spotlight.name}
-          />
+          <Text as='b' fontSize='lg' translation={spotlight.name} />
         </Box>
         <Stack direction='row'>
-          <Button
-            colorScheme='blue'
-            size='sm'
-            onClick={() => openDapp(spotlight)}
-          >
+          <Button colorScheme='blue' size='sm' onClick={() => openDapp(spotlight)}>
             <Text translation='plugins.walletConnectToDapps.registry.getStarted' />
           </Button>
         </Stack>
