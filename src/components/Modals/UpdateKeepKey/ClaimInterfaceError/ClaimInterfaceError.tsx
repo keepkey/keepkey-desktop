@@ -34,11 +34,6 @@ export const ClaimInterfaceErrorModal = (error:any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.pathname])
 
-  const HandleTroubleShoot = async () => {
-    //
-    close()
-  }
-
   useEffect(() => {
     getAssetUrl(KeepKeyConnect).then(setKKConnect)
   }, [])
