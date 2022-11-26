@@ -383,7 +383,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
            */
           setLocalWalletTypeAndDeviceId(KeyManager.KeepKey, state.keyring.getAlias(deviceId))
         } catch (e) {
-          moduleLogger.error(e, 'Error initializing HDWallet adapters')
+          moduleLogger.error(e, 'Error in HDWallet adapters')
+          //on error, restart app
+          ipcRenderer.send('@app/restart')
         }
       }
     }, 2000),

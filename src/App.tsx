@@ -27,7 +27,7 @@ export const App = () => {
   const translate = useTranslate()
   const { setIsUpdatingKeepkey, state, disconnect } = useWallet()
 
-  const { pair, sign, hardwareError, updateKeepKey, requestBootloaderMode, loading } = useModal()
+  const { pair, sign, hardwareError, claimInterfaceError, updateKeepKey, requestBootloaderMode, loading } = useModal()
 
   const openKeepKeyUpdater = (data: any) => {
     setIsUpdatingKeepkey(true)
@@ -40,6 +40,7 @@ export const App = () => {
     loading.close()
     requestBootloaderMode.close()
     hardwareError.close()
+    claimInterfaceError.close()
     pair.close()
     sign.close()
   }
@@ -79,6 +80,11 @@ export const App = () => {
     ipcRenderer.on('connected', async (_event, _data) => {
       setConnected(true)
       hardwareError.close()
+    })
+
+    ipcRenderer.on('claimInterfaceError', () => {
+      hardwareError.close()
+      claimInterfaceError.open({})
     })
 
     ipcRenderer.on('appClosing', () => {

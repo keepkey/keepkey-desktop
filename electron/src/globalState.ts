@@ -83,11 +83,17 @@ export const kkAutoLauncher = new AutoLaunch({
 })
 
 export const kkStateController = new KKStateController(async (eventName: string, args: any) => {
-    if (eventName === CONNECTED || eventName === NEEDS_INITIALIZE) await startTcpBridge()
-    else if (eventName === DISCONNECTED || eventName === HARDWARE_ERROR)  await stopTcpBridge()
-    createAndUpdateTray()
-    log.info('keepkey state changed: ', eventName, args)
-    return queueIpcEvent(eventName, args)
+    let tag = " | kkStateController | "
+    try{
+        if (eventName === CONNECTED || eventName === NEEDS_INITIALIZE) await startTcpBridge()
+        else if (eventName === DISCONNECTED || eventName === HARDWARE_ERROR)  await stopTcpBridge()
+        createAndUpdateTray()
+        log.info('keepkey state changed: ', eventName, args)
+        return queueIpcEvent(eventName, args)
+    }catch(e){
+        log.error(tag,e)
+        throw e
+    }
 })
 
 export let deviceBusyRead = false

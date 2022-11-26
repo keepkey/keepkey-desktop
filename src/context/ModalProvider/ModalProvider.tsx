@@ -13,6 +13,7 @@ import { SendModal } from 'components/Modals/Send/Send'
 import { SettingsModal } from 'components/Modals/Settings/Settings'
 import { SignModal } from 'components/Modals/Sign/Sign'
 import { HardwareErrorModal } from 'components/Modals/UpdateKeepKey/HardwareError/HardwareError'
+import { ClaimInterfaceErrorModal } from 'components/Modals/UpdateKeepKey/ClaimInterfaceError/ClaimInterfaceError'
 import { RequestBootloaderMode } from 'components/Modals/UpdateKeepKey/RequestBootloaderMode/RequestBootloaderMode'
 import { UpdateKeepKey } from 'components/Modals/UpdateKeepKey/UpdateKeepKey'
 import { AddAccountModal } from 'pages/Accounts/AddAccountModal'
@@ -28,6 +29,7 @@ const MODALS = {
   sign: SignModal,
   pair: PairModal,
   hardwareError: HardwareErrorModal,
+  claimInterfaceError: ClaimInterfaceErrorModal,
   fiatRamps: FiatRampsModal,
   settings: SettingsModal,
   keepKeyWipe: WipeModal,

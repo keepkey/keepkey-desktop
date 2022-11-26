@@ -588,6 +588,16 @@
         "body": "After submitting your passphrase, use the button on the KeepKey to approve it",
         "button": "Submit Passphrase"
       },
+      "claimInterfaceError": {
+        "headerError": "Hardware Error!",
+        "headerConnect": "Unable to Claim interface!",
+        "troubleshoot": "troubleshoot",
+        "troubleshootBody": " An application has already claimed the KeepKey device via WebUsb.",
+        "troubleshootBody1": "To Continue, Please check do the following.",
+        "troubleshootBody2": "1. close All browser tabs for chrome/brave",
+        "troubleshootBody3": "2. Verify all KeepKey applications are closed and fully exited",
+        "troubleshootBody3": "3. Unplug and Reconnect your Keepkey (DO THIS LAST)"
+      },
       "hardware": {
         "headerError": "Hardware Error!",
         "headerConnect": "No Device Found!",

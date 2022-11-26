@@ -7,6 +7,7 @@ import { usb } from 'usb';
 import log from 'electron-log'
 
 // possible states
+export const CLAIM_INTERFACE_ERROR = 'claimInterfaceError'
 export const UPDATE_BOOTLOADER = 'updateBootloader'
 export const UPDATE_FIRMWARE = 'updateFirmware'
 export const NEEDS_INITIALIZE = 'needsInitialize'
@@ -60,7 +61,10 @@ export class KKStateController {
         const latestFirmware = await getLatestFirmwareData()
         const resultInit = await initializeWallet(this)
         log.info("KKStateController resultInit: ",resultInit)
-        if(resultInit.unplugged){
+        if(resultInit.claimInterfaceError){
+            log.info("KKStateController resultInit.claimInterfaceError")
+            this.updateState(CLAIM_INTERFACE_ERROR, {})
+        } else if(resultInit.unplugged){
             log.info("KKStateController resultInit.unplugged")
             this.updateState(DISCONNECTED, {})
         } else if (!resultInit || !resultInit.success || resultInit.error){

@@ -2,6 +2,8 @@ import { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
 import { NodeWebUSBKeepKeyAdapter } from '@keepkey/hdwallet-keepkey-nodewebusb'
 import { findByIds } from 'usb';
 import { WebusbWallet } from './types';
+import log from 'electron-log'
+
 const { HIDKeepKeyAdapter } = require('@bithighlander/hdwallet-keepkey-nodehid')
 
 const bootloaderHashToVersion = {
@@ -28,43 +30,61 @@ const bootloaderHashToVersion = {
     'fe98454e7ebd4aef4a6db5bd4c60f52cf3f58b974283a7c1e1fcc5fea02cf3eb': "v2.1.4"
 }
 
-export const initializeWallet = async (controller) =>
-{
-    let deviceDetected = false
-    let resultWebUsb = findByIds(11044, 2)
-    if (resultWebUsb) {
-        deviceDetected = true
-        await createWebUsbWallet(controller)
-    }
-
-    let resultPreWebUsb = findByIds(11044, 1)
-    if (resultPreWebUsb) {
-        deviceDetected = true
-    }
-
-    if (!deviceDetected) {
-        controller.wallet = undefined
-
-        return { unplugged: true }
-    }
-
-    let resultInit;
-
-    try {
-        const webUSBResultInit = await createWebUsbWallet(controller)
-        if (!webUSBResultInit?.success) {
-            resultInit = await createHidWallet(controller)
-        } else {
-            resultInit = {
-                ...(webUSBResultInit as WebusbWallet),
-                success: true
-            }
+export const initializeWallet = async (controller) => {
+    let tag = " | initializeWallet | "
+    try{
+        log.info("Checkpoint: initializeWallet")
+        let deviceDetected = false
+        let resultWebUsb = findByIds(11044, 2)
+        if (resultWebUsb) {
+            log.info("Checkpoint: Found WebUsb Device!")
+            deviceDetected = true
+            let resultCreate = await createWebUsbWallet(controller)
+            log.info("resultCreate: ",resultCreate)
         }
-    } catch (e) {
-        resultInit = await createHidWallet(controller)
-    }
 
-    return resultInit
+        let resultPreWebUsb = findByIds(11044, 1)
+        if (resultPreWebUsb) {
+            deviceDetected = true
+        }
+
+        if (!deviceDetected) {
+            controller.wallet = undefined
+
+            return { unplugged: true }
+        }
+
+        let resultInit;
+
+        try {
+            const webUSBResultInit = await createWebUsbWallet(controller)
+            if (!webUSBResultInit?.success) {
+                resultInit = await createHidWallet(controller)
+            } else {
+                resultInit = {
+                    ...(webUSBResultInit as WebusbWallet),
+                    success: true
+                }
+            }
+        } catch (e) {
+            //
+            log.info("Failed to init WebUsb: ",e)
+
+            resultInit = await createHidWallet(controller)
+        }
+
+        return resultInit
+    }catch(e:any){
+        if(e.toString().indexOf("") >= 0){
+            log.info(tag,"Claim Interface Error! ")
+            return({
+                claimInterfaceError:true
+            })
+        } else {
+            log.error(tag,"e: ",e)
+            throw e
+        }
+    }
 }
 
 const base64toHEX = (base64: any) => {
@@ -80,6 +100,8 @@ const base64toHEX = (base64: any) => {
 }
 
 const createWebUsbWallet = async (controller) => {
+    let tag = " | createWebUsbWallet | "
+    try{
         const keepkeyAdapter = NodeWebUSBKeepKeyAdapter.useKeyring(controller.keyring);
         controller.device = await keepkeyAdapter.getDevice()
         if (!controller.device) return ({ success: false, error: 'Unable to get device!' })
@@ -101,6 +123,17 @@ const createWebUsbWallet = async (controller) => {
             device: controller.device,
             success: true,
         })
+    }catch(e:any){
+        log.info(tag,"error: ",e)
+        log.info(tag,"error: ",e.Error)
+        log.info(tag,"error: ",e.toString())
+        if(e.toString().indexOf("claimInterface")){
+            log.info(tag,"Claim interface error!")
+
+        }
+        log.error(tag," e: ",e)
+        throw e
+    }
 }
 
 const createHidWallet = async (controller) => {
