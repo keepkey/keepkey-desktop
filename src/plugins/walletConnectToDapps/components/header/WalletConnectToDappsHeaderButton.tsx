@@ -50,7 +50,6 @@ export const WalletConnectToDappsHeaderButton = () => {
         textAlign='left'
       >
         {/* TODO: when setting "flex: unset" or "flex-shrink: none" to the Button content parent, overflow isn't a problem */}
-        <RawText fontSize='sm'>{walletConnect.dapp.name}</RawText>
         <RawText fontSize='xs' color='gray.500'>
           {walletConnect.dapp.url.replace(/^https?:\/\//, '')}
         </RawText>
