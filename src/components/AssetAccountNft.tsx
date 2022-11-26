@@ -40,7 +40,9 @@ export const AssetAccountNft = ({ assetId }: AssetDetailsProps) => {
         if (!walletState.wallet) return
         const bip44Params = adapter.getBIP44Params({ accountNumber: 0 })
         // @ts-ignore
-        const [address] = await Promise.all([adapter.getAddress({wallet: walletState.wallet, bip44Params})])
+        const [address] = await Promise.all([
+          adapter.getAddress({ wallet: walletState.wallet, bip44Params }),
+        ])
         if (!address) throw new Error(`Can't get address`)
 
         const { data } = await axios.get(`https://api.opensea.io/api/v1/assets?owner=${address}`)

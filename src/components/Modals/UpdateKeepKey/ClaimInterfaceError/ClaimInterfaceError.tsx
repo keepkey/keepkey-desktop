@@ -1,5 +1,4 @@
 import {
-  Button,
   Image,
   Modal,
   ModalBody,
@@ -17,7 +16,7 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 
 import { getAssetUrl } from '../../../../lib/getAssetUrl'
 
-export const ClaimInterfaceErrorModal = (error:any) => {
+export const ClaimInterfaceErrorModal = () => {
   const { hardwareError } = useModal()
   const { isUpdatingKeepkey } = useWallet()
   const { close, isOpen } = hardwareError
@@ -61,11 +60,11 @@ export const ClaimInterfaceErrorModal = (error:any) => {
               <Text translation='modals.keepKey.claimInterfaceError.headerConnect' />
             </ModalHeader>
             <Text translation={'modals.keepKey.claimInterfaceError.troubleshootBody'} />
-            <br/>
+            <br />
             <Text translation={'modals.keepKey.claimInterfaceError.troubleshootBody1'} />
-            <br/>
+            <br />
             <Text translation={'modals.keepKey.claimInterfaceError.troubleshootBody2'} />
-            <br/>
+            <br />
             <Text translation={'modals.keepKey.claimInterfaceError.troubleshootBody3'} />
             <br />
             <Image src={kkConnect} alt='reconnect Device!' />

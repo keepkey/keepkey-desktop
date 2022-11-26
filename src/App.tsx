@@ -27,7 +27,15 @@ export const App = () => {
   const translate = useTranslate()
   const { setIsUpdatingKeepkey, state, disconnect } = useWallet()
 
-  const { pair, sign, hardwareError, claimInterfaceError, updateKeepKey, requestBootloaderMode, loading } = useModal()
+  const {
+    pair,
+    sign,
+    hardwareError,
+    claimInterfaceError,
+    updateKeepKey,
+    requestBootloaderMode,
+    loading,
+  } = useModal()
 
   const openKeepKeyUpdater = (data: any) => {
     setIsUpdatingKeepkey(true)
