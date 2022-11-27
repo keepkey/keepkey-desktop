@@ -5,7 +5,6 @@ import type { PairingProps } from 'components/Modals/Pair/Pair'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { createSignClient } from 'kkdesktop/walletconnect/utils'
 
 export const App = () => {
   const {
@@ -138,7 +137,6 @@ export const App = () => {
       }
     })
 
-    createSignClient()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

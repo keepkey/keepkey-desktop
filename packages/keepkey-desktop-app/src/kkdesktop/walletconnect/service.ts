@@ -1,6 +1,5 @@
 import * as core from '@shapeshiftoss/hdwallet-core'
 import type LegacyWalletConnect from '@walletconnect/client'
-import type SignClient from "@walletconnect/sign-client"
 import { Buffer } from 'buffer'
 import { ipcRenderer } from 'electron-shim'
 import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
@@ -12,10 +11,10 @@ type WCServiceOptions = {
   onCallRequest(request: any): void
 }
 
-export class WCService {
+export class LegacyWCService {
   constructor(
     private readonly wallet: core.ETHWallet,
-    public readonly connector: LegacyWalletConnect | SignClient,
+    public readonly connector: LegacyWalletConnect,
     private readonly options?: WCServiceOptions,
   ) {}
 
