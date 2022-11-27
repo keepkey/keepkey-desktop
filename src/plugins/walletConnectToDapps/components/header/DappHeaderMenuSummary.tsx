@@ -1,9 +1,9 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { MenuGroup } from '@chakra-ui/menu'
-import { Box, HStack, MenuDivider, MenuItem, VStack } from '@chakra-ui/react'
+import { Box, HStack, MenuDivider, MenuItem, Select, VStack } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import type { FC } from 'react'
+import { FC, useCallback } from 'react'
 import { useMemo } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
@@ -12,6 +12,7 @@ import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingl
 import { useEvm } from 'hooks/useEvm/useEvm'
 
 import { DappAvatar } from './DappAvatar'
+import { supportedChains } from 'context/WalletProvider/web3byChainId'
 
 export const DappHeaderMenuSummary: FC = () => {
   const { supportedEvmChainIds } = useEvm()
@@ -32,6 +33,13 @@ export const DappHeaderMenuSummary: FC = () => {
     return name ?? translate('plugins.walletConnectToDapps.header.menu.unsupportedNetwork')
   }, [chainAdapterManager, connectedChainId, supportedEvmChainIds, translate])
 
+  const onChainClick = useCallback(
+    (event: any) => {
+      console.log('onChainClick', supportedChains[event.target.value].chainId)
+      walletConnect.bridge?.doSwitchChain({ chainId: supportedChains[event.target.value].chainId })
+    },
+    [walletConnect.bridge],
+  )
   if (!walletConnect || !walletConnect.bridge || !walletConnect.dapp) return null
 
   return (
@@ -82,7 +90,13 @@ export const DappHeaderMenuSummary: FC = () => {
           </HStack>
         )}
       </VStack>
+      <MenuDivider />
 
+      <Select defaultValue={'option1'} variant='outline' onChange={onChainClick}>
+        {supportedChains.map((chain, index) => (
+          <option value={index}>{chain.name}</option>
+        ))}
+      </Select>
       <MenuDivider />
       <MenuItem
         fontWeight='medium'
