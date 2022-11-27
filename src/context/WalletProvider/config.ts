@@ -1,6 +1,6 @@
 import type { ComponentWithAs, IconProps } from '@chakra-ui/react'
-import * as keepkeyTcp from '@keepkey/hdwallet-keepkey-tcp'
-// import * as keepkeyRest from '@keepkey/hdwallet-keepkey-rest'
+// import * as keepkeyTcp from '@keepkey/hdwallet-keepkey-tcp'
+import * as keepkeyRest from '@keepkey/hdwallet-keepkey-rest'
 import type { RouteProps } from 'react-router-dom'
 import { WalletConnectedRoutes } from 'components/Layout/Header/NavBar/hooks/useMenuRoutes'
 import { ChangeLabel } from 'components/Layout/Header/NavBar/KeepKey/ChangeLabel'
@@ -36,7 +36,8 @@ export interface SupportedWalletInfo {
 export const SUPPORTED_WALLETS: Record<KeyManager, SupportedWalletInfo> = {
   [KeyManager.KeepKey]: {
     ...KeepKeyConfig,
-    adapter: keepkeyTcp.TCPKeepKeyAdapter,
+    // adapter: keepkeyTcp.TCPKeepKeyAdapter,
+    adapter: keepkeyRest.KkRestAdapter,
     routes: [
       { path: KeepKeyRoutes.Success, component: KeepKeySuccess },
       { path: KeepKeyRoutes.Pin, component: KeepKeyPinModal },
