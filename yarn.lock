@@ -3730,7 +3730,7 @@
     rxjs "^6.4.0"
     type-assertions "^1.1.0"
 
-"@keepkey/hdwallet-core@^1.38.7":
+"@keepkey/hdwallet-core@1.38.7", "@keepkey/hdwallet-core@^1.38.7":
   version "1.38.7"
   resolved "https://registry.yarnpkg.com/@keepkey/hdwallet-core/-/hdwallet-core-1.38.7.tgz#738d0011613fbb4005dac6df227fae6da2fb79b6"
   integrity sha512-BbGJ0wHmd73Jl6RsABBY0VE0MwMa2mfScB/Kh2OnwCrx3Bbd0GtTQGMY1CFAr2NCB16jfXVRls53Lxq7uIK+qg==
@@ -3789,7 +3789,7 @@
     "@keepkey/hdwallet-core" "1.38.5"
     "@keepkey/hdwallet-keepkey" "1.38.5"
 
-"@keepkey/hdwallet-keepkey@1.38.5", "@keepkey/hdwallet-keepkey@^1.38.5":
+"@keepkey/hdwallet-keepkey@1.38.5":
   version "1.38.5"
   resolved "https://registry.yarnpkg.com/@keepkey/hdwallet-keepkey/-/hdwallet-keepkey-1.38.5.tgz#fdc0739ede4b7ffb1f41965ceb64e585f8faaeeb"
   integrity sha512-h05KXxH/lC+B++WWFbcj2dUkDmZ9L8qFEdTTcYNYJQ25ZWOQHnT9dquPho0dN1MOc2oYYMe83i/+YIrKeOVsUg==
@@ -3798,6 +3798,29 @@
     "@ethereumjs/tx" "^3.3.0"
     "@keepkey/device-protocol" "^7.10.2"
     "@keepkey/hdwallet-core" "1.38.5"
+    "@shapeshiftoss/bitcoinjs-lib" "5.2.0-shapeshift.2"
+    "@shapeshiftoss/proto-tx-builder" "^0.4.0"
+    bignumber.js "^9.0.1"
+    bnb-javascript-sdk-nobroadcast "^2.16.14"
+    crypto-js "^4.0.0"
+    eip-712 "^1.0.0"
+    eip55 "^2.1.0"
+    google-protobuf "^3.15.8"
+    icepick "^2.4.0"
+    lodash "^4.17.21"
+    p-lazy "^3.1.0"
+    semver "^6.3.0"
+    tiny-secp256k1 "^1.1.6"
+
+"@keepkey/hdwallet-keepkey@^1.38.7":
+  version "1.38.7"
+  resolved "https://registry.yarnpkg.com/@keepkey/hdwallet-keepkey/-/hdwallet-keepkey-1.38.7.tgz#14a69fec7e8a799249e364583f38fa7758723db0"
+  integrity sha512-rHz5RqVi1LmoyzqNsB03MlZQqGlJbMd7f0QRvKrAbwjowwhwEVkhaLusHbJ+oCd8CIEX4Ta7/GbC/wSjaLPt2A==
+  dependencies:
+    "@ethereumjs/common" "^2.4.0"
+    "@ethereumjs/tx" "^3.3.0"
+    "@keepkey/device-protocol" "^7.10.2"
+    "@keepkey/hdwallet-core" "1.38.7"
     "@shapeshiftoss/bitcoinjs-lib" "5.2.0-shapeshift.2"
     "@shapeshiftoss/proto-tx-builder" "^0.4.0"
     bignumber.js "^9.0.1"

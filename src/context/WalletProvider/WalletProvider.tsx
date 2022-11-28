@@ -16,7 +16,6 @@ import type { Entropy } from 'context/WalletProvider/KeepKey/components/Recovery
 import { VALID_ENTROPY } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
 import { KeepKeyRoutes } from 'context/WalletProvider/routes'
-import { logger } from 'lib/logger'
 
 import type { ActionTypes } from './actions'
 import { WalletActions } from './actions'
@@ -29,7 +28,7 @@ import { clearLocalWallet, setLocalWalletTypeAndDeviceId } from './local-wallet'
 import type { IWalletContext } from './WalletContext'
 import { WalletContext } from './WalletContext'
 import { WalletViewsRouter } from './WalletViewsRouter'
-
+import { logger } from 'lib/logger'
 const moduleLogger = logger.child({ namespace: ['WalletProvider'] })
 
 type GenericAdapter = {

@@ -4,9 +4,9 @@ import { convertHexToUtf8 } from '@walletconnect/utils'
 import { ipcRenderer } from 'electron'
 import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
-
+import { logger } from 'lib/logger'
+const moduleLogger = logger.child({ namespace: ['WC-service'] })
 const addressNList = core.bip32ToAddressNList("m/44'/60'/0'/0/0")
-
 type WCServiceOptions = {
   onCallRequest(request: any): void
 }
@@ -19,6 +19,7 @@ export class WCService {
   ) {}
 
   async connect() {
+    moduleLogger.debug("Connect Called")
     if (!this.connector.connected) {
       await this.connector.createSession()
     }
@@ -26,6 +27,7 @@ export class WCService {
   }
 
   disconnect = async () => {
+    moduleLogger.debug("disconnect Called")
     await this.connector.killSession()
     this.connector.off('session_request')
     this.connector.off('connect')
@@ -34,6 +36,7 @@ export class WCService {
   }
 
   private subscribeToEvents() {
+    moduleLogger.debug(" subscribeToEvents: ")
     this.connector.on('session_request', this._onSessionRequest.bind(this))
     this.connector.on('connect', this._onConnect.bind(this))
     this.connector.on('call_request', this._onCallRequest.bind(this))
@@ -41,6 +44,7 @@ export class WCService {
   }
 
   async _onSessionRequest(_: Error | null, payload: any) {
+    moduleLogger.debug(" _onSessionRequest: ")
     const address = await this.wallet.ethGetAddress({ addressNList, showDisplay: false })
     if (address) {
       this.connector.approveSession({
@@ -51,7 +55,9 @@ export class WCService {
   }
 
   async _onConnect() {
+    moduleLogger.debug(" _onConnect: ")
     if (this.connector.connected && this.connector.peerMeta) {
+      moduleLogger.debug(" peerMeta: ")
       ipcRenderer.send('@walletconnect/pairing', {
         serviceName: this.connector.peerMeta.name,
         serviceImageUrl: this.connector.peerMeta.icons[0],
@@ -61,10 +67,12 @@ export class WCService {
   }
 
   async _onCallRequest(_: Error | null, payload: any) {
+    moduleLogger.debug(" _onCallRequest: ",payload)
     this.options?.onCallRequest(payload)
   }
 
   async _onSwitchChain(_: Error | null, payload: any) {
+    moduleLogger.debug(" _onSwitchChain: ",payload)
     this.connector.approveRequest({
       id: payload.id,
       result: 'success',
@@ -77,7 +85,8 @@ export class WCService {
   }
 
   public doSwitchChain({chainId}: {chainId: number}) {
-
+    // @ts-ignore
+    moduleLogger.debug(" doSwitchChain: ", {chainId})
     const web3Stuff = web3ByChainId(chainId)
     if(!web3Stuff) throw new Error('no data for chainId')
     console.log('doing dwitch chain!!!!')
@@ -89,7 +98,10 @@ export class WCService {
   }
 
   public async approve(request: any, txData: TxData) {
-    if (request.method === 'personal_sign') {
+    // @ts-ignore
+    moduleLogger.debug(" approve: ", {request,txData})
+
+    if (request.method === 'personal_sign' || request.method === 'eth_sign') {
       const response = await this.wallet.ethSignMessage({
         ...txData,
         addressNList,
@@ -109,17 +121,14 @@ export class WCService {
         maxPriorityFeePerGas: txData.maxPriorityFeePerGas,
         maxFeePerGas: txData.maxFeePerGas,
       }
-
-      console.log('txData is', txData)
       // if gasPrice was passed in it means we couldnt get maxPriorityFeePerGas & maxFeePerGas
       if (txData.gasPrice) {
-        console.log('overriding the gas price')
         sendData['gasPrice'] = txData.gasPrice
         delete sendData.maxPriorityFeePerGas
         delete sendData.maxFeePerGas
       }
-
-      console.log('sendData is', sendData)
+      // @ts-ignore
+      moduleLogger.info(" sendData: ", {sendData})
 
       const signedData = await this.wallet.ethSignTx?.(sendData)
 
@@ -140,6 +149,47 @@ export class WCService {
       })
       const result = response?.serialized
       this.connector.approveRequest({ id: request.id, result })
+    } if (request.method === 'eth_signTypedData') {
+      if(!this.wallet) throw Error("wallet not init!")
+      if(!this.wallet.ethSignTypedData) throw Error("wallet not latest version ethSignTypedData!")
+      const response = await this.wallet.ethSignTypedData({
+        addressNList,
+        types: {
+          EIP712Domain: [
+            { name: "name", type: "string" },
+            { name: "version", type: "string" },
+            { name: "chainId", type: "uint256" },
+            { name: "verifyingContract", type: "address" },
+          ],
+          Permit: [
+            { name: "owner", type: "address" },
+            { name: "spender", type: "address" },
+            { name: "value", type: "uint256" },
+            { name: "nonce", type: "uint256" },
+            { name: "deadline", type: "uint256" },
+          ],
+        },
+        domain: {
+          name: "USD Coin",
+          version: "2",
+          verifyingContract: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          chainId: 1,
+        },
+        primaryType: "Permit",
+        message: {
+          owner: "0x33b35c665496bA8E71B22373843376740401F106",
+          spender: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
+          value: "4023865",
+          nonce: 0,
+          deadline: 1655431026,
+        },
+      })
+      // @ts-ignore
+      moduleLogger.error("response: ",response)
+      //res?.signature
+      //res?.address
+      //res?.domainSeparatorHash
+      //res?.messageHash
     } else {
       const message = 'JSON RPC method not supported'
       this.connector.rejectRequest({ id: request.id, error: { message } })

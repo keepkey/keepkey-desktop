@@ -31,11 +31,11 @@ export const WalletConnectToDapps: FC = () => {
       let Api = new Client(spec,config)
       let api = await Api.init()
       let info = await api.Globals()
-      console.log("info: ",info.data)
+      // console.log("info: ",info.data)
       setSetMotd(info.data.motd)
 
       let spotlight = await api.GetSpotlight()
-      console.log("spotlight: ",spotlight.data)
+      // console.log("spotlight: ",spotlight.data)
       setSpotlight(spotlight.data)
     }catch(e){
       console.error(e)
