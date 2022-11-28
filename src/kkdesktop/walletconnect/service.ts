@@ -79,8 +79,7 @@ export class WCService {
   public doSwitchChain({chainId}: {chainId: number}) {
 
     const web3Stuff = web3ByChainId(chainId)
-    if(!web3Stuff) throw new Error('no data for chainId')
-    console.log('doing dwitch chain!!!!')
+    if (!web3Stuff) throw new Error('no data for chainId')
     this.connector.updateChain({chainId, networkId: chainId, rpcUrl: web3Stuff.providerUrl, nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol}})
     this.connector.updateSession({
       chainId,
@@ -110,16 +109,12 @@ export class WCService {
         maxFeePerGas: txData.maxFeePerGas,
       }
 
-      console.log('txData is', txData)
       // if gasPrice was passed in it means we couldnt get maxPriorityFeePerGas & maxFeePerGas
       if (txData.gasPrice) {
-        console.log('overriding the gas price')
         sendData['gasPrice'] = txData.gasPrice
         delete sendData.maxPriorityFeePerGas
         delete sendData.maxFeePerGas
       }
-
-      console.log('sendData is', sendData)
 
       const signedData = await this.wallet.ethSignTx?.(sendData)
 
