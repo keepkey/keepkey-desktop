@@ -3,47 +3,38 @@ import { MenuGroup } from '@chakra-ui/menu'
 import { Box, HStack, MenuDivider, MenuItem, Select, VStack } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { FC, useCallback } from 'react'
-import { useMemo } from 'react'
+import { FC, useCallback, useMemo, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { RawText, Text } from 'components/Text'
-import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { useEvm } from 'hooks/useEvm/useEvm'
 
 import { DappAvatar } from './DappAvatar'
 import { supportedChains } from 'context/WalletProvider/web3byChainId'
 
 export const DappHeaderMenuSummary: FC = () => {
-  const { supportedEvmChainIds } = useEvm()
-  const chainAdapterManager = getChainAdapterManager()
-
   const translate = useTranslate()
 
   const walletConnect = useWalletConnect()
-  const connectedChainId = walletConnect.bridge?.connector.chainId
 
-  const chainName = useMemo(() => {
-    let name = chainAdapterManager
-      .get(supportedEvmChainIds.find(chainId => chainId === `eip155:${connectedChainId}`) ?? '')
-      ?.getDisplayName()
+  const initialChainSelection = useMemo(
+    () =>
+      supportedChains.findIndex(
+        chain => chain?.chainId === walletConnect?.bridge?.connector?.chainId,
+      ),
+    [walletConnect?.bridge?.connector?.chainId],
+  )
 
-    if (!name) name = `ChainId ${connectedChainId}`
-
-    return name ?? translate('plugins.walletConnectToDapps.header.menu.unsupportedNetwork')
-  }, [chainAdapterManager, connectedChainId, supportedEvmChainIds, translate])
+  const [chainName, setChainName] = useState(supportedChains[initialChainSelection].name)
 
   const onChainClick = useCallback(
     (event: any) => {
       walletConnect.bridge?.doSwitchChain({ chainId: supportedChains[event.target.value].chainId })
+      setChainName(supportedChains[event.target.value].name)
     },
     [walletConnect.bridge],
   )
-  if (!walletConnect || !walletConnect.bridge || !walletConnect.dapp) return null
 
-  const selectedWcChainIndex = supportedChains.findIndex(
-    chain => chain?.chainId === walletConnect?.bridge?.connector?.chainId,
-  )
+  if (!walletConnect || !walletConnect.bridge || !walletConnect.dapp) return null
 
   return (
     <>
@@ -95,7 +86,7 @@ export const DappHeaderMenuSummary: FC = () => {
       </VStack>
       <MenuDivider />
 
-      <Select defaultValue={selectedWcChainIndex} variant='outline' onChange={onChainClick}>
+      <Select defaultValue={initialChainSelection} variant='outline' onChange={onChainClick}>
         {supportedChains.map((chain, index) => (
           <option value={index}>{chain.name}</option>
         ))}
