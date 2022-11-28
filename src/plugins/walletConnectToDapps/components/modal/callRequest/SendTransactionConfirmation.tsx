@@ -126,7 +126,7 @@ export const SendTransactionConfirmation = () => {
 
     // for non mainnet chains we use the simple web3.getGasPrice()
     const chainWeb3 = web3ByChainId(walletConnect?.bridge?.connector?.chainId as any) as any
-    chainWeb3?.eth?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
+    chainWeb3?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
     setChainWeb3(chainWeb3)
   }, [form, txInputGas, walletConnect.bridge?.connector.chainId])
 
@@ -208,8 +208,8 @@ export const SendTransactionConfirmation = () => {
         })
         setEstimatedGas(estimate)
       } catch (e) {
-        console.log('error estimating gas, defaulting to 500k', e)
-        // 500k seemed reasonable
+        // 500k seems reasonable.
+        // Maybe its better to gracefully fail here???
         setEstimatedGas('500000')
       }
     })()
