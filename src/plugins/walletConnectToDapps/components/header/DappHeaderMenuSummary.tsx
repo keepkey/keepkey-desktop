@@ -35,12 +35,15 @@ export const DappHeaderMenuSummary: FC = () => {
 
   const onChainClick = useCallback(
     (event: any) => {
-      console.log('onChainClick', supportedChains[event.target.value].chainId)
       walletConnect.bridge?.doSwitchChain({ chainId: supportedChains[event.target.value].chainId })
     },
     [walletConnect.bridge],
   )
   if (!walletConnect || !walletConnect.bridge || !walletConnect.dapp) return null
+
+  const selectedWcChainIndex = supportedChains.findIndex(
+    chain => chain?.chainId === walletConnect?.bridge?.connector?.chainId,
+  )
 
   return (
     <>
@@ -92,7 +95,7 @@ export const DappHeaderMenuSummary: FC = () => {
       </VStack>
       <MenuDivider />
 
-      <Select defaultValue={'option1'} variant='outline' onChange={onChainClick}>
+      <Select defaultValue={selectedWcChainIndex} variant='outline' onChange={onChainClick}>
         {supportedChains.map((chain, index) => (
           <option value={index}>{chain.name}</option>
         ))}
