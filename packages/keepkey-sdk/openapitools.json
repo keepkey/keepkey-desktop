@@ -5,7 +5,7 @@
     "version": "6.2.0",
     "generators": {
       "sdk": {
-        "inputSpec": "../../applications/keepkey-desktop/electron/api/dist/swagger.json",
+        "inputSpec": "../../electron/api/dist/swagger.json",
         "generatorName": "typescript-fetch",
         "output": "#{cwd}/src/generated",
         "enablePostProcessFile": true,
