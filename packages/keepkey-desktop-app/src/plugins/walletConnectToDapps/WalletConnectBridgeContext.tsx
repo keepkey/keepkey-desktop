@@ -11,9 +11,13 @@ type WalletConnectBridgeContextValue = {
   addRequest: (payload: any) => void
   addProposal: (payload: any) => void
   setPairingMeta: (payload: any) => void
+  setCurrentSessionTopic: (topic: string) => void
+  onDisconnect: () => void
   requests: any[]
   proposals: any[]
   isLegacy: boolean
+  currentSessionTopic: string | undefined
+  isConnected: boolean
 }
 
 export const WalletConnectBridgeContext = createContext<WalletConnectBridgeContextValue>({
@@ -25,9 +29,13 @@ export const WalletConnectBridgeContext = createContext<WalletConnectBridgeConte
   addRequest: () => 0,
   addProposal: () => 0,
   setPairingMeta: () => 0,
+  setCurrentSessionTopic: () => 0,
+  onDisconnect: () => 0,
   requests: [],
   proposals: [],
   isLegacy: false,
+  currentSessionTopic: undefined,
+  isConnected: false,
 })
 
 export function useWalletConnect() {

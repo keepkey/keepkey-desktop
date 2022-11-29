@@ -7,7 +7,7 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 
 import { CallRequestModal } from './components/modal/callRequest/CallRequestModal'
 import { WalletConnectBridgeContext } from './WalletConnectBridgeContext'
-import { getWalletConnect } from 'kkdesktop/walletconnect/utils'
+import { getWalletConnect, WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import type { CoreTypes, SignClientTypes } from '@walletconnect/types'
 import { SessionProposalModal } from './components/modal/callRequest/SessionProposalModal'
 import { WalletConnectLogic } from 'WalletConnectLogic'
@@ -16,7 +16,9 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
   const wallet = useWallet().state.wallet
   const [legacyBridge, setLegacyBridge] = useState<LegacyWCService>()
   const [pairingMeta, setPairingMeta] = useState<CoreTypes.Metadata>()
+  const [currentSessionTopic, setCurrentSessionTopic] = useState<string>()
   const [isLegacy, setIsLegacy] = useState(false)
+  const [isConnected, setIsConnected] = useState(false)
 
   const [requests, setRequests] = useState<any[]>([])
   const [proposals, setProposals] = useState<SignClientTypes.EventArguments['session_proposal'][]>(
@@ -49,6 +51,22 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
 
   const toast = useToast()
 
+  const onDisconnect = () => {
+    setIsConnected(false)
+    setCurrentSessionTopic(undefined)
+    setPairingMeta(undefined)
+  }
+
+  useEffect(() => {
+    if (!WalletConnectSignClient) return
+    WalletConnectSignClient.on("session_ping", (payload) => {
+      setIsConnected(true)
+      setCurrentSessionTopic(payload.topic)
+    })
+    WalletConnectSignClient.on("session_delete", onDisconnect)
+    WalletConnectSignClient.on("session_expire", onDisconnect)
+  }, [WalletConnectSignClient])
+
   // connects to given URI or attempts previous connection
   const connect = useCallback(
     async (uri?: string) => {
@@ -64,9 +82,15 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
           wc.connector.off('connect')
           wc.connector.off('disconnect')
           wc.connector.off('wallet_switchEthereumChain')
-          wc.connector.on('connect', rerender)
+          wc.connector.on('connect', () => {
+            setIsLegacy(true)
+            setIsConnected(true)
+            if (wc.connector.peerMeta) setPairingMeta(wc.connector.peerMeta)
+            rerender()
+          })
           wc.connector.on('disconnect', () => {
             setIsLegacy(false)
+            setIsConnected(false)
             setLegacyBridge(undefined)
             rerender()
           })
@@ -103,21 +127,12 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
   const dapp = pairingMeta
 
   return (
-    <WalletConnectBridgeContext.Provider
-      value={{
-        proposals,
-        addProposal,
-        removeProposal,
-        isLegacy,
-        legacyBridge,
-        dapp,
-        connect,
-        removeRequest,
-        requests,
-        addRequest,
-        setPairingMeta,
-      }}
-    >
+    <WalletConnectBridgeContext.Provider value={{
+      setCurrentSessionTopic: (topic) => {
+        setCurrentSessionTopic(topic)
+        setIsConnected(true)
+      }, onDisconnect, isConnected, currentSessionTopic, proposals, addProposal, removeProposal, isLegacy, legacyBridge, dapp, connect, removeRequest, requests, addRequest, setPairingMeta
+    }}>
       <WalletConnectLogic />
       {children}
       {requests.length > 0 && <CallRequestModal />}

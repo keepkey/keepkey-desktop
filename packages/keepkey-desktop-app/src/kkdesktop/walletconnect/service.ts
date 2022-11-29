@@ -20,7 +20,7 @@ export class LegacyWCService {
 
   async connect() {
     console.log("connecting")
-    await this.connector.createSession()
+    console.log(this.connector)
     if (!this.connector.connected) {
       console.log("Creating session")
       await this.connector.createSession()
@@ -44,6 +44,7 @@ export class LegacyWCService {
   }
 
   async _onSessionRequest(_: Error | null, payload: any) {
+    console.log("Session request", payload)
     const address = await this.wallet.ethGetAddress({ addressNList, showDisplay: false })
     if (address) {
       this.connector.approveSession({
@@ -55,6 +56,7 @@ export class LegacyWCService {
 
   async _onConnect() {
     if (this.connector.connected && this.connector.peerMeta) {
+      console.log("On connect wc")
       ipcRenderer.send('@walletconnect/pairing', {
         serviceName: this.connector.peerMeta.name,
         serviceImageUrl: this.connector.peerMeta.icons[0],

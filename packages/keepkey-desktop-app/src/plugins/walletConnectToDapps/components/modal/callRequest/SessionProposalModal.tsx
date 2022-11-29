@@ -29,7 +29,7 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 
 export const SessionProposalModal = () => {
-  const { proposals, removeProposal, setPairingMeta } = useWalletConnect()
+  const { proposals, removeProposal, setPairingMeta, setCurrentSessionTopic } = useWalletConnect()
 
   const currentProposal = proposals[0] as SignClientTypes.EventArguments['session_proposal']
 
@@ -91,8 +91,10 @@ export const SessionProposalModal = () => {
       const { acknowledged } = await WalletConnectSignClient.approve(approveData)
       const {
         peer: { metadata },
+        topic,
       } = await acknowledged()
       setPairingMeta(metadata)
+      setCurrentSessionTopic(topic)
     }
     removeProposal(id)
   }
