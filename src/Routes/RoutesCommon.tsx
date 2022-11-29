@@ -34,13 +34,6 @@ import { RouteCategory } from './helpers'
 
 export const routes: NestedRoute[] = [
   {
-    path: '/dapps',
-    label: 'navBar.dApps',
-    main: WalletConnectToDapps,
-    icon: <WalletConnectCurrentColorIcon />,
-    category: RouteCategory.Wallet,
-  },
-  {
     path: '/dashboard',
     label: 'navBar.dashboard',
     icon: <DashboardIcon />,
@@ -48,10 +41,17 @@ export const routes: NestedRoute[] = [
     category: RouteCategory.Wallet,
   },
   {
+    path: '/dapps',
+    label: 'navBar.dApps',
+    main: WalletConnectToDapps,
+    icon: <WalletConnectCurrentColorIcon />,
+    category: RouteCategory.Wallet,
+  },
+  {
     path: '/pairings',
     label: 'navBar.pairings',
     icon: <FaPlug />,
-    category: RouteCategory.Wallet,
+    category: RouteCategory.Explore,
     main: Pairings,
     routes: [
       {
@@ -90,7 +90,7 @@ export const routes: NestedRoute[] = [
     label: 'navBar.assets',
     main: Assets,
     icon: <AssetsIcon />,
-    category: RouteCategory.Explore,
+    category: RouteCategory.Wallet,
     routes: [
       {
         path: '/:chainId/:assetSubId',
@@ -132,7 +132,7 @@ export const routes: NestedRoute[] = [
     label: 'navBar.accounts',
     main: Accounts,
     icon: <AccountsIcon />,
-    category: RouteCategory.Wallet,
+    category: RouteCategory.Explore,
     routes: [
       {
         path: '/:accountId',

@@ -48,7 +48,7 @@ export const Portfolio = () => {
   const toggleChartType = useCallback(() => setIsRainbowChart(!isRainbowChart), [isRainbowChart])
 
   return (
-    <Stack spacing={6} width='full'>
+    <Stack spacing={6}>
       <Card variant='footer-stub'>
         <Card.Header
           display='flex'
@@ -89,26 +89,26 @@ export const Portfolio = () => {
             </Skeleton>
           )}
         </Flex>
-        <BalanceChart
-          assetIds={assetIds}
-          timeframe={timeframe}
-          percentChange={percentChange}
-          setPercentChange={setPercentChange}
-          isRainbowChart={isRainbowChart}
-        />
-        <Skeleton isLoaded={isLoaded} display={{ base: 'block', md: 'none' }}>
-          <TimeControls
-            onChange={setTimeframe}
-            defaultTime={timeframe}
-            buttonGroupProps={{
-              display: 'flex',
-              width: 'full',
-              justifyContent: 'space-between',
-              px: 6,
-              py: 4,
-            }}
+          <BalanceChart
+              assetIds={assetIds}
+              timeframe={timeframe}
+              percentChange={percentChange}
+              setPercentChange={setPercentChange}
+              isRainbowChart={isRainbowChart}
           />
-        </Skeleton>
+          <Skeleton isLoaded={isLoaded} display={{ base: 'block', md: 'none' }}>
+            <TimeControls
+                onChange={setTimeframe}
+                defaultTime={timeframe}
+                buttonGroupProps={{
+                  display: 'flex',
+                  width: 'full',
+                  justifyContent: 'space-between',
+                  px: 6,
+                  py: 4,
+                }}
+            />
+          </Skeleton>
       </Card>
       <MaybeChartUnavailable assetIds={assetIds} />
       <PortfolioBreakdown />
