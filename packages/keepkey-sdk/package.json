@@ -1,0 +1,24 @@
+{
+  "name": "@keepkey/keepkey-sdk",
+  "version": "1.38.6",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "test": "yarn build && node __tests__/test-module.js",
+    "lint": "prettier --write '**/**/*.ts'",
+    "create": "yarn build && yarn test",
+    "build": "tsc -p .",
+    "build:watch": "tsc -p . -w",
+    "prepublish": "yarn generate && yarn build",
+    "generate": "openapi-generator-cli generate",
+    "refresh": "rm -rf ./node_modules ./package-lock.json && yarn install"
+  },
+  "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.2",
+    "@types/node": "^13.13.14",
+    "axios": "^1.1.3",
+    "dotenv": "^8.6.0",
+    "typescript": "^4.8.4"
+  },
+  "gitHead": "6885ddad5e5bd1ed2c06ae0a43f5018e0c8121c6"
+}
