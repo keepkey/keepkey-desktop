@@ -13,6 +13,7 @@ import { useEvm } from 'hooks/useEvm/useEvm'
 
 import { DappAvatar } from './DappAvatar'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import { getSdkError } from '@walletconnect/utils'
 
 export const DappHeaderMenuSummary: FC = () => {
   const { supportedEvmChainIds } = useEvm()
@@ -62,9 +63,11 @@ export const DappHeaderMenuSummary: FC = () => {
         <HStack justifyContent='space-between' spacing={4}>
           <Text translation='plugins.walletConnectToDapps.header.menu.connected' color='gray.500' />
           <RawText>
-            {dayjs(walletConnect.legacyBridge?.connector?.handshakeId / 1000).format(
-              'MMM DD, YYYY, HH:mm A',
-            )}
+            {/* {dayjs((walletConnect.legacyBridge?.connector?.handshakeId ?
+              walletConnect.legacyBridge?.connector?.handshakeId :
+              walletConnect.currentSessionId) / 1000).format(
+                'MMM DD, YYYY, HH:mm A',
+              )} */}
           </RawText>
         </HStack>
         <HStack justifyContent='space-between' spacing={4}>
@@ -88,7 +91,13 @@ export const DappHeaderMenuSummary: FC = () => {
       <MenuItem
         fontWeight='medium'
         icon={<CloseIcon />}
-        onClick={walletConnect?.legacyBridge?.disconnect}
+        onClick={() => {
+          walletConnect.onDisconnect()
+          if (walletConnect.isLegacy) { walletConnect?.legacyBridge?.disconnect }
+          else {
+            WalletConnectSignClient.disconnect({ topic: walletConnect.currentSessionTopic ?? "", reason: getSdkError('USER_DISCONNECTED') })
+          }
+        }}
         color='red.500'
       >
         {translate('plugins.walletConnectToDapps.header.menu.disconnect')}

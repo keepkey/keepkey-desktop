@@ -3,6 +3,7 @@ import type LegacyWalletConnect from '@walletconnect/client'
 import { ipcRenderer } from 'electron'
 import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
+import { hexToUtf8 } from "@walletconnect/encoding"
 
 const addressNList = core.bip32ToAddressNList("m/44'/60'/0'/0/0")
 
@@ -19,7 +20,7 @@ export class LegacyWCService {
 
   async connect() {
     console.log("connecting")
-    await this.connector.createSession()
+    console.log(this.connector)
     if (!this.connector.connected) {
       console.log("Creating session")
       await this.connector.createSession()
@@ -43,6 +44,7 @@ export class LegacyWCService {
   }
 
   async _onSessionRequest(_: Error | null, payload: any) {
+    console.log("Session request", payload)
     const address = await this.wallet.ethGetAddress({ addressNList, showDisplay: false })
     if (address) {
       this.connector.approveSession({
@@ -54,6 +56,7 @@ export class LegacyWCService {
 
   async _onConnect() {
     if (this.connector.connected && this.connector.peerMeta) {
+      console.log("On connect wc")
       ipcRenderer.send('@walletconnect/pairing', {
         serviceName: this.connector.peerMeta.name,
         serviceImageUrl: this.connector.peerMeta.icons[0],
@@ -133,9 +136,7 @@ export class LegacyWCService {
 
   private convertHexToUtf8IfPossible(hex: string) {
     try {
-      const match = hex.match(/.{1,2}/g)
-      if (!match) return hex
-      return decodeURIComponent('%' + match.join('%'));
+      return hexToUtf8(hex)
     } catch (e) {
       return hex
     }
