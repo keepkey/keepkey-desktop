@@ -11,6 +11,7 @@ import { RawText, Text } from 'components/Text'
 
 import { DappAvatar } from './DappAvatar'
 import { supportedChains } from 'context/WalletProvider/web3byChainId'
+import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 
 export const DappHeaderMenuSummary: FC = () => {
   const translate = useTranslate()
@@ -20,22 +21,24 @@ export const DappHeaderMenuSummary: FC = () => {
   const initialChainSelection = useMemo(
     () =>
       supportedChains.findIndex(
-        chain => chain?.chainId === walletConnect?.bridge?.connector?.chainId,
+        chain => chain?.chainId === walletConnect?.legacyBridge?.connector?.chainId,
       ),
-    [walletConnect?.bridge?.connector?.chainId],
+    [walletConnect?.legacyBridge?.connector?.chainId],
   )
 
   const [chainName, setChainName] = useState(supportedChains[initialChainSelection].name)
 
   const onChainClick = useCallback(
     (event: any) => {
-      walletConnect.bridge?.doSwitchChain({ chainId: supportedChains[event.target.value].chainId })
+      walletConnect.legacyBridge?.doSwitchChain({
+        chainId: supportedChains[event.target.value].chainId,
+      })
       setChainName(supportedChains[event.target.value].name)
     },
-    [walletConnect.bridge],
+    [walletConnect.legacyBridge],
   )
 
-  if (!walletConnect || !walletConnect.bridge || !walletConnect.dapp) return null
+  if (!walletConnect || !walletConnect.dapp) return null
 
   return (
     <>
@@ -48,7 +51,9 @@ export const DappHeaderMenuSummary: FC = () => {
           <DappAvatar
             name={walletConnect.dapp.name}
             image={walletConnect.dapp.icons[0]}
-            connected={walletConnect.bridge.connector.connected}
+            connected={
+              walletConnect.legacyBridge?.connector.connected || !!WalletConnectSignClient.session
+            }
           />
           <Box fontWeight='medium'>
             <RawText>{walletConnect.dapp.name}</RawText>
@@ -64,21 +69,21 @@ export const DappHeaderMenuSummary: FC = () => {
         <HStack justifyContent='space-between' spacing={4}>
           <Text translation='plugins.walletConnectToDapps.header.menu.connected' color='gray.500' />
           <RawText>
-            {dayjs(walletConnect.bridge.connector.handshakeId / 1000).format(
+            {dayjs(walletConnect.legacyBridge?.connector?.handshakeId / 1000).format(
               'MMM DD, YYYY, HH:mm A',
             )}
           </RawText>
         </HStack>
         <HStack justifyContent='space-between' spacing={4}>
           <Text translation='plugins.walletConnectToDapps.header.menu.address' color='gray.500' />
-          {!!walletConnect?.bridge?.connector?.accounts && (
+          {!!walletConnect?.legacyBridge?.connector?.accounts && (
             <MiddleEllipsis
-              value={walletConnect?.bridge?.connector?.accounts[0]}
+              value={walletConnect?.legacyBridge?.connector?.accounts[0]}
               color='blue.200'
             />
           )}
         </HStack>
-        {walletConnect?.bridge?.connector?.connected && (
+        {walletConnect?.legacyBridge?.connector?.connected && (
           <HStack justifyContent='space-between' spacing={4}>
             <Text translation='plugins.walletConnectToDapps.header.menu.network' color='gray.500' />
             <RawText>{chainName}</RawText>
@@ -96,7 +101,7 @@ export const DappHeaderMenuSummary: FC = () => {
       <MenuItem
         fontWeight='medium'
         icon={<CloseIcon />}
-        onClick={walletConnect?.bridge?.disconnect}
+        onClick={walletConnect?.legacyBridge?.disconnect}
         color='red.500'
       >
         {translate('plugins.walletConnectToDapps.header.menu.disconnect')}

@@ -1,3 +1,4 @@
+import { bip32ToAddressNList } from '@shapeshiftoss/hdwallet-core'
 /**
  * @desc Refference list of eip155 chains
  * @url https://chainlist.org
@@ -7,7 +8,7 @@
  * Types
  */
 export type TEIP155Chain = keyof typeof EIP155_CHAINS
-
+const EIP115Address = bip32ToAddressNList("m/44'/60'/0'/0/0")
 /**
  * Chains
  */
@@ -18,6 +19,7 @@ export const EIP155_MAINNET_CHAINS = {
     logo: '/chain-logos/eip155-1.png',
     rgb: '99, 125, 234',
     rpc: 'https://cloudflare-eth.com/',
+    addressNList: EIP115Address,
   },
   'eip155:43114': {
     chainId: 43114,
@@ -25,6 +27,7 @@ export const EIP155_MAINNET_CHAINS = {
     logo: '/chain-logos/eip155-43113.png',
     rgb: '232, 65, 66',
     rpc: 'https://api.avax.network/ext/bc/C/rpc',
+    addressNList: EIP115Address,
   },
   'eip155:137': {
     chainId: 137,
@@ -32,6 +35,7 @@ export const EIP155_MAINNET_CHAINS = {
     logo: '/chain-logos/eip155-137.png',
     rgb: '130, 71, 229',
     rpc: 'https://polygon-rpc.com/',
+    addressNList: EIP115Address,
   },
   'eip155:10': {
     chainId: 10,
@@ -39,6 +43,7 @@ export const EIP155_MAINNET_CHAINS = {
     logo: '/chain-logos/eip155-10.png',
     rgb: '235, 0, 25',
     rpc: 'https://mainnet.optimism.io',
+    addressNList: EIP115Address,
   },
 }
 
@@ -49,6 +54,7 @@ export const EIP155_TEST_CHAINS = {
     logo: '/chain-logos/eip155-1.png',
     rgb: '99, 125, 234',
     rpc: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    addressNList: EIP115Address,
   },
   'eip155:43113': {
     chainId: 43113,
@@ -56,6 +62,7 @@ export const EIP155_TEST_CHAINS = {
     logo: '/chain-logos/eip155-43113.png',
     rgb: '232, 65, 66',
     rpc: 'https://api.avax-test.network/ext/bc/C/rpc',
+    addressNList: EIP115Address,
   },
   'eip155:80001': {
     chainId: 80001,
@@ -63,6 +70,7 @@ export const EIP155_TEST_CHAINS = {
     logo: '/chain-logos/eip155-137.png',
     rgb: '130, 71, 229',
     rpc: 'https://matic-mumbai.chainstacklabs.com',
+    addressNList: EIP115Address,
   },
   'eip155:420': {
     chainId: 420,
@@ -70,6 +78,7 @@ export const EIP155_TEST_CHAINS = {
     logo: '/chain-logos/eip155-10.png',
     rgb: '235, 0, 25',
     rpc: 'https://goerli.optimism.io',
+    addressNList: EIP115Address,
   },
 }
 
