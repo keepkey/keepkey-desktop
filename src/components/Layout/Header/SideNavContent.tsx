@@ -76,7 +76,7 @@ export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
           as={Link}
           isExternal
           size='sm'
-          href='https://discord.gg/WwYsQkt3'
+          href='https://discord.gg/stfRnW3Jys'
           label={translate('common.joinDiscord')}
           leftIcon={<DiscordIcon />}
           data-test='navigation-join-discord-button'
@@ -87,9 +87,9 @@ export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
           as={Link}
           size='sm'
           onClick={() => handleClick()}
-          label={translate('common.submitFeedback')}
+          label={translate('common.getSupport')}
           isExternal
-          href='https://shapeshift.notion.site/Submit-Feedback-or-a-Feature-Request-af48a25fea574da4a05a980c347c055b'
+          href='https://discord.gg/FDQEbB79N2'
         />
       </Stack>
     </Flex>
