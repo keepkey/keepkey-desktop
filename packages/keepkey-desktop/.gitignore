@@ -1,0 +1,5 @@
+/api/dist
+/build
+/dist
+/prebuilds
+/src/helpers/routes/routes.ts

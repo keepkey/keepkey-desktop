@@ -1,3 +1,0 @@
-# act configuration see docs/testing.md
---artifact-server-path /tmp/act-artifacts
---defaultbranch develop

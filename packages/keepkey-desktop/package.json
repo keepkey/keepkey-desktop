@@ -1,0 +1,128 @@
+{
+    "name": "keepkey-desktop",
+    "version": "1.1.14",
+    "author": {
+        "name": "KeepKey",
+        "email": "support@keepkey.com"
+    },
+    "homepage": "undefined",
+    "private": true,
+    "scripts": {
+        "install-deps": "electron-builder install-app-deps --platform darwin --platform linux --platform win32",
+        "build": "ts-node --skipProject --swc ./scripts/build.ts",
+        "dev": "NODE_ENV=development ts-node --skipProject --swc ./scripts/dev.ts",
+        "pack": "ts-node --skipProject --swc ./scripts/pack.ts",
+        "clean": "rimraf api/dist build dist prebuilds",
+        "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
+        "lint:fix": "yarn lint --fix"
+    },
+    "main": "build/main.js",
+    "build": {
+        "appId": "com.keepkey.desktop",
+        "productName": "KeepKey Desktop",
+        "afterSign": "./scripts/afterSign.js",
+        "files": [
+            "assets/**/*",
+            "build/**/*",
+            "prebuilds/*/prebuilds/${platform}-${arch}*/**/*",
+            "api/dist/**/*"
+        ],
+        "protocols": [
+            {
+                "name": "Keepkey Desktop",
+                "schemes": [
+                    "keepkey"
+                ]
+            }
+        ],
+        "asar": true,
+        "extends": null,
+        "mac": {
+            "hardenedRuntime": true,
+            "category": "public.app-category.finance",
+            "icon": "icon.png",
+            "entitlements": "entitlements.mac.plist",
+            "entitlementsInherit": "entitlements.mac.plist",
+            "target": [
+                "dmg",
+                "zip"
+            ]
+        },
+        "win": {
+            "icon": "icon.png",
+            "target": "nsis",
+            "publish": [
+                "github"
+            ]
+        },
+        "linux": {
+            "icon": "icon.png",
+            "target": [
+                "AppImage",
+                "deb"
+            ]
+        }
+    },
+    "dependencies": {
+        "@bithighlander/hdwallet-keepkey-nodehid": "^2.14.3",
+        "@keepkey/device-protocol": "^7.10.2",
+        "@keepkey/errors": "^1.1.3",
+        "@keepkey/hdwallet-core": "^1.38.5",
+        "@keepkey/hdwallet-keepkey": "^1.38.5",
+        "@keepkey/hdwallet-keepkey-nodewebusb": "^1.38.7",
+        "@keepkey/keepkey-sdk": "^0.0.9",
+        "@keepkey/logger": "^1.1.3",
+        "@sentry/electron": "^4.1.0",
+        "@shapeshiftoss/hdwallet-core": "^1.38.0",
+        "@shapeshiftoss/hdwallet-native": "^1.38.0",
+        "@tsoa/runtime": "^4.1.3",
+        "auto-launch": "^5.0.5",
+        "body-parser": "^1.20.1",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "electron-is-dev": "^2.0.0",
+        "electron-log": "^4.4.8",
+        "electron-updater": "^5.3.0",
+        "esbuild": "^0.15.14",
+        "esbuild-plugin-resolve": "^1.0.3",
+        "express": "^4.18.2",
+        "keepkey-desktop-app": "workspace:*",
+        "lodash": "^4.17.21",
+        "nedb": "^1.8.0",
+        "promise.any": "^2.0.5",
+        "request": "^2.88.2",
+        "request-promise": "^4.2.6",
+        "swagger-ui-express": "^4.6.0",
+        "usb": "^2.5.2",
+        "wait-promise": "^0.4.1",
+        "web3": "^1.8.1"
+    },
+    "devDependencies": {
+        "@keepkey/eslint-plugin-logger": "^1.1.0",
+        "@swc/cli": "^0.1.57",
+        "@swc/core": "^1.3.19",
+        "@tsoa/cli": "^4.1.3",
+        "@types/auto-launch": "^5.0.2",
+        "@types/lodash": "^4.14.190",
+        "@types/nedb": "^1.8.12",
+        "@types/node": "^18",
+        "@types/request-promise": "^4.1.48",
+        "@types/wait-promise": "^0.4.0",
+        "@typescript-eslint/eslint-plugin": "^5.45.0",
+        "@typescript-eslint/parser": "^5.45.0",
+        "concurrently": "^7.6.0",
+        "electron": "16.0.7",
+        "electron-builder": "^23.6.0",
+        "electron-builder-notarize": "^1.5.0",
+        "eslint": "^8.28.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-simple-import-sort": "^7.0.0",
+        "prettier": "^2.3.2",
+        "rimraf": "^3.0.2",
+        "ts-node": "^10.9.1",
+        "tsoa": "^4.1.3",
+        "typescript": "^4.7.0"
+    }
+}
