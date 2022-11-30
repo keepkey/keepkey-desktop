@@ -66,7 +66,7 @@ export const HardwareErrorModal = (error: any) => {
               <ModalHeader>
                 <Text translation='modals.keepKey.hardware.headerConnect' />
               </ModalHeader>
-              <Image src={kkConnect} alt='reconnect Device!' />
+              <Image src={kkConnect} alt='Reconnect Device!' />
               <Text translation={'modals.keepKey.hardware.reconnect'} />
 
               <Button size='lg' colorScheme='blue' onClick={HandleTroubleShoot}>
@@ -78,7 +78,7 @@ export const HardwareErrorModal = (error: any) => {
               <ModalHeader>
                 <Text translation='modals.keepKey.hardware.headerConnect' />
               </ModalHeader>
-              <Image src={kkConnect} alt='reconnect Device!' />
+              <Image src={kkConnect} alt='Reconnect Device!' />
               <Text translation={'modals.keepKey.hardware.connect'} />
               {/*<Button isDisabled={deviceBusy} onClick={retryPair}>*/}
               {/*  {`${deviceBusy ? 'Retry (Device busy, please wait)' : 'Retry'}`}*/}

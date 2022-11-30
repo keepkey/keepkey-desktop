@@ -24,7 +24,7 @@ export const ExplorationBanner: FC<Props> = ({spotlight, openDapp}) => (
       <Flex flex={1}>
         <Image objectFit='cover' boxSize='100%' src={spotlight.image} />
       </Flex>
-      <h2>Todays Spotlight!</h2>
+      <h2>Today's Spotlight!</h2>
       <Stack flex={2} alignSelf='center' spacing={4} p={8}>
         <Avatar
           bg='gray.700'
