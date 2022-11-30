@@ -8,8 +8,6 @@ import { renderConsoleArt } from 'lib/consoleArt'
 import { logger } from 'lib/logger'
 import { reportWebVitals } from 'lib/reportWebVitals'
 
-import * as serviceWorkerRegistration from './serviceWorkerRegistration'
-
 const root = createRoot(document.getElementById('root')!)
 
 root.render(
@@ -19,8 +17,6 @@ root.render(
     </AppProviders>
   </React.StrictMode>,
 )
-
-serviceWorkerRegistration.register()
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
