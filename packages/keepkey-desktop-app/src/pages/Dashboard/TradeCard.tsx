@@ -1,6 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
 import type { AssetId } from '@keepkey/caip'
-import { KeplrHDWallet } from '@keepkey/hdwallet-keplr/dist/keplr'
 import { useMemo } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { useSelector } from 'react-redux'
@@ -9,7 +8,6 @@ import type { CardProps } from 'components/Card/Card'
 import { Card } from 'components/Card/Card'
 import { MessageOverlay } from 'components/MessageOverlay/MessageOverlay'
 import { Trade } from 'components/Trade/Trade'
-import { useWallet } from 'hooks/useWallet/useWallet'
 import { selectFeatureFlags } from 'state/slices/preferencesSlice/selectors'
 
 type TradeCardProps = {
@@ -18,10 +16,7 @@ type TradeCardProps = {
 
 export const TradeCard = ({ defaultBuyAssetId, ...rest }: TradeCardProps) => {
   const { Axelar } = useSelector(selectFeatureFlags)
-  const {
-    state: { wallet },
-  } = useWallet()
-  const isKeplr = useMemo(() => wallet instanceof KeplrHDWallet, [wallet])
+  const isKeplr = false // useMemo(() => wallet instanceof KeplrHDWallet, [wallet])
 
   const translate = useTranslate()
   const overlayTitle = useMemo(
