@@ -70,46 +70,27 @@ const validators = {
   REACT_APP_FEATURE_SWAPPER_V2: bool({ default: false }),
   REACT_APP_DASHBOARD_BREAKDOWN: bool({ default: false }),
   REACT_APP_FEATURE_WALLET_CONNECT_TO_DAPPS: bool({ default: true }),
-  REACT_APP_YAT_NODE_URL: url({ default: 'https://a.y.at' }),
-  REACT_APP_TOKEMAK_STATS_URL: url({ default: 'https://stats.tokemaklabs.com/' }),
+  REACT_APP_YAT_NODE_URL: url(),
+  REACT_APP_TOKEMAK_STATS_URL: url(),
   REACT_APP_COINGECKO_API_KEY: str({ default: '' }), // not required, we can fall back to the free tier
-  REACT_APP_LOCAL_IP: str({ default: '192.168.1.222' }),
-  REACT_APP_BOARDROOM_API_BASE_URL: url({
-    default: 'https://api.boardroom.info/v1/protocols/shapeshift/',
-  }),
-  REACT_APP_BOARDROOM_APP_BASE_URL: url({
-    default: 'https://boardroom.io/shapeshift/',
-  }),
-  REACT_APP_MIDGARD_URL: url({
-    default: 'https://midgard.thorchain.info/v2',
-  }),
-  REACT_APP_COWSWAP_HTTP_URL: url({
-    default: 'https://api.cow.fi/mainnet/api',
-  }),
-  REACT_APP_COSMOS_NODE_URL: url({
-    default:
-      'https://osmosis-1--lcd--full.datahub.figment.io/apikey/14c056a2415b6e0d2b9f55985214f3f1/',
-  }),
-  REACT_APP_OSMOSIS_NODE_URL: url({
-    default:
-      'https://cosmoshub-4--lcd--full.datahub.figment.io/apikey/14c056a2415b6e0d2b9f55985214f3f1/',
-  }),
+  REACT_APP_BOARDROOM_API_BASE_URL: url(),
+  REACT_APP_BOARDROOM_APP_BASE_URL: url(),
+  REACT_APP_MIDGARD_URL: url(),
+  REACT_APP_COWSWAP_HTTP_URL: url(),
+  REACT_APP_COSMOS_NODE_URL: url(),
+  REACT_APP_OSMOSIS_NODE_URL: url(),
   REACT_APP_FEATURE_PENDO: bool({ default: false }),
-  REACT_APP_PENDO_API_KEY: envalid.str({ default: '67c2f326-a6c2-4aa2-4559-08a53b679e93' }),
-  REACT_APP_PENDO_CONSENT_VERSION: envalid.str({ default: 'v1' }),
-  REACT_APP_PENDO_SUB_ID: envalid.str({ default: '6047664892149760' }),
+  REACT_APP_PENDO_API_KEY: envalid.str(),
+  REACT_APP_PENDO_CONSENT_VERSION: envalid.str(),
+  REACT_APP_PENDO_SUB_ID: envalid.str(),
   REACT_APP_PENDO_UNSAFE_DESIGNER_MODE: envalid.bool({ default: false }),
-  REACT_APP_PENDO_VISITOR_ID_PREFIX: envalid.str({ default: 'test_visitor' }),
+  REACT_APP_PENDO_VISITOR_ID_PREFIX: envalid.str(),
   REACT_APP_ONRAMPER_WIDGET_URL: url(),
   REACT_APP_ONRAMPER_API_URL: url(),
   REACT_APP_ONRAMPER_API_KEY: str(),
-  REACT_APP_KEEPKEY_UPDATER_RELEASE_PAGE: url({
-    default: 'https://github.com/keepkey/keepkey-updater/releases/latest',
-  }),
-  REACT_APP_KEEPKEY_UPDATER_BASE_URL: url({
-    default: 'https://github.com/keepkey/keepkey-updater/releases/download/v2.1.4/',
-  }),
-  REACT_APP_ETHERSCAN_API_KEY: str({ default: 'XT8BI6VDYUGD9675X861ATHZNK3AN6HRMF' }),
+  REACT_APP_KEEPKEY_UPDATER_RELEASE_PAGE: url(),
+  REACT_APP_KEEPKEY_UPDATER_BASE_URL: url(),
+  REACT_APP_ETHERSCAN_API_KEY: str(),
 }
 
 function reporter<T>({ errors }: envalid.ReporterOptions<T>) {
