@@ -1,6 +1,6 @@
 import * as core from '@keepkey/hdwallet-core'
 import type WalletConnect from '@walletconnect/client'
-import { convertHexToUtf8 } from '@walletconnect/utils'
+import { Buffer } from 'buffer'
 import { ipcRenderer } from 'electron'
 import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
@@ -144,7 +144,7 @@ export class WCService {
 
   private convertHexToUtf8IfPossible(hex: string) {
     try {
-      return convertHexToUtf8(hex)
+      return Buffer.from(hex, 'hex').toString('utf8')
     } catch (e) {
       return hex
     }

@@ -11,7 +11,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import { convertHexToUtf8 } from '@walletconnect/utils'
+import { Buffer } from 'buffer'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { useCallback, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
@@ -33,7 +33,7 @@ export const SignMessageConfirmation = () => {
   const toast = useToast()
 
   const currentRequest = requests[0]
-  const message = convertHexToUtf8(currentRequest.payload.params[0])
+  const message = Buffer.from(currentRequest.payload.params[0], 'hex').toString('utf8')
 
   const onConfirm = useCallback(
     async (txData: any) => {
