@@ -26,7 +26,9 @@ export const KeepKeyLabel = () => {
 
   const handleInitializeSubmit = async () => {
     setLoading(true)
-    const resetMessage: ResetDevice = { label: label ?? '', pin: true }
+    //We prevent all special chars and any length > 12. We just yolo trim and send it (user can change later)
+    let sanitizedLabel = label.replace(/[^\x00-\x7F]+/g, "").substring(0, 12)
+    const resetMessage: ResetDevice = { label: sanitizedLabel ?? '', pin: true }
     setDeviceState({ awaitingDeviceInteraction: true, disposition })
     await wallet?.reset(resetMessage).catch(e => {
       setLoading(false)
