@@ -54,7 +54,7 @@ export const createAndUpdateTray = () => {
       label: 'Quit KeepKey Bridge',
       click() {
         app.quit()
-        process.exit(0)
+        setTimeout(() => app.exit(), 250)
       },
     },
   ]

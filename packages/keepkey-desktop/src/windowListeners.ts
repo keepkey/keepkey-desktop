@@ -17,14 +17,21 @@ export const startWindowListeners = () => {
     }
   })
 
+  let closing = false
   windows.mainWindow?.on('close', async e => {
-    setInterval(async () => {
-      await Promise.race([stopTcpBridge(), sleep(500)])
-      app.quit()
-    }, 500)
+    if (!closing) {
+      closing = true
+      setInterval(async () => {
+        await Promise.race([stopTcpBridge(), sleep(4000)])
+        app.quit()
+        setTimeout(() => app.exit(), 250)
+      }, 1000)
 
-    queueIpcEvent('appClosing', {})
-    return e.preventDefault()
+      queueIpcEvent('appClosing', {})
+      return e.preventDefault()
+    } else {
+      app.exit()
+    }
   })
 
   windows.mainWindow?.once('ready-to-show', () => {
