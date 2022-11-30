@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron-shim'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 

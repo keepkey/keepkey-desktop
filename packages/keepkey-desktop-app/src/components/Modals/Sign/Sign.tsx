@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react'
 import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
 import cryptoTools from 'crypto'
-import { ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron-shim'
 import React, { useCallback, useEffect, useState } from 'react'
 import HoldAndRelease from 'assets/hold-and-release.svg'
 import { Text } from 'components/Text'

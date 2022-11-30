@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
 // import { SessionTypes } from '@walletconnect/types'
-import { ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron-shim'
 import { useEffect, useState } from 'react'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'

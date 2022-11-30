@@ -1,5 +1,5 @@
 import { ModalBody, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
-import { ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron-shim'
 import { useEffect } from 'react'
 import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'

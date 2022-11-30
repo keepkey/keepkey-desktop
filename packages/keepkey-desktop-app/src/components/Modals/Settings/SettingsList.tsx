@@ -11,7 +11,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron-shim'
 import { useCallback, useEffect, useState } from 'react'
 import { FaCoins, FaDollarSign, FaGreaterThanEqual, FaRocket, FaTrash } from 'react-icons/fa'
 import { HiRefresh } from 'react-icons/hi'

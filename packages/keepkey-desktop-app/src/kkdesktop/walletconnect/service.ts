@@ -1,7 +1,7 @@
 import * as core from '@keepkey/hdwallet-core'
 import type WalletConnect from '@walletconnect/client'
 import { Buffer } from 'buffer'
-import { ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron-shim'
 import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
 

@@ -1,6 +1,6 @@
 import { Badge, Box, Button, Code, Heading, Image, Stack, StackDivider } from '@chakra-ui/react'
 import dayjs from 'dayjs'
-import { ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron-shim'
 import { useEffect, useState } from 'react'
 import { FaClipboard } from 'react-icons/fa'
 import { useParams } from 'react-router'

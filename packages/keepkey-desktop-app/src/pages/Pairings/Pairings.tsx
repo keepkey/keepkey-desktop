@@ -1,7 +1,7 @@
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Box, Button, Heading, HStack, Image, Stack, StackDivider } from '@chakra-ui/react'
 import dayjs from 'dayjs'
-import { ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron-shim'
 import { useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { Card } from 'components/Card/Card'
