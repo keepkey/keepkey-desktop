@@ -60,19 +60,25 @@ export function serializeCsp(x: Csp): string {
  * Recursively collects all the CSPs exported by scripts in a certain directory.
  * @param dir Path to the directory to search.
  */
-export function collectCsps(dir: string): Csp[] {
-  const out = []
-  for (const item of fs.readdirSync(path.resolve(__dirname, dir), { withFileTypes: true })) {
-    const itemPath = `${dir}/${item.name}`
-    if (item.isDirectory()) {
-      out.push(...collectCsps(itemPath))
-    } else {
-      if (!item.isFile() || !/\.(j|t)s$/.test(item.name)) continue
-      const csp = require(itemPath).csp
-      if (!csp) throw new Error(`expected ${itemPath} to export a member named 'csp'`)
-      console.info(`using CSP from ${itemPath}`)
-      out.push(csp)
-    }
-  }
-  return out
+export async function collectCsps(dir: string): Promise<Csp[]> {
+  return (
+    await Promise.all(
+      (
+        await fs.promises.readdir(path.resolve(__dirname, dir), {
+          withFileTypes: true,
+        })
+      ).map(async item => {
+        const itemPath = `${dir}/${item.name}`
+        if (item.isDirectory()) {
+          return await collectCsps(itemPath)
+        } else {
+          if (!item.isFile() || !/\.(j|t)s$/.test(item.name)) return []
+          const csp = (await import(itemPath)).csp
+          if (!csp) throw new Error(`expected ${itemPath} to export a member named 'csp'`)
+          console.info(`using CSP from ${itemPath}`)
+          return csp
+        }
+      }),
+    )
+  ).flat()
 }

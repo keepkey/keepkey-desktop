@@ -18,15 +18,16 @@ export const cspHeader: Csp = {
 /**
  * These directives will be delivered by the meta tag alone.
  */
-export const cspMeta = cspMerge(
-  ...collectCsps('./csps'),
-  'report-uri' in cspHeader
-    ? {
-        'script-src': ["'report-sample'"],
-        'style-src': ["'report-sample'"],
-      }
-    : {},
-)
+export const getCspMeta = async () =>
+  cspMerge(
+    ...(await collectCsps('./csps')),
+    'report-uri' in cspHeader
+      ? {
+          'script-src': ["'report-sample'"],
+          'style-src': ["'report-sample'"],
+        }
+      : {},
+  )
 
 const baseHeaders: Record<string, string> = {
   'Cache-Control': 'no-transform', // This will prevent middleboxes from munging our JS and breaking SRI if we're ever served over HTTP.
