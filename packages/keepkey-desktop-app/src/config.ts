@@ -4,8 +4,6 @@ import { bool } from 'envalid'
 import forEach from 'lodash/forEach'
 import memoize from 'lodash/memoize'
 
-import env from './env'
-
 const { cleanEnv, str, url } = envalid
 
 // add validators for each .env variable
@@ -125,5 +123,6 @@ function reporter<T>({ errors }: envalid.ReporterOptions<T>) {
 }
 
 export const getConfig = memoize(() =>
-  Object.freeze({ ...cleanEnv(env, validators, { reporter }) }),
+  // @ts-ignore
+  Object.freeze({ ...cleanEnv(globalThis.app_env, validators, { reporter }) }),
 )
