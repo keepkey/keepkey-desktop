@@ -2,6 +2,11 @@ import type { DefiProvider } from 'features/defi/contexts/DefiManagerProvider/De
 
 import type { TradeOpportunitiesBucket } from './components/TradeOpportunities'
 
+import uniswapPng from './images/uniswap.png'
+import thorswapPng from './images/thorswap.png'
+import coinbasePng from './images/coinbase.png'
+import elasticswapPng from './images/elasticswap.png'
+
 export const TrimmedDescriptionLength = 191
 
 export enum OpportunityTypes {
@@ -33,11 +38,11 @@ export const foxTradeOpportunitiesBuckets: TradeOpportunitiesBucket[] = [
     opportunities: [
       {
         link: 'https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0xc770eefad204b5180df6a14ee197d99d808ee52d&chain=mainnet',
-        icon: 'uniswap.png',
+        icon: uniswapPng,
       },
       {
         link: 'https://app.thorswap.finance/swap/ETH.ETH_ETH.FOX-0XC770EEFAD204B5180DF6A14EE197D99D808EE52D',
-        icon: 'thorswap.png',
+        icon: thorswapPng,
       },
     ],
   },
@@ -46,7 +51,7 @@ export const foxTradeOpportunitiesBuckets: TradeOpportunitiesBucket[] = [
     opportunities: [
       {
         link: 'https://www.coinbase.com/price/fox-token',
-        icon: 'coinbase.png',
+        icon: coinbasePng,
       },
     ],
   },
@@ -58,7 +63,7 @@ export const foxyTradeOpportunitiesBuckets: TradeOpportunitiesBucket[] = [
     opportunities: [
       {
         link: 'https://elasticswap.org/',
-        icon: 'elasticswap.png',
+        icon: elasticswapPng,
       },
     ],
   },

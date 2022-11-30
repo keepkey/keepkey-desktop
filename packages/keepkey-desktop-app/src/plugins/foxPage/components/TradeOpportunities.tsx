@@ -39,7 +39,7 @@ export const TradeOpportunities: React.FC<TradeOpportunitiesProps> = ({ opportun
                     borderRadius='full'
                     boxSize='32px'
                     m={2}
-                    src={require(`../images/${opportunity.icon}`)}
+                    src={opportunity.icon}
                   />
                 </Link>
               ))}
