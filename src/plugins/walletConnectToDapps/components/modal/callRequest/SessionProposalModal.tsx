@@ -1,5 +1,5 @@
 import { ModalContent } from '@chakra-ui/modal'
-import { Button, HStack, Modal, ModalCloseButton, ModalHeader, ModalOverlay, VStack, Image, Link, Alert, AlertDescription, AlertIcon, Box, Stack, Divider } from '@chakra-ui/react'
+import { Button, HStack, Modal, ModalCloseButton, ModalHeader, ModalOverlay, Image, Link, Box, Stack, Divider } from '@chakra-ui/react'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
 import { RawText, Text } from 'components/Text'
@@ -11,6 +11,7 @@ import { Card } from 'components/Card/Card'
 import { formatChainName } from 'plugins/walletConnectToDapps/utils/utils'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { useState } from 'react'
 
 export const SessionProposalModal = () => {
     const { proposals, removeProposal, setPairingMeta, setCurrentSessionTopic } = useWalletConnect()
@@ -22,9 +23,11 @@ export const SessionProposalModal = () => {
 
     const { state: { wallet } } = useWallet()
 
-    console.log(currentProposal)
+    const [loading, setLoading] = useState(false)
+
 
     const onApprove = async () => {
+        setLoading(true)
         if (currentProposal) {
             const namespaces: SessionTypes.Namespaces = {}
             let w = wallet as KeepKeyHDWallet
@@ -69,6 +72,7 @@ export const SessionProposalModal = () => {
 
     // Hanlde reject action
     const onReject = async () => {
+        setLoading(true)
         if (currentProposal) {
             await WalletConnectSignClient.reject({
                 id,
@@ -179,6 +183,7 @@ export const SessionProposalModal = () => {
                         size='lg'
                         colorScheme='blue'
                         onClick={onApprove}
+                        isLoading={loading}
                     >
                         <Text translation={'plugins.walletConnectToDapps.modal.sessionProposal.approve'} />
                     </Button>
@@ -187,6 +192,7 @@ export const SessionProposalModal = () => {
                         size='lg'
                         colorScheme='red'
                         onClick={onReject}
+                        isLoading={loading}
                     >
                         <Text translation={'plugins.walletConnectToDapps.modal.sessionProposal.reject'} />
                     </Button>
