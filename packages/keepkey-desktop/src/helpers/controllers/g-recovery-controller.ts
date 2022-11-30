@@ -68,12 +68,16 @@ export class GRecoveryController extends Controller {
   @Security('api_key')
   @Middlewares([logger])
   @Response(500, 'Internal server error')
-  public async press(@Body() body: Press): Promise<any> {
+  public async press(@Body() body: Press): Promise<void> {
     return new Promise<any>(async (resolve, reject) => {
       await checkKeepKeyUnlocked()
       if (!kkStateController.wallet) return reject()
 
-      kkStateController.wallet.pressNo().then(resolve)
+      if (body.isYes) {
+        kkStateController.wallet.pressYes().then(resolve)
+      } else {
+        kkStateController.wallet.pressNo().then(resolve)
+      }
     })
   }
 
