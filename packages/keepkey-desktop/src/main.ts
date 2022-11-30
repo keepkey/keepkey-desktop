@@ -6,12 +6,7 @@ import { config as dotenvConfig } from 'dotenv'
 import { startUpdaterListeners } from './updaterListeners'
 import fs from 'fs'
 import { PLUGIN } from './helpers/kk-state-controller'
-import {
-  isWin,
-  kkAutoLauncher,
-  kkStateController,
-  settings
-} from './globalState'
+import { isWin, kkAutoLauncher, kkStateController, settings } from './globalState'
 import { startIpcListeners } from './ipcListeners'
 import { startAppListeners } from './appListeners'
 import { queueIpcEvent, watchForDeviceBusy } from './helpers/utils'
@@ -30,7 +25,6 @@ startAppListeners()
 startIpcListeners()
 startUpdaterListeners()
 
-
 //Auto launch on startup
 if (!isDev && settings.shouldAutoLunch) {
   kkAutoLauncher.enable()
@@ -44,9 +38,7 @@ if (!isDev && settings.shouldAutoLunch) {
 
 try {
   if (isWin && nativeTheme.shouldUseDarkColors === true) {
-    fs.unlinkSync(
-      require('path').join(app.getPath('userData'), 'DevTools Extensions')
-    )
+    fs.unlinkSync(require('path').join(app.getPath('userData'), 'DevTools Extensions'))
   }
 } catch (_) {}
 

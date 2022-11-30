@@ -35,12 +35,7 @@ export const TradeOpportunities: React.FC<TradeOpportunitiesProps> = ({ opportun
             <Flex flexDirection='row' flexWrap='wrap' m={-2}>
               {bucket.opportunities.map((opportunity, index) => (
                 <Link href={opportunity.link} isExternal key={index}>
-                  <Image
-                    borderRadius='full'
-                    boxSize='32px'
-                    m={2}
-                    src={opportunity.icon}
-                  />
+                  <Image borderRadius='full' boxSize='32px' m={2} src={opportunity.icon} />
                 </Link>
               ))}
             </Flex>

@@ -7,44 +7,44 @@ import { WalletActions } from 'context/WalletProvider/actions'
 
 // @ts-ignore
 import Client from '@pioneer-platform/pioneer-client'
-import {useEffect, useState} from "react";
-import {RegistryItem} from "./types";
-import {useWallet} from "../../hooks/useWallet/useWallet";
-import {useHistory} from "react-router";
+import { useEffect, useState } from 'react'
+import type { RegistryItem } from './types'
+import { useWallet } from '../../hooks/useWallet/useWallet'
+import { useHistory } from 'react-router'
 
 export const WalletConnectToDapps: FC = () => {
   const [motd, setSetMotd] = useState('')
   const [spotlight, setSpotlight] = useState({
-    name:"...",
-    homepage:"",
-    image:"...",
-    description:"..."
+    name: '...',
+    homepage: '',
+    image: '...',
+    description: '...',
   })
   const { dispatch } = useWallet()
   const history = useHistory()
 
   //get MOTD
-  let updateMotd = async function(){
-    try{
+  let updateMotd = async function () {
+    try {
       let spec = getConfig().REACT_APP_DAPP_URL
-      let config = { queryKey:'key:public', spec }
-      let Api = new Client(spec,config)
+      let config = { queryKey: 'key:public', spec }
+      let Api = new Client(spec, config)
       let api = await Api.init()
       let info = await api.Globals()
-      console.log("info: ",info.data)
+      console.log('info: ', info.data)
       setSetMotd(info.data.motd)
 
       let spotlight = await api.GetSpotlight()
-      console.log("spotlight: ",spotlight.data)
+      console.log('spotlight: ', spotlight.data)
       setSpotlight(spotlight.data)
-    }catch(e){
+    } catch (e) {
       console.error(e)
     }
   }
 
   useEffect(() => {
     updateMotd()
-  }, []);
+  }, [])
 
   const openDapp = (app: RegistryItem) => {
     dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.homepage })
@@ -58,11 +58,7 @@ export const WalletConnectToDapps: FC = () => {
           <AlertIcon />
           {motd}
         </Alert>
-        <ExplorationBanner
-            spotlight={spotlight}
-            size={100}
-            openDapp={openDapp}
-        />
+        <ExplorationBanner spotlight={spotlight} size={100} openDapp={openDapp} />
         <DappRegistryGrid />
       </Stack>
     </Container>

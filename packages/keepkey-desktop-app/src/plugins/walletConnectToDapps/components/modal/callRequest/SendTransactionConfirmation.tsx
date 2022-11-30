@@ -94,8 +94,12 @@ export const SendTransactionConfirmation = () => {
   const [priceData, setPriceData] = useState(bn(0))
 
   const [web3GasFeeData, setweb3GasFeeData] = useState('0')
-  const [chainWeb3, setChainWeb3] =
-    useState<{ web3: Web3; symbol: string; name: string; coinGeckoId: string }>()
+  const [chainWeb3, setChainWeb3] = useState<{
+    web3: Web3
+    symbol: string
+    name: string
+    coinGeckoId: string
+  }>()
 
   // determine which gasLimit to use: user input > from the request > or estimate
   const requestGas = parseInt(currentRequest.params[0].gas ?? '0x0', 16).toString(10)

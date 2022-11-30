@@ -1,9 +1,6 @@
 import type { ContainerProps } from '@chakra-ui/react'
-import {
-  Container,
-  Flex,
-} from '@chakra-ui/react'
-import React, { } from 'react'
+import { Container, Flex } from '@chakra-ui/react'
+import React from 'react'
 import { Header } from './Header/Header'
 import { SideNav } from './Header/SideNav'
 
@@ -25,9 +22,7 @@ export const Layout: React.FC<ContainerProps> = ({ children, ...rest }) => {
           flex='1 1 0%'
           {...rest}
         >
-          <>
-            {children}
-          </>
+          <>{children}</>
         </Container>
       </Flex>
     </>

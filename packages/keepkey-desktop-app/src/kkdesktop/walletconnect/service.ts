@@ -75,13 +75,23 @@ export class WCService {
     })
     const web3Stuff = web3ByChainId(chainId)
     if (!web3Stuff) throw new Error('no data for chainId')
-    this.connector.updateChain({chainId: payload.params[0].chainId, networkId: payload.params[0].chainId, rpcUrl: '', nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol}})
+    this.connector.updateChain({
+      chainId: payload.params[0].chainId,
+      networkId: payload.params[0].chainId,
+      rpcUrl: '',
+      nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol },
+    })
   }
 
-  public doSwitchChain({chainId}: {chainId: number}) {
+  public doSwitchChain({ chainId }: { chainId: number }) {
     const web3Stuff = web3ByChainId(chainId)
     if (!web3Stuff) throw new Error('no data for chainId')
-    this.connector.updateChain({chainId, networkId: chainId, rpcUrl: web3Stuff.providerUrl, nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol}})
+    this.connector.updateChain({
+      chainId,
+      networkId: chainId,
+      rpcUrl: web3Stuff.providerUrl,
+      nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol },
+    })
     this.connector.updateSession({
       chainId,
       accounts: this.connector.accounts,

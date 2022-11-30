@@ -3,13 +3,12 @@ import { ipcRenderer } from 'electron-shim'
 import { useEffect } from 'react'
 import { useModal } from 'hooks/useModal/useModal'
 
-
 export const UpdateFirmware = (params: any) => {
   const { updateKeepKey, requestBootloaderMode } = useModal()
   const { isOpen } = updateKeepKey
 
   const onAcceptUpdate = async () => {
-    console.log("onAcceptUpdate: ")
+    console.log('onAcceptUpdate: ')
     ipcRenderer.send('@keepkey/update-firmware', {})
   }
 
@@ -20,14 +19,14 @@ export const UpdateFirmware = (params: any) => {
 
   useEffect(() => {
     if (isOpen) {
-      console.log("isOpen: ")
+      console.log('isOpen: ')
       ipcRenderer.send('@keepkey/update-firmware', {})
     }
   }, [isOpen])
 
   useEffect(() => {
-    console.log("params: ",params)
-    if(!params?.event?.bootloaderMode){
+    console.log('params: ', params)
+    if (!params?.event?.bootloaderMode) {
       requestBootloaderMode.open({})
     }
   }, [params?.event])
@@ -55,9 +54,10 @@ export const UpdateFirmware = (params: any) => {
         </Tbody>
       </Table>
       <br />
-      <Button colorScheme='green' onClick={onAcceptUpdate}>Update</Button>
+      <Button colorScheme='green' onClick={onAcceptUpdate}>
+        Update
+      </Button>
       {/*<Button colorScheme='yellow' onClick={onSkipUpdate}>skip</Button>*/}
-
     </ModalBody>
   )
 }

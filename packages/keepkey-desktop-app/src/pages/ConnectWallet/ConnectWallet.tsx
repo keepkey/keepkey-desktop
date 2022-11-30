@@ -22,10 +22,10 @@ export const ConnectWallet = () => {
   const translate = useTranslate()
   const query = useQuery<{ returnUrl: string }>()
 
-  const debugDevice = async function(){
-    try{
-      ipcRenderer.send('@app/restart', { })
-    }catch(e){
+  const debugDevice = async function () {
+    try {
+      ipcRenderer.send('@app/restart', {})
+    } catch (e) {
       console.error(e)
     }
   }
@@ -112,21 +112,21 @@ export const ConnectWallet = () => {
               </Button>
             </Flex>
             <Flex
-                direction={'column'}
-                gap={4}
-                width='full'
-                position={{ base: 'static', md: 'fixed' }}
-                zIndex={3}
-                py={3}
-                px={4}
-                bottom={20}
-                alignItems={'center'}
+              direction={'column'}
+              gap={4}
+              width='full'
+              position={{ base: 'static', md: 'fixed' }}
+              zIndex={3}
+              py={3}
+              px={4}
+              bottom={20}
+              alignItems={'center'}
             >
               <Button
-                  width='360px'
-                  rightIcon={<ExternalLinkIcon />}
-                  colorScheme='green'
-                  onClick={debugDevice}
+                width='360px'
+                rightIcon={<ExternalLinkIcon />}
+                colorScheme='green'
+                onClick={debugDevice}
               >
                 {translate('connectWalletPage.troubleshoot')}
               </Button>
