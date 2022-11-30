@@ -8,7 +8,7 @@ import { ProposalTypes, SessionTypes, SignClientTypes } from '@walletconnect/typ
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Card } from 'components/Card/Card'
-import { formatChainName } from 'plugins/walletConnectToDapps/utils/formatChainName'
+import { formatChainName } from 'plugins/walletConnectToDapps/utils/utils'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 

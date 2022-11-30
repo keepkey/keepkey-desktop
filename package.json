@@ -150,6 +150,7 @@
     "@formatjs/intl-locale": "^3.0.2",
     "@formatjs/intl-numberformat": "^8.0.2",
     "@formatjs/intl-pluralrules": "^5.0.2",
+    "@json-rpc-tools/utils": "^1.7.6",
     "@keepkey/asset-service": "^8.1.2",
     "@keepkey/caip": "^8.4.2",
     "@keepkey/chain-adapters": "^10.1.0",
