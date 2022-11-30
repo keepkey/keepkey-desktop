@@ -124,7 +124,7 @@ export const createUpdaterSplashWindow = () => {
         },
     });
     windows.splash.loadFile(
-        path.join(__dirname, "../resources/splash/splash-screen.html")
+        path.join(__dirname, "../assets/splash.html")
     );
 }
 
