@@ -1,5 +1,7 @@
+import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
+import request from 'request-promise'
+
 import type { AllFirmwareAndBootloaderData, LatestFirmwareAndBootloaderData } from './types'
-const request = require('request-promise')
 
 const FIRMWARE_BASE_URL =
   'https://raw.githubusercontent.com/keepkey/keepkey-updater/master/firmware/'
@@ -26,7 +28,7 @@ export const downloadFirmware = async (path: string) => {
     console.error(e)
   }
 }
-export const loadFirmware = async (wallet, firmware) => {
+export const loadFirmware = async (wallet: KeepKeyHDWallet, firmware: Buffer) => {
   if (!wallet) return
   await wallet.firmwareErase()
   const uploadResult = await wallet.firmwareUpload(firmware)
@@ -35,14 +37,14 @@ export const loadFirmware = async (wallet, firmware) => {
 
 export const getAllFirmwareData = () =>
   new Promise<AllFirmwareAndBootloaderData>((resolve, reject) => {
-    request(`${FIRMWARE_BASE_URL}releases.json`, (err: any, response, body: any) => {
+    request(`${FIRMWARE_BASE_URL}releases.json`, (err: any, _response: unknown, body: any) => {
       if (err) return reject(err)
       resolve(JSON.parse(body))
     })
   })
 
 export const getLatestFirmwareData = () =>
-  new Promise<LatestFirmwareAndBootloaderData>(async (resolve, reject) => {
+  new Promise<LatestFirmwareAndBootloaderData>(async resolve => {
     const allFirmwareData = await getAllFirmwareData()
     resolve(allFirmwareData.latest)
   })

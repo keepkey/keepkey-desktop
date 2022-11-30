@@ -1,6 +1,4 @@
 import { Controller, Get, Security, Route, Tags, Response, Middlewares } from 'tsoa'
-import wait from 'wait-promise'
-import { ETHSignedTx } from '@keepkey/hdwallet-core'
 import { checkKeepKeyUnlocked } from '../utils'
 import { kkStateController } from '../../globalState'
 import { logger } from '../middlewares/logger'
@@ -8,8 +6,6 @@ import { logger } from '../middlewares/logger'
 @Tags('Device Info Endpoints')
 @Route('')
 export class HDeviceInfoController extends Controller {
-  private sleep = wait.sleep
-
   @Get('/getNumCoins')
   @Security('api_key')
   @Middlewares([logger])

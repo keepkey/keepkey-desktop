@@ -40,8 +40,8 @@ export class Settings {
   }
 
   loadSettingsFromDb = () =>
-    new Promise<Settings>((resolve, reject) => {
-      db.findOne({ type: 'settings' }, async (err, doc) => {
+    new Promise<Settings>(resolve => {
+      db.findOne({ type: 'settings' }, async (_err, doc) => {
         if (!doc) {
           resolve(this)
           return this.syncSettingsWithDB()
@@ -69,8 +69,8 @@ export class Settings {
     })
 
   private syncSettingsWithDB = () =>
-    new Promise<void>((resolve, reject) => {
-      db.findOne({ type: 'settings' }, (err, doc) => {
+    new Promise<void>(resolve => {
+      db.findOne({ type: 'settings' }, (_err, doc) => {
         if (!doc)
           return db.insert({
             type: 'settings',

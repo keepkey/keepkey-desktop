@@ -73,7 +73,7 @@ const base64toHEX = (base64: any) => {
   for (let i = 0; i < raw.length; i++) {
     var _hex = raw.charCodeAt(i).toString(16)
 
-    HEX += _hex.length == 2 ? _hex : '0' + _hex
+    HEX += _hex.length === 2 ? _hex : '0' + _hex
   }
   return HEX
 }
@@ -121,8 +121,7 @@ const createHidWallet = async controller => {
     }
     controller.wallet = wallet as KeepKeyHDWallet
     if (controller.wallet.features && controller.wallet.features.bootloaderMode) {
-      const { majorVersion, minorVersion, patchVersion, bootloaderHash } =
-        controller.wallet.features
+      const { majorVersion, minorVersion, patchVersion } = controller.wallet.features
       // @ts-ignore
       return {
         success: true,

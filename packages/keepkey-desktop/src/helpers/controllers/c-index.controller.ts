@@ -51,7 +51,7 @@ export class CIndexController extends Controller {
     @Body() body: PairBody,
     @Header('authorization') serviceKey: string,
   ): Promise<PairResponse> {
-    return new Promise<PairResponse>(async (resolve, reject) => {
+    return new Promise<PairResponse>(async resolve => {
       if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
         if (!(await createMainWindow())) {
           this.setStatus(500)
@@ -64,8 +64,8 @@ export class CIndexController extends Controller {
         return resolve({ success: false, reason: 'Missing body parameters' })
       }
 
-      const isAlreadyPaired = await new Promise<boolean>((innerResolve, _reject) => {
-        db.findOne({ type: 'service', serviceName: body.serviceName, serviceKey }, (err, doc) => {
+      const isAlreadyPaired = await new Promise<boolean>(innerResolve => {
+        db.findOne({ type: 'service', serviceName: body.serviceName, serviceKey }, (_err, doc) => {
           if (!doc) innerResolve(false)
           innerResolve(true)
         })

@@ -1,7 +1,5 @@
 import { Body, Controller, Post, Security, Route, Tags, Response, Middlewares } from 'tsoa'
-import wait from 'wait-promise'
 import type { RecoverDevice } from '@keepkey/hdwallet-core'
-import { ETHSignedTx } from '@keepkey/hdwallet-core'
 import { checkKeepKeyUnlocked } from '../utils'
 import { kkStateController } from '../../globalState'
 import { logger } from '../middlewares/logger'
@@ -27,8 +25,6 @@ interface SendCharacterProto {
 @Tags('Recovery Endpoints')
 @Route('')
 export class GRecoveryController extends Controller {
-  private sleep = wait.sleep
-
   @Post('/recover')
   @Security('api_key')
   @Middlewares([logger])

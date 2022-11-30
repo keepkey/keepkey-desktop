@@ -185,18 +185,18 @@ export class ESignController extends Controller {
   @Middlewares([logger])
   @Response(500, 'Internal server error')
   public async signTransaction(@Body() body: any): Promise<SignedTx | Error> {
-    return new Promise<SignedTx | Error>(async (resolve, reject) => {
+    return new Promise<SignedTx | Error>(async resolve => {
       await checkKeepKeyUnlocked()
       const internalNonce = uniqueId()
       openSignTxWindow({ payload: body, nonce: internalNonce })
 
-      ipcMain.once(`@account/tx-signed-${internalNonce}`, async (event, data) => {
+      ipcMain.once(`@account/tx-signed-${internalNonce}`, async (_event, data) => {
         if (data.nonce === internalNonce) {
           resolve({ success: true, status: 'signed', signedTx: data.signedTx })
         }
       })
 
-      ipcMain.once(`@account/tx-rejected-${internalNonce}`, async (event, data) => {
+      ipcMain.once(`@account/tx-rejected-${internalNonce}`, async (_event, data) => {
         if (data.nonce === internalNonce) {
           resolve({ success: false, reason: 'User rejected TX' })
         }

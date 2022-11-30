@@ -5,11 +5,10 @@ import * as Sentry from '@sentry/electron'
 import { config as dotenvConfig } from 'dotenv'
 import { startUpdaterListeners } from './updaterListeners'
 import fs from 'fs'
-import { PLUGIN } from './helpers/kk-state-controller'
-import { isWin, kkAutoLauncher, kkStateController, settings } from './globalState'
+import { isWin, kkAutoLauncher, settings } from './globalState'
 import { startIpcListeners } from './ipcListeners'
 import { startAppListeners } from './appListeners'
-import { queueIpcEvent, watchForDeviceBusy } from './helpers/utils'
+import { watchForDeviceBusy } from './helpers/utils'
 
 if (!app.requestSingleInstanceLock()) app.quit()
 

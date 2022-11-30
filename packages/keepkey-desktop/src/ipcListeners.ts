@@ -19,131 +19,55 @@ import log from 'electron-log'
 export const startIpcListeners = () => {
   ipcMain.setMaxListeners(15)
 
-  ipcMain.on('@app/restart', (event, data) => {
+  ipcMain.on('@app/restart', () => {
     app.relaunch()
     app.exit()
   })
 
-  ipcMain.on('@app/exit', (event, data) => {
+  ipcMain.on('@app/exit', () => {
     app.exit()
   })
 
-  ipcMain.on('@app/get-asset-url', (event, data) => {
-    const assetUrl = !isDev
-      ? `file://${path.resolve(__dirname, '../../build/', data.assetPath)}`
-      : data.assetPath
-    event.sender.send(`@app/get-asset-url-${data.nonce}`, { nonce: data.nonce, assetUrl })
-  })
-
-  ipcMain.on('@app/version', (event, _data) => {
+  ipcMain.on('@app/version', event => {
     event.sender.send('@app/version', app.getVersion())
   })
 
-  ipcMain.on('@app/pairings', (_event, _data) => {
-    db.find({ type: 'pairing' }, (err, docs) => {
+  ipcMain.on('@app/pairings', () => {
+    db.find({ type: 'pairing' }, (_err, docs) => {
       if (windows.mainWindow && !windows.mainWindow.isDestroyed())
         windows.mainWindow.webContents.send('@app/pairings', docs)
     })
   })
 
-    ipcMain.on('@app/exit', (event, data) => {
-        app.exit();
-    })
-
-    ipcMain.on("@app/version", (event, _data) => {
-        event.sender.send("@app/version", app.getVersion());
-    })
-
-    ipcMain.on("@app/pairings", (_event, _data) => {
-        db.find({ type: 'pairing' }, (err, docs) => {
-            if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-                windows.mainWindow.webContents.send("@app/pairings", docs)
-        })
-    })
-
-    ipcMain.on("@walletconnect/pairing", (event, data) => {
-        db.findOne({
-            type: 'pairing', serviceName: data.serviceName,
-            serviceHomePage: data.serviceHomePage,
-            pairingType: 'walletconnect'
-        }, (err, doc) => {
-            if (doc) {
-                db.update({
-                    type: 'pairing', serviceName: data.serviceName,
-                    serviceHomePage: data.serviceHomePage,
-                    pairingType: 'walletconnect'
-                }, {
-                    type: 'pairing',
-                    addedOn: Date.now(),
-                    serviceName: data.serviceName,
-                    serviceImageUrl: data.serviceImageUrl,
-                    serviceHomePage: data.serviceHomePage,
-                    pairingType: 'walletconnect'
-                })
-            } else {
-                db.insert({
-                    type: 'pairing',
-                    addedOn: Date.now(),
-                    serviceName: data.serviceName,
-                    serviceImageUrl: data.serviceImageUrl,
-                    serviceHomePage: data.serviceHomePage,
-                    pairingType: 'walletconnect'
-                })
-            }
-        })
-    })
-
-    ipcMain.on("@bridge/service-details", (event, serviceKey) => {
-        db.findOne({
-            type: 'service', serviceKey
-        }, (err, doc) => {
-            if(!doc) return
-            const logs = bridgeLogger.fetchLogs(serviceKey)
-            if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.webContents.send("@bridge/service-details", {
-                app: doc,
-                logs 
-            })
-        })
-    })
-
-    ipcMain.on('@bridge/connected', (event, serviceKey) => {
-        if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-          windows.mainWindow.webContents.send('@bridge/connected', isWalletBridgeRunning())
-      })
-
-    ipcMain.on("@bridge/service-name", (event, serviceKey) => {
-        db.findOne({
-            type: 'service', serviceKey
-        }, (err, doc) => {
-            if(!doc) return
-            if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.webContents.send("@bridge/service-name", doc.serviceName)
-        })
-    })
-
-    // web render thread has indicated it is ready to receive ipc messages
-    // send any that have queued since then
-    ipcMain.on('renderListenersReady', async () => {
-        log.info('renderListenersReady')
-        setRenderListenersReady(true)
-        ipcQueue.forEach((item) => {
-            log.info('ipc event called from queue', item)
-            if (windows.mainWindow && !windows.mainWindow.isDestroyed()) windows.mainWindow.webContents.send(item.eventName, item.args)
-        })
-        ipcQueue.length = 0
-    })
-
-    // send paired apps when requested
-    ipcMain.on('@bridge/paired-apps', () => {
-        db.find({ type: 'service' }, (err, docs) => {
-            queueIpcEvent('@bridge/paired-apps', docs)
-        })
-    })
-
-    // used only for implicitly pairing the KeepKey web app
-    ipcMain.on(`@bridge/add-service`, (event, data) => {
-        db.insert({
-            type: 'service',
-            isKeepKeyDesktop: true,
+  ipcMain.on('@walletconnect/pairing', (_event, data) => {
+    db.findOne(
+      {
+        type: 'pairing',
+        serviceName: data.serviceName,
+        serviceHomePage: data.serviceHomePage,
+        pairingType: 'walletconnect',
+      },
+      (_err, doc) => {
+        if (doc) {
+          db.update(
+            {
+              type: 'pairing',
+              serviceName: data.serviceName,
+              serviceHomePage: data.serviceHomePage,
+              pairingType: 'walletconnect',
+            },
+            {
+              type: 'pairing',
+              addedOn: Date.now(),
+              serviceName: data.serviceName,
+              serviceImageUrl: data.serviceImageUrl,
+              serviceHomePage: data.serviceHomePage,
+              pairingType: 'walletconnect',
+            },
+          )
+        } else {
+          db.insert({
+            type: 'pairing',
             addedOn: Date.now(),
             serviceName: data.serviceName,
             serviceImageUrl: data.serviceImageUrl,
@@ -155,13 +79,13 @@ export const startIpcListeners = () => {
     )
   })
 
-  ipcMain.on('@bridge/service-details', (event, serviceKey) => {
+  ipcMain.on('@bridge/service-details', (_event, serviceKey) => {
     db.findOne(
       {
         type: 'service',
         serviceKey,
       },
-      (err, doc) => {
+      (_err, doc) => {
         if (!doc) return
         const logs = bridgeLogger.fetchLogs(serviceKey)
         if (windows.mainWindow && !windows.mainWindow.isDestroyed())
@@ -173,18 +97,18 @@ export const startIpcListeners = () => {
     )
   })
 
-  ipcMain.on('@bridge/connected', (event, serviceKey) => {
+  ipcMain.on('@bridge/connected', () => {
     if (windows.mainWindow && !windows.mainWindow.isDestroyed())
       windows.mainWindow.webContents.send('@bridge/connected', isWalletBridgeRunning())
   })
 
-  ipcMain.on('@bridge/service-name', (event, serviceKey) => {
+  ipcMain.on('@bridge/service-name', (_event, serviceKey) => {
     db.findOne(
       {
         type: 'service',
         serviceKey,
       },
-      (err, doc) => {
+      (_err, doc) => {
         if (!doc) return
         if (windows.mainWindow && !windows.mainWindow.isDestroyed())
           windows.mainWindow.webContents.send('@bridge/service-name', doc.serviceName)
@@ -207,13 +131,83 @@ export const startIpcListeners = () => {
 
   // send paired apps when requested
   ipcMain.on('@bridge/paired-apps', () => {
-    db.find({ type: 'service' }, (err, docs) => {
+    db.find({ type: 'service' }, (_err, docs) => {
       queueIpcEvent('@bridge/paired-apps', docs)
     })
   })
 
   // used only for implicitly pairing the KeepKey web app
-  ipcMain.on(`@bridge/add-service`, (event, data) => {
+  ipcMain.on(`@bridge/add-service`, (_event, data) => {
+    db.insert({
+      type: 'service',
+      isKeepKeyDesktop: true,
+      addedOn: Date.now(),
+      serviceName: data.serviceName,
+      serviceImageUrl: data.serviceImageUrl,
+      serviceHomePage: data.serviceHomePage,
+      pairingType: 'walletconnect',
+    })
+  })
+
+  ipcMain.on('@bridge/service-details', (_event, serviceKey) => {
+    db.findOne(
+      {
+        type: 'service',
+        serviceKey,
+      },
+      (_err, doc) => {
+        if (!doc) return
+        const logs = bridgeLogger.fetchLogs(serviceKey)
+        if (windows.mainWindow && !windows.mainWindow.isDestroyed())
+          windows.mainWindow.webContents.send('@bridge/service-details', {
+            app: doc,
+            logs,
+          })
+      },
+    )
+  })
+
+  ipcMain.on('@bridge/connected', () => {
+    if (windows.mainWindow && !windows.mainWindow.isDestroyed())
+      windows.mainWindow.webContents.send('@bridge/connected', isWalletBridgeRunning())
+  })
+
+  ipcMain.on('@bridge/service-name', (_event, serviceKey) => {
+    db.findOne(
+      {
+        type: 'service',
+        serviceKey,
+      },
+      (_err, doc) => {
+        if (!doc) return
+        if (windows.mainWindow && !windows.mainWindow.isDestroyed())
+          windows.mainWindow.webContents.send('@bridge/service-name', doc.serviceName)
+      },
+    )
+  })
+
+  // web render thread has indicated it is ready to receive ipc messages
+  // send any that have queued since then
+  ipcMain.on('renderListenersReady', async () => {
+    log.info('renderListenersReady')
+    setRenderListenersReady(true)
+    ipcQueue.forEach(item => {
+      log.info('ipc event called from queue', item)
+      if (windows.mainWindow && !windows.mainWindow.isDestroyed())
+        windows.mainWindow.webContents.send(item.eventName, item.args)
+    })
+    ipcQueue.length = 0
+  })
+
+  // send paired apps when requested
+  ipcMain.on('@bridge/paired-apps', () => {
+    db.find({ type: 'service' }, (_err, docs) => {
+      queueIpcEvent('@bridge/paired-apps', docs)
+    })
+  })
+
+  // used only for implicitly pairing the KeepKey web app
+  ipcMain.on(`@bridge/add-service`, (_event, data) => {
     db.insert({
       type: 'service',
       isKeepKeyDesktop: true,
@@ -223,7 +217,7 @@ export const startIpcListeners = () => {
   })
 
   // used for unpairing apps
-  ipcMain.on(`@bridge/remove-service`, (event, data) => {
+  ipcMain.on(`@bridge/remove-service`, (_event, data) => {
     db.remove({ ...data })
   })
 

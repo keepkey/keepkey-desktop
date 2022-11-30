@@ -1,9 +1,9 @@
-import { Body, Controller, Post, Security, Route, Tags, Response, Middlewares } from 'tsoa'
-import wait from 'wait-promise'
 import type { ResetDevice, LoadDevice, ETHSignedTx } from '@keepkey/hdwallet-core'
-import { checkKeepKeyUnlocked } from '../utils'
+import { Body, Controller, Post, Security, Route, Tags, Response, Middlewares } from 'tsoa'
+
 import { kkStateController } from '../../globalState'
 import { logger } from '../middlewares/logger'
+import { checkKeepKeyUnlocked } from '../utils'
 
 export type policy = {
   policyName?: string
@@ -21,8 +21,6 @@ export type GetEntropy = {
 @Tags('Developer Endpoints')
 @Route('')
 export class FDeveloperController extends Controller {
-  private sleep = wait.sleep
-
   @Post('/getFeatures')
   @Security('api_key')
   @Middlewares([logger])

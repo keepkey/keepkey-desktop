@@ -4,7 +4,7 @@ import { db } from '../globalState'
 export function expressAuthentication(
   request: express.Request,
   securityName: string,
-  scopes?: string[],
+  _scopes?: string[],
 ) {
   if (securityName === 'api_key') {
     let serviceKey
@@ -15,8 +15,8 @@ export function expressAuthentication(
       return Promise.reject({ success: false, reason: 'Please provide a valid serviceKey' })
     }
     return Promise.resolve(
-      new Promise<any>((resolve, reject) => {
-        db.findOne({ type: 'service', serviceKey }, (err, doc) => {
+      new Promise((resolve, reject) => {
+        db.findOne({ type: 'service', serviceKey }, (_err, doc) => {
           if (!doc) {
             return reject({ success: false, reason: 'Please provide a valid serviceKey' })
           } else {
