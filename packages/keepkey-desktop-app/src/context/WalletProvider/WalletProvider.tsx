@@ -6,7 +6,7 @@ import type { HDWallet } from '@keepkey/hdwallet-core'
 import { Keyring } from '@keepkey/hdwallet-core'
 import type { WalletConnectProviderConfig } from '@keepkey/hdwallet-walletconnect'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
-import { randomUUID } from 'crypto'
+import * as uuid from 'uuid'
 import { ipcRenderer } from 'electron'
 import type { providers } from 'ethers'
 import debounce from 'lodash/debounce'
@@ -467,7 +467,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       serviceName: 'KeepKey Desktop',
       serviceImageUrl:
         'https://github.com/BitHighlander/keepkey-desktop/raw/master/electron/icon.png',
-      serviceKey: serviceKey ? serviceKey : randomUUID(),
+      serviceKey: serviceKey ? serviceKey : uuid.v4(),
     }
     if (!serviceKey) {
       window.localStorage.setItem('@app/serviceKey', config.serviceKey)
