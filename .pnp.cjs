@@ -10343,6 +10343,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/bluebird", [\
+        ["npm:3.5.38", {\
+          "packageLocation": "./.yarn/cache/@types-bluebird-npm-3.5.38-f885968f75-8d1b04261e.zip/node_modules/@types/bluebird/",\
+          "packageDependencies": [\
+            ["@types/bluebird", "npm:3.5.38"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/bn.js", [\
         ["npm:4.11.6", {\
           "packageLocation": "./.yarn/cache/@types-bn.js-npm-4.11.6-85f0d125f5-7f66f2c7b7.zip/node_modules/@types/bn.js/",\
@@ -10370,6 +10379,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/keyv", "npm:3.1.4"],\
             ["@types/node", "npm:18.11.9"],\
             ["@types/responselike", "npm:1.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/caseless", [\
+        ["npm:0.12.2", {\
+          "packageLocation": "./.yarn/cache/@types-caseless-npm-0.12.2-fc711e5d73-430d159111.zip/node_modules/@types/caseless/",\
+          "packageDependencies": [\
+            ["@types/caseless", "npm:0.12.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -10757,6 +10775,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/nedb", [\
+        ["npm:1.8.12", {\
+          "packageLocation": "./.yarn/cache/@types-nedb-npm-1.8.12-d214c46437-9469d8cb84.zip/node_modules/@types/nedb/",\
+          "packageDependencies": [\
+            ["@types/nedb", "npm:1.8.12"],\
+            ["@types/node", "npm:18.11.9"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/node", [\
         ["npm:10.12.18", {\
           "packageLocation": "./.yarn/cache/@types-node-npm-10.12.18-7c6aeb4e07-333cedae77.zip/node_modules/@types/node/",\
@@ -11031,6 +11059,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/redux-logger", "npm:3.0.9"],\
             ["redux", "npm:4.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/request", [\
+        ["npm:2.48.8", {\
+          "packageLocation": "./.yarn/cache/@types-request-npm-2.48.8-fcce514e82-0b7754941e.zip/node_modules/@types/request/",\
+          "packageDependencies": [\
+            ["@types/request", "npm:2.48.8"],\
+            ["@types/caseless", "npm:0.12.2"],\
+            ["@types/node", "npm:18.11.9"],\
+            ["@types/tough-cookie", "npm:4.0.2"],\
+            ["form-data", "npm:2.5.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/request-promise", [\
+        ["npm:4.1.48", {\
+          "packageLocation": "./.yarn/cache/@types-request-promise-npm-4.1.48-98c586258e-269c472a50.zip/node_modules/@types/request-promise/",\
+          "packageDependencies": [\
+            ["@types/request-promise", "npm:4.1.48"],\
+            ["@types/bluebird", "npm:3.5.38"],\
+            ["@types/request", "npm:2.48.8"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -20445,6 +20497,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["npm:2.5.1", {\
+          "packageLocation": "./.yarn/cache/form-data-npm-2.5.1-47256351b5-5134ada56c.zip/node_modules/form-data/",\
+          "packageDependencies": [\
+            ["form-data", "npm:2.5.1"],\
+            ["asynckit", "npm:0.4.0"],\
+            ["combined-stream", "npm:1.0.8"],\
+            ["mime-types", "npm:2.1.35"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:4.0.0", {\
           "packageLocation": "./.yarn/cache/form-data-npm-4.0.0-916facec2d-01135bf867.zip/node_modules/form-data/",\
           "packageDependencies": [\
@@ -24089,7 +24151,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@swc/core", "npm:1.3.20"],\
             ["@tsoa/cli", "npm:4.1.3"],\
             ["@tsoa/runtime", "npm:4.1.3"],\
+            ["@types/auto-launch", "npm:5.0.2"],\
+            ["@types/lodash", "npm:4.14.190"],\
+            ["@types/nedb", "npm:1.8.12"],\
             ["@types/node", "npm:18.11.9"],\
+            ["@types/request-promise", "npm:4.1.48"],\
             ["@types/wait-promise", "npm:0.4.0"],\
             ["@typescript-eslint/eslint-plugin", "virtual:7f4705cc8167719ee0b6ae28185b7decb33253fbc1f550e08e1e673522395e7f5263689831b29b286e56e322efddf8e629efd7861b943078eb2c9d3eb629f69e#npm:5.45.0"],\
             ["@typescript-eslint/parser", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:5.45.0"],\
