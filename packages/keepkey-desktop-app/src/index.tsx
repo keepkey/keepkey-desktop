@@ -7,6 +7,12 @@ import { createRoot } from 'react-dom/client'
 import { renderConsoleArt } from 'lib/consoleArt'
 import { logger } from 'lib/logger'
 import { reportWebVitals } from 'lib/reportWebVitals'
+import { ipcRenderer } from 'electron-shim'
+
+ipcRenderer.send('@app/version')
+ipcRenderer.on('@app/version', (_event, version) => {
+  document.title = `KeepKey Desktop (v${version})`
+})
 
 const root = createRoot(document.getElementById('root')!)
 
