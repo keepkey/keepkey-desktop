@@ -16,7 +16,8 @@
     "noEmit": true,
     "baseUrl": "src",
     "noUnusedParameters": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "experimentalDecorators": true,
   },
   "include": ["src"]
 }
