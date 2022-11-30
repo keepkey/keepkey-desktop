@@ -3,6 +3,7 @@ import type { LoggerFunction, LoggerOptions } from '@keepkey/logger'
 import { Logger, LogLevel } from '@keepkey/logger'
 import { getConfig } from 'config'
 import { isMobile } from 'lib/globals'
+import * as util from 'util'
 
 type LogStyle = {
   title: string
@@ -71,7 +72,7 @@ const simpleLoggerFn: LoggerFunction = (level, data) => {
   console[consoleFn](
     `${logStyles[level].icon} ${level}: [${data.namespace}] ${msg}\n`,
     // In the webview, objects are rendered as "[object Object]" so we'll format it
-    require('util').inspect(data),
+    util.inspect(data),
   )
 }
 
