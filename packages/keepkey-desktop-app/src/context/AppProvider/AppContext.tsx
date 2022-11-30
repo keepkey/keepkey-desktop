@@ -88,10 +88,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   // and covers most assets users will have
   useFindAllQuery()
 
-  const selectedLocale = useAppSelector(selectSelectedLocale)
-  useEffect(() => {
-    require(`dayjs/locale/${selectedLocale}.js`)
-  }, [selectedLocale])
+  // const selectedLocale = useAppSelector(selectSelectedLocale)
+  // useEffect(() => {
+  //   (async () => {
+  //     await import(`dayjs/locale/${selectedLocale}.js`)
+  //   })().catch((err) => logger.error(err, "dayjs locale import failed"))
+  // }, [selectedLocale])
 
   /**
    * handle wallet disconnect/switch logic
