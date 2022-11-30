@@ -1,6 +1,5 @@
 import merge from 'lodash/merge'
 import noop from 'lodash/noop'
-import { OptInModal } from 'plugins/pendo/components/OptInModal/OptInModal'
 import React, { useMemo, useReducer } from 'react'
 import { WipeModal } from 'components/Layout/Header/NavBar/KeepKey/Modals/Wipe'
 import { AssetSearchModal } from 'components/Modals/AssetSearch/AssetSearch'
@@ -31,7 +30,6 @@ const MODALS = {
   fiatRamps: FiatRampsModal,
   settings: SettingsModal,
   keepKeyWipe: WipeModal,
-  consentOptin: OptInModal,
   addAccount: AddAccountModal,
   assetSearch: AssetSearchModal,
   requestBootloaderMode: RequestBootloaderMode,
