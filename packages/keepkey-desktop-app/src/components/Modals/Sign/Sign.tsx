@@ -20,12 +20,11 @@ import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
 import cryptoTools from 'crypto'
 import { ipcRenderer } from 'electron'
 import React, { useCallback, useEffect, useState } from 'react'
-import KeepKey from 'assets/hold-and-release.svg'
+import HoldAndRelease from 'assets/hold-and-release.svg'
 import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bnOrZero } from 'lib/bignumber/bignumber'
-import { getAssetUrl } from 'lib/getAssetUrl'
 import { logger } from 'lib/logger'
 
 import { MiddleEllipsis } from '../../MiddleEllipsis/MiddleEllipsis'
@@ -49,15 +48,9 @@ export const SignModal = (input: any) => {
   const [gasPrice, setGasPrice] = useState('')
   const [gasLimit, setGasLimit] = useState('')
 
-  const [holdAndRelease, setHoldAndRelease] = useState(KeepKey)
-
   const moduleLogger = logger.child({
     namespace: ['Sign'],
   })
-
-  useEffect(() => {
-    getAssetUrl(KeepKey).then(setHoldAndRelease)
-  }, [])
 
   useEffect(() => {
     if (!HDwalletPayload || !HDwalletPayload.nonce) return
@@ -206,7 +199,7 @@ export const SignModal = (input: any) => {
         <ModalBody>
           {isApproved ? (
             <div>
-              <Image src={holdAndRelease} alt='Approve Transaction On Device!' />
+              <Image src={HoldAndRelease} alt='Approve Transaction On Device!' />
             </div>
           ) : (
             <div>

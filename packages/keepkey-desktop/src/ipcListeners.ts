@@ -1,12 +1,10 @@
 import { app, ipcMain } from "electron"
 import { bridgeLogger, db, ipcQueue, isWalletBridgeRunning, kkStateController, setRenderListenersReady, windows } from "./globalState"
-import isDev from 'electron-is-dev'
 import {
   downloadFirmware,
   getLatestFirmwareData,
   loadFirmware,
 } from './helpers/kk-state-controller/firmwareUtils'
-import * as path from 'path'
 import { queueIpcEvent } from './helpers/utils'
 import log from 'electron-log'
 
@@ -20,11 +18,6 @@ export const startIpcListeners = () => {
 
     ipcMain.on('@app/exit', (event, data) => {
         app.exit();
-    })
-
-    ipcMain.on('@app/get-asset-url', (event, data) => {
-        const assetUrl = !isDev ? `file://${path.resolve(__dirname, "../../build/", data.assetPath)}` : data.assetPath
-        event.sender.send(`@app/get-asset-url-${data.nonce}`, { nonce: data.nonce, assetUrl })
     })
 
     ipcMain.on("@app/version", (event, _data) => {

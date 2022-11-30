@@ -7,20 +7,15 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
 import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
 
-import KeepKeyConnect from '../../../../assets/connect-keepkey.svg'
-import { getAssetUrl } from '../../../../lib/getAssetUrl'
+import KeepKeyConnect from 'assets/connect-keepkey.svg'
 
 export const RequestBootloaderMode = () => {
   const { requestBootloaderMode } = useModal()
   const { close, isOpen } = requestBootloaderMode
-  const [kkConnect, setKKConnect] = useState(KeepKeyConnect)
-  useEffect(() => {
-    getAssetUrl(KeepKeyConnect).then(setKKConnect)
-  }, [])
+
   return (
     <Modal
       isOpen={isOpen}
@@ -38,7 +33,7 @@ export const RequestBootloaderMode = () => {
           <div>
             <ModalHeader>
               <Text translation='Restart KeepKey in update mode' />
-              <Image src={kkConnect} alt='reconnect Device!' />
+              <Image src={KeepKeyConnect} alt='reconnect Device!' />
             </ModalHeader>
           </div>
           <div>
