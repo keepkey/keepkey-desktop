@@ -1,5 +1,5 @@
 {
-  "entryFile": "./electron/src/main.ts",
+  "entryFile": "./src/main.ts",
   "host": "localhost:1646",
   "schemes": [
     "http",
@@ -8,9 +8,9 @@
   "noImplicitAdditionalProperties": "silently-remove-extras",
   "basePath": "",
   "specVersion": 3,
-  "outputDirectory": "./electron/api/dist",
+  "outputDirectory": "./api/dist",
   "controllerPathGlobs": [
-    "./electron/src/helpers/controllers/**/*controller.ts"
+    "./src/helpers/controllers/**/*controller.ts"
   ],
   "spec": {
     "host": "localhost:1646",
@@ -19,11 +19,11 @@
       "ws"
     ],
     "basePath": "",
-    "entryFile": "./electron/src/main.ts",
+    "entryFile": "./src/main.ts",
     "specVersion": 3,
-    "outputDirectory": "./electron/api/dist",
+    "outputDirectory": "./api/dist",
     "controllerPathGlobs": [
-      "./electron/src/helpers/controllers/**/*controller.ts"
+      "./src/helpers/controllers/**/*controller.ts"
     ],
     "securityDefinitions": {
       "api_key": {
@@ -35,9 +35,9 @@
   },
   "routes": {
     "basePath": "",
-    "entryFile": "./electron/src/main.ts",
-    "routesDir": "./electron/src/helpers/routes",
+    "entryFile": "./src/main.ts",
+    "routesDir": "./src/helpers/routes",
     "middleware": "express",
-    "authenticationModule": "./electron/src/helpers/auth.ts"
+    "authenticationModule": "./src/helpers/auth.ts"
   }
 }
