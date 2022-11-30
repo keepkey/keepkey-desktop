@@ -40,33 +40,6 @@
     ],
     "default-case": "error",
     "import/no-default-export": "error",
-    "simple-import-sort/imports": [
-      "error",
-      {
-        "groups": [
-          [
-            "^\\u0000"
-          ],
-          [
-            "^@?\\w",
-            "^assets(/.*|$)",
-            "^components(/.*|$)",
-            "^context(/.*|$)",
-            "^hooks(/.*|$)",
-            "^jest(/.*|$)",
-            "^lib(/.*|$)",
-            "^pages(/.*|$)",
-            "^services(/.*|$)",
-            "^state(/.*|$)",
-            "^theme(/.*|$)",
-            "^types(/.*|$)"
-          ],
-          [
-            "^\\."
-          ]
-        ]
-      }
-    ],
     "object-shorthand": "error",
     "eqeqeq": "error",
     "react-hooks/exhaustive-deps": "error",

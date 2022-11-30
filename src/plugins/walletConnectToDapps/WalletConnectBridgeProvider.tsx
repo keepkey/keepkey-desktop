@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react'
-import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
+import type { ETHWallet } from '@keepkey/hdwallet-core'
 import { LegacyWCService } from 'kkdesktop/walletconnect'
 import type { FC, PropsWithChildren } from 'react'
 import { useCallback, useEffect, useState } from 'react'

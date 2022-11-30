@@ -1,4 +1,4 @@
-import * as core from '@shapeshiftoss/hdwallet-core'
+import * as core from '@keepkey/hdwallet-core'
 import type LegacyWalletConnect from '@walletconnect/client'
 import { ipcRenderer } from 'electron'
 import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
@@ -77,6 +77,19 @@ export class LegacyWCService {
     this.connector.updateSession({
       chainId: payload.params[0].chainId,
       accounts: payload.params[0].accounts,
+    })
+    const web3Stuff = web3ByChainId(chainId)
+    if (!web3Stuff) throw new Error('no data for chainId')
+    this.connector.updateChain({chainId: payload.params[0].chainId, networkId: payload.params[0].chainId, rpcUrl: '', nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol}})
+  }
+
+  public doSwitchChain({chainId}: {chainId: number}) {
+    const web3Stuff = web3ByChainId(chainId)
+    if (!web3Stuff) throw new Error('no data for chainId')
+    this.connector.updateChain({chainId, networkId: chainId, rpcUrl: web3Stuff.providerUrl, nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol}})
+    this.connector.updateSession({
+      chainId,
+      accounts: this.connector.accounts,
     })
   }
 

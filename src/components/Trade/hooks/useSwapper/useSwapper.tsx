@@ -14,7 +14,7 @@ import type {
 import { SwapError, SwapErrorTypes, SwapperManager } from '@keepkey/swapper'
 import type { BIP44Params, UtxoAccountType } from '@keepkey/types'
 import { KnownChainIds } from '@keepkey/types'
-import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import type { HDWallet } from '@keepkey/hdwallet-core'
 import debounce from 'lodash/debounce'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'

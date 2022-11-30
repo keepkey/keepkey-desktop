@@ -275,25 +275,26 @@ export const EIP155SendTransactionConfirmation = () => {
   )
 
   useEffect(() => {
-    try {
-      ; (chainWeb3 as any).web3.eth
-        .estimateGas({
+    ;(async () => {
+      try {
+        const estimate = await (chainWeb3 as any).web3.eth.estimateGas({
           from: request.params[0].from,
           nonce: txInputNonce,
           to: request.params[0].to,
           data: request.params[0].data,
         })
-        .then((estimate: any) => {
-          setEstimatedGas(estimate)
-        })
-    } catch (e) {
-      // 500k seemed reasonable
-      setEstimatedGas('500000')
-    }
+        setEstimatedGas(estimate)
+      } catch (e) {
+        // 500k seems reasonable.
+        // Maybe its better to gracefully fail here???
+        setEstimatedGas('500000')
+      }
+    })()
   }, [
     txInputNonce,
     address,
     chainWeb3,
+    request,
     currentRequest.params,
   ])
 

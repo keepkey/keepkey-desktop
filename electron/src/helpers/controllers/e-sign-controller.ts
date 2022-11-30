@@ -6,7 +6,7 @@ import { kkStateController } from '../kk-state-controller';
 import { GenericResponse, SignedTx, GetPublicKey, Error } from '../types';
 import { shared, userType } from '../../shared';
 import wait from 'wait-promise'
-import { EosToSignTx, EosTxSigned, BinanceSignedTx, BinanceSignTx, RippleSignedTx, RippleSignTx, BinanceGetAddress, BTCGetAddress, BTCSignedTx, BTCSignTxKK, CosmosGetAddress, CosmosSignedTx, CosmosSignTx, ETHGetAddress, ETHSignedTx, ETHSignTx, OsmosisGetAddress, PublicKey, ThorchainGetAddress, ThorchainSignTx, ThorchainTx } from '@shapeshiftoss/hdwallet-core'
+import { ETHSignTypedData, ETHSignMessage, ETHSignTypedData, ETHSignedMessage, EosToSignTx, EosTxSigned, BinanceSignedTx, BinanceSignTx, RippleSignedTx, RippleSignTx, BinanceGetAddress, BTCGetAddress, BTCSignedTx, BTCSignTxKK, CosmosGetAddress, CosmosSignedTx, CosmosSignTx, ETHGetAddress, ETHSignedTx, ETHSignTx, OsmosisGetAddress, PublicKey, ThorchainGetAddress, ThorchainSignTx, ThorchainTx } from '@keepkey/hdwallet-core'
 import { uniqueId } from 'lodash';
 import { openSignTxWindow } from '../utils';
 import { checkKeepKeyUnlocked } from '../utils';
@@ -112,6 +112,31 @@ export class ESignController extends Controller {
             if (!kkStateController.wallet) return reject()
 
             kkStateController.wallet.ethSignTx(body).then(resolve)
+        })
+    }
+
+    @Post('/ethSignMessage')
+    @Security("api_key")
+    @Middlewares([logger])
+    @Response(500, "Internal server error")
+    public async ethSignMessage(@Body() body: any): Promise<ETHSignedMessage> {
+        return new Promise<ETHSignedTx>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
+            if (!kkStateController.wallet) return reject()
+
+            kkStateController.wallet.ethSignMessage(body).then(resolve)
+        })
+    }
+
+    @Post('/ethSignTypedData')
+    @Security("api_key")
+    @Middlewares([logger])
+    @Response(500, "Internal server error")
+    public async ethSignTypedData(@Body() body: any): Promise<any> {
+        return new Promise<ETHSignedTx>(async (resolve, reject) => {
+            await checkKeepKeyUnlocked()
+            if (!kkStateController.wallet) return reject()
+            kkStateController.wallet.ethSignTypedData(body).then(resolve)
         })
     }
 

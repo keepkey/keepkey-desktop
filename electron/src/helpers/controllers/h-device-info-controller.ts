@@ -1,6 +1,6 @@
 import { Controller, Get, Security, Route, Tags, Response, Middlewares } from 'tsoa';
 import wait from 'wait-promise'
-import { ETHSignedTx } from '@shapeshiftoss/hdwallet-core'
+import { ETHSignedTx } from '@keepkey/hdwallet-core'
 import { checkKeepKeyUnlocked } from '../utils'
 import { kkStateController } from '../../globalState';
 import { logger } from '../middlewares/logger';
@@ -15,12 +15,12 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async getNumCoins(): Promise<ETHSignedTx> {
+    public async getNumCoins(): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
 
-            kkStateController.wallet.getDeviceID().then(resolve)
+            kkStateController.wallet.getNumCoins().then(resolve)
         })
     }
 
@@ -28,7 +28,7 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async getCoinTable(): Promise<ETHSignedTx> {
+    public async getCoinTable(): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -41,7 +41,7 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async getDeviceID(): Promise<ETHSignedTx> {
+    public async getDeviceID(): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -54,7 +54,7 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async getVendor(): Promise<ETHSignedTx> {
+    public async getVendor(): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -68,7 +68,7 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async getModel(): Promise<ETHSignedTx> {
+    public async getModel(): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -81,7 +81,7 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async getFirmwareVersion(): Promise<ETHSignedTx> {
+    public async getFirmwareVersion(): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -94,7 +94,7 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async getLabel(): Promise<ETHSignedTx> {
+    public async getLabel(): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -107,7 +107,7 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async isInitialized(): Promise<ETHSignedTx> {
+    public async isInitialized(): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -120,7 +120,7 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async isLocked(): Promise<ETHSignedTx> {
+    public async isLocked(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             if (!kkStateController.wallet) return reject()
 
@@ -132,7 +132,7 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async hasOnDevicePinEntry(): Promise<ETHSignedTx> {
+    public async hasOnDevicePinEntry(): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -145,7 +145,7 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async hasOnDevicePassphrase(): Promise<ETHSignedTx> {
+    public async hasOnDevicePassphrase(): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -158,7 +158,7 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async hasOnDeviceDisplay(): Promise<ETHSignedTx> {
+    public async hasOnDeviceDisplay(): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()
@@ -171,7 +171,7 @@ export class HDeviceInfoController extends Controller {
     @Security("api_key")
     @Middlewares([logger])
     @Response(500, "Internal server error")
-    public async hasOnDeviceRecovery(): Promise<ETHSignedTx> {
+    public async hasOnDeviceRecovery(): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             await checkKeepKeyUnlocked()
             if (!kkStateController.wallet) return reject()

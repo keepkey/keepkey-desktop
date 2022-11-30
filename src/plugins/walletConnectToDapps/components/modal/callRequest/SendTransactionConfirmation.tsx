@@ -126,7 +126,7 @@ export const SendTransactionConfirmation = () => {
 
     // for non mainnet chains we use the simple web3.getGasPrice()
     const chainWeb3 = web3ByChainId(walletConnect?.legacyBridge?.connector?.chainId as any) as any
-    chainWeb3?.eth?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
+    chainWeb3?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
     setChainWeb3(chainWeb3)
   }, [form, txInputGas, walletConnect.legacyBridge?.connector.chainId])
 
@@ -190,7 +190,7 @@ export const SendTransactionConfirmation = () => {
   useEffect(() => {
     ;(async () => {
       const count = await chainWeb3?.web3.eth.getTransactionCount(address ?? '')
-      setTrueNonce(`${count}`)
+      !!count && setTrueNonce(`${count}`)
     })()
   }, [adapterManager, address, chainWeb3, walletState.wallet])
   const txInputNonce = Web3.utils.toHex(
@@ -198,21 +198,21 @@ export const SendTransactionConfirmation = () => {
   )
 
   useEffect(() => {
-    try {
-      ;(chainWeb3 as any).web3.eth
-        .estimateGas({
+    ;(async () => {
+      try {
+        const estimate = await (chainWeb3 as any).web3.eth.estimateGas({
           from: walletConnect.legacyBridge?.connector.accounts[0],
           nonce: txInputNonce,
           to: currentRequest.params[0].to,
           data: currentRequest.params[0].data,
         })
-        .then((estimate: any) => {
-          setEstimatedGas(estimate)
-        })
-    } catch (e) {
-      // 500k seemed reasonable
-      setEstimatedGas('500000')
-    }
+        setEstimatedGas(estimate)
+      } catch (e) {
+        // 500k seems reasonable.
+        // Maybe its better to gracefully fail here???
+        setEstimatedGas('500000')
+      }
+    })()
   }, [
     txInputNonce,
     address,

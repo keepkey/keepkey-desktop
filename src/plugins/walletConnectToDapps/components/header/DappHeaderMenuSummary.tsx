@@ -1,38 +1,39 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { MenuGroup } from '@chakra-ui/menu'
-import { Box, HStack, MenuDivider, MenuItem, VStack } from '@chakra-ui/react'
-import dayjs from 'dayjs'
+import { Box, HStack, MenuDivider, MenuItem, Select, VStack } from '@chakra-ui/react'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import type { FC } from 'react'
-import { useMemo } from 'react'
+import { FC, useCallback, useMemo, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { RawText, Text } from 'components/Text'
-import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { useEvm } from 'hooks/useEvm/useEvm'
 
 import { DappAvatar } from './DappAvatar'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { getSdkError } from '@walletconnect/utils'
+import { supportedChains } from 'context/WalletProvider/web3byChainId'
 
 export const DappHeaderMenuSummary: FC = () => {
-  const { supportedEvmChainIds } = useEvm()
-  const chainAdapterManager = getChainAdapterManager()
-
   const translate = useTranslate()
 
   const walletConnect = useWalletConnect()
-  const connectedChainId = walletConnect.legacyBridge?.connector.chainId
 
-  const chainName = useMemo(() => {
-    let name = chainAdapterManager
-      .get(supportedEvmChainIds.find(chainId => chainId === `eip155:${connectedChainId}`) ?? '')
-      ?.getDisplayName()
+  const initialChainSelection = useMemo(
+    () =>
+      supportedChains.findIndex(
+        chain => chain?.chainId === walletConnect?.legacyBridge?.connector?.chainId,
+      ),
+    [walletConnect?.legacyBridge?.connector?.chainId],
+  )
 
-    if (!name) name = `ChainId ${connectedChainId}`
+  const [chainName, setChainName] = useState(supportedChains[initialChainSelection].name)
 
-    return name ?? translate('plugins.walletConnectToDapps.header.menu.unsupportedNetwork')
-  }, [chainAdapterManager, connectedChainId, supportedEvmChainIds, translate])
+  const onChainClick = useCallback(
+    (event: any) => {
+      walletConnect.legacyBridge?.doSwitchChain({ chainId: supportedChains[event.target.value].chainId })
+      setChainName(supportedChains[event.target.value].name)
+    },
+    [walletConnect.legacyBridge],
+  )
 
   if (!walletConnect || !walletConnect.dapp) return null
 
@@ -86,7 +87,13 @@ export const DappHeaderMenuSummary: FC = () => {
           </HStack>
         )}
       </VStack>
+      <MenuDivider />
 
+      <Select defaultValue={initialChainSelection} variant='outline' onChange={onChainClick}>
+        {supportedChains.map((chain, index) => (
+          <option value={index}>{chain.name}</option>
+        ))}
+      </Select>
       <MenuDivider />
       <MenuItem
         fontWeight='medium'
