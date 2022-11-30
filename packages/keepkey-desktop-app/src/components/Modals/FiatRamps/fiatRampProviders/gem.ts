@@ -4,7 +4,8 @@ import { getConfig } from 'config'
 import flatten from 'lodash/flatten'
 import memoize from 'lodash/memoize'
 import uniqBy from 'lodash/uniqBy'
-import queryString from 'querystring'
+// @ts-ignore
+import queryString from 'querystring-es3'
 import { logger } from 'lib/logger'
 
 import type { FiatRampAction, FiatRampAsset } from '../FiatRampsCommon'
