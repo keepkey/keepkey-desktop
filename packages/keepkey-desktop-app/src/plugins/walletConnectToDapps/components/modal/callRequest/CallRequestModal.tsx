@@ -5,10 +5,48 @@ import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
 import { Text } from 'components/Text'
 
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
-import { rejectEIP155Request } from 'plugins/walletConnectToDapps/utils/utils'
+import {
+  rejectEIP155Request,
+  rejectRequestAsUnsupported,
+} from 'plugins/walletConnectToDapps/utils/utils'
 import { SendTransactionConfirmation } from './SendTransactionConfirmation'
 import { SignMessageConfirmation } from './SignMessageConfirmation'
-import { SignMessageConfirmationV2 } from './SignMessageConfirmationv2'
+import type { FC } from 'react'
+import { EIP155SignMessageConfirmation } from './EIP155SignMessageConfirmation'
+import { EIP155_SIGNING_METHODS } from 'plugins/walletConnectToDapps/data/EIP115Data'
+import { EIP155SendTransactionConfirmation } from './EIP155SendTransactionConfirmation'
+
+export const NecessaryModal: FC<{ req?: any; isLegacy: boolean; removeReq: any }> = ({
+  req,
+  isLegacy,
+  removeReq,
+}) => {
+  if (!req) return <></>
+  if (isLegacy) {
+    if (req.method === 'personal_sign') return <SignMessageConfirmation />
+    else return <SendTransactionConfirmation />
+  } else {
+    switch (req.params.request.method) {
+      case EIP155_SIGNING_METHODS.PERSONAL_SIGN:
+      case EIP155_SIGNING_METHODS.ETH_SIGN:
+        return <EIP155SignMessageConfirmation />
+
+      case EIP155_SIGNING_METHODS.ETH_SEND_TRANSACTION:
+      case EIP155_SIGNING_METHODS.ETH_SIGN_TRANSACTION:
+        return <EIP155SendTransactionConfirmation />
+
+      default:
+        const response = rejectRequestAsUnsupported(req)
+        WalletConnectSignClient.respond({
+          topic: req.topic,
+          response,
+        })
+        removeReq(0)
+        break
+    }
+  }
+  return <></>
+}
 
 export const CallRequestModal = () => {
   const { legacyBridge, requests, isLegacy, removeRequest } = useWalletConnect()
@@ -29,7 +67,7 @@ export const CallRequestModal = () => {
           const response = rejectEIP155Request(currentRequest)
           WalletConnectSignClient.respond({
             topic: currentRequest.topic,
-            response
+            response,
           })
         }
         removeRequest(0)
@@ -51,14 +89,9 @@ export const CallRequestModal = () => {
             <ModalCloseButton position='static' />
           </HStack>
         </ModalHeader>
-        {isLegacy ?
-          (currentRequest && currentRequest.method === 'personal_sign' ? (
-            <SignMessageConfirmation />
-          ) : (
-            <SendTransactionConfirmation />
-          ))
-          : (currentRequest && currentRequest.params.request.method === 'personal_sign') && <SignMessageConfirmationV2 />
-        }
+        {currentRequest && (
+          <NecessaryModal req={currentRequest} isLegacy={isLegacy} removeReq={removeRequest} />
+        )}
       </ModalContent>
     </Modal>
   )

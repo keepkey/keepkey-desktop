@@ -64,3 +64,11 @@ export function rejectEIP155Request(request: SignClientTypes.EventArguments['ses
 
   return formatJsonRpcError(id, getSdkError('USER_REJECTED_METHODS').message)
 }
+
+export function rejectRequestAsUnsupported(
+  request: SignClientTypes.EventArguments['session_request'],
+) {
+  const { id } = request
+
+  return formatJsonRpcError(id, getSdkError('UNSUPPORTED_METHODS').message)
+}

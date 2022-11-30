@@ -6,12 +6,8 @@ import {
   ModalCloseButton,
   ModalHeader,
   ModalOverlay,
-  VStack,
   Image,
   Link,
-  Alert,
-  AlertDescription,
-  AlertIcon,
   Box,
   Stack,
   Divider,
@@ -27,6 +23,7 @@ import { Card } from 'components/Card/Card'
 import { formatChainName } from 'plugins/walletConnectToDapps/utils/utils'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { useState } from 'react'
 
 export const SessionProposalModal = () => {
   const { proposals, removeProposal, setPairingMeta, setCurrentSessionTopic } = useWalletConnect()
@@ -40,9 +37,10 @@ export const SessionProposalModal = () => {
     state: { wallet },
   } = useWallet()
 
-  console.log(currentProposal)
+  const [loading, setLoading] = useState(false)
 
   const onApprove = async () => {
+    setLoading(true)
     if (currentProposal) {
       const namespaces: SessionTypes.Namespaces = {}
       let w = wallet as KeepKeyHDWallet
@@ -101,6 +99,7 @@ export const SessionProposalModal = () => {
 
   // Hanlde reject action
   const onReject = async () => {
+    setLoading(true)
     if (currentProposal) {
       await WalletConnectSignClient.reject({
         id,
@@ -205,10 +204,10 @@ export const SessionProposalModal = () => {
               </Stack>
             )
           })}
-          <Button width='full' size='lg' colorScheme='blue' onClick={onApprove}>
+          <Button width='full' size='lg' colorScheme='blue' onClick={onApprove} isLoading={loading}>
             <Text translation={'plugins.walletConnectToDapps.modal.sessionProposal.approve'} />
           </Button>
-          <Button width='full' size='lg' colorScheme='red' onClick={onReject}>
+          <Button width='full' size='lg' colorScheme='red' onClick={onReject} isLoading={loading}>
             <Text translation={'plugins.walletConnectToDapps.modal.sessionProposal.reject'} />
           </Button>
         </Stack>

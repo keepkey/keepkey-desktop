@@ -12,7 +12,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
@@ -24,9 +24,14 @@ import { getSignParamsMessage, rejectEIP155Request } from 'plugins/walletConnect
 import { formatJsonRpcResult } from '@json-rpc-tools/utils'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { useWallet } from 'hooks/useWallet/useWallet'
+<<<<<<<< HEAD:packages/keepkey-desktop-app/src/plugins/walletConnectToDapps/components/modal/callRequest/SignMessageConfirmationv2.tsx
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+========
+import { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { BIP32Path } from '@shapeshiftoss/hdwallet-core'
+>>>>>>>> dc93e8f6 (a lot of progress):packages/keepkey-desktop-app/src/plugins/walletConnectToDapps/components/modal/callRequest/EIP155SignMessageConfirmation.tsx
 
-export const SignMessageConfirmationV2 = () => {
+export const EIP155SignMessageConfirmation = () => {
   const translate = useTranslate()
   const cardBg = useColorModeValue('white', 'gray.850')
   const {
@@ -39,29 +44,44 @@ export const SignMessageConfirmationV2 = () => {
   const { requests, removeRequest } = useWalletConnect()
   const toast = useToast()
 
+  const [address, setAddress] = useState<string>()
+  const [accountPath, setAccountPath] = useState<BIP32Path>()
+
   const currentRequest = requests[0] as SignClientTypes.EventArguments['session_request']
   const { topic, params, id } = currentRequest
-  const { request, chainId } = params
+  const { request } = params
   const message = getSignParamsMessage(request.params)
+
+  useEffect(() => {
+    if (!wallet) return
+    const accounts = (wallet as KeepKeyHDWallet).ethGetAccountPaths({ coin: 'Ethereum', accountIdx: 0 })
+    setAccountPath(accounts[0].addressNList);
+    (wallet as KeepKeyHDWallet).ethGetAddress({ addressNList: accounts[0].addressNList, showDisplay: false }).then(setAddress)
+  }, [wallet])
+
+  if (!currentRequest) return <></>
 
   const onConfirm = useCallback(
     async (txData: any) => {
       try {
-        if (!wallet) return
+        if (!accountPath || !wallet) return
         setLoading(true)
 
         const message = getSignParamsMessage(request.params)
+<<<<<<<< HEAD:packages/keepkey-desktop-app/src/plugins/walletConnectToDapps/components/modal/callRequest/SignMessageConfirmationv2.tsx
         const accountPath = (wallet as KeepKeyHDWallet).ethGetAccountPaths({
           coin: 'Ethereum',
           accountIdx: 0,
         })
+========
+>>>>>>>> dc93e8f6 (a lot of progress):packages/keepkey-desktop-app/src/plugins/walletConnectToDapps/components/modal/callRequest/EIP155SignMessageConfirmation.tsx
         const signedMessage = await (wallet as KeepKeyHDWallet).ethSignMessage({
           ...txData,
-          addressNList: accountPath[0].addressNList,
+          addressNList: accountPath,
           message,
         })
         console.log(signedMessage)
-        const response = formatJsonRpcResult(id, signedMessage)
+        const response = formatJsonRpcResult(id, signedMessage.signature)
 
         console.log(response)
 
@@ -81,7 +101,7 @@ export const SignMessageConfirmationV2 = () => {
         setLoading(false)
       }
     },
-    [currentRequest.id, removeRequest, requests, toast, wallet],
+    [currentRequest.id, removeRequest, requests, toast, wallet, accountPath],
   )
 
   const onReject = useCallback(async () => {
@@ -105,7 +125,7 @@ export const SignMessageConfirmationV2 = () => {
           mb={4}
         />
         <AddressSummaryCard
-          address={walletConnect.legacyBridge?.connector.accounts[0]}
+          address={address ?? ""}
           name='My Wallet' // TODO: what string do we put here?
           icon={<KeepKeyIcon color='gray.500' w='full' h='full' />}
         />
