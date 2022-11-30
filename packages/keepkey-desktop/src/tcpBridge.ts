@@ -24,7 +24,7 @@ export const startTcpBridge = async (port?: number) => {
     appExpress.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     //swagger.json
-    appExpress.use('/spec', express.static(path.join(__dirname, '../../api/dist')));
+    appExpress.use('/spec', express.static(path.join(__dirname, '../api/dist')));
 
     RegisterRoutes(appExpress);
 
