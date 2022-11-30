@@ -80,6 +80,7 @@ export const EIP155SendTransactionConfirmation = () => {
 
   useEffect(() => {
     if (!wallet) return
+    setLoading(true)
     const accounts = (wallet as KeepKeyHDWallet).ethGetAccountPaths({
       coin: 'Ethereum',
       accountIdx: 0,
@@ -87,7 +88,10 @@ export const EIP155SendTransactionConfirmation = () => {
     setAccountPath(accounts[0].addressNList)
     ;(wallet as KeepKeyHDWallet)
       .ethGetAddress({ addressNList: accounts[0].addressNList, showDisplay: false })
-      .then(setAddress)
+      .then(accAddress => {
+        setLoading(false)
+        setAddress(accAddress)
+      })
   }, [wallet])
 
   useEffect(() => {
@@ -117,8 +121,8 @@ export const EIP155SendTransactionConfirmation = () => {
         }
 
         // if gasPrice was passed in it means we couldnt get maxPriorityFeePerGas & maxFeePerGas
-        if (txData.gasPrice) {
-          signData.gasPrice = txData.gasPrice
+        if (request.params[0].gasPrice) {
+          signData.gasPrice = request.params[0].gasPrice
           delete signData.maxPriorityFeePerGas
           delete signData.maxFeePerGas
         }
@@ -156,7 +160,7 @@ export const EIP155SendTransactionConfirmation = () => {
         setLoading(false)
       }
     },
-    [currentRequest.id, removeRequest, requests, toast, wallet, chainId, accountPath],
+    [currentRequest.id, removeRequest, request, toast, wallet, chainId, accountPath],
   )
 
   const onReject = useCallback(async () => {
