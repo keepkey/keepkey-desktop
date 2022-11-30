@@ -59,12 +59,12 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
 
   useEffect(() => {
     if (!WalletConnectSignClient) return
-    WalletConnectSignClient.on("session_ping", (payload) => {
+    WalletConnectSignClient.on('session_ping', payload => {
       setIsConnected(true)
       setCurrentSessionTopic(payload.topic)
     })
-    WalletConnectSignClient.on("session_delete", onDisconnect)
-    WalletConnectSignClient.on("session_expire", onDisconnect)
+    WalletConnectSignClient.on('session_delete', onDisconnect)
+    WalletConnectSignClient.on('session_expire', onDisconnect)
   }, [WalletConnectSignClient])
 
   // connects to given URI or attempts previous connection
@@ -73,7 +73,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
       if (uri) {
         const wc = await getWalletConnect(wallet as ETHWallet, uri)
         if (wc instanceof LegacyWCService) {
-          console.log("Legacy wallet connect")
+          console.log('Legacy wallet connect')
           setIsLegacy(true)
           wc.connector.on('call_request', (_e, payload) => {
             addRequest(payload)
@@ -127,12 +127,28 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
   const dapp = pairingMeta
 
   return (
-    <WalletConnectBridgeContext.Provider value={{
-      setCurrentSessionTopic: (topic) => {
-        setCurrentSessionTopic(topic)
-        setIsConnected(true)
-      }, onDisconnect, isConnected, currentSessionTopic, proposals, addProposal, removeProposal, isLegacy, legacyBridge, dapp, connect, removeRequest, requests, addRequest, setPairingMeta
-    }}>
+    <WalletConnectBridgeContext.Provider
+      value={{
+        setCurrentSessionTopic: topic => {
+          setCurrentSessionTopic(topic)
+          setIsConnected(true)
+        },
+        onDisconnect,
+        isConnected,
+        currentSessionTopic,
+        proposals,
+        addProposal,
+        removeProposal,
+        isLegacy,
+        legacyBridge,
+        dapp,
+        connect,
+        removeRequest,
+        requests,
+        addRequest,
+        setPairingMeta,
+      }}
+    >
       <WalletConnectLogic />
       {children}
       {requests.length > 0 && <CallRequestModal />}

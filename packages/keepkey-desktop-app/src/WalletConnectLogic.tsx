@@ -3,11 +3,14 @@ import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBrid
 import { useEffect } from 'react'
 
 export const WalletConnectLogic = () => {
-  const { addProposal } = useWalletConnect()
+  const { addProposal, addRequest } = useWalletConnect()
   useEffect(() => {
     createSignClient().then(client => {
       client.on('session_proposal', proposal => {
         addProposal(proposal)
+      })
+      client.on('session_request', req => {
+        addRequest(req)
       })
     })
   }, [])
