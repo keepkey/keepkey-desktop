@@ -10,7 +10,7 @@
     "scripts": {
         "install-deps": "electron-builder install-app-deps --platform darwin --platform linux --platform win32",
         "build": "ts-node --skipProject --swc ./scripts/build.ts",
-        "dev": "ts-node --skipProject --swc ./scripts/dev.ts",
+        "dev": "NODE_ENV=development ts-node --skipProject --swc ./scripts/dev.ts",
         "pack": "ts-node --skipProject --swc ./scripts/pack.ts",
         "clean": "rimraf api/dist build dist prebuilds",
         "lint": "eslint -c .eslintrc src --ext .ts,.tsx",

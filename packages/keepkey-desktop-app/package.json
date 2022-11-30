@@ -4,7 +4,7 @@
   "scripts": {
     "postinstall": "yarn build",
     "build": "ts-node --skipProject --swc ./scripts/build.ts",
-    "dev": "yarn build",
+    "dev": "NODE_ENV=development yarn build",
     "pack": "yarn build",
     "clean": "rimraf build coverage",
     "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
