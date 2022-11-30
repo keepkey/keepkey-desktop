@@ -2,7 +2,7 @@
 import { app, ipcMain } from 'electron'
 import { createMainWindow, windows } from '../../main'
 import { Body, Controller, Get, Post, Security, Route, Tags, Response, Middlewares } from 'tsoa'
-import { kkStateController } from '../kk-state-controller'
+import { kkStateController } from '../../globalState'
 import type { SignedTx, Error } from '../types'
 import { GenericResponse, GetPublicKey } from '../types'
 import { shared, userType } from '../../shared'
