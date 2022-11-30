@@ -9,7 +9,6 @@ const lightDark = nativeTheme.shouldUseDarkColors ? 'dark' : 'light'
 
 // createAndUpdateTray must be called anytime bridgeRunning or bridgeCLosing changes
 export const createAndUpdateTray = () => {
-  if (tray) tray.destroy()
   const menuTemplate: any = [
     {
       label: !isWalletBridgeRunning() ? 'Bridge Not Running!' : 'Bridge Running',
@@ -59,10 +58,21 @@ export const createAndUpdateTray = () => {
       },
     },
   ]
-  const trayIcon = !isWalletBridgeRunning()
-    ? `${lightDark}/keepKey/unknown.png`
-    : `${lightDark}/keepKey/success.png`
-  tray = new Tray(nativeImage.createFromPath(path.join(assetsDirectory, trayIcon)))
+
+  const trayImage = nativeImage.createFromPath(
+    path.join(
+      assetsDirectory,
+      !isWalletBridgeRunning()
+        ? `${lightDark}/keepKey/unknown.png`
+        : `${lightDark}/keepKey/success.png`,
+    ),
+  )
+  if (!tray) {
+    tray = new Tray(trayImage)
+  } else {
+    tray.setImage(trayImage)
+  }
+
   const contextMenu = Menu.buildFromTemplate(menuTemplate)
   tray.setContextMenu(contextMenu)
 }
