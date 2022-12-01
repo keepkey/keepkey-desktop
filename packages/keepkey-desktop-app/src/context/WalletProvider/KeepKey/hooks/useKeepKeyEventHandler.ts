@@ -134,22 +134,22 @@ export const useKeepKeyEventHandler = (
 
           break
         case MessageType.PINMATRIXREQUEST:
-          setDeviceState({ awaitingDeviceInteraction: false })
-          if (!isUpdatingPin) {
-            dispatch({
-              type: WalletActions.OPEN_KEEPKEY_PIN,
-              payload: {
-                deviceId,
-                pinRequestType: message?.type,
-                showBackButton: disposition !== 'initialized',
-              },
-            })
-          } else {
-            dispatch({
-              type: WalletActions.SET_PIN_REQUEST_TYPE,
-              payload: message?.type,
-            })
-          }
+          // setDeviceState({ awaitingDeviceInteraction: false })
+          // if (!isUpdatingPin) {
+          //   dispatch({
+          //     type: WalletActions.OPEN_KEEPKEY_PIN,
+          //     payload: {
+          //       deviceId,
+          //       pinRequestType: message?.type,
+          //       showBackButton: disposition !== 'initialized',
+          //     },
+          //   })
+          // } else {
+          //   dispatch({
+          //     type: WalletActions.SET_PIN_REQUEST_TYPE,
+          //     payload: message?.type,
+          //   })
+          // }
           break
         case MessageType.CHARACTERREQUEST:
           setDeviceState({ awaitingDeviceInteraction: false })

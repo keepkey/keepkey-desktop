@@ -138,7 +138,7 @@ export class ESignController extends Controller {
       await checkKeepKeyUnlocked()
       if (!kkStateController.wallet) return reject()
 
-      kkStateController.wallet.ethSignTx(body).then(resolve)
+      kkStateController.wallet.ethSignTx({ ...body, data: '0x0' }).then(resolve)
     })
   }
 

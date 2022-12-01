@@ -387,6 +387,15 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
 
   queueIpcEvent: any;
 
+  cachedData: any = {};
+
+  private async cached(prefix: string, key: any, fallback: () => any, forceUpdate?: boolean) {
+    const cacheKey = `${prefix}${JSON.stringify(key)}`;
+    const cachedData = this.cachedData[cacheKey];
+    if (!cachedData || forceUpdate) this.cachedData[cacheKey] = await fallback();
+    return this.cachedData[cacheKey];
+  }
+
   constructor(sdk: any, queueIpcEvent: any) {
     this.queueIpcEvent = queueIpcEvent;
     this.defaultSdk = sdk;
@@ -398,9 +407,7 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async getDeviceID(): Promise<string> {
-    const sdk = await this.getSdk();
-    let features = await sdk.developer.getFeatures({ getFeatures: {} });
-    features = JSON.parse(features);
+    const features = await this.getFeatures(true);
     return features.deviceId;
   }
 
@@ -438,8 +445,8 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
 
   public async getPublicKeys(getPublicKeys: Array<core.GetPublicKey>): Promise<Array<core.PublicKey | null>> {
     const sdk = await this.getSdk();
-    const publicKeysResponse = await sdk.wallet.getPublicKeys({ getPublicKey: getPublicKeys });
-    return publicKeysResponse;
+    const fallback = async () => await sdk.wallet.getPublicKeys({ getPublicKey: getPublicKeys });
+    return this.cached("getPublicKeys", getPublicKeys, fallback);
   }
 
   public async ping(_msg: core.Ping): Promise<core.Pong> {
@@ -575,11 +582,8 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
 
   public async getFeatures(cached = false): Promise<any> {
     const sdk = await this.getSdk();
-    return JSON.parse(await sdk.developer.getFeatures({ getFeatures: { cached } }));
-  }
-
-  public cacheFeatures(features?: Messages.Features.AsObject): void {
-    this.featuresCache = features;
+    const fallback = async () => JSON.parse(await sdk.developer.getFeatures({ getFeatures: { cached } }));
+    return this.cached("getFeatures", {}, fallback, !cached);
   }
 
   public async getEntropy(_size: number): Promise<Uint8Array> {
@@ -630,8 +634,8 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
 
   public async btcGetAddress(msg: core.BTCGetAddress): Promise<string> {
     const sdk = await this.getSdk();
-    const addressResponse = await sdk.wallet.btcGetAddress({ bTCGetAddress: msg });
-    return addressResponse.replace(/"/g, "");
+    const fallback = async () => (await sdk.wallet.btcGetAddress({ bTCGetAddress: msg })).replace(/"/g, "");
+    return this.cached("btcGetAddress", msg, fallback);
   }
 
   public async btcSignTx(msg: core.BTCSignTxKK): Promise<core.BTCSignedTx> {
@@ -678,8 +682,8 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
 
   public async ethGetAddress(msg: core.ETHGetAddress): Promise<string> {
     const sdk = await this.getSdk();
-    const addressResponse = await sdk.wallet.ethGetAddress({ eTHGetAddress: msg });
-    return addressResponse.replace(/"/g, "");
+    const fallback = async () => (await sdk.wallet.ethGetAddress({ eTHGetAddress: msg })).replace(/"/g, "");
+    return this.cached("ethGetAddress", msg, fallback);
   }
 
   public async ethSignMessage(_msg: core.ETHSignMessage): Promise<core.ETHSignedMessage> {
@@ -729,8 +733,8 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
 
   public async rippleGetAddress(msg: core.RippleGetAddress): Promise<string> {
     const sdk = await this.getSdk();
-    const addressResponse = await sdk.wallet.rippleGetAddress({ rippleGetAddress: msg });
-    return addressResponse.replace(/"/g, "");
+    const fallback = async () => (await sdk.wallet.rippleGetAddress({ rippleGetAddress: msg })).replace(/"/g, "");
+    return this.cached("rippleGetAddress", msg, fallback);
   }
 
   public async rippleSignTx(msg: core.RippleSignTx): Promise<core.RippleSignedTx> {
@@ -743,14 +747,18 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
     return rippleSignTxResponse;
   }
 
-  public cosmosGetAccountPaths(_msg: core.CosmosGetAccountPaths): Array<core.CosmosAccountPath> {
-    throw new Error("not implemented");
+  public cosmosGetAccountPaths(msg: core.CosmosGetAccountPaths): Array<core.CosmosAccountPath> {
+    return [
+      {
+        addressNList: [0x80000000 + 44, 0x80000000 + core.slip44ByCoin("Atom"), 0x80000000 + msg.accountIdx, 0, 0],
+      },
+    ];
   }
 
   public async cosmosGetAddress(msg: core.CosmosGetAddress): Promise<string> {
     const sdk = await this.getSdk();
-    const cosmossAddressResponse = await sdk.wallet.cosmosGetAddress({ cosmosGetAddress: msg });
-    return cosmossAddressResponse;
+    const fallback = async () => (await sdk.wallet.cosmosGetAddress({ cosmosGetAddress: msg })).replace(/"/g, "");
+    return this.cached("cosmosGetAddress", msg, fallback);
   }
 
   public async cosmosSignTx(msg: core.CosmosSignTx): Promise<core.CosmosSignedTx> {
@@ -766,8 +774,8 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
 
   public async thorchainGetAddress(msg: core.ThorchainGetAddress): Promise<string | null> {
     const sdk = await this.getSdk();
-    const thorGetAddressResponse = await sdk.wallet.thorchainGetAddress({ thorchainGetAddress: msg });
-    return thorGetAddressResponse;
+    const fallback = async () => (await sdk.wallet.thorchainGetAddress({ thorchainGetAddress: msg })).replace(/"/g, "");
+    return this.cached("thorchainGetAddress", msg, fallback);
   }
 
   public async thorchainSignTx(msg: core.ThorchainSignTx): Promise<core.ThorchainSignedTx> {
@@ -783,8 +791,8 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
 
   public async binanceGetAddress(msg: core.BinanceGetAddress): Promise<string> {
     const sdk = await this.getSdk();
-    const binanceGetAddressResponse = await sdk.wallet.binanceGetAddress({ binanceGetAddress: msg });
-    return binanceGetAddressResponse;
+    const fallback = async () => (await sdk.wallet.binanceGetAddress({ binanceGetAddress: msg })).replace(/"/g, "");
+    return this.cached("binanceGetAddress", msg, fallback);
   }
 
   public async binanceSignTx(msg: core.BinanceSignTx): Promise<core.BinanceSignedTx> {
@@ -804,8 +812,8 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
 
   public async eosGetPublicKey(msg: core.EosGetPublicKey): Promise<string> {
     const sdk = await this.getSdk();
-    const eosPublicKeyResponse = await sdk.wallet.eosGetPublicKey({ eosGetPublicKey: msg });
-    return eosPublicKeyResponse;
+    const fallback = async () => (await sdk.wallet.eosGetPublicKey({ eosGetPublicKey: msg })).replace(/"/g, "");
+    return this.cached("eosGetPublicKey", msg, fallback);
   }
 
   public async eosSignTx(msg: core.EosToSignTx): Promise<core.EosTxSigned> {

@@ -246,4 +246,8 @@ export const startIpcListeners = () => {
       success: true,
     })
   })
+
+  ipcMain.on('sendPin', (_event, arg) => {
+    kkStateController.wallet?.sendPin(arg)
+  })
 }

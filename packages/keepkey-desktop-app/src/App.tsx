@@ -5,6 +5,7 @@ import type { PairingProps } from 'components/Modals/Pair/Pair'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 
 export const App = () => {
   const {
@@ -56,6 +57,16 @@ export const App = () => {
     // This is necessary so when it re-opens the tcp connection everything is good
     state.wallet?.disconnect()
 
+    ipcRenderer.on('requestPin', () => {
+      dispatch({
+        type: WalletActions.OPEN_KEEPKEY_PIN,
+        payload: {
+          deviceId,
+          pinRequestType: PinMatrixRequestType.CURRENT,
+          showBackButton: true,
+        },
+      })
+    })
     ipcRenderer.on('plugin', () => {
       loading.open({ closing: false })
       setConnected(true)
