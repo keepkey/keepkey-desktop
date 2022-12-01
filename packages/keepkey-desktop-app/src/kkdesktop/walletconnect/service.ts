@@ -2,6 +2,8 @@ import * as core from '@keepkey/hdwallet-core'
 import type WalletConnect from '@walletconnect/client'
 import { Buffer } from 'buffer'
 import { ipcRenderer } from 'electron-shim'
+import type LegacyWalletConnect from '@walletconnect/client'
+import { ipcRenderer } from 'electron'
 import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
 
@@ -11,15 +13,18 @@ type WCServiceOptions = {
   onCallRequest(request: any): void
 }
 
-export class WCService {
+export class LegacyWCService {
   constructor(
     private readonly wallet: core.ETHWallet,
-    public readonly connector: WalletConnect,
+    public readonly connector: LegacyWalletConnect,
     private readonly options?: WCServiceOptions,
-  ) {}
+  ) { }
 
   async connect() {
+    console.log("connecting")
+    console.log(this.connector)
     if (!this.connector.connected) {
+      console.log("Creating session")
       await this.connector.createSession()
     }
     this.subscribeToEvents()
@@ -41,6 +46,7 @@ export class WCService {
   }
 
   async _onSessionRequest(_: Error | null, payload: any) {
+    console.log("Session request", payload)
     const address = await this.wallet.ethGetAddress({ addressNList, showDisplay: false })
     if (address) {
       this.connector.approveSession({
@@ -52,6 +58,7 @@ export class WCService {
 
   async _onConnect() {
     if (this.connector.connected && this.connector.peerMeta) {
+      console.log("On connect wc")
       ipcRenderer.send('@walletconnect/pairing', {
         serviceName: this.connector.peerMeta.name,
         serviceImageUrl: this.connector.peerMeta.icons[0],
@@ -75,23 +82,13 @@ export class WCService {
     })
     const web3Stuff = web3ByChainId(chainId)
     if (!web3Stuff) throw new Error('no data for chainId')
-    this.connector.updateChain({
-      chainId: payload.params[0].chainId,
-      networkId: payload.params[0].chainId,
-      rpcUrl: '',
-      nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol },
-    })
+    this.connector.updateChain({chainId: payload.params[0].chainId, networkId: payload.params[0].chainId, rpcUrl: '', nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol}})
   }
 
-  public doSwitchChain({ chainId }: { chainId: number }) {
+  public doSwitchChain({chainId}: {chainId: number}) {
     const web3Stuff = web3ByChainId(chainId)
     if (!web3Stuff) throw new Error('no data for chainId')
-    this.connector.updateChain({
-      chainId,
-      networkId: chainId,
-      rpcUrl: web3Stuff.providerUrl,
-      nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol },
-    })
+    this.connector.updateChain({chainId, networkId: chainId, rpcUrl: web3Stuff.providerUrl, nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol}})
     this.connector.updateSession({
       chainId,
       accounts: this.connector.accounts,
