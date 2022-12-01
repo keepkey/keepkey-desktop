@@ -1,10 +1,9 @@
 import { WalletConnectToDapps } from 'plugins/walletConnectToDapps/WalletConnectToDapps'
-import { FaFlag, FaGlobe, FaLock, FaPlug, FaTable, FaTractor, FaWater } from 'react-icons/fa'
+import { FaFlag, FaGlobe, FaPlug } from 'react-icons/fa'
 import { IoSwapVertical } from 'react-icons/io5'
 import { AccountsIcon } from 'components/Icons/Accounts'
 import { AssetsIcon } from 'components/Icons/Assets'
 import { DashboardIcon } from 'components/Icons/Dashboard'
-import { DefiIcon } from 'components/Icons/DeFi'
 import { TxHistoryIcon } from 'components/Icons/TxHistory'
 import { WalletConnectCurrentColorIcon } from 'components/Icons/WalletConnectIcon'
 import { Account } from 'pages/Accounts/Account'
@@ -18,10 +17,7 @@ import { AssetTxHistory } from 'pages/Assets/AssetTxHistory'
 import { KeepkeyAsset } from 'pages/Assets/KeepkeyAsset'
 import { Browser } from 'pages/Browser/Browser'
 import { Dashboard } from 'pages/Dashboard/Dashboard'
-import { Farming } from 'pages/Defi/views/Farming'
-import { LiquidityPools } from 'pages/Defi/views/LiquidityPools'
 import { Overview } from 'pages/Defi/views/Overview'
-import { StakingVaults } from 'pages/Defi/views/StakingVaults'
 import { Flags } from 'pages/Flags/Flags'
 // import { Leaderboard } from 'pages/Leaderboard/Leaderboard'
 import { PairingDetails } from 'pages/Pairings/PairingDetails'
@@ -169,41 +165,6 @@ export const routes: NestedRoute[] = [
             ],
           },
         ],
-      },
-    ],
-  },
-  {
-    path: '/defi',
-    label: 'navBar.defi',
-    icon: <DefiIcon />,
-    main: null,
-    category: RouteCategory.Explore,
-    routes: [
-      {
-        path: '/',
-        label: 'defi.overview',
-        main: Overview,
-        icon: <FaTable />,
-      },
-      {
-        path: '/liquidity-pools',
-        label: 'defi.liquidityPools',
-        main: LiquidityPools,
-        icon: <FaWater />,
-        disable: true,
-      },
-      {
-        path: '/earn',
-        label: 'defi.earn',
-        main: StakingVaults,
-        icon: <FaLock />,
-      },
-      {
-        path: '/farming',
-        label: 'defi.farming',
-        main: Farming,
-        icon: <FaTractor />,
-        disable: true,
       },
     ],
   },
