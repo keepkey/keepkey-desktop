@@ -25,7 +25,7 @@ import { formatJsonRpcResult } from '@json-rpc-tools/utils'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
-import { BIP32Path } from '@shapeshiftoss/hdwallet-core'
+import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
 
 export const EIP155SignMessageConfirmation = () => {
   const translate = useTranslate()
@@ -50,12 +50,16 @@ export const EIP155SignMessageConfirmation = () => {
 
   useEffect(() => {
     if (!wallet) return
-    const accounts = (wallet as KeepKeyHDWallet).ethGetAccountPaths({ coin: 'Ethereum', accountIdx: 0 })
-    setAccountPath(accounts[0].addressNList);
-    (wallet as KeepKeyHDWallet).ethGetAddress({ addressNList: accounts[0].addressNList, showDisplay: false }).then(setAddress)
+    const accounts = (wallet as KeepKeyHDWallet).ethGetAccountPaths({
+      coin: 'Ethereum',
+      accountIdx: 0,
+    })
+    setAccountPath(accounts[0].addressNList)
+      ; (wallet as KeepKeyHDWallet)
+        .ethGetAddress({ addressNList: accounts[0].addressNList, showDisplay: false })
+        .then(setAddress)
   }, [wallet])
 
-  if (!currentRequest) return <></>
 
   const onConfirm = useCallback(
     async (txData: any) => {
@@ -107,6 +111,8 @@ export const EIP155SignMessageConfirmation = () => {
     setLoading(false)
   }, [currentRequest, removeRequest])
 
+  if (!currentRequest) return <></>
+
   if (!walletConnect.isConnected || !walletConnect.dapp || walletConnect.isLegacy) return null
 
   return (
@@ -118,7 +124,7 @@ export const EIP155SignMessageConfirmation = () => {
           mb={4}
         />
         <AddressSummaryCard
-          address={address ?? ""}
+          address={address ?? ''}
           name='My Wallet' // TODO: what string do we put here?
           icon={<KeepKeyIcon color='gray.500' w='full' h='full' />}
         />
