@@ -51,7 +51,7 @@ export const shared: {
   KEEPKEY_FEATURES: {},
 }
 
-db.findOne({ type: 'user' }, (err, doc) => {
+db.findOne({ type: 'user' }, (_err, doc) => {
   if (doc) shared.USER = doc.user
 })
 export let server: Server
