@@ -179,7 +179,7 @@ const assetResolverPlugin = async (): Promise<esbuild.Plugin> => {
         if (args.namespace === namespace) {
           return {
             contents: `
-import relativeAssetUrl from "${path.resolve(workspacePath, args.path)}";
+import relativeAssetUrl from ${JSON.stringify(path.resolve(workspacePath, args.path))};
 const out = new URL(relativeAssetUrl, import.meta.url).toString();
 export default out;
             `,
