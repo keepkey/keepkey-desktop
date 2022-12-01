@@ -5,23 +5,28 @@ import log from 'electron-log'
 import path from 'path'
 import { isLinux, settings, shouldShowWindow, windows } from './globalState'
 import { createMainWindow } from './helpers/utils'
+import { sleep } from 'wait-promise'
 
-let skipUpdateTimeout: NodeJS.Timeout
-let windowShowInterval: NodeJS.Timeout
+export const [updateComplete, setUpdateComplete] = (() => {
+  let out: () => void
+  return [new Promise<boolean>(resolve => (out = () => resolve(true))), out!]
+})()
+
 export let skipUpdateCheckCompleted = false
 
 export const startUpdaterListeners = () => {
   autoUpdater.logger = log
 
-  autoUpdater.on('update-available', info => {
+  autoUpdater.on('update-available', async info => {
     if (skipUpdateCheckCompleted) return
     if (!windows.splash) return
     windows.splash.webContents.send('@update/download', info)
+
     // skip the update if it takes more than 1 minute
-    skipUpdateTimeout = setTimeout(() => {
+    if (!(await Promise.race([updateComplete, sleep(60000).then(() => false)]))) {
       if (!windows.splash) return
-      skipUpdateCheck(windows.splash)
-    }, 60000)
+      await skipUpdateCheck(windows.splash)
+    }
   })
 
   autoUpdater.on('download-progress', progress => {
@@ -33,34 +38,28 @@ export const startUpdaterListeners = () => {
       windows.mainWindow.webContents.send('@update/percentage', prog)
     if (windows.mainWindow && !windows.mainWindow.isDestroyed())
       windows.mainWindow.setProgressBar(prog / 100)
-    // stop timeout that skips the update
-    if (skipUpdateTimeout) {
-      clearTimeout(skipUpdateTimeout)
-    }
+
+    setUpdateComplete()
   })
 
-  autoUpdater.on('update-downloaded', () => {
+  autoUpdater.on('update-downloaded', async () => {
     if (skipUpdateCheckCompleted) return
     if (windows.splash) windows.splash.webContents.send('@update/relaunch')
-    // stop timeout that skips the update
-    if (skipUpdateTimeout) {
-      clearTimeout(skipUpdateTimeout)
-    }
-    setTimeout(() => {
-      autoUpdater.quitAndInstall()
-    }, 1000)
+    setUpdateComplete()
+    await sleep(1000)
+    autoUpdater.quitAndInstall()
   })
 
-  autoUpdater.on('update-not-available', () => {
+  autoUpdater.on('update-not-available', async () => {
     if (skipUpdateCheckCompleted) return
     if (!windows.splash) return
-    skipUpdateCheck(windows.splash)
+    await skipUpdateCheck(windows.splash)
   })
 
-  autoUpdater.on('error', () => {
+  autoUpdater.on('error', async () => {
     if (skipUpdateCheckCompleted) return
     if (!windows.splash) return
-    skipUpdateCheck(windows.splash)
+    await skipUpdateCheck(windows.splash)
   })
 
   ipcMain.on('@app/update', async event => {
@@ -81,41 +80,30 @@ export const startUpdaterListeners = () => {
   })
 }
 
-export const skipUpdateCheck = (splash: BrowserWindow) => {
+export const skipUpdateCheck = async (splash: BrowserWindow) => {
+  setUpdateComplete()
+
   createMainWindow()
   splash.webContents.send('@update/notfound')
   if (isLinux || isDev) {
     splash.webContents.send('@update/skipCheck')
   }
-  // stop timeout that skips the update
-  if (skipUpdateTimeout) {
-    clearTimeout(skipUpdateTimeout)
+
+  if (await Promise.race([shouldShowWindow, sleep(10000).then(() => false)])) {
+    if (windows.splash) splash.webContents.send('@update/launch')
+    await sleep(8000)
+    if (windows.splash) splash.destroy()
+    if (windows.mainWindow) windows.mainWindow.show()
+  } else {
+    splash.webContents.send('@update/errorReset')
+    await sleep(3000)
+    app.exit()
   }
 
-  let intervalCount = 0
-  windowShowInterval = setInterval(() => {
-    intervalCount++
-
-    // hacky way to detect keepkey error and tell them to unplug
-    if (intervalCount >= 10) {
-      clearInterval(windowShowInterval)
-      splash.webContents.send('@update/errorReset')
-      setTimeout(app.quit, 3000)
-    }
-
-    if (shouldShowWindow) {
-      if (windows.splash) splash.webContents.send('@update/launch')
-      clearInterval(windowShowInterval)
-      setTimeout(() => {
-        if (windows.splash) splash.destroy()
-        if (windows.mainWindow) windows.mainWindow.show()
-      }, 800)
-    }
-  }, 1000)
   skipUpdateCheckCompleted = true
 }
 
-export const createUpdaterSplashWindow = () => {
+export const createUpdaterSplashWindow = async () => {
   windows.splash = new BrowserWindow({
     width: 300,
     height: 410,
@@ -127,7 +115,7 @@ export const createUpdaterSplashWindow = () => {
       contextIsolation: false,
     },
   })
-  windows.splash.loadFile(path.join(__dirname, '../assets/splash.html'))
+  await windows.splash.loadFile(path.join(__dirname, '../assets/splash.html'))
 }
 
 export const setAllowPreRelease = (value: boolean) => {

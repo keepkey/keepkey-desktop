@@ -9,15 +9,14 @@ import { sleep } from 'wait-promise'
 export const startAppListeners = () => {
   // app entry point
   // creates splash window to look for updates and then start the main window
-  app.on('ready', () => {
-    createUpdaterSplashWindow()
-    settings.loadSettingsFromDb().then(async settings => {
-      autoUpdater.autoDownload = settings.shouldAutoUpdate
-      autoUpdater.allowPrerelease = settings.allowPreRelease
-      if (!windows.splash) return
-      if (isDev || isLinux || !settings.shouldAutoUpdate) skipUpdateCheck(windows.splash)
-      if (!isDev && !isLinux) await autoUpdater.checkForUpdates()
-    })
+  app.on('ready', async () => {
+    await createUpdaterSplashWindow()
+    const loadedSettings = await settings.loadSettingsFromDb()
+    autoUpdater.autoDownload = loadedSettings.shouldAutoUpdate
+    autoUpdater.allowPrerelease = loadedSettings.allowPreRelease
+    if (!windows.splash) return
+    if (isDev || isLinux || !loadedSettings.shouldAutoUpdate) await skipUpdateCheck(windows.splash)
+    if (!isDev && !isLinux) await autoUpdater.checkForUpdates()
   })
 
   app.on('second-instance', async () => {
