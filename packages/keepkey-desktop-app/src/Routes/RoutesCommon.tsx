@@ -1,11 +1,10 @@
 import { WalletConnectToDapps } from 'plugins/walletConnectToDapps/WalletConnectToDapps'
-import { FaFlag, FaGlobe, FaPlug } from 'react-icons/fa'
+import { FaFlag, FaGlobe, FaBuromobelexperte, FaPlug } from 'react-icons/fa'
 import { IoSwapVertical } from 'react-icons/io5'
 import { AccountsIcon } from 'components/Icons/Accounts'
 import { AssetsIcon } from 'components/Icons/Assets'
 import { DashboardIcon } from 'components/Icons/Dashboard'
 import { TxHistoryIcon } from 'components/Icons/TxHistory'
-import { WalletConnectCurrentColorIcon } from 'components/Icons/WalletConnectIcon'
 import { Account } from 'pages/Accounts/Account'
 import { Accounts } from 'pages/Accounts/Accounts'
 import { AccountToken } from 'pages/Accounts/AccountToken/AccountToken'
@@ -33,7 +32,7 @@ export const routes: NestedRoute[] = [
     path: '/dapps',
     label: 'navBar.dApps',
     main: WalletConnectToDapps,
-    icon: <WalletConnectCurrentColorIcon />,
+    icon: <FaBuromobelexperte />,
     category: RouteCategory.Wallet,
   },
   {
@@ -47,7 +46,7 @@ export const routes: NestedRoute[] = [
     path: '/pairings',
     label: 'navBar.pairings',
     icon: <FaPlug />,
-    category: RouteCategory.Wallet,
+    category: RouteCategory.Explore,
     main: Pairings,
     routes: [
       {
@@ -86,7 +85,7 @@ export const routes: NestedRoute[] = [
     label: 'navBar.assets',
     main: Assets,
     icon: <AssetsIcon />,
-    category: RouteCategory.Explore,
+    category: RouteCategory.Wallet,
     routes: [
       {
         path: '/:chainId/:assetSubId',
@@ -128,7 +127,7 @@ export const routes: NestedRoute[] = [
     label: 'navBar.accounts',
     main: Accounts,
     icon: <AccountsIcon />,
-    category: RouteCategory.Wallet,
+    category: RouteCategory.Explore,
     routes: [
       {
         path: '/:accountId',

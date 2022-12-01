@@ -2,7 +2,6 @@ import { ChatIcon, CloseIcon, SettingsIcon } from '@chakra-ui/icons'
 import type { FlexProps } from '@chakra-ui/react'
 import { Box, Flex, IconButton, Link, Stack, useMediaQuery } from '@chakra-ui/react'
 import { useTranslate } from 'react-polyglot'
-import { DiscordIcon } from 'components/Icons/Discord'
 import { useModal } from 'hooks/useModal/useModal'
 import { breakpoints } from 'theme/theme'
 
@@ -76,20 +75,10 @@ export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
           as={Link}
           isExternal
           size='sm'
-          href='https://discord.gg/WwYsQkt3'
+          href='https://discord.gg/stfRnW3Jys'
           label={translate('common.joinDiscord')}
-          leftIcon={<DiscordIcon />}
-          data-test='navigation-join-discord-button'
-        />
-        <MainNavLink
           leftIcon={<ChatIcon />}
-          isCompact={isCompact}
-          as={Link}
-          size='sm'
-          onClick={() => handleClick()}
-          label={translate('common.submitFeedback')}
-          isExternal
-          href='https://shapeshift.notion.site/Submit-Feedback-or-a-Feature-Request-af48a25fea574da4a05a980c347c055b'
+          data-test='navigation-join-discord-button'
         />
       </Stack>
     </Flex>
