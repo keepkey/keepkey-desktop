@@ -230,8 +230,9 @@ export const startIpcListeners = () => {
       bootloader: true,
       success: true,
     })
-    app.quit()
     app.relaunch()
+    app.quit()
+    setTimeout(() => app.exit(), 250)
   })
 
   ipcMain.on('@keepkey/update-bootloader', async event => {

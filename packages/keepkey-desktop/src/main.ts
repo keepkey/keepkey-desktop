@@ -10,7 +10,7 @@ import { startIpcListeners } from './ipcListeners'
 import { startAppListeners } from './appListeners'
 import { watchForDeviceBusy } from './helpers/utils'
 
-if (!app.requestSingleInstanceLock()) app.quit()
+if (!app.requestSingleInstanceLock()) app.exit()
 
 log.transports.file.level = 'debug'
 

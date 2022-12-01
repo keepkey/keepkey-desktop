@@ -1,4 +1,6 @@
 import { shell, app } from 'electron'
+import { sleep } from 'wait-promise'
+
 import { ALLOWED_HOSTS, setShouldShowWindow, windows } from './globalState'
 import { queueIpcEvent } from './helpers/utils'
 import { stopTcpBridge } from './tcpBridge'
@@ -15,14 +17,21 @@ export const startWindowListeners = () => {
     }
   })
 
+  let closing = false
   windows.mainWindow?.on('close', async e => {
-    setInterval(async () => {
-      await stopTcpBridge()
-      app.quit()
-    }, 1000)
+    if (!closing) {
+      closing = true
+      setInterval(async () => {
+        await Promise.race([stopTcpBridge(), sleep(4000)])
+        app.quit()
+        setTimeout(() => app.exit(), 250)
+      }, 1000)
 
-    queueIpcEvent('appClosing', {})
-    return e.preventDefault()
+      queueIpcEvent('appClosing', {})
+      return e.preventDefault()
+    } else {
+      app.exit()
+    }
   })
 
   windows.mainWindow?.once('ready-to-show', () => {
