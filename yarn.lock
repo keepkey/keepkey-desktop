@@ -8815,7 +8815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/utils@npm:2.1.4":
+"@walletconnect/utils@npm:2.1.4, @walletconnect/utils@npm:^2.1.4":
   version: 2.1.4
   resolution: "@walletconnect/utils@npm:2.1.4"
   dependencies:
@@ -19052,6 +19052,7 @@ __metadata:
     "@wagmi/core": ^0.5.5
     "@walletconnect/client": ^1.8.0
     "@walletconnect/sign-client": ^2.1.4
+    "@walletconnect/utils": ^2.1.4
     "@walletconnect/web3-provider": ^1.7.8
     allsettled-polyfill: ^1.0.4
     auto-launch: ^5.0.5
