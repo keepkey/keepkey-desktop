@@ -18611,6 +18611,7 @@ __metadata:
     "@types/redux-logger": ^3.0.9
     "@types/semver": ^7.3.13
     "@types/ssri": ^7.1.1
+    "@types/wait-promise": ^0.4.0
     "@typescript-eslint/parser": ^5.45.0
     "@uniswap/sdk": ^3.0.3
     "@uniswap/v2-core": ^1.0.1

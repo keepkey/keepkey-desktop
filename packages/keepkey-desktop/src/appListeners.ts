@@ -4,6 +4,7 @@ import { createUpdaterSplashWindow, skipUpdateCheck } from './updaterListeners'
 import isDev from 'electron-is-dev'
 import { autoUpdater } from 'electron-updater'
 import { createMainWindow } from './helpers/utils'
+import { sleep } from 'wait-promise'
 
 export const startAppListeners = () => {
   // app entry point
@@ -32,10 +33,11 @@ export const startAppListeners = () => {
     }
   })
 
-  app.on('window-all-closed', () => {
+  app.on('window-all-closed', async () => {
     if (!settings.shouldMinimizeToTray) {
       app.quit()
-      setTimeout(() => app.exit(), 250)
+      await sleep(250)
+      app.exit()
     }
   })
 

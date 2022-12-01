@@ -24326,6 +24326,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/redux-logger", "npm:3.0.9"],\
             ["@types/semver", "npm:7.3.13"],\
             ["@types/ssri", "npm:7.1.1"],\
+            ["@types/wait-promise", "npm:0.4.0"],\
             ["@typescript-eslint/parser", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:5.45.0"],\
             ["@uniswap/sdk", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:3.0.3"],\
             ["@uniswap/v2-core", "npm:1.0.1"],\

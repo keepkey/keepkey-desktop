@@ -69,8 +69,10 @@ export let setTcpBridgeClosing = (value: boolean) => (tcpBridgeClosing = value)
 export let renderListenersReady = false
 export let setRenderListenersReady = (value: boolean) => (renderListenersReady = value)
 
-export let shouldShowWindow = false
-export let setShouldShowWindow = (value: boolean) => (shouldShowWindow = value)
+export const [shouldShowWindow, setShouldShowWindow] = (() => {
+  let out: () => void
+  return [new Promise<boolean>(resolve => (out = () => resolve(true))), out!]
+})()
 
 export const windows: {
   mainWindow: undefined | BrowserWindow
