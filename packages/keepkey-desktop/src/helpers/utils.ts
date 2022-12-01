@@ -92,6 +92,7 @@ export const createMainWindow = async () => {
   try {
     await kkStateController.syncState()
   } catch (e: any) {
+    log.error(e)
     if (e.toString().includes('claimInterface error')) {
       windows?.splash?.webContents.send('@update/errorClaimed')
       await new Promise(() => 0)

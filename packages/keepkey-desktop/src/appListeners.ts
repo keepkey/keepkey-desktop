@@ -39,8 +39,8 @@ export const startAppListeners = () => {
     }
   })
 
-  app.on('activate', function () {
-    if (BrowserWindow.getAllWindows().length === 0) createMainWindow()
+  app.on('activate', async () => {
+    if (BrowserWindow.getAllWindows().length === 0) await createMainWindow()
   })
 
   app.on('before-quit', () => {
