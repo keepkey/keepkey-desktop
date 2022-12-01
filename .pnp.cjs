@@ -7929,7 +7929,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@json-rpc-tools-types-npm-1.7.6-1c36bdb16d-f23ec7d79a.zip/node_modules/@json-rpc-tools/types/",\
           "packageDependencies": [\
             ["@json-rpc-tools/types", "npm:1.7.6"],\
-            ["keyvaluestorage-interface", "npm:1.0.0"]\
+            ["keyvaluestorage-interface", "npm:1.0.0"],\
+            ["tslib", "npm:2.4.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7940,7 +7941,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@json-rpc-tools/utils", "npm:1.7.6"],\
             ["@json-rpc-tools/types", "npm:1.7.6"],\
-            ["@pedrouid/environment", "npm:1.0.1"]\
+            ["@pedrouid/environment", "npm:1.0.1"],\
+            ["tslib", "npm:2.4.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12383,6 +12385,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@walletconnect/jsonrpc-provider", "npm:1.0.6"],\
             ["@walletconnect/jsonrpc-utils", "npm:1.0.4"],\
             ["@walletconnect/safe-json", "npm:1.0.1"],\
+            ["events", "npm:3.3.0"],\
             ["tslib", "npm:1.14.1"]\
           ],\
           "linkType": "HARD"\
