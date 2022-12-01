@@ -33,7 +33,7 @@ jobs:
           echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
       - name: Build/release Electron app
         run: yarn build
-        with:
+        env:
           mac_certs: ${{ secrets.mac_certs }}
           mac_certs_password: ${{ secrets.mac_certs_password }}
           # windows_certs: ${{ secrets.windows_certs }}
@@ -41,7 +41,6 @@ jobs:
           github_token: ${{ secrets.github_token }}
           build_script_name: electron:build:bridge
           release: true
-        env:
           # macOS notarization API key
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
