@@ -55,14 +55,24 @@ export const createAndUpdateTray = () => {
       label: 'Quit KeepKey Bridge',
       click() {
         app.quit()
-        process.exit(0)
+        setTimeout(() => app.exit(), 250)
       },
     },
   ]
-  const trayIcon = !isWalletBridgeRunning()
-    ? `${lightDark}/keepKey/unknown.png`
-    : `${lightDark}/keepKey/success.png`
-  tray = new Tray(nativeImage.createFromPath(path.join(assetsDirectory, trayIcon)))
+
+  const trayImage = nativeImage.createFromPath(
+    path.join(
+      assetsDirectory,
+      !isWalletBridgeRunning()
+        ? `${lightDark}/keepKey/unknown.png`
+        : `${lightDark}/keepKey/success.png`,
+    ),
+  )
+  if (!tray) {
+    tray = new Tray(trayImage)
+  } else {
+    tray.setImage(trayImage)
+  }
   const contextMenu = Menu.buildFromTemplate(menuTemplate)
   tray.setContextMenu(contextMenu)
 }

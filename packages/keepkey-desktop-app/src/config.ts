@@ -89,7 +89,7 @@ const validators = {
     default: 'https://github.com/keepkey/keepkey-updater/releases/download/v2.1.4/',
   }),
   REACT_APP_ETHERSCAN_API_KEY: str({ default: 'XT8BI6VDYUGD9675X861ATHZNK3AN6HRMF' }),
-  REACT_APP_WALLET_CONNECT_PROJECT_ID: str()
+  REACT_APP_WALLET_CONNECT_PROJECT_ID: str(),
   REACT_APP_KEEPKEY_UPDATER_RELEASE_PAGE: url(),
   REACT_APP_KEEPKEY_UPDATER_BASE_URL: url(),
   REACT_APP_ETHERSCAN_API_KEY: str(),

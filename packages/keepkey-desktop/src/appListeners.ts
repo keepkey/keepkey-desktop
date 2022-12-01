@@ -33,7 +33,10 @@ export const startAppListeners = () => {
   })
 
   app.on('window-all-closed', () => {
-    if (!settings.shouldMinimizeToTray) app.quit()
+    if (!settings.shouldMinimizeToTray) {
+      app.quit()
+      setTimeout(() => app.exit(), 250)
+    }
   })
 
   app.on('activate', function () {
