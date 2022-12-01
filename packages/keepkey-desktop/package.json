@@ -24,7 +24,7 @@
         "files": [
             "assets/**/*",
             "build/**/*",
-            "prebuilds/*/prebuilds/${platform}-${arch}*/**/*",
+            "prebuilds/**/*",
             "api/dist/**/*"
         ],
         "protocols": [
