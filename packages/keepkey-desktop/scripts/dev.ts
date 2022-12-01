@@ -22,7 +22,7 @@ export const dev = async () => {
         return childProcess.spawn(path.join(distPath, 'linux-unpacked/keepkey-desktop'))
       case 'darwin':
         return childProcess.spawn(
-          path.join(distPath, 'mac/KeepKey Desktop.app/Contents/MacOS/KeepKey Desktop'),
+          path.join(distPath, 'mac-arm64/KeepKey Desktop.app/Contents/MacOS/KeepKey Desktop'),
         )
       case 'win32':
         return childProcess.spawn(path.join(distPath, 'win-unpacked/KeepKey Desktop.exe'))
