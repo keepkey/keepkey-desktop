@@ -32,6 +32,7 @@ jobs:
           mkdir -p ~/private_keys/
           echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
       - name: Build/release Electron app
+        run: yarn build
         with:
           mac_certs: ${{ secrets.mac_certs }}
           mac_certs_password: ${{ secrets.mac_certs_password }}
@@ -44,4 +45,3 @@ jobs:
           # macOS notarization API key
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
-        run: yarn build
