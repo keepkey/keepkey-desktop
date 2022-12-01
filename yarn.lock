@@ -19051,7 +19051,6 @@ __metadata:
     "@visx/xychart": ^2.12.2
     "@wagmi/core": ^0.5.5
     "@walletconnect/client": ^1.8.0
-    "@walletconnect/encoding": ^1.0.2
     "@walletconnect/sign-client": ^2.1.4
     "@walletconnect/web3-provider": ^1.7.8
     allsettled-polyfill: ^1.0.4
