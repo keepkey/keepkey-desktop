@@ -1,11 +1,23 @@
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-
-# Swap the comments on the following lines if you don't wish to use zero-installs
-# Documentation here: https://yarnpkg.com/features/zero-installs
-!.yarn/cache
-#.pnp.*
+*
+!/*/
+!/.github/**
+!/.vscode/**
+!/.yarn/patches/**
+!/.yarn/plugins/**
+!/.yarn/releases/**
+!/.yarn/sdks/**
+!/.yarn/versions/**
+!/.yarn/cache/**
+!/firmware/**
+!/packages/**
+!/.editorconfig
+!/.gitattributes
+!/.gitignore
+!/.nvmrc
+!/.pnp.cjs
+!/.pnp.loader.mjs
+!/.yarnrc.yml
+!/commitlint.config.js
+!/package.json
+!/tsconfig.json
+!/yarn.lock
