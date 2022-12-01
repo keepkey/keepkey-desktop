@@ -1,4 +1,4 @@
-import * as core from '@keepkey/hdwallet-core'
+import * as core from '@shapeshiftoss/hdwallet-core'
 import type WalletConnect from '@walletconnect/client'
 import { Buffer } from 'buffer'
 import { ipcRenderer } from 'electron-shim'

@@ -4,19 +4,19 @@ import { createUpdaterSplashWindow, skipUpdateCheck } from './updaterListeners'
 import isDev from 'electron-is-dev'
 import { autoUpdater } from 'electron-updater'
 import { createMainWindow } from './helpers/utils'
+import { sleep } from 'wait-promise'
 
 export const startAppListeners = () => {
   // app entry point
   // creates splash window to look for updates and then start the main window
-  app.on('ready', () => {
-    createUpdaterSplashWindow()
-    settings.loadSettingsFromDb().then(async settings => {
-      autoUpdater.autoDownload = settings.shouldAutoUpdate
-      autoUpdater.allowPrerelease = settings.allowPreRelease
-      if (!windows.splash) return
-      if (isDev || isLinux || !settings.shouldAutoUpdate) skipUpdateCheck(windows.splash)
-      if (!isDev && !isLinux) await autoUpdater.checkForUpdates()
-    })
+  app.on('ready', async () => {
+    await createUpdaterSplashWindow()
+    const loadedSettings = await settings.loadSettingsFromDb()
+    autoUpdater.autoDownload = loadedSettings.shouldAutoUpdate
+    autoUpdater.allowPrerelease = loadedSettings.allowPreRelease
+    if (!windows.splash) return
+    if (isDev || isLinux || !loadedSettings.shouldAutoUpdate) await skipUpdateCheck(windows.splash)
+    if (!isDev && !isLinux) await autoUpdater.checkForUpdates()
   })
 
   app.on('second-instance', async () => {
@@ -32,18 +32,19 @@ export const startAppListeners = () => {
     }
   })
 
-  app.on('window-all-closed', () => {
+  app.on('window-all-closed', async () => {
     if (!settings.shouldMinimizeToTray) {
       app.quit()
-      setTimeout(() => app.exit(), 250)
+      await sleep(250)
+      app.exit()
     }
   })
 
-  app.on('activate', function () {
-    if (BrowserWindow.getAllWindows().length === 0) createMainWindow()
+  app.on('activate', async () => {
+    if (BrowserWindow.getAllWindows().length === 0) await createMainWindow()
   })
 
-  app.on('before-quit', () => {
-    bridgeLogger.saveLogs()
+  app.on('before-quit', async () => {
+    await bridgeLogger.saveLogs()
   })
 }

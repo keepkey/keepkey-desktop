@@ -24,7 +24,8 @@ export const startWindowListeners = () => {
       setInterval(async () => {
         await Promise.race([stopTcpBridge(), sleep(4000)])
         app.quit()
-        setTimeout(() => app.exit(), 250)
+        await sleep(250)
+        app.exit()
       }, 1000)
 
       queueIpcEvent('appClosing', {})
@@ -34,8 +35,8 @@ export const startWindowListeners = () => {
     }
   })
 
-  windows.mainWindow?.once('ready-to-show', () => {
-    setShouldShowWindow(true)
+  windows.mainWindow?.once('ready-to-show', async () => {
+    setShouldShowWindow()
     if (skipUpdateCheckCompleted) windows.mainWindow?.show()
   })
 

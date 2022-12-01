@@ -67,8 +67,9 @@ export const App = () => {
       hardwareError.close()
     })
 
-    ipcRenderer.on('appClosing', () => {
+    ipcRenderer.on('appClosing', async () => {
       loading.open({ closing: true })
+      await state.wallet?.clearSession()
     })
 
     ipcRenderer.on('hardwareError', () => {

@@ -9,7 +9,7 @@ import {
   fromAssetId,
   osmosisChainId,
 } from '@keepkey/caip'
-import { supportsCosmos, supportsETH, supportsOsmosis } from '@keepkey/hdwallet-core'
+import { supportsCosmos, supportsETH, supportsOsmosis } from '@shapeshiftoss/hdwallet-core'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {

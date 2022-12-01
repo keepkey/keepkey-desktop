@@ -1,4 +1,4 @@
-import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import request from 'request-promise'
 
 import type { AllFirmwareAndBootloaderData, LatestFirmwareAndBootloaderData } from './types'

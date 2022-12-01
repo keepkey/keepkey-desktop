@@ -1,5 +1,5 @@
-import type { KeepKeyHDWallet, TransportDelegate } from '@keepkey/hdwallet-keepkey'
-import type { Device } from '@keepkey/hdwallet-keepkey-nodewebusb'
+import type { KeepKeyHDWallet, TransportDelegate } from '@shapeshiftoss/hdwallet-keepkey'
+import type { Device } from '@shapeshiftoss/hdwallet-keepkey-nodewebusb'
 import type { Features } from '@keepkey/device-protocol/lib/messages_pb'
 
 export type GenericError = {

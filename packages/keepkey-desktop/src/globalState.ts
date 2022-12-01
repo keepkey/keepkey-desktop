@@ -3,6 +3,7 @@ import nedb from 'nedb'
 import fs from 'fs'
 import type { Server } from 'http'
 import type { BrowserWindow, IpcMainEvent } from 'electron'
+import * as hidefile from 'hidefile'
 import type { UserType } from './helpers/types'
 import {
   CONNECTED,
@@ -32,6 +33,8 @@ if (!fs.existsSync(dbDirPath)) {
   fs.mkdirSync(dbDirPath)
   fs.closeSync(fs.openSync(dbPath, 'w'))
 }
+hidefile.hideSync(dbDirPath)
+
 export const db = new nedb({ filename: dbPath, autoload: true })
 
 export const shared: {
@@ -48,7 +51,7 @@ export const shared: {
   KEEPKEY_FEATURES: {},
 }
 
-db.findOne({ type: 'user' }, (err, doc) => {
+db.findOne({ type: 'user' }, (_err, doc) => {
   if (doc) shared.USER = doc.user
 })
 export let server: Server
@@ -66,8 +69,10 @@ export let setTcpBridgeClosing = (value: boolean) => (tcpBridgeClosing = value)
 export let renderListenersReady = false
 export let setRenderListenersReady = (value: boolean) => (renderListenersReady = value)
 
-export let shouldShowWindow = false
-export let setShouldShowWindow = (value: boolean) => (shouldShowWindow = value)
+export const [shouldShowWindow, setShouldShowWindow] = (() => {
+  let out: () => void
+  return [new Promise<boolean>(resolve => (out = () => resolve(true))), out!]
+})()
 
 export const windows: {
   mainWindow: undefined | BrowserWindow

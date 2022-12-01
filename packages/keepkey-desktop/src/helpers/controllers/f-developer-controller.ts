@@ -1,4 +1,4 @@
-import type { ResetDevice, LoadDevice, ETHSignedTx } from '@keepkey/hdwallet-core'
+import type { ResetDevice, LoadDevice, ETHSignedTx } from '@shapeshiftoss/hdwallet-core'
 import { Body, Controller, Post, Security, Route, Tags, Response, Middlewares } from 'tsoa'
 
 import { kkStateController } from '../../globalState'

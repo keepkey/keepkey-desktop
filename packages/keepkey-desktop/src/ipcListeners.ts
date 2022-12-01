@@ -15,6 +15,7 @@ import {
 } from './helpers/kk-state-controller/firmwareUtils'
 import { queueIpcEvent } from './helpers/utils'
 import log from 'electron-log'
+import { sleep } from 'wait-promise'
 
 export const startIpcListeners = () => {
   ipcMain.setMaxListeners(15)
@@ -232,7 +233,8 @@ export const startIpcListeners = () => {
     })
     app.relaunch()
     app.quit()
-    setTimeout(() => app.exit(), 250)
+    await sleep(250)
+    app.exit()
   })
 
   ipcMain.on('@keepkey/update-bootloader', async event => {

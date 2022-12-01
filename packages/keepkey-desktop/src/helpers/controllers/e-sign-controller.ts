@@ -19,7 +19,7 @@ import type {
   ETHSignedTx,
   ThorchainSignTx,
   ThorchainTx,
-} from '@keepkey/hdwallet-core'
+} from '@shapeshiftoss/hdwallet-core'
 import {
   ETHSignTypedData,
   ETHSignMessage,
@@ -35,7 +35,7 @@ import {
   OsmosisGetAddress,
   PublicKey,
   ThorchainGetAddress,
-} from '@keepkey/hdwallet-core'
+} from '@shapeshiftoss/hdwallet-core'
 import { uniqueId } from 'lodash'
 import { openSignTxWindow } from '../utils'
 import { checkKeepKeyUnlocked } from '../utils'

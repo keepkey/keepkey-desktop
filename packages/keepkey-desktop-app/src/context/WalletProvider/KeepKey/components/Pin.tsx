@@ -1,6 +1,6 @@
 import type { ButtonProps, SimpleGridProps } from '@chakra-ui/react'
 import { Alert, AlertDescription, AlertIcon, Button, Input, SimpleGrid } from '@chakra-ui/react'
-import type { Event } from '@keepkey/hdwallet-core'
+import type { Event } from '@shapeshiftoss/hdwallet-core'
 import { ipcRenderer } from 'electron-shim'
 import type { KeyboardEvent } from 'react'
 import { useCallback } from 'react'

@@ -60,7 +60,7 @@
     "copyFailedDescription": "Please copy manually",
     "viewAsset": "View Asset",
     "settings": "Settings",
-    "joinDiscord": "Join Discord",
+    "joinDiscord": "Support",
     "legalDated": "Dated: January 2022",
     "approveOnWallet": "Approve On Wallet",
     "confirmOnWallet": "Confirm On Wallet",
@@ -149,7 +149,7 @@
     "noProvidersBody": "Looks like we don't have any providers for that asset yet."
   },
   "connectWalletPage": {
-    "troubleshoot": "troubleshoot connection",
+    "troubleshoot": "Troubleshoot Connection",
     "nextFrontier": "The Next Frontier of Crypto Security",
     "protectYourCrypto": "Protect your cryptocurrencies, store your private keys offline, and safeguard your assets from hackers. It’s time to achieve financial freedom in the most secure way with KeepKey.",
     "shapeshift": "ShapeShift",
@@ -591,7 +591,7 @@
       "hardware": {
         "headerError": "Hardware Error!",
         "headerConnect": "No Device Found!",
-        "troubleshoot": "troubleshoot",
+        "troubleshoot": "Troubleshoot",
         "connect": "Please connect or reconnect your KeepKey to continue.",
         "reconnect": "Please disconnect, and reconnect your KeepKey to continue."
       },

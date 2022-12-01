@@ -8,7 +8,7 @@ import type {
   FeeData,
 } from '@keepkey/chain-adapters'
 import type { KnownChainIds } from '@keepkey/types'
-import { supportsETH } from '@keepkey/hdwallet-core'
+import { supportsETH } from '@shapeshiftoss/hdwallet-core'
 import IUniswapV2Pair from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import isNumber from 'lodash/isNumber'
 import { FOX_TOKEN_CONTRACT_ADDRESS } from 'plugins/foxPage/const'

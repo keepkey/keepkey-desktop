@@ -92,6 +92,7 @@ export const createMainWindow = async () => {
   try {
     await kkStateController.syncState()
   } catch (e: any) {
+    log.error(e)
     if (e.toString().includes('claimInterface error')) {
       windows?.splash?.webContents.send('@update/errorClaimed')
       await new Promise(() => 0)
@@ -105,7 +106,7 @@ export const createMainWindow = async () => {
 
   windows.mainWindow = new BrowserWindow({
     focusable: true,
-    width: isDev ? 1960 : 960,
+    width: isDev ? 1960 : 1024,
     height: 780,
     show: false,
     backgroundColor: 'white',

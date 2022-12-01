@@ -12,9 +12,11 @@ import {
   utxoChainIds,
 } from '@keepkey/chain-adapters'
 import type { KnownChainIds } from '@keepkey/types'
-import { supportsETH } from '@keepkey/hdwallet-core'
+import { supportsETH } from '@shapeshiftoss/hdwallet-core'
 import { useTranslate } from 'react-polyglot'
 import { useSelector } from 'react-redux'
+import { sleep } from 'wait-promise'
+
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useEvm } from 'hooks/useEvm/useEvm'
 import { useModal } from 'hooks/useModal/useModal'
@@ -165,30 +167,29 @@ export const useFormSend = () => {
           throw new Error('Broadcast failed')
         }
 
-        setTimeout(() => {
-          toast({
-            title: translate('modals.send.sent', { asset: data.asset.name }),
-            description: (
+        await sleep(5000)
+        toast({
+          title: translate('modals.send.sent', { asset: data.asset.name }),
+          description: (
+            <Text>
               <Text>
-                <Text>
-                  {translate('modals.send.youHaveSent', {
-                    amount: data.cryptoAmount,
-                    symbol: data.cryptoSymbol,
-                  })}
-                </Text>
-                {data.asset.explorerTxLink && (
-                  <Link href={`${data.asset.explorerTxLink}${broadcastTXID}`} isExternal>
-                    {translate('modals.status.viewExplorer')} <ExternalLinkIcon mx='2px' />
-                  </Link>
-                )}
+                {translate('modals.send.youHaveSent', {
+                  amount: data.cryptoAmount,
+                  symbol: data.cryptoSymbol,
+                })}
               </Text>
-            ),
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
-            position: 'top-right',
-          })
-        }, 5000)
+              {data.asset.explorerTxLink && (
+                <Link href={`${data.asset.explorerTxLink}${broadcastTXID}`} isExternal>
+                  {translate('modals.status.viewExplorer')} <ExternalLinkIcon mx='2px' />
+                </Link>
+              )}
+            </Text>
+          ),
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-right',
+        })
       } catch (error) {
         moduleLogger.error(error, { fn: 'handleSend' }, 'Error handling send')
         toast({

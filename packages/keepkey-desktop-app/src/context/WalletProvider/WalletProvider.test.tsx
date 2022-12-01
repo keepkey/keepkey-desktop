@@ -1,5 +1,5 @@
-import { WebUSBKeepKeyAdapter } from '@keepkey/hdwallet-keepkey-webusb'
-import { MetaMaskAdapter } from '@keepkey/hdwallet-metamask'
+import { WebUSBKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-webusb'
+import { MetaMaskAdapter } from '@shapeshiftoss/hdwallet-metamask'
 import { act, renderHook } from '@testing-library/react'
 import type { PropsWithChildren } from 'react'
 import { TestProviders } from 'test/TestProviders'
@@ -8,7 +8,7 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 
 import { WalletProvider } from './WalletProvider'
 
-jest.mock('@keepkey/hdwallet-keepkey-webusb', () => ({
+jest.mock('@shapeshiftoss/hdwallet-keepkey-webusb', () => ({
   WebUSBKeepKeyAdapter: {
     useKeyring: jest.fn(),
   },
@@ -18,7 +18,7 @@ jest.mock('friendly-challenge', () => ({
   WidgetInstance: {},
 }))
 
-jest.mock('@keepkey/hdwallet-metamask', () => ({
+jest.mock('@shapeshiftoss/hdwallet-metamask', () => ({
   MetaMaskAdapter: {
     useKeyring: jest.fn(),
   },

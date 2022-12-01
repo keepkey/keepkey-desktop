@@ -11,7 +11,7 @@ import type {
   ThorchainGetAddress,
   CosmosGetAddress,
   BTCGetAddress,
-} from '@keepkey/hdwallet-core'
+} from '@shapeshiftoss/hdwallet-core'
 import { checkKeepKeyUnlocked } from '../utils'
 import { kkStateController, windows } from '../../globalState'
 import { logger } from '../middlewares/logger'

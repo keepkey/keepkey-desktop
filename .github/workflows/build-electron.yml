@@ -1,0 +1,76 @@
+name: Build Electron
+
+on:
+  push:
+    branches:
+      - feature-*
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: nschloe/action-cached-lfs-checkout@v1
+        with:
+          submodules: true
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+      - name: Restore Cache
+        id: restore-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            .yarn/unplugged/**
+            .yarn/install-state.gz
+            ~/.cache/electron-builder
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - name: Yarn Install
+        run: yarn install --immutable --immutable-cache
+      - name: Prepare for app notarization
+        if: startsWith(matrix.os, 'macos')
+        # Import Apple API key for app notarization on macOS
+        run: |
+          mkdir -p ~/private_keys/
+          echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
+      - name: Build Electron app
+        run: yarn run pack
+        env:
+          NODE_ENV: production
+          mac_certs: ${{ secrets.mac_certs }}
+          mac_certs_password: ${{ secrets.mac_certs_password }}
+          # windows_certs: ${{ secrets.windows_certs }}
+          # windows_certs_password: ${{ secrets.windows_certs_password }}
+          github_token: ${{ secrets.github_token }}
+          # macOS notarization API key
+          API_KEY_ID: ${{ secrets.api_key_id }}
+          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
+      - name: Ubuntu - Upload .deb
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: actions/upload-artifact@v3
+        with:
+          path: packages/keepkey-desktop/dist/*.deb
+      - name: Ubuntu - Upload .AppImage
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: actions/upload-artifact@v3
+        with:
+          path: packages/keepkey-desktop/dist/*.AppImage
+      - name: Mac - Upload .dmg
+        if: startsWith(matrix.os, 'macos')
+        uses: actions/upload-artifact@v3
+        with:
+          path: packages/keepkey-desktop/dist/*.dmg
+      - name: Windows - Upload .dmg
+        if: startsWith(matrix.os, 'windows')
+        uses: actions/upload-artifact@v3
+        with:
+          path: packages/keepkey-desktop/dist/*.exe

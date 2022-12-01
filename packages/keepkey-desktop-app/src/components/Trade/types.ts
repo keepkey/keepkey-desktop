@@ -10,7 +10,7 @@ import {
   type TradeQuote,
 } from '@keepkey/swapper'
 import type { BIP44Params, KnownChainIds, UtxoAccountType } from '@keepkey/types'
-import { type HDWallet } from '@keepkey/hdwallet-core'
+import { type HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { type AccountSpecifier } from 'state/slices/portfolioSlice/portfolioSliceCommon'
 
 export enum TradeAmountInputField {

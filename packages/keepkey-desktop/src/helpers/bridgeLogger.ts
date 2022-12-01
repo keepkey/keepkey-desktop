@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync } from 'fs'
+import * as fs from 'fs'
 import path from 'path'
 import { app } from 'electron'
 
@@ -16,8 +16,8 @@ export class BridgeLogger {
 
   constructor() {
     try {
-      if (existsSync(this.logPath)) {
-        let data: string | BridgeLog[] = readFileSync(this.logPath).toString()
+      if (fs.existsSync(this.logPath)) {
+        let data: string | BridgeLog[] = fs.readFileSync(this.logPath).toString()
         if (!data || data === '') this.logs = new Array<BridgeLog>()
         data = JSON.parse(data)
         if (!data) this.logs = new Array<BridgeLog>()
@@ -32,10 +32,10 @@ export class BridgeLogger {
     this.logs.push(data)
   }
 
-  saveLogs() {
+  async saveLogs(): Promise<void> {
     const stringifiedLogs = JSON.stringify(this.logs)
     if (!stringifiedLogs) return
-    writeFileSync(this.logPath, stringifiedLogs)
+    await fs.promises.writeFile(this.logPath, stringifiedLogs)
   }
 
   fetchLogs(serviceKey: string) {
