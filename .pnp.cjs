@@ -24403,7 +24403,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@visx/xychart", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.16.0"],\
             ["@wagmi/core", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:0.5.8"],\
             ["@walletconnect/client", "npm:1.8.0"],\
-            ["@walletconnect/encoding", "npm:1.0.2"],\
             ["@walletconnect/web3-provider", "npm:1.8.0"],\
             ["allsettled-polyfill", "npm:1.0.4"],\
             ["auto-launch", "npm:5.0.5"],\
