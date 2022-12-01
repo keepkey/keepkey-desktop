@@ -14,7 +14,7 @@ import {
   Stack,
   Text as ChakraText,
 } from '@chakra-ui/react'
-import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 // import { SessionTypes } from '@walletconnect/types'
 import { ipcRenderer } from 'electron-shim'
 import { useEffect, useState } from 'react'

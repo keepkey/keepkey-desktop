@@ -3,7 +3,7 @@ import { ethAssetId, ethChainId, foxAssetId, fromAccountId } from '@keepkey/caip
 import type { ChainAdapter } from '@keepkey/chain-adapters'
 import type { KnownChainIds } from '@keepkey/types'
 import { TxStatus } from '@keepkey/unchained-client'
-import { supportsETH } from '@keepkey/hdwallet-core'
+import { supportsETH } from '@shapeshiftoss/hdwallet-core'
 import { DefiProvider, DefiType } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import type { EarnOpportunityType } from 'features/defi/helpers/normalizeOpportunity'
 import { getLpTokenPrice } from 'features/defi/providers/fox-eth-lp/api'

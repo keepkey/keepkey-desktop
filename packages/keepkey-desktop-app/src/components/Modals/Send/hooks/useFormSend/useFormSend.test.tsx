@@ -2,7 +2,7 @@ import { useToast } from '@chakra-ui/react'
 import { ethAssetId, ethChainId } from '@keepkey/caip'
 import { FeeDataKey } from '@keepkey/chain-adapters'
 import { KnownChainIds } from '@keepkey/types'
-import { supportsETH } from '@keepkey/hdwallet-core'
+import { supportsETH } from '@shapeshiftoss/hdwallet-core'
 import { renderHook } from '@testing-library/react'
 import * as reactRedux from 'react-redux'
 import { EthSend } from 'test/mocks/txs'
@@ -20,8 +20,8 @@ jest.mock('@chakra-ui/react', () => ({
   ...jest.requireActual('@chakra-ui/react'),
   useToast: jest.fn(),
 }))
-jest.mock('@keepkey/hdwallet-core', () => ({
-  ...jest.requireActual('@keepkey/hdwallet-core'),
+jest.mock('@shapeshiftoss/hdwallet-core', () => ({
+  ...jest.requireActual('@shapeshiftoss/hdwallet-core'),
   supportsETH: jest.fn(),
 }))
 jest.mock('react-hook-form')

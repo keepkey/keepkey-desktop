@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react'
 import { ethAssetId, foxAssetId } from '@keepkey/caip'
-import { supportsETH } from '@keepkey/hdwallet-core'
+import { supportsETH } from '@shapeshiftoss/hdwallet-core'
 import { Approve as ReusableApprove } from 'features/defi/components/Approve/Approve'
 import { ApprovePreFooter } from 'features/defi/components/Approve/ApprovePreFooter'
 import { DefiAction, DefiStep } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'

@@ -7,7 +7,7 @@ import {
   osmosisChainId,
   toAccountId,
 } from '@keepkey/caip'
-import { supportsCosmos, supportsOsmosis } from '@keepkey/hdwallet-core'
+import { supportsCosmos, supportsOsmosis } from '@shapeshiftoss/hdwallet-core'
 import { DEFAULT_HISTORY_TIMEFRAME } from 'constants/Config'
 import { entries } from 'lodash'
 import isEmpty from 'lodash/isEmpty'

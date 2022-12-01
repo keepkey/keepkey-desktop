@@ -1,6 +1,6 @@
 import { Alert, AlertIcon, Box, Stack } from '@chakra-ui/react'
 import { ethAssetId, foxAssetId } from '@keepkey/caip'
-import { supportsETH } from '@keepkey/hdwallet-core'
+import { supportsETH } from '@shapeshiftoss/hdwallet-core'
 import { Confirm as ReusableConfirm } from 'features/defi/components/Confirm/Confirm'
 import { PairIcons } from 'features/defi/components/PairIcons/PairIcons'
 import { Summary } from 'features/defi/components/Summary'

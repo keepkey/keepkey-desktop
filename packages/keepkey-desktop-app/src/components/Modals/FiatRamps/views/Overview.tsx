@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react'
 import type { AccountId } from '@keepkey/caip'
 import { fromAccountId } from '@keepkey/caip'
-import { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
+import { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { DefiModalHeader } from 'features/defi/components/DefiModal/DefiModalHeader'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { FaCreditCard } from 'react-icons/fa'

@@ -11,8 +11,8 @@ import {
 } from '@chakra-ui/react'
 import type { Asset } from '@keepkey/asset-service'
 import type { Features } from '@keepkey/device-protocol/lib/messages_pb'
-import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
-import { isKeepKey } from '@keepkey/hdwallet-keepkey'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
 import axios from 'axios'
 import React, {
   createContext,

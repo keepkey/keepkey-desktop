@@ -1,4 +1,4 @@
-import type { BIP32Path, BTCInputScriptType, Coin } from '@keepkey/hdwallet-core'
+import type { BIP32Path, BTCInputScriptType, Coin } from '@shapeshiftoss/hdwallet-core'
 
 export interface GenericResponse {
   success: boolean

@@ -15,7 +15,7 @@ import {
 import type { AssetId } from '@keepkey/caip'
 import { foxAssetId } from '@keepkey/caip'
 import { foxyAddresses } from '@keepkey/investor-foxy'
-import { supportsETH } from '@keepkey/hdwallet-core/dist/wallet'
+import { supportsETH } from '@shapeshiftoss/hdwallet-core/dist/wallet'
 import { DefiProvider } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import qs from 'qs'
 import { useCallback, useMemo } from 'react'

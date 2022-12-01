@@ -12,7 +12,7 @@ import {
   Progress,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { isKeepKey } from '@keepkey/hdwallet-keepkey'
+import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
 import type { KeyboardEvent, MouseEvent } from 'react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
