@@ -43,7 +43,7 @@ export const startAppListeners = () => {
     if (BrowserWindow.getAllWindows().length === 0) await createMainWindow()
   })
 
-  app.on('before-quit', () => {
-    bridgeLogger.saveLogs()
+  app.on('before-quit', async () => {
+    await bridgeLogger.saveLogs()
   })
 }
