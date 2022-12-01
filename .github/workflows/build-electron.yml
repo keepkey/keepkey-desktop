@@ -6,6 +6,7 @@ on:
       - feature-*
       - main
       - develop
+      - release-candidate
   workflow_dispatch:
 
 jobs:
