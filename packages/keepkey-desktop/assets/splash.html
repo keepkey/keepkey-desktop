@@ -43,9 +43,8 @@
                 fill="#ffffff" fill-rule="evenodd"></path>
         </svg>
 
-        <h4
+        <h4 id="splashText"
             style="color: #F7FAFC; font-family: 'Inter'; position:fixed; top:68%; left:50%; transform:translate(-50%, -50%); width: 100%; text-align: center;">
-            Checking for updates...
         </h4>
 
         <div id="progress" style="position:fixed; top:83%; left:50%; transform:translate(-50%, -50%); display: none;">
@@ -54,17 +53,18 @@
 
         <script>
             const { ipcRenderer, app } = require('electron');
-            const header = document.querySelector('h4');
+            const header = document.getElementById('splashText');
             const text = {
                 check: "Checking for updates...",
                 download: "Downloading Updates...",
                 relaunch: "Relaunching...",
                 launch: "Launching...",
                 skipCheck: "Skipping update checks...",
-                errorReset: "Cant connect to KeepKey. Close keepkey-desktop, unplug keepkey and restart keepkey-desktop",
+                errorReset: "Can't connect to KeepKey. Close keepkey-desktop, unplug keepkey and restart keepkey-desktop",
                 errorClaimed: "Another process is using the keepkey. Close the process, unplug and restart keepkey-desktop",
                 notfound: "No updates found..."
             };
+            header.textContent = text.check;
             ipcRenderer.on('@update/download', () => {
                 header.textContent = text.download;
             });
