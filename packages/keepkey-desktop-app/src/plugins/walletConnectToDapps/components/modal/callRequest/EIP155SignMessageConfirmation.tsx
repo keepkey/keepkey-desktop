@@ -24,12 +24,8 @@ import { getSignParamsMessage, rejectEIP155Request } from 'plugins/walletConnect
 import { formatJsonRpcResult } from '@json-rpc-tools/utils'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { useWallet } from 'hooks/useWallet/useWallet'
-<<<<<<<< HEAD:packages/keepkey-desktop-app/src/plugins/walletConnectToDapps/components/modal/callRequest/SignMessageConfirmationv2.tsx
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
-========
-import { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { BIP32Path } from '@shapeshiftoss/hdwallet-core'
->>>>>>>> dc93e8f6 (a lot of progress):packages/keepkey-desktop-app/src/plugins/walletConnectToDapps/components/modal/callRequest/EIP155SignMessageConfirmation.tsx
 
 export const EIP155SignMessageConfirmation = () => {
   const translate = useTranslate()
@@ -68,13 +64,10 @@ export const EIP155SignMessageConfirmation = () => {
         setLoading(true)
 
         const message = getSignParamsMessage(request.params)
-<<<<<<<< HEAD:packages/keepkey-desktop-app/src/plugins/walletConnectToDapps/components/modal/callRequest/SignMessageConfirmationv2.tsx
         const accountPath = (wallet as KeepKeyHDWallet).ethGetAccountPaths({
           coin: 'Ethereum',
           accountIdx: 0,
         })
-========
->>>>>>>> dc93e8f6 (a lot of progress):packages/keepkey-desktop-app/src/plugins/walletConnectToDapps/components/modal/callRequest/EIP155SignMessageConfirmation.tsx
         const signedMessage = await (wallet as KeepKeyHDWallet).ethSignMessage({
           ...txData,
           addressNList: accountPath,
