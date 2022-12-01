@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 14
       - name: Install pre-recs
-        run: git lfs fetch && git lfs install
+        run: git lfs install && git lfs fetch && git lfs checkout
       - name: Install deps
         run: yarn
       - name: Prepare for app notarization
