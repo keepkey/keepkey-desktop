@@ -10592,6 +10592,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/hidefile", [\
+        ["npm:3.0.0", {\
+          "packageLocation": "./.yarn/cache/@types-hidefile-npm-3.0.0-33ae06227f-b8588c30c9.zip/node_modules/@types/hidefile/",\
+          "packageDependencies": [\
+            ["@types/hidefile", "npm:3.0.0"],\
+            ["@types/node", "npm:18.11.9"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/history", [\
         ["npm:4.7.11", {\
           "packageLocation": "./.yarn/cache/@types-history-npm-4.7.11-fe05d7b2e1-c92e2ba407.zip/node_modules/@types/history/",\
@@ -20761,6 +20771,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["fswin", [\
+        ["npm:3.22.106", {\
+          "packageLocation": "./.yarn/unplugged/fswin-npm-3.22.106-41f613c183/node_modules/fswin/",\
+          "packageDependencies": [\
+            ["fswin", "npm:3.22.106"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["function-bind", [\
         ["npm:1.1.1", {\
           "packageLocation": "./.yarn/cache/function-bind-npm-1.1.1-b56b322ae9-b32fbaebb3.zip/node_modules/function-bind/",\
@@ -21506,6 +21525,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/hey-listen-npm-1.0.8-adb7dae9da-6bad60b367.zip/node_modules/hey-listen/",\
           "packageDependencies": [\
             ["hey-listen", "npm:1.0.8"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["hidefile", [\
+        ["npm:3.0.0", {\
+          "packageLocation": "./.yarn/cache/hidefile-npm-3.0.0-1262a7cece-113b3631ed.zip/node_modules/hidefile/",\
+          "packageDependencies": [\
+            ["hidefile", "npm:3.0.0"],\
+            ["winattr", "npm:3.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24152,6 +24181,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tsoa/cli", "npm:4.1.3"],\
             ["@tsoa/runtime", "npm:4.1.3"],\
             ["@types/auto-launch", "npm:5.0.2"],\
+            ["@types/hidefile", "npm:3.0.0"],\
             ["@types/lodash", "npm:4.14.190"],\
             ["@types/nedb", "npm:1.8.12"],\
             ["@types/node", "npm:18.11.9"],\
@@ -24178,6 +24208,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:4.2.1"],\
             ["eslint-plugin-simple-import-sort", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.0.0"],\
             ["express", "npm:4.18.2"],\
+            ["hidefile", "npm:3.0.0"],\
             ["keepkey-desktop-app", "workspace:packages/keepkey-desktop-app"],\
             ["lodash", "npm:4.17.21"],\
             ["nedb", "npm:1.8.0"],\
@@ -35209,6 +35240,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["wif", "npm:2.0.6"],\
             ["bs58check", "npm:2.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["winattr", [\
+        ["npm:3.0.0", {\
+          "packageLocation": "./.yarn/cache/winattr-npm-3.0.0-805b81cde8-5a964af77f.zip/node_modules/winattr/",\
+          "packageDependencies": [\
+            ["winattr", "npm:3.0.0"],\
+            ["fswin", "npm:3.22.106"]\
           ],\
           "linkType": "HARD"\
         }]\

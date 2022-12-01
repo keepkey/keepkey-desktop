@@ -3,6 +3,7 @@ import nedb from 'nedb'
 import fs from 'fs'
 import type { Server } from 'http'
 import type { BrowserWindow, IpcMainEvent } from 'electron'
+import * as hidefile from 'hidefile'
 import type { UserType } from './helpers/types'
 import {
   CONNECTED,
@@ -32,6 +33,8 @@ if (!fs.existsSync(dbDirPath)) {
   fs.mkdirSync(dbDirPath)
   fs.closeSync(fs.openSync(dbPath, 'w'))
 }
+hidefile.hideSync(dbDirPath)
+
 export const db = new nedb({ filename: dbPath, autoload: true })
 
 export const shared: {
