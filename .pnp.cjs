@@ -43,6 +43,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@commitlint/config-conventional", "npm:17.3.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
             ["eslint", "npm:8.28.0"],\
+            ["node-gyp-build", "npm:4.5.0"],\
             ["prettier", "npm:2.8.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
             ["yaml-sort", "npm:1.2.1"]\
@@ -24966,6 +24967,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@commitlint/config-conventional", "npm:17.3.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
             ["eslint", "npm:8.28.0"],\
+            ["node-gyp-build", "npm:4.5.0"],\
             ["prettier", "npm:2.8.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
             ["yaml-sort", "npm:1.2.1"]\
@@ -27079,7 +27081,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],\
       ["node-gyp-build", [\
         ["npm:4.5.0", {\
-          "packageLocation": "./.yarn/cache/node-gyp-build-npm-4.5.0-2538da6152-d888bae0fb.zip/node_modules/node-gyp-build/",\
+          "packageLocation": "./.yarn/unplugged/node-gyp-build-npm-4.5.0-2538da6152/node_modules/node-gyp-build/",\
           "packageDependencies": [\
             ["node-gyp-build", "npm:4.5.0"]\
           ],\
