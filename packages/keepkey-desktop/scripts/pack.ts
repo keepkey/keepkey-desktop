@@ -14,7 +14,7 @@ export const pack = async () => {
           }
         case 'darwin':
           return {
-            mac: ['universal'],
+            mac: [],
           }
         case 'win32':
           return {
