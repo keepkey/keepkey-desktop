@@ -32,10 +32,14 @@ export class KKStateController {
 
   public onStateChange: any
 
-  constructor(onStateChange: any) {
+  constructor(onStateChange: any, onKeyringEvent: any) {
     log.info('KKStateController constructor')
     this.keyring = new Keyring()
     this.onStateChange = onStateChange
+
+    this.keyring.onAny( (e: any) => {
+      onKeyringEvent(e)
+    })
 
     usb.on('attach', async e => {
       log.info('KKStateController attach')

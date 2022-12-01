@@ -66,5 +66,8 @@
     "usb@2.5.2": {
       "unplugged": true
     }
+  },
+  "dependencies": {
+    "crypto": "^1.0.1"
   }
 }

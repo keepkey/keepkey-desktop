@@ -46,32 +46,30 @@ export const openSignTxWindow = async (signArgs: any) => {
 }
 
 export const checkKeepKeyUnlocked = async () => {
-  if (!kkStateController.wallet) return
-  let isLocked
-  try {
-      isLocked = await kkStateController.wallet.isLocked()
-  } catch (e) {
-      console.log('error is', e)
-  }
-  console.log("KEEPKEY LOCKED: ", isLocked)
-  if (isLocked) {
-      if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
-          if (!await createMainWindow()) return
-      }
-      if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
-          windows.mainWindow.focus()
-          windows.mainWindow.webContents.send('@modal/pin');
-      }
-  } else {
-      return
-  }
-
-  const p = new Promise((resolve: any) => {
-      ipcMain.once("@modal/pin-close", () => {
-          return resolve()
-      })
-  })
-  await p
+  // if (!kkStateController.wallet) return
+  // if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
+  //   if (!(await createMainWindow())) return
+  // } else {
+  //   let isLocked
+  //   try {
+  //     isLocked = await kkStateController.wallet.isLocked()
+  //   } catch (e) {
+  //     console.log('error is', e)
+  //   }
+  //   console.log('KEEPKEY LOCKED: ', isLocked)
+  //   if (isLocked) {
+  //     windows.mainWindow.focus()
+  //     windows.mainWindow.webContents.send('@modal/pin')
+  //   } else {
+  //     return
+  //   }
+  // }
+  // const p = new Promise((resolve: any) => {
+  //   ipcMain.once('@modal/pin-close', () => {
+  //     return resolve()
+  //   })
+  // })
+  // await p
 }
 
 export const getWallectConnectUri = (inputUri: string): string | undefined => {

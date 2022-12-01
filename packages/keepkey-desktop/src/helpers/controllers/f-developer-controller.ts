@@ -56,7 +56,7 @@ export class FDeveloperController extends Controller {
       await checkKeepKeyUnlocked()
       if (!kkStateController.wallet) return reject()
 
-      // kkStateController.wallet.initialize().then(resolve)
+      await kkStateController.wallet?.initialize()
       kkStateController.wallet.getFeatures().then(resolve)
     })
   }

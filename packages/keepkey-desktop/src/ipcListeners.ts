@@ -258,4 +258,8 @@ export const startIpcListeners = () => {
     kkStateController.skipUpdate()
     event.sender.send('@keepkey/update-skipped')
   })
+
+  ipcMain.on('sendPin', (_event, arg) => {
+    kkStateController.wallet?.sendPin(arg)
+  })
 }
