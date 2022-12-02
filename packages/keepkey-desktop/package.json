@@ -1,6 +1,6 @@
 {
     "name": "keepkey-desktop",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "author": {
         "name": "KeepKey",
         "email": "support@keepkey.com"
@@ -15,7 +15,7 @@
         "build": "ts-node --skipProject --swc ./scripts/build.ts",
         "release": "yarn run -T build && electron-builder",
         "dev": "ts-node --skipProject --swc ./scripts/dev.ts",
-        "clean": "rimraf api/dist build dist prebuilds",
+        "clean": "rimraf build dist",
         "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
         "lint:fix": "yarn lint --fix"
     },
@@ -26,10 +26,7 @@
         "generateUpdatesFilesForAllChannels": true,
         "afterSign": "./scripts/afterSign.js",
         "files": [
-            "assets/**/*",
-            "build/**/*",
-            "prebuilds/**/*",
-            "api/dist/**/*"
+            "build/**/*"
         ],
         "protocols": [
             {
@@ -50,21 +47,27 @@
             "target": [
                 "dmg"
             ],
-            "publish": ["github"]
+            "publish": [
+                "github"
+            ]
         },
         "win": {
             "icon": "icon.png",
             "target": [
                 "nsis"
             ],
-            "publish": ["github"]
+            "publish": [
+                "github"
+            ]
         },
         "linux": {
             "icon": "icon.png",
             "target": [
                 "AppImage"
             ],
-            "publish": ["github"]
+            "publish": [
+                "github"
+            ]
         }
     },
     "dependencies": {

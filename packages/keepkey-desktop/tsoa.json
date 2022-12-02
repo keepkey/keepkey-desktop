@@ -8,7 +8,7 @@
   "noImplicitAdditionalProperties": "silently-remove-extras",
   "basePath": "",
   "specVersion": 3,
-  "outputDirectory": "./api/dist",
+  "outputDirectory": "./build/api/dist",
   "controllerPathGlobs": [
     "./src/helpers/controllers/**/*controller.ts"
   ],
@@ -21,7 +21,7 @@
     "basePath": "",
     "entryFile": "./src/main.ts",
     "specVersion": 3,
-    "outputDirectory": "./api/dist",
+    "outputDirectory": "./build/api/dist",
     "controllerPathGlobs": [
       "./src/helpers/controllers/**/*controller.ts"
     ],

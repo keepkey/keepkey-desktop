@@ -10,14 +10,16 @@ process.env.NODE_ENV ??= 'production'
 
 const workspacePath = path.resolve(__dirname, '..')
 const buildPath = path.join(workspacePath, 'build')
-const tsoaPath = path.join(workspacePath, 'api/dist')
+const tsoaPath = path.join(buildPath, 'api/dist')
 const appPath = path.join(buildPath, 'app')
-const prebuildsPath = path.join(workspacePath, 'prebuilds')
+const assetsPath = path.join(buildPath, 'assets')
+const prebuildsPath = path.join(buildPath, 'prebuilds')
 const rootPath = path.resolve(workspacePath, '../..')
 const appSource = path.join(
   pnpapi.resolveToUnqualified('keepkey-desktop-app', workspacePath),
   'build',
 )
+const assetsSource = path.join(workspacePath, 'assets')
 
 const sanitizeBuildDir = async () => {
   await fs.promises.rm(buildPath, { recursive: true, force: true })
@@ -53,6 +55,16 @@ const copyAppDir = async () => {
   })
 }
 
+const copyAssetsDir = async () => {
+  await fs.promises.rm(assetsPath, { recursive: true, force: true })
+  await fs.promises.mkdir(assetsPath, { recursive: true })
+
+  await fs.promises.cp(assetsSource, assetsPath, {
+    dereference: true,
+    recursive: true,
+  })
+}
+
 const copyPrebuilds = async (packages: string[]) => {
   await fs.promises.rm(prebuildsPath, { recursive: true, force: true })
   await fs.promises.mkdir(prebuildsPath, { recursive: true })
@@ -79,7 +91,7 @@ const usbPrebuildPlugin = async (): Promise<esbuild.Plugin> => {
         return {
           contents: `((__dirname)=>{\n${await fs.promises.readFile(args.path, {
             encoding: 'utf8',
-          })}\n})(require('path').join(__dirname, '../prebuilds/usb/foo/bar'))`,
+          })}\n})(require('path').join(__dirname, 'prebuilds/usb/foo/bar'))`,
         }
       })
     },
@@ -117,7 +129,9 @@ const runEsbuild = async (defines: Record<string, string>) => {
 }
 
 export const build = async () => {
-  await Promise.all([sanitizeBuildDir(), buildApi()])
+  await sanitizeBuildDir()
+
+  await buildApi()
 
   const esbuild = collectDefines().then(defines =>
     runEsbuild(
@@ -136,6 +150,7 @@ export const build = async () => {
     esbuild,
     copyPrebuilds(['usb']),
     copyAppDir(),
+    copyAssetsDir(),
     esbuild.then(async x => {
       if (process.env.NODE_ENV !== 'production') {
         await fs.promises.writeFile(

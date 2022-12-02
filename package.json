@@ -10,6 +10,7 @@
     "postinstall": "yaml-sort -i .yarnrc.yml",
     "clean": "yarn workspaces foreach -p run clean",
     "build": "yarn workspaces foreach -pRti --from 'keepkey-desktop' run build",
+    "release": "yarn run build && yarn workspace keepkey-desktop run release",
     "dev": "yarn workspaces foreach -pRti --from 'keepkey-desktop' run dev",
     "lint": "yarn workspaces foreach -pi run lint",
     "lint:fix": "yarn workspaces foreach -pi run lint:fix",
