@@ -5,6 +5,11 @@
         "name": "KeepKey",
         "email": "support@keepkey.com"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/keepkey/keepkey-desktop"
+    },
+    "description": "Do many things with your KeepKey.",
     "homepage": "undefined",
     "private": true,
     "scripts": {
