@@ -3,10 +3,10 @@ name: Build & Release Electron App
 on:
   push:
     branches:
-      - feature-*
-      - main
-      - develop
+      - master
       - release-candidate
+      - develop
+      - feature-*
   workflow_dispatch:
 
 jobs:
