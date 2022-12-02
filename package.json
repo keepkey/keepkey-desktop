@@ -31,6 +31,12 @@
     "tough-cookie": "^3.0.0"
   },
   "dependenciesMeta": {
+    "app-builder-lib@23.6.0": {
+      "unplugged": true
+    },
+    "dmg-builder@23.6.0": {
+      "unplugged": true
+    },
     "usb@2.5.2": {
       "unplugged": true
     }

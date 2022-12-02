@@ -7929,7 +7929,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@json-rpc-tools-types-npm-1.7.6-1c36bdb16d-f23ec7d79a.zip/node_modules/@json-rpc-tools/types/",\
           "packageDependencies": [\
             ["@json-rpc-tools/types", "npm:1.7.6"],\
-            ["keyvaluestorage-interface", "npm:1.0.0"]\
+            ["keyvaluestorage-interface", "npm:1.0.0"],\
+            ["tslib", "npm:2.4.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7940,7 +7941,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@json-rpc-tools/utils", "npm:1.7.6"],\
             ["@json-rpc-tools/types", "npm:1.7.6"],\
-            ["@pedrouid/environment", "npm:1.0.1"]\
+            ["@pedrouid/environment", "npm:1.0.1"],\
+            ["tslib", "npm:2.4.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12383,6 +12385,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@walletconnect/jsonrpc-provider", "npm:1.0.6"],\
             ["@walletconnect/jsonrpc-utils", "npm:1.0.4"],\
             ["@walletconnect/safe-json", "npm:1.0.1"],\
+            ["events", "npm:3.3.0"],\
             ["tslib", "npm:1.14.1"]\
           ],\
           "linkType": "HARD"\
@@ -13150,7 +13153,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],\
       ["app-builder-lib", [\
         ["npm:23.6.0", {\
-          "packageLocation": "./.yarn/cache/app-builder-lib-npm-23.6.0-cb887be781-da3cc9f24e.zip/node_modules/app-builder-lib/",\
+          "packageLocation": "./.yarn/unplugged/app-builder-lib-npm-23.6.0-cb887be781/node_modules/app-builder-lib/",\
           "packageDependencies": [\
             ["app-builder-lib", "npm:23.6.0"],\
             ["7zip-bin", "npm:5.1.1"],\
@@ -17590,7 +17593,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],\
       ["dmg-builder", [\
         ["npm:23.6.0", {\
-          "packageLocation": "./.yarn/cache/dmg-builder-npm-23.6.0-d0da405dda-3e37a4b191.zip/node_modules/dmg-builder/",\
+          "packageLocation": "./.yarn/unplugged/dmg-builder-npm-23.6.0-d0da405dda/node_modules/dmg-builder/",\
           "packageDependencies": [\
             ["dmg-builder", "npm:23.6.0"],\
             ["app-builder-lib", "npm:23.6.0"],\
@@ -24252,6 +24255,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["body-parser", "npm:1.20.1"],\
             ["concurrently", "npm:7.6.0"],\
             ["cors", "npm:2.8.5"],\
+            ["dmg-builder", "npm:23.6.0"],\
             ["dotenv", "npm:16.0.3"],\
             ["electron", "npm:16.0.7"],\
             ["electron-builder", "npm:23.6.0"],\
@@ -24403,7 +24407,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@visx/xychart", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.16.0"],\
             ["@wagmi/core", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:0.5.8"],\
             ["@walletconnect/client", "npm:1.8.0"],\
-            ["@walletconnect/encoding", "npm:1.0.2"],\
             ["@walletconnect/web3-provider", "npm:1.8.0"],\
             ["allsettled-polyfill", "npm:1.0.4"],\
             ["auto-launch", "npm:5.0.5"],\
