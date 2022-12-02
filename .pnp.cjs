@@ -17593,7 +17593,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],\
       ["dmg-builder", [\
         ["npm:23.6.0", {\
-          "packageLocation": "./.yarn/cache/dmg-builder-npm-23.6.0-d0da405dda-3e37a4b191.zip/node_modules/dmg-builder/",\
+          "packageLocation": "./.yarn/unplugged/dmg-builder-npm-23.6.0-d0da405dda/node_modules/dmg-builder/",\
           "packageDependencies": [\
             ["dmg-builder", "npm:23.6.0"],\
             ["app-builder-lib", "npm:23.6.0"],\
@@ -24255,6 +24255,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["body-parser", "npm:1.20.1"],\
             ["concurrently", "npm:7.6.0"],\
             ["cors", "npm:2.8.5"],\
+            ["dmg-builder", "npm:23.6.0"],\
             ["dotenv", "npm:16.0.3"],\
             ["electron", "npm:16.0.7"],\
             ["electron-builder", "npm:23.6.0"],\

@@ -18835,6 +18835,7 @@ __metadata:
     body-parser: ^1.20.1
     concurrently: ^7.6.0
     cors: ^2.8.5
+    dmg-builder: ^23.6.0
     dotenv: ^16.0.3
     electron: 16.0.7
     electron-builder: ^23.6.0
@@ -18882,6 +18883,8 @@ __metadata:
     yaml-sort: ^1.2.1
   dependenciesMeta:
     app-builder-lib@23.6.0:
+      unplugged: true
+    dmg-builder@23.6.0:
       unplugged: true
     usb@2.5.2:
       unplugged: true

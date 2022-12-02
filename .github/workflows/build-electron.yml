@@ -31,8 +31,8 @@ jobs:
         with:
           path: |
             ~/.cache/electron-builder
-            ~/Library/Caches/electron
-            ~/AppData/Local/electron/Cache
+            ~/Library/Caches/electron-builder
+            ~/AppData/Local/electron-builder/Cache
           key: ${{ runner.os }}
       - name: Yarn Install
         run: yarn install --immutable --immutable-cache
@@ -80,6 +80,15 @@ jobs:
           path: |
             packages/keepkey-desktop/dist/*.dmg
             packages/keepkey-desktop/dist/*.dmg.blockmap
+          if-no-files-found: error
+      - name: Mac - Upload .zip
+        if: startsWith(matrix.os, 'macos')
+        uses: actions/upload-artifact@v3
+        with:
+          name: mac-zip
+          path: |
+            packages/keepkey-desktop/dist/*.zip
+            packages/keepkey-desktop/dist/*.zip.blockmap
           if-no-files-found: error
       - name: Windows - Upload .exe
         if: startsWith(matrix.os, 'windows')
