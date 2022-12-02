@@ -18633,6 +18633,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["electron-unhandled", [\
+        ["npm:4.0.1", {\
+          "packageLocation": "./.yarn/cache/electron-unhandled-npm-4.0.1-69f4f16bed-64874ef2f2.zip/node_modules/electron-unhandled/",\
+          "packageDependencies": [\
+            ["electron-unhandled", "npm:4.0.1"],\
+            ["clean-stack", "npm:2.2.0"],\
+            ["electron-is-dev", "npm:2.0.0"],\
+            ["ensure-error", "npm:2.1.0"],\
+            ["lodash.debounce", "npm:4.0.8"],\
+            ["serialize-error", "npm:8.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["electron-updater", [\
         ["npm:5.3.0", {\
           "packageLocation": "./.yarn/cache/electron-updater-npm-5.3.0-451ef3ebab-975381ffb0.zip/node_modules/electron-updater/",\
@@ -18785,6 +18799,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/engine.io-parser-npm-5.0.4-27a510b395-d4ad0cef6f.zip/node_modules/engine.io-parser/",\
           "packageDependencies": [\
             ["engine.io-parser", "npm:5.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["ensure-error", [\
+        ["npm:2.1.0", {\
+          "packageLocation": "./.yarn/cache/ensure-error-npm-2.1.0-a7af5e1dd7-a24852103e.zip/node_modules/ensure-error/",\
+          "packageDependencies": [\
+            ["ensure-error", "npm:2.1.0"],\
+            ["util", "npm:0.12.5"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24854,6 +24878,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.5.0"],\
             ["electron-is-dev", "npm:2.0.0"],\
             ["electron-log", "npm:4.4.8"],\
+            ["electron-unhandled", "npm:4.0.1"],\
             ["electron-updater", "npm:5.3.0"],\
             ["esbuild", "npm:0.15.16"],\
             ["esbuild-plugin-resolve", "npm:1.0.3"],\
@@ -25027,6 +25052,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["dompurify", "npm:2.4.1"],\
             ["dotenv", "npm:16.0.3"],\
             ["electron", "npm:16.0.7"],\
+            ["electron-unhandled", "npm:4.0.1"],\
             ["envalid", "npm:7.3.1"],\
             ["esbuild", "npm:0.15.16"],\
             ["esbuild-plugin-resolve", "npm:1.0.3"],\
@@ -32285,6 +32311,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["serialize-error", "npm:7.0.1"],\
             ["type-fest", "npm:0.13.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:8.1.0", {\
+          "packageLocation": "./.yarn/cache/serialize-error-npm-8.1.0-a3c5bcc96c-2eef236d50.zip/node_modules/serialize-error/",\
+          "packageDependencies": [\
+            ["serialize-error", "npm:8.1.0"],\
+            ["type-fest", "npm:0.20.2"]\
           ],\
           "linkType": "HARD"\
         }]\

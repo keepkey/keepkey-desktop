@@ -1,5 +1,6 @@
 import isDev from 'electron-is-dev'
 import log from 'electron-log'
+import unhandled from 'electron-unhandled'
 import { app, nativeTheme } from 'electron'
 import * as Sentry from '@sentry/electron'
 import { config as dotenvConfig } from 'dotenv'
@@ -9,6 +10,8 @@ import { isWin, kkAutoLauncher, settings } from './globalState'
 import { startIpcListeners } from './ipcListeners'
 import { startAppListeners } from './appListeners'
 import { watchForDeviceBusy } from './helpers/utils'
+
+unhandled()
 
 if (!app.requestSingleInstanceLock()) app.exit()
 
