@@ -1,18 +1,21 @@
 {
     "name": "keepkey-desktop",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "author": {
         "name": "KeepKey",
         "email": "support@keepkey.com"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/keepkey/keepkey-desktop"
+    },
     "homepage": "undefined",
     "private": true,
     "scripts": {
-        "install-deps": "electron-builder install-app-deps --platform darwin --platform linux --platform win32",
         "build": "ts-node --skipProject --swc ./scripts/build.ts",
-        "dev": "NODE_ENV=development ts-node --skipProject --swc ./scripts/dev.ts",
-        "pack": "ts-node --skipProject --swc ./scripts/pack.ts",
-        "clean": "rimraf api/dist build dist prebuilds",
+        "release": "yarn run -T build && electron-builder",
+        "dev": "ts-node --skipProject --swc ./scripts/dev.ts",
+        "clean": "rimraf build dist",
         "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
         "lint:fix": "yarn lint --fix"
     },
@@ -20,12 +23,10 @@
     "build": {
         "appId": "com.keepkey.desktop",
         "productName": "KeepKey Desktop",
+        "generateUpdatesFilesForAllChannels": true,
         "afterSign": "./scripts/afterSign.js",
         "files": [
-            "assets/**/*",
-            "build/**/*",
-            "prebuilds/**/*",
-            "api/dist/**/*"
+            "build/**/*"
         ],
         "protocols": [
             {
@@ -44,13 +45,17 @@
             "entitlements": "entitlements.mac.plist",
             "entitlementsInherit": "entitlements.mac.plist",
             "target": [
-                "dmg",
-                "zip"
+                "dmg"
+            ],
+            "publish": [
+                "github"
             ]
         },
         "win": {
             "icon": "icon.png",
-            "target": "nsis",
+            "target": [
+                "nsis"
+            ],
             "publish": [
                 "github"
             ]
@@ -58,8 +63,10 @@
         "linux": {
             "icon": "icon.png",
             "target": [
-                "AppImage",
-                "deb"
+                "AppImage"
+            ],
+            "publish": [
+                "github"
             ]
         }
     },
@@ -112,8 +119,9 @@
         "@typescript-eslint/eslint-plugin": "^5.45.0",
         "@typescript-eslint/parser": "^5.45.0",
         "concurrently": "^7.6.0",
+        "dmg-builder": "^23.6.0",
         "electron": "16.0.7",
-        "electron-builder": "^23.6.0",
+        "electron-builder": "^24.0.0-alpha.5",
         "electron-builder-notarize": "^1.5.0",
         "eslint": "^8.28.0",
         "eslint-config-prettier": "^8.3.0",

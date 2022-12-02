@@ -115,7 +115,7 @@ export const createUpdaterSplashWindow = async () => {
       contextIsolation: false,
     },
   })
-  await windows.splash.loadFile(path.join(__dirname, '../assets/splash.html'))
+  await windows.splash.loadFile(path.join(__dirname, 'assets/splash.html'))
 }
 
 export const setAllowPreRelease = (value: boolean) => {
