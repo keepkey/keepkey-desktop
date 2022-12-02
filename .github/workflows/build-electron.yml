@@ -30,8 +30,6 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            .yarn/unplugged/**
-            .yarn/install-state.gz
             ~/.cache/electron-builder
           key: ${{ runner.os }}
       - name: Yarn Install
