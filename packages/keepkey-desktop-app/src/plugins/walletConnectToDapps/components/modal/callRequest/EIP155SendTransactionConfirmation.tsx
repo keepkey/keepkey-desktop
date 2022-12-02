@@ -26,6 +26,13 @@ import { GasFeeEstimateLabel } from './GasFeeEstimateLabel'
 import { GasInput } from './GasInput'
 import { ModalSection } from './ModalSection'
 import { TransactionAdvancedParameters } from './TransactionAdvancedParameters'
+import type { SignClientTypes } from '@walletconnect/types'
+import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import { rejectEIP155Request } from 'plugins/walletConnectToDapps/utils/utils'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
+import { formatJsonRpcResult } from '@json-rpc-tools/utils'
+import { EIP155_SIGNING_METHODS } from 'plugins/walletConnectToDapps/data/EIP115Data'
 
 export type TxData = {
   nonce: string
@@ -38,12 +45,17 @@ export type TxData = {
   value: string
 }
 
-export const SendTransactionConfirmation = () => {
+export const EIP155SendTransactionConfirmation = () => {
   const translate = useTranslate()
   const cardBg = useColorModeValue('white', 'gray.850')
-  const { state: walletState } = useWallet()
+  const {
+    state: { wallet },
+  } = useWallet()
 
   const adapterManager = useMemo(() => getChainAdapterManager(), [])
+
+  const [address, setAddress] = useState<string>()
+  const [accountPath, setAccountPath] = useState<BIP32Path>()
 
   const form = useForm<any>({
     defaultValues: {
@@ -57,18 +69,86 @@ export const SendTransactionConfirmation = () => {
 
   const [loading, setLoading] = useState(false)
 
-  const { legacyBridge, requests, removeRequest } = useWalletConnect()
+  const { requests, removeRequest, isConnected, dapp } = useWalletConnect()
   const toast = useToast()
 
-  const currentRequest = requests[0]
+  const currentRequest = requests[0] as SignClientTypes.EventArguments['session_request']
+  console.log(currentRequest)
+  const { topic, params, id } = currentRequest
+  const { request, chainId: chainIdString } = params
+  const [chainId, setChainId] = useState<number>()
+
+  useEffect(() => {
+    if (!wallet) return
+    setLoading(true)
+    const accounts = (wallet as KeepKeyHDWallet).ethGetAccountPaths({
+      coin: 'Ethereum',
+      accountIdx: 0,
+    })
+    setAccountPath(accounts[0].addressNList)
+    ;(wallet as KeepKeyHDWallet)
+      .ethGetAddress({ addressNList: accounts[0].addressNList, showDisplay: false })
+      .then(accAddress => {
+        setLoading(false)
+        setAddress(accAddress)
+      })
+  }, [wallet])
+
+  useEffect(() => {
+    if (!chainIdString) return
+    const chainIdRegexp = chainIdString.match(/^eip155:([0-9]+)$/)
+    if (!chainIdRegexp) return
+    setChainId(Number(chainIdRegexp[1]))
+  }, [chainIdString])
 
   const onConfirm = useCallback(
     async (txData: any) => {
+      if (!wallet || !accountPath || !chainId) return
       try {
         setLoading(true)
-        await legacyBridge?.approve(requests[0], txData).then(() => removeRequest(currentRequest.id))
+        const signData: any = {
+          addressNList: accountPath,
+          chainId,
+          data: txData.data,
+          gasLimit: txData.gasLimit,
+          to: txData.to,
+          value: txData.value ?? '0x0',
+          nonce: txData.nonce,
+          maxPriorityFeePerGas: txData.maxPriorityFeePerGas,
+          maxFeePerGas: txData.maxFeePerGas,
+        }
+
+        // if gasPrice was passed in it means we couldnt get maxPriorityFeePerGas & maxFeePerGas
+        if (request.params[0].gasPrice) {
+          signData.gasPrice = request.params[0].gasPrice
+          delete signData.maxPriorityFeePerGas
+          delete signData.maxFeePerGas
+        }
+
+        console.log('On confirm', signData)
+
+        const response = await (wallet as KeepKeyHDWallet).ethSignTx(signData)
+
+        const signedTx = response?.serialized
+        console.log(response)
+
+        let jsonresponse = formatJsonRpcResult(id, signedTx)
+
+        if (request.method === EIP155_SIGNING_METHODS.ETH_SEND_TRANSACTION) {
+          const chainWeb3 = web3ByChainId(chainId) as any
+          await chainWeb3.web3.eth.sendSignedTransaction(signedTx)
+          const txid = await chainWeb3.web3.utils.sha3(signedTx)
+          jsonresponse = formatJsonRpcResult(id, txid)
+        }
+
+        await WalletConnectSignClient.respond({
+          topic,
+          response: jsonresponse,
+        })
+
         removeRequest(currentRequest.id)
       } catch (e) {
+        console.log('HD WALLET ERROR', e)
         toast({
           title: 'Error',
           description: `Transaction error ${e}`,
@@ -78,17 +158,18 @@ export const SendTransactionConfirmation = () => {
         setLoading(false)
       }
     },
-    [legacyBridge, currentRequest.id, removeRequest, requests, toast],
+    [currentRequest.id, removeRequest, request, toast, wallet, chainId, accountPath],
   )
 
   const onReject = useCallback(async () => {
-    await legacyBridge?.connector.rejectRequest({
-      id: currentRequest.id,
-      error: { message: 'Rejected by user' },
+    const response = rejectEIP155Request(currentRequest)
+    WalletConnectSignClient.respond({
+      topic: currentRequest.topic,
+      response,
     })
     removeRequest(currentRequest.id)
     setLoading(false)
-  }, [legacyBridge, currentRequest, removeRequest])
+  }, [currentRequest, removeRequest])
 
   const [gasFeeData, setGasFeeData] = useState(undefined as any)
   const [priceData, setPriceData] = useState(bn(0))
@@ -102,7 +183,7 @@ export const SendTransactionConfirmation = () => {
   }>()
 
   // determine which gasLimit to use: user input > from the request > or estimate
-  const requestGas = parseInt(currentRequest.params[0].gas ?? '0x0', 16).toString(10)
+  const requestGas = parseInt(request.params[0].gasLimit ?? '0x0', 16).toString(10)
   const inputGas = useWatch({ control: form.control, name: 'gasLimit' })
 
   const [estimatedGas, setEstimatedGas] = useState('0')
@@ -110,10 +191,9 @@ export const SendTransactionConfirmation = () => {
   const txInputGas = Web3.utils.toHex(
     !!bnOrZero(inputGas).gt(0) ? inputGas : bnOrZero(requestGas).gt(0) ? requestGas : estimatedGas,
   )
-  const walletConnect = useWalletConnect()
-  const address = walletConnect.legacyBridge?.connector.accounts[0]
 
   useEffect(() => {
+    if (!chainId) return
     const adapterManager = getChainAdapterManager()
     const adapter = adapterManager.get(
       KnownChainIds.EthereumMainnet,
@@ -129,10 +209,10 @@ export const SendTransactionConfirmation = () => {
     })
 
     // for non mainnet chains we use the simple web3.getGasPrice()
-    const chainWeb3 = web3ByChainId(walletConnect?.legacyBridge?.connector?.chainId as any) as any
-    chainWeb3?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
+    const chainWeb3 = web3ByChainId(chainId) as any
+    chainWeb3?.eth?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
     setChainWeb3(chainWeb3)
-  }, [form, txInputGas, walletConnect.legacyBridge?.connector.chainId])
+  }, [form, txInputGas, chainId])
 
   useEffect(() => {
     ;(async () => {
@@ -149,8 +229,8 @@ export const SendTransactionConfirmation = () => {
   }, [chainWeb3])
 
   // determine which gas fees to use: user input > from the request > Fast
-  const requestMaxPriorityFeePerGas = currentRequest.params[0].maxPriorityFeePerGas
-  const requestMaxFeePerGas = currentRequest.params[0].maxFeePerGas
+  const requestMaxPriorityFeePerGas = request.params[0].maxPriorityFeePerGas
+  const requestMaxFeePerGas = request.params[0].maxFeePerGas
 
   const inputMaxPriorityFeePerGas = useWatch({
     control: form.control,
@@ -188,62 +268,52 @@ export const SendTransactionConfirmation = () => {
   }, [form, inputMaxFeePerGas, txInputGas, txMaxFeePerGas])
 
   // determine which nonce to use: user input > from the request > true nonce
-  const requestNonce = currentRequest.params[0].nonce
+  const requestNonce = request.params[0].nonce
   const inputNonce = useWatch({ control: form.control, name: 'nonce' })
   const [trueNonce, setTrueNonce] = useState('0')
   useEffect(() => {
     ;(async () => {
       const count = await chainWeb3?.web3.eth.getTransactionCount(address ?? '')
-      !!count && setTrueNonce(`${count}`)
+      setTrueNonce(`${count}`)
     })()
-  }, [adapterManager, address, chainWeb3, walletState.wallet])
+  }, [adapterManager, address, chainWeb3])
   const txInputNonce = Web3.utils.toHex(
     !!inputNonce ? inputNonce : !!requestNonce ? requestNonce : trueNonce,
   )
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const estimate = await (chainWeb3 as any).web3.eth.estimateGas({
-          from: walletConnect.legacyBridge?.connector.accounts[0],
+    try {
+      ;(chainWeb3 as any).web3.eth
+        .estimateGas({
+          from: request.params[0].from,
           nonce: txInputNonce,
-          to: currentRequest.params[0].to,
-          data: currentRequest.params[0].data,
+          to: request.params[0].to,
+          data: request.params[0].data,
         })
-        setEstimatedGas(estimate)
-      } catch (e) {
-        // 500k seems reasonable.
-        // Maybe its better to gracefully fail here???
-        setEstimatedGas('500000')
-      }
-    })()
-  }, [
-    txInputNonce,
-    address,
-    chainWeb3,
-    walletConnect.legacyBridge?.connector.accounts,
-    currentRequest.params,
-  ])
+        .then((estimate: any) => {
+          setEstimatedGas(estimate)
+        })
+    } catch (e) {
+      // 500k seemed reasonable
+      setEstimatedGas('500000')
+    }
+  }, [txInputNonce, address, chainWeb3, currentRequest.params])
 
-  if (!walletConnect.legacyBridge || !walletConnect.dapp) return null
+  if (!isConnected || !dapp || !currentRequest) return null
 
   const txInput: TxData = {
     nonce: txInputNonce,
     gasLimit: txInputGas,
-    data: currentRequest.params[0].data,
-    to: currentRequest.params[0].to,
-    value: currentRequest.params[0].value,
+    data: request.params[0].data,
+    to: request.params[0].to,
+    value: request.params[0].value,
     maxFeePerGas: txMaxFeePerGas,
     maxPriorityFeePerGas: txMaxPriorityFeePerGas,
   }
 
   // not mainnet and they havent entered custom gas fee data and no fee data from wc request.
   // default to the web3 gasPrice for the network
-  if (
-    walletConnect.legacyBridge?.connector.chainId !== 1 &&
-    !inputMaxPriorityFeePerGas &&
-    !requestMaxPriorityFeePerGas
-  )
+  if (chainId !== 1 && !inputMaxPriorityFeePerGas && !requestMaxPriorityFeePerGas)
     txInput['gasPrice'] = Web3.utils.toHex(web3GasFeeData)
 
   return (
@@ -269,7 +339,7 @@ export const SendTransactionConfirmation = () => {
             mb={4}
           />
           <AddressSummaryCard
-            address={currentRequest.params[0].to}
+            address={request.params[0].to}
             icon={
               <Image
                 borderRadius='full'
@@ -288,7 +358,7 @@ export const SendTransactionConfirmation = () => {
             mb={4}
           />
           <Card bg={cardBg} borderRadius='md' px={4} py={2}>
-            <ContractInteractionBreakdown request={currentRequest} />
+            <ContractInteractionBreakdown request={request} />
           </Card>
         </Box>
 
@@ -308,8 +378,8 @@ export const SendTransactionConfirmation = () => {
             <GasInput
               gasLimit={txInputGas}
               recommendedGasPriceData={{
-                maxPriorityFeePerGas: currentRequest.params[0].maxPriorityFeePerGas,
-                maxFeePerGas: currentRequest.params[0].maxFeePerGas,
+                maxPriorityFeePerGas: request.params[0].maxPriorityFeePerGas,
+                maxFeePerGas: request.params[0].maxFeePerGas,
               }}
             />
           </Box>
