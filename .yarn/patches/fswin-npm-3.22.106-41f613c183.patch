@@ -1,0 +1,10 @@
+diff --git a/index.js b/index.js
+index 80a5d88b958642eaa3d6c9f98cb3a5b111132ec8..27a81393bc8d91b38cc58c0ec89c14af17447191 100644
+--- a/index.js
++++ b/index.js
+@@ -1,2 +1,2 @@
+ 'use strict';
+-module.exports = process.platform === 'win32' ? require('./' + process.arch + '/fswin.node') : null;
+\ No newline at end of file
++module.exports = process.platform === 'win32' ? require(__dirname + '/' + process.arch + '/fswin.node') : null;
+\ No newline at end of file

@@ -10420,13 +10420,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bigint-buffer@npm:^1.1.5":
+"bigint-buffer@npm:1.1.5":
   version: 1.1.5
   resolution: "bigint-buffer@npm:1.1.5"
   dependencies:
     bindings: ^1.3.0
     node-gyp: latest
   checksum: d010c9f57758bcdaccb435d88b483ffcc95fe8bbc6e7fb3a44fb5221f29c894ffaf4a3c5a4a530e0e7d6608203c2cde9b79ee4f2386cd6d4462d1070bc8c9f4e
+  languageName: node
+  linkType: hard
+
+"bigint-buffer@patch:bigint-buffer@npm%3A1.1.5#./.yarn/patches/bigint-buffer-npm-1.1.5-785f4ccd92.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 1.1.5
+  resolution: "bigint-buffer@patch:bigint-buffer@npm%3A1.1.5#./.yarn/patches/bigint-buffer-npm-1.1.5-785f4ccd92.patch::version=1.1.5&hash=e4e48b&locator=keepkey-monorepo%40workspace%3A."
+  dependencies:
+    bindings: ^1.3.0
+    node-gyp: latest
+  checksum: 04b56c38bf6defa247889f3a86de6329bd9a0f34b129f327f7110c7564861eae345cd3d4f30b7238d08800df629bc4a37019e4c78828e8f2fbef43edb2715bee
   languageName: node
   linkType: hard
 
@@ -11002,7 +11012,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bufferutil@npm:^4.0.1":
+"bufferutil@npm:^4.0.1, bufferutil@npm:^4.0.7":
   version: 4.0.7
   resolution: "bufferutil@npm:4.0.7"
   dependencies:
@@ -16181,14 +16191,22 @@ __metadata:
   resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
   dependencies:
     node-gyp: latest
+  checksum: edbd0fd80be379c14409605f77e52fdc78a119e17f875e8b90a220c3e5b29e54a1477c21d91fd30b957ea4866406dc3ff87b61432d2840ff8866b309e5866140
   conditions: os=darwin
   languageName: node
   linkType: hard
 
-"fswin@npm:^3.18.918":
+"fswin@npm:3.22.106":
   version: 3.22.106
   resolution: "fswin@npm:3.22.106"
   checksum: 5e9ffb08dead1fcbf313be6f463fd9b95d560c2a2ad7c5f0e0c9436b09cafd1228711513adee5f11fdd5b9853bfd8cbd7c567d00cdccc1f9efdef18dca74bc8d
+  languageName: node
+  linkType: hard
+
+"fswin@patch:fswin@npm%3A3.22.106#./.yarn/patches/fswin-npm-3.22.106-41f613c183.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 3.22.106
+  resolution: "fswin@patch:fswin@npm%3A3.22.106#./.yarn/patches/fswin-npm-3.22.106-41f613c183.patch::version=3.22.106&hash=36c8eb&locator=keepkey-monorepo%40workspace%3A."
+  checksum: 8227ea1ecdc77e43069d61d5a107af4006c3120387ea498c06b7f61ace97c325e954a95947d340380cc505b810bd32c0aa73fc874e3ac227878b3d8bcd6742e9
   languageName: node
   linkType: hard
 
@@ -19418,7 +19436,9 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.45.0
     "@typescript-eslint/parser": ^5.45.0
     auto-launch: ^5.0.5
+    bigint-buffer: ^1.1.5
     body-parser: ^1.20.1
+    bufferutil: ^4.0.7
     concurrently: ^7.6.0
     cors: ^2.8.5
     dmg-builder: ^23.6.0
@@ -19438,7 +19458,10 @@ __metadata:
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-simple-import-sort: ^7.0.0
     express: ^4.18.2
+    fsevents: ^2.3.2
+    fswin: ^3.22.106
     hidefile: ^3.0.0
+    keccak: ^3.0.2
     keepkey-desktop-app: "workspace:*"
     lodash: ^4.17.21
     nedb: ^1.8.0
@@ -19448,11 +19471,14 @@ __metadata:
     request: ^2.88.2
     request-promise: ^4.2.6
     rimraf: ^3.0.2
+    secp256k1: ^4.0.3
     swagger-ui-express: ^4.6.0
+    tiny-secp256k1: ^1.1.6
     ts-node: ^10.9.1
     tsoa: ^4.1.3
     typescript: ^4.7.0
     usb: ^2.5.2
+    utf-8-validate: ^5.0.10
     wait-promise: ^0.4.1
     web3: ^1.8.1
   languageName: unknown
@@ -19472,9 +19498,17 @@ __metadata:
   dependenciesMeta:
     app-builder-lib@23.6.0:
       unplugged: true
+    bigint-buffer@1.1.5:
+      unplugged: true
     dmg-builder@23.6.0:
       unplugged: true
+    fsevents@2.3.2:
+      unplugged: true
+    fswin@3.22.106:
+      unplugged: true
     node-hid@2.1.2:
+      unplugged: true
+    tiny-secp256k1@1.1.6:
       unplugged: true
     usb@2.5.2:
       unplugged: true
@@ -21419,7 +21453,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-hid@npm:^2.1.1, node-hid@npm:^2.1.2":
+"node-hid@npm:2.1.2":
   version: 2.1.2
   resolution: "node-hid@npm:2.1.2"
   dependencies:
@@ -21430,6 +21464,20 @@ __metadata:
   bin:
     hid-showdevices: src/show-devices.js
   checksum: 882eb883cdf82927a0706df3c86e9033296d42ed0ea458725b79b6df16b5dc710456126075c68ea190d97d824425a0deeb88ef9725aab5fafd7e936a807a37c9
+  languageName: node
+  linkType: hard
+
+"node-hid@patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 2.1.2
+  resolution: "node-hid@patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."
+  dependencies:
+    bindings: ^1.5.0
+    node-addon-api: ^3.0.2
+    node-gyp: latest
+    prebuild-install: ^7.1.1
+  bin:
+    hid-showdevices: src/show-devices.js
+  checksum: 6e46e03401a35b657bd8a52659211d73d804c05a78ea5a0598c5e29d07494e062473b2ab54a42dc7655238e8450a0a6eb8e4b341a36ea4f1f060c85e64db9927
   languageName: node
   linkType: hard
 
@@ -25024,7 +25072,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"secp256k1@npm:^4.0.1, secp256k1@npm:^4.0.2":
+"secp256k1@npm:^4.0.1, secp256k1@npm:^4.0.2, secp256k1@npm:^4.0.3":
   version: 4.0.3
   resolution: "secp256k1@npm:4.0.3"
   dependencies:
@@ -26568,7 +26616,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-secp256k1@npm:^1.1.1, tiny-secp256k1@npm:^1.1.3, tiny-secp256k1@npm:^1.1.6":
+"tiny-secp256k1@npm:1.1.6":
   version: 1.1.6
   resolution: "tiny-secp256k1@npm:1.1.6"
   dependencies:
@@ -26579,6 +26627,20 @@ __metadata:
     nan: ^2.13.2
     node-gyp: latest
   checksum: f8f705f8a76dc9ccc9aa46f7bc353c00be63940c0a1198175fd77c9b85bdf24eb6db3d72c4756d24af320900290313c580c07695cda645d98410822f94ee01f5
+  languageName: node
+  linkType: hard
+
+"tiny-secp256k1@patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 1.1.6
+  resolution: "tiny-secp256k1@patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."
+  dependencies:
+    bindings: ^1.3.0
+    bn.js: ^4.11.8
+    create-hmac: ^1.1.7
+    elliptic: ^6.4.0
+    nan: ^2.13.2
+    node-gyp: latest
+  checksum: ae54668c4d8cf4bbf723c08201e0389af12ed92ba2993712d37754e27528fbeedd7043085d7c73997e43803883c79bc827f4af076558b04245b3c380a0f69586
   languageName: node
   linkType: hard
 
@@ -27445,7 +27507,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"usb@npm:^2.5.2":
+"usb@npm:2.5.2":
   version: 2.5.2
   resolution: "usb@npm:2.5.2"
   dependencies:
@@ -27454,6 +27516,18 @@ __metadata:
     node-gyp: latest
     node-gyp-build: ^4.3.0
   checksum: 703d47c99aff5729d896c3eeb0fe4441d09a3883863551c63580224067467782380794597334d0e443f2f7bd2a2c141fdf205508366e303286dfaca5d8238de1
+  languageName: node
+  linkType: hard
+
+"usb@patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 2.5.2
+  resolution: "usb@patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A."
+  dependencies:
+    "@types/w3c-web-usb": 1.0.6
+    node-addon-api: ^4.2.0
+    node-gyp: latest
+    node-gyp-build: ^4.3.0
+  checksum: 84087b175836471a4dff5d4195e99312c4c8f323e751e6fcf23898b4410c7a3cefdd8fee3b47265257435ab01d4d410bfe4c182872985e0a60166b5e3c71ec1c
   languageName: node
   linkType: hard
 
@@ -27504,7 +27578,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"utf-8-validate@npm:^5.0.2":
+"utf-8-validate@npm:^5.0.10, utf-8-validate@npm:^5.0.2":
   version: 5.0.10
   resolution: "utf-8-validate@npm:5.0.10"
   dependencies:

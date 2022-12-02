@@ -3046,7 +3046,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["merkle-lib", "npm:2.0.10"],\
             ["pushdata-bitcoin", "npm:1.0.1"],\
             ["randombytes", "npm:2.1.0"],\
-            ["tiny-secp256k1", "npm:1.1.6"],\
+            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
             ["typeforce", "npm:1.18.0"],\
             ["varuint-bitcoin", "npm:1.1.2"],\
             ["wif", "npm:2.0.6"]\
@@ -3090,7 +3090,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bytebuffer", "npm:5.0.1"],\
             ["crypto", "npm:1.0.1"],\
             ["eventemitter2", "npm:5.0.1"],\
-            ["node-hid", "npm:2.1.2"]\
+            ["node-hid", "patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8163,7 +8163,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lodash", "npm:4.17.21"],\
             ["p-lazy", "npm:3.1.0"],\
             ["semver", "npm:6.3.0"],\
-            ["tiny-secp256k1", "npm:1.1.6"],\
+            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
             ["typedoc", "virtual:d3d78c5137958b04ba9090133f53e2686e3fb7618ea75d47482e50fc7ddcb1551efb9998584526180f75b9fd112b2cf7c20d7f8805d0270db50dd538117ca71a#npm:0.23.21"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"]\
           ],\
@@ -9559,7 +9559,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["merkle-lib", "npm:2.0.10"],\
             ["pushdata-bitcoin", "npm:1.0.1"],\
             ["randombytes", "npm:2.1.0"],\
-            ["tiny-secp256k1", "npm:1.1.6"],\
+            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
             ["typeforce", "npm:1.18.0"],\
             ["varuint-bitcoin", "npm:1.1.2"],\
             ["wif", "npm:2.0.6"]\
@@ -9657,7 +9657,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["long", "npm:4.0.0"],\
             ["p-lazy", "npm:3.1.0"],\
             ["semver", "npm:6.3.0"],\
-            ["tiny-secp256k1", "npm:1.1.6"]\
+            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9677,7 +9677,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/hdwallet-core", "npm:1.40.0"],\
             ["@shapeshiftoss/hdwallet-keepkey", "npm:1.40.0"],\
             ["@types/usb", null],\
-            ["usb", "npm:2.5.2"]\
+            ["usb", "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
           "packagePeers": [\
             "@types/usb",\
@@ -9734,7 +9734,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["p-lazy", "npm:3.1.0"],\
             ["scrypt-js", "npm:3.0.1"],\
             ["tendermint-tx-builder", "npm:1.0.16"],\
-            ["tiny-secp256k1", "npm:1.1.6"],\
+            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
             ["web-encoding", "npm:1.1.5"]\
           ],\
           "linkType": "HARD"\
@@ -9857,7 +9857,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/runtime", "npm:7.20.6"],\
             ["@ethersproject/sha2", "npm:5.7.0"],\
             ["@solana/buffer-layout", "npm:4.0.0"],\
-            ["bigint-buffer", "npm:1.1.5"],\
+            ["bigint-buffer", "patch:bigint-buffer@npm%3A1.1.5#./.yarn/patches/bigint-buffer-npm-1.1.5-785f4ccd92.patch::version=1.1.5&hash=e4e48b&locator=keepkey-monorepo%40workspace%3A."],\
             ["bn.js", "npm:5.2.1"],\
             ["borsh", "npm:0.7.0"],\
             ["bs58", "npm:4.0.1"],\
@@ -14834,10 +14834,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["bigint-buffer", [\
-        ["npm:1.1.5", {\
-          "packageLocation": "./.yarn/unplugged/bigint-buffer-npm-1.1.5-785f4ccd92/node_modules/bigint-buffer/",\
+        ["patch:bigint-buffer@npm%3A1.1.5#./.yarn/patches/bigint-buffer-npm-1.1.5-785f4ccd92.patch::version=1.1.5&hash=e4e48b&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/unplugged/bigint-buffer-patch-83f26a7851/node_modules/bigint-buffer/",\
           "packageDependencies": [\
-            ["bigint-buffer", "npm:1.1.5"],\
+            ["bigint-buffer", "patch:bigint-buffer@npm%3A1.1.5#./.yarn/patches/bigint-buffer-npm-1.1.5-785f4ccd92.patch::version=1.1.5&hash=e4e48b&locator=keepkey-monorepo%40workspace%3A."],\
             ["bindings", "npm:1.5.0"],\
             ["node-gyp", "npm:9.3.0"]\
           ],\
@@ -14923,7 +14923,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bs58check", "npm:2.1.2"],\
             ["create-hash", "npm:1.2.0"],\
             ["create-hmac", "npm:1.1.7"],\
-            ["tiny-secp256k1", "npm:1.1.6"],\
+            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
             ["typeforce", "npm:1.18.0"],\
             ["wif", "npm:2.0.6"]\
           ],\
@@ -15008,7 +15008,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["merkle-lib", "npm:2.0.10"],\
             ["pushdata-bitcoin", "npm:1.0.1"],\
             ["randombytes", "npm:2.1.0"],\
-            ["tiny-secp256k1", "npm:1.1.6"],\
+            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
             ["typeforce", "npm:1.18.0"],\
             ["varuint-bitcoin", "npm:1.1.2"],\
             ["wif", "npm:2.0.6"]\
@@ -15121,7 +15121,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["protocol-buffers-encodings", "npm:1.2.0"],\
             ["pumpify", "npm:2.0.1"],\
             ["secure-random", "npm:1.1.2"],\
-            ["tiny-secp256k1", "npm:1.1.6"],\
+            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
             ["url", "npm:0.11.0"],\
             ["uuid", "npm:3.4.0"],\
             ["websocket-stream", "npm:5.5.2"]\
@@ -21444,10 +21444,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["fswin", [\
-        ["npm:3.22.106", {\
-          "packageLocation": "./.yarn/unplugged/fswin-npm-3.22.106-41f613c183/node_modules/fswin/",\
+        ["patch:fswin@npm%3A3.22.106#./.yarn/patches/fswin-npm-3.22.106-41f613c183.patch::version=3.22.106&hash=36c8eb&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/unplugged/fswin-patch-9a5881c420/node_modules/fswin/",\
           "packageDependencies": [\
-            ["fswin", "npm:3.22.106"]\
+            ["fswin", "patch:fswin@npm%3A3.22.106#./.yarn/patches/fswin-npm-3.22.106-41f613c183.patch::version=3.22.106&hash=36c8eb&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24868,7 +24868,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:7f4705cc8167719ee0b6ae28185b7decb33253fbc1f550e08e1e673522395e7f5263689831b29b286e56e322efddf8e629efd7861b943078eb2c9d3eb629f69e#npm:5.45.0"],\
             ["@typescript-eslint/parser", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:5.45.0"],\
             ["auto-launch", "npm:5.0.5"],\
+            ["bigint-buffer", "patch:bigint-buffer@npm%3A1.1.5#./.yarn/patches/bigint-buffer-npm-1.1.5-785f4ccd92.patch::version=1.1.5&hash=e4e48b&locator=keepkey-monorepo%40workspace%3A."],\
             ["body-parser", "npm:1.20.1"],\
+            ["bufferutil", "npm:4.0.7"],\
             ["concurrently", "npm:7.6.0"],\
             ["cors", "npm:2.8.5"],\
             ["dmg-builder", "npm:23.6.0"],\
@@ -24888,21 +24890,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:4.2.1"],\
             ["eslint-plugin-simple-import-sort", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.0.0"],\
             ["express", "npm:4.18.2"],\
+            ["fsevents", "patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"],\
+            ["fswin", "patch:fswin@npm%3A3.22.106#./.yarn/patches/fswin-npm-3.22.106-41f613c183.patch::version=3.22.106&hash=36c8eb&locator=keepkey-monorepo%40workspace%3A."],\
             ["hidefile", "npm:3.0.0"],\
+            ["keccak", "npm:3.0.2"],\
             ["keepkey-desktop-app", "workspace:packages/keepkey-desktop-app"],\
             ["lodash", "npm:4.17.21"],\
             ["nedb", "npm:1.8.0"],\
-            ["node-hid", "npm:2.1.2"],\
+            ["node-hid", "patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."],\
             ["prettier", "npm:2.8.0"],\
             ["promise.any", "npm:2.0.5"],\
             ["request", "npm:2.88.2"],\
             ["request-promise", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:4.2.6"],\
             ["rimraf", "npm:3.0.2"],\
+            ["secp256k1", "npm:4.0.3"],\
             ["swagger-ui-express", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:4.6.0"],\
+            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
             ["ts-node", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.9.1"],\
             ["tsoa", "npm:4.1.3"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
-            ["usb", "npm:2.5.2"],\
+            ["usb", "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A."],\
+            ["utf-8-validate", "npm:5.0.10"],\
             ["wait-promise", "npm:0.4.1"],\
             ["web3", "npm:1.8.1"]\
           ],\
@@ -25147,7 +25155,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.9.1"],\
             ["tsoa", "npm:4.1.3"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
-            ["usb", "npm:2.5.2"],\
+            ["usb", "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A."],\
             ["util", "npm:0.12.5"],\
             ["uuid", "npm:9.0.0"],\
             ["wagmi", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:0.6.8"],\
@@ -27320,10 +27328,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["node-hid", [\
-        ["npm:2.1.2", {\
-          "packageLocation": "./.yarn/unplugged/node-hid-npm-2.1.2-82add4c8de/node_modules/node-hid/",\
+        ["patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/unplugged/node-hid-patch-7bd25cf988/node_modules/node-hid/",\
           "packageDependencies": [\
-            ["node-hid", "npm:2.1.2"],\
+            ["node-hid", "patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."],\
             ["bindings", "npm:1.5.0"],\
             ["node-addon-api", "npm:3.2.1"],\
             ["node-gyp", "npm:9.3.0"],\
@@ -33885,10 +33893,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["tiny-secp256k1", [\
-        ["npm:1.1.6", {\
-          "packageLocation": "./.yarn/unplugged/tiny-secp256k1-npm-1.1.6-00db893e04/node_modules/tiny-secp256k1/",\
+        ["patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/unplugged/tiny-secp256k1-patch-0ff338c471/node_modules/tiny-secp256k1/",\
           "packageDependencies": [\
-            ["tiny-secp256k1", "npm:1.1.6"],\
+            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
             ["bindings", "npm:1.5.0"],\
             ["bn.js", "npm:4.12.0"],\
             ["create-hmac", "npm:1.1.7"],\
@@ -34923,10 +34931,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["usb", [\
-        ["npm:2.5.2", {\
-          "packageLocation": "./.yarn/unplugged/usb-npm-2.5.2-5ec3b3efcd/node_modules/usb/",\
+        ["patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/unplugged/usb-patch-563cfb1f88/node_modules/usb/",\
           "packageDependencies": [\
-            ["usb", "npm:2.5.2"],\
+            ["usb", "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A."],\
             ["@types/w3c-web-usb", "npm:1.0.6"],\
             ["node-addon-api", "npm:4.3.0"],\
             ["node-gyp", "npm:9.3.0"],\
@@ -36198,7 +36206,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/winattr-npm-3.0.0-805b81cde8-5a964af77f.zip/node_modules/winattr/",\
           "packageDependencies": [\
             ["winattr", "npm:3.0.0"],\
-            ["fswin", "npm:3.22.106"]\
+            ["fswin", "patch:fswin@npm%3A3.22.106#./.yarn/patches/fswin-npm-3.22.106-41f613c183.patch::version=3.22.106&hash=36c8eb&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
           "linkType": "HARD"\
         }]\

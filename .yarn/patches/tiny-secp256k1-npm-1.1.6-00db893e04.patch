@@ -1,0 +1,12 @@
+diff --git a/native.js b/native.js
+index ad636a90b8a21163bc4fb6721add4f50aa148c7c..c8e4be105cb9bea2ccda2a0ddd2201446aaba32c 100644
+--- a/native.js
++++ b/native.js
+@@ -1,6 +1,6 @@
+ 'use strict'
+ 
+-let binding = require('bindings')('secp256k1')
++let binding = require('bindings')({ bindings: 'secp256k1', module_root: __dirname })
+ delete binding.path
+ 
+ // NaN drops function names, add them for is* (via toJSON)
