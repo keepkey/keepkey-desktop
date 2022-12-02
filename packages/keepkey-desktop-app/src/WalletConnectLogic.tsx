@@ -6,13 +6,10 @@ export const WalletConnectLogic = () => {
   const { addProposal, addRequest } = useWalletConnect()
   useEffect(() => {
     createSignClient().then(client => {
-      client.on('session_proposal', proposal => {
-        addProposal(proposal)
-      })
-      client.on('session_request', req => {
-        addRequest(req)
-      })
+      client.on('session_proposal', addProposal)
+      client.on('session_request', addRequest)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return <></>
 }

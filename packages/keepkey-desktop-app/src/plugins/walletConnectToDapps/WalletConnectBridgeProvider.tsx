@@ -11,6 +11,7 @@ import { getWalletConnect, WalletConnectSignClient } from 'kkdesktop/walletconne
 import type { CoreTypes, SignClientTypes } from '@walletconnect/types'
 import { SessionProposalModal } from './components/modal/callRequest/SessionProposalModal'
 import { WalletConnectLogic } from 'WalletConnectLogic'
+import LegacyWalletConnect from '@walletconnect/client'
 
 export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children }) => {
   const wallet = useWallet().state.wallet
@@ -51,11 +52,14 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
 
   const toast = useToast()
 
-  const onDisconnect = () => {
+  const onDisconnect = useCallback(() => {
+    if (isLegacy && legacyBridge) {
+      legacyBridge.connector.killSession()
+    }
     setIsConnected(false)
     setCurrentSessionTopic(undefined)
     setPairingMeta(undefined)
-  }
+  }, [isLegacy, legacyBridge])
 
   useEffect(() => {
     if (!WalletConnectSignClient) return
@@ -65,7 +69,42 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     })
     WalletConnectSignClient.on('session_delete', onDisconnect)
     WalletConnectSignClient.on('session_expire', onDisconnect)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [WalletConnectSignClient])
+
+  const setLegcyEvents = useCallback(
+    (wc: LegacyWCService) => {
+      wc.connector.on('call_request', (_e, payload) => {
+        addRequest(payload)
+      })
+
+      wc.connector.off('connect')
+      wc.connector.off('disconnect')
+      wc.connector.off('wallet_switchEthereumChain')
+      wc.connector.on('connect', () => {
+        setIsLegacy(true)
+        setIsConnected(true)
+        if (wc.connector.peerMeta) setPairingMeta(wc.connector.peerMeta)
+        rerender()
+      })
+      wc.connector.on('disconnect', () => {
+        setIsLegacy(false)
+        setIsConnected(false)
+        setLegacyBridge(undefined)
+        setPairingMeta(undefined)
+        rerender()
+      })
+      wc.connector.on('wallet_switchEthereumChain', (_, e) => {
+        toast({
+          title: 'Wallet Connect',
+          description: `Switched to chainId ${e.params[0].chainId}`,
+          isClosable: true,
+        })
+        rerender()
+      })
+    },
+    [addRequest, rerender, toast],
+  )
 
   // connects to given URI or attempts previous connection
   const connect = useCallback(
@@ -75,33 +114,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         if (wc instanceof LegacyWCService) {
           console.log('Legacy wallet connect')
           setIsLegacy(true)
-          wc.connector.on('call_request', (_e, payload) => {
-            addRequest(payload)
-          })
-
-          wc.connector.off('connect')
-          wc.connector.off('disconnect')
-          wc.connector.off('wallet_switchEthereumChain')
-          wc.connector.on('connect', () => {
-            setIsLegacy(true)
-            setIsConnected(true)
-            if (wc.connector.peerMeta) setPairingMeta(wc.connector.peerMeta)
-            rerender()
-          })
-          wc.connector.on('disconnect', () => {
-            setIsLegacy(false)
-            setIsConnected(false)
-            setLegacyBridge(undefined)
-            rerender()
-          })
-          wc.connector.on('wallet_switchEthereumChain', (_, e) => {
-            toast({
-              title: 'Wallet Connect',
-              description: `Switched to chainId ${e.params[0].chainId}`,
-              isClosable: true,
-            })
-            rerender()
-          })
+          setLegcyEvents(wc)
           await wc.connect()
           setLegacyBridge(wc)
         } else {
@@ -109,15 +122,20 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
           setLegacyBridge(undefined)
         }
       } else {
-        // const wcSessionJsonString = localStorage.getItem('walletconnect')
-        // if (!wcSessionJsonString) return
-        // const session = JSON.parse(wcSessionJsonString)
-        // newBridge = new WCService(wallet as ETHWallet, new LegacyWalletConnect({ session }), {
-        //   onCallRequest: addRequest,
-        // })
+        const wcSessionJsonString = localStorage.getItem('walletconnect')
+        if (!wcSessionJsonString) return
+        const session = JSON.parse(wcSessionJsonString)
+        const bridgeFromSession = new LegacyWCService(
+          wallet as ETHWallet,
+          new LegacyWalletConnect({ session }),
+        )
+        setIsLegacy(true)
+        setLegcyEvents(bridgeFromSession)
+        await bridgeFromSession.connect()
+        setLegacyBridge(bridgeFromSession)
       }
     },
-    [wallet, addRequest, rerender, toast],
+    [wallet, setLegcyEvents],
   )
 
   useEffect(() => {

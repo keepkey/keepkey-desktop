@@ -89,7 +89,7 @@ export const CallRequestModal = () => {
             <ModalCloseButton position='static' />
           </HStack>
         </ModalHeader>
-        {currentRequest && (
+        {requests.length !== 0 && (
           <NecessaryModal req={currentRequest} isLegacy={isLegacy} removeReq={removeRequest} />
         )}
       </ModalContent>

@@ -4,6 +4,7 @@ import { Box, HStack, MenuDivider, MenuItem, Select, VStack } from '@chakra-ui/r
 import dayjs from 'dayjs'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import type { FC } from 'react'
+import { useEffect } from 'react'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
@@ -27,7 +28,13 @@ export const DappHeaderMenuSummary: FC = () => {
     [walletConnect?.legacyBridge?.connector?.chainId],
   )
 
-  const [chainName, setChainName] = useState(supportedChains[initialChainSelection].name)
+  const [chainName, setChainName] = useState<string>()
+
+  useEffect(() => {
+    if (!initialChainSelection) return
+    const chain = supportedChains[initialChainSelection]
+    if (chain) setChainName(chain.name)
+  }, [initialChainSelection])
 
   const onChainClick = useCallback(
     (event: any) => {
@@ -52,9 +59,7 @@ export const DappHeaderMenuSummary: FC = () => {
           <DappAvatar
             name={walletConnect.dapp.name}
             image={walletConnect.dapp.icons[0]}
-            connected={
-              walletConnect.legacyBridge?.connector.connected || !!WalletConnectSignClient.session
-            }
+            connected={walletConnect.isConnected}
           />
           <Box fontWeight='medium'>
             <RawText>{walletConnect.dapp.name}</RawText>
@@ -95,20 +100,26 @@ export const DappHeaderMenuSummary: FC = () => {
       </VStack>
       <MenuDivider />
 
-      <Select defaultValue={initialChainSelection} variant='outline' onChange={onChainClick}>
-        {supportedChains.map((chain, index) => (
-          <option value={index}>{chain.name}</option>
-        ))}
-      </Select>
+      {walletConnect.isLegacy && (
+        <Select defaultValue={initialChainSelection} variant='outline' onChange={onChainClick}>
+          {supportedChains.map((chain, index) => (
+            <option value={index}>{chain.name}</option>
+          ))}
+        </Select>
+      )}
       <MenuDivider />
       <MenuItem
         fontWeight='medium'
         icon={<CloseIcon />}
         onClick={() => {
           walletConnect.onDisconnect()
-          if (walletConnect.isLegacy) { walletConnect?.legacyBridge?.disconnect }
-          else {
-            WalletConnectSignClient.disconnect({ topic: walletConnect.currentSessionTopic ?? "", reason: getSdkError('USER_DISCONNECTED') })
+          if (walletConnect.isLegacy) {
+            walletConnect?.legacyBridge?.disconnect
+          } else {
+            WalletConnectSignClient.disconnect({
+              topic: walletConnect.currentSessionTopic ?? '',
+              reason: getSdkError('USER_DISCONNECTED'),
+            })
           }
         }}
         color='red.500'

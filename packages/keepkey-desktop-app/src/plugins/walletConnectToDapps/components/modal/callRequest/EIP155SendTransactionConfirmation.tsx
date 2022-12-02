@@ -101,8 +101,6 @@ export const EIP155SendTransactionConfirmation = () => {
     setChainId(Number(chainIdRegexp[1]))
   }, [chainIdString])
 
-  if (!currentRequest) return <></>
-
   const onConfirm = useCallback(
     async (txData: any) => {
       if (!wallet || !accountPath || !chainId) return
@@ -301,7 +299,7 @@ export const EIP155SendTransactionConfirmation = () => {
     }
   }, [txInputNonce, address, chainWeb3, currentRequest.params])
 
-  if (!isConnected || !dapp) return null
+  if (!isConnected || !dapp || !currentRequest) return null
 
   const txInput: TxData = {
     nonce: txInputNonce,

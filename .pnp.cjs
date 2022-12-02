@@ -24828,6 +24828,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@wagmi/core", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:0.5.8"],\
             ["@walletconnect/client", "npm:1.8.0"],\
             ["@walletconnect/sign-client", "npm:2.1.4"],\
+            ["@walletconnect/types", "npm:2.1.4"],\
             ["@walletconnect/utils", "npm:2.1.4"],\
             ["@walletconnect/web3-provider", "npm:1.8.0"],\
             ["allsettled-polyfill", "npm:1.0.4"],\
