@@ -95,6 +95,7 @@ export const kkAutoLauncher = new AutoLaunch({
 })
 
 export const kkStateController = new KKStateController(async (eventName: string, args: any) => {
+  console.log("KK STATE", eventName)
   if (eventName === CONNECTED || eventName === NEEDS_INITIALIZE) await startTcpBridge()
   else if (eventName === DISCONNECTED || eventName === HARDWARE_ERROR) await stopTcpBridge()
   createAndUpdateTray()
