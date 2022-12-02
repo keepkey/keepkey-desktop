@@ -54,9 +54,6 @@ jobs:
           # macOS notarization API key
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
-      - name: Mac - Sleep for debug
-        if: startsWith(matrix.os, 'macos')
-        run: sleep 300
       - name: Ubuntu - Upload .deb
         if: startsWith(matrix.os, 'ubuntu')
         uses: actions/upload-artifact@v3
