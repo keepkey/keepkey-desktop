@@ -46,11 +46,11 @@ jobs:
         run: yarn run pack
         env:
           NODE_ENV: production
-          mac_certs: ${{ secrets.mac_certs }}
-          mac_certs_password: ${{ secrets.mac_certs_password }}
-          # windows_certs: ${{ secrets.windows_certs }}
-          # windows_certs_password: ${{ secrets.windows_certs_password }}
-          github_token: ${{ secrets.github_token }}
+          CSC_LINK: ${{ secrets.mac_certs }}
+          CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
+          # CSC_LINK: ${{ secrets.windows_certs }}
+          # CSC_KEY_PASSWORD: ${{ secrets.windows_certs_password }}
+          GH_TOKEN: ${{ secrets.github_token }}
           # macOS notarization API key
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
