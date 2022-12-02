@@ -88,10 +88,12 @@ const copyNodeHidBindings = async () => {
       pnpapi.resolveToUnqualified('node-hid/build/Release/HID.node', workspacePath),
       path.join(buildPath, 'HID.node'),
     ),
-    fs.promises.copyFile(
-      pnpapi.resolveToUnqualified('node-hid/build/Release/HID_hidraw.node', workspacePath),
-      path.join(buildPath, 'HID_hidraw.node'),
-    ),
+    fs.promises
+      .copyFile(
+        pnpapi.resolveToUnqualified('node-hid/build/Release/HID_hidraw.node', workspacePath),
+        path.join(buildPath, 'HID_hidraw.node'),
+      )
+      .catch(() => {}),
   ])
 }
 
