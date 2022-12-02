@@ -33,8 +33,7 @@ jobs:
             .yarn/unplugged/**
             .yarn/install-state.gz
             ~/.cache/electron-builder
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}
       - name: Yarn Install
         run: yarn install --immutable --immutable-cache
       - name: Prepare for app notarization
