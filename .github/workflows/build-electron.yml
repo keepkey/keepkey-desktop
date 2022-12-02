@@ -30,10 +30,11 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
+            .yarn/unplugged/**
+            .yarn/install-state.gz
             ~/.cache/electron-builder
-            ~/Library/Caches/electron-builder
-            ~/AppData/Local/electron-builder/Cache
-          key: ${{ runner.os }}
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - name: Yarn Install
         run: yarn install --immutable --immutable-cache
       - name: Prepare for app notarization
@@ -46,11 +47,11 @@ jobs:
         run: yarn run pack
         env:
           NODE_ENV: production
-          CSC_LINK: ${{ secrets.mac_certs }}
-          CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
-          # CSC_LINK: ${{ secrets.windows_certs }}
-          # CSC_KEY_PASSWORD: ${{ secrets.windows_certs_password }}
-          GH_TOKEN: ${{ secrets.github_token }}
+          mac_certs: ${{ secrets.mac_certs }}
+          mac_certs_password: ${{ secrets.mac_certs_password }}
+          # windows_certs: ${{ secrets.windows_certs }}
+          # windows_certs_password: ${{ secrets.windows_certs_password }}
+          github_token: ${{ secrets.github_token }}
           # macOS notarization API key
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
@@ -58,44 +59,19 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu')
         uses: actions/upload-artifact@v3
         with:
-          name: linux-deb
-          path: |
-            packages/keepkey-desktop/dist/*.deb
-            packages/keepkey-desktop/dist/*.deb.blockmap
-          if-no-files-found: error
+          path: packages/keepkey-desktop/dist/*.deb
       - name: Ubuntu - Upload .AppImage
         if: startsWith(matrix.os, 'ubuntu')
         uses: actions/upload-artifact@v3
         with:
-          name: linux-AppImage
-          path: |
-            packages/keepkey-desktop/dist/*.AppImage
-            packages/keepkey-desktop/dist/*.AppImage.blockmap
-          if-no-files-found: error
+          path: packages/keepkey-desktop/dist/*.AppImage
       - name: Mac - Upload .dmg
         if: startsWith(matrix.os, 'macos')
         uses: actions/upload-artifact@v3
         with:
-          name: mac-dmg
-          path: |
-            packages/keepkey-desktop/dist/*.dmg
-            packages/keepkey-desktop/dist/*.dmg.blockmap
-          if-no-files-found: error
-      - name: Mac - Upload .zip
-        if: startsWith(matrix.os, 'macos')
-        uses: actions/upload-artifact@v3
-        with:
-          name: mac-zip
-          path: |
-            packages/keepkey-desktop/dist/*.zip
-            packages/keepkey-desktop/dist/*.zip.blockmap
-          if-no-files-found: error
-      - name: Windows - Upload .exe
+          path: packages/keepkey-desktop/dist/*.dmg
+      - name: Windows - Upload .dmg
         if: startsWith(matrix.os, 'windows')
         uses: actions/upload-artifact@v3
         with:
-          name: windows-nsis
-          path: |
-            packages/keepkey-desktop/dist/*.exe
-            packages/keepkey-desktop/dist/*.exe.blockmap
-          if-no-files-found: error
+          path: packages/keepkey-desktop/dist/*.exe
