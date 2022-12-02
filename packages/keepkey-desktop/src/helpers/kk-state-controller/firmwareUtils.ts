@@ -33,7 +33,6 @@ export const loadFirmware = async (wallet: KeepKeyHDWallet, firmware: Buffer) =>
   await wallet.firmwareErase()
   const uploadResult = await wallet.firmwareUpload(firmware)
   return uploadResult
-  return
 }
 
 export const getAllFirmwareData = () =>
