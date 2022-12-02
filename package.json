@@ -37,6 +37,9 @@
     "dmg-builder@23.6.0": {
       "unplugged": true
     },
+    "node-hid@2.1.2": {
+      "unplugged": true
+    },
     "usb@2.5.2": {
       "unplugged": true
     }

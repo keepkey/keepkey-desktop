@@ -19420,6 +19420,7 @@ __metadata:
     keepkey-desktop-app: "workspace:*"
     lodash: ^4.17.21
     nedb: ^1.8.0
+    node-hid: ^2.1.2
     prettier: ^2.3.2
     promise.any: ^2.0.5
     request: ^2.88.2
@@ -19450,6 +19451,8 @@ __metadata:
     app-builder-lib@23.6.0:
       unplugged: true
     dmg-builder@23.6.0:
+      unplugged: true
+    node-hid@2.1.2:
       unplugged: true
     usb@2.5.2:
       unplugged: true
@@ -21394,7 +21397,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-hid@npm:^2.1.1":
+"node-hid@npm:^2.1.1, node-hid@npm:^2.1.2":
   version: 2.1.2
   resolution: "node-hid@npm:2.1.2"
   dependencies:

@@ -24867,6 +24867,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["keepkey-desktop-app", "workspace:packages/keepkey-desktop-app"],\
             ["lodash", "npm:4.17.21"],\
             ["nedb", "npm:1.8.0"],\
+            ["node-hid", "npm:2.1.2"],\
             ["prettier", "npm:2.8.0"],\
             ["promise.any", "npm:2.0.5"],\
             ["request", "npm:2.88.2"],\

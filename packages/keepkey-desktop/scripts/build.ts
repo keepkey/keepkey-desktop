@@ -82,6 +82,19 @@ const copyPrebuilds = async (packages: string[]) => {
   )
 }
 
+const copyNodeHidBindings = async () => {
+  await Promise.all([
+    fs.promises.copyFile(
+      pnpapi.resolveToUnqualified('node-hid/build/Release/HID.node', workspacePath),
+      path.join(buildPath, 'HID.node'),
+    ),
+    fs.promises.copyFile(
+      pnpapi.resolveToUnqualified('node-hid/build/Release/HID_hidraw.node', workspacePath),
+      path.join(buildPath, 'HID_hidraw.node'),
+    ),
+  ])
+}
+
 const usbPrebuildPlugin = async (): Promise<esbuild.Plugin> => {
   return {
     name: 'usb-prebuild-plugin',
@@ -149,6 +162,7 @@ export const build = async () => {
   await Promise.all([
     esbuild,
     copyPrebuilds(['usb']),
+    copyNodeHidBindings(),
     copyAppDir(),
     copyAssetsDir(),
     esbuild.then(async x => {

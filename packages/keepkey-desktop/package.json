@@ -96,6 +96,7 @@
         "keepkey-desktop-app": "workspace:*",
         "lodash": "^4.17.21",
         "nedb": "^1.8.0",
+        "node-hid": "^2.1.2",
         "promise.any": "^2.0.5",
         "request": "^2.88.2",
         "request-promise": "^4.2.6",
