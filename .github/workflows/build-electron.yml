@@ -59,26 +59,34 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: linux-deb
-          path: packages/keepkey-desktop/dist/*.deb
+          path: |
+            packages/keepkey-desktop/dist/*.deb
+            packages/keepkey-desktop/dist/*.deb.blockmap
           if-no-files-found: error
       - name: Ubuntu - Upload .AppImage
         if: startsWith(matrix.os, 'ubuntu')
         uses: actions/upload-artifact@v3
         with:
           name: linux-AppImage
-          path: packages/keepkey-desktop/dist/*.AppImage
+          path: |
+            packages/keepkey-desktop/dist/*.AppImage
+            packages/keepkey-desktop/dist/*.AppImage.blockmap
           if-no-files-found: error
       - name: Mac - Upload .dmg
         if: startsWith(matrix.os, 'macos')
         uses: actions/upload-artifact@v3
         with:
           name: mac-dmg
-          path: packages/keepkey-desktop/dist/*.dmg
+          path: |
+            packages/keepkey-desktop/dist/*.dmg
+            packages/keepkey-desktop/dist/*.dmg.blockmap
           if-no-files-found: error
       - name: Windows - Upload .exe
         if: startsWith(matrix.os, 'windows')
         uses: actions/upload-artifact@v3
         with:
-          name: windows-exe
-          path: packages/keepkey-desktop/dist/*.exe
+          name: windows-nsis
+          path: |
+            packages/keepkey-desktop/dist/*.exe
+            packages/keepkey-desktop/dist/*.exe.blockmap
           if-no-files-found: error

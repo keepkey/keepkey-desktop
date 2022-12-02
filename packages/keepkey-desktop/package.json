@@ -49,15 +49,13 @@
             "entitlements": "entitlements.mac.plist",
             "entitlementsInherit": "entitlements.mac.plist",
             "target": [
-                "dmg",
-                "zip"
+                "dmg"
             ]
         },
         "win": {
             "icon": "icon.png",
-            "target": "nsis",
-            "publish": [
-                "github"
+            "target": [
+                "nsis"
             ]
         },
         "linux": {
