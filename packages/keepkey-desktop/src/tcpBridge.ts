@@ -27,13 +27,13 @@ export const startTcpBridge = async (port?: number) => {
   appExpress.use(bodyParser.urlencoded({ extended: true }))
   appExpress.use(bodyParser.json())
 
-  const swaggerDocument = require(path.join(__dirname, 'api/dist/swagger.json'))
+  const swaggerDocument = require(path.join(__dirname, 'api/swagger.json'))
   if (!swaggerDocument) throw Error('Failed to load API SPEC!')
 
   appExpress.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
   //swagger.json
-  appExpress.use('/spec', express.static(path.join(__dirname, 'api/dist')))
+  appExpress.use('/spec', express.static(path.join(__dirname, 'api')))
 
   RegisterRoutes(appExpress)
 

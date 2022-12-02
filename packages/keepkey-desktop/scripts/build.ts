@@ -10,7 +10,7 @@ process.env.NODE_ENV ??= 'production'
 
 const workspacePath = path.resolve(__dirname, '..')
 const buildPath = path.join(workspacePath, 'build')
-const tsoaPath = path.join(buildPath, 'api/dist')
+const tsoaPath = path.join(buildPath, 'api')
 const appPath = path.join(buildPath, 'app')
 const assetsPath = path.join(buildPath, 'assets')
 const prebuildsPath = path.join(buildPath, 'prebuilds')
