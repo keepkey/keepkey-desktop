@@ -33,6 +33,14 @@ export const dev = async () => {
     }
   })()
 
+  child.stdout.on('data', (data) => {
+    console.log(`stdout [electron main] : ${data}`);
+  })
+
+  child.stderr.on('data', (data) => {
+    console.error(`stderr [electron main] : ${data}`);
+  })
+
   process.on('SIGINT', () => {
     if (child.exitCode !== null) return
     if (!child.killed) {
