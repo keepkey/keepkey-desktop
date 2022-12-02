@@ -31,6 +31,8 @@ jobs:
         with:
           path: |
             ~/.cache/electron-builder
+            ~/Library/Caches/electron
+            ~/AppData/Local/electron/Cache
           key: ${{ runner.os }}
       - name: Yarn Install
         run: yarn install --immutable --immutable-cache
