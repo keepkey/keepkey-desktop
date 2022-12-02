@@ -1,20 +1,34 @@
 import { useToast } from '@chakra-ui/react'
 import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
-import WalletConnect from '@walletconnect/client'
-import { WCService } from 'kkdesktop/walletconnect'
+import { LegacyWCService } from 'kkdesktop/walletconnect'
 import type { FC, PropsWithChildren } from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { useWallet } from 'hooks/useWallet/useWallet'
 
 import { CallRequestModal } from './components/modal/callRequest/CallRequestModal'
 import { WalletConnectBridgeContext } from './WalletConnectBridgeContext'
+import { getWalletConnect, WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import type { CoreTypes, SignClientTypes } from '@walletconnect/types'
+import { SessionProposalModal } from './components/modal/callRequest/SessionProposalModal'
+import { WalletConnectLogic } from 'WalletConnectLogic'
+import LegacyWalletConnect from '@walletconnect/client'
 
 export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children }) => {
   const wallet = useWallet().state.wallet
-  const [bridge, setBridge] = useState<WCService>()
+  const [legacyBridge, setLegacyBridge] = useState<LegacyWCService>()
+  const [pairingMeta, setPairingMeta] = useState<CoreTypes.Metadata>()
+  const [currentSessionTopic, setCurrentSessionTopic] = useState<string>()
+  const [isLegacy, setIsLegacy] = useState(false)
+  const [isConnected, setIsConnected] = useState(false)
 
   const [requests, setRequests] = useState<any[]>([])
+  const [proposals, setProposals] = useState<SignClientTypes.EventArguments['session_proposal'][]>(
+    [],
+  )
+
   const addRequest = useCallback((req: any) => setRequests(requests.concat(req)), [requests])
+  const addProposal = useCallback((req: any) => setProposals(proposals.concat(req)), [proposals])
+
   const removeRequest = useCallback(
     (id: number) => {
       const newRequests = requests.filter(request => request.id !== id)
@@ -24,33 +38,63 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     [requests],
   )
 
+  const removeProposal = useCallback(
+    (id: number) => {
+      const newProposals = proposals.filter(proposal => proposal.id !== id)
+      delete newProposals[id]
+      setProposals(newProposals)
+    },
+    [proposals],
+  )
+
   const [, setTick] = useState(0)
   const rerender = useCallback(() => setTick(prev => prev + 1), [])
 
   const toast = useToast()
 
-  // connects to given URI or attempts previous connection
-  const connect = useCallback(
-    async (uri?: string) => {
-      let newBridge
-      if (uri)
-        newBridge = new WCService(wallet as ETHWallet, new WalletConnect({ uri }), {
-          onCallRequest: addRequest,
-        })
-      else {
-        const wcSessionJsonString = localStorage.getItem('walletconnect')
-        if (!wcSessionJsonString) return
-        const session = JSON.parse(wcSessionJsonString)
-        newBridge = new WCService(wallet as ETHWallet, new WalletConnect({ session }), {
-          onCallRequest: addRequest,
-        })
-      }
-      newBridge.connector.off('connect')
-      newBridge.connector.off('disconnect')
-      newBridge.connector.off('wallet_switchEthereumChain')
-      newBridge.connector.on('connect', rerender)
-      newBridge.connector.on('disconnect', rerender)
-      newBridge.connector.on('wallet_switchEthereumChain', (_, e) => {
+  const onDisconnect = useCallback(() => {
+    if (isLegacy && legacyBridge) {
+      legacyBridge.connector.killSession()
+    }
+    setIsConnected(false)
+    setCurrentSessionTopic(undefined)
+    setPairingMeta(undefined)
+  }, [isLegacy, legacyBridge])
+
+  useEffect(() => {
+    if (!WalletConnectSignClient) return
+    WalletConnectSignClient.on('session_ping', payload => {
+      setIsConnected(true)
+      setCurrentSessionTopic(payload.topic)
+    })
+    WalletConnectSignClient.on('session_delete', onDisconnect)
+    WalletConnectSignClient.on('session_expire', onDisconnect)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [WalletConnectSignClient])
+
+  const setLegcyEvents = useCallback(
+    (wc: LegacyWCService) => {
+      wc.connector.on('call_request', (_e, payload) => {
+        addRequest(payload)
+      })
+
+      wc.connector.off('connect')
+      wc.connector.off('disconnect')
+      wc.connector.off('wallet_switchEthereumChain')
+      wc.connector.on('connect', () => {
+        setIsLegacy(true)
+        setIsConnected(true)
+        if (wc.connector.peerMeta) setPairingMeta(wc.connector.peerMeta)
+        rerender()
+      })
+      wc.connector.on('disconnect', () => {
+        setIsLegacy(false)
+        setIsConnected(false)
+        setLegacyBridge(undefined)
+        setPairingMeta(undefined)
+        rerender()
+      })
+      wc.connector.on('wallet_switchEthereumChain', (_, e) => {
         toast({
           title: 'Wallet Connect',
           description: `Switched to chainId ${e.params[0].chainId}`,
@@ -58,22 +102,75 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         })
         rerender()
       })
-      await newBridge.connect()
-      setBridge(newBridge)
     },
-    [wallet, addRequest, rerender, toast],
+    [addRequest, rerender, toast],
+  )
+
+  // connects to given URI or attempts previous connection
+  const connect = useCallback(
+    async (uri?: string) => {
+      if (uri) {
+        const wc = await getWalletConnect(wallet as ETHWallet, uri)
+        if (wc instanceof LegacyWCService) {
+          console.log('Legacy wallet connect')
+          setIsLegacy(true)
+          setLegcyEvents(wc)
+          await wc.connect()
+          setLegacyBridge(wc)
+        } else {
+          setIsLegacy(false)
+          setLegacyBridge(undefined)
+        }
+      } else {
+        const wcSessionJsonString = localStorage.getItem('walletconnect')
+        if (!wcSessionJsonString) return
+        const session = JSON.parse(wcSessionJsonString)
+        const bridgeFromSession = new LegacyWCService(
+          wallet as ETHWallet,
+          new LegacyWalletConnect({ session }),
+        )
+        setIsLegacy(true)
+        setLegcyEvents(bridgeFromSession)
+        await bridgeFromSession.connect()
+        setLegacyBridge(bridgeFromSession)
+      }
+    },
+    [wallet, setLegcyEvents],
   )
 
   useEffect(() => {
     connect()
   }, [connect])
 
-  const dapp = bridge?.connector.peerMeta ?? undefined
+  const dapp = pairingMeta
 
   return (
-    <WalletConnectBridgeContext.Provider value={{ bridge, dapp, connect, removeRequest, requests }}>
+    <WalletConnectBridgeContext.Provider
+      value={{
+        setCurrentSessionTopic: topic => {
+          setCurrentSessionTopic(topic)
+          setIsConnected(true)
+        },
+        onDisconnect,
+        isConnected,
+        currentSessionTopic,
+        proposals,
+        addProposal,
+        removeProposal,
+        isLegacy,
+        legacyBridge,
+        dapp,
+        connect,
+        removeRequest,
+        requests,
+        addRequest,
+        setPairingMeta,
+      }}
+    >
+      <WalletConnectLogic />
       {children}
       {requests.length > 0 && <CallRequestModal />}
+      {proposals.length > 0 && <SessionProposalModal />}
     </WalletConnectBridgeContext.Provider>
   )
 }

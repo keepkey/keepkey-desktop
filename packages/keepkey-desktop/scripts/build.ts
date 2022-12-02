@@ -74,10 +74,10 @@ const usbPrebuildPlugin = async (): Promise<esbuild.Plugin> => {
   return {
     name: 'usb-prebuild-plugin',
     setup: async build => {
-      build.onLoad({ filter: /usb\/dist\/usb\/bindings\.js$/ }, async args => {
+      build.onLoad({ filter: /usb[\\\/]dist[\\\/]usb[\\\/]bindings\.js$/ }, async args => {
         if (args.namespace !== 'file') return
         return {
-          contents: `((__dirname)=>{\n${await fs.promises.readFile(args.path, {
+          contents: `((__dirname)=>{console.log("hello", __dirname);\n${await fs.promises.readFile(args.path, {
             encoding: 'utf8',
           })}\n})(require('path').join(__dirname, '../prebuilds/usb/foo/bar'))`,
         }

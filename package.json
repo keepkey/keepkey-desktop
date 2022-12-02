@@ -31,8 +31,14 @@
     "tough-cookie": "^3.0.0"
   },
   "dependenciesMeta": {
+    "node-gyp-build@4.5.0": {
+      "unplugged": true
+    },
     "usb@2.5.2": {
       "unplugged": true
     }
+  },
+  "dependencies": {
+    "node-gyp-build": "^4.5.0"
   }
 }
