@@ -13153,7 +13153,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],\
       ["app-builder-lib", [\
         ["npm:23.6.0", {\
-          "packageLocation": "./.yarn/cache/app-builder-lib-npm-23.6.0-cb887be781-da3cc9f24e.zip/node_modules/app-builder-lib/",\
+          "packageLocation": "./.yarn/unplugged/app-builder-lib-npm-23.6.0-cb887be781/node_modules/app-builder-lib/",\
           "packageDependencies": [\
             ["app-builder-lib", "npm:23.6.0"],\
             ["7zip-bin", "npm:5.1.1"],\

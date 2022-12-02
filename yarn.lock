@@ -18881,6 +18881,8 @@ __metadata:
     typescript: ^4.7.0
     yaml-sort: ^1.2.1
   dependenciesMeta:
+    app-builder-lib@23.6.0:
+      unplugged: true
     usb@2.5.2:
       unplugged: true
   languageName: unknown
