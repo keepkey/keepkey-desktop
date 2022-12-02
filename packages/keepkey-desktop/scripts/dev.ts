@@ -8,6 +8,8 @@ const workspacePath = path.resolve(__dirname, '..')
 const distPath = path.join(workspacePath, 'dist')
 
 export const dev = async () => {
+  process.env.NODE_ENV ??= 'development'
+
   await build()
 
   await electronBuilder.build({

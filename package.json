@@ -11,7 +11,6 @@
     "clean": "yarn workspaces foreach -p run clean",
     "build": "yarn workspaces foreach -pRti --from 'keepkey-desktop' run build",
     "dev": "yarn workspaces foreach -pRti --from 'keepkey-desktop' run dev",
-    "pack": "yarn workspaces foreach -pRti --from 'keepkey-desktop' run pack",
     "lint": "yarn workspaces foreach -pi run lint",
     "lint:fix": "yarn workspaces foreach -pi run lint:fix",
     "test": "yarn workspaces foreach -pi run test"

@@ -54,16 +54,8 @@ jobs:
           # macOS notarization API key
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
-      - name: Ubuntu - Upload .deb
-        if: startsWith(matrix.os, 'ubuntu')
-        uses: actions/upload-artifact@v3
-        with:
-          name: linux-deb
-          path: |
-            packages/keepkey-desktop/dist/*.deb
-            packages/keepkey-desktop/dist/*.deb.blockmap
           if-no-files-found: error
-      - name: Ubuntu - Upload .AppImage
+      - name: Linux - Upload .AppImage
         if: startsWith(matrix.os, 'ubuntu')
         uses: actions/upload-artifact@v3
         with:
@@ -80,15 +72,6 @@ jobs:
           path: |
             packages/keepkey-desktop/dist/*.dmg
             packages/keepkey-desktop/dist/*.dmg.blockmap
-          if-no-files-found: error
-      - name: Mac - Upload .zip
-        if: startsWith(matrix.os, 'macos')
-        uses: actions/upload-artifact@v3
-        with:
-          name: mac-zip
-          path: |
-            packages/keepkey-desktop/dist/*.zip
-            packages/keepkey-desktop/dist/*.zip.blockmap
           if-no-files-found: error
       - name: Windows - Upload .exe
         if: startsWith(matrix.os, 'windows')

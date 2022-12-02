@@ -9,14 +9,12 @@
         "type": "git",
         "url": "https://github.com/keepkey/keepkey-desktop"
     },
-    "description": "Do many things with your KeepKey.",
     "homepage": "undefined",
     "private": true,
     "scripts": {
-        "install-deps": "electron-builder install-app-deps --platform darwin --platform linux --platform win32",
         "build": "ts-node --skipProject --swc ./scripts/build.ts",
-        "dev": "NODE_ENV=development ts-node --skipProject --swc ./scripts/dev.ts",
-        "pack": "ts-node --skipProject --swc ./scripts/pack.ts",
+        "release": "yarn run -T build && electron-builder",
+        "dev": "ts-node --skipProject --swc ./scripts/dev.ts",
         "clean": "rimraf api/dist build dist prebuilds",
         "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
         "lint:fix": "yarn lint --fix"
@@ -25,6 +23,7 @@
     "build": {
         "appId": "com.keepkey.desktop",
         "productName": "KeepKey Desktop",
+        "generateUpdatesFilesForAllChannels": true,
         "afterSign": "./scripts/afterSign.js",
         "files": [
             "assets/**/*",
@@ -49,22 +48,23 @@
             "entitlements": "entitlements.mac.plist",
             "entitlementsInherit": "entitlements.mac.plist",
             "target": [
-                "dmg",
-                "zip"
-            ]
+                "dmg"
+            ],
+            "publish": ["github"]
         },
         "win": {
             "icon": "icon.png",
             "target": [
                 "nsis"
-            ]
+            ],
+            "publish": ["github"]
         },
         "linux": {
             "icon": "icon.png",
             "target": [
-                "AppImage",
-                "deb"
-            ]
+                "AppImage"
+            ],
+            "publish": ["github"]
         }
     },
     "dependencies": {
