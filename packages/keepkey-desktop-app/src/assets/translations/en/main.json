@@ -108,6 +108,7 @@
       "value": "Value",
       "priceChange": "Price Change",
       "allocation": "Allocation",
+      "recentDapps": "Recently Used Dapps",
       "empty": {
         "title": "Cricket noises...",
         "cta": "Send yourself some crypto!"
