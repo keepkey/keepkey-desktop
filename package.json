@@ -40,13 +40,13 @@
     "usb@^2.5.2": "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch"
   },
   "dependenciesMeta": {
-    "app-builder-lib@23.6.0": {
+    "app-builder-lib@24.0.0-alpha.5": {
       "unplugged": true
     },
     "bigint-buffer@1.1.5": {
       "unplugged": true
     },
-    "dmg-builder@23.6.0": {
+    "dmg-builder@24.0.0-alpha.5": {
       "unplugged": true
     },
     "fsevents@2.3.2": {
