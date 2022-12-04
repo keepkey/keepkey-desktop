@@ -127,7 +127,7 @@ export class FDeveloperController extends Controller {
   @Security('api_key')
   @Middlewares([logger])
   @Response(500, 'Internal server error')
-  public async wipe(@Body() body: void): Promise<any> {
+  public async wipe(): Promise<any> {
     return new Promise<any>(async (resolve, reject) => {
       await checkKeepKeyUnlocked()
       if (!kkStateController.wallet) return reject()

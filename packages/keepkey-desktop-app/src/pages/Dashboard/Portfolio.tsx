@@ -28,6 +28,8 @@ import {
 
 import { AccountTable } from './components/AccountList/AccountTable'
 import { PortfolioBreakdown } from './PortfolioBreakdown'
+import { ExplorationBanner } from 'plugins/walletConnectToDapps/components/ExplorationBanner'
+import { RecentlyUsedDapps } from './RecentlyUsedDapps'
 
 export const Portfolio = () => {
   const [timeframe, setTimeframe] = useState<HistoryTimeframe>(DEFAULT_HISTORY_TIMEFRAME)
@@ -49,6 +51,7 @@ export const Portfolio = () => {
 
   return (
     <Stack spacing={6} width='full'>
+      <ExplorationBanner />
       <Card variant='footer-stub'>
         <Card.Header
           display='flex'
@@ -111,6 +114,7 @@ export const Portfolio = () => {
         </Skeleton>
       </Card>
       <MaybeChartUnavailable assetIds={assetIds} />
+      <RecentlyUsedDapps />
       <PortfolioBreakdown />
       <Card>
         <Card.Header>
