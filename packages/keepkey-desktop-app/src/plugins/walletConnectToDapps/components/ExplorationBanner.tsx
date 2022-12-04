@@ -70,7 +70,7 @@ export const ExplorationBanner: FC = () => {
           <Image rounded='lg' objectFit='cover' boxSize='100%' src={spotlight.image} />
         </Skeleton>
       </Flex>
-      <SkeletonText isLoaded={isLoaded} noOfLines={1}>
+      <SkeletonText isLoaded={isLoaded}>
         <h2>Today's Spotlight!</h2>
       </SkeletonText>
       <Stack flex={2} alignSelf='center' spacing={4} p={8}>
@@ -83,7 +83,7 @@ export const ExplorationBanner: FC = () => {
           />
         </Skeleton>
         <Box>
-          <SkeletonText isLoaded={isLoaded} noOfLines={1}>
+          <SkeletonText isLoaded={isLoaded}>
             <Text as='b' fontSize='lg' translation={spotlight.name} />
           </SkeletonText>
         </Box>
