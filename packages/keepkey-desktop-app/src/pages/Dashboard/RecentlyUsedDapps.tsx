@@ -16,14 +16,14 @@ export const RecentlyUsedDapps: FC = () => {
 
   useEffect(() => {
     ipcRenderer.send('@app/pairings')
-    // ipcRenderer.on('@app/pairings', (_event: any, data: PairingProps[]) => {
-    //   setPairings(
-    //     data
-    //       .filter(p => p.pairingType === 'walletconnect')
-    //       .sort((a, b) => b.addedOn - a.addedOn)
-    //       .slice(0, 5),
-    //   )
-    // })
+    ipcRenderer.on('@app/pairings', (_event: any, data: PairingProps[]) => {
+      setPairings(
+        data
+          .filter(p => p.pairingType === 'walletconnect')
+          .sort((a, b) => b.addedOn - a.addedOn)
+          .slice(0, 5),
+      )
+    })
   }, [])
 
   const openDapp = (app: PairingProps) => {
