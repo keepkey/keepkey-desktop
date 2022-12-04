@@ -43,7 +43,8 @@ export const Browser = () => {
   useEffect(() => {
     const webview: any = document.getElementById('webview')
     if (!webview) return
-    webview.autosize = 'on'
+    webview.setAttribute('autosize', 'on')
+    webview.setAttribute('allowpopups', 'true')
     setHasMounted(true)
     webview.addEventListener('did-start-loading', () => {
       setLoading(true)

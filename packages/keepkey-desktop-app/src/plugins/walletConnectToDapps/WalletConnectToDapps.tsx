@@ -14,12 +14,7 @@ import { useHistory } from 'react-router'
 
 export const WalletConnectToDapps: FC = () => {
   const [motd, setSetMotd] = useState('')
-  const [spotlight, setSpotlight] = useState({
-    name: '...',
-    homepage: '',
-    image: '...',
-    description: '...',
-  })
+
   const { dispatch } = useWallet()
   const history = useHistory()
 
@@ -33,10 +28,6 @@ export const WalletConnectToDapps: FC = () => {
       let info = await api.Globals()
       console.log('info: ', info.data)
       setSetMotd(info.data.motd)
-
-      let spotlight = await api.GetSpotlight()
-      console.log('spotlight: ', spotlight.data)
-      setSpotlight(spotlight.data)
     } catch (e) {
       console.error(e)
     }
@@ -58,7 +49,7 @@ export const WalletConnectToDapps: FC = () => {
           <AlertIcon />
           {motd}
         </Alert>
-        <ExplorationBanner spotlight={spotlight} size={100} openDapp={openDapp} />
+        <ExplorationBanner size={100} openDapp={openDapp} />
         <DappRegistryGrid />
       </Stack>
     </Container>

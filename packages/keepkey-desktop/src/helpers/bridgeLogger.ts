@@ -17,11 +17,14 @@ export class BridgeLogger {
   constructor() {
     try {
       if (fs.existsSync(this.logPath)) {
-        let data: string | BridgeLog[] = fs.readFileSync(this.logPath).toString()
-        if (!data || data === '') this.logs = new Array<BridgeLog>()
-        data = JSON.parse(data)
-        if (!data) this.logs = new Array<BridgeLog>()
-        this.logs = data as BridgeLog[]
+        let data: string | Array<BridgeLog> = fs.readFileSync(this.logPath).toString()
+        if (!data || data === '' || data === ' ' || data.length === 0) {
+          this.logs = new Array<BridgeLog>()
+        } else {
+          data = JSON.parse(data)
+          if (!data) this.logs = new Array<BridgeLog>()
+          this.logs = data as Array<BridgeLog>
+        }
       }
     } catch (e) {
       console.error('Error Setting Up BridgeLogger:', e)

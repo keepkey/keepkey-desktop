@@ -112,7 +112,7 @@ export const Routes = () => {
           <Pairings />
         </Layout>
       </Route>
-      <Redirect from='/' to='/dapps' />
+      <Redirect from='/' to='/dashboard' />
       <Route component={NotFound} />
     </Switch>
   )
