@@ -35,9 +35,11 @@ export const RecentlyUsedDapps: FC = () => {
   if (pairings.length === 0) return null
   return (
     <Card>
-      <Card.Heading>
-        <Text translation='dashboard.portfolio.recentDapps' />
-      </Card.Heading>
+      <Card.Header>
+        <Card.Heading>
+          <Text translation='dashboard.portfolio.recentDapps' />
+        </Card.Heading>
+      </Card.Header>
       <Card.Body>
         <Grid templateColumns='repeat(5, 1fr)' gap={4}>
           {pairings &&
@@ -48,7 +50,7 @@ export const RecentlyUsedDapps: FC = () => {
                   p={2}
                   position='relative'
                   overflow='hidden'
-                  opacity={1}
+                  opacity={0.99}
                   _hover={{ opacity: 0.8, transition: 'opacity 0.2s ease-in-out' }}
                 >
                   <Image
