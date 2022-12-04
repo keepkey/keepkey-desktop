@@ -5,6 +5,7 @@
         "name": "KeepKey",
         "email": "support@keepkey.com"
     },
+    "description": "An all-in-one suite for using your KeepKey hardware wallet.",
     "repository": {
         "type": "git",
         "url": "https://github.com/keepkey/keepkey-desktop"
