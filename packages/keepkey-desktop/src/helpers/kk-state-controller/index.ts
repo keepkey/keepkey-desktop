@@ -14,6 +14,7 @@ export const CONNECTED = 'connected'
 export const HARDWARE_ERROR = 'hardwareError'
 export const DISCONNECTED = 'disconnected'
 export const PLUGIN = 'plugin'
+export const NEEDS_RECONNECT = 'needsReconnect'
 
 /**
  * Keeps track of the last known state of the keepkey
@@ -53,6 +54,15 @@ export class KKStateController {
     this.onStateChange(newState, { event: newData })
     this.lastState = newState
     this.lastData = newData
+  }
+
+  public skipUpdate = async () => {
+    if (this.lastState === UPDATE_FIRMWARE && this.lastData.bootloaderMode) {
+      return await this.updateState(NEEDS_RECONNECT, { ready: false })
+    }
+    await this.updateState(CONNECTED, {
+      ready: true,
+    })
   }
 
   public syncState = async () => {

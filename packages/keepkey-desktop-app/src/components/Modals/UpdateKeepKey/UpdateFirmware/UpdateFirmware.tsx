@@ -1,38 +1,52 @@
-import { Button, ModalBody, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  HStack,
+  ModalBody,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react'
 import { ipcRenderer } from 'electron-shim'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useModal } from 'hooks/useModal/useModal'
+import { RawText } from 'components/Text'
 
 export const UpdateFirmware = (params: any) => {
-  const { updateKeepKey, requestBootloaderMode } = useModal()
-  const { isOpen } = updateKeepKey
+  const { requestBootloaderMode } = useModal()
+
+  const [loading, setLoading] = useState(false)
 
   const onAcceptUpdate = async () => {
+    setLoading(true)
     console.log('onAcceptUpdate: ')
     ipcRenderer.send('@keepkey/update-firmware', {})
   }
 
-  // const onSkipUpdate = async () => {
-  //   console.log("onSkipUpdate: ")
-  //   ipcRenderer.send('onCompleteFirmwareUpload',{})
-  // }
-
-  useEffect(() => {
-    if (isOpen) {
-      console.log('isOpen: ')
-      ipcRenderer.send('@keepkey/update-firmware', {})
-    }
-  }, [isOpen])
+  const onSkipUpdate = async () => {
+    console.log('onSkipUpdate: ')
+    ipcRenderer.send('@keepkey/skip-update')
+  }
 
   useEffect(() => {
     console.log('params: ', params)
     if (!params?.event?.bootloaderMode) {
-      requestBootloaderMode.open({})
+      requestBootloaderMode.open({ ...params.event })
     }
   }, [params?.event])
 
   return (
     <ModalBody pt={5}>
+      {loading && (
+        <Alert status='warning'>
+          <AlertIcon />
+          <RawText>Please follow the prompt shown on your KeepKey</RawText>
+        </Alert>
+      )}
       <Table size='sm'>
         <Thead>
           <Tr>
@@ -42,22 +56,24 @@ export const UpdateFirmware = (params: any) => {
         </Thead>
         <Tbody>
           <Tr>
-            <Td>Current</Td>
             <Td>Recommended</Td>
           </Tr>
         </Tbody>
         <Tbody>
           <Tr>
-            <Td>{params?.event?.firmware}</Td>
             <Td>{params?.event?.recommendedFirmware}</Td>
           </Tr>
         </Tbody>
       </Table>
       <br />
-      <Button colorScheme='green' onClick={onAcceptUpdate}>
-        Update
-      </Button>
-      {/*<Button colorScheme='yellow' onClick={onSkipUpdate}>skip</Button>*/}
+      <HStack spacing={4}>
+        <Button colorScheme='green' onClick={onAcceptUpdate} isLoading={loading}>
+          Update
+        </Button>
+        <Button colorScheme='yellow' onClick={onSkipUpdate} isLoading={loading}>
+          Skip
+        </Button>
+      </HStack>
     </ModalBody>
   )
 }
