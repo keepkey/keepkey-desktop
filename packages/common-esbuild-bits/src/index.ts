@@ -70,7 +70,7 @@ export async function dirnamePlugin(
         dirnameRules.map(async ([filter, dirnameSuffix]) => {
           build.onLoad(
             {
-              filter: new RegExp(`${filter}$`.replace('/', '[\\/]').replace('.', '\\.')),
+              filter: new RegExp(`${filter}$`.replace('/', '[\\\\/]').replace('.', '\\.')),
             },
             async args => {
               if (args.namespace !== 'file') return
