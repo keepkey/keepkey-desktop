@@ -56,3 +56,4 @@ export const dev = async () => {
 if (require.main === module) {
   dev().catch(err => console.error(err))
 }
+
