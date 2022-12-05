@@ -5,7 +5,6 @@ import { CircleIcon } from 'components/Icons/Circle'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { FailureType, MessageType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
-import { ipcRenderer } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
 import type { KeyboardEvent } from 'react'
@@ -37,10 +36,10 @@ export const KeepKeyPin = ({
       keyring,
       deviceId,
       deviceState: { disposition },
+      pinDeferred,
     },
     dispatch,
   } = useWallet()
-  const wallet = keyring.get(deviceId)
 
   const pinFieldRef = useRef<HTMLInputElement | null>(null)
 
@@ -67,7 +66,7 @@ export const KeepKeyPin = ({
       try {
         // The event handler will pick up the response to the sendPin request
         // console.log('about to send pin', wallet)
-        await wallet?.sendPin(pin)
+        pinDeferred?.resolve(pin)
         // console.log('done sending pin')
         if (translationType === 'remove') return setLoading(false)
         switch (disposition) {
@@ -87,11 +86,11 @@ export const KeepKeyPin = ({
         }
       } catch (e) {
         moduleLogger.error(e, 'KeepKey PIN Submit error: ')
+        pinDeferred?.reject(e)
       } finally {
         if (pinFieldRef?.current) {
           pinFieldRef.current.value = ''
         }
-        ipcRenderer.send('@modal/pin-close')
         setLoading(false)
       }
     }

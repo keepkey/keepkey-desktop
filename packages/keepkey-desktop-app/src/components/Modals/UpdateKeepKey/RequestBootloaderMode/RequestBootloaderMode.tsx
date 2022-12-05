@@ -14,19 +14,21 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react'
 import HoldAndConnect from 'assets/hold-and-connect.svg'
+import type { Deferred } from 'common-utils'
 import { RawText, Text } from 'components/Text'
-import { ipcRenderer } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import type { FC } from 'react'
 import { useTranslate } from 'react-polyglot'
 
 export type RequestBootloaderModeProps = {
+  skipUpdate: Deferred<void>
   recommendedFirmware?: string
   firmware?: string
   bootloaderUpdateNeeded?: boolean
 }
 
 export const RequestBootloaderMode: FC<RequestBootloaderModeProps> = ({
+  skipUpdate,
   bootloaderUpdateNeeded,
   recommendedFirmware,
   firmware,
@@ -75,7 +77,7 @@ export const RequestBootloaderMode: FC<RequestBootloaderModeProps> = ({
                 <Text translation={'modals.keepKey.requestBootloaderMode.skipUpdate.text'} />
                 <Button
                   onClick={() => {
-                    ipcRenderer.send('@keepkey/skip-update')
+                    skipUpdate.resolve()
                   }}
                   colorScheme='yellow'
                   size='sm'

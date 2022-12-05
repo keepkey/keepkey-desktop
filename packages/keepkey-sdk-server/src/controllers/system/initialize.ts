@@ -1,10 +1,9 @@
+import { assume } from 'common-utils'
 import { Body, Middlewares, OperationId, Post, Response, Route, Security, Tags } from 'tsoa'
 
 import { ApiController } from '../../auth'
 import { extra } from '../../middlewares'
 import type * as types from '../../types'
-
-const assume: <T>(x: unknown) => asserts x is T = () => {}
 
 @Route('/system/initialize')
 @Tags('Initialize')

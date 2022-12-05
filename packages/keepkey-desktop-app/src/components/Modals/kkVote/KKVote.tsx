@@ -20,7 +20,7 @@ import { useHistory } from 'react-router'
 
 import { doApproveTx, doVoteTx, getApprovedAndBalances, getFees } from './utils'
 
-export const KKVote = ({ geckoId }: { geckoId: any }) => {
+export const KKVote = ({ geckoId }: { geckoId: string }) => {
   const { getKeepkeyAsset, kkErc20Contract, kkNftContract, kkWeb3 } = useKeepKey()
   const {
     state: { wallet },

@@ -25,7 +25,6 @@ import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
 import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
 // import { SessionTypes } from '@walletconnect/types'
-import { ipcRenderer } from 'electron-shim'
 import { useDebounce } from 'hooks/useDebounce/useDebounce'
 import { useModal } from 'hooks/useModal/useModal'
 import { getPioneerClient } from 'lib/getPioneerCleint'
@@ -103,8 +102,7 @@ export const ChainSelectorModal = () => {
     <SlideTransition>
       <Modal
         isOpen={isOpen}
-        onClose={() => {
-          ipcRenderer.send('unlockWindow', {})
+        onClose={async () => {
           close()
         }}
         isCentered

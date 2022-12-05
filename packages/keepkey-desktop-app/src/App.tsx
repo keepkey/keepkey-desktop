@@ -1,7 +1,9 @@
-import type { PairingProps } from 'components/Modals/Pair/Pair'
+import * as Comlink from 'comlink'
+import { assertNever, deferred } from 'common-utils'
+import type { PairingProps } from 'components/Modals/Pair/types'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners, ipcRenderer } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useCallback, useEffect, useState } from 'react'
@@ -9,6 +11,7 @@ import { Routes } from 'Routes/Routes'
 
 import type { KKStateData } from '../../keepkey-desktop/src/helpers/kk-state-controller/types'
 import { KKState } from '../../keepkey-desktop/src/helpers/kk-state-controller/types'
+import type { RendererIpc } from '../../keepkey-desktop/src/types'
 
 export const App = () => {
   const {
@@ -50,11 +53,10 @@ export const App = () => {
   // get whether or not bridge is connected for hardwareError modal
   useEffect(() => {
     if (connected === null) {
-      ipcRenderer.on('@bridge/connected', (_event: unknown, connected: boolean) => {
-        setConnected(connected)
+      ipcListeners.bridgeConnected().then(x => {
+        setConnected(x)
         setIsUpdatingKeepkey(false)
       })
-      ipcRenderer.send('@bridge/connected')
     }
   }, [hardwareError, connected, setConnected, setIsUpdatingKeepkey])
 
@@ -62,134 +64,150 @@ export const App = () => {
     // This is necessary so when it re-opens the tcp connection everything is good
     state.wallet?.disconnect()
 
-    ipcRenderer.on('requestPin', () => {
-      dispatch({
-        type: WalletActions.OPEN_KEEPKEY_PIN,
-        payload: {
-          deviceId,
-          pinRequestType: PinMatrixRequestType.CURRENT,
-          showBackButton: true,
-        },
-      })
-    })
-
-    ipcRenderer.on('appClosing', async () => {
-      loading.open({ closing: true })
-      await state.wallet?.clearSession()
-    })
-
-    ipcRenderer.on('@modal/pair', (_event: unknown, data: PairingProps) => {
-      pair.open(data)
-    })
-
     // This hack avoids the dreaded "unknown" firmware version after replugging the
     // device in bootloader mode. Note that if a user unplugs one device and plugs
     // in a different one with different firmware in bootloader mode, this will lie
     // to the user and pretend the previous device's firmware is installed.
     let lastFirmware: string | undefined = undefined
-    ipcRenderer.on('updateState', (_event: unknown, data: KKStateData) => {
-      console.log('updateState', data)
-      if (
-        ![
-          KKState.Plugin,
-          KKState.Disconnected,
-          KKState.UpdateBootloader,
-          KKState.UpdateFirmware,
-        ].includes(data.state)
-      ) {
-        lastFirmware = undefined
-      }
-      switch (data.state) {
-        case KKState.Plugin:
-          loading.open({ closing: false })
-          setConnected(true)
-          hardwareError.close()
-          break
-        case KKState.Disconnected:
-          dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
-          disconnect()
-          loading.close()
-          break
-        case KKState.HardwareError:
-          dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
-          loading.close()
-          hardwareError.open({})
-          break
-        case KKState.UpdateBootloader:
-        case KKState.UpdateFirmware:
-          closeAllModals()
-          if (!data.bootloaderMode) {
-            if (data.firmware && data.firmware !== 'unknown') lastFirmware = data.firmware
-            setIsUpdatingKeepkey(true)
+
+    const rendererIpc: RendererIpc = {
+      async updateState(data: KKStateData) {
+        console.log('updateState', data)
+        const state = data.state
+        if (
+          ![
+            KKState.Plugin,
+            KKState.Disconnected,
+            KKState.UpdateBootloader,
+            KKState.UpdateFirmware,
+          ].includes(state)
+        ) {
+          lastFirmware = undefined
+        }
+        switch (state) {
+          case KKState.Plugin:
+            loading.open({ closing: false })
             setConnected(true)
-            requestBootloaderMode.open({
-              recommendedFirmware: data.recommendedFirmware,
-              firmware: data.firmware,
-              bootloaderUpdateNeeded: data.state === KKState.UpdateBootloader,
-            })
-          } else {
-            openKeepKeyUpdater({
-              ...data,
-              firmware:
-                (!data.firmware || data.firmware === 'unknown') && lastFirmware
-                  ? lastFirmware
-                  : data.firmware,
-            })
+            hardwareError.close()
+            break
+          case KKState.Disconnected:
+            dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
+            disconnect()
+            loading.close()
+            break
+          case KKState.HardwareError:
+            dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
+            loading.close()
+            hardwareError.open({})
+            break
+          case KKState.UpdateBootloader:
+          case KKState.UpdateFirmware:
+            closeAllModals()
+            if (!data.bootloaderMode) {
+              if (data.firmware && data.firmware !== 'unknown') lastFirmware = data.firmware
+              setIsUpdatingKeepkey(true)
+              setConnected(true)
+              const skipUpdate = deferred()
+              skipUpdate.then(async () => {
+                setIsUpdatingKeepkey(false)
+                updateKeepKey.close()
+                requestBootloaderMode.close()
+              })
+              requestBootloaderMode.open({
+                skipUpdate,
+                recommendedFirmware: data.recommendedFirmware,
+                firmware: data.firmware,
+                bootloaderUpdateNeeded: state === KKState.UpdateBootloader,
+              })
+            } else {
+              openKeepKeyUpdater({
+                ...data,
+                firmware:
+                  (!data.firmware || data.firmware === 'unknown') && lastFirmware
+                    ? lastFirmware
+                    : data.firmware,
+              })
+            }
+            break
+          case KKState.NeedsInitialize:
+          case KKState.Connected:
+            closeAllModals()
+            setIsUpdatingKeepkey(false)
+            if (state === KKState.NeedsInitialize) {
+              openKeepKeyUpdater(data)
+            }
+            setConnected(true)
+            // if needs initialize we do the normal pair process and then web detects that it needs initialize
+            pairAndConnect.current()
+            break
+          case KKState.NeedsReconnect:
+            dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
+            loading.close()
+            hardwareError.open({ needsReconnect: true })
+            break
+          default:
+            assertNever(state)
+        }
+      },
+
+      async appClosing() {
+        loading.open({ closing: true })
+        await state.wallet?.clearSession()
+      },
+
+      async modalPair(data: PairingProps) {
+        const out = deferred<undefined | string[]>()
+        pair.open({ deferred: out, data })
+        return await out
+      },
+
+      async modalPin(): Promise<string> {
+        const out = deferred<string>()
+        dispatch({
+          type: WalletActions.OPEN_KEEPKEY_PIN,
+          payload: {
+            deviceId,
+            pinRequestType: PinMatrixRequestType.CURRENT,
+            showBackButton: true,
+            deferred: out,
+          },
+        })
+        return await out
+      },
+
+      async accountSignTx(data: {
+        invocation: {
+          unsignedTx: {
+            type: string
+            network: string
+            verbal: string
+            transaction: {
+              addressFrom: string
+              protocol: string
+              router: string
+              memo: string
+              recipient: string
+              amount: string
+              asset: string
+            }
+            HDwalletPayload: {
+              nonce: string
+              gasLimit: string
+              gasPrice: string
+            }
           }
-          break
-        case KKState.NeedsInitialize:
-        case KKState.Connected:
-          closeAllModals()
-          setIsUpdatingKeepkey(false)
-          if (data.state === KKState.NeedsInitialize) {
-            openKeepKeyUpdater(data)
-          }
-          setConnected(true)
-          // if needs initialize we do the normal pair process and then web detects that it needs initialize
-          pairAndConnect.current()
-          break
-        case KKState.NeedsReconnect:
-          dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
-          loading.close()
-          hardwareError.open({ needsReconnect: true })
-          break
-        default:
-      }
-    })
-
-    ipcRenderer.on('@keepkey/update-skipped', () => {
-      setIsUpdatingKeepkey(false)
-      updateKeepKey.close()
-      requestBootloaderMode.close()
-    })
-
-    ipcRenderer.on('@modal/pin', () => {
-      dispatch({
-        type: WalletActions.OPEN_KEEPKEY_PIN,
-        payload: {
-          deviceId,
-          showBackButton: false,
-        },
-      })
-    })
-
-    ipcRenderer.on('@account/sign-tx', async (_event: unknown, data: any) => {
-      let unsignedTx = data.payload.data
-      //open signTx
-      if (
-        unsignedTx &&
-        unsignedTx.invocation &&
-        unsignedTx.invocation.unsignedTx &&
-        unsignedTx.invocation.unsignedTx.HDwalletPayload
-      ) {
-        sign.open({ unsignedTx, nonce: data.nonce })
-      } else {
-        console.error('INVALID SIGN PAYLOAD!', JSON.stringify(unsignedTx))
-      }
-    })
+        }
+      }) {
+        const out = deferred<{}>()
+        sign.open({ unsignedTx: data, deferred: out })
+        return await out
+      },
+    }
 
     // inform the electron process we are ready to receive ipc messages
-    ipcRenderer.send('renderListenersReady', {})
+    const { port1, port2 } = new MessageChannel()
+    Comlink.expose(rendererIpc, port1)
+    ipcRenderer.postMessage('@app/register-render-listeners', undefined, [port2])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

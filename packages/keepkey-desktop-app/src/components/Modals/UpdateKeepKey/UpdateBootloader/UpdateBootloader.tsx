@@ -12,7 +12,7 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { RawText } from 'components/Text'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
 import { useState } from 'react'
 
 import type { KKStateData } from '../../../../../../keepkey-desktop/src/helpers/kk-state-controller/types'
@@ -23,7 +23,7 @@ export const UpdateBootloader = (params: Record<string, never> | KKStateData) =>
 
   const onAcceptUpdate = async () => {
     setLoading(true)
-    ipcRenderer.send('@keepkey/update-bootloader', {})
+    await ipcListeners.keepkeyUpdateBootloader()
   }
 
   return (

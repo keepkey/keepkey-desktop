@@ -3,7 +3,7 @@ import type LegacyWalletConnect from '@walletconnect/client'
 import { Buffer } from 'buffer'
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
 import { logger } from 'lib/logger'
 import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 
@@ -56,7 +56,8 @@ export class LegacyWCService {
 
   async _onConnect() {
     if (this.connector.connected && this.connector.peerMeta) {
-      ipcRenderer.send('@walletconnect/pairing', {
+      console.log('On connect wc')
+      await ipcListeners.walletconnectPairing({
         serviceName: this.connector.peerMeta.name,
         serviceImageUrl: this.connector.peerMeta.icons[0],
         serviceHomePage: this.connector.peerMeta.url,
@@ -184,14 +185,6 @@ export class LegacyWCService {
       console.error('Method Not Supported! e: ', request.method)
       const message = 'JSON RPC method not supported'
       this.connector.rejectRequest({ id: request.id, error: { message } })
-    }
-  }
-
-  private convertHexToUtf8IfPossible(hex: string) {
-    try {
-      return Buffer.from(hex, 'hex').toString('utf8')
-    } catch (e) {
-      return hex
     }
   }
 }

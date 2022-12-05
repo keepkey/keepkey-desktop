@@ -13,6 +13,10 @@ import { initializeWallet } from './walletUtils'
  * Keeps track of the last known state of the keepkey
  * sends ipc events to the web renderer on state change
  */
+
+export type OnStateChange = (this: KKStateController, _: KKStateData) => Promise<void>
+export type OnKeyringEvent = (this: KKStateController, _: unknown) => Promise<void>
+
 export class KKStateController {
   public readonly keyring: Keyring
   public wallet?: KeepKeyHDWallet
@@ -23,11 +27,11 @@ export class KKStateController {
 
   constructor(onStateChange: StateChangeHandler, onKeyringEvent: KeyringEventHandler) {
     log.info('KKStateController constructor')
-    this.keyring = new Keyring()
-    this.onStateChange = onStateChange
+    this.onStateChange = onStateChange.bind(this)
 
+    this.keyring = new Keyring()
     this.keyring.onAny(async (e: unknown) => {
-      await onKeyringEvent(e)
+      await onKeyringEvent.call(this, e)
     })
 
     usb.on('attach', async e => {

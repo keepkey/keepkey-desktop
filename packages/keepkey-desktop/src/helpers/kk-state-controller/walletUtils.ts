@@ -1,10 +1,9 @@
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { HIDKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-nodehid'
 import { NodeWebUSBKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-nodewebusb'
 import { findByIds } from 'usb'
 
 import type { KKStateController } from './index'
-import type { WebusbWallet } from './types'
-const { HIDKeepKeyAdapter } = require('@bithighlander/hdwallet-keepkey-nodehid')
 
 const bootloaderHashToVersion: Record<string, string> = {
   '6397c446f6b9002a8b150bf4b9b4e0bb66800ed099b881ca49700139b0559f10': 'v1.0.0',
@@ -55,7 +54,7 @@ export const initializeWallet = async (controller: KKStateController) => {
       return await createHidWallet(controller)
     } else {
       return {
-        ...(webUSBResultInit as WebusbWallet),
+        ...webUSBResultInit,
         success: true,
       }
     }
@@ -87,6 +86,7 @@ const createWebUsbWallet = async (controller: KKStateController) => {
   let features = await controller.wallet.getFeatures()
   const { majorVersion, minorVersion, patchVersion, bootloaderHash } = features
   const versionString = `v${majorVersion}.${minorVersion}.${patchVersion}`
+
   return {
     features,
     bootloaderMode: features.bootloaderMode,

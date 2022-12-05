@@ -1,22 +1,10 @@
-import { ipcMain } from 'electron'
 import log from 'electron-log'
 import type { AddressInfo } from 'net'
 
 import { db, kkAutoLauncher, server, tcpBridgeRunning } from '../globalState'
 import { startTcpBridge, stopTcpBridge } from '../tcpBridge'
 import { setAllowPreRelease } from '../updaterListeners'
-
-export type Settings = {
-  // don't allow user to change these two settings
-  shouldAutoStartBridge: boolean
-  bridgeApiPort: number
-
-  shouldAutoLaunch: boolean
-  shouldMinimizeToTray: boolean
-  shouldAutoUpdate: boolean
-  allowPreRelease: boolean
-  allowBetaFirmware: boolean
-}
+import type { Settings } from './types'
 
 export class SettingsInstance {
   static #singletonInitialized = false
@@ -60,23 +48,6 @@ export class SettingsInstance {
       throw new Error('SettingsInstance can only be initialized once')
     }
     SettingsInstance.#singletonInitialized = true
-
-    ipcMain.on('@app/update-settings', async (_event, data) => {
-      await this.updateBulkSettings(data)
-    })
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ipcMain.on('@app/settings', (event, _data) => {
-      event.sender.send('@app/settings', {
-        shouldAutoLaunch: this.shouldAutoLaunch,
-        shouldAutoStartBridge: this.shouldAutoStartBridge,
-        shouldMinimizeToTray: this.shouldMinimizeToTray,
-        shouldAutoUpdate: this.shouldAutoUpdate,
-        bridgeApiPort: this.bridgeApiPort,
-        allowPreRelease: this.allowPreRelease,
-        allowBetaFirmware: this.allowBetaFirmware,
-      })
-    })
   }
 
   async loadSettingsFromDb() {

@@ -15,33 +15,21 @@ import {
   Text as ChakraText,
 } from '@chakra-ui/react'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import type { Deferred } from 'common-utils'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 // import { SessionTypes } from '@walletconnect/types'
-import { ipcRenderer } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useEffect, useState } from 'react'
 
-export type PairingProps = NativePairingProps | WalletConnectPairingProps
+import type { PairingProps } from './types'
 
-export type NativePairingProps = {
-  type: 'native'
-  data: {
-    serviceName: string
-    serviceImageUrl: string
-  }
-  nonce: string
-}
-
-export type WalletConnectPairingProps = {
-  type: 'walletconnect'
-  data: any
-  nonce: string
-}
-
-export const PairModal = (input: PairingProps) => {
+export const PairModal = (input: {
+  deferred?: Deferred<undefined | string[]>
+  data?: PairingProps
+}) => {
   const [error] = useState<string | null>(null)
   const [loading] = useState(false)
   const { pair } = useModal()
@@ -51,7 +39,7 @@ export const PairModal = (input: PairingProps) => {
   const { state, dispatch } = useWallet()
 
   useEffect(() => {
-    if (input.type === 'walletconnect') {
+    if (input.data?.type === 'walletconnect') {
       ;(state.wallet as KeepKeyHDWallet)
         .ethGetAddress({
           addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
@@ -61,32 +49,36 @@ export const PairModal = (input: PairingProps) => {
           setAccounts([address])
         })
     }
-  }, [state.wallet, input.type])
+  }, [state.wallet, input.data?.type])
 
   const HandleSubmit = async () => {
-    if (input.type === 'native') ipcRenderer.send(`@bridge/approve-service-${input.nonce}`, input)
-    if (input.type === 'walletconnect') {
-      ipcRenderer.send(`@walletconnect/approve-${input.nonce}`, { proposal: input.data, accounts })
+    if (input.data?.type === 'native') {
+      input.deferred?.resolve(undefined)
+    }
+    if (input.data?.type === 'walletconnect') {
+      input.deferred?.resolve(accounts)
       dispatch({
         type: WalletActions.SET_WALLET_CONNECT_APP,
-        payload: input.data?.params[0]?.peerMeta,
+        payload: input.data?.data.params[0]?.peerMeta,
       })
     }
     close()
   }
 
   const HandleReject = async () => {
-    if (input.type === 'native') ipcRenderer.send(`@bridge/reject-service-${input.nonce}`, input)
     close()
+    if (input.data?.type === 'native') {
+      input.deferred?.reject()
+    }
   }
 
   return (
     <SlideTransition>
       <Modal
         isOpen={isOpen}
-        onClose={() => {
-          ipcRenderer.send('unlockWindow', {})
+        onClose={async () => {
           close()
+          input.deferred?.reject()
         }}
         isCentered
         closeOnOverlayClick={false}
@@ -98,7 +90,7 @@ export const PairModal = (input: PairingProps) => {
           <ModalHeader>
             <Text
               translation={
-                input.type === 'native'
+                input.data?.type === 'native'
                   ? 'modals.pair.native.header'
                   : 'modals.pair.walletconnect.header'
               }
@@ -109,9 +101,9 @@ export const PairModal = (input: PairingProps) => {
               <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center'>
                 <Image
                   src={
-                    input.type === 'native'
-                      ? input.data.serviceImageUrl
-                      : input?.data?.params[0]?.peerMeta?.icons[0]
+                    input.data?.type === 'native'
+                      ? input.data?.data.serviceImageUrl
+                      : input?.data?.data.params[0]?.peerMeta?.icons[0]
                   }
                   borderRadius='full'
                   height='10'
@@ -124,21 +116,21 @@ export const PairModal = (input: PairingProps) => {
                       'modals.pair.native.body',
                       {
                         serviceName:
-                          input.type === 'native'
-                            ? input.data.serviceName
-                            : input?.data?.params[0]?.peerMeta.name,
+                          input.data?.type === 'native'
+                            ? input.data?.data.serviceName
+                            : input?.data?.data.params[0]?.peerMeta.name,
                       },
                     ]}
                     pl='2'
                   />
-                  {input.type === 'walletconnect' ? (
+                  {input.data?.type === 'walletconnect' ? (
                     <ChakraText pl={2} color='gray.500' fontSize='sm'>
-                      {input?.data?.params[0]?.peerMeta.description}
+                      {input?.data?.data.params[0]?.peerMeta.description}
                     </ChakraText>
                   ) : null}
                 </Box>
               </Box>
-              {input.type === 'walletconnect' && (
+              {input.data?.type === 'walletconnect' && (
                 <Box display='flex' flexDirection='column' gap={1}>
                   {/*<Text translation={'modals.pair.walletconnect.chain'} />*/}
                   {/*{input.data.permissions.blockchain.chains &&*/}

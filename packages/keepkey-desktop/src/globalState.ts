@@ -11,7 +11,7 @@ import { KKStateController } from './helpers/kk-state-controller'
 import type { KKStateData } from './helpers/kk-state-controller/types'
 import { KKState } from './helpers/kk-state-controller/types'
 import { SettingsInstance } from './helpers/settings'
-import { queueIpcEvent } from './helpers/utils'
+import { rendererIpc } from './ipcListeners'
 import { createAndUpdateTray } from './tray'
 
 export const assetsDirectory = path.join(__dirname, 'assets')
@@ -59,10 +59,8 @@ export const windows: {
   splash: undefined,
 }
 
-export const ipcQueue = new Array<{ eventName: string; args: any }>()
-
 export const isWalletBridgeRunning = () =>
-  kkStateController?.data.state === KKState.Connected && tcpBridgeRunning
+  kkStateController.data.state === KKState.Connected && tcpBridgeRunning
 
 export const settings = new SettingsInstance()
 export const bridgeLogger = new BridgeLogger()
@@ -72,12 +70,19 @@ export const kkAutoLauncher = new AutoLaunch({
 })
 
 export const kkStateController = new KKStateController(
-  async (data: KKStateData) => {
+  async function (this: KKStateController, data: KKStateData) {
     console.log('KK STATE', data)
     createAndUpdateTray()
-    queueIpcEvent('updateState', data)
+    await rendererIpc.updateState(data)
   },
-  async (e: any) => {
-    if (e[2] === '18') queueIpcEvent('requestPin', e)
+  async function (this: KKStateController, e: any) {
+    if (e[2] === '18') {
+      const pin = await rendererIpc.modalPin().catch(() => undefined)
+      if (pin) {
+        await this.wallet!.sendPin(pin)
+      } else {
+        await this.wallet!.cancel()
+      }
+    }
   },
 )

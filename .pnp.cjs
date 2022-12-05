@@ -20,6 +20,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/common-esbuild-bits"\
       },\
       {\
+        "name": "common-utils",\
+        "reference": "workspace:packages/common-utils"\
+      },\
+      {\
         "name": "@keepkey/hdwallet-keepkey-rest",\
         "reference": "workspace:packages/hdwallet-keepkey-rest"\
       },\
@@ -6188,6 +6192,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sumchecker", "npm:3.0.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:2.0.2", {\
+          "packageLocation": "./.yarn/cache/@electron-get-npm-2.0.2-41edb8e2bd-900845cc0b.zip/node_modules/@electron/get/",\
+          "packageDependencies": [\
+            ["@electron/get", "npm:2.0.2"],\
+            ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+            ["env-paths", "npm:2.2.1"],\
+            ["fs-extra", "npm:8.1.0"],\
+            ["global-agent", "npm:3.0.0"],\
+            ["got", "npm:11.8.5"],\
+            ["progress", "npm:2.0.3"],\
+            ["semver", "npm:6.3.0"],\
+            ["sumchecker", "npm:3.0.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@electron/universal", [\
@@ -8101,7 +8120,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/pnpapi", "npm:0.0.2"],\
             ["@typescript-eslint/eslint-plugin", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
             ["@typescript-eslint/parser", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
-            ["dotenv", "npm:16.0.3"],\
             ["esbuild", "npm:0.15.16"],\
             ["esbuild-plugin-resolve", "npm:1.0.3"],\
             ["escape-string-regexp", "npm:4.0.0"],\
@@ -9678,9 +9696,45 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["type-assertions", "npm:1.1.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.41.0", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-core-npm-1.41.0-2b1ffb2a1d-0d3ba4a30c.zip/node_modules/@shapeshiftoss/hdwallet-core/",\
+          "packageDependencies": [\
+            ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
+            ["eip-712", "npm:1.0.0"],\
+            ["eventemitter2", "npm:5.0.1"],\
+            ["lodash", "npm:4.17.21"],\
+            ["rxjs", "npm:6.6.7"],\
+            ["type-assertions", "npm:1.1.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@shapeshiftoss/hdwallet-keepkey", [\
+        ["npm:1.41.0", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024-7c65fed7f9.zip/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
+          "packageDependencies": [\
+            ["@shapeshiftoss/hdwallet-keepkey", "npm:1.41.0"],\
+            ["@ethereumjs/common", "npm:2.6.5"],\
+            ["@ethereumjs/tx", "npm:3.5.2"],\
+            ["@keepkey/device-protocol", "npm:7.10.2"],\
+            ["@shapeshiftoss/bitcoinjs-lib", "npm:5.2.0-shapeshift.2"],\
+            ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
+            ["@shapeshiftoss/proto-tx-builder", "npm:0.4.0"],\
+            ["bignumber.js", "npm:9.1.0"],\
+            ["bnb-javascript-sdk-nobroadcast", "npm:2.16.15"],\
+            ["crypto-js", "npm:4.1.1"],\
+            ["eip-712", "npm:1.0.0"],\
+            ["eip55", "npm:2.1.0"],\
+            ["google-protobuf", "npm:3.21.2"],\
+            ["icepick", "npm:2.4.0"],\
+            ["lodash", "npm:4.17.21"],\
+            ["p-lazy", "npm:3.1.0"],\
+            ["semver", "npm:6.3.0"],\
+            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.40.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.40.0-91917954a1.patch::version=1.40.0&hash=bb4ef7&locator=keepkey-monorepo%40workspace%3A.", {\
           "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-patch-d4fe5fccb8-13007b1955.zip/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
           "packageDependencies": [\
@@ -9708,6 +9762,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["p-lazy", "npm:3.1.0"],\
             ["semver", "npm:6.3.0"],\
             ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@shapeshiftoss/hdwallet-keepkey-nodehid", [\
+        ["npm:1.41.0", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-nodehid-npm-1.41.0-b1adb72bda-96d0cf3032.zip/node_modules/@shapeshiftoss/hdwallet-keepkey-nodehid/",\
+          "packageDependencies": [\
+            ["@shapeshiftoss/hdwallet-keepkey-nodehid", "npm:1.41.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.41.0", {\
+          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-hdwallet-keepkey-nodehid-virtual-afa3712841/0/cache/@shapeshiftoss-hdwallet-keepkey-nodehid-npm-1.41.0-b1adb72bda-96d0cf3032.zip/node_modules/@shapeshiftoss/hdwallet-keepkey-nodehid/",\
+          "packageDependencies": [\
+            ["@shapeshiftoss/hdwallet-keepkey-nodehid", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.41.0"],\
+            ["@shapeshiftoss/hdwallet-keepkey", "npm:1.41.0"],\
+            ["@types/node-hid", null],\
+            ["node-hid", "patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."]\
+          ],\
+          "packagePeers": [\
+            "@types/node-hid",\
+            "node-hid"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -11379,6 +11456,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["npm:16.18.10", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.18.10-4a4f7d2b17-1b13861692.zip/node_modules/@types/node/",\
+          "packageDependencies": [\
+            ["@types/node", "npm:16.18.10"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:18.11.9", {\
           "packageLocation": "./.yarn/cache/@types-node-npm-18.11.9-d21dd6ec05-cc0aae109e.zip/node_modules/@types/node/",\
           "packageDependencies": [\
@@ -11902,6 +11986,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-yargs-parser-npm-21.0.0-c8a3b32c52-b2f4c8d12a.zip/node_modules/@types/yargs-parser/",\
           "packageDependencies": [\
             ["@types/yargs-parser", "npm:21.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/yauzl", [\
+        ["npm:2.10.0", {\
+          "packageLocation": "./.yarn/cache/@types-yauzl-npm-2.10.0-7b242343cb-55d27ae5d3.zip/node_modules/@types/yauzl/",\
+          "packageDependencies": [\
+            ["@types/yauzl", "npm:2.10.0"],\
+            ["@types/node", "npm:18.11.9"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -14313,13 +14407,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["async", [\
-        ["npm:0.2.10", {\
-          "packageLocation": "./.yarn/cache/async-npm-0.2.10-e2182a8639-9ea83419ba.zip/node_modules/async/",\
-          "packageDependencies": [\
-            ["async", "npm:0.2.10"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:1.5.2", {\
           "packageLocation": "./.yarn/cache/async-npm-1.5.2-e971969e27-fe5d6214d8.zip/node_modules/async/",\
           "packageDependencies": [\
@@ -15110,16 +15197,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/binary-extensions-npm-2.2.0-180c33fec7-ccd267956c.zip/node_modules/binary-extensions/",\
           "packageDependencies": [\
             ["binary-extensions", "npm:2.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["binary-search-tree", [\
-        ["npm:0.2.5", {\
-          "packageLocation": "./.yarn/cache/binary-search-tree-npm-0.2.5-eace1d7afe-04d2fbdce3.zip/node_modules/binary-search-tree/",\
-          "packageDependencies": [\
-            ["binary-search-tree", "npm:0.2.5"],\
-            ["underscore", "npm:1.4.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -16629,6 +16706,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["comlink", [\
+        ["npm:4.3.1", {\
+          "packageLocation": "./.yarn/cache/comlink-npm-4.3.1-45efe1dd36-557360a655.zip/node_modules/comlink/",\
+          "packageDependencies": [\
+            ["comlink", "npm:4.3.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["comlink-electron-endpoint", [\
+        ["npm:1.0.3", {\
+          "packageLocation": "./.yarn/cache/comlink-electron-endpoint-npm-1.0.3-e9e40b4d5c-428f9ff87f.zip/node_modules/comlink-electron-endpoint/",\
+          "packageDependencies": [\
+            ["comlink-electron-endpoint", "npm:1.0.3"],\
+            ["comlink", "npm:4.3.1"],\
+            ["electron", "npm:22.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["command-exists", [\
         ["npm:1.2.9", {\
           "packageLocation": "./.yarn/cache/command-exists-npm-1.2.9-cc51a1f78a-729ae3d88a.zip/node_modules/command-exists/",\
@@ -16708,6 +16805,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["repeat-string", "npm:1.6.1"]\
           ],\
           "linkType": "HARD"\
+        }]\
+      ]],\
+      ["common-utils", [\
+        ["workspace:packages/common-utils", {\
+          "packageLocation": "./packages/common-utils/",\
+          "packageDependencies": [\
+            ["common-utils", "workspace:packages/common-utils"],\
+            ["@typescript-eslint/eslint-plugin", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
+            ["@typescript-eslint/parser", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
+            ["eslint", "npm:8.28.0"],\
+            ["eslint-config-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:8.5.0"],\
+            ["eslint-plugin-import", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:2.26.0"],\
+            ["eslint-plugin-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:4.2.1"],\
+            ["eslint-plugin-simple-import-sort", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:7.0.0"],\
+            ["prettier", "npm:2.8.0"],\
+            ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"]\
+          ],\
+          "linkType": "SOFT"\
         }]\
       ]],\
       ["commondir", [\
@@ -18656,6 +18771,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@electron/get", "npm:1.14.1"],\
             ["@types/node", "npm:14.18.33"],\
             ["extract-zip", "npm:1.7.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:22.0.0", {\
+          "packageLocation": "./.yarn/unplugged/electron-npm-22.0.0-1476c0568e/node_modules/electron/",\
+          "packageDependencies": [\
+            ["electron", "npm:22.0.0"],\
+            ["@electron/get", "npm:2.0.2"],\
+            ["@types/node", "npm:16.18.10"],\
+            ["extract-zip", "npm:2.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -20848,6 +20973,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["concat-stream", "npm:1.6.2"],\
             ["debug", "virtual:a5b359e1c0907fca82becef8b98b4a9de89f0f0c00a24ab16de27f1a708cd5b350f497c0e8639b5462145a0f7016ef07e9b4ad479943062e54fa68c95266f56a#npm:2.6.9"],\
             ["mkdirp", "npm:0.5.6"],\
+            ["yauzl", "npm:2.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:2.0.1", {\
+          "packageLocation": "./.yarn/cache/extract-zip-npm-2.0.1-92a28e392b-8cbda9debd.zip/node_modules/extract-zip/",\
+          "packageDependencies": [\
+            ["extract-zip", "npm:2.0.1"],\
+            ["@types/yauzl", "npm:2.10.0"],\
+            ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+            ["get-stream", "npm:5.2.0"],\
             ["yauzl", "npm:2.10.0"]\
           ],\
           "linkType": "HARD"\
@@ -24918,6 +25054,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@sentry/electron", "npm:4.1.2"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.40.0"],\
             ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.40.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.40.0-91917954a1.patch::version=1.40.0&hash=bb4ef7&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/hdwallet-keepkey-nodehid", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.41.0"],\
             ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.40.0"],\
             ["@shapeshiftoss/hdwallet-native", "npm:1.40.0"],\
             ["@swc/cli", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:0.1.57"],\
@@ -24941,6 +25078,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bigint-buffer", "patch:bigint-buffer@npm%3A1.1.5#./.yarn/patches/bigint-buffer-npm-1.1.5-785f4ccd92.patch::version=1.1.5&hash=e4e48b&locator=keepkey-monorepo%40workspace%3A."],\
             ["body-parser", "npm:1.20.1"],\
             ["bufferutil", "npm:4.0.7"],\
+            ["comlink", "npm:4.3.1"],\
+            ["comlink-electron-endpoint", "npm:1.0.3"],\
+            ["common-utils", "workspace:packages/common-utils"],\
             ["concurrently", "npm:7.6.0"],\
             ["cors", "npm:2.8.5"],\
             ["dmg-builder", "npm:24.0.0-alpha.5"],\
@@ -25127,6 +25267,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["buffer", "npm:6.0.3"],\
             ["chakra-ui-steps", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.8.0"],\
             ["chalk", "npm:4.1.2"],\
+            ["comlink", "npm:4.3.1"],\
+            ["comlink-electron-endpoint", "npm:1.0.3"],\
+            ["common-utils", "workspace:packages/common-utils"],\
             ["concurrently", "npm:7.6.0"],\
             ["cors", "npm:2.8.5"],\
             ["cross-env", "npm:7.0.3"],\
@@ -25174,7 +25317,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["match-sorter", "npm:6.3.1"],\
             ["msw", "npm:0.36.8"],\
             ["multiformats", "npm:9.9.0"],\
-            ["nedb", "npm:1.8.0"],\
+            ["nedb-promises", "npm:6.2.1"],\
             ["node-polyglot", "npm:2.4.2"],\
             ["numeral", "npm:2.0.6"],\
             ["path-browserify", "npm:1.0.1"],\
@@ -25276,6 +25419,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:18.11.9"],\
             ["@typescript-eslint/eslint-plugin", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
             ["@typescript-eslint/parser", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
+            ["common-utils", "workspace:packages/common-utils"],\
             ["eslint", "npm:8.28.0"],\
             ["eslint-config-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:8.5.0"],\
             ["eslint-plugin-import", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:2.26.0"],\
@@ -27224,20 +27368,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ]],\
             ["split2", "npm:2.2.0"],\
             ["through2", "npm:2.0.5"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["nedb", [\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/nedb-npm-1.8.0-752bdea521-bcce49eca9.zip/node_modules/nedb/",\
-          "packageDependencies": [\
-            ["nedb", "npm:1.8.0"],\
-            ["async", "npm:0.2.10"],\
-            ["binary-search-tree", "npm:0.2.5"],\
-            ["localforage", "npm:1.10.0"],\
-            ["mkdirp", "npm:0.5.6"],\
-            ["underscore", "npm:1.4.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -34844,15 +34974,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["has-bigints", "npm:1.0.2"],\
             ["has-symbols", "npm:1.0.3"],\
             ["which-boxed-primitive", "npm:1.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["underscore", [\
-        ["npm:1.4.4", {\
-          "packageLocation": "./.yarn/cache/underscore-npm-1.4.4-02f42043cd-d9d731fe7e.zip/node_modules/underscore/",\
-          "packageDependencies": [\
-            ["underscore", "npm:1.4.4"]\
           ],\
           "linkType": "HARD"\
         }]\

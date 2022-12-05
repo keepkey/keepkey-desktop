@@ -18,9 +18,9 @@ import {
 } from '@chakra-ui/react'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import HoldAndRelease from 'assets/hold-and-release.svg'
+import type { Deferred } from 'common-utils'
 import { Text } from 'components/Text'
 import cryptoTools from 'crypto'
-import { ipcRenderer } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bnOrZero } from 'lib/bignumber/bignumber'
@@ -30,7 +30,32 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { MiddleEllipsis } from '../../MiddleEllipsis/MiddleEllipsis'
 import { Row } from '../../Row/Row'
 
-export const SignModal = (input: any) => {
+export const SignModal = (input: {
+  deferred?: Deferred<{}>
+  unsignedTx?: {
+    invocation: {
+      unsignedTx: {
+        type: string
+        network: string
+        verbal: string
+        transaction: {
+          addressFrom: string
+          protocol: string
+          router: string
+          memo: string
+          recipient: string
+          amount: string
+          asset: string
+        }
+        HDwalletPayload: {
+          nonce: string
+          gasLimit: string
+          gasPrice: string
+        }
+      }
+    }
+  }
+}) => {
   const [error] = useState<string | null>(null)
   const [loading] = useState(false)
   const [show, setShow] = React.useState(false)
@@ -42,7 +67,7 @@ export const SignModal = (input: any) => {
     state: { wallet },
   } = useWallet()
 
-  const HDwalletPayload = input?.unsignedTx?.invocation?.unsignedTx?.HDwalletPayload
+  const HDwalletPayload = input.unsignedTx?.invocation.unsignedTx.HDwalletPayload
 
   const [nonce, setNonce] = useState('')
   const [gasPrice, setGasPrice] = useState('')
@@ -60,15 +85,11 @@ export const SignModal = (input: any) => {
   }, [HDwalletPayload])
 
   let isSwap: boolean = false
-  if (input?.unsignedTx?.invocation?.unsignedTx?.type === 'swap') isSwap = true
+  if (input.unsignedTx?.invocation.unsignedTx.type === 'swap') isSwap = true
 
   const HandleReject = async () => {
     setIsApproved(false)
-    ipcRenderer.send(`@account/tx-rejected-${input.nonce}`, { nonce: input.nonce })
-    //show sign
-    ipcRenderer.send('unlockWindow', {})
-    //onCloseModal
-    ipcRenderer.send('@modal/sign-close', {})
+    input.deferred?.reject()
     close()
   }
 
@@ -160,9 +181,9 @@ export const SignModal = (input: any) => {
     setIsApproved(true)
     //show sign
     const unsignedTx = {
-      ...input?.unsignedTx.invocation.unsignedTx,
+      ...input.unsignedTx?.invocation.unsignedTx,
       HDwalletPayload: {
-        ...input?.unsignedTx.invocation?.unsignedTx?.HDwalletPayload,
+        ...input.unsignedTx?.invocation.unsignedTx.HDwalletPayload,
         nonce,
         gasLimit,
         gasPrice,
@@ -170,8 +191,7 @@ export const SignModal = (input: any) => {
     }
 
     let signedTx = await signTx(unsignedTx, wallet as KeepKeyHDWallet)
-    ipcRenderer.send(`@account/tx-signed-${input.nonce}`, { signedTx, nonce: input.nonce })
-    ipcRenderer.send('@modal/sign-close', {})
+    input.deferred?.resolve(signedTx)
     setIsApproved(false)
     close()
   }, [input, nonce, gasLimit, gasPrice, signTx, close, wallet])
@@ -180,9 +200,8 @@ export const SignModal = (input: any) => {
   return (
     <Modal
       isOpen={isOpen}
-      onClose={() => {
-        ipcRenderer.send('unlockWindow', {})
-        ipcRenderer.send('@modal/close', {})
+      onClose={async () => {
+        input.deferred?.reject()
         setIsApproved(false)
         close()
       }}
@@ -233,7 +252,9 @@ export const SignModal = (input: any) => {
                     pl='2'
                     pr='2'
                     bgColor='gray.800'
-                    value={input?.unsignedTx?.invocation?.unsignedTx?.transaction?.addressFrom}
+                    value={
+                      input?.unsignedTx?.invocation?.unsignedTx?.transaction?.addressFrom ?? ''
+                    }
                   />
                 </Row.Value>
               </Row>
@@ -286,7 +307,9 @@ export const SignModal = (input: any) => {
                         pl='2'
                         pr='2'
                         bgColor='gray.800'
-                        value={input?.unsignedTx?.invocation?.unsignedTx?.transaction?.recipient}
+                        value={
+                          input?.unsignedTx?.invocation?.unsignedTx?.transaction?.recipient ?? ''
+                        }
                       />
                     </Row.Value>
                   </Row>

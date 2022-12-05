@@ -1,6 +1,7 @@
 import { CloseIcon, LockIcon } from '@chakra-ui/icons'
 import { MenuDivider, MenuGroup, MenuItem } from '@chakra-ui/menu'
 import { Flex } from '@chakra-ui/react'
+import { untouchable } from 'common-utils'
 import { ExpandedMenuItem } from 'components/Layout/Header/NavBar/ExpandedMenuItem'
 import {
   useMenuRoutes,
@@ -69,6 +70,7 @@ export const KeepKeyMenu = () => {
       payload: {
         deviceId,
         pinRequestType: PinMatrixRequestType.REMOVE,
+        deferred: untouchable(),
       },
     })
   }, [keepkeySdk, dispatch, deviceId])

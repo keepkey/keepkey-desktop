@@ -1,6 +1,3 @@
-import type { Features } from '@keepkey/device-protocol/lib/messages_pb'
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
-
 // possible states
 export enum KKState {
   UpdateBootloader = 'updateBootloader',
@@ -81,17 +78,4 @@ export type AllFirmwareAndBootloaderData = {
   latest: FirmwareAndBootloaderData
   beta: FirmwareAndBootloaderData
   hashes: FirmwareAndBootloaderHashes
-}
-
-export type WebusbWallet = DeviceFeatures & {
-  wallet: KeepKeyHDWallet
-}
-
-export type BasicWallet = GenericError & DeviceFeatures
-
-export type DeviceFeatures = {
-  bootloaderMode?: boolean
-  bootloaderVersion: string | undefined
-  firmwareVersion: string
-  features?: Features.AsObject
 }

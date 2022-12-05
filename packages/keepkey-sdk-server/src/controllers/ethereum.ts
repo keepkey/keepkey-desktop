@@ -1,3 +1,4 @@
+import { assume } from 'common-utils'
 import {
   Body,
   Middlewares,
@@ -13,8 +14,6 @@ import {
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'
 import type * as types from '../types'
-
-const assume: <T>(x: unknown) => asserts x is T = () => {}
 
 @Route('/eth')
 @Tags('ETH')

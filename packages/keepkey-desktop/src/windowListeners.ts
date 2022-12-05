@@ -3,7 +3,7 @@ import { createAndUpdateTray } from 'tray'
 import { sleep } from 'wait-promise'
 
 import { ALLOWED_HOSTS, setShouldShowWindow, windows } from './globalState'
-import { queueIpcEvent } from './helpers/utils'
+import { rendererIpc } from './ipcListeners'
 import { stopTcpBridge } from './tcpBridge'
 import { skipUpdateCheckCompleted } from './updaterListeners'
 
@@ -29,7 +29,8 @@ export const startWindowListeners = () => {
         app.exit()
       }, 1000)
 
-      queueIpcEvent('appClosing', {})
+      await rendererIpc.appClosing()
+
       return e.preventDefault()
     } else {
       app.exit()

@@ -1,5 +1,6 @@
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import { Deferred } from 'common-utils'
 
 import type { PinMatrixRequestType } from './KeepKey/KeepKeyTypes'
 import type { KeyManager } from './KeyManager'
@@ -70,6 +71,7 @@ export type ActionTypes =
         deviceId: string
         pinRequestType?: PinMatrixRequestType
         showBackButton?: boolean
+        deferred?: Deferred<string>
       }
     }
   | {
