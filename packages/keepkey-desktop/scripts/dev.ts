@@ -34,11 +34,11 @@ export const dev = async () => {
   })()
 
   child.stdout.on('data', (data) => {
-    console.log(`stdout [electron renderer] : ${data}`);
+    console.log(`stdout [electron main] : ${data}`);
   })
 
   child.stderr.on('data', (data) => {
-    console.error(`stderr [electron renderer] : ${data}`);
+    console.error(`stderr [electron main] : ${data}`);
   })
 
   process.on('SIGINT', () => {
@@ -56,3 +56,4 @@ export const dev = async () => {
 if (require.main === module) {
   dev().catch(err => console.error(err))
 }
+

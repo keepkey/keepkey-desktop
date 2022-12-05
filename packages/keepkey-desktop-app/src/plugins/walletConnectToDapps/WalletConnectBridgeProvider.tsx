@@ -132,6 +132,9 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         setIsLegacy(true)
         setLegcyEvents(bridgeFromSession)
         await bridgeFromSession.connect()
+        setIsConnected(bridgeFromSession.connector.connected)
+        if (bridgeFromSession.connector.peerMeta)
+          setPairingMeta(bridgeFromSession.connector.peerMeta)
         setLegacyBridge(bridgeFromSession)
       }
     },
