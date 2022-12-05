@@ -40,7 +40,8 @@
     "usb@^2.5.2": "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch",
     "@shapeshiftoss/hdwallet-keepkey@^1.40.0": "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.40.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.40.0-91917954a1.patch",
     "@shapeshiftoss/hdwallet-keepkey@1.40.0": "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.40.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.40.0-91917954a1.patch",
-    "@tsoa/runtime@^4.1.3": "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch"
+    "@tsoa/runtime@^4.1.3": "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch",
+    "web3@1.7.4": "^1.8.1"
   },
   "dependenciesMeta": {
     "@openapitools/openapi-generator-cli@2.5.2": {
