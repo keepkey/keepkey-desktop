@@ -1,0 +1,42 @@
+{
+  "extends": [
+    "prettier"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "import",
+    "prettier",
+    "simple-import-sort"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 100,
+        "endOfLine": "lf",
+        "tabWidth": 2,
+        "useTabs": false,
+        "singleQuote": true,
+        "semi": false,
+        "arrowParens": "avoid",
+        "jsxSingleQuote": true,
+        "trailingComma": "all"
+      }
+    ],
+    "default-case": "error",
+    "import/no-default-export": "error",
+    "object-shorthand": "error",
+    "eqeqeq": "error",
+    "@typescript-eslint/array-type": "error",
+    "@typescript-eslint/consistent-type-imports": "error"
+  }
+}

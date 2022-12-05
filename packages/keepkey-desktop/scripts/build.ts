@@ -7,15 +7,16 @@ import * as path from 'path'
 import * as esbuild from 'esbuild'
 import * as pnpapi from 'pnpapi'
 import { generateSpecAndRoutes } from '@tsoa/cli'
+import { dirnamePlugin, workspacePlugin } from '@keepkey/common-esbuild-bits'
 
 process.env.NODE_ENV ??= 'production'
 const isDev = process.env.NODE_ENV === 'production'
 
 const workspacePath = path.resolve(__dirname, '..')
 const buildPath = path.join(workspacePath, 'build')
-const rootPath = path.resolve(workspacePath, '../..')
+const rootPath = path.normalize(path.join(workspacePath, '../..'))
 const appSource = path.join(
-  pnpapi.resolveToUnqualified('keepkey-desktop-app', workspacePath),
+  pnpapi.resolveToUnqualified('keepkey-desktop-app', workspacePath)!,
   'build',
 )
 const assetsSource = path.join(workspacePath, 'assets')
@@ -41,9 +42,7 @@ const buildApi = async () => {
 const collectDefines = async () => {
   const defines = Object.fromEntries(
     Object.entries(process.env)
-      .filter(([k, _]) =>
-        ['NODE_DEBUG', 'NODE_ENV', 'LOG_LEVEL', 'DEBUG', 'PUBLIC_URL'].includes(k),
-      )
+      .filter(([k]) => ['NODE_DEBUG', 'NODE_ENV', 'LOG_LEVEL', 'DEBUG', 'PUBLIC_URL'].includes(k))
       .map(([k, v]) => [`process.env.${k}`, JSON.stringify(v)]),
   ) as Record<string, string>
   console.info('Embedded environment vars:', defines)
@@ -67,7 +66,7 @@ const copyAssetsDir = async () => {
 const copyPrebuilds = async (packages: string[]) => {
   await Promise.all(
     packages.map(async x => {
-      const prebuildsSource = pnpapi.resolveToUnqualified(`${x}/prebuilds`, workspacePath)
+      const prebuildsSource = pnpapi.resolveToUnqualified(`${x}/prebuilds`, workspacePath)!
       const targetPath = path.join(nativeModulesPath, x, 'prebuilds')
       await fs.promises.mkdir(targetPath, { recursive: true })
       await fs.promises.cp(prebuildsSource, targetPath, {
@@ -81,7 +80,7 @@ const copyPrebuilds = async (packages: string[]) => {
 const copyBindings = async (items: [source: string, target: string][]) => {
   await Promise.all(
     items.map(async ([source, target]) => {
-      const targetPath = pnpapi.resolveToUnqualified(source, workspacePath)
+      const targetPath = pnpapi.resolveToUnqualified(source, workspacePath)!
       if (
         !(await fs.promises
           .stat(targetPath)
@@ -94,33 +93,6 @@ const copyBindings = async (items: [source: string, target: string][]) => {
       await fs.promises.copyFile(targetPath, path.join(buildPath, target))
     }),
   )
-}
-
-const dirnamePlugin = async (
-  dirnameRules: [filter: string, dirnameSuffix: string][],
-): Promise<esbuild.Plugin> => {
-  return {
-    name: 'dirname-plugin',
-    setup: async build => {
-      await Promise.all(
-        dirnameRules.map(async ([filter, dirnameSuffix]) => {
-          build.onLoad(
-            {
-              filter: new RegExp(`${filter}$`.replace('/', '[\\/]').replace('.', '\\.')),
-            },
-            async args => {
-              if (args.namespace !== 'file') return
-              return {
-                contents: `((__dirname)=>{\n${await fs.promises.readFile(args.path, {
-                  encoding: 'utf8',
-                })}\n})(require('path').join(__dirname, '${dirnameSuffix}'))`,
-              }
-            },
-          )
-        }),
-      )
-    },
-  }
 }
 
 const runEsbuild = async (
@@ -140,7 +112,7 @@ const runEsbuild = async (
       '.wav': 'file',
     },
     entryPoints: [path.join(workspacePath, '/src/main.ts')],
-    plugins: await Promise.all([dirnamePlugin(dirnameRules)]),
+    plugins: await Promise.all([dirnamePlugin(dirnameRules), workspacePlugin(rootPath)]),
     sourcemap: isDev ? 'linked' : undefined,
     legalComments: isDev ? 'linked' : undefined,
     minify: !isDev,
