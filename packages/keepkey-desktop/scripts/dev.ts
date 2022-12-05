@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import * as path from 'path'
 import * as electronBuilder from 'electron-builder'
 import * as childProcess from 'child_process'

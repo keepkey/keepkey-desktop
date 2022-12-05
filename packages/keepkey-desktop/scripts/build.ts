@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import 'dotenv/config'
 
 import * as fs from 'fs'
