@@ -5,9 +5,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "source": "src/index.ts",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "build2": "yarn clean && yarn link @keepkey/keepkey-sdk && yarn && yarn build && yarn link",
     "build": "tsc --build",

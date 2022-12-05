@@ -456,9 +456,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     })
 
     //END HDwallet API
-
-    // inform the electron process we are ready to receive ipc messages
-    ipcRenderer.send('renderListenersReady', {})
   }, [state.wallet])
 
   const setupKeepKeySDK = () => {

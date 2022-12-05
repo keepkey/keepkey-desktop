@@ -95,6 +95,7 @@ export const App = () => {
     })
 
     ipcRenderer.on('updateBootloader', (_event, data) => {
+      console.log("UPDATE BOOTLOADER", data)
       if (!data.event?.bootloaderMode) {
         closeAllModals()
         setIsUpdatingKeepkey(true)
@@ -137,6 +138,8 @@ export const App = () => {
       }
     })
 
+    // inform the electron process we are ready to receive ipc messages
+    ipcRenderer.send('renderListenersReady', {})
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

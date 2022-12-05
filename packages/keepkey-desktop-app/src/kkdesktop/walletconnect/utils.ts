@@ -21,8 +21,7 @@ export const getWalletConnect = async (wallet: ETHWallet, uri: string) => {
 export async function createSignClient() {
   WalletConnectSignClient = await SignClient.init({
     logger: 'debug',
-    projectId:
-      getConfig().REACT_APP_WALLET_CONNECT_PROJECT_ID ?? '14d36ca1bc76a70273d44d384e8475ae',
+    projectId: getConfig().REACT_APP_WALLET_CONNECT_PROJECT_ID,
     metadata: {
       name: 'KeepKey Desktop',
       description: 'KeepKey Desktop Application',
