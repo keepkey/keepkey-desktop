@@ -39,7 +39,7 @@ export const HardwareErrorModal = (error: any) => {
   // const retryPair = useCallback(async () => {
   //   pairAndConnect.current()
   // }, [pairAndConnect])
-
+  // needsReconnect
   return (
     <Modal
       isOpen={isOpen && !isUpdatingKeepkey}
@@ -69,10 +69,22 @@ export const HardwareErrorModal = (error: any) => {
           ) : (
             <div>
               <ModalHeader>
-                <Text translation='modals.keepKey.hardware.headerConnect' />
+                <Text
+                  translation={
+                    error.needsReconnect
+                      ? 'modals.keepKey.hardware.headerReconnect'
+                      : 'modals.keepKey.hardware.headerConnect'
+                  }
+                />
               </ModalHeader>
               <Image src={KeepKeyConnect} alt='Reconnect Device!' />
-              <Text translation={'modals.keepKey.hardware.connect'} />
+              <Text
+                translation={
+                  error.needsReconnect
+                    ? 'modals.keepKey.hardware.reconnect'
+                    : 'modals.keepKey.hardware.connect'
+                }
+              />
               {/*<Button isDisabled={deviceBusy} onClick={retryPair}>*/}
               {/*  {`${deviceBusy ? 'Retry (Device busy, please wait)' : 'Retry'}`}*/}
               {/*</Button>*/}

@@ -1,24 +1,37 @@
-import { ModalBody, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  HStack,
+  ModalBody,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react'
 import { ipcRenderer } from 'electron-shim'
-import { useEffect } from 'react'
-import { Text } from 'components/Text'
-import { useModal } from 'hooks/useModal/useModal'
+import { useState } from 'react'
+import { RawText } from 'components/Text'
 
 export const UpdateBootloader = (params: any) => {
-  const { updateKeepKey } = useModal()
-  const { isOpen } = updateKeepKey
+  const [loading, setLoading] = useState(false)
 
-  const handleUpdateBootloader = async () => {
+  const onAcceptUpdate = async () => {
+    setLoading(true)
+    console.log('onAcceptUpdate: ')
     ipcRenderer.send('@keepkey/update-bootloader', {})
   }
-  useEffect(() => {
-    if (isOpen) {
-      handleUpdateBootloader()
-    }
-  }, [isOpen])
 
   return (
     <ModalBody pt={5}>
+      {loading && (
+        <Alert status='warning'>
+          <AlertIcon />
+          <RawText>Please follow the prompt shown on your KeepKey</RawText>
+        </Alert>
+      )}
       <Table size='sm'>
         <Thead>
           <Tr>
@@ -40,7 +53,11 @@ export const UpdateBootloader = (params: any) => {
         </Tbody>
       </Table>
       <br />
-      <Text size='lg' translation='Confirm on device' />
+      <HStack spacing={4}>
+        <Button colorScheme='green' onClick={onAcceptUpdate} isLoading={loading}>
+          Update
+        </Button>
+      </HStack>
     </ModalBody>
   )
 }

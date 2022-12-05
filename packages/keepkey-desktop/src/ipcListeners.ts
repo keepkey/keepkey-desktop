@@ -16,6 +16,7 @@ import {
 import { queueIpcEvent } from './helpers/utils'
 import log from 'electron-log'
 import { sleep } from 'wait-promise'
+import { UPDATE_FIRMWARE } from 'helpers/kk-state-controller'
 
 export const startIpcListeners = () => {
   ipcMain.setMaxListeners(15)
@@ -245,5 +246,10 @@ export const startIpcListeners = () => {
       bootloader: true,
       success: true,
     })
+  })
+
+  ipcMain.on('@keepkey/skip-update', async event => {
+    kkStateController.skipUpdate()
+    event.sender.send('@keepkey/update-skipped')
   })
 }
