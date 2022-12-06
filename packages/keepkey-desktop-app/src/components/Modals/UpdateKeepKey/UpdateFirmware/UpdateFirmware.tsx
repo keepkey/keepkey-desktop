@@ -35,7 +35,7 @@ export const UpdateFirmware = (params: any) => {
   useEffect(() => {
     console.log('params: ', params)
     if (!params?.event?.bootloaderMode) requestBootloaderMode.open({ ...params.event })
-    else requestBootloaderMode.close()
+    if (params?.event?.needsInitialize) requestBootloaderMode.close()
   }, [params, params.event, requestBootloaderMode])
 
   return (
