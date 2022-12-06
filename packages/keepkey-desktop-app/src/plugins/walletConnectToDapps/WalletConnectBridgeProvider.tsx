@@ -110,6 +110,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
   const connect = useCallback(
     async (uri?: string) => {
       if (uri) {
+        if (isLegacy && isConnected) await legacyBridge?.disconnect()
         const wc = await getWalletConnect(wallet as ETHWallet, uri)
         if (wc instanceof LegacyWCService) {
           console.log('Legacy wallet connect')

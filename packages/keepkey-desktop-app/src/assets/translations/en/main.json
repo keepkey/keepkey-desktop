@@ -591,6 +591,7 @@
       },
       "hardware": {
         "headerError": "Hardware Error!",
+        "headerReconnect": "Please reconnect your keepkey",
         "headerConnect": "No Device Found!",
         "troubleshoot": "Troubleshoot",
         "connect": "Please connect or reconnect your KeepKey to continue.",
@@ -668,6 +669,17 @@
         "header": "Download KeepKey Updater",
         "button": "Download %{filename}",
         "wrongPlatform": "Not using %{platform}? Click here"
+      },
+      "requestBootloaderMode": {
+        "title": "An update is available",
+        "versionAlert1": "Your keepkey is currently on version ",
+        "versionAlert2": ", version ",
+        "versionAlert3": " is now available",
+        "restart": "Restart device holding down button",
+        "skipUpdate": {
+          "text": "Don't feel like updating yet?",
+          "cta": "Skip Update"
+        }
       }
     },
     "shapeShift": {

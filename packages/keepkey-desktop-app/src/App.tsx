@@ -47,10 +47,11 @@ export const App = () => {
     if (connected === null) {
       ipcRenderer.on('@bridge/connected', (_event, _connected: boolean) => {
         setConnected(_connected)
+        setIsUpdatingKeepkey(false)
       })
       ipcRenderer.send('@bridge/connected')
     }
-  }, [hardwareError, connected, setConnected])
+  }, [hardwareError, connected, setConnected, setIsUpdatingKeepkey])
 
   useEffect(() => {
     // This is necessary so when it re-opens the tcp connection everything is good
@@ -78,6 +79,13 @@ export const App = () => {
       hardwareError.open({})
     })
 
+    ipcRenderer.on('needsReconnect', () => {
+      console.log('NEEDS RECONNECT')
+      dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
+      loading.close()
+      hardwareError.open({ needsReconnect: true })
+    })
+
     ipcRenderer.on('disconnected', () => {
       dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
       disconnect()
@@ -95,7 +103,7 @@ export const App = () => {
     })
 
     ipcRenderer.on('updateBootloader', (_event, data) => {
-      console.log("UPDATE BOOTLOADER", data)
+      console.log('UPDATE BOOTLOADER', data)
       if (!data.event?.bootloaderMode) {
         closeAllModals()
         setIsUpdatingKeepkey(true)
@@ -105,6 +113,12 @@ export const App = () => {
         closeAllModals()
         openKeepKeyUpdater(data)
       }
+    })
+
+    ipcRenderer.on('@keepkey/update-skipped', () => {
+      setIsUpdatingKeepkey(false)
+      updateKeepKey.close()
+      requestBootloaderMode.close()
     })
 
     ipcRenderer.on('updateFirmware', (_event, data) => {
