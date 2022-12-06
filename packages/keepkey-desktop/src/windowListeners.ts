@@ -1,4 +1,5 @@
 import { shell, app } from 'electron'
+import { createAndUpdateTray } from 'tray'
 import { sleep } from 'wait-promise'
 
 import { ALLOWED_HOSTS, setShouldShowWindow, windows } from './globalState'
@@ -37,7 +38,10 @@ export const startWindowListeners = () => {
 
   windows.mainWindow?.once('ready-to-show', async () => {
     setShouldShowWindow()
-    if (skipUpdateCheckCompleted) windows.mainWindow?.show()
+    if (skipUpdateCheckCompleted) {
+      windows.mainWindow?.show()
+      createAndUpdateTray()
+    }
   })
 
   windows.mainWindow?.webContents.setWindowOpenHandler(({ url }) => {

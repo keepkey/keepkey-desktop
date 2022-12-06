@@ -16,11 +16,12 @@ import cors from 'cors'
 import path from 'path'
 import log from 'electron-log'
 import { createAndUpdateTray } from './tray'
+import { promisify } from 'util'
 
 export const startTcpBridge = async (port?: number) => {
   if (tcpBridgeRunning || tcpBridgeStarting) return
   setTcpBridgeStarting(true)
-  let API_PORT = port || 1646
+  const API_PORT = port || 1646
 
   const appExpress = express()
   appExpress.use(cors())
@@ -47,22 +48,17 @@ export const startTcpBridge = async (port?: number) => {
 
 export const stopTcpBridge = async () => {
   if (tcpBridgeClosing) return false
+
   setTcpBridgeClosing(true)
-  await new Promise(async resolve => {
-    createAndUpdateTray()
-    if (server) {
-      server?.close(async () => {
-        setTcpBridgeRunning(false)
-        setTcpBridgeClosing(false)
-        createAndUpdateTray()
-        resolve(true)
-      })
-    } else {
-      setTcpBridgeRunning(false)
-      setTcpBridgeClosing(false)
-      createAndUpdateTray()
-      resolve(true)
-    }
-  })
-  return true
+  createAndUpdateTray()
+
+  if (server) {
+    log.info('Stopping TCP bridge...')
+    await promisify(server.close)()
+    log.info('TCP bridge stopped.')
+  }
+
+  setTcpBridgeRunning(false)
+  setTcpBridgeClosing(false)
+  createAndUpdateTray()
 }
