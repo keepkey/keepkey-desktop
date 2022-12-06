@@ -112,7 +112,10 @@ const runEsbuild = async (
       '.wav': 'file',
     },
     entryPoints: [path.join(workspacePath, '/src/main.ts')],
-    plugins: await Promise.all([dirnamePlugin(dirnameRules), workspacePlugin(rootPath)]),
+    plugins: await Promise.all([
+      dirnamePlugin(dirnameRules),
+      workspacePlugin(rootPath, workspacePath),
+    ]),
     sourcemap: isDev ? 'linked' : undefined,
     legalComments: isDev ? 'linked' : undefined,
     minify: !isDev,
