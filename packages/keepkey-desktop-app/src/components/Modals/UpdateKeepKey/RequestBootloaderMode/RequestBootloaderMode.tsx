@@ -24,9 +24,11 @@ import { useTranslate } from 'react-polyglot'
 export type RequestBootloaderModeProps = {
   recommendedFirmware?: string
   firmware?: string
+  bootloaderUpdateNeeded?: boolean
 }
 
 export const RequestBootloaderMode: FC<RequestBootloaderModeProps> = ({
+  bootloaderUpdateNeeded,
   recommendedFirmware,
   firmware,
 }) => {
@@ -53,7 +55,7 @@ export const RequestBootloaderMode: FC<RequestBootloaderModeProps> = ({
             </ModalHeader>
           </div>
           <ModalBody>
-            {recommendedFirmware && firmware && (
+            {!bootloaderUpdateNeeded && recommendedFirmware && firmware && (
               <Alert status='warning'>
                 <AlertIcon />
                 <RawText>
@@ -68,20 +70,22 @@ export const RequestBootloaderMode: FC<RequestBootloaderModeProps> = ({
             <Image src={KeepKeyConnect} alt='reconnect Device!' />
             <Text align='center' translation={'modals.keepKey.requestBootloaderMode.restart'} />
           </ModalBody>
-          <ModalFooter textAlign='center'>
-            <HStack>
-              <Text translation={'modals.keepKey.requestBootloaderMode.skipUpdate.text'} />
-              <Button
-                onClick={() => {
-                  ipcRenderer.send('@keepkey/skip-update')
-                }}
-                colorScheme='yellow'
-                size='sm'
-              >
-                <Text translation={'modals.keepKey.requestBootloaderMode.skipUpdate.cta'} />
-              </Button>
-            </HStack>
-          </ModalFooter>
+          {!bootloaderUpdateNeeded && (
+            <ModalFooter textAlign='center'>
+              <HStack>
+                <Text translation={'modals.keepKey.requestBootloaderMode.skipUpdate.text'} />
+                <Button
+                  onClick={() => {
+                    ipcRenderer.send('@keepkey/skip-update')
+                  }}
+                  colorScheme='yellow'
+                  size='sm'
+                >
+                  <Text translation={'modals.keepKey.requestBootloaderMode.skipUpdate.cta'} />
+                </Button>
+              </HStack>
+            </ModalFooter>
+          )}
         </ModalBody>
       </ModalContent>
     </Modal>
