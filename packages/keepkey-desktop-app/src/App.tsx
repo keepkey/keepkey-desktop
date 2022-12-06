@@ -108,7 +108,7 @@ export const App = () => {
         closeAllModals()
         setIsUpdatingKeepkey(true)
         setConnected(true)
-        requestBootloaderMode.open({})
+        requestBootloaderMode.open({ ...data.event })
       } else {
         closeAllModals()
         openKeepKeyUpdater(data)
