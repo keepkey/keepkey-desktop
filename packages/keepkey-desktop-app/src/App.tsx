@@ -13,7 +13,16 @@ export const App = () => {
   } = useWallet()
   const { setIsUpdatingKeepkey, state, disconnect } = useWallet()
 
-  const { pair, sign, hardwareError, updateKeepKey, requestBootloaderMode, loading } = useModal()
+  const {
+    pair,
+    sign,
+    hardwareError,
+    updateKeepKey,
+    requestBootloaderMode,
+    loading,
+    kkPin,
+    kkVote,
+  } = useModal()
 
   const openKeepKeyUpdater = (data: any) => {
     setIsUpdatingKeepkey(true)
@@ -127,13 +136,14 @@ export const App = () => {
     })
 
     ipcRenderer.on('@modal/pin', (_event, _data) => {
-      dispatch({
-        type: WalletActions.OPEN_KEEPKEY_PIN,
-        payload: {
-          deviceId,
-          showBackButton: false,
-        },
-      })
+      kkVote.open({ foobar: 'baz' })
+      // dispatch({
+      //   type: WalletActions.OPEN_KEEPKEY_PIN,
+      //   payload: {
+      //     deviceId,
+      //     showBackButton: false,
+      //   },
+      // })
     })
 
     ipcRenderer.on('@account/sign-tx', async (_event: any, data: any) => {

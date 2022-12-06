@@ -17,6 +17,7 @@ import { UpdateKeepKey } from 'components/Modals/UpdateKeepKey/UpdateKeepKey'
 import { AddAccountModal } from 'pages/Accounts/AddAccountModal'
 
 import { ModalContext } from './ModalContext'
+import { KeepKeyPinModal } from 'context/WalletProvider/KeepKey/components/PinModal'
 
 // to add new modals, add a new key: value pair below
 // the key is the name returned by the hook and the
@@ -36,6 +37,7 @@ const MODALS = {
   updateKeepKey: UpdateKeepKey,
   kkVote: KKVote,
   loading: LoadingModal,
+  kkPin: KeepKeyPinModal,
 }
 
 // state
