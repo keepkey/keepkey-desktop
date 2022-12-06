@@ -15,7 +15,6 @@ import {
 import { Settings } from './helpers/settings'
 import AutoLaunch from 'auto-launch'
 import { startTcpBridge, stopTcpBridge } from './tcpBridge'
-import { createAndUpdateTray } from './tray'
 import { queueIpcEvent } from './helpers/utils'
 import { BridgeLogger } from './helpers/bridgeLogger'
 import log from 'electron-log'
@@ -95,10 +94,12 @@ export const kkAutoLauncher = new AutoLaunch({
 })
 
 export const kkStateController = new KKStateController(async (eventName: string, args: any) => {
-  console.log("KK STATE", eventName)
-  if (eventName === CONNECTED || eventName === NEEDS_INITIALIZE) await startTcpBridge()
-  else if (eventName === DISCONNECTED || eventName === HARDWARE_ERROR) await stopTcpBridge()
-  createAndUpdateTray()
+  console.log('KK STATE', eventName)
+  if (eventName === CONNECTED || eventName === NEEDS_INITIALIZE) {
+    await startTcpBridge()
+  } else if (eventName === DISCONNECTED || eventName === HARDWARE_ERROR) {
+    await stopTcpBridge()
+  }
   log.info('keepkey state changed: ', eventName, args)
   return queueIpcEvent(eventName, args)
 })
