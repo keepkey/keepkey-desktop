@@ -1080,82 +1080,6 @@
         }
       }
     },
-    "keplr": {
-      "errors": {
-        "connectFailure": "Unable to connect Keplr wallet",
-        "unknown": "An unexpected error occurred communicating with Keplr",
-        "noProvider": "Keplr wallet extension not found"
-      },
-      "connect": {
-        "header": "Pair Keplr",
-        "body": "Click Pair then select Keplr from the popup window",
-        "button": "Pair"
-      },
-      "failure": {
-        "header": "Error",
-        "body": "Unable to connect Keplr wallet"
-      }
-    },
-    "metaMask": {
-      "errors": {
-        "unknown": "An unexpected error occurred communicating with MetaMask",
-        "connectFailure": "Unable to connect MetaMask wallet",
-        "multipleWallets": "Detected Ethereum provider is not MetaMask. Do you have multiple wallets installed?",
-        "tallyInstalledAndSetToDefault": "We have detected that you have Tally Ho installed and set to Default. If you would prefer to use MetaMask instead, please change the settings in Tally Ho and refresh the page."
-      },
-      "connect": {
-        "header": "Pair MetaMask",
-        "body": "Click Pair and login to MetaMask from the popup window",
-        "button": "Pair"
-      },
-      "failure": {
-        "header": "Error",
-        "body": "Unable to connect MetaMask wallet"
-      },
-      "redirect": {
-        "header": "Open in MetaMask App",
-        "body": "Click to open ShapeShift dashboard in MetaMask",
-        "button": "Open"
-      }
-    },
-    "tallyHo": {
-      "errors": {
-        "unknown": "An unexpected error occurred communicating with Tally Ho",
-        "connectFailure": "Unable to connect Tally Ho wallet",
-        "network": "Tally Ho isn't set to Ethereum Mainnet",
-        "multipleWallets": "Detected Ethereum provider is not Tally Ho. Do you have multiple wallets installed?",
-        "tallyNotInstalledOrSetToDefault": "We have detected that Tally Ho is either not installed or not set to default. If you would like to use Tally Ho please install it or set it as your default wallet and refresh the page."
-      },
-      "connect": {
-        "header": "Pair Tally",
-        "body": "Click Pair and login to Tally Ho from the popup window",
-        "button": "Pair"
-      },
-      "failure": {
-        "header": "Error",
-        "body": "Unable to connect Tally Ho wallet"
-      },
-      "redirect": {
-        "header": "Open in Tally Ho App",
-        "body": "Click to open ShapeShift dashboard in Tally Ho",
-        "button": "Open"
-      }
-    },
-    "portis": {
-      "errors": {
-        "unknown": "An unexpected error occurred communicating with Portis",
-        "connectFailure": "Unable to connect Portis wallet"
-      },
-      "connect": {
-        "header": "Pair Portis",
-        "body": "Click Pair then select Portis from the popup window",
-        "button": "Pair"
-      },
-      "failure": {
-        "header": "Error",
-        "body": "Unable to connect Portis wallet"
-      }
-    },
     "walletConnect": {
       "errors": {
         "unknown": "An unexpected error occurred communicating with WalletConnect",
@@ -1169,27 +1093,6 @@
       "failure": {
         "header": "Error",
         "body": "Unable to connect WalletConnect wallet"
-      }
-    },
-    "xdefi": {
-      "errors": {
-        "unknown": "An unexpected error occurred communicating with XDEFI",
-        "connectFailure": "Unable to connect XDEFI wallet",
-        "multipleWallets": "Detected Ethereum provider is not XDEFI. Do you have multiple wallets installed?"
-      },
-      "connect": {
-        "header": "Pair XDEFI",
-        "body": "Click Pair and login to XDEFI from the popup window",
-        "button": "Pair"
-      },
-      "failure": {
-        "header": "Error",
-        "body": "Unable to connect XDEFI wallet"
-      },
-      "redirect": {
-        "header": "Open in XDEFI App",
-        "body": "Click to open ShapeShift dashboard in XDEFI",
-        "button": "Open"
       }
     },
     "shapeShift": {
@@ -1276,33 +1179,6 @@
         "body": "Enter the new nickname of your wallet and your password to decrypt your wallet.",
         "button": "Next",
         "confirmDelete": "Are you sure you want to delete the nickname of this wallet?"
-      },
-      "legacy": {
-        "deprecatedWarning": "ShapeShift Log In is being Deprecated",
-        "learnMore": "Learn More",
-        "alreadySavedConfirm": "I confirm that my Secret Recovery Phrase is already backed up securely.",
-        "mobileWalletTitle": "ShapeShift Mobile Wallet",
-        "importInformations": "To continue using your ShapeShift Mobile Wallet, you'll need to import it.",
-        "importWallet": "Import Wallet",
-        "haveMobileWallet": "Have a ShapeShift Mobile Wallet?",
-        "loginWithAccount": "Log In with ShapeShift Account",
-        "loginInformations": "Enter your email address and password you use to login to your ShapeShift Mobile App.",
-        "loginSuccess": "Successfully Logged In",
-        "emailAddress": "Email Address",
-        "password": "Password",
-        "emailRequired": "Email is required",
-        "invalidEmail": "Email is invalid",
-        "invalidCaptcha": "Captcha is invalid",
-        "captchaRequired": "Captcha is required",
-        "tooManyAttempts": "Too many attempts, please try again later.",
-        "invalidLogin": "Invalid login",
-        "noWallet": "Could not find a ShapeShift Native wallet for your login. If you feel this message is in error, please contact ShapeShift support.",
-        "decryptionError": "Something went wrong decrypting your wallet.",
-        "twoFactorAuthentication": "Two-Factor Authentication",
-        "twoFactorPlaceholder": "6-digit code",
-        "twoFactorRequired": "2FA is required",
-        "invalidTwoFactor": "6-digit code is invalid",
-        "twoFactorDescription": "Two-factor authentication is enabled for your account. Please enter the code from your authentication app."
       }
     },
     "selectModal": {

@@ -77,7 +77,6 @@ const initialDeviceState: DeviceState = {
   isUpdatingPin: false,
   isDeviceLoading: false,
 }
-export type MetaMaskLikeProvider = providers.Web3Provider & { isTally?: boolean }
 
 export interface InitialState {
   keyring: Keyring
@@ -89,7 +88,7 @@ export interface InitialState {
   isConnected: boolean
   isUpdatingKeepkey: boolean
   isDemoWallet: boolean
-  provider: MetaMaskLikeProvider | WalletConnectProvider | null
+  provider: WalletConnectProvider | null
   isLocked: boolean
   modal: boolean
   isLoadingLocalWallet: boolean
@@ -356,7 +355,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     debounce(async () => {
       const sdk = await getsdk()
       const adapters: Adapters = new Map()
-      let options: undefined | { portisAppId: string } | WalletConnectProviderConfig
+      let options: undefined | WalletConnectProviderConfig
       for (const walletName of Object.values(KeyManager)) {
         try {
           const adapter = SUPPORTED_WALLETS[walletName].adapter.useKeyring(state.keyring, options)

@@ -37,8 +37,6 @@ const validators = {
   REACT_APP_DAPP_URL: url({
     default: 'https://pioneers.dev/spec/swagger.json',
   }),
-  REACT_APP_WALLET_MIGRATION_URL: url(),
-  REACT_APP_PORTIS_DAPP_ID: str({ devDefault: 'fakePortisId' }),
   REACT_APP_JUNOPAY_BASE_API_URL: url(),
   REACT_APP_JUNOPAY_BASE_APP_URL: url(),
   REACT_APP_JUNOPAY_ASSET_LOGO_URL: url(),
@@ -66,7 +64,6 @@ const validators = {
   REACT_APP_FEATURE_YAT: bool({ default: false }),
   REACT_APP_FEATURE_AXELAR: bool({ default: false }),
   REACT_APP_FEATURE_MULTI_ACCOUNTS: bool({ default: false }),
-  REACT_APP_FEATURE_MIGRATION_MESSAGE: bool({ default: false }),
   REACT_APP_FEATURE_SWAPPER_V2: bool({ default: false }),
   REACT_APP_DASHBOARD_BREAKDOWN: bool({ default: false }),
   REACT_APP_FEATURE_WALLET_CONNECT_TO_DAPPS: bool({ default: true }),

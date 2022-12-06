@@ -976,82 +976,6 @@
         }
       }
     },
-    "keplr": {
-      "errors": {
-        "connectFailure": "No se puede conectar la billetera Keplr",
-        "unknown": "Ocurrió un error inesperado al comunicarse con Keplr",
-        "noProvider": "Extensión de Billetera Keplr no encontrada"
-      },
-      "connect": {
-        "header": "Emparejar Keplr",
-        "body": "Haga clic en Emparejar y luego seleccione Keplr en la ventana emergente",
-        "button": "Emparejar"
-      },
-      "failure": {
-        "header": "Error",
-        "body": "No se puede conectar la billetera Keplr"
-      }
-    },
-    "metaMask": {
-      "errors": {
-        "unknown": "Ocurrió un error inesperado al comunicarse con MetaMask",
-        "connectFailure": "No se puede conectar la billetera MetaMask",
-        "multipleWallets": "El proveedor de Ethereum detectado no es MetaMask. ¿Tienes varias carteras instaladas?",
-        "tallyInstalledAndSetToDefault": "Hemos detectado que tiene Tally Ho instalado y configurado como Predeterminado. Si prefiere usar MetaMask en su lugar, cambie la configuración en Tally Ho y actualice la página."
-      },
-      "connect": {
-        "header": "Emparejar MetaMask",
-        "body": "Haga clic en Emparejar e inicie sesión en MetaMask desde la ventana emergente",
-        "button": "Emparejar"
-      },
-      "failure": {
-        "header": "Error",
-        "body": "No se puede conectar la billetera MetaMask"
-      },
-      "redirect": {
-        "header": "Abrir en la aplicación MetaMask",
-        "body": "Haga clic para abrir el panel de ShapeShift en MetaMask",
-        "button": "Abrir"
-      }
-    },
-    "tallyHo": {
-      "errors": {
-        "unknown": "Ocurrió un error inesperado al comunicarse con Tally Ho",
-        "connectFailure": "No se puede conectar la Billetera Tally Ho",
-        "network": "Tally Ho no está configurado para Ethereum Mainnet",
-        "multipleWallets": "El proveedor de Ethereum detectado no es Tally Ho. ¿Tienes varias carteras instaladas?",
-        "tallyNotInstalledOrSetToDefault": "Hemos detectado que Tally Ho no está instalado o no está configurado como predeterminado. Si desea utilizar Tally Ho, instálelo o configúrelo como su billetera predeterminada y actualice la página."
-      },
-      "connect": {
-        "header": "Emparejar Tally",
-        "body": "Haga clic en Emparejar e inicie sesión en Tally Ho desde la ventana emergente",
-        "button": "Emparejar"
-      },
-      "failure": {
-        "header": "Error",
-        "body": "No se puede conectar la billetera Tally Ho"
-      },
-      "redirect": {
-        "header": "Abrir en la aplicación Tally Ho",
-        "body": "Haga clic para abrir el panel ShapeShift en Tally Ho",
-        "button": "Abrir"
-      }
-    },
-    "portis": {
-      "errors": {
-        "unknown": "Ocurrió un error inesperado al comunicarse con Portis",
-        "connectFailure": "No se puede conectar la billetera Portis"
-      },
-      "connect": {
-        "header": "Emparejar Portis",
-        "body": "Haga clic en Emparejar y luego seleccione Portis en la ventana emergente",
-        "button": "Emparejar"
-      },
-      "failure": {
-        "header": "Error",
-        "body": "No se puede conectar la billetera Portis"
-      }
-    },
     "walletConnect": {
       "errors": {
         "unknown": "Ocurrió un error inesperado al comunicarse con WalletConnect",
@@ -1065,27 +989,6 @@
       "failure": {
         "header": "Error",
         "body": "No se puede conectar la billetera WalletConnect"
-      }
-    },
-    "xdefi": {
-      "errors": {
-        "unknown": "Ocurrió un error inesperado al comunicarse con XDEFI",
-        "connectFailure": "No se puede conectar la billetera XDEFI",
-        "multipleWallets": "El proveedor de Ethereum detectado no es XDEFI. ¿Tienes varias carteras instaladas?"
-      },
-      "connect": {
-        "header": "Emparejar XDEFI",
-        "body": "Haga clic en Emparejar e inicie sesión en XDEFI desde la ventana emergente",
-        "button": "Emparejar"
-      },
-      "failure": {
-        "header": "Error",
-        "body": "No se puede conectar la billetera XDEFI"
-      },
-      "redirect": {
-        "header": "Abrir en la aplicación XDEFI",
-        "body": "Haga clic para abrir el panel de ShapeShift en XDEFI",
-        "button": "Abrir"
       }
     },
     "shapeShift": {
@@ -1172,33 +1075,6 @@
         "body": "Ingrese el nuevo apodo de su billetera y su contraseña para descifrar su billetera.",
         "button": "Siguiente",
         "confirmDelete": "¿Está seguro de que desea eliminar el apodo de esta billetera?"
-      },
-      "legacy": {
-        "deprecatedWarning": "El inicio de sesión de ShapeShift está en desuso",
-        "learnMore": "Aprende más",
-        "alreadySavedConfirm": "Confirmo que mi frase de recuperación secreta ya está respaldada de forma segura.",
-        "mobileWalletTitle": "Billetera móvil ShapeShift",
-        "importInformations": "Para continuar usando su billetera móvil ShapeShift, deberá importarla.",
-        "importWallet": "Importar Billetera",
-        "haveMobileWallet": "¿Tiene una billetera móvil ShapeShift?",
-        "loginWithAccount": "Iniciar sesión con la cuenta de ShapeShift",
-        "loginInformations": "Ingrese su dirección de correo electrónico y la contraseña que usa para iniciar sesión en su aplicación móvil ShapeShift.",
-        "loginSuccess": "Iniciado sesión con éxito",
-        "emailAddress": "Dirección de correo electrónico",
-        "password": "Contraseña",
-        "emailRequired": "Correo Electronico es requerido",
-        "invalidEmail": "Correo Electrónico es invalido",
-        "invalidCaptcha": "El Captcha no es válido",
-        "captchaRequired": "Se requiere captcha",
-        "tooManyAttempts": "Demasiados intentos. Por favor intente mas tarde.",
-        "invalidLogin": "Ingreso invalido",
-        "noWallet": "No se pudo encontrar una billetera nativa de ShapeShift para su inicio de sesión. Si cree que este mensaje es un error, comuníquese con el soporte de ShapeShift.",
-        "decryptionError": "Algo salió mal al descifrar su billetera.",
-        "twoFactorAuthentication": "Autenticación de dos factores",
-        "twoFactorPlaceholder": "Código de 6 dígitos",
-        "twoFactorRequired": "Se requiere 2FA",
-        "invalidTwoFactor": "El código de 6 dígitos no es válido",
-        "twoFactorDescription": "La autenticación de dos factores está habilitada para su cuenta. Ingrese el código de su aplicación de autenticación."
       }
     },
     "selectModal": {

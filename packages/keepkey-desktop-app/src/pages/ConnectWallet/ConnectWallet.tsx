@@ -9,13 +9,11 @@ import logo from 'assets/kk-icon-gold.png'
 import heroBgImage from 'assets/splash-bg.png'
 import { Page } from 'components/Layout/Page'
 import { RawText, Text } from 'components/Text'
-import { useFeatureFlag } from 'hooks/useFeatureFlag/useFeatureFlag'
 import { useQuery } from 'hooks/useQuery/useQuery'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { ipcRenderer } from 'electron-shim'
 
 export const ConnectWallet = () => {
-  const isMigrationMessageEnabled = useFeatureFlag('MigrationMessage')
   const { state, dispatch } = useWallet()
   const hasWallet = Boolean(state.walletInfo?.deviceId) && state.isConnected
   const history = useHistory()
@@ -168,16 +166,6 @@ export const ConnectWallet = () => {
                 >
                   <Text translation='common.privacy' />
                 </Link>
-                {isMigrationMessageEnabled && (
-                  <Link
-                    href='https://github.com/shapeshift'
-                    isExternal
-                    color='whiteAlpha.500'
-                    _hover={{ color: 'white' }}
-                  >
-                    <Text translation='connectWalletPage.poweredBy' />
-                  </Link>
-                )}
               </Flex>
             </Flex>
           </Flex>
