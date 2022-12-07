@@ -1,9 +1,9 @@
 {
   "latest": {
     "firmware": {
-      "version": "v7.5.1",
-      "url": "v7.5.1/firmware.keepkey.bin",
-      "hash": "b1083a159b6ef4a576574d09c86255d02d634a41f0380ac71ecd1275bf297c09"
+      "version": "v7.5.0",
+      "url": "v7.5.0/firmware.keepkey.bin",
+      "hash": "08b1153a6e9ba5f45776094d62c8d055632d414a38f0c70acd1e751229bf097c"
     },
     "bootloader": {
       "version": "v2.1.4",
@@ -86,12 +86,12 @@
     }
   },
   "links": {
-    "app": "https://app.shapeshift.com",
-    "support": "https://shapeshift.zendesk.com",
-    "updater": "https://github.com/keepkey/keepkey-updater/releases/latest"
+    "app": "https://keepkey.com",
+    "support": "https://discord.gg/stfRnW3Jys",
+    "updater": "https://github.com/keepkey/keepkey-desktop/releases/latest"
   },
   "strings": {
-    "goToApp": "Head over to ShapeShift!",
+    "goToApp": "Head over to KeepKey.com!",
     "updateUpdater": "Update Available"
   }
 }

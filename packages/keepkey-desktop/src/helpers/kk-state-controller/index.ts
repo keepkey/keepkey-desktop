@@ -1,10 +1,11 @@
 import { Keyring } from '@shapeshiftoss/hdwallet-core'
 import type { Device } from '@shapeshiftoss/hdwallet-keepkey-nodewebusb'
 import type { KeepKeyHDWallet, TransportDelegate } from '@shapeshiftoss/hdwallet-keepkey'
-import { getLatestFirmwareData } from './firmwareUtils'
+import { getBetaFirmwareData, getLatestFirmwareData } from './firmwareUtils'
 import { initializeWallet } from './walletUtils'
 import { usb } from 'usb'
 import log from 'electron-log'
+import { settings } from 'globalState'
 
 // possible states
 export const UPDATE_BOOTLOADER = 'updateBootloader'
@@ -67,7 +68,9 @@ export class KKStateController {
 
   public syncState = async () => {
     log.info('KKStateController syncState')
-    const latestFirmware = await getLatestFirmwareData()
+    const latestFirmware = settings.allowBetaFirmware
+      ? await getBetaFirmwareData()
+      : await getLatestFirmwareData()
     const resultInit = await initializeWallet(this)
     log.info('KKStateController resultInit: ', resultInit)
     if (resultInit.unplugged) {

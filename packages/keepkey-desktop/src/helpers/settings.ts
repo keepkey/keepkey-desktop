@@ -15,7 +15,8 @@ export class Settings {
   public shouldAutoLunch = true
   public shouldMinimizeToTray = true
   public shouldAutoUpdate = true
-  public allowPreRelease = true
+  public allowPreRelease = false
+  public allowBetaFirmware = false
 
   constructor() {
     if (instance) {
@@ -35,6 +36,7 @@ export class Settings {
         shouldAutoUpdate: this.shouldAutoUpdate,
         bridgeApiPort: this.bridgeApiPort,
         allowPreRelease: this.allowPreRelease,
+        allowBetaFirmware: this.allowBetaFirmware,
       })
     })
   }
@@ -53,7 +55,8 @@ export class Settings {
           doc.settings.shouldMinimizeToTray === undefined ||
           doc.settings.shouldAutoUpdate === undefined ||
           doc.settings.bridgeApiPort === undefined ||
-          doc.settings.allowPreRelease === undefined
+          doc.settings.allowPreRelease === undefined ||
+          doc.settings.allowBetaFirmware === undefined
         )
           await this.syncSettingsWithDB()
 
@@ -63,6 +66,7 @@ export class Settings {
         this.shouldAutoUpdate = doc.settings.shouldAutoUpdate
         this.bridgeApiPort = doc.settings.bridgeApiPort
         this.allowPreRelease = doc.settings.allowPreRelease
+        this.allowBetaFirmware = doc.settings.allowBetaFirmware
         console.log('Saved settings: ', doc.settings)
         resolve(this)
       })
@@ -81,6 +85,7 @@ export class Settings {
               shouldAutoUpdate: this.shouldAutoUpdate,
               bridgeApiPort: this.bridgeApiPort,
               allowPreRelease: this.allowPreRelease,
+              allowBetaFirmware: this.allowBetaFirmware,
             },
           })
 
@@ -95,6 +100,7 @@ export class Settings {
               shouldAutoUpdate: this.shouldAutoUpdate,
               bridgeApiPort: this.bridgeApiPort,
               allowPreRelease: this.allowPreRelease,
+              allowBetaFirmware: this.allowBetaFirmware,
             },
           },
         )
@@ -145,6 +151,11 @@ export class Settings {
     if (!bulk) this.syncSettingsWithDB()
   }
 
+  setAllowBetaFirmware(value: boolean, bulk = false) {
+    this.allowBetaFirmware = value
+    if (!bulk) this.syncSettingsWithDB()
+  }
+
   updateBulkSettings({
     shouldAutoLunch,
     shouldAutoStartBridge,
@@ -152,6 +163,7 @@ export class Settings {
     shouldAutoUpdate,
     bridgeApiPort,
     allowPreRelease,
+    allowBetaFirmware,
   }: {
     shouldAutoLunch?: boolean
     shouldAutoStartBridge?: boolean
@@ -159,6 +171,7 @@ export class Settings {
     shouldAutoUpdate?: boolean
     bridgeApiPort?: number
     allowPreRelease?: boolean
+    allowBetaFirmware?: boolean
   }) {
     log.info(
       shouldAutoLunch,
@@ -167,6 +180,7 @@ export class Settings {
       shouldAutoUpdate,
       bridgeApiPort,
       allowPreRelease,
+      allowBetaFirmware,
     )
     if (shouldAutoLunch !== undefined) this.setShouldAutoLunch(shouldAutoLunch, true)
     if (shouldAutoStartBridge !== undefined)
@@ -175,6 +189,7 @@ export class Settings {
     if (shouldAutoUpdate !== undefined) this.setShouldAutoUpdate(shouldAutoUpdate, true)
     if (bridgeApiPort !== undefined) this.setBridgeApiPort(bridgeApiPort, true)
     if (allowPreRelease !== undefined) this.setAllowPreRelease(allowPreRelease, true)
+    if (allowBetaFirmware !== undefined) this.setAllowBetaFirmware(allowBetaFirmware, true)
     this.syncSettingsWithDB()
   }
 }
