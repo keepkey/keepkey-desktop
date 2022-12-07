@@ -6,10 +6,12 @@ import {
   isWalletBridgeRunning,
   kkStateController,
   setRenderListenersReady,
+  settings,
   windows,
 } from './globalState'
 import {
   downloadFirmware,
+  getBetaFirmwareData,
   getLatestFirmwareData,
   loadFirmware,
 } from './helpers/kk-state-controller/firmwareUtils'
@@ -224,7 +226,9 @@ export const startIpcListeners = () => {
   })
 
   ipcMain.on('@keepkey/update-firmware', async event => {
-    let result = await getLatestFirmwareData()
+    let result = settings.allowBetaFirmware
+      ? await getBetaFirmwareData()
+      : await getLatestFirmwareData()
     let firmware = await downloadFirmware(result.firmware.url)
     if (!firmware) throw Error('Failed to load firmware from url!')
     await loadFirmware(kkStateController.wallet, firmware)
@@ -239,7 +243,9 @@ export const startIpcListeners = () => {
   })
 
   ipcMain.on('@keepkey/update-bootloader', async event => {
-    let result = await getLatestFirmwareData()
+    let result = settings.allowBetaFirmware
+      ? await getBetaFirmwareData()
+      : await getLatestFirmwareData()
     let firmware = await downloadFirmware(result.bootloader.url)
     await loadFirmware(kkStateController.wallet, firmware)
     event.sender.send('onCompleteBootloaderUpload', {

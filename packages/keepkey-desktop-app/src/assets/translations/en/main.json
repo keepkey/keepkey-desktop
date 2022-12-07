@@ -919,6 +919,7 @@
       "minimizeToTray": "Minimize to tray",
       "autoUpdate": "Automatically install updates",
       "downloadPreRelease": "Download pre release builds",
+      "allowBetaFirmware": "Download beta KeepKey Firmware/Bootloaders",
       "currencies": {
         "CNY": "Chinese Yuan",
         "USD": "United States Dollar (default)",

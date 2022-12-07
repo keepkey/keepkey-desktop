@@ -8,14 +8,16 @@ export type GenericError = {
   error?: string
 }
 
-export type LatestFirmwareAndBootloaderData = {
+export type FirmwareAndBootloaderData = {
   firmware: {
     version: string
     url: string
+    hash: string
   }
   bootloader: {
     version: string
     url: string
+    hash: string
   }
 }
 
@@ -25,7 +27,8 @@ export type FirmwareAndBootloaderHashes = {
 }
 
 export type AllFirmwareAndBootloaderData = {
-  latest: LatestFirmwareAndBootloaderData
+  latest: FirmwareAndBootloaderData
+  beta: FirmwareAndBootloaderData
   hashes: FirmwareAndBootloaderHashes
 }
 
