@@ -1,5 +1,6 @@
 /// <reference types="node" />
 
+import * as fs from 'fs'
 import * as path from 'path'
 import * as electronBuilder from 'electron-builder'
 import * as childProcess from 'child_process'
@@ -24,10 +25,18 @@ export const dev = async () => {
     switch (process.platform) {
       case 'linux':
         return childProcess.spawn(path.join(distPath, 'linux-unpacked/keepkey-desktop'))
-      case 'darwin':
-        return childProcess.spawn(
-          path.join(distPath, 'mac-arm64/KeepKey Desktop.app/Contents/MacOS/KeepKey Desktop'),
+      case 'darwin': {
+        const intelMacPath = path.join(
+          distPath,
+          'mac/KeepKey Desktop.app/Contents/MacOS/KeepKey Desktop',
         )
+        const armMacPath = path.join(
+          distPath,
+          'mac-arm64/KeepKey Desktop.app/Contents/MacOS/KeepKey Desktop',
+        )
+        const macPath = fs.existsSync(armMacPath) ? armMacPath : intelMacPath
+        return childProcess.spawn(macPath)
+      }
       case 'win32':
         return childProcess.spawn(path.join(distPath, 'win-unpacked/KeepKey Desktop.exe'))
       default:
@@ -35,12 +44,12 @@ export const dev = async () => {
     }
   })()
 
-  child.stdout.on('data', (data) => {
-    console.log(`stdout [electron main] : ${data}`);
+  child.stdout.on('data', data => {
+    console.log(`stdout [electron main] : ${data}`)
   })
 
-  child.stderr.on('data', (data) => {
-    console.error(`stderr [electron main] : ${data}`);
+  child.stderr.on('data', data => {
+    console.error(`stderr [electron main] : ${data}`)
   })
 
   process.on('SIGINT', () => {
@@ -58,4 +67,3 @@ export const dev = async () => {
 if (require.main === module) {
   dev().catch(err => console.error(err))
 }
-
