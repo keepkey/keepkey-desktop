@@ -42,22 +42,6 @@ export const routes: NestedRoute[] = [
     icon: <FaBuromobelexperte />,
     category: RouteCategory.Wallet,
   },
-  {
-    path: '/pairings',
-    label: 'navBar.pairings',
-    icon: <FaPlug />,
-    category: RouteCategory.Explore,
-    main: Pairings,
-    routes: [
-      {
-        path: '/:serviceKey',
-        label: 'Pairing Detail',
-        icon: <FaPlug />,
-        main: PairingDetails,
-        hide: true,
-      },
-    ],
-  },
   //@TODO move to flag
   // {
   //   path: '/leaderboard',
@@ -79,6 +63,22 @@ export const routes: NestedRoute[] = [
     icon: <IoSwapVertical />,
     main: Trade,
     category: RouteCategory.Explore,
+  },
+  {
+    path: '/pairings',
+    label: 'navBar.pairings',
+    icon: <FaPlug />,
+    category: RouteCategory.Explore,
+    main: Pairings,
+    routes: [
+      {
+        path: '/:serviceKey',
+        label: 'Pairing Detail',
+        icon: <FaPlug />,
+        main: PairingDetails,
+        hide: true,
+      },
+    ],
   },
   {
     path: '/assets',
