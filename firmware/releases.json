@@ -86,12 +86,12 @@
     }
   },
   "links": {
-    "app": "https://app.shapeshift.com",
-    "support": "https://shapeshift.zendesk.com",
-    "updater": "https://github.com/keepkey/keepkey-updater/releases/latest"
+    "app": "https://keepkey.com",
+    "support": "https://discord.gg/stfRnW3Jys",
+    "updater": "https://github.com/keepkey/keepkey-desktop/releases/latest"
   },
   "strings": {
-    "goToApp": "Head over to ShapeShift!",
+    "goToApp": "Head over to KeepKey.com!",
     "updateUpdater": "Update Available"
   }
 }
