@@ -1,10 +1,10 @@
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import request from 'request-promise'
 
-import type { AllFirmwareAndBootloaderData, LatestFirmwareAndBootloaderData } from './types'
+import type { AllFirmwareAndBootloaderData, FirmwareAndBootloaderData } from './types'
 
 const FIRMWARE_BASE_URL =
-  'https://raw.githubusercontent.com/keepkey/keepkey-updater/master/firmware/'
+  'https://raw.githubusercontent.com/keepkey/keepkey-desktop/master/firmware/'
 
 export const downloadFirmware = async (path: string) => {
   try {
@@ -44,7 +44,13 @@ export const getAllFirmwareData = () =>
   })
 
 export const getLatestFirmwareData = () =>
-  new Promise<LatestFirmwareAndBootloaderData>(async resolve => {
+  new Promise<FirmwareAndBootloaderData>(async resolve => {
     const allFirmwareData = await getAllFirmwareData()
     resolve(allFirmwareData.latest)
+  })
+
+export const getBetaFirmwareData = () =>
+  new Promise<FirmwareAndBootloaderData>(async resolve => {
+    const allFirmwareData = await getAllFirmwareData()
+    resolve(allFirmwareData.beta)
   })

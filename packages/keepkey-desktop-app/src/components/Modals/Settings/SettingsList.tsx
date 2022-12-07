@@ -47,6 +47,7 @@ export type AppSettings = {
   shouldMinimizeToTray: boolean
   shouldAutoUpdate: boolean
   allowPreRelease: boolean
+  allowBetaFirmware: boolean
   bridgeApiPort: number
 }
 
@@ -68,6 +69,7 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
     shouldMinimizeToTray: true,
     shouldAutoUpdate: true,
     allowPreRelease: false,
+    allowBetaFirmware: false,
     bridgeApiPort: 1646,
   })
 
@@ -100,7 +102,8 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
       appSettings.shouldAutoLunch === prevAppSettings.shouldAutoLunch &&
       appSettings.shouldAutoUpdate === prevAppSettings.shouldAutoUpdate &&
       appSettings.shouldMinimizeToTray === prevAppSettings.shouldMinimizeToTray &&
-      appSettings.allowPreRelease === prevAppSettings.allowPreRelease
+      appSettings.allowPreRelease === prevAppSettings.allowPreRelease &&
+      appSettings.allowBetaFirmware === prevAppSettings.allowBetaFirmware
     )
       return
     setPrevAppSettings(appSettings)
@@ -194,6 +197,21 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
             icon={<Icon as={TbRefreshAlert} color='gray.500' />}
           >
             <Switch isChecked={appSettings.allowPreRelease} pointerEvents='none' />
+          </SettingsListItem>
+          <Divider my={1} />
+          <SettingsListItem
+            label={'modals.settings.allowBetaFirmware'}
+            onClick={() => {
+              setAppSettings(currentSettings => {
+                return {
+                  ...currentSettings,
+                  allowBetaFirmware: !currentSettings.allowBetaFirmware,
+                }
+              })
+            }}
+            icon={<Icon as={TbRefreshAlert} color='gray.500' />}
+          >
+            <Switch isChecked={appSettings.allowBetaFirmware} pointerEvents='none' />
           </SettingsListItem>
           <Divider my={1} />
           <>

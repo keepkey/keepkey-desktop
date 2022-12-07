@@ -22,7 +22,6 @@ export const App = () => {
   }
 
   const closeAllModals = useCallback(() => {
-    console.log('CLOSE ALL MODALS')
     updateKeepKey.close()
     loading.close()
     requestBootloaderMode.close()
@@ -30,6 +29,7 @@ export const App = () => {
     pair.close()
     sign.close()
   }, [hardwareError, loading, pair, requestBootloaderMode, sign, updateKeepKey])
+
   const [connected, setConnected] = useState<any>(null)
 
   // open hardwareError modal on app start unless already connected
