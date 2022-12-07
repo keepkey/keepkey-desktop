@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron-shim'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Routes } from 'Routes/Routes'
 import type { PairingProps } from 'components/Modals/Pair/Pair'
 import { WalletActions } from 'context/WalletProvider/actions'
@@ -21,14 +21,14 @@ export const App = () => {
     updateKeepKey.open(data)
   }
 
-  const closeAllModals = () => {
+  const closeAllModals = useCallback(() => {
     updateKeepKey.close()
     loading.close()
     requestBootloaderMode.close()
     hardwareError.close()
     pair.close()
     sign.close()
-  }
+  }, [hardwareError, loading, pair, requestBootloaderMode, sign, updateKeepKey])
 
   const [connected, setConnected] = useState<any>(null)
 
@@ -99,7 +99,7 @@ export const App = () => {
     ipcRenderer.on('needsInitialize', (_event, data) => {
       closeAllModals()
       openKeepKeyUpdater(data)
-      setConnected(null)
+      setConnected(true)
     })
 
     ipcRenderer.on('updateBootloader', (_event, data) => {
