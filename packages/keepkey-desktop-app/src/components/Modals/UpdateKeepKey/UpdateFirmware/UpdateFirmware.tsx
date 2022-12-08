@@ -36,7 +36,8 @@ export const UpdateFirmware = (params: any) => {
     console.log('params: ', params)
     if (!params?.event?.bootloaderMode) requestBootloaderMode.open({ ...params.event })
     if (params?.event?.needsInitialize) requestBootloaderMode.close()
-  }, [params, params.event, requestBootloaderMode])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.event])
 
   return (
     <ModalBody pt={5}>
