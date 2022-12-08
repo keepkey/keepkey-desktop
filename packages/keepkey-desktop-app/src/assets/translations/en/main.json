@@ -934,6 +934,10 @@
         "SGD": "Singapore Dollar",
         "ILS": "Israeli Shekel",
         "IDR": "Indonesian Rupiah"
+      },
+      "tabs": {
+        "general": "General",
+        "app": "App"
       }
     },
     "mobileWelcome": {

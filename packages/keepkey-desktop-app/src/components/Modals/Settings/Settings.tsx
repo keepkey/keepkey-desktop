@@ -49,17 +49,6 @@ const Settings = () => {
           <Switch>
             <Route path='/'>
               <SettingsRouter appHistory={appHistory} />
-
-              <div>
-                <Text
-                  userSelect={'none'}
-                  color='white'
-                  fontSize='lg'
-                  mb={12}
-                  textAlign='left'
-                  translation='settings.devTools'
-                />
-              </div>
             </Route>
           </Switch>
         </MemoryRouter>
