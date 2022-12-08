@@ -81,13 +81,7 @@
   },
   "updateToast": {
     "body": "A new version of the app is available",
-    "cta": "Reload App",
-    "keepKey": {
-      "title": "KeepKey Update Available",
-      "newUpdateAvailable": "A new KeepKey update is available.",
-      "downloadCta": "Download Update",
-      "updateRequiredForFeature": "This update is required to support %{feature}"
-    }
+    "cta": "Reload App"
   },
   "multiCurrency": {
     "toast": {
