@@ -4,6 +4,9 @@ import { Buffer } from 'buffer'
 import { ipcRenderer } from 'electron-shim'
 import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
+import { logger } from 'lib/logger'
+
+const moduleLogger = logger.child({ namespace: ['WalletConnect', 'Service'] })
 
 const addressNList = core.bip32ToAddressNList("m/44'/60'/0'/0/0")
 
@@ -19,10 +22,10 @@ export class LegacyWCService {
   ) {}
 
   async connect() {
-    console.log("connecting")
+    console.log('connecting')
     console.log(this.connector)
     if (!this.connector.connected) {
-      console.log("Creating session")
+      console.log('Creating session')
       await this.connector.createSession()
     }
     this.subscribeToEvents()
@@ -44,7 +47,7 @@ export class LegacyWCService {
   }
 
   async _onSessionRequest(_: Error | null, payload: any) {
-    console.log("Session request", payload)
+    console.log('Session request', payload)
     const address = await this.wallet.ethGetAddress({ addressNList, showDisplay: false })
     if (address) {
       this.connector.approveSession({
@@ -56,7 +59,7 @@ export class LegacyWCService {
 
   async _onConnect() {
     if (this.connector.connected && this.connector.peerMeta) {
-      console.log("On connect wc")
+      console.log('On connect wc')
       ipcRenderer.send('@walletconnect/pairing', {
         serviceName: this.connector.peerMeta.name,
         serviceImageUrl: this.connector.peerMeta.icons[0],
@@ -151,7 +154,30 @@ export class LegacyWCService {
       })
       const result = response?.serialized
       this.connector.approveRequest({ id: request.id, result })
+    } else if (request.method === 'eth_signTypedData') {
+      if (!this.wallet) throw Error('wallet not init!')
+      if (!this.wallet.ethSignTypedData) throw Error('wallet not latest version ethSignTypedData!')
+      console.log('**** request: ', request.params)
+      console.log('**** request: ', request.params[0])
+      console.log('**** request: ', request.params[1])
+      console.log('**** request: ', JSON.parse(request.params[1]))
+      // TODO: verify param[0] matches given address
+
+      const response = await this.wallet.ethSignTypedData({
+        addressNList,
+        typedData: JSON.parse(request.params[1]),
+      })
+      moduleLogger.info(response, 'response')
+      //res?.signature
+      //res?.address
+      //res?.domainSeparatorHash
+      //res?.messageHash
+      this.connector.approveRequest({
+        id: request.id,
+        result: response?.signature,
+      })
     } else {
+      console.error('Method Not Supported! e: ', request.method)
       const message = 'JSON RPC method not supported'
       this.connector.rejectRequest({ id: request.id, error: { message } })
     }

@@ -59,6 +59,14 @@ export const supportedChains: EthChainData[] = [
     name: 'Gnosis',
     coinGeckoId: 'xdai',
   },
+  {
+    chainId: 56,
+    providerUrl: `https://bsc-dataseed.binance.org`,
+    web3: new Web3(new Web3.providers.HttpProvider(`https://bsc-dataseed.binance.org`)),
+    symbol: 'BNB',
+    name: 'Binance Smart Chain Mainnet',
+    coinGeckoId: 'bnb',
+  },
 ]
 
 export const web3ByChainId = (chainId: number) => {

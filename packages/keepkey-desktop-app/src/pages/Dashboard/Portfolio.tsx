@@ -113,7 +113,6 @@ export const Portfolio = () => {
           />
         </Skeleton>
       </Card>
-      <MaybeChartUnavailable assetIds={assetIds} />
       <RecentlyUsedDapps />
       <PortfolioBreakdown />
       <Card>
