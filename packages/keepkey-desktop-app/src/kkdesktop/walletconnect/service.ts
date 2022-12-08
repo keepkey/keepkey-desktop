@@ -151,7 +151,54 @@ export class LegacyWCService {
       })
       const result = response?.serialized
       this.connector.approveRequest({ id: request.id, result })
+    } if (request.method === 'eth_signTypedData') {
+      if(!this.wallet) throw Error("wallet not init!")
+      if(!this.wallet.ethSignTypedData) throw Error("wallet not latest version ethSignTypedData!")
+      console.log("**** request: ",request.params)
+      console.log("**** request: ",request.params[0])
+      console.log("**** request: ",request.params[1])
+      console.log("**** request: ",JSON.parse(request.params[1]))
+
+      const response = await this.wallet.ethSignTypedData({
+        addressNList,
+        types: {
+          EIP712Domain: [
+            { name: "name", type: "string" },
+            { name: "version", type: "string" },
+            { name: "chainId", type: "uint256" },
+            { name: "verifyingContract", type: "address" },
+          ],
+          Permit: [
+            { name: "owner", type: "address" },
+            { name: "spender", type: "address" },
+            { name: "value", type: "uint256" },
+            { name: "nonce", type: "uint256" },
+            { name: "deadline", type: "uint256" },
+          ],
+        },
+        domain: {
+          name: "USD Coin",
+          version: "2",
+          verifyingContract: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          chainId: 1,
+        },
+        primaryType: "Permit",
+        message: {
+          owner: "0x33b35c665496bA8E71B22373843376740401F106",
+          spender: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
+          value: "4023865",
+          nonce: 0,
+          deadline: 1655431026,
+        },
+      })
+      // @ts-ignore
+      moduleLogger.error("response: ",response)
+      //res?.signature
+      //res?.address
+      //res?.domainSeparatorHash
+      //res?.messageHash
     } else {
+      console.error("Method Not Supported! e: ",request.method)
       const message = 'JSON RPC method not supported'
       this.connector.rejectRequest({ id: request.id, error: { message } })
     }
