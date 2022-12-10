@@ -93,6 +93,8 @@ jobs:
           path: |
             packages/keepkey-desktop/dist/*.dmg
             packages/keepkey-desktop/dist/*.dmg.blockmap
+            packages/keepkey-desktop/dist/*.zip
+            packages/keepkey-desktop/dist/*.zip.blockmap
           if-no-files-found: error
       - name: Windows - Upload .exe
         if: startsWith(matrix.os, 'windows')
