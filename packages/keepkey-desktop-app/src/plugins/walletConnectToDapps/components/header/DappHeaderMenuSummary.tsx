@@ -15,6 +15,7 @@ import { supportedChains } from 'context/WalletProvider/web3byChainId'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { getSdkError } from '@walletconnect/utils'
 import { useModal } from 'hooks/useModal/useModal'
+import { HiSwitchVertical } from 'react-icons/hi'
 
 export const DappHeaderMenuSummary: FC = () => {
   const translate = useTranslate()
@@ -101,15 +102,11 @@ export const DappHeaderMenuSummary: FC = () => {
         )}
       </VStack>
       <MenuDivider />
-
       {walletConnect.isLegacy && (
-        <Select defaultValue={initialChainSelection} variant='outline' onChange={onChainClick}>
-          {supportedChains.map((chain, index) => (
-            <option value={index}>{chain.name}</option>
-          ))}
-        </Select>
+        <Button leftIcon={<HiSwitchVertical />} onClick={() => chainSelector.open({})}>
+          {walletConnect.legacyChainData?.name}
+        </Button>
       )}
-      <Button onClick={() => chainSelector.open({})}>open</Button>
       <MenuDivider />
       <MenuItem
         fontWeight='medium'

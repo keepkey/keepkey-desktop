@@ -4,6 +4,8 @@ import {
   AlertIcon,
   Box,
   Button,
+  Divider,
+  Flex,
   Image,
   Input,
   InputGroup,
@@ -14,6 +16,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Spinner,
   Stack,
   Text as ChakraText,
 } from '@chakra-ui/react'
@@ -27,6 +30,12 @@ import Client from '@pioneer-platform/pioneer-client'
 import { getConfig } from 'config'
 import { useForm, useWatch } from 'react-hook-form'
 import { SearchIcon } from '@chakra-ui/icons'
+import { getPioneerClient } from 'lib/getPioneerCleint'
+import { debounce } from 'lodash'
+import type { ServiceType } from './mergeServices'
+import { mergeServices } from './mergeServices'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
+import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
 
 // info:  {
 //     _id: '6393a20355fd0ef62a97fb20',
@@ -72,82 +81,87 @@ import { SearchIcon } from '@chakra-ui/icons'
 //     faucets: [ 'https://free-online-app.com/faucet-for-eth-evm-chains/' ]
 //   }
 
-export type ChainType = {
-  _id: string
-  name: string
-  type: string
-  tags: string[]
-  blockchain: string
-  symbol: string
-  service: string
-  chainId: number
-  network: string[]
-  facts: any[]
-  infoURL: string
-  shortName: string
-  nativeCurrency: {
-    name: string
-    symbol: string
-    decimals: number
-  }
-  faucets: string[]
-}
-
 export const ChainSelectorModal = () => {
-  const [loading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const { chainSelector } = useModal()
   const { close, isOpen } = chainSelector
 
-  const [chains, setChains] = useState<ChainType[]>()
-  const [lastSearch, setLastSearch] = useState(0)
-  const [pioneer, setPioneer] = useState<any>()
+  const [chains, setChains] = useState<ServiceType[]>()
+  const { legacyBridge, isLegacy, setLegacyChainData } = useWalletConnect()
 
-  const { register, setValue, control } = useForm<{ search: string }>({
+  const { register, control } = useForm<{ search: string }>({
     mode: 'onChange',
     defaultValues: { search: '' },
   })
 
   const search = useWatch({ control, name: 'search' })
 
-  const fetchChains = useCallback(async () => {
+  const fetchChains = async () => {
+    setLoading(true)
+    const pioneer = await getPioneerClient()
     let test = await pioneer.AtlasNetwork()
-    console.log(test)
-  }, [pioneer])
-
-  const setupPioneer = async () => {
-    try {
-      let spec = getConfig().REACT_APP_DAPP_URL
-      let config = {
-        queryKey: 'key:public',
-        username: 'user:public',
-        spec,
-      }
-      let pioneer = new Client(spec, config)
-      pioneer = await pioneer.init()
-
-      setPioneer(pioneer)
-    } catch (e) {
-      console.error(' e: ', e)
-    }
+    setLoading(false)
+    setChains(mergeServices(test.data))
   }
 
   useEffect(() => {
-    setupPioneer()
-    // fetchChains()
+    fetchChains()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    setLastSearch(Date.now())
-    if (search === '' || !search) return
-    if (Date.now() - lastSearch < 2000) return
-    pioneer.SearchByNetworkName(search).then((info: { data: any }) => {
-      setChains([info.data])
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search])
+  const useDebounce = (value, delay) => {
+    // State and setters for debounced value
+    const [debouncedValue, setDebouncedValue] = useState(value)
 
-  console.log('pioneer', pioneer)
+    useEffect(
+      () => {
+        // Update debounced value after delay
+        const handler = setTimeout(() => {
+          setDebouncedValue(value)
+        }, delay)
+
+        // Cancel the timeout if value changes (also on delay change or unmount)
+        // This is how we prevent debounced value from updating if value is changed ...
+        // .. within the delay period. Timeout gets cleared and restarted.
+        return () => {
+          clearTimeout(handler)
+        }
+      },
+      [value, delay], // Only re-call effect if value or delay changes
+    )
+
+    return debouncedValue
+  }
+
+  const debouncedSearch = useDebounce(search, 500)
+
+  useEffect(() => {
+    if (debouncedSearch === '' || !debouncedSearch) {
+      fetchChains()
+      return
+    }
+    setLoading(true)
+    getPioneerClient().then(pioneer => {
+      pioneer.SearchByNetworkName(debouncedSearch).then((info: { data: any }) => {
+        setLoading(false)
+        setChains(mergeServices(info.data))
+      })
+    })
+  }, [debouncedSearch])
+
+  console.log(chains)
+
+  const switchChain = useCallback(
+    (service: ServiceType) => {
+      if (!isLegacy) return
+      setLegacyChainData(web3ByServiceType(service))
+      legacyBridge?.doSwitchChain({
+        chainId: service.chainId,
+      })
+      close()
+    },
+    [close, isLegacy, legacyBridge, setLegacyChainData],
+  )
 
   return (
     <SlideTransition>
@@ -184,7 +198,19 @@ export const ChainSelectorModal = () => {
                   />
                 </InputGroup>
               </Box>
-              {chains && chains.map(chain => <Box>{chain.symbol}</Box>)}
+              {loading && (
+                <Flex alignContent='center' w='full' h='full' justifyItems='center'>
+                  <Spinner />
+                </Flex>
+              )}
+              {!loading &&
+                chains &&
+                chains.map(chain => (
+                  <Box as='button' onClick={() => switchChain(chain)}>
+                    {chain.name}
+                    <Divider pb={2} />
+                  </Box>
+                ))}
             </Stack>
           </ModalBody>
         </ModalContent>

@@ -1,3 +1,4 @@
+import type { ServiceType } from 'components/Modals/ChainSelector/mergeServices'
 import { getConfig } from 'config'
 import Web3 from 'web3'
 
@@ -8,6 +9,7 @@ export type EthChainData = {
   symbol: string
   name: string
   coinGeckoId: string
+  service?: ServiceType
 }
 
 export const supportedChains: EthChainData[] = [
@@ -71,4 +73,14 @@ export const supportedChains: EthChainData[] = [
 
 export const web3ByChainId = (chainId: number) => {
   return supportedChains.find(chain => chain.chainId === chainId)
+}
+
+export const web3ByServiceType = (service: ServiceType) => {
+  return {
+    ...service,
+    providerUrl: service.service[0],
+    web3: new Web3(new Web3.providers.HttpProvider(service.service[0])),
+    coinGeckoId: service.name.toLowerCase(),
+    service,
+  }
 }
