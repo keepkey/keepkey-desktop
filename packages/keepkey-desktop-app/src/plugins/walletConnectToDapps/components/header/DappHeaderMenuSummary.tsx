@@ -1,6 +1,6 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { MenuGroup } from '@chakra-ui/menu'
-import { Box, HStack, MenuDivider, MenuItem, Select, VStack } from '@chakra-ui/react'
+import { Box, Button, HStack, MenuDivider, MenuItem, Select, VStack } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import type { FC } from 'react'
@@ -14,9 +14,11 @@ import { DappAvatar } from './DappAvatar'
 import { supportedChains } from 'context/WalletProvider/web3byChainId'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { getSdkError } from '@walletconnect/utils'
+import { useModal } from 'hooks/useModal/useModal'
 
 export const DappHeaderMenuSummary: FC = () => {
   const translate = useTranslate()
+  const { chainSelector } = useModal()
 
   const walletConnect = useWalletConnect()
 
@@ -107,6 +109,7 @@ export const DappHeaderMenuSummary: FC = () => {
           ))}
         </Select>
       )}
+      <Button onClick={() => chainSelector.open({})}>open</Button>
       <MenuDivider />
       <MenuItem
         fontWeight='medium'

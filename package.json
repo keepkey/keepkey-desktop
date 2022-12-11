@@ -66,5 +66,8 @@
     "usb@2.5.2": {
       "unplugged": true
     }
+  },
+  "dependencies": {
+    "@pioneer-platform/pioneer-client": "^8.1.29"
   }
 }

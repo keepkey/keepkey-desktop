@@ -5775,6 +5775,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pioneer-platform/pioneer-client@npm:^8.1.29":
+  version: 8.1.29
+  resolution: "@pioneer-platform/pioneer-client@npm:8.1.29"
+  dependencies:
+    "@types/node": ^13.13.14
+    axios: ^0.19.2
+    openapi-client-axios: ^3.6.1
+    request: ^2.88.2
+    ts-node: ^8.10.2
+    typescript: ^3.9.7
+  checksum: 4ae8fc6ad4ef343700a48940cfc0fcdbc6345dc28f5ea60273734f55365502be83db9c74460d8cbd65f35c68bbd52c6f0121b46e1f9113ef42d27b12347b79eb
+  languageName: node
+  linkType: hard
+
 "@pioneer-platform/pioneer-coins@npm:^8.1.19":
   version: 8.1.53
   resolution: "@pioneer-platform/pioneer-coins@npm:8.1.53"
@@ -19513,6 +19527,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^17.3.0
     "@commitlint/config-conventional": ^17.3.0
+    "@pioneer-platform/pioneer-client": ^8.1.29
     "@yarnpkg/sdks": ^3.0.0-rc.31
     eslint: ^8.28.0
     prettier: ^2.3.2
