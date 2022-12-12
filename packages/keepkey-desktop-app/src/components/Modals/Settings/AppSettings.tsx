@@ -6,6 +6,7 @@ import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { FaRocket } from 'react-icons/fa'
 import { HiRefresh } from 'react-icons/hi'
+import { IoFileTray } from 'react-icons/io5'
 import { TbRefreshAlert } from 'react-icons/tb'
 import { SettingsListItem } from './SettingsListItem'
 
@@ -92,7 +93,7 @@ export const AppSettings: FC = () => {
         <Switch isChecked={appSettings.shouldAutoLunch} pointerEvents='none' />
       </SettingsListItem>
       <Divider my={1} />
-      {/* <SettingsListItem
+      <SettingsListItem
         label={'modals.settings.minimizeToTray'}
         onClick={() => {
           setAppSettings(currentSettings => {
@@ -105,7 +106,7 @@ export const AppSettings: FC = () => {
         icon={<Icon as={IoFileTray} color='gray.500' />}
       >
         <Switch isChecked={appSettings.shouldMinimizeToTray} pointerEvents='none' />
-      </SettingsListItem> */}
+      </SettingsListItem>
       <Divider my={1} />
       <SettingsListItem
         label={'modals.settings.downloadPreRelease'}
