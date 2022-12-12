@@ -87,7 +87,7 @@ export const ChainSelectorModal = () => {
   const { close, isOpen } = chainSelector
 
   const [chains, setChains] = useState<ServiceType[]>()
-  const { legacyBridge, isLegacy, setLegacyChainData } = useWalletConnect()
+  const { legacyBridge, isLegacy } = useWalletConnect()
 
   const { register, control } = useForm<{ search: string }>({
     mode: 'onChange',
@@ -154,13 +154,12 @@ export const ChainSelectorModal = () => {
   const switchChain = useCallback(
     (service: ServiceType) => {
       if (!isLegacy) return
-      setLegacyChainData(web3ByServiceType(service))
       legacyBridge?.doSwitchChain({
         chainId: service.chainId,
       })
       close()
     },
-    [close, isLegacy, legacyBridge, setLegacyChainData],
+    [close, isLegacy, legacyBridge],
   )
 
   return (

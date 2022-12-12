@@ -81,7 +81,7 @@ export class LegacyWCService {
       chainId: payload.params[0].chainId,
       accounts: payload.params[0].accounts,
     })
-    const web3Stuff = web3ByChainId(chainId)
+    const web3Stuff = await web3ByChainId(chainId)
     if (!web3Stuff) throw new Error('no data for chainId')
     this.connector.updateChain({
       chainId: payload.params[0].chainId,
@@ -91,8 +91,8 @@ export class LegacyWCService {
     })
   }
 
-  public doSwitchChain({ chainId }: { chainId: number }) {
-    const web3Stuff = web3ByChainId(chainId)
+  public async doSwitchChain({ chainId }: { chainId: number }) {
+    const web3Stuff = await web3ByChainId(chainId)
     if (!web3Stuff) throw new Error('no data for chainId')
     this.connector.updateChain({
       chainId,
@@ -137,7 +137,7 @@ export class LegacyWCService {
 
       const signedData = await this.wallet.ethSignTx?.(sendData)
 
-      const chainWeb3 = web3ByChainId(this.connector.chainId) as any
+      const chainWeb3 = (await web3ByChainId(this.connector.chainId)) as any
       await chainWeb3.web3.eth.sendSignedTransaction(signedData?.serialized)
       const txid = await chainWeb3.web3.utils.sha3(signedData?.serialized)
 

@@ -18,7 +18,6 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
   const wallet = useWallet().state.wallet
   const [legacyBridge, setLegacyBridge] = useState<LegacyWCService>()
   const [pairingMeta, setPairingMeta] = useState<CoreTypes.Metadata>()
-  const [legacyChainData, setLegacyChainData] = useState<EthChainData>()
   const [currentSessionTopic, setCurrentSessionTopic] = useState<string>()
   const [isLegacy, setIsLegacy] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
@@ -60,7 +59,6 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     }
     setIsConnected(false)
     setCurrentSessionTopic(undefined)
-    setLegacyChainData(undefined)
     setPairingMeta(undefined)
   }, [isLegacy, legacyBridge])
 
@@ -173,8 +171,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         requests,
         addRequest,
         setPairingMeta,
-        legacyChainData,
-        setLegacyChainData,
+       
       }}
     >
       <WalletConnectLogic />
