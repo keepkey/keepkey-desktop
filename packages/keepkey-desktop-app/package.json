@@ -123,7 +123,7 @@
     "@keepkey/swapper": "^14.2.0",
     "@keepkey/types": "^8.3.1",
     "@keepkey/unchained-client": "^10.1.2",
-    "@pioneer-platform/pioneer-client": "^8.1.26",
+    "@pioneer-platform/pioneer-client": "^8.1.29",
     "@react-spring/web": "^9.5.2",
     "@reduxjs/toolkit": "^1.8.2",
     "@shapeshiftoss/hdwallet-core": "^1.40.0",

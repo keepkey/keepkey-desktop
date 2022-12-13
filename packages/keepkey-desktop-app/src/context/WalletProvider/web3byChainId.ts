@@ -1,4 +1,6 @@
+import { mergeServices, ServiceType } from 'components/Modals/ChainSelector/mergeServices'
 import { getConfig } from 'config'
+import { getPioneerClient } from 'lib/getPioneerCleint'
 import Web3 from 'web3'
 
 export type EthChainData = {
@@ -8,6 +10,7 @@ export type EthChainData = {
   symbol: string
   name: string
   coinGeckoId: string
+  service?: ServiceType
 }
 
 export const supportedChains: EthChainData[] = [
@@ -69,6 +72,25 @@ export const supportedChains: EthChainData[] = [
   },
 ]
 
-export const web3ByChainId = (chainId: number) => {
-  return supportedChains.find(chain => chain.chainId === chainId)
+export const web3ByChainId = async (chainId: number): Promise<EthChainData | undefined> => {
+  const pioneer = await getPioneerClient()
+  let chains = await pioneer.SearchByNetworkId({ chainId })
+  const services = mergeServices(chains.data)
+  if (services.length === 0) return
+  return {
+    ...services[0],
+    providerUrl: services[0].service[0],
+    web3: new Web3(new Web3.providers.HttpProvider(services[0].service[0])),
+    coinGeckoId: services[0].name.toLowerCase(),
+  }
+}
+
+export const web3ByServiceType = (service: ServiceType) => {
+  return {
+    ...service,
+    providerUrl: service.service[0],
+    web3: new Web3(new Web3.providers.HttpProvider(service.service[0])),
+    coinGeckoId: service.name.toLowerCase(),
+    service,
+  }
 }

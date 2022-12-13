@@ -65,7 +65,7 @@ export const SendTransactionConfirmation = () => {
 
   useEffect(() => {
     if (!currentRequest) return
-    if (currentRequest.method === "eth_signTypedData") return setShouldShowGas(false)
+    if (currentRequest.method === 'eth_signTypedData') return setShouldShowGas(false)
     return setShouldShowGas(true)
   }, [currentRequest])
 
@@ -73,7 +73,9 @@ export const SendTransactionConfirmation = () => {
     async (txData: any) => {
       try {
         setLoading(true)
-        await legacyBridge?.approve(requests[0], txData).then(() => removeRequest(currentRequest.id))
+        await legacyBridge
+          ?.approve(requests[0], txData)
+          .then(() => removeRequest(currentRequest.id))
         removeRequest(currentRequest.id)
       } catch (e) {
         toast({
@@ -136,13 +138,14 @@ export const SendTransactionConfirmation = () => {
     })
 
     // for non mainnet chains we use the simple web3.getGasPrice()
-    const chainWeb3 = web3ByChainId(walletConnect?.legacyBridge?.connector?.chainId as any) as any
-    chainWeb3?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
-    setChainWeb3(chainWeb3)
+    web3ByChainId(walletConnect?.legacyBridge?.connector?.chainId as any).then(chainWeb3 => {
+      chainWeb3?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
+      setChainWeb3(chainWeb3)
+    })
   }, [form, txInputGas, walletConnect.legacyBridge?.connector.chainId])
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       if (chainWeb3?.coinGeckoId)
         try {
           const { data } = await axios.get(
@@ -176,16 +179,16 @@ export const SendTransactionConfirmation = () => {
     !!inputMaxFeePerGas
       ? inputMaxFeePerGas
       : !!requestMaxFeePerGas
-        ? requestMaxFeePerGas
-        : fastMaxFeePerGas,
+      ? requestMaxFeePerGas
+      : fastMaxFeePerGas,
   )
 
   const txMaxPriorityFeePerGas = Web3.utils.toHex(
     !!inputMaxPriorityFeePerGas
       ? inputMaxPriorityFeePerGas
       : !!requestMaxPriorityFeePerGas
-        ? requestMaxPriorityFeePerGas
-        : fastMaxPriorityFeePerGas,
+      ? requestMaxPriorityFeePerGas
+      : fastMaxPriorityFeePerGas,
   )
 
   // Recalculate estimated fee amount if txMaxFeePerGas changes
@@ -199,7 +202,7 @@ export const SendTransactionConfirmation = () => {
   const inputNonce = useWatch({ control: form.control, name: 'nonce' })
   const [trueNonce, setTrueNonce] = useState('0')
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const count = await chainWeb3?.web3.eth.getTransactionCount(address ?? '')
       !!count && setTrueNonce(`${count}`)
     })()
@@ -209,7 +212,7 @@ export const SendTransactionConfirmation = () => {
   )
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       try {
         const estimate = await (chainWeb3 as any).web3.eth.estimateGas({
           from: walletConnect.legacyBridge?.connector.accounts[0],
@@ -299,28 +302,30 @@ export const SendTransactionConfirmation = () => {
           </Card>
         </Box>
 
-        {shouldShowGas && <ModalSection
-          title={
-            <HStack justify='space-between'>
-              <Text translation='plugins.walletConnectToDapps.modal.sendTransaction.estGasCost' />
-              {chainWeb3?.symbol && (
-                <GasFeeEstimateLabel symbol={chainWeb3.symbol} fiatRate={priceData} />
-              )}
-            </HStack>
-          }
-          icon={<FaGasPump />}
-          defaultOpen={false}
-        >
-          <Box pt={2}>
-            <GasInput
-              gasLimit={txInputGas}
-              recommendedGasPriceData={{
-                maxPriorityFeePerGas: currentRequest.params[0].maxPriorityFeePerGas,
-                maxFeePerGas: currentRequest.params[0].maxFeePerGas,
-              }}
-            />
-          </Box>
-        </ModalSection>}
+        {shouldShowGas && (
+          <ModalSection
+            title={
+              <HStack justify='space-between'>
+                <Text translation='plugins.walletConnectToDapps.modal.sendTransaction.estGasCost' />
+                {chainWeb3?.symbol && (
+                  <GasFeeEstimateLabel symbol={chainWeb3.symbol} fiatRate={priceData} />
+                )}
+              </HStack>
+            }
+            icon={<FaGasPump />}
+            defaultOpen={false}
+          >
+            <Box pt={2}>
+              <GasInput
+                gasLimit={txInputGas}
+                recommendedGasPriceData={{
+                  maxPriorityFeePerGas: currentRequest.params[0].maxPriorityFeePerGas,
+                  maxFeePerGas: currentRequest.params[0].maxFeePerGas,
+                }}
+              />
+            </Box>
+          </ModalSection>
+        )}
 
         <ModalSection
           title={translate(
