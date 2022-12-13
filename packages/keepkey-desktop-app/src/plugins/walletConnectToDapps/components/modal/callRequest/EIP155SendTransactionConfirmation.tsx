@@ -135,7 +135,7 @@ export const EIP155SendTransactionConfirmation = () => {
         let jsonresponse = formatJsonRpcResult(id, signedTx)
 
         if (request.method === EIP155_SIGNING_METHODS.ETH_SEND_TRANSACTION) {
-          const chainWeb3 = web3ByChainId(chainId) as any
+          const chainWeb3 = (await web3ByChainId(chainId)) as any
           await chainWeb3.web3.eth.sendSignedTransaction(signedTx)
           const txid = await chainWeb3.web3.utils.sha3(signedTx)
           jsonresponse = formatJsonRpcResult(id, txid)
@@ -209,9 +209,10 @@ export const EIP155SendTransactionConfirmation = () => {
     })
 
     // for non mainnet chains we use the simple web3.getGasPrice()
-    const chainWeb3 = web3ByChainId(chainId) as any
-    chainWeb3?.eth?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
-    setChainWeb3(chainWeb3)
+    web3ByChainId(chainId).then(chainWeb3 => {
+      chainWeb3?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
+      setChainWeb3(chainWeb3)
+    })
   }, [form, txInputGas, chainId])
 
   useEffect(() => {

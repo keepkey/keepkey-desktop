@@ -46,7 +46,8 @@
             "entitlements": "entitlements.mac.plist",
             "entitlementsInherit": "entitlements.mac.plist",
             "target": [
-                "dmg"
+                "dmg",
+                "zip"
             ],
             "publish": [
                 "github"
@@ -64,6 +65,7 @@
         "linux": {
             "icon": "icon.png",
             "target": [
+                "deb",
                 "AppImage"
             ],
             "publish": [

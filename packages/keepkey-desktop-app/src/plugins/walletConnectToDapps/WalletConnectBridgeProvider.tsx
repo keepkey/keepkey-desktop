@@ -12,6 +12,7 @@ import type { CoreTypes, SignClientTypes } from '@walletconnect/types'
 import { SessionProposalModal } from './components/modal/callRequest/SessionProposalModal'
 import { WalletConnectLogic } from 'WalletConnectLogic'
 import LegacyWalletConnect from '@walletconnect/client'
+import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 
 export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children }) => {
   const wallet = useWallet().state.wallet
@@ -139,6 +140,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         setLegacyBridge(bridgeFromSession)
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [wallet, setLegcyEvents],
   )
 
@@ -169,6 +171,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         requests,
         addRequest,
         setPairingMeta,
+       
       }}
     >
       <WalletConnectLogic />
