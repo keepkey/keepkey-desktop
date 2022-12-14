@@ -81,7 +81,7 @@ export class LegacyWCService {
       chainId: payload.params[0].chainId,
       accounts: payload.params[0].accounts,
     })
-    const web3Stuff = await web3ByChainId(chainId)
+    const web3Stuff = await web3ByChainId(payload.params[0].chainId)
     if (!web3Stuff) throw new Error('no data for chainId')
     this.connector.updateChain({
       chainId: payload.params[0].chainId,
