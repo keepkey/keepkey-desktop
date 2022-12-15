@@ -25,6 +25,7 @@ import { ChainMenu } from './NavBar/ChainMenu'
 import { UserMenu } from './NavBar/UserMenu'
 import { SideNavContent } from './SideNavContent'
 import { useModal } from 'hooks/useModal/useModal'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 
 export const Header = () => {
   const { onToggle, isOpen, onClose } = useDisclosure()
@@ -32,6 +33,7 @@ export const Header = () => {
   const bg = useColorModeValue('white', 'gray.800')
   const borderColor = useColorModeValue('gray.100', 'gray.750')
   const { chainSelector } = useModal()
+  const { isConnected, legacyWeb3 } = useWalletConnect()
   const {
     state: { isDemoWallet },
     dispatch,
@@ -56,6 +58,8 @@ export const Header = () => {
   }, [handleKeyPress])
 
   const handleBannerClick = () => dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: true })
+
+  console.log('legacyWeb3', legacyWeb3)
 
   return (
     <>
@@ -129,11 +133,19 @@ export const Header = () => {
               <Box display={{ base: 'none', md: 'block' }}>
                 <WalletConnectToDappsHeaderButton />
               </Box>
-              <Box display={{ base: 'none', md: 'block' }}>
-                <Button rightIcon={<ChevronDownIcon />} onClick={() => chainSelector.open({})}>
-                  <Image boxSize={6} src={'https://pioneers.dev/coins/ethereum.png'} />
-                </Button>
-              </Box>
+              {isConnected && (
+                <Box display={{ base: 'none', md: 'block' }}>
+                  <Button rightIcon={<ChevronDownIcon />} onClick={() => chainSelector.open({})}>
+                    <Image
+                      boxSize={6}
+                      src={`https://pioneers.dev/coins/${legacyWeb3?.name
+                        .toLowerCase()
+                        .replaceAll('mainnet', '')
+                        .replaceAll(' ', '')}.png`}
+                    />
+                  </Button>
+                </Box>
+              )}
               <ChainMenu display={{ base: 'none', md: 'block' }} />
             </Flex>
           </HStack>

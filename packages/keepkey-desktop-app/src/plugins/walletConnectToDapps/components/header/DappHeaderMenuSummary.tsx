@@ -10,7 +10,6 @@ import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { RawText, Text } from 'components/Text'
 
 import { DappAvatar } from './DappAvatar'
-import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { getSdkError } from '@walletconnect/utils'
 import { useModal } from 'hooks/useModal/useModal'
@@ -25,11 +24,9 @@ export const DappHeaderMenuSummary: FC = () => {
   const [chainName, setChainName] = useState<string>()
 
   useEffect(() => {
-    if (!walletConnect?.legacyBridge?.connector?.chainId) return
-    web3ByChainId(walletConnect?.legacyBridge?.connector?.chainId as number).then(chain => {
-      if (chain) setChainName(chain.name)
-    })
-  }, [walletConnect?.legacyBridge?.connector?.chainId])
+    if (!walletConnect.legacyWeb3) return
+    if (walletConnect.legacyWeb3.service) setChainName(walletConnect.legacyWeb3.service.name)
+  }, [walletConnect.legacyWeb3])
 
   if (!walletConnect || !walletConnect.dapp) return null
 
