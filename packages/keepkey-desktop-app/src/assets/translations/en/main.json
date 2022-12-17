@@ -61,6 +61,7 @@
     "viewAsset": "View Asset",
     "settings": "Settings",
     "joinDiscord": "Support",
+    "getSupport": "Need More help? Get Live Support",
     "legalDated": "Dated: January 2022",
     "approveOnWallet": "Approve On Wallet",
     "confirmOnWallet": "Confirm On Wallet",
@@ -156,7 +157,7 @@
     "header": "Please connect a wallet to get started",
     "cta": "Connect Wallet",
     "viewADemo": "View a Demo",
-    "buyKeepKey": "Buy a KeepKey"
+    "buyKeepKey": "No device? Buy a KeepKey"
   },
   "connectWallet": {
     "menu": {
@@ -586,7 +587,7 @@
         "headerError": "Hardware Error!",
         "headerReconnect": "Please reconnect your keepkey",
         "headerConnect": "No Device Found!",
-        "troubleshoot": "Troubleshoot",
+        "troubleshoot": "Device connected? Troubleshoot",
         "connect": "Please connect or reconnect your KeepKey to continue.",
         "reconnect": "Please disconnect, and reconnect your KeepKey to continue."
       },

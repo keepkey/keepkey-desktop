@@ -92,24 +92,14 @@ export const ConnectWallet = () => {
                   {translate('connectWalletPage.nextFrontier')}
                 </RawText>
               </Flex>
-              <Text
-                userSelect={'none'}
-                color='white'
-                fontSize='lg'
-                mb={12}
-                textAlign='left'
-                translation='connectWalletPage.protectYourCrypto'
-              />
-              <Button
-                as={Link}
-                isExternal
-                width='160px'
-                href='https://keepkey.myshopify.com/'
-                rightIcon={<ExternalLinkIcon />}
-                colorScheme='blue'
-              >
-                {translate('connectWalletPage.buyKeepKey')}
-              </Button>
+              {/*<Text*/}
+              {/*  userSelect={'none'}*/}
+              {/*  color='white'*/}
+              {/*  fontSize='lg'*/}
+              {/*  mb={12}*/}
+              {/*  textAlign='left'*/}
+              {/*  translation='connectWalletPage.protectYourCrypto'*/}
+              {/*/>*/}
             </Flex>
             <Flex
               direction={'column'}
@@ -123,12 +113,33 @@ export const ConnectWallet = () => {
               alignItems={'center'}
             >
               <Button
+                as={Link}
+                isExternal
+                width='360px'
+                href='https://keepkey.myshopify.com/'
+                rightIcon={<ExternalLinkIcon />}
+                colorScheme='green'
+              >
+                {translate('connectWalletPage.buyKeepKey')}
+              </Button>
+              <Button
                 width='360px'
                 rightIcon={<ExternalLinkIcon />}
                 colorScheme='green'
                 onClick={debugDevice}
               >
                 {translate('connectWalletPage.troubleshoot')}
+              </Button>
+              <Button
+                as={Link}
+                isExternal
+                href='https://discord.gg/stfRnW3Jys'
+                width='360px'
+                size='lg'
+                rightIcon={<ExternalLinkIcon />}
+                colorScheme='green'
+              >
+                <Text translation={'common.getSupport'} />
               </Button>
             </Flex>
             <Flex
@@ -143,7 +154,6 @@ export const ConnectWallet = () => {
               alignItems={'center'}
             >
               <Flex width='full' alignItems='center' justifyContent='center' gap={8}>
-                <small>debug: {JSON.stringify(state.deviceState)}</small>
                 <Link
                   href='/#/legal/terms-of-service'
                   color='whiteAlpha.500'

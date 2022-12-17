@@ -65,6 +65,9 @@ export const HardwareErrorModal = (error: any) => {
               <Button size='lg' colorScheme='blue' onClick={HandleTroubleShoot}>
                 <Text translation={'modals.keepKey.hardware.troubleshoot'} />
               </Button>
+              <Button size='lg' colorScheme='blue' ref='https://discord.gg/stfRnW3Jys'>
+                <Text translation={'modals.common.getSupport'} />
+              </Button>
             </div>
           ) : (
             <div>
