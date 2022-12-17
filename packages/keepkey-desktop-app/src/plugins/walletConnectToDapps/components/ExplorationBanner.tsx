@@ -15,10 +15,8 @@ import { WalletConnectCurrentColorIcon } from 'components/Icons/WalletConnectIco
 import { Text } from 'components/Text'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useHistory } from 'react-router'
-import type { RegistryItem } from '../types'
-import { getConfig } from 'config'
 import { WalletActions } from 'context/WalletProvider/actions'
-import Client from '@pioneer-platform/pioneer-client'
+import { getPioneerClient } from 'lib/getPioneerCleint'
 
 export const ExplorationBanner: FC = () => {
   const history = useHistory()
@@ -35,11 +33,8 @@ export const ExplorationBanner: FC = () => {
   const getSpotlight = async () => {
     try {
       setIsLoaded(false)
-      let spec = getConfig().REACT_APP_DAPP_URL
-      let config = { queryKey: 'key:public', spec }
-      let Api = new Client(spec, config)
-      let api = await Api.init()
-      let spotlight = await api.GetSpotlight()
+      const pioneer = await getPioneerClient()
+      let spotlight = await pioneer.GetSpotlight()
       console.log('spotlight: ', spotlight.data)
       setSpotlight(spotlight.data)
       setIsLoaded(true)

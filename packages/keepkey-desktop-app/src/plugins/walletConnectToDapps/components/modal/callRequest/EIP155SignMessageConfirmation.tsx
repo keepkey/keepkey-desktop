@@ -55,11 +55,10 @@ export const EIP155SignMessageConfirmation = () => {
       accountIdx: 0,
     })
     setAccountPath(accounts[0].addressNList)
-      ; (wallet as KeepKeyHDWallet)
-        .ethGetAddress({ addressNList: accounts[0].addressNList, showDisplay: false })
-        .then(setAddress)
+    ;(wallet as KeepKeyHDWallet)
+      .ethGetAddress({ addressNList: accounts[0].addressNList, showDisplay: false })
+      .then(setAddress)
   }, [wallet])
-
 
   const onConfirm = useCallback(
     async (txData: any) => {
@@ -68,10 +67,6 @@ export const EIP155SignMessageConfirmation = () => {
         setLoading(true)
 
         const message = getSignParamsMessage(request.params)
-        const accountPath = (wallet as KeepKeyHDWallet).ethGetAccountPaths({
-          coin: 'Ethereum',
-          accountIdx: 0,
-        })
         const signedMessage = await (wallet as KeepKeyHDWallet).ethSignMessage({
           ...txData,
           addressNList: accountPath,
@@ -98,7 +93,7 @@ export const EIP155SignMessageConfirmation = () => {
         setLoading(false)
       }
     },
-    [currentRequest.id, removeRequest, requests, toast, wallet, accountPath],
+    [accountPath, wallet, request.params, id, topic, removeRequest, currentRequest.id, toast],
   )
 
   const onReject = useCallback(async () => {

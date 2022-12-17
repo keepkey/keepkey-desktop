@@ -15,7 +15,6 @@ import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { Text } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { fromBaseUnit } from 'lib/math'
@@ -69,7 +68,7 @@ export const EIP155SendTransactionConfirmation = () => {
 
   const [loading, setLoading] = useState(false)
 
-  const { requests, removeRequest, isConnected, dapp } = useWalletConnect()
+  const { requests, removeRequest, isConnected, dapp, legacyWeb3 } = useWalletConnect()
   const toast = useToast()
 
   const currentRequest = requests[0] as SignClientTypes.EventArguments['session_request']
@@ -103,7 +102,7 @@ export const EIP155SendTransactionConfirmation = () => {
 
   const onConfirm = useCallback(
     async (txData: any) => {
-      if (!wallet || !accountPath || !chainId) return
+      if (!wallet || !accountPath || !chainId || !legacyWeb3) return
       try {
         setLoading(true)
         const signData: any = {
@@ -135,9 +134,9 @@ export const EIP155SendTransactionConfirmation = () => {
         let jsonresponse = formatJsonRpcResult(id, signedTx)
 
         if (request.method === EIP155_SIGNING_METHODS.ETH_SEND_TRANSACTION) {
-          const chainWeb3 = (await web3ByChainId(chainId)) as any
-          await chainWeb3.web3.eth.sendSignedTransaction(signedTx)
-          const txid = await chainWeb3.web3.utils.sha3(signedTx)
+          await legacyWeb3.web3.eth.sendSignedTransaction(signedTx)
+          const txid = legacyWeb3.web3.utils.sha3(signedTx)
+          // @ts-ignore
           jsonresponse = formatJsonRpcResult(id, txid)
         }
 
@@ -158,7 +157,19 @@ export const EIP155SendTransactionConfirmation = () => {
         setLoading(false)
       }
     },
-    [currentRequest.id, removeRequest, request, toast, wallet, chainId, accountPath],
+    [
+      wallet,
+      accountPath,
+      chainId,
+      legacyWeb3,
+      request.params,
+      request.method,
+      id,
+      topic,
+      removeRequest,
+      currentRequest.id,
+      toast,
+    ],
   )
 
   const onReject = useCallback(async () => {
@@ -175,12 +186,6 @@ export const EIP155SendTransactionConfirmation = () => {
   const [priceData, setPriceData] = useState(bn(0))
 
   const [web3GasFeeData, setweb3GasFeeData] = useState('0')
-  const [chainWeb3, setChainWeb3] = useState<{
-    web3: Web3
-    symbol: string
-    name: string
-    coinGeckoId: string
-  }>()
 
   // determine which gasLimit to use: user input > from the request > or estimate
   const requestGas = parseInt(request.params[0].gasLimit ?? '0x0', 16).toString(10)
@@ -193,7 +198,7 @@ export const EIP155SendTransactionConfirmation = () => {
   )
 
   useEffect(() => {
-    if (!chainId) return
+    if (!chainId || !legacyWeb3) return
     const adapterManager = getChainAdapterManager()
     const adapter = adapterManager.get(
       KnownChainIds.EthereumMainnet,
@@ -209,25 +214,22 @@ export const EIP155SendTransactionConfirmation = () => {
     })
 
     // for non mainnet chains we use the simple web3.getGasPrice()
-    web3ByChainId(chainId).then(chainWeb3 => {
-      chainWeb3?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
-      setChainWeb3(chainWeb3)
-    })
-  }, [form, txInputGas, chainId])
+    legacyWeb3.web3.eth.getGasPrice().then((p: any) => setweb3GasFeeData(p))
+  }, [form, txInputGas, chainId, legacyWeb3])
 
   useEffect(() => {
     ;(async () => {
-      if (chainWeb3?.coinGeckoId)
+      if (legacyWeb3?.coinGeckoId)
         try {
           const { data } = await axios.get(
-            `https://api.coingecko.com/api/v3/simple/price?ids=${chainWeb3.coinGeckoId}&vs_currencies=usd`,
+            `https://api.coingecko.com/api/v3/simple/price?ids=${legacyWeb3.coinGeckoId}&vs_currencies=usd`,
           )
-          setPriceData(bnOrZero(data?.[chainWeb3.coinGeckoId]?.usd))
+          setPriceData(bnOrZero(data?.[legacyWeb3.coinGeckoId]?.usd))
         } catch (e) {
           throw new Error('Failed to get price data')
         }
     })()
-  }, [chainWeb3])
+  }, [legacyWeb3])
 
   // determine which gas fees to use: user input > from the request > Fast
   const requestMaxPriorityFeePerGas = request.params[0].maxPriorityFeePerGas
@@ -274,20 +276,20 @@ export const EIP155SendTransactionConfirmation = () => {
   const [trueNonce, setTrueNonce] = useState('0')
   useEffect(() => {
     ;(async () => {
-      const count = await chainWeb3?.web3.eth.getTransactionCount(address ?? '')
+      const count = await legacyWeb3?.web3.eth.getTransactionCount(address ?? '')
       setTrueNonce(`${count}`)
     })()
-  }, [adapterManager, address, chainWeb3])
+  }, [adapterManager, address, legacyWeb3])
   const txInputNonce = Web3.utils.toHex(
     !!inputNonce ? inputNonce : !!requestNonce ? requestNonce : trueNonce,
   )
 
   useEffect(() => {
     try {
-      ;(chainWeb3 as any).web3.eth
+      legacyWeb3?.web3.eth
         .estimateGas({
           from: request.params[0].from,
-          nonce: txInputNonce,
+          nonce: Number(txInputNonce),
           to: request.params[0].to,
           data: request.params[0].data,
         })
@@ -298,7 +300,7 @@ export const EIP155SendTransactionConfirmation = () => {
       // 500k seemed reasonable
       setEstimatedGas('500000')
     }
-  }, [txInputNonce, address, chainWeb3, currentRequest.params])
+  }, [txInputNonce, address, currentRequest.params, legacyWeb3?.web3.eth, request.params])
 
   if (!isConnected || !dapp || !currentRequest) return null
 
@@ -367,8 +369,8 @@ export const EIP155SendTransactionConfirmation = () => {
           title={
             <HStack justify='space-between'>
               <Text translation='plugins.walletConnectToDapps.modal.sendTransaction.estGasCost' />
-              {chainWeb3?.symbol && (
-                <GasFeeEstimateLabel symbol={chainWeb3.symbol} fiatRate={priceData} />
+              {legacyWeb3?.symbol && (
+                <GasFeeEstimateLabel symbol={legacyWeb3?.symbol} fiatRate={priceData} />
               )}
             </HStack>
           }
