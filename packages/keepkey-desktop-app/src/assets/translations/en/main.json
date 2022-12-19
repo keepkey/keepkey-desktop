@@ -381,6 +381,7 @@
     "dApps": "dApps",
     "featureFlags": "Feature Flags",
     "pairings": "Pairings",
+    "authenticator": "Authenticator",
     "demoMode": "Demo Mode",
     "clickToConnect": "Click to connect a wallet",
     "wallet": "Wallet",
@@ -461,6 +462,10 @@
       "noApps": "There have been no previously paired apps",
       "notPairedWith": "No apps have been previously paired with %{name}"
     }
+  },
+  "authenticator": {
+    "header": "Accounts",
+    "noAccounts": "There are currently no accounts saved on your KeepKey"
   },
   "pairingDetails": {
     "header": "Requests Log",
