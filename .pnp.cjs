@@ -8964,6 +8964,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@pioneer-platform/pioneer-client", "npm:8.1.29"],\
             ["@types/node", "npm:13.13.52"],\
             ["axios", "npm:0.19.2"],\
+            ["js-yaml", "npm:3.14.1"],\
             ["openapi-client-axios", "virtual:ff9728af92353809647d9ed70e5ddb9ac4d712973b39c6f70437ed59e7f0019f7975257b83bf464a736a677de9b345b482b86076d557eaecd01c4884fad520b0#npm:3.14.1"],\
             ["request", "npm:2.88.2"],\
             ["ts-node", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:8.10.2"],\
@@ -27875,7 +27876,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/js-yaml", null],\
             ["axios", "npm:0.19.2"],\
             ["bath-es5", "npm:3.0.3"],\
-            ["js-yaml", null],\
+            ["js-yaml", "npm:3.14.1"],\
             ["lodash", "npm:4.17.21"],\
             ["openapi-types", "npm:9.3.1"],\
             ["query-string", "npm:7.1.1"]\
