@@ -18,6 +18,7 @@ import { startTcpBridge, stopTcpBridge } from './tcpBridge'
 import { queueIpcEvent } from './helpers/utils'
 import { BridgeLogger } from './helpers/bridgeLogger'
 import log from 'electron-log'
+import { createAndUpdateTray } from './tray'
 
 export const assetsDirectory = path.join(__dirname, 'assets')
 export const isMac = process.platform === 'darwin'
