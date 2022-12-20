@@ -158,9 +158,10 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
   )
 
   useEffect(() => {
+    if (!wallet) return
     connect()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [wallet])
 
   const dapp = pairingMeta
 
