@@ -1,7 +1,5 @@
-/* eslint-disable @keepkey/logger/no-native-console */
 import type { ComponentWithAs, IconProps } from '@chakra-ui/react'
-import type { KeepKeySDK } from '@keepkey/keepkey-sdk'
-import { getKeepKeySDK } from '@keepkey/keepkey-sdk'
+import { KeepKeySdk } from '@keepkey/keepkey-sdk'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { Keyring } from '@shapeshiftoss/hdwallet-core'
 import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-walletconnect'
@@ -100,7 +98,7 @@ export interface InitialState {
   keepKeyPinRequestType: PinMatrixRequestType | null
   deviceState: DeviceState
   disconnectOnCloseModal: boolean
-  keepkeySdk: KeepKeySDK | null
+  keepkeySdk: KeepKeySdk | null
   browserUrl: string | null
 }
 
@@ -343,9 +341,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   // so we dont unintentionally show the keepkey error modal while updating
   const [isUpdatingKeepkey, setIsUpdatingKeepkey] = useState(false)
 
-  // is keepkey device currently being interacted with
-  const [deviceBusy, setDeviceBusy] = useState(false)
-
   const disconnect = useCallback(async () => {
     /**
      * in case of KeepKey placeholder wallet,
@@ -403,7 +398,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       window.localStorage.setItem('@app/serviceKey', config.serviceKey)
       ipcRenderer.send('@bridge/add-service', config)
     }
-    return getKeepKeySDK(config)
+    return KeepKeySdk.create({
+      apiKey: config.serviceKey,
+    })
   }
 
   const startBridgeListeners = useCallback(() => {
@@ -465,13 +462,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       pairAndConnect.current()
     })
 
-    ipcRenderer.on('deviceBusy', async (_event, _data) => {
-      setDeviceBusy(true)
-    })
-    ipcRenderer.on('deviceNotBusy', async (_event, _data) => {
-      setDeviceBusy(false)
-    })
-
     //END HDwallet API
   }, [state.wallet])
 
@@ -487,7 +477,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       window.localStorage.setItem('@app/serviceKey', config.serviceKey)
       ipcRenderer.send('@bridge/add-service', config)
     }
-    getKeepKeySDK(config)
+    KeepKeySdk.create({
+      apiKey: config.serviceKey,
+    })
       .then(sdk => {
         dispatch({ type: WalletActions.SET_KEEPKEY_SDK, payload: sdk })
       })
@@ -522,17 +514,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       isUpdatingKeepkey,
       setIsUpdatingKeepkey,
       pairAndConnect,
-      deviceBusy,
     }),
-    [
-      state,
-      disconnect,
-      setDeviceState,
-      setIsUpdatingKeepkey,
-      isUpdatingKeepkey,
-      pairAndConnect,
-      deviceBusy,
-    ],
+    [state, disconnect, setDeviceState, setIsUpdatingKeepkey, isUpdatingKeepkey, pairAndConnect],
   )
 
   return (

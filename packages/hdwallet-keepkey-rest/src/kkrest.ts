@@ -3,25 +3,12 @@ import * as Types from "@keepkey/device-protocol/lib/types_pb";
 import * as core from "@shapeshiftoss/hdwallet-core";
 import _ from "lodash";
 import semver from "semver";
+import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
+
+export type { KeepKeySdk } from "@keepkey/keepkey-sdk"
 
 export function isKeepKey(wallet: core.HDWallet): wallet is KeepKeyRestHDWallet {
   return _.isObject(wallet) && (wallet as any)._isKeepKey;
-}
-
-export type KeepKeySdk = any;
-
-type Features = {
-  deviceId: string
-  model: string
-  majorVersion: string | number
-  minorVersion: string | number
-  patchVersion: string | number
-  label: string
-  initialized: boolean
-  pinProtection: boolean
-  pinCached: boolean
-  passphraseProtection: boolean
-  passphraseCached: boolean
 }
 
 export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.ETHWallet, core.DebugLinkWallet {
@@ -63,7 +50,7 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
 
   public async getDeviceID(): Promise<string> {
     const features = await this.getFeatures();
-    return features.deviceId;
+    return features.deviceId!;
   }
 
   public getVendor(): string {
@@ -72,7 +59,7 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
 
   public async getModel(): Promise<string> {
     const features = await this.getFeatures()
-    return core.mustBeDefined(features).model;
+    return core.mustBeDefined(features).model!;
   }
 
   public async getFirmwareVersion(): Promise<string> {
@@ -99,7 +86,29 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   readonly getPublicKeys = _.memoize(async (getPublicKeys: Array<core.GetPublicKey>): Promise<Array<core.PublicKey | null>> => {
-    return await this.sdk.wallet.getPublicKeys({ getPublicKey: getPublicKeys })
+    return await Promise.all(getPublicKeys.map(async x => {
+      const scriptType = (() => {
+        switch (x.scriptType) {
+          case undefined:
+            return undefined
+          case core.BTCInputScriptType.SpendAddress:
+            return 'p2pkh'
+          case core.BTCInputScriptType.SpendWitness:
+            return 'p2wpkh'
+          case core.BTCInputScriptType.SpendP2SHWitness:
+            return 'p2sh-p2wpkh'
+          default:
+            throw new Error('bad scriptType')
+        }
+      })()
+      return await this.sdk.system.info.getPublicKey({
+        coin_name: x.coin,
+        script_type: scriptType,
+        show_display: x.showDisplay,
+        ecdsa_curve_name: x.curve,
+        address_n: x.addressNList,
+      })
+    }))
   })
 
   public async ping(_msg: core.Ping): Promise<core.Pong> {
@@ -107,11 +116,18 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async reset(msg: core.ResetDevice): Promise<void> {
-    await this.sdk.developer.reset(msg);
+    await this.sdk.system.initialize.resetDevice({
+      u2f_counter: msg.u2fCounter,
+      auto_lock_delay_ms: msg.autoLockDelayMs,
+      label: msg.label,
+      passphrase_protection: msg.passphrase,
+      pin_protection: msg.pin,
+      strength: msg.entropy,
+    })
   }
 
   public async recover(r: core.RecoverDevice): Promise<void> {
-    await this.sdk.recovery.recover(r);
+    throw new Error("not implemented");
   }
 
   public async pressYes(): Promise<void> {
@@ -158,20 +174,20 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
     throw new Error("pin entry is handled by the server, so don't call this")
   }
 
-  public async sendPassphrase(passphrase: string): Promise<void> {
-    return await this.sdk.recovery.sendPassphrase({ passphrase });
+  public async sendPassphrase(): Promise<void> {
+    throw new Error("passphrase entry is handled by the server, so don't call this")
   }
 
   public async sendCharacter(character: string): Promise<void> {
-    await this.sendCharacterProto(character, false, false);
+    throw new Error("character entry is handled by the server, so don't call this")
   }
 
   public async sendCharacterDelete(): Promise<void> {
-    await this.sendCharacterProto("", true, false);
+    throw new Error("character entry is handled by the server, so don't call this")
   }
 
   public async sendCharacterDone(): Promise<void> {
-    await this.sendCharacterProto("", false, true);
+    throw new Error("character entry is handled by the server, so don't call this")
   }
 
   public async sendWord(): Promise<never> {
@@ -190,47 +206,82 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
     return false
   }
 
-  protected async sendCharacterProto(character: string, _delete: boolean, _done: boolean): Promise<any> {
-    await this.sdk.recovery.sendCharacterProto({ sendCharacterProto: { character, _delete, done: _done } });
-  }
-
   public async applyPolicy(p: Required<Types.PolicyType.AsObject>): Promise<void> {
-    await this.sdk.developer.applyPolicy({ body: p });
+    await this.sdk.system.applyPolicies([{
+      policy_name: p.policyName,
+      enabled: p.enabled,
+    }]);
   }
 
   public async applySettings(s: Messages.ApplySettings.AsObject): Promise<void> {
-    await this.sdk.developer.applySettings({ body: s });
+    await this.sdk.system.applySettings({
+      u2f_counter: s.u2fCounter,
+      auto_lock_delay_ms: s.autoLockDelayMs,
+      label: s.label,
+      language: s.language,
+      use_passphrase: s.usePassphrase,
+    });
   }
 
   public async cancel(): Promise<void> {
-    await this.sdk.developer.cancel({ body: undefined });
+    throw new Error("not implemented");
   }
 
   public async changePin(): Promise<void> {
-    await this.sdk.recovery.changePin({ body: undefined });
+    await this.sdk.system.changePin({});
   }
 
   public async clearSession(): Promise<void> {
-    await this.sdk.developer.clearSession({ body: undefined });
+    await this.sdk.system.clearSession();
   }
 
   public async firmwareErase(): Promise<void> {
-    await this.sdk.developer.firmwareErase({ body: undefined });
+    // skipped, as this is done automatically by the server during firmwareUpload
   }
 
   public async firmwareUpload(firmware: Buffer): Promise<void> {
-    await this.sdk.developer.firmwareUpload({ body: firmware });
+    await this.sdk.system.firmwareUpdate(new Blob([firmware]));
   }
 
   public async initialize(): Promise<void> {
-    await this.sdk.developer.initialize({ body: {} });
+    // await this.sdk.developer.initialize({ body: {} });
   }
 
-  public async getFeaturesUncached(): Promise<Features> {
-    return JSON.parse(await this.sdk.developer.getFeatures())
+  public async getFeaturesUncached(): Promise<Messages.Features.AsObject> {
+    const raw = await this.sdk.system.info.getFeatures()
+    return {
+      vendor: raw.vendor,
+      // TODO: openapi-generator has busted types on these
+      majorVersion: raw.major_version as number | undefined,
+      minorVersion: raw.minor_version as number | undefined,
+      patchVersion: raw.patch_version as number | undefined,
+      bootloaderMode: raw.bootloader_mode,
+      pinProtection: raw.pin_protection,
+      passphraseProtection: raw.passphrase_protection,
+      deviceId: raw.device_id,
+      model: raw.model,
+      language: raw.language,
+      label: raw.label,
+      coinsList: [],
+      initialized: raw.initialized,
+      revision: Buffer.from((raw.revision as string | undefined) ?? "", "utf8").toString("base64"),
+      bootloaderHash: Buffer.from((raw.bootloader_hash as string | undefined) ?? "", "hex").toString("base64"),
+      firmwareHash: Buffer.from((raw.firmware_hash as string | undefined) ?? "", "hex").toString("base64"),
+      imported: raw.imported,
+      pinCached: raw.pin_cached,
+      passphraseCached: raw.passphrase_cached,
+      policiesList: (raw.policies ?? []).map(x => ({
+        policyName: x.policy_name,
+        enabled: x.enabled,
+      })),
+      firmwareVariant: raw.firmware_variant,
+      noBackup: raw.no_backup,
+      wipeCodeProtection: raw.wipe_code_protection,
+      autoLockDelayMs: raw.auto_lock_delay_ms as number | undefined,
+    }
   }
 
-  readonly getFeatures = _.memoize(async (): Promise<Features> => {
+  readonly getFeatures = _.memoize(async (): Promise<Messages.Features.AsObject> => {
     return await this.getFeaturesUncached()
   })
 
@@ -247,11 +298,19 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async loadDevice(msg: core.LoadDevice): Promise<void> {
-    await this.sdk.developer.loadDevice({ loadDevice: msg });
+    await this.sdk.system.initialize.loadDevice({
+      mnemonic: msg.mnemonic,
+      label: msg.label,
+      passphrase_protection: msg.passphrase,
+      pin: msg.pin,
+      skip_checksum: msg.skipChecksum,
+      // TODO: openapi-generator typing is busted here
+      xprv: "",
+    })
   }
 
   public async removePin(): Promise<void> {
-    return await this.sdk.developer.removePin({});
+    await this.sdk.system.changePin({ remove: true });
   }
 
   public async send(_events: core.Event[]): Promise<void> {
@@ -259,11 +318,11 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async softReset(): Promise<void> {
-    await this.sdk.developer.softReset({ body: undefined });
+    await this.sdk.system.manufacturing.softReset();
   }
 
   public async wipe(): Promise<void> {
-    await this.sdk.developer.wipe({ body: undefined });
+    await this.sdk.system.wipeDevice();
   }
 
   public async btcSupportsCoin(_coin: core.Coin): Promise<boolean> {
@@ -275,12 +334,15 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   readonly btcGetAddress = _.memoize(async (msg: core.BTCGetAddress): Promise<string> => {
-    return (await this.sdk.wallet.btcGetAddress({ btcGetAddress: msg })).replace(/"/g, "")
+    throw new Error("not implemented")
+    // return (await this.sdk.address.utxoGetAddress({
+    //   addressN: msg.addressNList,
+    //   showDisplay: msg.showDisplay,
+    // })).address
   })
 
   public async btcSignTx(msg: core.BTCSignTxKK): Promise<core.BTCSignedTx> {
-    const addressResponse = await this.sdk.sign.btcSignTx({ body: msg });
-    return addressResponse;
+    throw new Error("not implemented")
   }
 
   public async btcSupportsSecureTransfer(): Promise<boolean> {
@@ -308,14 +370,37 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async ethSignTx(msg: core.ETHSignTx): Promise<core.ETHSignedTx> {
-    const signedResponse = await this.sdk.sign.ethSignTx({ body: msg });
-    return signedResponse;
+    const sig = await this.sdk.eth.ethSignTransaction({
+      nonce: msg.nonce,
+      value: msg.value,
+      data: msg.data,
+      from: (await this.sdk.address.ethereumGetAddress({ address_n: msg.addressNList })).address,
+      to: msg.to,
+      gas: msg.gasLimit,
+      // TODO: openapi-generator types are terrible
+      // @ts-expect-error
+      gasPrice: msg.gasPrice,
+      // @ts-expect-error
+      maxFeePerGas: msg.maxFeePerGas,
+      // @ts-expect-error
+      maxPriorityFeePerGas: msg.maxPriorityFeePerGas,
+    }) as string
+    if (sig.length !== 130) throw new Error('bad sig length')
+    return {
+      r: sig.slice(0, 64),
+      s: sig.slice(64, 128),
+      v: Buffer.from(sig.slice(128, 130), "hex")[0],
+      serialized: sig,
+    }
   }
 
   // TODO check if sdk supports below messages
 
   readonly ethGetAddress = _.memoize(async (msg: core.ETHGetAddress): Promise<string> => {
-    return (await this.sdk.wallet.ethGetAddress({ ethGetAddress: msg })).replace(/"/g, "")
+    return (await this.sdk.address.ethereumGetAddress({
+      address_n: msg.addressNList,
+      show_display: msg.showDisplay,
+    })).address
   })
 
   public async ethSignMessage(_msg: core.ETHSignMessage): Promise<core.ETHSignedMessage> {
@@ -360,12 +445,14 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   readonly rippleGetAddress = _.memoize(async (msg: core.RippleGetAddress): Promise<string> => {
-    return (await this.sdk.wallet.rippleGetAddress({ rippleGetAddress: msg })).replace(/"/g, "")
+    return (await this.sdk.address.xrpGetAddress({
+      address_n: msg.addressNList,
+      show_display: msg.showDisplay,
+    })).address
   })
 
   public async rippleSignTx(msg: core.RippleSignTx): Promise<core.RippleSignedTx> {
-    const rippleSignTxResponse = await this.sdk.sign.rippleSignTx({ rippleSignTx: msg });
-    return rippleSignTxResponse;
+    throw new Error("not implemented")
   }
 
   public cosmosGetAccountPaths(msg: core.CosmosGetAccountPaths): Array<core.CosmosAccountPath> {
@@ -377,11 +464,39 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   readonly cosmosGetAddress = _.memoize(async (msg: core.CosmosGetAddress): Promise<string> => {
-    return (await this.sdk.wallet.cosmosGetAddress({ cosmosGetAddress: msg })).replace(/"/g, "")
+    return (await this.sdk.address.cosmosGetAddress({
+      address_n: msg.addressNList,
+      show_display: msg.showDisplay,
+    })).address
   })
 
   public async cosmosSignTx(msg: core.CosmosSignTx): Promise<core.CosmosSignedTx> {
-    return this.sdk.sign.cosmosSignTx({ cosmosSignTx: msg });
+    const signerAddress = (await this.sdk.address.cosmosGetAddress({
+      address_n: msg.addressNList
+    })).address
+    const signed = await this.sdk.cosmos.cosmosSignAmino({
+      signDoc: {
+        accountNumber: msg.account_number,
+        chainId: msg.chain_id,
+        // TODO: busted openapi-generator types
+        // @ts-expect-error
+        msgs: msg.tx.msg,
+        memo: msg.tx.memo ?? "",
+        sequence: msg.sequence,
+        fee: {
+          gas: String(msg.fee ?? 0),
+          amount: [],
+        }
+      },
+      signerAddress,
+    })
+    // TODO: busted openapi-generator types
+    return {
+      signatures: [signed.signature as string],
+      serialized: core.untouchable("not implemented"),
+      authInfoBytes: core.untouchable("not implemented"),
+      body: core.untouchable("not implemented"),
+    };
   }
 
   public thorchainGetAccountPaths(_msg: core.ThorchainGetAccountPaths): Array<core.ThorchainAccountPath> {
@@ -389,11 +504,39 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   readonly thorchainGetAddress = _.memoize(async (msg: core.ThorchainGetAddress): Promise<string> => {
-    return (await this.sdk.wallet.thorchainGetAddress({ thorchainGetAddress: msg })).replace(/"/g, "")
+    return (await this.sdk.address.thorchainGetAddress({
+      address_n: msg.addressNList,
+      show_display: msg.showDisplay,
+    })).address
   })
 
   public async thorchainSignTx(msg: core.ThorchainSignTx): Promise<core.ThorchainSignedTx> {
-    return this.sdk.sign.thorchainSignTx({ thorchainSignTx: msg });
+    const signerAddress = (await this.sdk.address.thorchainGetAddress({
+      address_n: msg.addressNList
+    })).address
+    const signed = await this.sdk.cosmos.cosmosSignAmino({
+      signDoc: {
+        accountNumber: msg.account_number,
+        chainId: msg.chain_id,
+        // TODO: busted openapi-generator types
+        // @ts-expect-error
+        msgs: msg.tx.msg,
+        memo: msg.tx.memo ?? "",
+        sequence: msg.sequence,
+        fee: {
+          gas: String(msg.fee ?? 0),
+          amount: [],
+        }
+      },
+      signerAddress,
+    })
+    // TODO: busted openapi-generator types
+    return {
+      signatures: [signed.signature as string],
+      serialized: core.untouchable("not implemented"),
+      authInfoBytes: core.untouchable("not implemented"),
+      body: core.untouchable("not implemented"),
+    };
   }
 
   public binanceGetAccountPaths(_msg: core.BinanceGetAccountPaths): Array<core.BinanceAccountPath> {
@@ -401,11 +544,32 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   readonly binanceGetAddress = _.memoize(async (msg: core.BinanceGetAddress): Promise<string> => {
-    return (await this.sdk.wallet.binanceGetAddress({ binanceGetAddress: msg })).replace(/"/g, "")
+    // TODO: busted openapi-generator types
+    // @ts-expect-error
+    return (await this.sdk.address.binanceGetAddress({
+      address_n: msg.addressNList,
+      show_display: msg.showDisplay,
+    })).address
   })
 
   public async binanceSignTx(msg: core.BinanceSignTx): Promise<core.BinanceSignedTx> {
-    return await this.sdk.sign.binanceSignTx({ body: msg });
+    const signerAddress = await this.sdk.address.binanceGetAddress({
+      address_n: msg.addressNList
+    })
+    const signed = await this.sdk.bnb.bnbSignTransaction({
+      signDoc: {
+        account_number: msg.tx.account_number ?? "",
+        chain_id: msg.tx.chain_id ?? "",
+        msgs: msg.tx.msgs,
+        memo: msg.tx.memo ?? "",
+        sequence: msg.tx.sequence ?? "",
+        source: msg.tx.source ?? "",
+      },
+      signerAddress,
+    })
+    // TODO: busted openapi-generator types
+    // @ts-expect-error
+    return {signatures: {signature: signed.signature}};
   }
 
   public eosGetAccountPaths(msg: core.EosGetAccountPaths): Array<core.EosAccountPath> {
@@ -417,11 +581,11 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   readonly eosGetPublicKey = _.memoize(async (msg: core.EosGetPublicKey): Promise<string> => {
-    return (await this.sdk.wallet.eosGetPublicKey({ eosGetPublicKey: msg })).replace(/"/g, "")
+    throw new Error("not implemented")
   })
 
   public async eosSignTx(msg: core.EosToSignTx): Promise<core.EosTxSigned> {
-    return await this.sdk.sign.eosSignTx({ body: msg });
+    throw new Error("not implemented")
   }
 
   public describePath(msg: core.DescribePath): core.PathDescription {
@@ -438,7 +602,7 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async disconnect(): Promise<void> {
-    this.sdk.developer.disconnect({ body: undefined });
+    // does nothing
   }
 
   public btcNextAccountPath(_msg: core.BTCAccountPath): core.BTCAccountPath | undefined {

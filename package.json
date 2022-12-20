@@ -43,6 +43,9 @@
     "@tsoa/runtime@^4.1.3": "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch"
   },
   "dependenciesMeta": {
+    "@openapitools/openapi-generator-cli@2.5.2": {
+      "unplugged": true
+    },
     "app-builder-lib@24.0.0-alpha.5": {
       "unplugged": true
     },

@@ -32,6 +32,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/keepkey-desktop-app"\
       },\
       {\
+        "name": "@keepkey/keepkey-sdk",\
+        "reference": "workspace:packages/keepkey-sdk"\
+      },\
+      {\
         "name": "keepkey-sdk-server",\
         "reference": "workspace:packages/keepkey-sdk-server"\
       }\
@@ -8165,7 +8169,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethereumjs/common", "npm:2.6.5"],\
             ["@ethereumjs/tx", "npm:3.5.2"],\
             ["@keepkey/device-protocol", "npm:7.10.2"],\
-            ["@keepkey/keepkey-sdk", "npm:0.0.17"],\
+            ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
             ["@shapeshiftoss/bitcoinjs-lib", "npm:5.2.0-shapeshift.2"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.40.0"],\
             ["@shapeshiftoss/proto-tx-builder", "npm:0.4.0"],\
@@ -8341,29 +8345,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@keepkey/keepkey-sdk", [\
-        ["npm:0.0.17", {\
-          "packageLocation": "./.yarn/cache/@keepkey-keepkey-sdk-npm-0.0.17-3fa85ce5f0-8889981fb0.zip/node_modules/@keepkey/keepkey-sdk/",\
+        ["workspace:packages/keepkey-sdk", {\
+          "packageLocation": "./packages/keepkey-sdk/",\
           "packageDependencies": [\
-            ["@keepkey/keepkey-sdk", "npm:0.0.17"],\
+            ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
             ["@openapitools/openapi-generator-cli", "npm:2.5.2"],\
-            ["@types/node", "npm:13.13.52"],\
-            ["axios", "npm:1.2.0"],\
-            ["dotenv", "npm:8.6.0"],\
+            ["@swc/cli", "virtual:ea9598466b05f88130ddea63047a73d1d3920e02ec841c0a3aa5aa7e106cc081e3992947a54ec81e4e42c3822b0366da55afe2db9d1160eb0ae5b34d31b33ac3#npm:0.1.57"],\
+            ["@swc/core", "npm:1.3.23"],\
+            ["@types/node", "npm:18.11.9"],\
+            ["@typescript-eslint/eslint-plugin", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
+            ["@typescript-eslint/parser", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
+            ["eslint", "npm:8.28.0"],\
+            ["eslint-config-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:8.5.0"],\
+            ["eslint-plugin-import", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:2.26.0"],\
+            ["eslint-plugin-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:4.2.1"],\
+            ["eslint-plugin-simple-import-sort", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:7.0.0"],\
+            ["keepkey-sdk-server", "workspace:packages/keepkey-sdk-server"],\
+            ["prettier", "npm:2.8.0"],\
+            ["rimraf", "npm:3.0.2"],\
+            ["ts-node", "virtual:ea9598466b05f88130ddea63047a73d1d3920e02ec841c0a3aa5aa7e106cc081e3992947a54ec81e4e42c3822b0366da55afe2db9d1160eb0ae5b34d31b33ac3#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"]\
           ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:0.0.9", {\
-          "packageLocation": "./.yarn/cache/@keepkey-keepkey-sdk-npm-0.0.9-cabf60310d-7e11ac77eb.zip/node_modules/@keepkey/keepkey-sdk/",\
-          "packageDependencies": [\
-            ["@keepkey/keepkey-sdk", "npm:0.0.9"],\
-            ["@openapitools/openapi-generator-cli", "npm:2.5.2"],\
-            ["@types/node", "npm:13.13.52"],\
-            ["axios", "npm:1.2.0"],\
-            ["dotenv", "npm:8.6.0"],\
-            ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"]\
-          ],\
-          "linkType": "HARD"\
+          "linkType": "SOFT"\
         }]\
       ]],\
       ["@keepkey/logger", [\
@@ -10157,6 +10160,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "chokidar"\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["virtual:ea9598466b05f88130ddea63047a73d1d3920e02ec841c0a3aa5aa7e106cc081e3992947a54ec81e4e42c3822b0366da55afe2db9d1160eb0ae5b34d31b33ac3#npm:0.1.57", {\
+          "packageLocation": "./.yarn/__virtual__/@swc-cli-virtual-24d1cc7f34/0/cache/@swc-cli-npm-0.1.57-161586148e-d19f02233f.zip/node_modules/@swc/cli/",\
+          "packageDependencies": [\
+            ["@swc/cli", "virtual:ea9598466b05f88130ddea63047a73d1d3920e02ec841c0a3aa5aa7e106cc081e3992947a54ec81e4e42c3822b0366da55afe2db9d1160eb0ae5b34d31b33ac3#npm:0.1.57"],\
+            ["@swc/core", "npm:1.3.23"],\
+            ["@types/chokidar", null],\
+            ["@types/swc__core", null],\
+            ["chokidar", null],\
+            ["commander", "npm:7.2.0"],\
+            ["fast-glob", "npm:3.2.12"],\
+            ["slash", "npm:3.0.0"],\
+            ["source-map", "npm:0.7.4"]\
+          ],\
+          "packagePeers": [\
+            "@swc/core",\
+            "@types/chokidar",\
+            "@types/swc__core",\
+            "chokidar"\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@swc/core", [\
@@ -10176,6 +10200,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@swc/core-win32-x64-msvc", "npm:1.3.20"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.3.23", {\
+          "packageLocation": "./.yarn/unplugged/@swc-core-npm-1.3.23-1ff1a7053b/node_modules/@swc/core/",\
+          "packageDependencies": [\
+            ["@swc/core", "npm:1.3.23"],\
+            ["@swc/core-darwin-arm64", "npm:1.3.23"],\
+            ["@swc/core-darwin-x64", "npm:1.3.23"],\
+            ["@swc/core-linux-arm-gnueabihf", "npm:1.3.23"],\
+            ["@swc/core-linux-arm64-gnu", "npm:1.3.23"],\
+            ["@swc/core-linux-arm64-musl", "npm:1.3.23"],\
+            ["@swc/core-linux-x64-gnu", "npm:1.3.23"],\
+            ["@swc/core-linux-x64-musl", "npm:1.3.23"],\
+            ["@swc/core-win32-arm64-msvc", "npm:1.3.23"],\
+            ["@swc/core-win32-ia32-msvc", "npm:1.3.23"],\
+            ["@swc/core-win32-x64-msvc", "npm:1.3.23"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@swc/core-darwin-arm64", [\
@@ -10183,6 +10224,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/unplugged/@swc-core-darwin-arm64-npm-1.3.20-9d796c4801/node_modules/@swc/core-darwin-arm64/",\
           "packageDependencies": [\
             ["@swc/core-darwin-arm64", "npm:1.3.20"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.3.23", {\
+          "packageLocation": "./.yarn/unplugged/@swc-core-darwin-arm64-npm-1.3.23-e1fcc24628/node_modules/@swc/core-darwin-arm64/",\
+          "packageDependencies": [\
+            ["@swc/core-darwin-arm64", "npm:1.3.23"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -10194,6 +10242,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@swc/core-darwin-x64", "npm:1.3.20"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.3.23", {\
+          "packageLocation": "./.yarn/unplugged/@swc-core-darwin-x64-npm-1.3.23-e633afa1ed/node_modules/@swc/core-darwin-x64/",\
+          "packageDependencies": [\
+            ["@swc/core-darwin-x64", "npm:1.3.23"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@swc/core-linux-arm-gnueabihf", [\
@@ -10201,6 +10256,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/unplugged/@swc-core-linux-arm-gnueabihf-npm-1.3.20-5c9f6c3de3/node_modules/@swc/core-linux-arm-gnueabihf/",\
           "packageDependencies": [\
             ["@swc/core-linux-arm-gnueabihf", "npm:1.3.20"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.3.23", {\
+          "packageLocation": "./.yarn/unplugged/@swc-core-linux-arm-gnueabihf-npm-1.3.23-eef21da19d/node_modules/@swc/core-linux-arm-gnueabihf/",\
+          "packageDependencies": [\
+            ["@swc/core-linux-arm-gnueabihf", "npm:1.3.23"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -10212,6 +10274,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@swc/core-linux-arm64-gnu", "npm:1.3.20"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.3.23", {\
+          "packageLocation": "./.yarn/unplugged/@swc-core-linux-arm64-gnu-npm-1.3.23-c18f9b9b2d/node_modules/@swc/core-linux-arm64-gnu/",\
+          "packageDependencies": [\
+            ["@swc/core-linux-arm64-gnu", "npm:1.3.23"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@swc/core-linux-arm64-musl", [\
@@ -10219,6 +10288,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/unplugged/@swc-core-linux-arm64-musl-npm-1.3.20-a82e9c3761/node_modules/@swc/core-linux-arm64-musl/",\
           "packageDependencies": [\
             ["@swc/core-linux-arm64-musl", "npm:1.3.20"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.3.23", {\
+          "packageLocation": "./.yarn/unplugged/@swc-core-linux-arm64-musl-npm-1.3.23-c8816aba2c/node_modules/@swc/core-linux-arm64-musl/",\
+          "packageDependencies": [\
+            ["@swc/core-linux-arm64-musl", "npm:1.3.23"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -10230,6 +10306,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@swc/core-linux-x64-gnu", "npm:1.3.20"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.3.23", {\
+          "packageLocation": "./.yarn/unplugged/@swc-core-linux-x64-gnu-npm-1.3.23-b26aa3195e/node_modules/@swc/core-linux-x64-gnu/",\
+          "packageDependencies": [\
+            ["@swc/core-linux-x64-gnu", "npm:1.3.23"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@swc/core-linux-x64-musl", [\
@@ -10237,6 +10320,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/unplugged/@swc-core-linux-x64-musl-npm-1.3.20-077d284d00/node_modules/@swc/core-linux-x64-musl/",\
           "packageDependencies": [\
             ["@swc/core-linux-x64-musl", "npm:1.3.20"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.3.23", {\
+          "packageLocation": "./.yarn/unplugged/@swc-core-linux-x64-musl-npm-1.3.23-aa633a3dc9/node_modules/@swc/core-linux-x64-musl/",\
+          "packageDependencies": [\
+            ["@swc/core-linux-x64-musl", "npm:1.3.23"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -10248,6 +10338,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@swc/core-win32-arm64-msvc", "npm:1.3.20"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.3.23", {\
+          "packageLocation": "./.yarn/unplugged/@swc-core-win32-arm64-msvc-npm-1.3.23-51b3bd0190/node_modules/@swc/core-win32-arm64-msvc/",\
+          "packageDependencies": [\
+            ["@swc/core-win32-arm64-msvc", "npm:1.3.23"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@swc/core-win32-ia32-msvc", [\
@@ -10257,6 +10354,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@swc/core-win32-ia32-msvc", "npm:1.3.20"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.3.23", {\
+          "packageLocation": "./.yarn/unplugged/@swc-core-win32-ia32-msvc-npm-1.3.23-f08008709f/node_modules/@swc/core-win32-ia32-msvc/",\
+          "packageDependencies": [\
+            ["@swc/core-win32-ia32-msvc", "npm:1.3.23"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@swc/core-win32-x64-msvc", [\
@@ -10264,6 +10368,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/unplugged/@swc-core-win32-x64-msvc-npm-1.3.20-231fc82d63/node_modules/@swc/core-win32-x64-msvc/",\
           "packageDependencies": [\
             ["@swc/core-win32-x64-msvc", "npm:1.3.20"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.3.23", {\
+          "packageLocation": "./.yarn/unplugged/@swc-core-win32-x64-msvc-npm-1.3.23-4d0df43fcc/node_modules/@swc/core-win32-x64-msvc/",\
+          "packageDependencies": [\
+            ["@swc/core-win32-x64-msvc", "npm:1.3.23"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24762,7 +24873,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@keepkey/device-protocol", "npm:7.10.2"],\
             ["@keepkey/errors", "npm:1.1.3"],\
             ["@keepkey/eslint-plugin-logger", "npm:1.1.0"],\
-            ["@keepkey/keepkey-sdk", "npm:0.0.9"],\
             ["@keepkey/logger", "npm:1.1.3"],\
             ["@sentry/electron", "npm:4.1.2"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.40.0"],\
@@ -24815,11 +24925,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["hidefile", "npm:3.0.0"],\
             ["keccak", "npm:3.0.2"],\
             ["keepkey-desktop-app", "workspace:packages/keepkey-desktop-app"],\
+            ["keepkey-sdk-server", "workspace:packages/keepkey-sdk-server"],\
             ["lodash", "npm:4.17.21"],\
             ["nedb", "npm:1.8.0"],\
             ["node-hid", "patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."],\
             ["prettier", "npm:2.8.0"],\
-            ["promise.any", "npm:2.0.5"],\
             ["request", "npm:2.88.2"],\
             ["request-promise", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:4.2.6"],\
             ["rimraf", "npm:3.0.2"],\
@@ -24885,7 +24995,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@keepkey/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.0.2"],\
             ["@keepkey/investor-idle", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.1.5"],\
             ["@keepkey/investor-yearn", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:6.1.7"],\
-            ["@keepkey/keepkey-sdk", "npm:0.0.9"],\
+            ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
             ["@keepkey/logger", "npm:1.1.3"],\
             ["@keepkey/market-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.1.3"],\
             ["@keepkey/swapper", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:14.2.0"],\
@@ -34206,6 +34316,42 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["yn", "npm:3.1.1"]\
           ],\
           "packagePeers": [\
+            "@types/typescript",\
+            "typescript"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:ea9598466b05f88130ddea63047a73d1d3920e02ec841c0a3aa5aa7e106cc081e3992947a54ec81e4e42c3822b0366da55afe2db9d1160eb0ae5b34d31b33ac3#npm:10.9.1", {\
+          "packageLocation": "./.yarn/__virtual__/ts-node-virtual-4cc0801823/0/cache/ts-node-npm-10.9.1-6c268be7f4-090adff130.zip/node_modules/ts-node/",\
+          "packageDependencies": [\
+            ["ts-node", "virtual:ea9598466b05f88130ddea63047a73d1d3920e02ec841c0a3aa5aa7e106cc081e3992947a54ec81e4e42c3822b0366da55afe2db9d1160eb0ae5b34d31b33ac3#npm:10.9.1"],\
+            ["@cspotcode/source-map-support", "npm:0.8.1"],\
+            ["@swc/core", "npm:1.3.23"],\
+            ["@swc/wasm", null],\
+            ["@tsconfig/node10", "npm:1.0.9"],\
+            ["@tsconfig/node12", "npm:1.0.11"],\
+            ["@tsconfig/node14", "npm:1.0.3"],\
+            ["@tsconfig/node16", "npm:1.0.3"],\
+            ["@types/node", "npm:18.11.9"],\
+            ["@types/swc__core", null],\
+            ["@types/swc__wasm", null],\
+            ["@types/typescript", null],\
+            ["acorn", "npm:8.8.1"],\
+            ["acorn-walk", "npm:8.2.0"],\
+            ["arg", "npm:4.1.3"],\
+            ["create-require", "npm:1.1.1"],\
+            ["diff", "npm:4.0.2"],\
+            ["make-error", "npm:1.3.6"],\
+            ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
+            ["v8-compile-cache-lib", "npm:3.0.1"],\
+            ["yn", "npm:3.1.1"]\
+          ],\
+          "packagePeers": [\
+            "@swc/core",\
+            "@swc/wasm",\
+            "@types/node",\
+            "@types/swc__core",\
+            "@types/swc__wasm",\
             "@types/typescript",\
             "typescript"\
           ],\
