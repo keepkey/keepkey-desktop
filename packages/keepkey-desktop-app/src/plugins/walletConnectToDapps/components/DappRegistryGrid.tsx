@@ -63,8 +63,7 @@ export const DappRegistryGrid: FC = () => {
   let findDapps = async function () {
     try {
       const pioneer = await getPioneerClient()
-      let dapps = await pioneer.ListApps()
-      console.log('apps: ', dapps.data)
+      let dapps = await pioneer.ListApps({ limit: 30, skip: 0 })
       setRegistryItems(dapps.data)
     } catch (e) {
       console.error(' e: ', e)

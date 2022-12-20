@@ -35,7 +35,6 @@ export const ExplorationBanner: FC = () => {
       setIsLoaded(false)
       const pioneer = await getPioneerClient()
       let spotlight = await pioneer.GetSpotlight()
-      console.log('spotlight: ', spotlight.data)
       setSpotlight(spotlight.data)
       setIsLoaded(true)
     } catch (e) {
