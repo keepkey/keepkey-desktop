@@ -30,6 +30,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "keepkey-desktop-app",\
         "reference": "workspace:packages/keepkey-desktop-app"\
+      },\
+      {\
+        "name": "keepkey-sdk-server",\
+        "reference": "workspace:packages/keepkey-sdk-server"\
       }\
     ],\
     "enableTopLevelFallback": false,\
@@ -10083,6 +10087,48 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@stoplight/ordered-object-literal", [\
+        ["npm:1.0.4", {\
+          "packageLocation": "./.yarn/cache/@stoplight-ordered-object-literal-npm-1.0.4-1d0be13492-81afa24943.zip/node_modules/@stoplight/ordered-object-literal/",\
+          "packageDependencies": [\
+            ["@stoplight/ordered-object-literal", "npm:1.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@stoplight/types", [\
+        ["npm:13.8.0", {\
+          "packageLocation": "./.yarn/cache/@stoplight-types-npm-13.8.0-0c9bbf96bc-76882fb118.zip/node_modules/@stoplight/types/",\
+          "packageDependencies": [\
+            ["@stoplight/types", "npm:13.8.0"],\
+            ["@types/json-schema", "npm:7.0.11"],\
+            ["utility-types", "npm:3.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@stoplight/yaml", [\
+        ["npm:4.2.3", {\
+          "packageLocation": "./.yarn/cache/@stoplight-yaml-npm-4.2.3-16032dbabe-8e61c4499c.zip/node_modules/@stoplight/yaml/",\
+          "packageDependencies": [\
+            ["@stoplight/yaml", "npm:4.2.3"],\
+            ["@stoplight/ordered-object-literal", "npm:1.0.4"],\
+            ["@stoplight/types", "npm:13.8.0"],\
+            ["@stoplight/yaml-ast-parser", "npm:0.0.48"],\
+            ["tslib", "npm:2.4.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@stoplight/yaml-ast-parser", [\
+        ["npm:0.0.48", {\
+          "packageLocation": "./.yarn/cache/@stoplight-yaml-ast-parser-npm-0.0.48-e54b02f782-4e252a8746.zip/node_modules/@stoplight/yaml-ast-parser/",\
+          "packageDependencies": [\
+            ["@stoplight/yaml-ast-parser", "npm:0.0.48"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@swc/cli", [\
         ["npm:0.1.57", {\
           "packageLocation": "./.yarn/cache/@swc-cli-npm-0.1.57-161586148e-d19f02233f.zip/node_modules/@swc/cli/",\
@@ -10505,7 +10551,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@tsoa-cli-npm-4.1.3-c59841983e-d686ef4ca0.zip/node_modules/@tsoa/cli/",\
           "packageDependencies": [\
             ["@tsoa/cli", "npm:4.1.3"],\
-            ["@tsoa/runtime", "npm:4.1.3"],\
+            ["@tsoa/runtime", "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::version=4.1.3&hash=65587b&locator=keepkey-monorepo%40workspace%3A."],\
             ["deepmerge", "npm:4.2.2"],\
             ["fs-extra", "npm:8.1.0"],\
             ["glob", "npm:7.2.3"],\
@@ -10521,10 +10567,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@tsoa/runtime", [\
-        ["npm:4.1.3", {\
-          "packageLocation": "./.yarn/cache/@tsoa-runtime-npm-4.1.3-5071b07b86-7e0d55ef63.zip/node_modules/@tsoa/runtime/",\
+        ["patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::version=4.1.3&hash=65587b&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/cache/@tsoa-runtime-patch-de8f8ae2a1-50e6b68ab0.zip/node_modules/@tsoa/runtime/",\
           "packageDependencies": [\
-            ["@tsoa/runtime", "npm:4.1.3"],\
+            ["@tsoa/runtime", "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::version=4.1.3&hash=65587b&locator=keepkey-monorepo%40workspace%3A."],\
             ["promise.any", "npm:2.0.5"],\
             ["reflect-metadata", "npm:0.1.13"],\
             ["validator", "npm:13.7.0"]\
@@ -15823,6 +15869,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/caniuse-lite-npm-1.0.30001434-9c6ea57daf-7c9d2641e8.zip/node_modules/caniuse-lite/",\
           "packageDependencies": [\
             ["caniuse-lite", "npm:1.0.30001434"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["case-anything", [\
+        ["npm:2.1.10", {\
+          "packageLocation": "./.yarn/cache/case-anything-npm-2.1.10-dbbea03b9e-eff2769d7d.zip/node_modules/case-anything/",\
+          "packageDependencies": [\
+            ["case-anything", "npm:2.1.10"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24717,7 +24772,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@swc/cli", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:0.1.57"],\
             ["@swc/core", "npm:1.3.20"],\
             ["@tsoa/cli", "npm:4.1.3"],\
-            ["@tsoa/runtime", "npm:4.1.3"],\
+            ["@tsoa/runtime", "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::version=4.1.3&hash=65587b&locator=keepkey-monorepo%40workspace%3A."],\
             ["@types/auto-launch", "npm:5.0.2"],\
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/cors", "npm:2.8.12"],\
@@ -24853,7 +24908,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@testing-library/jest-dom", "npm:5.16.5"],\
             ["@testing-library/react", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:13.4.0"],\
             ["@testing-library/user-event", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:14.4.3"],\
-            ["@tsoa/runtime", "npm:4.1.3"],\
+            ["@tsoa/runtime", "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::version=4.1.3&hash=65587b&locator=keepkey-monorepo%40workspace%3A."],\
             ["@types/auto-launch", "npm:5.0.2"],\
             ["@types/crypto-js", "npm:4.1.1"],\
             ["@types/d3-array", "npm:3.0.3"],\
@@ -25046,6 +25101,36 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.8.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
             ["yaml-sort", "npm:1.2.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["keepkey-sdk-server", [\
+        ["workspace:packages/keepkey-sdk-server", {\
+          "packageLocation": "./packages/keepkey-sdk-server/",\
+          "packageDependencies": [\
+            ["keepkey-sdk-server", "workspace:packages/keepkey-sdk-server"],\
+            ["@shapeshiftoss/hdwallet-core", "npm:1.40.0"],\
+            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.40.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.40.0-91917954a1.patch::version=1.40.0&hash=bb4ef7&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@tsoa/runtime", "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::version=4.1.3&hash=65587b&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@types/express", "npm:4.17.14"],\
+            ["@types/lodash", "npm:4.14.190"],\
+            ["@types/node", "npm:18.11.9"],\
+            ["@typescript-eslint/eslint-plugin", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
+            ["@typescript-eslint/parser", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
+            ["eslint", "npm:8.28.0"],\
+            ["eslint-config-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:8.5.0"],\
+            ["eslint-plugin-import", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:2.26.0"],\
+            ["eslint-plugin-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:4.2.1"],\
+            ["eslint-plugin-simple-import-sort", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:7.0.0"],\
+            ["express", "npm:4.18.2"],\
+            ["lodash", "npm:4.17.21"],\
+            ["openapi-format", "npm:1.13.0"],\
+            ["prettier", "npm:2.8.0"],\
+            ["promise.any", "npm:2.0.5"],\
+            ["rimraf", "npm:3.0.2"],\
+            ["tsoa", "npm:4.1.3"],\
+            ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -27690,6 +27775,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/js-yaml",\
             "axios",\
             "js-yaml"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["openapi-format", [\
+        ["npm:1.13.0", {\
+          "packageLocation": "./.yarn/cache/openapi-format-npm-1.13.0-20644222b3-cc4cd3b266.zip/node_modules/openapi-format/",\
+          "packageDependencies": [\
+            ["openapi-format", "npm:1.13.0"],\
+            ["@stoplight/yaml", "npm:4.2.3"],\
+            ["case-anything", "npm:2.1.10"],\
+            ["commander", "npm:7.2.0"],\
+            ["traverse", "npm:0.6.7"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -33903,6 +34001,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["traverse", [\
+        ["npm:0.6.7", {\
+          "packageLocation": "./.yarn/cache/traverse-npm-0.6.7-542f9ebd45-21018085ab.zip/node_modules/traverse/",\
+          "packageDependencies": [\
+            ["traverse", "npm:0.6.7"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["tree-kill", [\
         ["npm:1.2.2", {\
           "packageLocation": "./.yarn/cache/tree-kill-npm-1.2.2-3da0e5a759-49117f5f41.zip/node_modules/tree-kill/",\
@@ -34161,7 +34268,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["tsoa", "npm:4.1.3"],\
             ["@tsoa/cli", "npm:4.1.3"],\
-            ["@tsoa/runtime", "npm:4.1.3"]\
+            ["@tsoa/runtime", "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::version=4.1.3&hash=65587b&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -34909,6 +35016,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/util-deprecate-npm-1.0.2-e3fe1a219c-474acf1146.zip/node_modules/util-deprecate/",\
           "packageDependencies": [\
             ["util-deprecate", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["utility-types", [\
+        ["npm:3.10.0", {\
+          "packageLocation": "./.yarn/cache/utility-types-npm-3.10.0-747e7c6549-8f274415c6.zip/node_modules/utility-types/",\
+          "packageDependencies": [\
+            ["utility-types", "npm:3.10.0"]\
           ],\
           "linkType": "HARD"\
         }]\

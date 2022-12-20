@@ -6728,6 +6728,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stoplight/ordered-object-literal@npm:^1.0.1":
+  version: 1.0.4
+  resolution: "@stoplight/ordered-object-literal@npm:1.0.4"
+  checksum: 81afa24943880b0a213af3728a9fe0a28bd01d4840b9583d448f7823ced5b6e673628698b59d201cef50afebcbd89256e133714a174968d11b624d943e0c2c2f
+  languageName: node
+  linkType: hard
+
+"@stoplight/types@npm:^13.0.0":
+  version: 13.8.0
+  resolution: "@stoplight/types@npm:13.8.0"
+  dependencies:
+    "@types/json-schema": ^7.0.4
+    utility-types: ^3.10.0
+  checksum: 76882fb11890c483105b0cc85c99185899a448403d7393d1f972f5142638a3d67666271ac1133a0bd2491f27ee221ec2fb86994101077e878fa3a4d7f2790744
+  languageName: node
+  linkType: hard
+
+"@stoplight/yaml-ast-parser@npm:0.0.48":
+  version: 0.0.48
+  resolution: "@stoplight/yaml-ast-parser@npm:0.0.48"
+  checksum: 4e252a874636d4015ff78a638075c438ccf7b8b4b38e3df12f7b8381da2da0411dfff7a6de38354b8093a36a8911a9dd656264fb0d34453cb7bcf78a3627dfa0
+  languageName: node
+  linkType: hard
+
+"@stoplight/yaml@npm:^4.2.2":
+  version: 4.2.3
+  resolution: "@stoplight/yaml@npm:4.2.3"
+  dependencies:
+    "@stoplight/ordered-object-literal": ^1.0.1
+    "@stoplight/types": ^13.0.0
+    "@stoplight/yaml-ast-parser": 0.0.48
+    tslib: ^2.2.0
+  checksum: 8e61c4499c0849dafecf487e51e10d4d3e99192834dd87eba4b27c20c42d3fe1b5b022f9c3eb63b96249b46d7277ffb4ce37447d84d01d4768b88d142e3d0e15
+  languageName: node
+  linkType: hard
+
 "@swc/cli@npm:^0.1.57":
   version: 0.1.57
   resolution: "@swc/cli@npm:0.1.57"
@@ -7066,7 +7102,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsoa/runtime@npm:^4.1.3":
+"@tsoa/runtime@npm:4.1.3":
   version: 4.1.3
   resolution: "@tsoa/runtime@npm:4.1.3"
   dependencies:
@@ -7074,6 +7110,17 @@ __metadata:
     reflect-metadata: ^0.1.13
     validator: ^13.6.0
   checksum: 7e0d55ef63f9a0fcb303755e897587798250b1d164ba9686328b0d4270da7f83a5e5cfd50f5cc6bdec32925866566daf24d9438a262a363c37a2aec4002ef5b3
+  languageName: node
+  linkType: hard
+
+"@tsoa/runtime@patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 4.1.3
+  resolution: "@tsoa/runtime@patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::version=4.1.3&hash=65587b&locator=keepkey-monorepo%40workspace%3A."
+  dependencies:
+    promise.any: ^2.0.2
+    reflect-metadata: ^0.1.13
+    validator: ^13.6.0
+  checksum: 50e6b68ab0157215d431d81ef0468efb5cef040d0f16e8c5c54e8ec8973a4e7a9092118e62ceedd3683d6aa3293a6b91c5f2924702e235787e6b4e872f134f35
   languageName: node
   linkType: hard
 
@@ -7512,7 +7559,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/json-schema@npm:^7.0.6, @types/json-schema@npm:^7.0.9":
+"@types/json-schema@npm:^7.0.4, @types/json-schema@npm:^7.0.6, @types/json-schema@npm:^7.0.9":
   version: 7.0.11
   resolution: "@types/json-schema@npm:7.0.11"
   checksum: 527bddfe62db9012fccd7627794bd4c71beb77601861055d87e3ee464f2217c85fca7a4b56ae677478367bbd248dbde13553312b7d4dbc702a2f2bbf60c4018d
@@ -11334,6 +11381,13 @@ __metadata:
   version: 1.0.30001434
   resolution: "caniuse-lite@npm:1.0.30001434"
   checksum: 7c9d2641e8e8f3ddf9af14c4ce47266a9d8fd1fc0243626049ff1b2eca4bf02938ff440813cc3feae3fa8d851ec8d1b9718044340c8d09bb4372d92d4f6b519c
+  languageName: node
+  linkType: hard
+
+"case-anything@npm:^2.1.10":
+  version: 2.1.10
+  resolution: "case-anything@npm:2.1.10"
+  checksum: eff2769d7da178115be8ac2617ccbb850664ffd36f0a897e000d9dd5a64300141128f6a8fe024bd98ec63cc9173a72c1426bbcaac328c8a44109ce15f7c14a5e
   languageName: node
   linkType: hard
 
@@ -19395,6 +19449,34 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"keepkey-sdk-server@workspace:packages/keepkey-sdk-server":
+  version: 0.0.0-use.local
+  resolution: "keepkey-sdk-server@workspace:packages/keepkey-sdk-server"
+  dependencies:
+    "@shapeshiftoss/hdwallet-core": ^1.40.0
+    "@shapeshiftoss/hdwallet-keepkey": ^1.40.0
+    "@tsoa/runtime": ^4.1.3
+    "@types/express": ^4.17.14
+    "@types/lodash": ^4.14.190
+    "@types/node": ^18
+    "@typescript-eslint/eslint-plugin": ^5.45.0
+    "@typescript-eslint/parser": ^5.45.0
+    eslint: ^8.28.0
+    eslint-config-prettier: ^8.3.0
+    eslint-plugin-import: ^2.26.0
+    eslint-plugin-prettier: ^4.0.0
+    eslint-plugin-simple-import-sort: ^7.0.0
+    express: ^4.18.2
+    lodash: ^4.17.21
+    openapi-format: ^1.13.0
+    prettier: ^2.3.2
+    promise.any: ^2.0.5
+    rimraf: ^3.0.2
+    tsoa: ^4.1.3
+    typescript: ^4.7.0
+  languageName: unknown
+  linkType: soft
+
 "keyv@npm:^3.0.0":
   version: 3.1.0
   resolution: "keyv@npm:3.1.0"
@@ -21767,6 +21849,20 @@ __metadata:
     axios: ^0.21.1
     js-yaml: ^3.13.1
   checksum: 8624cea2f3a7142fd3a5bb64761a87eb205d552cefc35d4ab4b770498d814aaa0a2b62541cf6b319123136816d3d901368fe2f2c65ddbe53273fe50425abee07
+  languageName: node
+  linkType: hard
+
+"openapi-format@npm:^1.13.0":
+  version: 1.13.0
+  resolution: "openapi-format@npm:1.13.0"
+  dependencies:
+    "@stoplight/yaml": ^4.2.2
+    case-anything: ^2.1.10
+    commander: ^7.1.0
+    traverse: ^0.6.6
+  bin:
+    openapi-format: bin/cli.js
+  checksum: cc4cd3b266925ac5df25dbbc16590ff630a9d952db28707cf95acb76833e07b64c165bdda2d28a4257f0da9709234f12775e37e3d17bcb836ff1e9cd39dff5b7
   languageName: node
   linkType: hard
 
@@ -26617,6 +26713,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"traverse@npm:^0.6.6":
+  version: 0.6.7
+  resolution: "traverse@npm:0.6.7"
+  checksum: 21018085ab72f717991597e12e2b52446962ed59df591502e4d7e1a709bc0a989f7c3d451aa7d882666ad0634f1546d696c5edecda1f2fc228777df7bb529a1e
+  languageName: node
+  linkType: hard
+
 "tree-kill@npm:^1.2.2":
   version: 1.2.2
   resolution: "tree-kill@npm:1.2.2"
@@ -26787,7 +26890,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.4.1":
+"tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.4.1":
   version: 2.4.1
   resolution: "tslib@npm:2.4.1"
   checksum: 19480d6e0313292bd6505d4efe096a6b31c70e21cf08b5febf4da62e95c265c8f571f7b36fcc3d1a17e068032f59c269fab3459d6cd3ed6949eafecf64315fca
@@ -27435,6 +27538,13 @@ __metadata:
     is-typed-array: ^1.1.3
     which-typed-array: ^1.1.2
   checksum: 705e51f0de5b446f4edec10739752ac25856541e0254ea1e7e45e5b9f9b0cb105bc4bd415736a6210edc68245a7f903bf085ffb08dd7deb8a0e847f60538a38a
+  languageName: node
+  linkType: hard
+
+"utility-types@npm:^3.10.0":
+  version: 3.10.0
+  resolution: "utility-types@npm:3.10.0"
+  checksum: 8f274415c6196ab62883b8bd98c9d2f8829b58016e4269aaa1ebd84184ac5dda7dc2ca45800c0d5e0e0650966ba063bf9a412aaeaea6850ca4440a391283d5c8
   languageName: node
   linkType: hard
 
