@@ -84,8 +84,6 @@ export const ChainSelectorModal = () => {
     })
   }, [debouncedSearch])
 
-  console.log(chains)
-
   const switchChain = useCallback(
     (service: MergedServiceType, serviceId = 0) => {
       if (!isLegacy) return

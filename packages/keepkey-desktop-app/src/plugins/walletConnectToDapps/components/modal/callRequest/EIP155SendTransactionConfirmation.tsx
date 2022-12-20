@@ -72,7 +72,6 @@ export const EIP155SendTransactionConfirmation = () => {
   const toast = useToast()
 
   const currentRequest = requests[0] as SignClientTypes.EventArguments['session_request']
-  console.log(currentRequest)
   const { topic, params, id } = currentRequest
   const { request, chainId: chainIdString } = params
   const [chainId, setChainId] = useState<number>()
@@ -124,12 +123,9 @@ export const EIP155SendTransactionConfirmation = () => {
           delete signData.maxFeePerGas
         }
 
-        console.log('On confirm', signData)
-
         const response = await (wallet as KeepKeyHDWallet).ethSignTx(signData)
 
         const signedTx = response?.serialized
-        console.log(response)
 
         let jsonresponse = formatJsonRpcResult(id, signedTx)
 
@@ -147,7 +143,7 @@ export const EIP155SendTransactionConfirmation = () => {
 
         removeRequest(currentRequest.id)
       } catch (e) {
-        console.log('HD WALLET ERROR', e)
+        console.error('HD WALLET ERROR', e)
         toast({
           title: 'Error',
           description: `Transaction error ${e}`,

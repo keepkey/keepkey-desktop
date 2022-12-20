@@ -23,17 +23,14 @@ export const UpdateFirmware = (params: any) => {
 
   const onAcceptUpdate = async () => {
     setLoading(true)
-    console.log('onAcceptUpdate: ')
     ipcRenderer.send('@keepkey/update-firmware', {})
   }
 
   const onSkipUpdate = async () => {
-    console.log('onSkipUpdate: ')
     ipcRenderer.send('@keepkey/skip-update')
   }
 
   useEffect(() => {
-    console.log('params: ', params)
     if (!params?.event?.bootloaderMode) requestBootloaderMode.open({ ...params.event })
     if (params?.event?.needsInitialize) requestBootloaderMode.close()
     // eslint-disable-next-line react-hooks/exhaustive-deps

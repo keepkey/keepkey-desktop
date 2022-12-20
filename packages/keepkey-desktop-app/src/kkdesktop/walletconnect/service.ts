@@ -23,10 +23,7 @@ export class LegacyWCService {
   ) {}
 
   async connect() {
-    console.log('connecting')
-    console.log(this.connector)
     if (!this.connector.connected) {
-      console.log('Creating session')
       await this.connector.createSession()
     }
     this.subscribeToEvents()
@@ -48,7 +45,6 @@ export class LegacyWCService {
   }
 
   async _onSessionRequest(_: Error | null, payload: any) {
-    console.log('Session request', payload)
     const address = await this.wallet.ethGetAddress({ addressNList, showDisplay: false })
     if (address) {
       this.connector.approveSession({
@@ -60,7 +56,6 @@ export class LegacyWCService {
 
   async _onConnect() {
     if (this.connector.connected && this.connector.peerMeta) {
-      console.log('On connect wc')
       ipcRenderer.send('@walletconnect/pairing', {
         serviceName: this.connector.peerMeta.name,
         serviceImageUrl: this.connector.peerMeta.icons[0],
@@ -156,10 +151,6 @@ export class LegacyWCService {
     } else if (request.method === 'eth_signTypedData') {
       if (!this.wallet) throw Error('wallet not init!')
       if (!this.wallet.ethSignTypedData) throw Error('wallet not latest version ethSignTypedData!')
-      console.log('**** request: ', request.params)
-      console.log('**** request: ', request.params[0])
-      console.log('**** request: ', request.params[1])
-      console.log('**** request: ', JSON.parse(request.params[1]))
       // TODO: verify param[0] matches given address
 
       const response = await this.wallet.ethSignTypedData({

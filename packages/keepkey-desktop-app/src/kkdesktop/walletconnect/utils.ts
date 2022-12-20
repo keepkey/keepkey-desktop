@@ -9,7 +9,6 @@ export let WalletConnectSignClient: SignClient
 
 export const getWalletConnect = async (wallet: ETHWallet, uri: string) => {
   const { version } = parseUri(uri)
-  console.log('WALLET CONNECT VERSION: ', version)
   if (version === 1) {
     return new LegacyWCService(wallet, new LegacyWalletConnect({ uri }))
   } else {

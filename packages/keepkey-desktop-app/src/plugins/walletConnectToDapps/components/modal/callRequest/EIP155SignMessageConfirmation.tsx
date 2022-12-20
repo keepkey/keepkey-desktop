@@ -72,16 +72,11 @@ export const EIP155SignMessageConfirmation = () => {
           addressNList: accountPath,
           message,
         })
-        console.log(signedMessage)
         const response = formatJsonRpcResult(id, signedMessage.signature)
-
-        console.log(response)
-
         await WalletConnectSignClient.respond({
           topic,
           response,
         })
-
         removeRequest(currentRequest.id)
       } catch (e) {
         toast({

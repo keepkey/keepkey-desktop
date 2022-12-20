@@ -59,8 +59,6 @@ export const Header = () => {
 
   const handleBannerClick = () => dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: true })
 
-  console.log('legacyWeb3', legacyWeb3)
-
   return (
     <>
       <Flex

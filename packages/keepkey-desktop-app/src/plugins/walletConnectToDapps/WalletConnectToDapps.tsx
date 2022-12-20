@@ -26,7 +26,6 @@ export const WalletConnectToDapps: FC = () => {
       let Api = new Client(spec, config)
       let api = await Api.init()
       let info = await api.Globals()
-      console.log('info: ', info.data)
       setSetMotd(info.data.motd)
     } catch (e) {
       console.error(e)

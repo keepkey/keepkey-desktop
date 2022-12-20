@@ -52,8 +52,6 @@ export const CallRequestModal = () => {
   const { legacyBridge, requests, isLegacy, removeRequest } = useWalletConnect()
   const currentRequest = requests[0] as any
 
-  console.log(currentRequest)
-
   return (
     <Modal
       isOpen={!!currentRequest}
