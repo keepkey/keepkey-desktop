@@ -37,7 +37,7 @@ try {
   if (isWin && nativeTheme.shouldUseDarkColors === true) {
     fs.unlinkSync(require('path').join(app.getPath('userData'), 'DevTools Extensions'))
   }
-} catch (_) {}
+} catch {}
 
 if (process.defaultApp) {
   app.setAsDefaultProtocolClient('keepkey')
