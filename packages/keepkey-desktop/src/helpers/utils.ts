@@ -1,8 +1,6 @@
 import { BrowserWindow, ipcMain } from 'electron'
 import { startTcpBridge } from '../tcpBridge'
 import {
-  deviceBusyRead,
-  deviceBusyWrite,
   ipcQueue,
   kkStateController,
   renderListenersReady,
@@ -126,22 +124,4 @@ export const createMainWindow = async () => {
   startWindowListeners()
 
   return true
-}
-
-// hack to detect when the keepkey is busy so we can be careful not to do 2 things at once
-export const watchForDeviceBusy = () => {
-  let lastDeviceBusyRead = false
-  let lastDeviceBusyWrite = false
-  setInterval(() => {
-    // busy state has changed somehow
-    if (lastDeviceBusyRead !== deviceBusyRead || lastDeviceBusyWrite !== deviceBusyWrite) {
-      if (deviceBusyRead === false && deviceBusyWrite === false) {
-        queueIpcEvent('deviceNotBusy', {})
-      } else {
-        queueIpcEvent('deviceBusy', {})
-      }
-    }
-    lastDeviceBusyRead = deviceBusyRead
-    lastDeviceBusyWrite = deviceBusyWrite
-  }, 1000)
 }

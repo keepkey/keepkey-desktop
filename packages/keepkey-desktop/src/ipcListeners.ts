@@ -37,7 +37,7 @@ export const startIpcListeners = () => {
   })
 
   ipcMain.on('@app/pairings', () => {
-    db.find({ type: 'pairing' }, (_err, docs) => {
+    db.find({ type: 'pairing' }, (_err: unknown, docs: unknown) => {
       if (windows.mainWindow && !windows.mainWindow.isDestroyed())
         windows.mainWindow.webContents.send('@app/pairings', docs)
     })
@@ -135,7 +135,7 @@ export const startIpcListeners = () => {
 
   // send paired apps when requested
   ipcMain.on('@bridge/paired-apps', () => {
-    db.find({ type: 'service' }, (_err, docs) => {
+    db.find({ type: 'service' }, (_err: unknown, docs: unknown) => {
       queueIpcEvent('@bridge/paired-apps', docs)
     })
   })
@@ -205,7 +205,7 @@ export const startIpcListeners = () => {
 
   // send paired apps when requested
   ipcMain.on('@bridge/paired-apps', () => {
-    db.find({ type: 'service' }, (_err, docs) => {
+    db.find({ type: 'service' }, (_err: unknown, docs: unknown) => {
       queueIpcEvent('@bridge/paired-apps', docs)
     })
   })
@@ -231,7 +231,7 @@ export const startIpcListeners = () => {
       : await getLatestFirmwareData()
     let firmware = await downloadFirmware(result.firmware.url)
     if (!firmware) throw Error('Failed to load firmware from url!')
-    await loadFirmware(kkStateController.wallet, firmware)
+    await loadFirmware(kkStateController.wallet!, firmware)
     event.sender.send('onCompleteFirmwareUpload', {
       bootloader: true,
       success: true,
@@ -247,7 +247,7 @@ export const startIpcListeners = () => {
       ? await getBetaFirmwareData()
       : await getLatestFirmwareData()
     let firmware = await downloadFirmware(result.bootloader.url)
-    await loadFirmware(kkStateController.wallet, firmware)
+    await loadFirmware(kkStateController.wallet!, firmware)
     event.sender.send('onCompleteBootloaderUpload', {
       bootloader: true,
       success: true,

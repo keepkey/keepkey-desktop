@@ -9,7 +9,6 @@ import fs from 'fs'
 import { isWin, kkAutoLauncher, settings } from './globalState'
 import { startIpcListeners } from './ipcListeners'
 import { startAppListeners } from './appListeners'
-import { watchForDeviceBusy } from './helpers/utils'
 
 // unhandled()
 
@@ -18,8 +17,6 @@ if (!app.requestSingleInstanceLock()) app.exit()
 log.transports.file.level = 'debug'
 
 Sentry.init({ dsn: process.env.SENTRY_DSN })
-
-watchForDeviceBusy()
 
 dotenvConfig()
 
@@ -47,5 +44,3 @@ try {
 if (process.defaultApp) {
   app.setAsDefaultProtocolClient('keepkey')
 }
-
-watchForDeviceBusy()

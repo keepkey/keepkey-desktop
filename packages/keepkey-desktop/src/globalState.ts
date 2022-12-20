@@ -106,8 +106,3 @@ export const kkStateController = new KKStateController(
     if (e[2] === '18') queueIpcEvent('requestPin', e)
   },
 )
-
-export let deviceBusyRead = false
-export let setDeviceBusyRead = (value: boolean) => (deviceBusyRead = value)
-export let deviceBusyWrite = false
-export let setDeviceBusyWrite = (value: boolean) => (deviceBusyWrite = value)

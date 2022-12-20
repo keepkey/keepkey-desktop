@@ -28,6 +28,7 @@ export class Settings {
       this.updateBulkSettings(data)
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ipcMain.on('@app/settings', (event, _data) => {
       event.sender.send('@app/settings', {
         shouldAutoLunch: this.shouldAutoLunch,
