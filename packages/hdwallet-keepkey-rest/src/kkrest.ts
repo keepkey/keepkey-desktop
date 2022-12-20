@@ -1,356 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as Messages from "@keepkey/device-protocol/lib/messages_pb";
 import * as Types from "@keepkey/device-protocol/lib/types_pb";
 import * as core from "@shapeshiftoss/hdwallet-core";
-import { BTCInputScriptType, describeUTXOPath } from "@shapeshiftoss/hdwallet-core";
 import _ from "lodash";
 import semver from "semver";
+import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
+
+export type { KeepKeySdk } from "@keepkey/keepkey-sdk"
 
 export function isKeepKey(wallet: core.HDWallet): wallet is KeepKeyRestHDWallet {
   return _.isObject(wallet) && (wallet as any)._isKeepKey;
 }
 
-function describeETHPath(path: core.BIP32Path): core.PathDescription {
-  const pathStr = core.addressNListToBIP32(path);
-  const unknown: core.PathDescription = {
-    verbose: pathStr,
-    coin: "Ethereum",
-    isKnown: false,
-  };
-
-  if (path.length != 5) return unknown;
-
-  if (path[0] != 0x80000000 + 44) return unknown;
-
-  if (path[1] != 0x80000000 + core.slip44ByCoin("Ethereum")) return unknown;
-
-  if ((path[2] & 0x80000000) >>> 0 !== 0x80000000) return unknown;
-
-  if (path[3] != 0) return unknown;
-
-  if (path[4] != 0) return unknown;
-
-  const index = path[2] & 0x7fffffff;
-  return {
-    verbose: `Ethereum Account #${index}`,
-    accountIdx: index,
-    wholeAccount: true,
-    coin: "Ethereum",
-    isKnown: true,
-    isPrefork: false,
-  };
-}
-
-// function describeUTXOPath(
-//   path: core.BIP32Path,
-//   coin: core.Coin,
-//   scriptType?: core.BTCInputScriptType
-// ): core.PathDescription {
-//   const pathStr = core.addressNListToBIP32(path);
-//   const unknown: core.PathDescription = {
-//     verbose: pathStr,
-//     coin,
-//     scriptType,
-//     isKnown: false,
-//   };
-//   if (!scriptType) return unknown;
-
-//   if (!Btc.btcSupportsCoin(coin)) return unknown;
-
-//   if (!Btc.btcSupportsScriptType(coin, scriptType)) return unknown;
-
-//   if (path.length !== 3 && path.length !== 5) return unknown;
-
-//   if ((path[0] & 0x80000000) >>> 0 !== 0x80000000) return unknown;
-
-//   const purpose = path[0] & 0x7fffffff;
-
-//   if (![44, 49, 84].includes(purpose)) return unknown;
-
-//   if (purpose === 44 && scriptType !== core.BTCInputScriptType.SpendAddress) return unknown;
-
-//   if (purpose === 49 && scriptType !== core.BTCInputScriptType.SpendP2SHWitness) return unknown;
-
-//   if (purpose === 84 && scriptType !== core.BTCInputScriptType.SpendWitness) return unknown;
-
-//   const wholeAccount = path.length === 3;
-
-//   const script = scriptType
-//     ? (
-//         {
-//           [core.BTCInputScriptType.SpendAddress]: ["Legacy"],
-//           [core.BTCInputScriptType.SpendP2SHWitness]: [],
-//           [core.BTCInputScriptType.SpendWitness]: ["Segwit Native"],
-//         } as Partial<Record<core.BTCInputScriptType, string[]>>
-//       )[scriptType] ?? []
-//     : [];
-
-//   let isPrefork = false;
-//   const slip44 = core.slip44ByCoin(coin);
-//   if (slip44 === undefined) return unknown;
-//   if (path[1] !== 0x80000000 + slip44) {
-//     switch (coin) {
-//       case "BitcoinCash":
-//       case "BitcoinGold": {
-//         if (path[1] === 0x80000000 + core.slip44ByCoin("Bitcoin")) {
-//           isPrefork = true;
-//           break;
-//         }
-//         return unknown;
-//       }
-//       case "BitcoinSV": {
-//         if (
-//           path[1] === 0x80000000 + core.slip44ByCoin("Bitcoin") ||
-//           path[1] === 0x80000000 + core.slip44ByCoin("BitcoinCash")
-//         ) {
-//           isPrefork = true;
-//           break;
-//         }
-//         return unknown;
-//       }
-//       default:
-//         return unknown;
-//     }
-//   }
-
-//   let attributes = isPrefork ? ["Prefork"] : [];
-//   switch (coin) {
-//     case "Bitcoin":
-//     case "Litecoin":
-//     case "BitcoinGold":
-//     case "Testnet": {
-//       attributes = attributes.concat(script);
-//       break;
-//     }
-//     default:
-//       break;
-//   }
-
-//   const attr = attributes.length ? ` (${attributes.join(", ")})` : "";
-
-//   const accountIdx = path[2] & 0x7fffffff;
-
-//   if (wholeAccount) {
-//     return {
-//       coin,
-//       verbose: `${coin} Account #${accountIdx}${attr}`,
-//       accountIdx,
-//       wholeAccount: true,
-//       isKnown: true,
-//       scriptType,
-//       isPrefork,
-//     };
-//   } else {
-//     const change = path[3] === 1 ? "Change " : "";
-//     const addressIdx = path[4];
-//     return {
-//       coin,
-//       verbose: `${coin} Account #${accountIdx}, ${change}Address #${addressIdx}${attr}`,
-//       accountIdx,
-//       addressIdx,
-//       wholeAccount: false,
-//       isKnown: true,
-//       isChange: path[3] === 1,
-//       scriptType,
-//       isPrefork,
-//     };
-//   }
-// }
-
-function describeCosmosPath(path: core.BIP32Path): core.PathDescription {
-  const pathStr = core.addressNListToBIP32(path);
-  const unknown: core.PathDescription = {
-    verbose: pathStr,
-    coin: "Atom",
-    isKnown: false,
-  };
-
-  if (path.length != 5) {
-    return unknown;
-  }
-
-  if (path[0] != 0x80000000 + 44) {
-    return unknown;
-  }
-
-  if (path[1] != 0x80000000 + core.slip44ByCoin("Atom")) {
-    return unknown;
-  }
-
-  if ((path[2] & 0x80000000) >>> 0 !== 0x80000000) {
-    return unknown;
-  }
-
-  if (path[3] !== 0 || path[4] !== 0) {
-    return unknown;
-  }
-
-  const index = path[2] & 0x7fffffff;
-  return {
-    verbose: `Cosmos Account #${index}`,
-    accountIdx: index,
-    wholeAccount: true,
-    coin: "Atom",
-    isKnown: true,
-    isPrefork: false,
-  };
-}
-/*
-function describeThorchainPath(path: core.BIP32Path): core.PathDescription {
-  const pathStr = core.addressNListToBIP32(path);
-  const unknown: core.PathDescription = {
-    verbose: pathStr,
-    coin: "Rune",
-    isKnown: false,
-  };
-
-  if (path.length != 5) {
-    return unknown;
-  }
-
-  if (path[0] != 0x80000000 + 44) {
-    return unknown;
-  }
-
-  if (path[1] != 0x80000000 + core.slip44ByCoin("Rune")) {
-    return unknown;
-  }
-
-  if ((path[2] & 0x80000000) >>> 0 !== 0x80000000) {
-    return unknown;
-  }
-
-  if (path[3] !== 0 || path[4] !== 0) {
-    return unknown;
-  }
-
-  const index = path[2] & 0x7fffffff;
-  return {
-    verbose: `THORChain Account #${index}`,
-    accountIdx: index,
-    wholeAccount: true,
-    coin: "Rune",
-    isKnown: true,
-    isPrefork: false,
-  };
-}
-*/
-function describeEosPath(path: core.BIP32Path): core.PathDescription {
-  const pathStr = core.addressNListToBIP32(path);
-  const unknown: core.PathDescription = {
-    verbose: pathStr,
-    coin: "Eos",
-    isKnown: false,
-  };
-
-  if (path.length != 5) {
-    return unknown;
-  }
-
-  if (path[0] != 0x80000000 + 44) {
-    return unknown;
-  }
-
-  if (path[1] != 0x80000000 + core.slip44ByCoin("Eos")) {
-    return unknown;
-  }
-
-  if ((path[2] & 0x80000000) >>> 0 !== 0x80000000) {
-    return unknown;
-  }
-
-  if (path[3] !== 0 || path[4] !== 0) {
-    return unknown;
-  }
-
-  const index = path[2] & 0x7fffffff;
-  return {
-    verbose: `Eos Account #${index}`,
-    accountIdx: index,
-    wholeAccount: true,
-    coin: "Eos",
-    isKnown: true,
-    isPrefork: false,
-  };
-}
-
-function describeRipplePath(path: core.BIP32Path): core.PathDescription {
-  const pathStr = core.addressNListToBIP32(path);
-  const unknown: core.PathDescription = {
-    verbose: pathStr,
-    coin: "Ripple",
-    isKnown: false,
-  };
-
-  if (path.length != 5) {
-    return unknown;
-  }
-
-  if (path[0] != 0x80000000 + 44) {
-    return unknown;
-  }
-
-  if (path[1] != 0x80000000 + core.slip44ByCoin("Ripple")) {
-    return unknown;
-  }
-
-  if ((path[2] & 0x80000000) >>> 0 !== 0x80000000) {
-    return unknown;
-  }
-
-  if (path[3] !== 0 || path[4] !== 0) {
-    return unknown;
-  }
-
-  const index = path[2] & 0x7fffffff;
-  return {
-    verbose: `Ripple Account #${index}`,
-    accountIdx: index,
-    wholeAccount: true,
-    coin: "Ripple",
-    isKnown: true,
-    isPrefork: false,
-  };
-}
-
-function describeBinancePath(path: core.BIP32Path): core.PathDescription {
-  const pathStr = core.addressNListToBIP32(path);
-  const unknown: core.PathDescription = {
-    verbose: pathStr,
-    coin: "Binance",
-    isKnown: false,
-  };
-
-  if (path.length != 5) {
-    return unknown;
-  }
-
-  if (path[0] != 0x80000000 + 44) {
-    return unknown;
-  }
-
-  if (path[1] != 0x80000000 + core.slip44ByCoin("Binance")) {
-    return unknown;
-  }
-
-  if ((path[2] & 0x80000000) >>> 0 !== 0x80000000) {
-    return unknown;
-  }
-
-  if (path[3] !== 0 || path[4] !== 0) {
-    return unknown;
-  }
-
-  const index = path[2] & 0x7fffffff;
-  return {
-    verbose: `Binance Account #${index}`,
-    accountIdx: index,
-    wholeAccount: true,
-    coin: "Binance",
-    isKnown: true,
-    isPrefork: false,
-  };
-}
 export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.ETHWallet, core.DebugLinkWallet {
   readonly _supportsETHInfo = true;
   readonly _supportsBTCInfo = true;
@@ -359,7 +19,7 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   readonly _supportsBinanceInfo = true;
   readonly _supportsEosInfo = true;
   readonly _supportsFioInfo = false;
-  readonly _supportsDebugLink: boolean;
+  readonly _supportsDebugLink = false;
   readonly _isKeepKey = true;
   readonly _supportsETH = true;
   readonly _supportsEthSwitchChain = false;
@@ -369,7 +29,6 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   _supportsRipple = true;
   _supportsBinance = true;
   _supportsEos = true;
-  readonly _supportsFio = false;
   readonly _supportsThorchainInfo = true;
   readonly _supportsThorchain = true;
   readonly _supportsSecretInfo = false;
@@ -379,29 +38,19 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   readonly _supportsTerra = false;
   readonly _supportsTerraInfo = false;
 
-  features?: Messages.Features.AsObject;
+  private readonly sdk: KeepKeySdk;
 
-  featuresCache?: Messages.Features.AsObject;
-
-  defaultSdk: any;
-
-  queueIpcEvent: any;
-
-  constructor(sdk: any, queueIpcEvent: any) {
-    this.queueIpcEvent = queueIpcEvent;
-    this.defaultSdk = sdk;
-    this._supportsDebugLink = false;
+  protected constructor(sdk: KeepKeySdk) {
+    this.sdk = sdk;
   }
 
-  private async getSdk() {
-    return this.defaultSdk;
+  static async create(sdk: KeepKeySdk): Promise<KeepKeyRestHDWallet> {
+    return new KeepKeyRestHDWallet(sdk)
   }
 
   public async getDeviceID(): Promise<string> {
-    const sdk = await this.getSdk();
-    let features = await sdk.developer.getFeatures({ getFeatures: {} });
-    features = JSON.parse(features);
-    return features.deviceId;
+    const features = await this.getFeatures();
+    return features.deviceId!;
   }
 
   public getVendor(): string {
@@ -409,51 +58,76 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async getModel(): Promise<string> {
-    const features = (await this.getFeatures(true)) as any;
-    return core.mustBeDefined(features).model;
+    const features = await this.getFeatures()
+    return core.mustBeDefined(features).model!;
   }
 
   public async getFirmwareVersion(): Promise<string> {
-    const features = (await this.getFeatures(true)) as any;
+    const features = await this.getFeatures()
 
     return `v${features.majorVersion}.${features.minorVersion}.${features.patchVersion}`;
   }
 
   public async getLabel(): Promise<string> {
-    const features = (await this.getFeatures(true)) as any;
+    const features = await this.getFeatures()
     return features.label ?? "";
   }
 
   public async isInitialized(): Promise<boolean> {
-    const features = (await this.getFeatures(true)) as any;
+    const features = await this.getFeatures()
     return !!features.initialized;
   }
 
   public async isLocked(): Promise<boolean> {
-    const features = (await this.getFeatures()) as any;
+    const features = await this.getFeaturesUncached();
     if (features.pinProtection && !features.pinCached) return true;
     if (features.passphraseProtection && !features.passphraseCached) return true;
     return false;
   }
 
-  public async getPublicKeys(getPublicKeys: Array<core.GetPublicKey>): Promise<Array<core.PublicKey | null>> {
-    const sdk = await this.getSdk();
-    const publicKeysResponse = await sdk.wallet.getPublicKeys({ getPublicKey: getPublicKeys });
-    return publicKeysResponse;
-  }
+  readonly getPublicKeys = _.memoize(async (getPublicKeys: Array<core.GetPublicKey>): Promise<Array<core.PublicKey | null>> => {
+    return await Promise.all(getPublicKeys.map(async x => {
+      const scriptType = (() => {
+        switch (x.scriptType) {
+          case undefined:
+            return undefined
+          case core.BTCInputScriptType.SpendAddress:
+            return 'p2pkh'
+          case core.BTCInputScriptType.SpendWitness:
+            return 'p2wpkh'
+          case core.BTCInputScriptType.SpendP2SHWitness:
+            return 'p2sh-p2wpkh'
+          default:
+            throw new Error('bad scriptType')
+        }
+      })()
+      return await this.sdk.system.info.getPublicKey({
+        coin_name: x.coin,
+        script_type: scriptType,
+        show_display: x.showDisplay,
+        ecdsa_curve_name: x.curve,
+        address_n: x.addressNList,
+      })
+    }))
+  })
 
   public async ping(_msg: core.Ping): Promise<core.Pong> {
     throw new Error("not implemented");
   }
 
   public async reset(msg: core.ResetDevice): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.developer.reset(msg as any);
+    await this.sdk.system.initialize.resetDevice({
+      u2f_counter: msg.u2fCounter,
+      auto_lock_delay_ms: msg.autoLockDelayMs,
+      label: msg.label,
+      passphrase_protection: msg.passphrase,
+      pin_protection: msg.pin,
+      strength: msg.entropy,
+    })
   }
 
   public async recover(r: core.RecoverDevice): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.recovery.recover(r as any);
+    throw new Error("not implemented");
   }
 
   public async pressYes(): Promise<void> {
@@ -484,10 +158,6 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
     return false;
   }
 
-  public hasNativeShapeShift(_srcCoin: core.Coin, _dstCoin: core.Coin): boolean {
-    return true;
-  }
-
   public supportsBip44Accounts(): boolean {
     return true;
   }
@@ -500,87 +170,120 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
     return false;
   }
 
-  public async sendPin(pin: string): Promise<void> {
-    this.queueIpcEvent("sendPin", pin);
+  public async sendPin(): Promise<never> {
+    throw new Error("pin entry is handled by the server, so don't call this")
   }
 
-  public async sendPassphrase(passphrase: string): Promise<void> {
-    const sdk = await this.getSdk();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return await sdk.recovery.sendPassphrase({ passphrase });
+  public async sendPassphrase(): Promise<void> {
+    throw new Error("passphrase entry is handled by the server, so don't call this")
   }
 
   public async sendCharacter(character: string): Promise<void> {
-    await this.sendCharacterProto(character, false, false);
+    throw new Error("character entry is handled by the server, so don't call this")
   }
 
   public async sendCharacterDelete(): Promise<void> {
-    await this.sendCharacterProto("", true, false);
+    throw new Error("character entry is handled by the server, so don't call this")
   }
 
   public async sendCharacterDone(): Promise<void> {
-    await this.sendCharacterProto("", false, true);
+    throw new Error("character entry is handled by the server, so don't call this")
   }
 
-  public async sendWord(word: string): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.recovery.sendWord({ body: word });
+  public async sendWord(): Promise<never> {
+    throw new Error("obsolete")
   }
 
-  public async sendCharacterProto(character: string, _delete: boolean, _done: boolean): Promise<any> {
-    const sdk = await this.getSdk();
-    await sdk.recovery.sendCharacterProto({ sendCharacterProto: { character, _delete, done: _done } });
+  public hasNativeShapeShift(): boolean {
+    return false
+  }
+
+  public btcSupportsNativeShapeShift(): boolean {
+    return false
+  }
+
+  public ethSupportsNativeShapeShift(): boolean {
+    return false
   }
 
   public async applyPolicy(p: Required<Types.PolicyType.AsObject>): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.developer.applyPolicy({ body: p });
+    await this.sdk.system.applyPolicies([{
+      policy_name: p.policyName,
+      enabled: p.enabled,
+    }]);
   }
 
   public async applySettings(s: Messages.ApplySettings.AsObject): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.developer.applySettings({ body: s });
+    await this.sdk.system.applySettings({
+      u2f_counter: s.u2fCounter,
+      auto_lock_delay_ms: s.autoLockDelayMs,
+      label: s.label,
+      language: s.language,
+      use_passphrase: s.usePassphrase,
+    });
   }
 
   public async cancel(): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.developer.cancel({ body: undefined });
+    throw new Error("not implemented");
   }
 
   public async changePin(): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.recovery.changePin({ body: undefined });
+    await this.sdk.system.changePin({});
   }
 
   public async clearSession(): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.developer.clearSession({ body: undefined });
+    await this.sdk.system.clearSession();
   }
 
   public async firmwareErase(): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.developer.firmwareErase({ body: undefined });
+    // skipped, as this is done automatically by the server during firmwareUpload
   }
 
   public async firmwareUpload(firmware: Buffer): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.developer.firmwareUpload({ body: firmware });
+    await this.sdk.system.firmwareUpdate(new Blob([firmware]));
   }
 
   public async initialize(): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.developer.initialize({ body: {} });
+    // await this.sdk.developer.initialize({ body: {} });
   }
 
-  public async getFeatures(cached = false): Promise<any> {
-    const sdk = await this.getSdk();
-    return JSON.parse(await sdk.developer.getFeatures({ getFeatures: { cached } }));
+  public async getFeaturesUncached(): Promise<Messages.Features.AsObject> {
+    const raw = await this.sdk.system.info.getFeatures()
+    return {
+      vendor: raw.vendor,
+      // TODO: openapi-generator has busted types on these
+      majorVersion: raw.major_version as number | undefined,
+      minorVersion: raw.minor_version as number | undefined,
+      patchVersion: raw.patch_version as number | undefined,
+      bootloaderMode: raw.bootloader_mode,
+      pinProtection: raw.pin_protection,
+      passphraseProtection: raw.passphrase_protection,
+      deviceId: raw.device_id,
+      model: raw.model,
+      language: raw.language,
+      label: raw.label,
+      coinsList: [],
+      initialized: raw.initialized,
+      revision: Buffer.from((raw.revision as string | undefined) ?? "", "utf8").toString("base64"),
+      bootloaderHash: Buffer.from((raw.bootloader_hash as string | undefined) ?? "", "hex").toString("base64"),
+      firmwareHash: Buffer.from((raw.firmware_hash as string | undefined) ?? "", "hex").toString("base64"),
+      imported: raw.imported,
+      pinCached: raw.pin_cached,
+      passphraseCached: raw.passphrase_cached,
+      policiesList: (raw.policies ?? []).map(x => ({
+        policyName: x.policy_name,
+        enabled: x.enabled,
+      })),
+      firmwareVariant: raw.firmware_variant,
+      noBackup: raw.no_backup,
+      wipeCodeProtection: raw.wipe_code_protection,
+      autoLockDelayMs: raw.auto_lock_delay_ms as number | undefined,
+    }
   }
 
-  public cacheFeatures(features?: Messages.Features.AsObject): void {
-    this.featuresCache = features;
-  }
+  readonly getFeatures = _.memoize(async (): Promise<Messages.Features.AsObject> => {
+    return await this.getFeaturesUncached()
+  })
 
   public async getEntropy(_size: number): Promise<Uint8Array> {
     throw new Error("not implemented");
@@ -595,15 +298,19 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async loadDevice(msg: core.LoadDevice): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.developer.loadDevice({ loadDevice: msg });
+    await this.sdk.system.initialize.loadDevice({
+      mnemonic: msg.mnemonic,
+      label: msg.label,
+      passphrase_protection: msg.passphrase,
+      pin: msg.pin,
+      skip_checksum: msg.skipChecksum,
+      // TODO: openapi-generator typing is busted here
+      xprv: "",
+    })
   }
 
   public async removePin(): Promise<void> {
-    const sdk = await this.getSdk();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return await sdk.developer.removePin({});
+    await this.sdk.system.changePin({ remove: true });
   }
 
   public async send(_events: core.Event[]): Promise<void> {
@@ -611,13 +318,11 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async softReset(): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.developer.softReset({ body: undefined });
+    await this.sdk.system.manufacturing.softReset();
   }
 
   public async wipe(): Promise<void> {
-    const sdk = await this.getSdk();
-    await sdk.developer.wipe({ body: undefined });
+    await this.sdk.system.wipeDevice();
   }
 
   public async btcSupportsCoin(_coin: core.Coin): Promise<boolean> {
@@ -628,23 +333,19 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
     return true;
   }
 
-  public async btcGetAddress(msg: core.BTCGetAddress): Promise<string> {
-    const sdk = await this.getSdk();
-    const addressResponse = await sdk.wallet.btcGetAddress({ bTCGetAddress: msg });
-    return addressResponse.replace(/"/g, "");
-  }
+  readonly btcGetAddress = _.memoize(async (msg: core.BTCGetAddress): Promise<string> => {
+    throw new Error("not implemented")
+    // return (await this.sdk.address.utxoGetAddress({
+    //   addressN: msg.addressNList,
+    //   showDisplay: msg.showDisplay,
+    // })).address
+  })
 
   public async btcSignTx(msg: core.BTCSignTxKK): Promise<core.BTCSignedTx> {
-    const sdk = await this.getSdk();
-    const addressResponse = await sdk.sign.btcSignTx({ body: msg });
-    return addressResponse;
+    throw new Error("not implemented")
   }
 
   public async btcSupportsSecureTransfer(): Promise<boolean> {
-    return false;
-  }
-
-  public btcSupportsNativeShapeShift(): boolean {
     return false;
   }
 
@@ -669,18 +370,38 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async ethSignTx(msg: core.ETHSignTx): Promise<core.ETHSignedTx> {
-    const sdk = await this.getSdk();
-    const signedResponse = await sdk.sign.ethSignTx({ body: msg });
-    return signedResponse;
+    const sig = await this.sdk.eth.ethSignTransaction({
+      nonce: msg.nonce,
+      value: msg.value,
+      data: msg.data,
+      from: (await this.sdk.address.ethereumGetAddress({ address_n: msg.addressNList })).address,
+      to: msg.to,
+      gas: msg.gasLimit,
+      // TODO: openapi-generator types are terrible
+      // @ts-expect-error
+      gasPrice: msg.gasPrice,
+      // @ts-expect-error
+      maxFeePerGas: msg.maxFeePerGas,
+      // @ts-expect-error
+      maxPriorityFeePerGas: msg.maxPriorityFeePerGas,
+    }) as string
+    if (sig.length !== 130) throw new Error('bad sig length')
+    return {
+      r: sig.slice(0, 64),
+      s: sig.slice(64, 128),
+      v: Buffer.from(sig.slice(128, 130), "hex")[0],
+      serialized: sig,
+    }
   }
 
   // TODO check if sdk supports below messages
 
-  public async ethGetAddress(msg: core.ETHGetAddress): Promise<string> {
-    const sdk = await this.getSdk();
-    const addressResponse = await sdk.wallet.ethGetAddress({ eTHGetAddress: msg });
-    return addressResponse.replace(/"/g, "");
-  }
+  readonly ethGetAddress = _.memoize(async (msg: core.ETHGetAddress): Promise<string> => {
+    return (await this.sdk.address.ethereumGetAddress({
+      address_n: msg.addressNList,
+      show_display: msg.showDisplay,
+    })).address
+  })
 
   public async ethSignMessage(_msg: core.ETHSignMessage): Promise<core.ETHSignedMessage> {
     throw new Error("not implemented");
@@ -699,10 +420,6 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async ethSupportsSecureTransfer(): Promise<boolean> {
-    return false;
-  }
-
-  public ethSupportsNativeShapeShift(): boolean {
     return false;
   }
 
@@ -727,71 +444,132 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
     ];
   }
 
-  public async rippleGetAddress(msg: core.RippleGetAddress): Promise<string> {
-    const sdk = await this.getSdk();
-    const addressResponse = await sdk.wallet.rippleGetAddress({ rippleGetAddress: msg });
-    return addressResponse.replace(/"/g, "");
-  }
+  readonly rippleGetAddress = _.memoize(async (msg: core.RippleGetAddress): Promise<string> => {
+    return (await this.sdk.address.xrpGetAddress({
+      address_n: msg.addressNList,
+      show_display: msg.showDisplay,
+    })).address
+  })
 
   public async rippleSignTx(msg: core.RippleSignTx): Promise<core.RippleSignedTx> {
-    const sdk = await this.getSdk();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const rippleSignTxResponse = await sdk.sign.rippleSignTx({ rippleSignTx: msg });
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return rippleSignTxResponse;
+    throw new Error("not implemented")
   }
 
-  public cosmosGetAccountPaths(_msg: core.CosmosGetAccountPaths): Array<core.CosmosAccountPath> {
-    throw new Error("not implemented");
+  public cosmosGetAccountPaths(msg: core.CosmosGetAccountPaths): Array<core.CosmosAccountPath> {
+    return [
+      {
+        addressNList: [0x80000000 + 44, 0x80000000 + core.slip44ByCoin("Atom"), 0x80000000 + msg.accountIdx, 0, 0],
+      },
+    ];
   }
 
-  public async cosmosGetAddress(msg: core.CosmosGetAddress): Promise<string> {
-    const sdk = await this.getSdk();
-    const cosmossAddressResponse = await sdk.wallet.cosmosGetAddress({ cosmosGetAddress: msg });
-    return cosmossAddressResponse;
-  }
+  readonly cosmosGetAddress = _.memoize(async (msg: core.CosmosGetAddress): Promise<string> => {
+    return (await this.sdk.address.cosmosGetAddress({
+      address_n: msg.addressNList,
+      show_display: msg.showDisplay,
+    })).address
+  })
 
   public async cosmosSignTx(msg: core.CosmosSignTx): Promise<core.CosmosSignedTx> {
-    const sdk = await this.getSdk();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return sdk.sign.cosmosSignTx({ cosmosSignTx: msg });
+    const signerAddress = (await this.sdk.address.cosmosGetAddress({
+      address_n: msg.addressNList
+    })).address
+    const signed = await this.sdk.cosmos.cosmosSignAmino({
+      signDoc: {
+        accountNumber: msg.account_number,
+        chainId: msg.chain_id,
+        // TODO: busted openapi-generator types
+        // @ts-expect-error
+        msgs: msg.tx.msg,
+        memo: msg.tx.memo ?? "",
+        sequence: msg.sequence,
+        fee: {
+          gas: String(msg.fee ?? 0),
+          amount: [],
+        }
+      },
+      signerAddress,
+    })
+    // TODO: busted openapi-generator types
+    return {
+      signatures: [signed.signature as string],
+      serialized: core.untouchable("not implemented"),
+      authInfoBytes: core.untouchable("not implemented"),
+      body: core.untouchable("not implemented"),
+    };
   }
 
   public thorchainGetAccountPaths(_msg: core.ThorchainGetAccountPaths): Array<core.ThorchainAccountPath> {
     throw new Error("not implemented");
   }
 
-  public async thorchainGetAddress(msg: core.ThorchainGetAddress): Promise<string | null> {
-    const sdk = await this.getSdk();
-    const thorGetAddressResponse = await sdk.wallet.thorchainGetAddress({ thorchainGetAddress: msg });
-    return thorGetAddressResponse;
-  }
+  readonly thorchainGetAddress = _.memoize(async (msg: core.ThorchainGetAddress): Promise<string> => {
+    return (await this.sdk.address.thorchainGetAddress({
+      address_n: msg.addressNList,
+      show_display: msg.showDisplay,
+    })).address
+  })
 
   public async thorchainSignTx(msg: core.ThorchainSignTx): Promise<core.ThorchainSignedTx> {
-    const sdk = await this.getSdk();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return sdk.sign.thorchainSignTx({ thorchainSignTx: msg });
+    const signerAddress = (await this.sdk.address.thorchainGetAddress({
+      address_n: msg.addressNList
+    })).address
+    const signed = await this.sdk.cosmos.cosmosSignAmino({
+      signDoc: {
+        accountNumber: msg.account_number,
+        chainId: msg.chain_id,
+        // TODO: busted openapi-generator types
+        // @ts-expect-error
+        msgs: msg.tx.msg,
+        memo: msg.tx.memo ?? "",
+        sequence: msg.sequence,
+        fee: {
+          gas: String(msg.fee ?? 0),
+          amount: [],
+        }
+      },
+      signerAddress,
+    })
+    // TODO: busted openapi-generator types
+    return {
+      signatures: [signed.signature as string],
+      serialized: core.untouchable("not implemented"),
+      authInfoBytes: core.untouchable("not implemented"),
+      body: core.untouchable("not implemented"),
+    };
   }
 
   public binanceGetAccountPaths(_msg: core.BinanceGetAccountPaths): Array<core.BinanceAccountPath> {
     throw new Error("not implemented");
   }
 
-  public async binanceGetAddress(msg: core.BinanceGetAddress): Promise<string> {
-    const sdk = await this.getSdk();
-    const binanceGetAddressResponse = await sdk.wallet.binanceGetAddress({ binanceGetAddress: msg });
-    return binanceGetAddressResponse;
-  }
+  readonly binanceGetAddress = _.memoize(async (msg: core.BinanceGetAddress): Promise<string> => {
+    // TODO: busted openapi-generator types
+    // @ts-expect-error
+    return (await this.sdk.address.binanceGetAddress({
+      address_n: msg.addressNList,
+      show_display: msg.showDisplay,
+    })).address
+  })
 
   public async binanceSignTx(msg: core.BinanceSignTx): Promise<core.BinanceSignedTx> {
-    const sdk = await this.getSdk();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return await sdk.sign.binanceSignTx({ body: msg });
+    const signerAddress = await this.sdk.address.binanceGetAddress({
+      address_n: msg.addressNList
+    })
+    const signed = await this.sdk.bnb.bnbSignTransaction({
+      signDoc: {
+        account_number: msg.tx.account_number ?? "",
+        chain_id: msg.tx.chain_id ?? "",
+        msgs: msg.tx.msgs,
+        memo: msg.tx.memo ?? "",
+        sequence: msg.tx.sequence ?? "",
+        source: msg.tx.source ?? "",
+      },
+      signerAddress,
+    })
+    // TODO: busted openapi-generator types
+    // @ts-expect-error
+    return {signatures: {signature: signed.signature}};
   }
 
   public eosGetAccountPaths(msg: core.EosGetAccountPaths): Array<core.EosAccountPath> {
@@ -802,39 +580,29 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
     ];
   }
 
-  public async eosGetPublicKey(msg: core.EosGetPublicKey): Promise<string> {
-    const sdk = await this.getSdk();
-    const eosPublicKeyResponse = await sdk.wallet.eosGetPublicKey({ eosGetPublicKey: msg });
-    return eosPublicKeyResponse;
-  }
+  readonly eosGetPublicKey = _.memoize(async (msg: core.EosGetPublicKey): Promise<string> => {
+    throw new Error("not implemented")
+  })
 
   public async eosSignTx(msg: core.EosToSignTx): Promise<core.EosTxSigned> {
-    const sdk = await this.getSdk();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return await sdk.sign.eosSignTx({ body: msg });
+    throw new Error("not implemented")
   }
 
   public describePath(msg: core.DescribePath): core.PathDescription {
     switch (msg.coin) {
       case "Ethereum":
-        return describeETHPath(msg.path);
+        return core.describeETHPath(msg.path);
       case "Atom":
-        return describeCosmosPath(msg.path);
+        return core.cosmosDescribePath(msg.path);
       case "Binance":
-        return describeBinancePath(msg.path);
-      case "Ripple":
-        return describeRipplePath(msg.path);
-      case "Eos":
-        return describeEosPath(msg.path);
+        return core.binanceDescribePath(msg.path);
       default:
-        return describeUTXOPath(msg.path, msg.coin, msg.scriptType as BTCInputScriptType);
+        return core.describeUTXOPath(msg.path, msg.coin, msg.scriptType as core.BTCInputScriptType);
     }
   }
 
   public async disconnect(): Promise<void> {
-    const sdk = await this.getSdk();
-    sdk.developer.disconnect({ body: undefined });
+    // does nothing
   }
 
   public btcNextAccountPath(_msg: core.BTCAccountPath): core.BTCAccountPath | undefined {
@@ -860,12 +628,4 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   public binanceNextAccountPath(_msg: core.BinanceAccountPath): core.BinanceAccountPath | undefined {
     throw new Error("not implemented");
   }
-}
-
-export function info(): any {
-  throw new Error("not implemented");
-}
-
-export function create(sdk: any, queueIpcEvent: any): KeepKeyRestHDWallet {
-  return new KeepKeyRestHDWallet(sdk, queueIpcEvent);
 }

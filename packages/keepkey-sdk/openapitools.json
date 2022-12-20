@@ -1,0 +1,22 @@
+{
+  "$schema": "../../.yarn/unplugged/@openapitools-openapi-generator-cli-npm-2.5.2-3041ea2758/node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "6.2.0",
+    "generators": {
+      "sdk": {
+        "inputSpec": "#{cwd}/dist/swagger.json",
+        "generatorName": "typescript-fetch",
+        "output": "#{cwd}/src/generated",
+        "enablePostProcessFile": true,
+        "additionalProperties": {
+          "supportsES6": "true",
+          "useSingleRequestParameter": false,
+          "enumPropertyNaming": "original",
+          "modelPropertyNaming": "original",
+          "paramNaming": "original"
+        }
+      }
+    }
+  }
+}

@@ -1,10 +1,11 @@
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { NodeWebUSBKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-nodewebusb'
 import { findByIds } from 'usb'
+import type { KKStateController } from './index'
 import type { WebusbWallet } from './types'
 const { HIDKeepKeyAdapter } = require('@bithighlander/hdwallet-keepkey-nodehid')
 
-const bootloaderHashToVersion = {
+const bootloaderHashToVersion: Record<string, string> = {
   '6397c446f6b9002a8b150bf4b9b4e0bb66800ed099b881ca49700139b0559f10': 'v1.0.0',
   f13ce228c0bb2bdbc56bdcb5f4569367f8e3011074ccc63331348deb498f2d8f: 'v1.0.0',
   d544b5e06b0c355d68b868ac7580e9bab2d224a1e2440881cc1bca2b816752d5: 'v1.0.1',
@@ -28,7 +29,7 @@ const bootloaderHashToVersion = {
   fe98454e7ebd4aef4a6db5bd4c60f52cf3f58b974283a7c1e1fcc5fea02cf3eb: 'v2.1.4',
 }
 
-export const initializeWallet = async controller => {
+export const initializeWallet = async (controller: KKStateController) => {
   let deviceDetected = false
   let resultWebUsb = findByIds(11044, 2)
   if (resultWebUsb) {
@@ -78,7 +79,7 @@ const base64toHEX = (base64: any) => {
   return HEX
 }
 
-const createWebUsbWallet = async controller => {
+const createWebUsbWallet = async (controller: KKStateController) => {
   const keepkeyAdapter = NodeWebUSBKeepKeyAdapter.useKeyring(controller.keyring)
   controller.device = await keepkeyAdapter.getDevice()
   if (!controller.device) return { success: false, error: 'Unable to get device!' }
@@ -107,7 +108,7 @@ const createWebUsbWallet = async controller => {
   }
 }
 
-const createHidWallet = async controller => {
+const createHidWallet = async (controller: KKStateController) => {
   try {
     let hidAdapter = await HIDKeepKeyAdapter.useKeyring(controller.keyring)
     await hidAdapter.initialize()
@@ -122,7 +123,6 @@ const createHidWallet = async controller => {
     controller.wallet = wallet as KeepKeyHDWallet
     if (controller.wallet.features && controller.wallet.features.bootloaderMode) {
       const { majorVersion, minorVersion, patchVersion } = controller.wallet.features
-      // @ts-ignore
       return {
         success: true,
         bootloaderMode: true,
@@ -143,10 +143,10 @@ const createHidWallet = async controller => {
         features,
       }
     }
-  } catch (e: any) {
+  } catch (e: unknown) {
     return {
       success: false,
-      error: e.toString(),
+      error: String(e),
     }
   }
 }

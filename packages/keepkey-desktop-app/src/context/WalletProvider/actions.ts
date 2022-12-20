@@ -1,4 +1,4 @@
-import type { KeepKeySDK } from '@keepkey/keepkey-sdk'
+import type { KeepKeySdk } from '@keepkey/keepkey-sdk'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
 
 import type { PinMatrixRequestType } from './KeepKey/KeepKeyTypes'
@@ -117,5 +117,5 @@ export type ActionTypes =
       }
     }
   | { type: WalletActions.SET_WALLET_CONNECT_APP; payload: WalletConnectApp | null }
-  | { type: WalletActions.SET_KEEPKEY_SDK; payload: KeepKeySDK | null }
+  | { type: WalletActions.SET_KEEPKEY_SDK; payload: KeepKeySdk | null }
   | { type: WalletActions.SET_BROWSER_URL; payload: string | null }

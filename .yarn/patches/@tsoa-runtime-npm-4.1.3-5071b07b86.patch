@@ -1,0 +1,14 @@
+diff --git a/dist/routeGeneration/templateHelpers.js b/dist/routeGeneration/templateHelpers.js
+index 4983d6c6e2309094232b92d255e0de7bc1431e99..8bae3e651f5f32cfa49294961552f0242222fdd9 100644
+--- a/dist/routeGeneration/templateHelpers.js
++++ b/dist/routeGeneration/templateHelpers.js
+@@ -505,6 +505,9 @@ class ValidationService {
+             return requiredPropError;
+         };
+         const schemasWithRequiredProps = schemas.filter(schema => Object.keys(getRequiredPropError(schema)).length === 0);
++        if ((["boolean", "number", "string", "undefined"].includes(typeof value) || value === null || Array.isArray(value)) && (schemasWithRequiredProps.length == 0 || swaggerConfig.noImplicitAdditionalProperties === 'ignore')) {
++            return value
++        }
+         if (swaggerConfig.noImplicitAdditionalProperties === 'ignore') {
+             return { ...value, ...cleanValues };
+         }

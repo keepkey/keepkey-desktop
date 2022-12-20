@@ -18,6 +18,7 @@ import { startTcpBridge, stopTcpBridge } from './tcpBridge'
 import { queueIpcEvent } from './helpers/utils'
 import { BridgeLogger } from './helpers/bridgeLogger'
 import log from 'electron-log'
+import { createAndUpdateTray } from './tray'
 
 export const assetsDirectory = path.join(__dirname, 'assets')
 export const isMac = process.platform === 'darwin'
@@ -93,18 +94,16 @@ export const kkAutoLauncher = new AutoLaunch({
   name: 'KeepKey Desktop',
 })
 
-export const kkStateController = new KKStateController(async (eventName: string, args: any) => {
-  console.log('KK STATE', eventName)
-  if (eventName === CONNECTED || eventName === NEEDS_INITIALIZE) {
-    await startTcpBridge()
-  } else if (eventName === DISCONNECTED || eventName === HARDWARE_ERROR) {
-    await stopTcpBridge()
-  }
-  log.info('keepkey state changed: ', eventName, args)
-  return queueIpcEvent(eventName, args)
-})
-
-export let deviceBusyRead = false
-export let setDeviceBusyRead = (value: boolean) => (deviceBusyRead = value)
-export let deviceBusyWrite = false
-export let setDeviceBusyWrite = (value: boolean) => (deviceBusyWrite = value)
+export const kkStateController = new KKStateController(
+  async (eventName: string, args: any) => {
+    console.log('KK STATE', eventName)
+    if (eventName === CONNECTED || eventName === NEEDS_INITIALIZE) await startTcpBridge()
+    else if (eventName === DISCONNECTED || eventName === HARDWARE_ERROR) await stopTcpBridge()
+    createAndUpdateTray()
+    log.info('keepkey state changed: ', eventName, args)
+    return queueIpcEvent(eventName, args)
+  },
+  (e: any) => {
+    if (e[2] === '18') queueIpcEvent('requestPin', e)
+  },
+)

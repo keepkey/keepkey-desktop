@@ -1,8 +1,6 @@
 import { BrowserWindow, ipcMain } from 'electron'
 import { startTcpBridge } from '../tcpBridge'
 import {
-  deviceBusyRead,
-  deviceBusyWrite,
   ipcQueue,
   kkStateController,
   renderListenersReady,
@@ -46,32 +44,30 @@ export const openSignTxWindow = async (signArgs: any) => {
 }
 
 export const checkKeepKeyUnlocked = async () => {
-  if (!kkStateController.wallet) return
-  let isLocked
-  try {
-      isLocked = await kkStateController.wallet.isLocked()
-  } catch (e) {
-      console.log('error is', e)
-  }
-  console.log("KEEPKEY LOCKED: ", isLocked)
-  if (isLocked) {
-      if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
-          if (!await createMainWindow()) return
-      }
-      if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
-          windows.mainWindow.focus()
-          windows.mainWindow.webContents.send('@modal/pin');
-      }
-  } else {
-      return
-  }
-
-  const p = new Promise((resolve: any) => {
-      ipcMain.once("@modal/pin-close", () => {
-          return resolve()
-      })
-  })
-  await p
+  // if (!kkStateController.wallet) return
+  // if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
+  //   if (!(await createMainWindow())) return
+  // } else {
+  //   let isLocked
+  //   try {
+  //     isLocked = await kkStateController.wallet.isLocked()
+  //   } catch (e) {
+  //     console.log('error is', e)
+  //   }
+  //   console.log('KEEPKEY LOCKED: ', isLocked)
+  //   if (isLocked) {
+  //     windows.mainWindow.focus()
+  //     windows.mainWindow.webContents.send('@modal/pin')
+  //   } else {
+  //     return
+  //   }
+  // }
+  // const p = new Promise((resolve: any) => {
+  //   ipcMain.once('@modal/pin-close', () => {
+  //     return resolve()
+  //   })
+  // })
+  // await p
 }
 
 export const getWallectConnectUri = (inputUri: string): string | undefined => {
@@ -128,22 +124,4 @@ export const createMainWindow = async () => {
   startWindowListeners()
 
   return true
-}
-
-// hack to detect when the keepkey is busy so we can be careful not to do 2 things at once
-export const watchForDeviceBusy = () => {
-  let lastDeviceBusyRead = false
-  let lastDeviceBusyWrite = false
-  setInterval(() => {
-    // busy state has changed somehow
-    if (lastDeviceBusyRead !== deviceBusyRead || lastDeviceBusyWrite !== deviceBusyWrite) {
-      if (deviceBusyRead === false && deviceBusyWrite === false) {
-        queueIpcEvent('deviceNotBusy', {})
-      } else {
-        queueIpcEvent('deviceBusy', {})
-      }
-    }
-    lastDeviceBusyRead = deviceBusyRead
-    lastDeviceBusyWrite = deviceBusyWrite
-  }, 1000)
 }

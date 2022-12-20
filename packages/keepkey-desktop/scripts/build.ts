@@ -6,7 +6,6 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as esbuild from 'esbuild'
 import * as pnpapi from 'pnpapi'
-import { generateSpecAndRoutes } from '@tsoa/cli'
 import { dirnamePlugin, workspacePlugin } from '@keepkey/common-esbuild-bits'
 
 process.env.NODE_ENV ??= 'production'
@@ -21,7 +20,7 @@ const appSource = path.join(
 )
 const assetsSource = path.join(workspacePath, 'assets')
 
-const tsoaPath = path.join(buildPath, 'api')
+const apiPath = path.join(buildPath, 'api')
 const appPath = path.join(buildPath, 'app')
 const assetsPath = path.join(buildPath, 'assets')
 const nativeModulesPath = path.join(buildPath, 'native_modules')
@@ -29,14 +28,10 @@ const nativeModulesPath = path.join(buildPath, 'native_modules')
 const sanitizeBuildDir = async () => {
   await fs.promises.rm(buildPath, { recursive: true, force: true })
   await fs.promises.mkdir(buildPath, { recursive: true })
-  await fs.promises.mkdir(tsoaPath, { recursive: true })
+  await fs.promises.mkdir(apiPath, { recursive: true })
   await fs.promises.mkdir(appPath, { recursive: true })
   await fs.promises.mkdir(assetsPath, { recursive: true })
   await fs.promises.mkdir(nativeModulesPath, { recursive: true })
-}
-
-const buildApi = async () => {
-  await generateSpecAndRoutes({ json: true })
 }
 
 const collectDefines = async () => {
@@ -112,7 +107,10 @@ const runEsbuild = async (
       '.wav': 'file',
     },
     entryPoints: [path.join(workspacePath, '/src/main.ts')],
-    plugins: await Promise.all([dirnamePlugin(dirnameRules), workspacePlugin(rootPath)]),
+    plugins: await Promise.all([
+      dirnamePlugin(dirnameRules),
+      workspacePlugin(rootPath, workspacePath),
+    ]),
     sourcemap: isDev ? 'linked' : undefined,
     legalComments: isDev ? 'linked' : undefined,
     minify: !isDev,
@@ -131,7 +129,11 @@ const runEsbuild = async (
 export const build = async () => {
   await sanitizeBuildDir()
 
-  await buildApi()
+  const specPath = path.join(
+    pnpapi.resolveToUnqualified('keepkey-sdk-server', workspacePath)!,
+    'dist/swagger.json',
+  )
+  await fs.promises.copyFile(specPath, path.join(apiPath, 'swagger.json'))
 
   const esbuild = collectDefines().then(defines =>
     runEsbuild(

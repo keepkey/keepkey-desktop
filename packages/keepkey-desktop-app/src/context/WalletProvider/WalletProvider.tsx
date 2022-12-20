@@ -1,7 +1,5 @@
-/* eslint-disable @keepkey/logger/no-native-console */
 import type { ComponentWithAs, IconProps } from '@chakra-ui/react'
-import type { KeepKeySDK } from '@keepkey/keepkey-sdk'
-import { getKeepKeySDK } from '@keepkey/keepkey-sdk'
+import { KeepKeySdk } from '@keepkey/keepkey-sdk'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { Keyring } from '@shapeshiftoss/hdwallet-core'
 import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-walletconnect'
@@ -29,6 +27,7 @@ import { clearLocalWallet, setLocalWalletTypeAndDeviceId } from './local-wallet'
 import type { IWalletContext } from './WalletContext'
 import { WalletContext } from './WalletContext'
 import { WalletViewsRouter } from './WalletViewsRouter'
+import { randomUUID } from 'crypto'
 
 const moduleLogger = logger.child({ namespace: ['WalletProvider'] })
 
@@ -99,7 +98,7 @@ export interface InitialState {
   keepKeyPinRequestType: PinMatrixRequestType | null
   deviceState: DeviceState
   disconnectOnCloseModal: boolean
-  keepkeySdk: KeepKeySDK | null
+  keepkeySdk: KeepKeySdk | null
   browserUrl: string | null
 }
 
@@ -342,9 +341,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   // so we dont unintentionally show the keepkey error modal while updating
   const [isUpdatingKeepkey, setIsUpdatingKeepkey] = useState(false)
 
-  // is keepkey device currently being interacted with
-  const [deviceBusy, setDeviceBusy] = useState(false)
-
   const disconnect = useCallback(async () => {
     /**
      * in case of KeepKey placeholder wallet,
@@ -358,19 +354,19 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   const pairAndConnect = useRef(
     debounce(async () => {
+      const sdk = await getsdk()
       const adapters: Adapters = new Map()
       let options: undefined | { portisAppId: string } | WalletConnectProviderConfig
       for (const walletName of Object.values(KeyManager)) {
         try {
           const adapter = SUPPORTED_WALLETS[walletName].adapter.useKeyring(state.keyring, options)
-          const wallet = await adapter.pairDevice('http://localhost:1646')
+          const wallet = await adapter.pairDevice(sdk, ipcRenderer.send)
           adapters.set(walletName, adapter)
           dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
           const { name, icon } = KeepKeyConfig
           const deviceId = await wallet.getDeviceID()
           // Show the label from the wallet instead of a generic name
           const label = (await wallet.getLabel()) || name
-          await wallet.initialize()
           dispatch({
             type: WalletActions.SET_WALLET,
             payload: { wallet, name: label, icon, deviceId, meta: { label } },
@@ -388,6 +384,24 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     }, 2000),
   )
+
+  const getsdk = () => {
+    console.log('setup kk sdk called')
+    let serviceKey = window.localStorage.getItem('@app/serviceKey')
+    let config = {
+      serviceName: 'KeepKey Desktop',
+      serviceImageUrl:
+        'https://github.com/BitHighlander/keepkey-desktop/raw/master/electron/icon.png',
+      serviceKey: serviceKey ? serviceKey : randomUUID(),
+    }
+    if (!serviceKey) {
+      window.localStorage.setItem('@app/serviceKey', config.serviceKey)
+      ipcRenderer.send('@bridge/add-service', config)
+    }
+    return KeepKeySdk.create({
+      apiKey: config.serviceKey,
+    })
+  }
 
   const startBridgeListeners = useCallback(() => {
     ipcRenderer.on('@walletconnect/paired', (_event, data) => {
@@ -448,13 +462,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       pairAndConnect.current()
     })
 
-    ipcRenderer.on('deviceBusy', async (_event, _data) => {
-      setDeviceBusy(true)
-    })
-    ipcRenderer.on('deviceNotBusy', async (_event, _data) => {
-      setDeviceBusy(false)
-    })
-
     //END HDwallet API
   }, [state.wallet])
 
@@ -470,7 +477,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       window.localStorage.setItem('@app/serviceKey', config.serviceKey)
       ipcRenderer.send('@bridge/add-service', config)
     }
-    getKeepKeySDK(config)
+    KeepKeySdk.create({
+      apiKey: config.serviceKey,
+    })
       .then(sdk => {
         dispatch({ type: WalletActions.SET_KEEPKEY_SDK, payload: sdk })
       })
@@ -505,17 +514,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       isUpdatingKeepkey,
       setIsUpdatingKeepkey,
       pairAndConnect,
-      deviceBusy,
     }),
-    [
-      state,
-      disconnect,
-      setDeviceState,
-      setIsUpdatingKeepkey,
-      isUpdatingKeepkey,
-      pairAndConnect,
-      deviceBusy,
-    ],
+    [state, disconnect, setDeviceState, setIsUpdatingKeepkey, isUpdatingKeepkey, pairAndConnect],
   )
 
   return (

@@ -1,0 +1,116 @@
+{
+  "entryFile": "src/controllers/index.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/controllers/**/*.ts"],
+  "routes": {
+    "authenticationModule": "src/auth/express",
+    "middleware": "express",
+    "routesDir": "src/generated",
+    "iocModule": "src/auth/ioc"
+  },
+  "spec": {
+    "schemes": ["http", "https"],
+    "host": "localhost:1646",
+    "specMerging": "deepmerge",
+    "outputDirectory": "dist",
+    "specVersion": 3,
+    "securityDefinitions": {
+      "apiKey": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "session": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "SESSIONID"
+      }
+    },
+    "spec": {
+      "paths": {
+        "/system/debug/flash-dump": {
+          "post": {
+            "responses": {
+              "200": {
+                "content": {
+                  "application/octet-stream": {
+                    "schema": {
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/system/info/get-entropy": {
+          "post": {
+            "responses": {
+              "200": {
+                "content": {
+                  "application/octet-stream": {
+                    "schema": {
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/system/cipher-key-value": {
+          "post": {
+            "responses": {
+              "200": {
+                "content": {
+                  "application/octet-stream": {
+                    "schema": {
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/system/firmware-update": {
+          "post": {
+            "requestBody": {
+              "content": {
+                "application/octet-stream": {
+                  "schema": {
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/raw": {
+          "post": {
+            "responses": {
+              "200": {
+                "content": {
+                  "application/octet-stream": {
+                    "schema": {
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            },
+            "requestBody": {
+              "content": {
+                "application/octet-stream": {
+                  "schema": {
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

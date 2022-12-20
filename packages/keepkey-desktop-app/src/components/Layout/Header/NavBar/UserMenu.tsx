@@ -58,7 +58,6 @@ type WalletButtonProps = {
   isDemoWallet: boolean
   isLoadingLocalWallet: boolean
   onConnect: () => void
-  deviceBusy: boolean
 } & Pick<InitialState, 'walletInfo'>
 
 const WalletButton: FC<WalletButtonProps> = ({
@@ -67,7 +66,6 @@ const WalletButton: FC<WalletButtonProps> = ({
   walletInfo,
   onConnect,
   isLoadingLocalWallet,
-  deviceBusy,
 }) => {
   const [walletLabel, setWalletLabel] = useState('')
   const [shouldShorten, setShouldShorten] = useState(true)
@@ -130,7 +128,7 @@ const WalletButton: FC<WalletButtonProps> = ({
             pr='2'
             shouldShorten={shouldShorten}
             bgColor={bgColor}
-            value={`${walletLabel} ${deviceBusy ? '- Busy' : ''}`}
+            value={walletLabel}
           />
         ) : (
           <RawText>
@@ -148,7 +146,7 @@ const WalletButton: FC<WalletButtonProps> = ({
 }
 
 export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
-  const { state, dispatch, disconnect, deviceBusy } = useWallet()
+  const { state, dispatch, disconnect } = useWallet()
   const { isConnected, isDemoWallet, walletInfo, isLocked, type } = state
 
   if (isLocked) disconnect()
@@ -160,7 +158,6 @@ export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   return (
     <ButtonGroup width='full'>
       <WalletButton
-        deviceBusy={deviceBusy}
         onConnect={handleConnect}
         walletInfo={walletInfo}
         isConnected={isConnected}
