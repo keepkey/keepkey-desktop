@@ -84,8 +84,6 @@ export const ChainSelectorModal = () => {
     })
   }, [debouncedSearch])
 
-  console.log(chains)
-
   const switchChain = useCallback(
     (service: MergedServiceType, serviceId = 0) => {
       if (!isLegacy) return
@@ -148,7 +146,7 @@ export const ChainSelectorModal = () => {
                       <AccordionItem w='full'>
                         <HStack gap={4}>
                           <Box w='full' as='button' onClick={() => switchChain(chain)}>
-                            {chain.name} ({chain.services[0].latency}ms)
+                            {chain.name} id: {chain.chainId}
                           </Box>
                           <AccordionButton w='fit-content'>
                             <AccordionIcon />
@@ -157,7 +155,7 @@ export const ChainSelectorModal = () => {
                         <AccordionPanel>
                           {chain.services.map((service, idx) => (
                             <Box fontSize='sm' as='button' onClick={() => switchChain(chain, idx)}>
-                              {service.url} ({service.latency}ms)
+                              <small>{service.url}</small>
                               <Divider />
                             </Box>
                           ))}

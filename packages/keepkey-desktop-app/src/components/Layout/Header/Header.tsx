@@ -59,8 +59,6 @@ export const Header = () => {
 
   const handleBannerClick = () => dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: true })
 
-  console.log('legacyWeb3', legacyWeb3)
-
   return (
     <>
       <Flex
@@ -143,6 +141,7 @@ export const Header = () => {
                         .replaceAll('mainnet', '')
                         .replaceAll(' ', '')}.png`}
                     />
+                    <small>{legacyWeb3?.chainId}</small>
                   </Button>
                 </Box>
               )}
