@@ -1,4 +1,6 @@
 import {
+  db,
+  kkStateController,
   server,
   setServer,
   setTcpBridgeClosing,
@@ -8,15 +10,17 @@ import {
   tcpBridgeRunning,
   tcpBridgeStarting,
 } from './globalState'
-import { RegisterRoutes } from './helpers/routes/routes'
+import { RegisterRoutes, addMiddleware, setSdkClientFactory } from 'keepkey-sdk-server'
 import swaggerUi from 'swagger-ui-express'
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import path from 'path'
 import log from 'electron-log'
+import * as util from 'util'
+
 import { createAndUpdateTray } from './tray'
-import { promisify } from 'util'
+import { logger } from './helpers/middlewares/logger'
 
 export const startTcpBridge = async (port?: number) => {
   if (tcpBridgeRunning || tcpBridgeStarting) return
@@ -36,6 +40,19 @@ export const startTcpBridge = async (port?: number) => {
   //swagger.json
   appExpress.use('/spec', express.static(path.join(__dirname, 'api')))
 
+  addMiddleware(logger)
+  setSdkClientFactory(async (apiKey: string) => {
+    const doc = await util.promisify(db.findOne.bind(db))({ type: 'service', serviceKey: apiKey })
+    if (!doc) return undefined
+
+    const wallet = kkStateController.wallet
+    if (!wallet) throw new Error('wallet not set')
+
+    return {
+      apiKey,
+      wallet,
+    }
+  })
   RegisterRoutes(appExpress)
 
   await new Promise(resolve => setServer(appExpress.listen(API_PORT, () => resolve(true))))
@@ -54,7 +71,7 @@ export const stopTcpBridge = async () => {
 
   if (server) {
     log.info('Stopping TCP bridge...')
-    await promisify(server.close)()
+    await util.promisify(server.close)()
     log.info('TCP bridge stopped.')
   }
 
