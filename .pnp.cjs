@@ -8189,6 +8189,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["icepick", "npm:2.4.0"],\
             ["lodash", "npm:4.17.21"],\
             ["p-lazy", "npm:3.1.0"],\
+            ["rimraf", "npm:3.0.2"],\
             ["semver", "npm:6.3.0"],\
             ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
             ["typedoc", "virtual:d3d78c5137958b04ba9090133f53e2686e3fb7618ea75d47482e50fc7ddcb1551efb9998584526180f75b9fd112b2cf7c20d7f8805d0270db50dd538117ca71a#npm:0.23.21"],\
