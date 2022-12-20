@@ -8180,15 +8180,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/lodash", "npm:4.14.191"],\
             ["@types/semver", "npm:6.2.3"],\
             ["@types/tiny-secp256k1", "npm:1.0.0"],\
+            ["@typescript-eslint/eslint-plugin", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
+            ["@typescript-eslint/parser", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
             ["bignumber.js", "npm:9.1.0"],\
             ["bnb-javascript-sdk-nobroadcast", "npm:2.16.15"],\
             ["crypto-js", "npm:4.1.1"],\
             ["eip-712", "npm:1.0.0"],\
             ["eip55", "npm:2.1.0"],\
+            ["eslint", "npm:8.28.0"],\
+            ["eslint-config-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:8.5.0"],\
+            ["eslint-plugin-import", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:2.26.0"],\
+            ["eslint-plugin-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:4.2.1"],\
+            ["eslint-plugin-simple-import-sort", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:7.0.0"],\
             ["google-protobuf", "npm:3.21.2"],\
             ["icepick", "npm:2.4.0"],\
             ["lodash", "npm:4.17.21"],\
             ["p-lazy", "npm:3.1.0"],\
+            ["prettier", "npm:2.8.0"],\
             ["rimraf", "npm:3.0.2"],\
             ["semver", "npm:6.3.0"],\
             ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\

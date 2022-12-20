@@ -14,6 +14,8 @@
     "build:docs": "typedoc --out docs src",
     "dev": "yarn build",
     "clean": "rimraf dist docs tsconfig.tsbuildinfo",
+    "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
+    "lint:fix": "yarn lint --fix",
     "prepublishOnly": "yarn clean && yarn build"
   },
   "dependencies": {
@@ -47,6 +49,14 @@
     "@types/lodash": "^4.14.168",
     "@types/semver": "^6.2.2",
     "@types/tiny-secp256k1": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
     "typedoc": "^0.23.21",
     "typescript": "^4.3.2"
