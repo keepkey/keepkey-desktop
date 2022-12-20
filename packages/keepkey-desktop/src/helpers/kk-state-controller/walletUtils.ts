@@ -49,23 +49,19 @@ export const initializeWallet = async (controller: KKStateController) => {
     return { unplugged: true }
   }
 
-  let resultInit
-
   try {
     const webUSBResultInit = await createWebUsbWallet(controller)
     if (!webUSBResultInit?.success) {
-      resultInit = await createHidWallet(controller)
+      return await createHidWallet(controller)
     } else {
-      resultInit = {
+      return {
         ...(webUSBResultInit as WebusbWallet),
         success: true,
       }
     }
   } catch (e) {
-    resultInit = await createHidWallet(controller)
+    return await createHidWallet(controller)
   }
-
-  return resultInit
 }
 
 const base64toHEX = (base64: any) => {
@@ -82,14 +78,10 @@ const base64toHEX = (base64: any) => {
 
 const createWebUsbWallet = async (controller: KKStateController) => {
   const keepkeyAdapter = NodeWebUSBKeepKeyAdapter.useKeyring(controller.keyring)
-  controller.device = await keepkeyAdapter.getDevice()
-  if (!controller.device) return { success: false, error: 'Unable to get device!' }
-  const transport = await keepkeyAdapter.getTransportDelegate(controller.device)
-  if (!transport) return { success: false, error: 'Unable to connect transport!' }
-  controller.transport = transport
-  await controller.transport.connect()
+  const device = await keepkeyAdapter.getDevice()
+  if (!device) return { success: false, error: 'Unable to get device!' }
   controller.wallet = (await keepkeyAdapter.pairDevice(
-    controller.device.serialNumber,
+    device.serialNumber,
     true,
   )) as KeepKeyHDWallet
   let features = await controller.wallet.getFeatures()
@@ -103,15 +95,13 @@ const createWebUsbWallet = async (controller: KKStateController) => {
       : bootloaderHashToVersion[base64toHEX(bootloaderHash)],
     firmwareVersion: features.bootloaderMode ? '' : versionString,
     wallet: controller.wallet,
-    transport: controller.transport,
-    device: controller.device,
     success: true,
   }
 }
 
 const createHidWallet = async (controller: KKStateController) => {
   try {
-    let hidAdapter = await HIDKeepKeyAdapter.useKeyring(controller.keyring)
+    const hidAdapter = await HIDKeepKeyAdapter.useKeyring(controller.keyring)
     await hidAdapter.initialize()
     const wallet = controller.keyring.get()
     if (!wallet) {
@@ -131,11 +121,11 @@ const createHidWallet = async (controller: KKStateController) => {
         features: controller.wallet.features,
       }
     } else {
-      let features = await controller.wallet.getFeatures()
+      const features = await controller.wallet.getFeatures()
       const { majorVersion, minorVersion, patchVersion, bootloaderHash } = features
       const decodedHash = base64toHEX(bootloaderHash)
 
-      let bootloaderVersion = bootloaderHashToVersion[decodedHash]
+      const bootloaderVersion = bootloaderHashToVersion[decodedHash]
       return {
         success: true,
         bootloaderMode: false,

@@ -7,6 +7,9 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import { useCallback, useEffect, useState } from 'react'
 import { Routes } from 'Routes/Routes'
 
+import type { KKStateData } from '../../keepkey-desktop/src/helpers/kk-state-controller/types'
+import { KKState } from '../../keepkey-desktop/src/helpers/kk-state-controller/types'
+
 export const App = () => {
   const {
     state: { deviceId },
@@ -16,7 +19,7 @@ export const App = () => {
 
   const { pair, sign, hardwareError, updateKeepKey, requestBootloaderMode, loading } = useModal()
 
-  const openKeepKeyUpdater = (data: any) => {
+  const openKeepKeyUpdater = (data: KKStateData) => {
     setIsUpdatingKeepkey(true)
     requestBootloaderMode?.close()
     updateKeepKey.open(data)
@@ -31,7 +34,7 @@ export const App = () => {
     sign.close()
   }, [hardwareError, loading, pair, requestBootloaderMode, sign, updateKeepKey])
 
-  const [connected, setConnected] = useState<any>(null)
+  const [connected, setConnected] = useState(false)
 
   // open hardwareError modal on app start unless already connected
   useEffect(() => {
@@ -68,65 +71,74 @@ export const App = () => {
         },
       })
     })
-    ipcRenderer.on('plugin', () => {
-      loading.open({ closing: false })
-      setConnected(true)
-      hardwareError.close()
-    })
-
-    ipcRenderer.on('connected', async () => {
-      setConnected(true)
-      hardwareError.close()
-    })
 
     ipcRenderer.on('appClosing', async () => {
       loading.open({ closing: true })
       await state.wallet?.clearSession()
     })
 
-    ipcRenderer.on('hardwareError', () => {
-      console.log('HARDWARE ERROR')
-      dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
-      loading.close()
-      hardwareError.open({})
-    })
-
-    ipcRenderer.on('needsReconnect', () => {
-      console.log('NEEDS RECONNECT')
-      dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
-      loading.close()
-      hardwareError.open({ needsReconnect: true })
-    })
-
-    ipcRenderer.on('disconnected', () => {
-      console.log('DISCONNECTED')
-      dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
-      disconnect()
-      loading.close()
-    })
-
     ipcRenderer.on('@modal/pair', (_event: unknown, data: PairingProps) => {
       pair.open(data)
     })
 
-    ipcRenderer.on('needsInitialize', (_event: unknown, data: any) => {
-      console.log('NEEDS INITIALIZE')
-
-      closeAllModals()
-      openKeepKeyUpdater(data)
-      setConnected(true)
-    })
-
-    ipcRenderer.on('updateBootloader', (_event: unknown, data: any) => {
-      console.log('UPDATE BOOTLOADER', data)
-      if (!data.event?.bootloaderMode) {
-        closeAllModals()
-        setIsUpdatingKeepkey(true)
-        setConnected(true)
-        requestBootloaderMode.open({ ...data.event })
-      } else {
-        closeAllModals()
-        openKeepKeyUpdater(data)
+    ipcRenderer.on('updateState', (_event: unknown, data: KKStateData) => {
+      console.log('updateState', data)
+      switch (data.state) {
+        case KKState.Plugin:
+          loading.open({ closing: false })
+          setConnected(true)
+          hardwareError.close()
+          break
+        case KKState.Disconnected:
+          dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
+          disconnect()
+          loading.close()
+          break
+        case KKState.HardwareError:
+          dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
+          loading.close()
+          hardwareError.open({})
+          break
+        case KKState.UpdateBootloader:
+          closeAllModals()
+          if (!data.bootloaderMode) {
+            setIsUpdatingKeepkey(true)
+            setConnected(true)
+            requestBootloaderMode.open({
+              recommendedFirmware: data.recommendedFirmware,
+              firmware: data.firmware,
+              bootloaderUpdateNeeded: true,
+            })
+          } else {
+            openKeepKeyUpdater(data)
+          }
+          break
+        case KKState.UpdateFirmware:
+          closeAllModals()
+          openKeepKeyUpdater(data)
+          if (!data.bootloaderMode) {
+            requestBootloaderMode.open({
+              recommendedFirmware: data.recommendedFirmware,
+              firmware: data.firmware,
+              bootloaderUpdateNeeded: false,
+            })
+          }
+          break
+        case KKState.NeedsInitialize:
+        case KKState.Connected:
+          closeAllModals()
+          setIsUpdatingKeepkey(false)
+          if (data.state === KKState.NeedsInitialize) {
+            openKeepKeyUpdater(data)
+          }
+          setConnected(true)
+          break
+        case KKState.NeedsReconnect:
+          dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
+          loading.close()
+          hardwareError.open({ needsReconnect: true })
+          break
+        default:
       }
     })
 
@@ -134,13 +146,6 @@ export const App = () => {
       setIsUpdatingKeepkey(false)
       updateKeepKey.close()
       requestBootloaderMode.close()
-    })
-
-    ipcRenderer.on('updateFirmware', (_event: unknown, data: any) => {
-      console.log('UPDATE FIRMWARE')
-
-      closeAllModals()
-      openKeepKeyUpdater(data)
     })
 
     ipcRenderer.on('@modal/pin', () => {

@@ -1,6 +1,5 @@
 import AutoLaunch from 'auto-launch'
 import type { BrowserWindow } from 'electron'
-import log from 'electron-log'
 import fs from 'fs'
 import * as hidefile from 'hidefile'
 import type { Server } from 'http'
@@ -8,13 +7,9 @@ import NedbPromises from 'nedb-promises'
 import path from 'path'
 
 import { BridgeLogger } from './helpers/bridgeLogger'
-import {
-  CONNECTED,
-  DISCONNECTED,
-  HARDWARE_ERROR,
-  KKStateController,
-  NEEDS_INITIALIZE,
-} from './helpers/kk-state-controller'
+import { KKStateController } from './helpers/kk-state-controller'
+import type { KKStateData } from './helpers/kk-state-controller/types'
+import { KKState } from './helpers/kk-state-controller/types'
 import { SettingsInstance } from './helpers/settings'
 import { queueIpcEvent } from './helpers/utils'
 import { startTcpBridge, stopTcpBridge } from './tcpBridge'
@@ -68,7 +63,7 @@ export const windows: {
 export const ipcQueue = new Array<{ eventName: string; args: any }>()
 
 export const isWalletBridgeRunning = () =>
-  kkStateController?.lastState === CONNECTED && tcpBridgeRunning
+  kkStateController?.data.state === KKState.Connected && tcpBridgeRunning
 
 export const settings = new SettingsInstance()
 export const bridgeLogger = new BridgeLogger()
@@ -78,15 +73,17 @@ export const kkAutoLauncher = new AutoLaunch({
 })
 
 export const kkStateController = new KKStateController(
-  async (eventName: string, args: any) => {
-    console.log('KK STATE', eventName)
-    if (eventName === CONNECTED || eventName === NEEDS_INITIALIZE) await startTcpBridge()
-    else if (eventName === DISCONNECTED || eventName === HARDWARE_ERROR) await stopTcpBridge()
+  async (data: KKStateData) => {
+    console.log('KK STATE', data)
+    if (data.state === KKState.Connected || data.state === KKState.NeedsInitialize) {
+      await startTcpBridge()
+    } else if (data.state === KKState.Disconnected || data.state === KKState.HardwareError) {
+      await stopTcpBridge().catch(e => console.warn('stopTcpBridge error: ', e))
+    }
     createAndUpdateTray()
-    log.info('keepkey state changed: ', eventName, args)
-    return queueIpcEvent(eventName, args)
+    queueIpcEvent('updateState', data)
   },
-  (e: any) => {
+  async (e: any) => {
     if (e[2] === '18') queueIpcEvent('requestPin', e)
   },
 )

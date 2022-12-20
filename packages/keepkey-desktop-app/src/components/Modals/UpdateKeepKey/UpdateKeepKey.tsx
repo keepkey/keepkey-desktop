@@ -4,11 +4,13 @@ import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useEffect } from 'react'
 
+import type { KKStateData } from '../../../../../keepkey-desktop/src/helpers/kk-state-controller/types'
+import { KKState } from '../../../../../keepkey-desktop/src/helpers/kk-state-controller/types'
 import { KeepKeyFactoryState } from './FactoryState'
 import { UpdateBootloader } from './UpdateBootloader/UpdateBootloader'
 import { UpdateFirmware } from './UpdateFirmware/UpdateFirmware'
 
-export const UpdateKeepKey = (params: any) => {
+export const UpdateKeepKey = (params: Record<string, never> | KKStateData) => {
   const { updateKeepKey } = useModal()
   const { close, isOpen } = updateKeepKey
   const { setStep, activeStep } = useSteps({
@@ -17,14 +19,23 @@ export const UpdateKeepKey = (params: any) => {
   const { disconnect } = useWallet()
 
   useEffect(() => {
-    if (params?.event?.bootloaderUpdateNeeded) {
-      setStep(0)
-    } else if (params?.event?.firmwareUpdateNeededNotBootloader) {
-      setStep(1)
-    } else {
-      setStep(2)
+    const state = params.state
+    switch (state) {
+      case undefined:
+        break
+      case KKState.UpdateBootloader:
+        setStep(0)
+        break
+      case KKState.UpdateFirmware:
+        setStep(1)
+        break
+      case KKState.NeedsInitialize:
+        setStep(2)
+        break
+      default:
+        console.error(`UpdateKeepKey called with unexpected state '${state}'`)
     }
-  }, [params?.event, setStep])
+  }, [params.state, setStep])
 
   const steps = [
     { label: 'Bootloader', content: <UpdateBootloader {...params} /> },
