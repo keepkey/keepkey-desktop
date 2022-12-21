@@ -60,10 +60,10 @@ export const KeepKeyMenu = () => {
     keepKeyWipe.open({})
   }
 
-  const handleRemovePinClick = useCallback(() => {
+  const handleRemovePinClick = useCallback(async () => {
     // console.log('KEEPKEY SDK', keepkeySdk)
     if (!keepkeySdk) return
-    keepkeySdk.developer.removePin({ body: {} })
+    await keepkeySdk.system.changePin({ remove: true })
     dispatch({
       type: WalletActions.OPEN_KEEPKEY_PIN,
       payload: {
