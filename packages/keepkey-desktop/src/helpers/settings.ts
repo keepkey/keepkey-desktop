@@ -1,9 +1,10 @@
 import { ipcMain } from 'electron'
-import type { AddressInfo } from 'net'
 import log from 'electron-log'
-import { setAllowPreRelease } from '../updaterListeners'
+import type { AddressInfo } from 'net'
+
 import { db, kkAutoLauncher, server, tcpBridgeRunning } from '../globalState'
 import { startTcpBridge, stopTcpBridge } from '../tcpBridge'
+import { setAllowPreRelease } from '../updaterListeners'
 
 let instance: Settings
 

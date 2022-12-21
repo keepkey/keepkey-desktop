@@ -1,6 +1,6 @@
+import { app } from 'electron'
 import * as fs from 'fs'
 import path from 'path'
-import { app } from 'electron'
 
 export interface BridgeLog {
   serviceKey: string

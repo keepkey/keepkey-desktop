@@ -1,4 +1,7 @@
 import { app, ipcMain } from 'electron'
+import log from 'electron-log'
+import { sleep } from 'wait-promise'
+
 import {
   bridgeLogger,
   db,
@@ -16,9 +19,6 @@ import {
   loadFirmware,
 } from './helpers/kk-state-controller/firmwareUtils'
 import { queueIpcEvent } from './helpers/utils'
-import log from 'electron-log'
-import { sleep } from 'wait-promise'
-import { UPDATE_FIRMWARE } from 'helpers/kk-state-controller'
 
 export const startIpcListeners = () => {
   ipcMain.setMaxListeners(15)

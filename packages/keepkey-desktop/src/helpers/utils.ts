@@ -1,5 +1,8 @@
 import { BrowserWindow, ipcMain } from 'electron'
-import { startTcpBridge } from '../tcpBridge'
+import isDev from 'electron-is-dev'
+import log from 'electron-log'
+import path from 'path'
+
 import {
   ipcQueue,
   kkStateController,
@@ -7,10 +10,8 @@ import {
   settings,
   windows,
 } from '../globalState'
-import isDev from 'electron-is-dev'
+import { startTcpBridge } from '../tcpBridge'
 import { startWindowListeners } from '../windowListeners'
-import path from 'path'
-import log from 'electron-log'
 
 export const openSignTxWindow = async (signArgs: any) => {
   log.info(' | openSignTxWindow | ')

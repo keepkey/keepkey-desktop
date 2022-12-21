@@ -1,6 +1,7 @@
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { NodeWebUSBKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-nodewebusb'
 import { findByIds } from 'usb'
+
 import type { KKStateController } from './index'
 import type { WebusbWallet } from './types'
 const { HIDKeepKeyAdapter } = require('@bithighlander/hdwallet-keepkey-nodehid')
