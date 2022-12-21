@@ -4,7 +4,7 @@ import log from 'electron-log'
 import fs from 'fs'
 import * as hidefile from 'hidefile'
 import type { Server } from 'http'
-import nedb from 'nedb'
+import NedbPromises from 'nedb-promises'
 import path from 'path'
 
 import { BridgeLogger } from './helpers/bridgeLogger'
@@ -15,7 +15,7 @@ import {
   KKStateController,
   NEEDS_INITIALIZE,
 } from './helpers/kk-state-controller'
-import { Settings } from './helpers/settings'
+import { SettingsInstance } from './helpers/settings'
 import { queueIpcEvent } from './helpers/utils'
 import { startTcpBridge, stopTcpBridge } from './tcpBridge'
 import { createAndUpdateTray } from './tray'
@@ -35,7 +35,7 @@ if (!fs.existsSync(dbDirPath)) {
 }
 hidefile.hideSync(dbDirPath)
 
-export const db = new nedb({ filename: dbPath, autoload: true })
+export const db = NedbPromises.create({ filename: dbPath, autoload: true })
 
 export let server: Server
 export let setServer = (value: Server) => (server = value)
@@ -70,7 +70,7 @@ export const ipcQueue = new Array<{ eventName: string; args: any }>()
 export const isWalletBridgeRunning = () =>
   kkStateController?.lastState === CONNECTED && tcpBridgeRunning
 
-export const settings = new Settings()
+export const settings = new SettingsInstance()
 export const bridgeLogger = new BridgeLogger()
 
 export const kkAutoLauncher = new AutoLaunch({

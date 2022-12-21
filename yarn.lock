@@ -6181,6 +6181,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@seald-io/binary-search-tree@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@seald-io/binary-search-tree@npm:1.0.2"
+  checksum: 957315cbe4c7af17a6830753e933d23fddae4620e55070a179b8c3e4582021e75a171da1094a5931be4deea41c059a5f233bd76e13689afb7c4447a8d5358be7
+  languageName: node
+  linkType: hard
+
+"@seald-io/nedb@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@seald-io/nedb@npm:3.1.0"
+  dependencies:
+    "@seald-io/binary-search-tree": ^1.0.2
+    localforage: ^1.9.0
+    util: ^0.12.4
+  checksum: 081884b02756c8a623b9cc0907882e51a5c39f530ce02644af8b172fc0451c61e98d3582339d602f3102af8042303d1c3a912a625fc5e934a8b09998dfbf512c
+  languageName: node
+  linkType: hard
+
 "@sentry/browser@npm:7.16.0":
   version: 7.16.0
   resolution: "@sentry/browser@npm:7.16.0"
@@ -7766,15 +7784,6 @@ __metadata:
   version: 0.7.31
   resolution: "@types/ms@npm:0.7.31"
   checksum: daadd354aedde024cce6f5aa873fefe7b71b22cd0e28632a69e8b677aeb48ae8caa1c60e5919bb781df040d116b01cb4316335167a3fc0ef6a63fa3614c0f6da
-  languageName: node
-  linkType: hard
-
-"@types/nedb@npm:^1.8.12":
-  version: 1.8.12
-  resolution: "@types/nedb@npm:1.8.12"
-  dependencies:
-    "@types/node": "*"
-  checksum: 9469d8cb8459118cfe9fdb41144fd38b4b09444252d0c7d3f24067fcff83340a6baa46edb6b7a826c54e957fcc797adf1f6d6f64f7aba2587f31c8ac27ce24cd
   languageName: node
   linkType: hard
 
@@ -19502,7 +19511,6 @@ __metadata:
     "@types/express": ^4.17.14
     "@types/hidefile": ^3.0.0
     "@types/lodash": ^4.14.190
-    "@types/nedb": ^1.8.12
     "@types/node": ^18
     "@types/pnpapi": ^0.0.2
     "@types/request-promise": ^4.1.48
@@ -19540,7 +19548,7 @@ __metadata:
     keepkey-desktop-app: "workspace:*"
     keepkey-sdk-server: "workspace:*"
     lodash: ^4.17.21
-    nedb: ^1.8.0
+    nedb-promises: ^6.2.1
     node-hid: ^2.1.2
     prettier: ^2.3.2
     request: ^2.88.2
@@ -19893,7 +19901,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"localforage@npm:^1.10.0, localforage@npm:^1.3.0":
+"localforage@npm:^1.10.0, localforage@npm:^1.3.0, localforage@npm:^1.9.0":
   version: 1.10.0
   resolution: "localforage@npm:1.10.0"
   dependencies:
@@ -21367,6 +21375,15 @@ __metadata:
   bin:
     ndjson: cli.js
   checksum: aabb0efa1c34b6ba2b9e188f82a2e5fe8ae17f80d2ec7f639ae4e6721cd70481a24eeb5cf39dd15111f77ac8c7a4d02f943428bb0434a67e00ac56dfdb18be50
+  languageName: node
+  linkType: hard
+
+"nedb-promises@npm:^6.2.1":
+  version: 6.2.1
+  resolution: "nedb-promises@npm:6.2.1"
+  dependencies:
+    "@seald-io/nedb": ^3.1.0
+  checksum: 83d48770f15bdf8e009d56d130cfba0e9ec1164de0efe07f7c0b61d2e3f2e779985a495db7fd474de8072b6367e507d8c53f6b8cb6349177b2cd1a973594a4c2
   languageName: node
   linkType: hard
 

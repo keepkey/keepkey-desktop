@@ -9493,6 +9493,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@seald-io/binary-search-tree", [\
+        ["npm:1.0.2", {\
+          "packageLocation": "./.yarn/cache/@seald-io-binary-search-tree-npm-1.0.2-8dc011db03-957315cbe4.zip/node_modules/@seald-io/binary-search-tree/",\
+          "packageDependencies": [\
+            ["@seald-io/binary-search-tree", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@seald-io/nedb", [\
+        ["npm:3.1.0", {\
+          "packageLocation": "./.yarn/cache/@seald-io-nedb-npm-3.1.0-06cd204c93-081884b027.zip/node_modules/@seald-io/nedb/",\
+          "packageDependencies": [\
+            ["@seald-io/nedb", "npm:3.1.0"],\
+            ["@seald-io/binary-search-tree", "npm:1.0.2"],\
+            ["localforage", "npm:1.10.0"],\
+            ["util", "npm:0.12.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@sentry/browser", [\
         ["npm:7.16.0", {\
           "packageLocation": "./.yarn/cache/@sentry-browser-npm-7.16.0-5f64f5e343-7de86fe682.zip/node_modules/@sentry/browser/",\
@@ -11311,16 +11332,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-ms-npm-0.7.31-ea3b89342b-daadd354ae.zip/node_modules/@types/ms/",\
           "packageDependencies": [\
             ["@types/ms", "npm:0.7.31"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@types/nedb", [\
-        ["npm:1.8.12", {\
-          "packageLocation": "./.yarn/cache/@types-nedb-npm-1.8.12-d214c46437-9469d8cb84.zip/node_modules/@types/nedb/",\
-          "packageDependencies": [\
-            ["@types/nedb", "npm:1.8.12"],\
-            ["@types/node", "npm:18.11.9"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24919,7 +24930,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.14"],\
             ["@types/hidefile", "npm:3.0.0"],\
             ["@types/lodash", "npm:4.14.190"],\
-            ["@types/nedb", "npm:1.8.12"],\
             ["@types/node", "npm:18.11.9"],\
             ["@types/pnpapi", "npm:0.0.2"],\
             ["@types/request-promise", "npm:4.1.48"],\
@@ -24957,7 +24967,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["keepkey-desktop-app", "workspace:packages/keepkey-desktop-app"],\
             ["keepkey-sdk-server", "workspace:packages/keepkey-sdk-server"],\
             ["lodash", "npm:4.17.21"],\
-            ["nedb", "npm:1.8.0"],\
+            ["nedb-promises", "npm:6.2.1"],\
             ["node-hid", "patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."],\
             ["prettier", "npm:2.8.0"],\
             ["request", "npm:2.88.2"],\
@@ -27227,6 +27237,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["localforage", "npm:1.10.0"],\
             ["mkdirp", "npm:0.5.6"],\
             ["underscore", "npm:1.4.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["nedb-promises", [\
+        ["npm:6.2.1", {\
+          "packageLocation": "./.yarn/cache/nedb-promises-npm-6.2.1-2ae45ad4c4-83d48770f1.zip/node_modules/nedb-promises/",\
+          "packageDependencies": [\
+            ["nedb-promises", "npm:6.2.1"],\
+            ["@seald-io/nedb", "npm:3.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\

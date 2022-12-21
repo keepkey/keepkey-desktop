@@ -36,88 +36,80 @@ export const startIpcListeners = () => {
     event.sender.send('@app/version', app.getVersion())
   })
 
-  ipcMain.on('@app/pairings', () => {
-    db.find({ type: 'pairing' }, (_err: unknown, docs: unknown) => {
-      if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-        windows.mainWindow.webContents.send('@app/pairings', docs)
-    })
+  ipcMain.on('@app/pairings', async () => {
+    const docs = await db.find({ type: 'pairing' })
+    if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
+      windows.mainWindow.webContents.send('@app/pairings', docs)
+    }
   })
 
-  ipcMain.on('@walletconnect/pairing', (_event, data) => {
-    db.findOne(
-      {
+  ipcMain.on('@walletconnect/pairing', async (_event, data) => {
+    const doc = await db.findOne({
+      type: 'pairing',
+      serviceName: data.serviceName,
+      serviceHomePage: data.serviceHomePage,
+      pairingType: 'walletconnect',
+    })
+
+    if (doc) {
+      await db.update(
+        {
+          type: 'pairing',
+          serviceName: data.serviceName,
+          serviceHomePage: data.serviceHomePage,
+          pairingType: 'walletconnect',
+        },
+        {
+          type: 'pairing',
+          addedOn: Date.now(),
+          serviceName: data.serviceName,
+          serviceImageUrl: data.serviceImageUrl,
+          serviceHomePage: data.serviceHomePage,
+          pairingType: 'walletconnect',
+        },
+      )
+    } else {
+      await db.insert({
         type: 'pairing',
+        addedOn: Date.now(),
         serviceName: data.serviceName,
+        serviceImageUrl: data.serviceImageUrl,
         serviceHomePage: data.serviceHomePage,
         pairingType: 'walletconnect',
-      },
-      (_err, doc) => {
-        if (doc) {
-          db.update(
-            {
-              type: 'pairing',
-              serviceName: data.serviceName,
-              serviceHomePage: data.serviceHomePage,
-              pairingType: 'walletconnect',
-            },
-            {
-              type: 'pairing',
-              addedOn: Date.now(),
-              serviceName: data.serviceName,
-              serviceImageUrl: data.serviceImageUrl,
-              serviceHomePage: data.serviceHomePage,
-              pairingType: 'walletconnect',
-            },
-          )
-        } else {
-          db.insert({
-            type: 'pairing',
-            addedOn: Date.now(),
-            serviceName: data.serviceName,
-            serviceImageUrl: data.serviceImageUrl,
-            serviceHomePage: data.serviceHomePage,
-            pairingType: 'walletconnect',
-          })
-        }
-      },
-    )
+      })
+    }
   })
 
-  ipcMain.on('@bridge/service-details', (_event, serviceKey) => {
-    db.findOne(
-      {
-        type: 'service',
-        serviceKey,
-      },
-      (_err, doc) => {
-        if (!doc) return
-        const logs = bridgeLogger.fetchLogs(serviceKey)
-        if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-          windows.mainWindow.webContents.send('@bridge/service-details', {
-            app: doc,
-            logs,
-          })
-      },
-    )
+  ipcMain.on('@bridge/service-details', async (_event, serviceKey) => {
+    const doc = await db.findOne({
+      type: 'service',
+      serviceKey,
+    })
+    if (!doc) return
+    const logs = bridgeLogger.fetchLogs(serviceKey)
+    if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
+      windows.mainWindow.webContents.send('@bridge/service-details', {
+        app: doc,
+        logs,
+      })
+    }
   })
 
   ipcMain.on('@bridge/connected', () => {
-    if (windows.mainWindow && !windows.mainWindow.isDestroyed())
+    if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
       windows.mainWindow.webContents.send('@bridge/connected', isWalletBridgeRunning())
+    }
   })
 
-  ipcMain.on('@bridge/service-name', (_event, serviceKey) => {
-    db.findOne(
-      {
-        type: 'service',
-        serviceKey,
-      },
-      (_err, doc) => {
-        if (!doc) return
-        if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-          windows.mainWindow.webContents.send('@bridge/service-name', doc.serviceName)
-      },
-    )
+  ipcMain.on('@bridge/service-name', async (_event, serviceKey) => {
+    const doc = await db.findOne<{ serviceName: string }>({
+      type: 'service',
+      serviceKey,
+    })
+    if (!doc) return
+    if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
+      windows.mainWindow.webContents.send('@bridge/service-name', doc.serviceName)
+    }
   })
 
   // web render thread has indicated it is ready to receive ipc messages
@@ -134,15 +126,14 @@ export const startIpcListeners = () => {
   })
 
   // send paired apps when requested
-  ipcMain.on('@bridge/paired-apps', () => {
-    db.find({ type: 'service' }, (_err: unknown, docs: unknown) => {
-      queueIpcEvent('@bridge/paired-apps', docs)
-    })
+  ipcMain.on('@bridge/paired-apps', async () => {
+    const docs = await db.find({ type: 'service' })
+    queueIpcEvent('@bridge/paired-apps', docs)
   })
 
   // used only for implicitly pairing the KeepKey web app
-  ipcMain.on(`@bridge/add-service`, (_event, data) => {
-    db.insert({
+  ipcMain.on(`@bridge/add-service`, async (_event, data) => {
+    await db.insert({
       type: 'service',
       isKeepKeyDesktop: true,
       addedOn: Date.now(),
@@ -153,22 +144,19 @@ export const startIpcListeners = () => {
     })
   })
 
-  ipcMain.on('@bridge/service-details', (_event, serviceKey) => {
-    db.findOne(
-      {
-        type: 'service',
-        serviceKey,
-      },
-      (_err, doc) => {
-        if (!doc) return
-        const logs = bridgeLogger.fetchLogs(serviceKey)
-        if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-          windows.mainWindow.webContents.send('@bridge/service-details', {
-            app: doc,
-            logs,
-          })
-      },
-    )
+  ipcMain.on('@bridge/service-details', async (_event, serviceKey) => {
+    const doc = await db.findOne({
+      type: 'service',
+      serviceKey,
+    })
+    if (!doc) return
+    const logs = bridgeLogger.fetchLogs(serviceKey)
+    if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
+      windows.mainWindow.webContents.send('@bridge/service-details', {
+        app: doc,
+        logs,
+      })
+    }
   })
 
   ipcMain.on('@bridge/connected', () => {
@@ -176,18 +164,15 @@ export const startIpcListeners = () => {
       windows.mainWindow.webContents.send('@bridge/connected', isWalletBridgeRunning())
   })
 
-  ipcMain.on('@bridge/service-name', (_event, serviceKey) => {
-    db.findOne(
-      {
-        type: 'service',
-        serviceKey,
-      },
-      (_err, doc) => {
-        if (!doc) return
-        if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-          windows.mainWindow.webContents.send('@bridge/service-name', doc.serviceName)
-      },
-    )
+  ipcMain.on('@bridge/service-name', async (_event, serviceKey) => {
+    const doc = await db.findOne<{ serviceName: string }>({
+      type: 'service',
+      serviceKey,
+    })
+    if (!doc) return
+    if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
+      windows.mainWindow.webContents.send('@bridge/service-name', doc.serviceName)
+    }
   })
 
   // web render thread has indicated it is ready to receive ipc messages
@@ -204,15 +189,14 @@ export const startIpcListeners = () => {
   })
 
   // send paired apps when requested
-  ipcMain.on('@bridge/paired-apps', () => {
-    db.find({ type: 'service' }, (_err: unknown, docs: unknown) => {
-      queueIpcEvent('@bridge/paired-apps', docs)
-    })
+  ipcMain.on('@bridge/paired-apps', async () => {
+    const docs = await db.find({ type: 'service' })
+    queueIpcEvent('@bridge/paired-apps', docs)
   })
 
   // used only for implicitly pairing the KeepKey web app
-  ipcMain.on(`@bridge/add-service`, (_event, data) => {
-    db.insert({
+  ipcMain.on(`@bridge/add-service`, async (_event, data) => {
+    await db.insert({
       type: 'service',
       isKeepKeyDesktop: true,
       addedOn: Date.now(),
@@ -221,8 +205,8 @@ export const startIpcListeners = () => {
   })
 
   // used for unpairing apps
-  ipcMain.on(`@bridge/remove-service`, (_event, data) => {
-    db.remove({ ...data })
+  ipcMain.on(`@bridge/remove-service`, async (_event, data) => {
+    await db.remove({ ...data }, {})
   })
 
   ipcMain.on('@keepkey/update-firmware', async event => {

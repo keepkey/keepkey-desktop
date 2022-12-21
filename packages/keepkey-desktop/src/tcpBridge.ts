@@ -42,7 +42,7 @@ export const startTcpBridge = async (port?: number) => {
 
   addMiddleware(logger)
   setSdkClientFactory(async (apiKey: string) => {
-    const doc = await util.promisify(db.findOne.bind(db))({ type: 'service', serviceKey: apiKey })
+    const doc = await db.findOne({ type: 'service', serviceKey: apiKey })
     if (!doc) return undefined
 
     const wallet = kkStateController.wallet
