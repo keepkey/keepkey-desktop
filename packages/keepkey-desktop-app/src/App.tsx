@@ -14,6 +14,7 @@ export const App = () => {
   const {
     state: { deviceId },
     dispatch,
+    pairAndConnect,
   } = useWallet()
   const { setIsUpdatingKeepkey, state, disconnect } = useWallet()
 
@@ -144,6 +145,8 @@ export const App = () => {
             openKeepKeyUpdater(data)
           }
           setConnected(true)
+          // if needs initialize we do the normal pair process and then web detects that it needs initialize
+          pairAndConnect.current()
           break
         case KKState.NeedsReconnect:
           dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })

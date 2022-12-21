@@ -352,6 +352,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   const pairAndConnect = useRef(
     debounce(async () => {
+      console.log('pairAndConnect')
       const sdk = await getsdk()
       const adapters: Adapters = new Map()
       let options: undefined | WalletConnectProviderConfig
@@ -419,11 +420,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('needsInitialize', () => {
-      // if needs initialize we do the normal pair process and then web detects that it needs initialize
-      pairAndConnect.current()
-    })
-
     //HDwallet API
     //TODO moveme into own file
     ipcRenderer.on('@hdwallet/osmosisGetAddress', async (_event: unknown, data: any) => {
@@ -454,10 +450,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
         let pubkeys = await state.wallet.osmosisSignTx(HDwalletPayload)
         ipcRenderer.send('@hdwallet/response/osmosisSignTx', pubkeys)
       }
-    })
-
-    ipcRenderer.on('connected', async () => {
-      pairAndConnect.current()
     })
 
     //END HDwallet API
