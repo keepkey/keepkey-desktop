@@ -46,7 +46,7 @@ export const Authenticator = () => {
     setLoading(true)
     setAccounts([])
 
-    for (let slotIdx = 0; slotIdx < 20; slotIdx++) {
+    for (let slotIdx = 0; slotIdx < 11; slotIdx++) {
       const msg = `\x17getAccount:${slotIdx}`
       console.log('getAccount msg: ', msg)
 
@@ -79,17 +79,14 @@ export const Authenticator = () => {
       console.log('removeAccount msg: ', msg)
 
       await wallet.ping({ msg }).catch(console.error)
-      const accIdx = accounts.findIndex(a => a.slotIdx === acc.slotIdx)
-      if (accIdx > 0) {
-        toast({
-          status: 'info',
-          title: 'Account deleted',
-          description: `Account ${acc.domain}:${acc.account} deleted`,
-        })
-        fetchAccs()
-      }
+      toast({
+        status: 'info',
+        title: 'Account deleted',
+        description: `Account ${acc.domain}:${acc.account} deleted`,
+      })
+      setTimeout(fetchAccs, 2000)
     },
-    [wallet, accounts, toast, fetchAccs],
+    [wallet, toast, fetchAccs],
   )
 
   const generateOtp = useCallback(

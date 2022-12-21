@@ -14,15 +14,18 @@ import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 // import { SessionTypes } from '@walletconnect/types'
 import { ipcRenderer } from 'electron-shim'
 import type { FC } from 'react'
+import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
 import { SlideTransition } from 'components/SlideTransition'
-import { Text } from 'components/Text'
+import { RawText, Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { MemoryRouter } from 'react-router'
 import { Route } from 'react-router'
 import { useHistory } from 'react-router'
 import { Switch } from 'react-router'
+import { AnimatePresence } from 'framer-motion'
+import { readQrCode } from 'lib/readQrCode'
 // import screenshot from 'screenshot-desktop'
 // import QrScanner from 'qr-scanner'
 
@@ -60,7 +63,7 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
         })
         .catch(console.error)
       close()
-      fetchAccs()
+      setTimeout(fetchAccs, 2000)
     },
     [wallet, toast, close, fetchAccs],
   )
@@ -84,7 +87,7 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
             <Text translation={'authenticator.modal.header'} />
           </ModalHeader>
           <ModalBody>
-            <SlideTransition>
+            <AnimatePresence exitBeforeEnter>
               <MemoryRouter>
                 <Switch>
                   <Route exact path='/'>
@@ -94,11 +97,11 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
                     <AddManually addAcc={addAcc} />
                   </Route>
                   <Route exact path='/scan'>
-                    <AddByScanning />
+                    <AddByScanning addAcc={addAcc} />
                   </Route>
                 </Switch>
               </MemoryRouter>
-            </SlideTransition>
+            </AnimatePresence>
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -142,17 +145,44 @@ const AddManually: FC<{ addAcc: any }> = ({ addAcc }) => {
   )
 }
 
-const AddByScanning = () => {
+const AddByScanning: FC<{ addAcc: any }> = ({ addAcc }) => {
   const { goBack } = useHistory()
+
+  const [scannedQr, setScannedQr] = useState('')
+  const [error, setError] = useState('')
+
   const scan = () => {
-    // screenshot().then(img => {
-    //   QrScanner.scanImage(new Blob([img])).then(console.log)
-    // })
+    readQrCode().then(setScannedQr).catch(setError)
   }
+
+  useEffect(() => {
+    setError('')
+    if (!scannedQr) return setError('Unable to scan QR')
+
+    if (!/^otpauth:/.test(scannedQr)) return setError('Invalid QR')
+    const url = new URL(scannedQr.replace(/^otpauth:/, 'http:'))
+    if (url.hostname !== 'totp') return setError('Invalid QR')
+    const parsed = /^\/(?<domain>[^/]*?):(?<account>[^/]*)$/.exec(url.pathname)?.groups
+
+    if (!parsed) return setError('Insuffecient data in QR')
+
+    const domain = decodeURI(parsed.domain)
+    const account = decodeURI(parsed.account)
+    const secret = url.searchParams.get('secret')
+    if (!domain || !account || !secret) return setError('Insuffecient data in QR')
+
+    addAcc({
+      domain,
+      account,
+      secret,
+    })
+  }, [addAcc, scannedQr])
+
   return (
     <VStack>
       <Text translation={'authenticator.modal.scan'} />
-      <Button colorScheme={'blue'} onClick={() => scan}>
+      {error && <RawText textColor='red.400'>{error}</RawText>}
+      <Button colorScheme={'blue'} onClick={() => scan()}>
         <Text translation={'authenticator.modal.cta.scan'} />
       </Button>
       <Button onClick={() => goBack()}>Back</Button>
