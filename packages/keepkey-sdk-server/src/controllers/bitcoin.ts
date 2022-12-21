@@ -1,13 +1,4 @@
-import {
-  Body,
-  Post,
-  Security,
-  Route,
-  Response,
-  Middlewares,
-  OperationId,
-  Tags,
-} from 'tsoa'
+import { Body, Post, Security, Route, Response, Middlewares, OperationId, Tags } from 'tsoa'
 
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'
@@ -23,7 +14,7 @@ export class BitcoinController extends ApiController {
    * @summary Sign an Bitcoin transaction
    */
   @Post('sign-transaction')
-  @OperationId('eth_signTransaction')
+  @OperationId('btc_signTransaction')
   public async signTransaction(
     @Body()
     body: {

@@ -1,10 +1,9 @@
-git pimport * as Messages from "@keepkey/device-protocol/lib/messages_pb";
+import * as Messages from "@keepkey/device-protocol/lib/messages_pb";
 import * as Types from "@keepkey/device-protocol/lib/types_pb";
 import * as core from "@shapeshiftoss/hdwallet-core";
 import _ from "lodash";
 import semver from "semver";
 import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
-
 export type { KeepKeySdk } from "@keepkey/keepkey-sdk"
 
 export function isKeepKey(wallet: core.HDWallet): wallet is KeepKeyRestHDWallet {
@@ -334,15 +333,15 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   readonly btcGetAddress = _.memoize(async (msg: core.BTCGetAddress): Promise<string> => {
-    // throw new Error("not implemented")
-    return (await this.sdk.address.utxoGetAddress({
-      addressN: msg.addressNList,
-      showDisplay: msg.showDisplay,
-    })).address
+    throw new Error("not implemented")
+    // return (await this.sdk.address.utxoGetAddress({
+    //   addressN: msg.addressNList,
+    //   showDisplay: msg.showDisplay,
+    // })).address
   })
 
   public async btcSignTx(msg: any): Promise<any> {
-    const output = await this.sdk.btc.btcSignTransaction()
+    const output = await this.sdk.bitcoin.btcSignTransaction(msg)
     return output
   }
 
