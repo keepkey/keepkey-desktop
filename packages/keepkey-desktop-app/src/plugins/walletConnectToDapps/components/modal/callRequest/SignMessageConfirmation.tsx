@@ -21,6 +21,9 @@ import { RawText, Text } from 'components/Text'
 
 import { AddressSummaryCard } from './AddressSummaryCard'
 
+const strip0x = (inputHexString: string) =>
+  inputHexString.startsWith('0x') ? inputHexString.slice(2, inputHexString.length) : inputHexString
+
 export const SignMessageConfirmation = () => {
   const translate = useTranslate()
   const cardBg = useColorModeValue('white', 'gray.850')
@@ -38,9 +41,9 @@ export const SignMessageConfirmation = () => {
   useEffect(() => {
     if (!currentRequest) return
     if (currentRequest.payload && currentRequest.payload.params[0])
-      setMessage(Buffer.from(currentRequest.payload.params[0], 'hex').toString('utf8'))
+      setMessage(Buffer.from(strip0x(currentRequest.payload.params[0]), 'hex').toString('utf8'))
     if (currentRequest.params && currentRequest.params[0])
-      setMessage(Buffer.from(currentRequest.params[0], 'hex').toString('utf8'))
+      setMessage(Buffer.from(strip0x(currentRequest.params[0]), 'hex').toString('utf8'))
   }, [currentRequest])
 
   const onConfirm = useCallback(
