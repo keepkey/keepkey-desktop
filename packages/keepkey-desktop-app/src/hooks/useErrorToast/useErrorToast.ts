@@ -24,11 +24,12 @@ export const ErrorTranslationMap: Record<string, string> = {
   [SwapErrorTypes.VALIDATION_FAILED]: 'trade.errors.generalError',
   [SwapErrorTypes.RESPONSE_ERROR]: 'trade.errors.generalError',
   [SwapErrorTypes.TRADE_FAILED]: 'trade.errors.tradeFailed',
+  '': 'trade.errors.generalError',
 }
 
 const getTranslationFromError = (error: unknown) => {
   if (isError(error)) {
-    return ErrorTranslationMap[get(error, 'code')] ?? 'common.generalError'
+    return ErrorTranslationMap[get(error, 'code') ?? ''] ?? 'common.generalError'
   }
   return 'common.generalError'
 }

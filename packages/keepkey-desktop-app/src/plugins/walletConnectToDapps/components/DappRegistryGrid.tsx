@@ -20,11 +20,10 @@ import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { getConfig } from 'config'
 
 import type { RegistryItem } from '../types'
 import { PageInput } from './PageInput'
-// @ts-ignore
+// @ts-expect-error
 import client from '@pioneer-platform/pioneer-client'
 import { getPioneerClient } from 'lib/getPioneerCleint'
 

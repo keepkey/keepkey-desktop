@@ -71,7 +71,6 @@ export const ChangePin = () => {
 
   const handleHeaderBackClick = async () => {
     await handleCancel()
-
     await handleBackClick()
   }
 

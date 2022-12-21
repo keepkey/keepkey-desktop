@@ -1,4 +1,5 @@
 import { getConfig } from 'config'
+// @ts-expect-error
 import Client from '@pioneer-platform/pioneer-client'
 
 export const getPioneerClient = async () => {

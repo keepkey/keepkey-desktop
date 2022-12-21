@@ -147,6 +147,7 @@ export const KeepKeyPin = ({
     keyring.on(['KeepKey', deviceId, String(MessageType.FAILURE)], handleError)
 
     return () => {
+      // @ts-expect-error
       keyring.off(['KeepKey', deviceId, String(MessageType.FAILURE)], handleError)
     }
   }, [deviceId, keyring])

@@ -229,7 +229,7 @@ export const PairDeposit = ({
             onAccountIdChange={handleAccountIdChange}
             onMaxClick={value => handlePercentClick(value, true)}
             percentOptions={percentOptions}
-            errors={cryptoError1 || fiatError1}
+            errors={(cryptoError1 || fiatError1) ?? undefined}
           />
           <AssetInput
             {...(accountId ? { accountId } : {})}
@@ -245,7 +245,7 @@ export const PairDeposit = ({
             onAccountIdChange={handleAccountIdChange}
             onMaxClick={value => handlePercentClick(value, false)}
             percentOptions={percentOptions}
-            errors={cryptoError2 || fiatError2}
+            errors={(cryptoError2 || fiatError2) ?? undefined}
           />
           <Row>
             <Stack flex={1} spacing={0}>

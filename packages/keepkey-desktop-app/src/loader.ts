@@ -4,6 +4,7 @@ import { logger } from './lib/logger'
   globalThis.__dirname = '/'
   globalThis.global = globalThis
   globalThis.Buffer = Buffer
+  // @ts-expect-error
   globalThis.app_env = await (await fetch('./env.json')).json()
   await import('./index')
 })().catch(e => logger.error(e, 'loader error'))

@@ -104,7 +104,7 @@ export const Address = () => {
         <Stack flex={1}>
           <Button
             width='full'
-            isDisabled={!address || !input || addressError}
+            isDisabled={!address || !input || !!addressError}
             isLoading={isValidating}
             colorScheme={addressError && !isValidating ? 'red' : 'blue'}
             size='lg'

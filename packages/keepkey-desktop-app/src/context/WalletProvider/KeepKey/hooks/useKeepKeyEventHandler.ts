@@ -278,8 +278,11 @@ export const useKeepKeyEventHandler = (
     keyring.on(['*', '*', Events.DISCONNECT], handleDisconnect)
 
     return () => {
+      // @ts-expect-error
       keyring.off(['KeepKey', '*', '*'], handleEvent)
+      // @ts-expect-error
       keyring.off(['*', '*', Events.CONNECT], handleConnect)
+      // @ts-expect-error
       keyring.off(['*', '*', Events.DISCONNECT], handleDisconnect)
     }
   }, [

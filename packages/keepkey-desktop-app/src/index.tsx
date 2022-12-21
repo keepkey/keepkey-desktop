@@ -13,7 +13,7 @@ import unhandled from 'electron-unhandled'
 unhandled()
 
 ipcRenderer.send('@app/version')
-ipcRenderer.on('@app/version', (_event, version) => {
+ipcRenderer.on('@app/version', (_event: unknown, version: string) => {
   document.title = `KeepKey Desktop (v${version})`
 })
 

@@ -31,7 +31,7 @@ export const PairingDetails = () => {
   }, [params])
 
   useEffect(() => {
-    ipcRenderer.on('@bridge/service-details', (_event, data: any) => {
+    ipcRenderer.on('@bridge/service-details', (_event: unknown, data: any) => {
       setApp(data.app)
       setLogs(data.logs)
     })

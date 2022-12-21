@@ -44,10 +44,10 @@ export const Pairings = () => {
   useEffect(() => {
     ipcRenderer.send('@bridge/paired-apps')
     ipcRenderer.send('@app/pairings')
-    ipcRenderer.on('@bridge/paired-apps', (_event, data: PairedAppProps[]) => {
+    ipcRenderer.on('@bridge/paired-apps', (_event: unknown, data: PairedAppProps[]) => {
       setApps(data)
     })
-    ipcRenderer.on('@app/pairings', (_event, data: PairingProps[]) => {
+    ipcRenderer.on('@app/pairings', (_event: unknown, data: PairingProps[]) => {
       setPairings(data)
     })
   }, [])

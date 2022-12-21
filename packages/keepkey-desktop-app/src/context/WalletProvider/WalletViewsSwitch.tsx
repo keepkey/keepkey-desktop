@@ -51,6 +51,7 @@ export const WalletViewsSwitch = () => {
     }
     dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
     await cancelWalletRequests()
+    await onContinue()
   }
 
   const handleBack = async () => {

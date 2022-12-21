@@ -6,7 +6,6 @@ import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-wallet
 import type WalletConnectProvider from '@walletconnect/web3-provider'
 import * as uuid from 'uuid'
 import { ipcRenderer } from 'electron-shim'
-import type { providers } from 'ethers'
 import debounce from 'lodash/debounce'
 import omit from 'lodash/omit'
 import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react'
@@ -384,7 +383,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     }, 2000),
   )
 
-  const getsdk = () => {
+  const getsdk = async () => {
     console.log('setup kk sdk called')
     let serviceKey = window.localStorage.getItem('@app/serviceKey')
     let config = {
@@ -397,18 +396,18 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       window.localStorage.setItem('@app/serviceKey', config.serviceKey)
       ipcRenderer.send('@bridge/add-service', config)
     }
-    return KeepKeySdk.create({
+    return await KeepKeySdk.create({
       apiKey: config.serviceKey,
     })
   }
 
   const startBridgeListeners = useCallback(() => {
-    ipcRenderer.on('@walletconnect/paired', (_event, data) => {
+    ipcRenderer.on('@walletconnect/paired', (_event: unknown, data: WalletConnectApp | null) => {
       dispatch({ type: WalletActions.SET_WALLET_CONNECT_APP, payload: data })
     })
 
     //listen to events on main
-    ipcRenderer.on('hardware', (_event, data) => {
+    ipcRenderer.on('hardware', (_event: unknown, data: any) => {
       switch (data.event.event) {
         case 'connect':
           playSound('success')
@@ -427,7 +426,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
     //HDwallet API
     //TODO moveme into own file
-    ipcRenderer.on('@hdwallet/osmosisGetAddress', async (_event, data) => {
+    ipcRenderer.on('@hdwallet/osmosisGetAddress', async (_event: unknown, data: any) => {
       let payload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -437,7 +436,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/cosmosSignTx', async (_event, data) => {
+    ipcRenderer.on('@hdwallet/cosmosSignTx', async (_event: unknown, data: any) => {
       let HDwalletPayload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -447,7 +446,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/osmosisSignTx', async (_event, data) => {
+    ipcRenderer.on('@hdwallet/osmosisSignTx', async (_event: unknown, data: any) => {
       let HDwalletPayload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -457,7 +456,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('connected', async (_event, _data) => {
+    ipcRenderer.on('connected', async () => {
       pairAndConnect.current()
     })
 

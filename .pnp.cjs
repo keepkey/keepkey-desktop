@@ -11814,6 +11814,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/uuid", "npm:8.3.4"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:9.0.0", {\
+          "packageLocation": "./.yarn/cache/@types-uuid-npm-9.0.0-979023c16f-59ae56d954.zip/node_modules/@types/uuid/",\
+          "packageDependencies": [\
+            ["@types/uuid", "npm:9.0.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@types/verror", [\
@@ -25073,6 +25080,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/redux-logger", "npm:3.0.9"],\
             ["@types/semver", "npm:7.3.13"],\
             ["@types/ssri", "npm:7.1.1"],\
+            ["@types/uuid", "npm:9.0.0"],\
             ["@types/wait-promise", "npm:0.4.0"],\
             ["@typescript-eslint/parser", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
             ["@uniswap/sdk", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:3.0.3"],\
@@ -25221,6 +25229,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["wait-promise", "npm:0.4.1"],\
             ["web-vitals", "npm:2.1.4"],\
             ["web3", "npm:1.8.1"],\
+            ["web3-core", "npm:1.8.1"],\
             ["web3-utils", "npm:1.8.1"]\
           ],\
           "linkType": "SOFT"\

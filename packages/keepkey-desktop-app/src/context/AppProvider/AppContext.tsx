@@ -40,7 +40,7 @@ import {
   selectPortfolioLoadingStatus,
   selectPortfolioLoadingStatusGranular,
   selectSelectedCurrency,
-  selectSelectedLocale,
+  // selectSelectedLocale,
 } from 'state/slices/selectors'
 import { txHistory, txHistoryApi } from 'state/slices/txHistorySlice/txHistorySlice'
 import {

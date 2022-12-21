@@ -8205,6 +8205,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/uuid@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@types/uuid@npm:9.0.0"
+  checksum: 59ae56d9547c8758588659da2a2b4c97cce79c2aae1798c892bb29452ef08e87859dea2ec3a66bfa88d0d2153147520be2b1893be920f9f0bc9c53a3207ea6aa
+  languageName: node
+  linkType: hard
+
 "@types/verror@npm:^1.10.3":
   version: 1.10.6
   resolution: "@types/verror@npm:1.10.6"
@@ -19316,6 +19323,7 @@ __metadata:
     "@types/redux-logger": ^3.0.9
     "@types/semver": ^7.3.13
     "@types/ssri": ^7.1.1
+    "@types/uuid": ^9.0.0
     "@types/wait-promise": ^0.4.0
     "@typescript-eslint/parser": ^5.45.0
     "@uniswap/sdk": ^3.0.3
@@ -19464,6 +19472,7 @@ __metadata:
     wait-promise: ^0.4.1
     web-vitals: ^2.1.4
     web3: ^1.8.1
+    web3-core: ^1.8.1
     web3-utils: ^1.5.2
   languageName: unknown
   linkType: soft
@@ -28060,7 +28069,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web3-core@npm:1.8.1":
+"web3-core@npm:1.8.1, web3-core@npm:^1.8.1":
   version: 1.8.1
   resolution: "web3-core@npm:1.8.1"
   dependencies:

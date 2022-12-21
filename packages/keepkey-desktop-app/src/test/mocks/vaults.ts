@@ -37,6 +37,7 @@ export const mockVault = (obj: {
     displayName: '',
     defaultDisplayToken: '',
     hideIfNoDeposits: false,
+    migrationAvailable: false,
   },
   underlyingAsset: {
     assetId: '',
@@ -81,6 +82,7 @@ export const mockVaultWithBalance = (obj: { id: string; fiatAmount: string }): M
     displayName: '',
     defaultDisplayToken: '',
     hideIfNoDeposits: false,
+    migrationAvailable: false,
   },
   underlyingAsset: {
     assetId: '',

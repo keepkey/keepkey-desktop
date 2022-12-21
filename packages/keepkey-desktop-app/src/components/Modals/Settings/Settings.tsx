@@ -6,7 +6,6 @@ import { useModal } from 'hooks/useModal/useModal'
 
 import { SettingsRoutes } from './SettingsCommon'
 import { SettingsRouter } from './SettingsRouter'
-import { Text } from 'components/Text'
 
 export const entries = [
   SettingsRoutes.Index,
