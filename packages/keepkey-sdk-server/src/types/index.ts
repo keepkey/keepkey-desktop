@@ -3,9 +3,8 @@ import type * as types from '.'
 export * as bnb from './bnb'
 export * as cosmos from './cosmos'
 export * as eth from './eth'
-export * as xrp from './xrp'
-
 export * from './types'
+export * as xrp from './xrp'
 
 /**
  * a BIP-32 path, expressed as a list of node indexes

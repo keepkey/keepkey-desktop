@@ -1,23 +1,22 @@
+import { Readable } from 'stream'
 import {
   Body,
-  Post,
-  Security,
-  Route,
-  Response,
-  Middlewares,
-  Query,
-  OperationId,
-  Tags,
-  Deprecated,
   Consumes,
+  Deprecated,
+  Middlewares,
+  OperationId,
+  Post,
   Produces,
+  Query,
+  Response,
+  Route,
+  Security,
+  Tags,
 } from 'tsoa'
-import { Readable } from 'stream'
-
-import type * as types from '../../types'
 
 import { ApiController } from '../../auth'
 import { extra } from '../../middlewares'
+import type * as types from '../../types'
 
 export * from './debug'
 export * from './info'

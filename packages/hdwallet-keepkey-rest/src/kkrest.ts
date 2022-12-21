@@ -1,47 +1,49 @@
-import * as Messages from "@keepkey/device-protocol/lib/messages_pb";
-import * as Types from "@keepkey/device-protocol/lib/types_pb";
-import * as core from "@shapeshiftoss/hdwallet-core";
-import _ from "lodash";
-import semver from "semver";
-import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
+import type * as Messages from '@keepkey/device-protocol/lib/messages_pb'
+import type * as Types from '@keepkey/device-protocol/lib/types_pb'
+import type { KeepKeySdk } from '@keepkey/keepkey-sdk'
+import * as core from '@shapeshiftoss/hdwallet-core'
+import _ from 'lodash'
+import semver from 'semver'
 
-export type { KeepKeySdk } from "@keepkey/keepkey-sdk"
+export type { KeepKeySdk } from '@keepkey/keepkey-sdk'
 
 export function isKeepKey(wallet: core.HDWallet): wallet is KeepKeyRestHDWallet {
-  return _.isObject(wallet) && (wallet as any)._isKeepKey;
+  return _.isObject(wallet) && (wallet as any)._isKeepKey
 }
 
-export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.ETHWallet, core.DebugLinkWallet {
-  readonly _supportsETHInfo = true;
-  readonly _supportsBTCInfo = true;
-  readonly _supportsCosmosInfo = true;
-  readonly _supportsRippleInfo = true;
-  readonly _supportsBinanceInfo = true;
-  readonly _supportsEosInfo = true;
-  readonly _supportsFioInfo = false;
-  readonly _supportsDebugLink = false;
-  readonly _isKeepKey = true;
-  readonly _supportsETH = true;
-  readonly _supportsEthSwitchChain = false;
-  readonly _supportsAvalanche = false;
-  readonly _supportsBTC = true;
-  _supportsCosmos = true;
-  _supportsRipple = true;
-  _supportsBinance = true;
-  _supportsEos = true;
-  readonly _supportsThorchainInfo = true;
-  readonly _supportsThorchain = true;
-  readonly _supportsSecretInfo = false;
-  readonly _supportsSecret = false;
-  readonly _supportsKava = false;
-  readonly _supportsKavaInfo = false;
-  readonly _supportsTerra = false;
-  readonly _supportsTerraInfo = false;
+export class KeepKeyRestHDWallet
+  implements core.HDWallet, core.BTCWallet, core.ETHWallet, core.DebugLinkWallet
+{
+  readonly _supportsETHInfo = true
+  readonly _supportsBTCInfo = true
+  readonly _supportsCosmosInfo = true
+  readonly _supportsRippleInfo = true
+  readonly _supportsBinanceInfo = true
+  readonly _supportsEosInfo = true
+  readonly _supportsFioInfo = false
+  readonly _supportsDebugLink = false
+  readonly _isKeepKey = true
+  readonly _supportsETH = true
+  readonly _supportsEthSwitchChain = false
+  readonly _supportsAvalanche = false
+  readonly _supportsBTC = true
+  _supportsCosmos = true
+  _supportsRipple = true
+  _supportsBinance = true
+  _supportsEos = true
+  readonly _supportsThorchainInfo = true
+  readonly _supportsThorchain = true
+  readonly _supportsSecretInfo = false
+  readonly _supportsSecret = false
+  readonly _supportsKava = false
+  readonly _supportsKavaInfo = false
+  readonly _supportsTerra = false
+  readonly _supportsTerraInfo = false
 
-  private readonly sdk: KeepKeySdk;
+  private readonly sdk: KeepKeySdk
 
   protected constructor(sdk: KeepKeySdk) {
-    this.sdk = sdk;
+    this.sdk = sdk
   }
 
   static async create(sdk: KeepKeySdk): Promise<KeepKeyRestHDWallet> {
@@ -49,70 +51,75 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async getDeviceID(): Promise<string> {
-    const features = await this.getFeatures();
-    return features.deviceId!;
+    const features = await this.getFeatures()
+    return features.deviceId!
   }
 
   public getVendor(): string {
-    return "KeepKey";
+    return 'KeepKey'
   }
 
   public async getModel(): Promise<string> {
     const features = await this.getFeatures()
-    return core.mustBeDefined(features).model!;
+    return core.mustBeDefined(features).model!
   }
 
   public async getFirmwareVersion(): Promise<string> {
     const features = await this.getFeatures()
 
-    return `v${features.majorVersion}.${features.minorVersion}.${features.patchVersion}`;
+    return `v${features.majorVersion}.${features.minorVersion}.${features.patchVersion}`
   }
 
   public async getLabel(): Promise<string> {
     const features = await this.getFeatures()
-    return features.label ?? "";
+    return features.label ?? ''
   }
 
   public async isInitialized(): Promise<boolean> {
     const features = await this.getFeatures()
-    return !!features.initialized;
+    return !!features.initialized
   }
 
   public async isLocked(): Promise<boolean> {
-    const features = await this.getFeaturesUncached();
-    if (features.pinProtection && !features.pinCached) return true;
-    if (features.passphraseProtection && !features.passphraseCached) return true;
-    return false;
+    const features = await this.getFeaturesUncached()
+    if (features.pinProtection && !features.pinCached) return true
+    if (features.passphraseProtection && !features.passphraseCached) return true
+    return false
   }
 
-  readonly getPublicKeys = _.memoize(async (getPublicKeys: Array<core.GetPublicKey>): Promise<Array<core.PublicKey | null>> => {
-    return await Promise.all(getPublicKeys.map(async x => {
-      const scriptType = (() => {
-        switch (x.scriptType) {
-          case undefined:
-            return undefined
-          case core.BTCInputScriptType.SpendAddress:
-            return 'p2pkh'
-          case core.BTCInputScriptType.SpendWitness:
-            return 'p2wpkh'
-          case core.BTCInputScriptType.SpendP2SHWitness:
-            return 'p2sh-p2wpkh'
-          default:
-            throw new Error('bad scriptType')
-        }
-      })()
-      return await this.sdk.system.info.getPublicKey({
-        coin_name: x.coin,
-        script_type: scriptType,
-        show_display: x.showDisplay,
-        ecdsa_curve_name: x.curve,
-        address_n: x.addressNList,
-      })
-    }))
-  })
+  readonly getPublicKeys = _.memoize(
+    async (getPublicKeys: core.GetPublicKey[]): Promise<(core.PublicKey | null)[]> => {
+      return await Promise.all(
+        getPublicKeys.map(async x => {
+          const scriptType = (() => {
+            switch (x.scriptType) {
+              case undefined:
+                return undefined
+              case core.BTCInputScriptType.SpendAddress:
+                return 'p2pkh'
+              case core.BTCInputScriptType.SpendWitness:
+                return 'p2wpkh'
+              case core.BTCInputScriptType.SpendP2SHWitness:
+                return 'p2sh-p2wpkh'
+              default:
+                throw new Error('bad scriptType')
+            }
+          })()
+          return await this.sdk.system.info.getPublicKey({
+            coin_name: x.coin,
+            script_type: scriptType,
+            show_display: x.showDisplay,
+            ecdsa_curve_name: x.curve,
+            address_n: x.addressNList,
+          })
+        }),
+      )
+    },
+  )
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async ping(_msg: core.Ping): Promise<core.Pong> {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
   public async reset(msg: core.ResetDevice): Promise<void> {
@@ -126,48 +133,50 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
     })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async recover(r: core.RecoverDevice): Promise<void> {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
   public async pressYes(): Promise<void> {
-    return this.press(true);
+    return this.press(true)
   }
 
   public async pressNo(): Promise<void> {
-    return this.press(false);
+    return this.press(false)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async press(_isYes: boolean): Promise<void> {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
   public hasOnDevicePinEntry(): boolean {
-    return false;
+    return false
   }
 
   public hasOnDevicePassphrase(): boolean {
-    return false;
+    return false
   }
 
   public hasOnDeviceDisplay(): boolean {
-    return true;
+    return true
   }
 
   public hasOnDeviceRecovery(): boolean {
-    return false;
+    return false
   }
 
   public supportsBip44Accounts(): boolean {
-    return true;
+    return true
   }
 
   public supportsOfflineSigning(): boolean {
-    return true;
+    return true
   }
 
   public supportsBroadcast(): boolean {
-    return false;
+    return false
   }
 
   public async sendPin(): Promise<never> {
@@ -178,7 +187,8 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
     throw new Error("passphrase entry is handled by the server, so don't call this")
   }
 
-  public async sendCharacter(character: string): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async sendCharacter(_character: string): Promise<void> {
     throw new Error("character entry is handled by the server, so don't call this")
   }
 
@@ -191,7 +201,7 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async sendWord(): Promise<never> {
-    throw new Error("obsolete")
+    throw new Error('obsolete')
   }
 
   public hasNativeShapeShift(): boolean {
@@ -207,10 +217,12 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async applyPolicy(p: Required<Types.PolicyType.AsObject>): Promise<void> {
-    await this.sdk.system.applyPolicies([{
-      policy_name: p.policyName,
-      enabled: p.enabled,
-    }]);
+    await this.sdk.system.applyPolicies([
+      {
+        policy_name: p.policyName,
+        enabled: p.enabled,
+      },
+    ])
   }
 
   public async applySettings(s: Messages.ApplySettings.AsObject): Promise<void> {
@@ -220,19 +232,19 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
       label: s.label,
       language: s.language,
       use_passphrase: s.usePassphrase,
-    });
+    })
   }
 
   public async cancel(): Promise<void> {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
   public async changePin(): Promise<void> {
-    await this.sdk.system.changePin({});
+    await this.sdk.system.changePin({})
   }
 
   public async clearSession(): Promise<void> {
-    await this.sdk.system.clearSession();
+    await this.sdk.system.clearSession()
   }
 
   public async firmwareErase(): Promise<void> {
@@ -240,7 +252,7 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   }
 
   public async firmwareUpload(firmware: Buffer): Promise<void> {
-    await this.sdk.system.firmwareUpdate(new Blob([firmware]));
+    await this.sdk.system.firmwareUpdate(new Blob([firmware]))
   }
 
   public async initialize(): Promise<void> {
@@ -264,9 +276,14 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
       label: raw.label,
       coinsList: [],
       initialized: raw.initialized,
-      revision: Buffer.from((raw.revision as string | undefined) ?? "", "utf8").toString("base64"),
-      bootloaderHash: Buffer.from((raw.bootloader_hash as string | undefined) ?? "", "hex").toString("base64"),
-      firmwareHash: Buffer.from((raw.firmware_hash as string | undefined) ?? "", "hex").toString("base64"),
+      revision: Buffer.from((raw.revision as string | undefined) ?? '', 'utf8').toString('base64'),
+      bootloaderHash: Buffer.from(
+        (raw.bootloader_hash as string | undefined) ?? '',
+        'hex',
+      ).toString('base64'),
+      firmwareHash: Buffer.from((raw.firmware_hash as string | undefined) ?? '', 'hex').toString(
+        'base64',
+      ),
       imported: raw.imported,
       pinCached: raw.pin_cached,
       passphraseCached: raw.passphrase_cached,
@@ -285,16 +302,21 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
     return await this.getFeaturesUncached()
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async getEntropy(_size: number): Promise<Uint8Array> {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
   public async getNumCoins(): Promise<number> {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
-  public async getCoinTable(start = 0, _end: number = start + 10): Promise<Types.CoinType.AsObject[]> {
-    throw new Error("not implemented");
+  public async getCoinTable(
+    start = 0,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _end: number = start + 10,
+  ): Promise<Types.CoinType.AsObject[]> {
+    throw new Error('not implemented')
   }
 
   public async loadDevice(msg: core.LoadDevice): Promise<void> {
@@ -305,72 +327,85 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
       pin: msg.pin,
       skip_checksum: msg.skipChecksum,
       // TODO: openapi-generator typing is busted here
-      xprv: "",
+      xprv: '',
     })
   }
 
   public async removePin(): Promise<void> {
-    await this.sdk.system.changePin({ remove: true });
+    await this.sdk.system.changePin({ remove: true })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async send(_events: core.Event[]): Promise<void> {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
   public async softReset(): Promise<void> {
-    await this.sdk.system.manufacturing.softReset();
+    await this.sdk.system.manufacturing.softReset()
   }
 
   public async wipe(): Promise<void> {
-    await this.sdk.system.wipeDevice();
+    await this.sdk.system.wipeDevice()
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async btcSupportsCoin(_coin: core.Coin): Promise<boolean> {
-    return true;
+    return true
   }
 
-  public async btcSupportsScriptType(_coin: core.Coin, _scriptType: core.BTCInputScriptType): Promise<boolean> {
-    return true;
+  public async btcSupportsScriptType(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _coin: core.Coin,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _scriptType: core.BTCInputScriptType,
+  ): Promise<boolean> {
+    return true
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   readonly btcGetAddress = _.memoize(async (msg: core.BTCGetAddress): Promise<string> => {
-    throw new Error("not implemented")
+    throw new Error('not implemented')
     // return (await this.sdk.address.utxoGetAddress({
     //   addressN: msg.addressNList,
     //   showDisplay: msg.showDisplay,
     // })).address
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async btcSignTx(msg: core.BTCSignTxKK): Promise<core.BTCSignedTx> {
-    throw new Error("not implemented")
+    throw new Error('not implemented')
   }
 
   public async btcSupportsSecureTransfer(): Promise<boolean> {
-    return false;
+    return false
   }
 
   public async ethSupportsEIP1559(): Promise<boolean> {
-    return semver.gte(await this.getFirmwareVersion(), "v7.2.1");
+    return semver.gte(await this.getFirmwareVersion(), 'v7.2.1')
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async btcSignMessage(_msg: core.BTCSignMessage): Promise<core.BTCSignedMessage> {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async btcVerifyMessage(_msg: core.BTCVerifyMessage): Promise<boolean> {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
-  public btcGetAccountPaths(_msg: core.BTCGetAccountPaths): Array<core.BTCAccountPath> {
-    throw new Error("not implemented");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public btcGetAccountPaths(_msg: core.BTCGetAccountPaths): core.BTCAccountPath[] {
+    throw new Error('not implemented')
   }
 
-  public btcIsSameAccount(_msg: Array<core.BTCAccountPath>): boolean {
-    throw new Error("not implemented");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public btcIsSameAccount(_msg: core.BTCAccountPath[]): boolean {
+    throw new Error('not implemented')
   }
 
   public async ethSignTx(msg: core.ETHSignTx): Promise<core.ETHSignedTx> {
-    const sig = await this.sdk.eth.ethSignTransaction({
+    const sig = (await this.sdk.eth.ethSignTransaction({
       nonce: msg.nonce,
       value: msg.value,
       data: msg.data,
@@ -384,12 +419,12 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
       maxFeePerGas: msg.maxFeePerGas,
       // @ts-expect-error
       maxPriorityFeePerGas: msg.maxPriorityFeePerGas,
-    }) as string
+    })) as string
     if (sig.length !== 130) throw new Error('bad sig length')
     return {
       r: sig.slice(0, 64),
       s: sig.slice(64, 128),
-      v: Buffer.from(sig.slice(128, 130), "hex")[0],
+      v: Buffer.from(sig.slice(128, 130), 'hex')[0],
       serialized: sig,
     }
   }
@@ -397,83 +432,108 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
   // TODO check if sdk supports below messages
 
   readonly ethGetAddress = _.memoize(async (msg: core.ETHGetAddress): Promise<string> => {
-    return (await this.sdk.address.ethereumGetAddress({
-      address_n: msg.addressNList,
-      show_display: msg.showDisplay,
-    })).address
+    return (
+      await this.sdk.address.ethereumGetAddress({
+        address_n: msg.addressNList,
+        show_display: msg.showDisplay,
+      })
+    ).address
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async ethSignMessage(_msg: core.ETHSignMessage): Promise<core.ETHSignedMessage> {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async ethSignTypedData(_msg: core.ETHSignTypedData): Promise<core.ETHSignedTypedData> {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async ethVerifyMessage(_msg: core.ETHVerifyMessage): Promise<boolean> {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async ethSupportsNetwork(_chain_id: number): Promise<boolean> {
-    return true;
+    return true
   }
 
   public async ethSupportsSecureTransfer(): Promise<boolean> {
-    return false;
+    return false
   }
 
-  public ethGetAccountPaths(msg: core.ETHGetAccountPath): Array<core.ETHAccountPath> {
-    const slip44 = core.slip44ByCoin(msg.coin);
-    if (slip44 === undefined) return [];
+  public ethGetAccountPaths(msg: core.ETHGetAccountPath): core.ETHAccountPath[] {
+    const slip44 = core.slip44ByCoin(msg.coin)
+    if (slip44 === undefined) return []
     return [
       {
         addressNList: [0x80000000 + 44, 0x80000000 + slip44, 0x80000000 + msg.accountIdx, 0, 0],
         hardenedPath: [0x80000000 + 44, 0x80000000 + slip44, 0x80000000 + msg.accountIdx],
         relPath: [0, 0],
-        description: "KeepKey",
+        description: 'KeepKey',
       },
-    ];
+    ]
   }
 
-  public rippleGetAccountPaths(msg: core.RippleGetAccountPaths): Array<core.RippleAccountPath> {
+  public rippleGetAccountPaths(msg: core.RippleGetAccountPaths): core.RippleAccountPath[] {
     return [
       {
-        addressNList: [0x80000000 + 44, 0x80000000 + core.slip44ByCoin("Ripple"), 0x80000000 + msg.accountIdx, 0, 0],
+        addressNList: [
+          0x80000000 + 44,
+          0x80000000 + core.slip44ByCoin('Ripple'),
+          0x80000000 + msg.accountIdx,
+          0,
+          0,
+        ],
       },
-    ];
+    ]
   }
 
   readonly rippleGetAddress = _.memoize(async (msg: core.RippleGetAddress): Promise<string> => {
-    return (await this.sdk.address.xrpGetAddress({
-      address_n: msg.addressNList,
-      show_display: msg.showDisplay,
-    })).address
+    return (
+      await this.sdk.address.xrpGetAddress({
+        address_n: msg.addressNList,
+        show_display: msg.showDisplay,
+      })
+    ).address
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async rippleSignTx(msg: core.RippleSignTx): Promise<core.RippleSignedTx> {
-    throw new Error("not implemented")
+    throw new Error('not implemented')
   }
 
-  public cosmosGetAccountPaths(msg: core.CosmosGetAccountPaths): Array<core.CosmosAccountPath> {
+  public cosmosGetAccountPaths(msg: core.CosmosGetAccountPaths): core.CosmosAccountPath[] {
     return [
       {
-        addressNList: [0x80000000 + 44, 0x80000000 + core.slip44ByCoin("Atom"), 0x80000000 + msg.accountIdx, 0, 0],
+        addressNList: [
+          0x80000000 + 44,
+          0x80000000 + core.slip44ByCoin('Atom'),
+          0x80000000 + msg.accountIdx,
+          0,
+          0,
+        ],
       },
-    ];
+    ]
   }
 
   readonly cosmosGetAddress = _.memoize(async (msg: core.CosmosGetAddress): Promise<string> => {
-    return (await this.sdk.address.cosmosGetAddress({
-      address_n: msg.addressNList,
-      show_display: msg.showDisplay,
-    })).address
+    return (
+      await this.sdk.address.cosmosGetAddress({
+        address_n: msg.addressNList,
+        show_display: msg.showDisplay,
+      })
+    ).address
   })
 
   public async cosmosSignTx(msg: core.CosmosSignTx): Promise<core.CosmosSignedTx> {
-    const signerAddress = (await this.sdk.address.cosmosGetAddress({
-      address_n: msg.addressNList
-    })).address
+    const signerAddress = (
+      await this.sdk.address.cosmosGetAddress({
+        address_n: msg.addressNList,
+      })
+    ).address
     const signed = await this.sdk.cosmos.cosmosSignAmino({
       signDoc: {
         accountNumber: msg.account_number,
@@ -481,39 +541,48 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
         // TODO: busted openapi-generator types
         // @ts-expect-error
         msgs: msg.tx.msg,
-        memo: msg.tx.memo ?? "",
+        memo: msg.tx.memo ?? '',
         sequence: msg.sequence,
         fee: {
           gas: String(msg.fee ?? 0),
           amount: [],
-        }
+        },
       },
       signerAddress,
     })
     // TODO: busted openapi-generator types
     return {
       signatures: [signed.signature as string],
-      serialized: core.untouchable("not implemented"),
-      authInfoBytes: core.untouchable("not implemented"),
-      body: core.untouchable("not implemented"),
-    };
+      serialized: core.untouchable('not implemented'),
+      authInfoBytes: core.untouchable('not implemented'),
+      body: core.untouchable('not implemented'),
+    }
   }
 
-  public thorchainGetAccountPaths(_msg: core.ThorchainGetAccountPaths): Array<core.ThorchainAccountPath> {
-    throw new Error("not implemented");
+  public thorchainGetAccountPaths(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _msg: core.ThorchainGetAccountPaths,
+  ): core.ThorchainAccountPath[] {
+    throw new Error('not implemented')
   }
 
-  readonly thorchainGetAddress = _.memoize(async (msg: core.ThorchainGetAddress): Promise<string> => {
-    return (await this.sdk.address.thorchainGetAddress({
-      address_n: msg.addressNList,
-      show_display: msg.showDisplay,
-    })).address
-  })
+  readonly thorchainGetAddress = _.memoize(
+    async (msg: core.ThorchainGetAddress): Promise<string> => {
+      return (
+        await this.sdk.address.thorchainGetAddress({
+          address_n: msg.addressNList,
+          show_display: msg.showDisplay,
+        })
+      ).address
+    },
+  )
 
   public async thorchainSignTx(msg: core.ThorchainSignTx): Promise<core.ThorchainSignedTx> {
-    const signerAddress = (await this.sdk.address.thorchainGetAddress({
-      address_n: msg.addressNList
-    })).address
+    const signerAddress = (
+      await this.sdk.address.thorchainGetAddress({
+        address_n: msg.addressNList,
+      })
+    ).address
     const signed = await this.sdk.cosmos.cosmosSignAmino({
       signDoc: {
         accountNumber: msg.account_number,
@@ -521,83 +590,94 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
         // TODO: busted openapi-generator types
         // @ts-expect-error
         msgs: msg.tx.msg,
-        memo: msg.tx.memo ?? "",
+        memo: msg.tx.memo ?? '',
         sequence: msg.sequence,
         fee: {
           gas: String(msg.fee ?? 0),
           amount: [],
-        }
+        },
       },
       signerAddress,
     })
     // TODO: busted openapi-generator types
     return {
       signatures: [signed.signature as string],
-      serialized: core.untouchable("not implemented"),
-      authInfoBytes: core.untouchable("not implemented"),
-      body: core.untouchable("not implemented"),
-    };
+      serialized: core.untouchable('not implemented'),
+      authInfoBytes: core.untouchable('not implemented'),
+      body: core.untouchable('not implemented'),
+    }
   }
 
-  public binanceGetAccountPaths(_msg: core.BinanceGetAccountPaths): Array<core.BinanceAccountPath> {
-    throw new Error("not implemented");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public binanceGetAccountPaths(_msg: core.BinanceGetAccountPaths): core.BinanceAccountPath[] {
+    throw new Error('not implemented')
   }
 
   readonly binanceGetAddress = _.memoize(async (msg: core.BinanceGetAddress): Promise<string> => {
     // TODO: busted openapi-generator types
     // @ts-expect-error
-    return (await this.sdk.address.binanceGetAddress({
-      address_n: msg.addressNList,
-      show_display: msg.showDisplay,
-    })).address
+    return (
+      await this.sdk.address.binanceGetAddress({
+        address_n: msg.addressNList,
+        show_display: msg.showDisplay,
+      })
+    ).address
   })
 
   public async binanceSignTx(msg: core.BinanceSignTx): Promise<core.BinanceSignedTx> {
     const signerAddress = await this.sdk.address.binanceGetAddress({
-      address_n: msg.addressNList
+      address_n: msg.addressNList,
     })
     const signed = await this.sdk.bnb.bnbSignTransaction({
       signDoc: {
-        account_number: msg.tx.account_number ?? "",
-        chain_id: msg.tx.chain_id ?? "",
+        account_number: msg.tx.account_number ?? '',
+        chain_id: msg.tx.chain_id ?? '',
         msgs: msg.tx.msgs,
-        memo: msg.tx.memo ?? "",
-        sequence: msg.tx.sequence ?? "",
-        source: msg.tx.source ?? "",
+        memo: msg.tx.memo ?? '',
+        sequence: msg.tx.sequence ?? '',
+        source: msg.tx.source ?? '',
       },
       signerAddress,
     })
     // TODO: busted openapi-generator types
     // @ts-expect-error
-    return {signatures: {signature: signed.signature}};
+    return { signatures: { signature: signed.signature } }
   }
 
-  public eosGetAccountPaths(msg: core.EosGetAccountPaths): Array<core.EosAccountPath> {
+  public eosGetAccountPaths(msg: core.EosGetAccountPaths): core.EosAccountPath[] {
     return [
       {
-        addressNList: [0x80000000 + 44, 0x80000000 + core.slip44ByCoin("Eos"), 0x80000000 + msg.accountIdx, 0, 0],
+        addressNList: [
+          0x80000000 + 44,
+          0x80000000 + core.slip44ByCoin('Eos'),
+          0x80000000 + msg.accountIdx,
+          0,
+          0,
+        ],
       },
-    ];
+    ]
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   readonly eosGetPublicKey = _.memoize(async (msg: core.EosGetPublicKey): Promise<string> => {
-    throw new Error("not implemented")
+    throw new Error('not implemented')
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async eosSignTx(msg: core.EosToSignTx): Promise<core.EosTxSigned> {
-    throw new Error("not implemented")
+    throw new Error('not implemented')
   }
 
   public describePath(msg: core.DescribePath): core.PathDescription {
     switch (msg.coin) {
-      case "Ethereum":
-        return core.describeETHPath(msg.path);
-      case "Atom":
-        return core.cosmosDescribePath(msg.path);
-      case "Binance":
-        return core.binanceDescribePath(msg.path);
+      case 'Ethereum':
+        return core.describeETHPath(msg.path)
+      case 'Atom':
+        return core.cosmosDescribePath(msg.path)
+      case 'Binance':
+        return core.binanceDescribePath(msg.path)
       default:
-        return core.describeUTXOPath(msg.path, msg.coin, msg.scriptType as core.BTCInputScriptType);
+        return core.describeUTXOPath(msg.path, msg.coin, msg.scriptType as core.BTCInputScriptType)
     }
   }
 
@@ -605,27 +685,35 @@ export class KeepKeyRestHDWallet implements core.HDWallet, core.BTCWallet, core.
     // does nothing
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public btcNextAccountPath(_msg: core.BTCAccountPath): core.BTCAccountPath | undefined {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public ethNextAccountPath(_msg: core.ETHAccountPath): core.ETHAccountPath | undefined {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public eosNextAccountPath(_msg: core.EosAccountPath): core.EosAccountPath | undefined {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public cosmosNextAccountPath(_msg: core.CosmosAccountPath): core.CosmosAccountPath | undefined {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public rippleNextAccountPath(_msg: core.RippleAccountPath): core.RippleAccountPath | undefined {
-    throw new Error("not implemented");
+    throw new Error('not implemented')
   }
 
-  public binanceNextAccountPath(_msg: core.BinanceAccountPath): core.BinanceAccountPath | undefined {
-    throw new Error("not implemented");
+  public binanceNextAccountPath(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _msg: core.BinanceAccountPath,
+  ): core.BinanceAccountPath | undefined {
+    throw new Error('not implemented')
   }
 }

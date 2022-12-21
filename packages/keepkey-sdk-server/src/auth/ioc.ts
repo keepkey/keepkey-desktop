@@ -1,8 +1,8 @@
 import type * as express from 'express'
-
-import { ApiController } from './apiController'
 import type { Controller, IocContainer, IocContainerFactory } from 'tsoa'
+
 import { ApiContext } from './apiContext'
+import { ApiController } from './apiController'
 
 // This is a magic tsoa export name, don't change
 export const iocContainer: IocContainerFactory = function (request: express.Request): IocContainer {

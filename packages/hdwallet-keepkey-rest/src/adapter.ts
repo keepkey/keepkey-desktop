@@ -1,32 +1,33 @@
-import * as core from "@shapeshiftoss/hdwallet-core";
+import * as core from '@shapeshiftoss/hdwallet-core'
 
-import { KeepKeyRestHDWallet, KeepKeySdk } from "./kkrest";
+import type { KeepKeySdk } from './kkrest'
+import { KeepKeyRestHDWallet } from './kkrest'
 
 export class KkRestAdapter {
-  keyring: core.Keyring;
+  keyring: core.Keyring
 
   // wallet id to remove from the keyring when the active wallet changes
-  currentDeviceID?: string;
+  currentDeviceID?: string
 
   private constructor(keyring: core.Keyring) {
-    this.keyring = keyring;
+    this.keyring = keyring
   }
 
   public static useKeyring(keyring: core.Keyring) {
-    return new KkRestAdapter(keyring);
+    return new KkRestAdapter(keyring)
   }
 
   public async initialize(): Promise<number> {
-    return Object.keys(this.keyring.wallets).length;
+    return Object.keys(this.keyring.wallets).length
   }
 
   public async pairDevice(sdk: KeepKeySdk): Promise<core.HDWallet> {
-    const wallet = await KeepKeyRestHDWallet.create(sdk);
-    await wallet.initialize();
-    const deviceID = await wallet.getDeviceID();
-    this.keyring.add(wallet, deviceID);
-    this.currentDeviceID = deviceID;
-    this.keyring.emit(["kkrest", deviceID, core.Events.CONNECT], deviceID);
-    return wallet;
+    const wallet = await KeepKeyRestHDWallet.create(sdk)
+    await wallet.initialize()
+    const deviceID = await wallet.getDeviceID()
+    this.keyring.add(wallet, deviceID)
+    this.currentDeviceID = deviceID
+    this.keyring.emit(['kkrest', deviceID, core.Events.CONNECT], deviceID)
+    return wallet
   }
 }

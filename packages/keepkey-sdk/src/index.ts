@@ -1,5 +1,5 @@
-import * as apis from './generated/apis'
 import { Configuration } from './generated'
+import * as apis from './generated/apis'
 
 export * from './generated'
 

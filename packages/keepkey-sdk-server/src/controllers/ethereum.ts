@@ -1,19 +1,18 @@
 import {
   Body,
-  Post,
-  Security,
-  Route,
-  Response,
   Middlewares,
   OperationId,
+  Post,
+  Response,
+  Route,
+  Security,
   SuccessResponse,
   Tags,
 } from 'tsoa'
 
-import type * as types from '../types'
-
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'
+import type * as types from '../types'
 
 const assume: <T>(x: unknown) => asserts x is T = () => {}
 
