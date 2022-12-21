@@ -467,10 +467,13 @@
     "heading": "Authenticator",
     "header": "Accounts",
     "noAccounts": "There are currently no accounts saved on your KeepKey",
+    "actions": "Actions",
+    "account": "Account",
     "cta": {
       "generateOtp": "Generate OTP",
       "deleteAcc": "Delete Account",
-      "addAcc": "Add account"
+      "addAcc": "Add account",
+      "refresh": "Refresh accounts"
     },
     "modal": {
       "header": "Add account",

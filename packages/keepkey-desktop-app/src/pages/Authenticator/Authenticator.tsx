@@ -7,6 +7,13 @@ import {
   Spinner,
   Stack,
   StackDivider,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
   useToast,
 } from '@chakra-ui/react'
 import { useCallback, useEffect, useState } from 'react'
@@ -17,7 +24,7 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { useModal } from 'hooks/useModal/useModal'
 
-function assume<T>(x: unknown): asserts x is T {}
+function assume<T>(_x: unknown): asserts _x is T {}
 
 export type AuthenticatorAccount = { slotIdx: number; domain: string; account: string }
 
@@ -40,7 +47,10 @@ export const Authenticator = () => {
     setAccounts([])
 
     for (let slotIdx = 0; slotIdx < 20; slotIdx++) {
-      const data = await wallet.ping({ msg: `\x17getAccount:${slotIdx}` }).catch(console.error)
+      const msg = `\x17getAccount:${slotIdx}`
+      console.log('getAccount msg: ', msg)
+
+      const data = await wallet.ping({ msg }).catch(console.error)
       if (!data) continue
       console.log(slotIdx, data)
       const [domain, account] = data.msg.split(':')
@@ -64,9 +74,11 @@ export const Authenticator = () => {
       if (!wallet) return
 
       assume<KeepKeyHDWallet>(wallet)
-      await wallet
-        .ping({ msg: `\x18removeAccount:${acc.domain}:${acc.account}` })
-        .catch(console.error)
+
+      const msg = `\x18removeAccount:${acc.domain}:${acc.account}`
+      console.log('removeAccount msg: ', msg)
+
+      await wallet.ping({ msg }).catch(console.error)
       const accIdx = accounts.findIndex(a => a.slotIdx === acc.slotIdx)
       if (accIdx > 0) {
         toast({
@@ -85,9 +97,13 @@ export const Authenticator = () => {
       if (!wallet) return
 
       assume<KeepKeyHDWallet>(wallet)
+
+      const msg = `\x16generateOTPFrom:${acc.domain}:${acc.account}:${timeRemain}:${interval}`
+      console.log('generateOtp msg: ', msg)
+
       await wallet
         .ping({
-          msg: `\x16generateOTPFrom:${acc.domain}:${acc.account}:${timeRemain}:${interval}`,
+          msg,
         })
         .catch(console.error)
       toast({
@@ -116,10 +132,14 @@ export const Authenticator = () => {
               <Heading>
                 <Text translation={'authenticator.header'} />
               </Heading>
-              <Flex w='full' flexDirection='row-reverse'>
+              <Flex w='full' flexDirection='row-reverse' gap={4}>
+                <Button size='sm' colorScheme='blue' disabled={loading} onClick={() => fetchAccs()}>
+                  <Text translation={'authenticator.cta.refresh'} />
+                </Button>
                 <Button
                   size='sm'
                   colorScheme='blue'
+                  disabled={loading}
                   onClick={() => addAuthenticatorAccount.open({ fetchAccs })}
                 >
                   <Text translation={'authenticator.cta.addAcc'} />
@@ -131,31 +151,53 @@ export const Authenticator = () => {
         <Card.Body>
           <Stack divider={<StackDivider />}>
             {loading && <Spinner />}
-            {!loading &&
-              accounts &&
-              accounts.map(acc => (
-                <HStack>
-                  <Code>
-                    {acc.domain}:{acc.account}
-                  </Code>
-                  <Button
-                    size='sm'
-                    colorScheme='green'
-                    onClick={() => {
-                      const interval = 30
-                      const currTime = Date.now() / 1000 + 5
-                      const timeSlice = currTime / interval
-                      const timeRemain = currTime - timeSlice * interval
-                      generateOtp(acc, timeRemain, interval)
-                    }}
-                  >
-                    <Text translation={'authenticator.cta.generateOtp'} />
-                  </Button>
-                  <Button size='sm' colorScheme='red' onClick={() => deleteAcc(acc)}>
-                    <Text translation={'authenticator.cta.deleteAcc'} />
-                  </Button>
-                </HStack>
-              ))}
+            {!loading && accounts.length !== 0 && (
+              <TableContainer>
+                <Table>
+                  <Thead>
+                    <Tr>
+                      <Th>
+                        <Text translation={'authenticator.account'} />
+                      </Th>
+                      <Th>
+                        <Text translation={'authenticator.actions'} />
+                      </Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {accounts &&
+                      accounts.map(acc => (
+                        <Tr>
+                          <Td>
+                            <Code>
+                              {acc.domain}:{acc.account}
+                            </Code>
+                          </Td>
+                          <Td>
+                            <HStack gap={4}>
+                              <Button
+                                size='sm'
+                                colorScheme='green'
+                                onClick={() => {
+                                  const interval = 30
+                                  const currTime = Date.now() / 1000 + 5
+                                  const timeSlice = Math.floor(currTime / interval)
+                                  generateOtp(acc, timeSlice, interval)
+                                }}
+                              >
+                                <Text translation={'authenticator.cta.generateOtp'} />
+                              </Button>
+                              <Button size='sm' colorScheme='red' onClick={() => deleteAcc(acc)}>
+                                <Text translation={'authenticator.cta.deleteAcc'} />
+                              </Button>
+                            </HStack>
+                          </Td>
+                        </Tr>
+                      ))}
+                  </Tbody>
+                </Table>
+              </TableContainer>
+            )}
             {!loading && accounts.length === 0 && <Text translation={'authenticator.noAccounts'} />}
           </Stack>
         </Card.Body>
