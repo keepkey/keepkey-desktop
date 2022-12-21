@@ -103,10 +103,23 @@ export class LegacyWCService {
 
   public async approve(request: any, txData: TxData, web3: EthChainData) {
     if (request.method === 'personal_sign') {
+      let message
+      const strip0x = (inputHexString: string) =>
+        inputHexString.startsWith('0x')
+          ? inputHexString.slice(2, inputHexString.length)
+          : inputHexString
+
+      if (request.payload && request.payload.params[0])
+        message = Buffer.from(strip0x(request.payload.params[0]), 'hex').toString('utf8')
+      if (request.params && request.params[0])
+        message = Buffer.from(strip0x(request.params[0]), 'hex').toString('utf8')
+
+      if (!message) throw Error('failed to parse message!')
+
       const response = await this.wallet.ethSignMessage({
         ...txData,
         addressNList,
-        message: this.convertHexToUtf8IfPossible(request.params[0]),
+        message,
       })
       const result = response?.signature
       this.connector.approveRequest({ id: request.id, result })
