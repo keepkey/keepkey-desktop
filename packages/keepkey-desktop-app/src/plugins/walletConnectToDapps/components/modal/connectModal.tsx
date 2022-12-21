@@ -34,7 +34,7 @@ type FormValues = {
 export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
   const translate = useTranslate()
 
-  const { register, handleSubmit, control, formState, setValue } = useForm<FormValues>({
+  const { register, handleSubmit, control, formState, setValue, getValues } = useForm<FormValues>({
     mode: 'onChange',
     defaultValues: { uri: '' },
   })
@@ -43,10 +43,11 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
   const { connect } = useWalletConnect()
   const handleConnect = useCallback(
     async (values: FormValues) => {
+      if (!values) values = getValues()
       await connect(values.uri)
       onClose()
     },
-    [connect, onClose],
+    [connect, getValues, onClose],
   )
 
   useEffect(() => {
@@ -64,7 +65,10 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
     readQrCode()
       .then(value => {
         console.log(value)
-        if (value.startsWith('wc:')) setValue('uri', value)
+        if (value.startsWith('wc:')) {
+          setValue('uri', value)
+          handleSubmit(handleConnect)
+        }
       })
       .catch(console.error)
   }
