@@ -51,7 +51,6 @@ export const WalletViewsSwitch = () => {
     }
     dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
     await cancelWalletRequests()
-    await onContinue()
   }
 
   const handleBack = async () => {
@@ -63,11 +62,6 @@ export const WalletViewsSwitch = () => {
     }
     await cancelWalletRequests()
   }
-
-  const onContinue = useCallback(() => {
-    // Without this check we'll fire again once a KeepKey initializes and ask the user to select a wallet again
-    if (!initialRoute || initialRoute === '/') history.push('/select')
-  }, [history, initialRoute])
 
   useEffect(() => {
     if (initialRoute) {
