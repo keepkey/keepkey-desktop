@@ -1,5 +1,5 @@
 import AutoLaunch from 'auto-launch'
-import type { BrowserWindow, IpcMainEvent } from 'electron'
+import type { BrowserWindow } from 'electron'
 import log from 'electron-log'
 import fs from 'fs'
 import * as hidefile from 'hidefile'
@@ -16,7 +16,6 @@ import {
   NEEDS_INITIALIZE,
 } from './helpers/kk-state-controller'
 import { Settings } from './helpers/settings'
-import type { UserType } from './helpers/types'
 import { queueIpcEvent } from './helpers/utils'
 import { startTcpBridge, stopTcpBridge } from './tcpBridge'
 import { createAndUpdateTray } from './tray'
@@ -38,23 +37,6 @@ hidefile.hideSync(dbDirPath)
 
 export const db = new nedb({ filename: dbPath, autoload: true })
 
-export const shared: {
-  USER: UserType
-  eventIPC: IpcMainEvent | null
-  KEEPKEY_FEATURES: Record<string, unknown>
-} = {
-  USER: {
-    online: false,
-    accounts: [],
-    balances: [],
-  },
-  eventIPC: null,
-  KEEPKEY_FEATURES: {},
-}
-
-db.findOne({ type: 'user' }, (_err, doc) => {
-  if (doc) shared.USER = doc.user
-})
 export let server: Server
 export let setServer = (value: Server) => (server = value)
 
