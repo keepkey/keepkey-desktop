@@ -78,7 +78,7 @@ export const kkStateController = new KKStateController(
     if (data.state === KKState.Connected || data.state === KKState.NeedsInitialize) {
       await startTcpBridge()
     } else if (data.state === KKState.Disconnected || data.state === KKState.HardwareError) {
-      await stopTcpBridge().catch(e => console.warn('stopTcpBridge error: ', e))
+      await stopTcpBridge()
     }
     createAndUpdateTray()
     queueIpcEvent('updateState', data)
