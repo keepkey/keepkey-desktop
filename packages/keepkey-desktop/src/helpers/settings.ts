@@ -11,7 +11,7 @@ export type Settings = {
   shouldAutoStartBridge: boolean
   bridgeApiPort: number
 
-  shouldAutoLunch: boolean
+  shouldAutoLaunch: boolean
   shouldMinimizeToTray: boolean
   shouldAutoUpdate: boolean
   allowPreRelease: boolean
@@ -30,9 +30,9 @@ export class SettingsInstance {
     return this.#bridgeApiPort
   }
 
-  #shouldAutoLunch = true
-  get shouldAutoLunch() {
-    return this.#shouldAutoLunch
+  #shouldAutoLaunch = true
+  get shouldAutoLaunch() {
+    return this.#shouldAutoLaunch
   }
 
   #shouldMinimizeToTray = true
@@ -68,7 +68,7 @@ export class SettingsInstance {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ipcMain.on('@app/settings', (event, _data) => {
       event.sender.send('@app/settings', {
-        shouldAutoLunch: this.shouldAutoLunch,
+        shouldAutoLaunch: this.shouldAutoLaunch,
         shouldAutoStartBridge: this.shouldAutoStartBridge,
         shouldMinimizeToTray: this.shouldMinimizeToTray,
         shouldAutoUpdate: this.shouldAutoUpdate,
@@ -87,7 +87,7 @@ export class SettingsInstance {
     }
 
     if (
-      doc.settings.shouldAutoLunch === undefined ||
+      doc.settings.shouldAutoLaunch === undefined ||
       doc.settings.shouldAutoStartBridge === undefined ||
       doc.settings.shouldMinimizeToTray === undefined ||
       doc.settings.shouldAutoUpdate === undefined ||
@@ -98,7 +98,7 @@ export class SettingsInstance {
       await this.syncSettingsWithDB()
     }
 
-    this.#shouldAutoLunch = doc.settings.shouldAutoLunch
+    this.#shouldAutoLaunch = doc.settings.shouldAutoLaunch
     this.#shouldAutoStartBridge = doc.settings.shouldAutoStartBridge
     this.#shouldMinimizeToTray = doc.settings.shouldMinimizeToTray
     this.#shouldAutoUpdate = doc.settings.shouldAutoUpdate
@@ -116,7 +116,7 @@ export class SettingsInstance {
       {
         type: 'settings',
         settings: {
-          shouldAutoLunch: this.shouldAutoLunch,
+          shouldAutoLaunch: this.shouldAutoLaunch,
           shouldAutoStartBridge: this.shouldAutoStartBridge,
           shouldMinimizeToTray: this.shouldMinimizeToTray,
           shouldAutoUpdate: this.shouldAutoUpdate,
@@ -131,8 +131,8 @@ export class SettingsInstance {
     )
   }
 
-  async setShouldAutoLunch(value: boolean) {
-    this.#shouldAutoLunch = value
+  async setShouldAutoLaunch(value: boolean) {
+    this.#shouldAutoLaunch = value
     const autoLaunch = await kkAutoLauncher.isEnabled()
     if (!autoLaunch && value) await kkAutoLauncher.enable()
     if (!autoLaunch && !value) await kkAutoLauncher.disable()
@@ -178,7 +178,7 @@ export class SettingsInstance {
   }
 
   async updateBulkSettings({
-    shouldAutoLunch,
+    shouldAutoLaunch,
     shouldAutoStartBridge,
     shouldMinimizeToTray,
     shouldAutoUpdate,
@@ -186,7 +186,7 @@ export class SettingsInstance {
     allowPreRelease,
     allowBetaFirmware,
   }: {
-    shouldAutoLunch?: boolean
+    shouldAutoLaunch?: boolean
     shouldAutoStartBridge?: boolean
     shouldMinimizeToTray?: boolean
     shouldAutoUpdate?: boolean
@@ -195,7 +195,7 @@ export class SettingsInstance {
     allowBetaFirmware?: boolean
   }) {
     log.info(
-      shouldAutoLunch,
+      shouldAutoLaunch,
       shouldAutoStartBridge,
       shouldMinimizeToTray,
       shouldAutoUpdate,
@@ -203,7 +203,7 @@ export class SettingsInstance {
       allowPreRelease,
       allowBetaFirmware,
     )
-    if (shouldAutoLunch !== undefined) this.#shouldAutoLunch = shouldAutoLunch
+    if (shouldAutoLaunch !== undefined) this.#shouldAutoLaunch = shouldAutoLaunch
     if (shouldAutoStartBridge !== undefined) this.#shouldAutoStartBridge = shouldAutoStartBridge
     if (shouldMinimizeToTray !== undefined) this.#shouldMinimizeToTray = shouldMinimizeToTray
     if (shouldAutoUpdate !== undefined) this.#shouldAutoUpdate = shouldAutoUpdate

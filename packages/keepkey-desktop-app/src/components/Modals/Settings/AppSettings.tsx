@@ -12,7 +12,7 @@ import { TbRefreshAlert } from 'react-icons/tb'
 import { SettingsListItem } from './SettingsListItem'
 
 export type AppSettingsProps = {
-  shouldAutoLunch: boolean
+  shouldAutoLaunch: boolean
   shouldAutoStartBridge: boolean
   shouldMinimizeToTray: boolean
   shouldAutoUpdate: boolean
@@ -24,7 +24,7 @@ export type AppSettingsProps = {
 export const AppSettings: FC = () => {
   const { settings } = useModal()
   const [appSettings, setAppSettings] = useState<AppSettingsProps>({
-    shouldAutoLunch: true,
+    shouldAutoLaunch: true,
     shouldAutoStartBridge: true,
     shouldMinimizeToTray: true,
     shouldAutoUpdate: true,
@@ -45,7 +45,7 @@ export const AppSettings: FC = () => {
   useEffect(() => {
     if (
       prevAppSettings &&
-      appSettings.shouldAutoLunch === prevAppSettings.shouldAutoLunch &&
+      appSettings.shouldAutoLaunch === prevAppSettings.shouldAutoLaunch &&
       appSettings.shouldAutoUpdate === prevAppSettings.shouldAutoUpdate &&
       appSettings.shouldMinimizeToTray === prevAppSettings.shouldMinimizeToTray &&
       appSettings.allowPreRelease === prevAppSettings.allowPreRelease &&
@@ -85,13 +85,13 @@ export const AppSettings: FC = () => {
           setAppSettings(currentSettings => {
             return {
               ...currentSettings,
-              shouldAutoLunch: !currentSettings.shouldAutoLunch,
+              shouldAutoLaunch: !currentSettings.shouldAutoLaunch,
             }
           })
         }}
         icon={<Icon as={FaRocket} color='gray.500' />}
       >
-        <Switch isChecked={appSettings.shouldAutoLunch} pointerEvents='none' />
+        <Switch isChecked={appSettings.shouldAutoLaunch} pointerEvents='none' />
       </SettingsListItem>
       <Divider my={1} />
       <SettingsListItem

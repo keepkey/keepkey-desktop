@@ -22,8 +22,8 @@ startAppListeners()
 startIpcListeners()
 startUpdaterListeners()
 
-//Auto launch on startup
-if (!isDev && settings.shouldAutoLunch) {
+// Auto launch on startup
+if (!isDev && settings.shouldAutoLaunch) {
   kkAutoLauncher.enable()
   kkAutoLauncher.isEnabled().then(function (isEnabled) {
     if (isEnabled) {
