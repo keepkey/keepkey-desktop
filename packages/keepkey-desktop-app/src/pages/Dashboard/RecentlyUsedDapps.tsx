@@ -1,3 +1,5 @@
+import { Box, Grid, Image, Link, Stack } from '@chakra-ui/react'
+import { Card } from 'components/Card/Card'
 import { RawText, Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { ipcRenderer } from 'electron-shim'
@@ -6,8 +8,6 @@ import type { PairingProps } from 'pages/Pairings/Pairings'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
-import { Image, Box, Link, Stack, Grid } from '@chakra-ui/react'
-import { Card } from 'components/Card/Card'
 
 export const RecentlyUsedDapps: FC = () => {
   const [pairings, setPairings] = useState<PairingProps[]>([])

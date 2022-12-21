@@ -10,12 +10,12 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
 import { Card } from 'components/Card/Card'
 import { Row } from 'components/Row/Row'
 import { RawText } from 'components/Text'
 import { getLogLevel, saveLogLevel } from 'lib/logger'
 import { logger } from 'lib/logger'
+import { useEffect, useState } from 'react'
 
 const moduleLogger = logger.child({ namespace: ['FeatureFlags'] })
 

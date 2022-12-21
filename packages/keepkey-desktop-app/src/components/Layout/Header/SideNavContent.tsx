@@ -1,8 +1,8 @@
 import { ChatIcon, CloseIcon, SettingsIcon } from '@chakra-ui/icons'
 import type { FlexProps } from '@chakra-ui/react'
 import { Box, Flex, IconButton, Link, Stack, useMediaQuery } from '@chakra-ui/react'
-import { useTranslate } from 'react-polyglot'
 import { useModal } from 'hooks/useModal/useModal'
+import { useTranslate } from 'react-polyglot'
 import { breakpoints } from 'theme/theme'
 
 import { AutoCompleteSearch } from './AutoCompleteSearch/AutoCompleteSearch'

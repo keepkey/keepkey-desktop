@@ -1,6 +1,6 @@
 import type { ChainId } from '@keepkey/caip'
-import Web3 from 'web3'
 import { getWeb3ProviderByChainId } from 'lib/web3-provider'
+import Web3 from 'web3'
 
 const web3InstanceMap: Map<ChainId, Web3> = new Map()
 

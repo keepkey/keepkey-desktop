@@ -1,22 +1,21 @@
-import {
-  Body,
-  Post,
-  Security,
-  Route,
-  Response,
-  Middlewares,
-  OperationId,
-  Deprecated,
-  Tags,
-  Produces,
-} from 'tsoa'
 // import type * as express from 'express'
 import type { Readable } from 'stream'
-
-import type * as types from '../../types'
+import {
+  Body,
+  Deprecated,
+  Middlewares,
+  OperationId,
+  Post,
+  Produces,
+  Response,
+  Route,
+  Security,
+  Tags,
+} from 'tsoa'
 
 import { ApiController } from '../../auth'
 import { extra } from '../../middlewares'
+import type * as types from '../../types'
 
 @Route('/system/debug')
 @Tags('Debug')

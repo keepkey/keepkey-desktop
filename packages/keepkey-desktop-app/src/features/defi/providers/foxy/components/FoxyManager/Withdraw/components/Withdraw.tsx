@@ -2,6 +2,8 @@ import { useToast } from '@chakra-ui/react'
 import type { AccountId } from '@keepkey/caip'
 import { fromAccountId, toAssetId } from '@keepkey/caip'
 import { WithdrawType } from '@keepkey/types'
+import type { AccountDropdownProps } from 'components/AccountDropdown/AccountDropdown'
+import type { StepComponentProps } from 'components/DeFi/components/Steps'
 import type { WithdrawValues } from 'features/defi/components/Withdraw/Withdraw'
 import { Field, Withdraw as ReusableWithdraw } from 'features/defi/components/Withdraw/Withdraw'
 import type {
@@ -10,14 +12,12 @@ import type {
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { DefiStep } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { useFoxy } from 'features/defi/contexts/FoxyProvider/FoxyProvider'
-import { useCallback, useContext, useMemo } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import { useTranslate } from 'react-polyglot'
-import type { AccountDropdownProps } from 'components/AccountDropdown/AccountDropdown'
-import type { StepComponentProps } from 'components/DeFi/components/Steps'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import { BigNumber, bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
+import { useCallback, useContext, useMemo } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { useTranslate } from 'react-polyglot'
 import {
   selectAssetById,
   selectBIP44ParamsByAccountId,

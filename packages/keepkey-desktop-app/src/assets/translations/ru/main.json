@@ -364,57 +364,6 @@
         "button": "Сохранить пин"
       }
     },
-    "keplr": {
-      "errors": {
-        "unknown": "Возникла непредвиденная ошибка при соединении с Keplr",
-        "connectFailure": "Невозможно подключить кошелек Keplr"
-      },
-      "connect": {
-        "header": "Обьединить Keplr",
-        "body": "Нажмите обьединить, затем выберите Keplr во всплывающем окне",
-        "button": "Обьединить"
-      },
-      "failure": {
-        "header": "Ошибка",
-        "body": "Невозможно подключить кошелек Keplr"
-      }
-    },
-    "metaMask": {
-      "errors": {
-        "unknown": "Произошла непредвиденная ошибка при соединении с MetaMask",
-        "connectFailure": "Невозможно подключиться к кошельку MetaMask",
-        "multipleWallets": "Обнаруженный Ethereum-провайдер не является MetaMask. Установлены ли у вас несколько кошельков?"
-      },
-      "connect": {
-        "header": "Обьединить MetaMask",
-        "body": "Нажмите кнопку обьединить и войдите в MetaMask из всплывающего окна",
-        "button": "Обьединить"
-      },
-      "failure": {
-        "header": "Ошибка",
-        "body": "Невозможно подключить кошелек MetaMask"
-      },
-      "redirect": {
-        "header": "Открыто в приложении MetaMask",
-        "body": "Нажмите, чтобы открыть приборную панель ShapeShift в MetaMask",
-        "button": "Открыть"
-      }
-    },
-    "portis": {
-      "errors": {
-        "unknown": "Возникла непредвиденная ошибка при соединении с Portis",
-        "connectFailure": "Невозможно подключить кошелек Portis"
-      },
-      "connect": {
-        "header": "Обьединить Portis",
-        "body": "Нажмите обьединить, затем выберите Portis во всплывающем окне",
-        "button": "Обьединить"
-      },
-      "failure": {
-        "header": "Ошибка",
-        "body": "Невозможно подключить кошелек Portis"
-      }
-    },
     "shapeShift": {
       "load": {
         "error": {

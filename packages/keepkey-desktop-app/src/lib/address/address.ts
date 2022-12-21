@@ -1,7 +1,7 @@
 import type { ChainId } from '@keepkey/caip'
 import { btcChainId, ethChainId } from '@keepkey/caip'
-import { parse } from 'eth-url-parser'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
+import { parse } from 'eth-url-parser'
 import { resolveEnsDomain, validateEnsDomain } from 'lib/address/ens'
 import {
   resolveUnstoppableDomain,

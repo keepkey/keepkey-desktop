@@ -1,11 +1,11 @@
 import { SearchIcon } from '@chakra-ui/icons'
 import { Box, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
 import type { Asset } from '@keepkey/asset-service'
+import { logger } from 'lib/logger'
 import type { FormEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
-import { logger } from 'lib/logger'
 import { selectAssetsByMarketCap } from 'state/slices/selectors'
 
 import { AssetList } from './AssetList'

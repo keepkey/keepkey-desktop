@@ -1,9 +1,9 @@
 /// <reference types="node" />
 
+import * as childProcess from 'child_process'
+import * as electronBuilder from 'electron-builder'
 import * as fs from 'fs'
 import * as path from 'path'
-import * as electronBuilder from 'electron-builder'
-import * as childProcess from 'child_process'
 
 import { build } from './build'
 

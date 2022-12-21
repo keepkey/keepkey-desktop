@@ -1,9 +1,9 @@
 import type { Asset } from '@keepkey/asset-service'
-import type { RouteComponentProps } from 'react-router-dom'
 import { AssetSearch } from 'components/AssetSearch/AssetSearch'
 import { Card } from 'components/Card/Card'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
+import type { RouteComponentProps } from 'react-router-dom'
 
 import { TradeRoutePaths } from './types'
 import { WithBackButton } from './WithBackButton'

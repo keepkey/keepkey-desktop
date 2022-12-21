@@ -1,6 +1,6 @@
-import type { Plugins } from 'plugins/types'
 import { isMobile } from 'lib/globals'
 import { logger } from 'lib/logger'
+import type { Plugins } from 'plugins/types'
 import { preferences } from 'state/slices/preferencesSlice/preferencesSlice'
 import { store } from 'state/store'
 

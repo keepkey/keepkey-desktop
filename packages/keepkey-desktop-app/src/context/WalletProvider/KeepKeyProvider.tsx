@@ -5,6 +5,10 @@ import type { Features } from '@keepkey/device-protocol/lib/messages_pb'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
 import axios from 'axios'
+import type { RadioOption } from 'components/Radio/Radio'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import { erc20Abi } from 'pages/Leaderboard/helpers/erc20Abi'
+import { nftAbi } from 'pages/Leaderboard/helpers/nftAbi'
 import React, {
   createContext,
   useCallback,
@@ -17,10 +21,6 @@ import React, {
 } from 'react'
 import { useTranslate } from 'react-polyglot'
 import Web3 from 'web3'
-import type { RadioOption } from 'components/Radio/Radio'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import { erc20Abi } from 'pages/Leaderboard/helpers/erc20Abi'
-import { nftAbi } from 'pages/Leaderboard/helpers/nftAbi'
 
 import { useKeepKeyVersions } from './KeepKey/hooks/useKeepKeyVersions'
 

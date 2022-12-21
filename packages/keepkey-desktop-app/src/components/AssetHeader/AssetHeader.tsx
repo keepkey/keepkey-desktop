@@ -1,9 +1,9 @@
 import { Box, Flex, Heading } from '@chakra-ui/react'
 import type { AssetId } from '@keepkey/caip'
-import { useMemo } from 'react'
 import { AssetIcon } from 'components/AssetIcon'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useWalletSupportsChain } from 'hooks/useWalletSupportsChain/useWalletSupportsChain'
+import { useMemo } from 'react'
 import type { AccountSpecifier } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
 import {
   selectAccountIdsByAssetId,

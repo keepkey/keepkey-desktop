@@ -1,6 +1,11 @@
 import { Alert, AlertIcon, Box, Stack } from '@chakra-ui/react'
 import type { AccountId } from '@keepkey/caip'
 import { toAssetId } from '@keepkey/caip'
+import { Amount } from 'components/Amount/Amount'
+import { AssetIcon } from 'components/AssetIcon'
+import type { StepComponentProps } from 'components/DeFi/components/Steps'
+import { Row } from 'components/Row/Row'
+import { RawText, Text } from 'components/Text'
 import { Confirm as ReusableConfirm } from 'features/defi/components/Confirm/Confirm'
 import { Summary } from 'features/defi/components/Summary'
 import type {
@@ -8,6 +13,10 @@ import type {
   DefiQueryParams,
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { DefiStep } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
+import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import { bnOrZero } from 'lib/bignumber/bignumber'
+import { logger } from 'lib/logger'
 import {
   assetIdToUnbondingDays,
   StakingAction,
@@ -16,15 +25,6 @@ import { useStakingAction } from 'plugins/cosmos/hooks/useStakingAction/useStaki
 import { getFormFees } from 'plugins/cosmos/utils'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
-import { Amount } from 'components/Amount/Amount'
-import { AssetIcon } from 'components/AssetIcon'
-import type { StepComponentProps } from 'components/DeFi/components/Steps'
-import { Row } from 'components/Row/Row'
-import { RawText, Text } from 'components/Text'
-import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import { bnOrZero } from 'lib/bignumber/bignumber'
-import { logger } from 'lib/logger'
 import {
   selectAssetById,
   selectBIP44ParamsByAccountId,

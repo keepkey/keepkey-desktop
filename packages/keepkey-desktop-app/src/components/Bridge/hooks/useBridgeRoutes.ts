@@ -1,10 +1,10 @@
 import { avalancheChainId, ethChainId, fromAssetId } from '@keepkey/caip'
-import { useCallback } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import { useCallback } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { useHistory } from 'react-router-dom'
 
 import type { BridgeAsset, BridgeChain, BridgeState } from '../types'
 import { AxelarChainNames, BridgeRoutePaths } from '../types'

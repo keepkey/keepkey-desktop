@@ -13,13 +13,13 @@ import type {
 import { DefiAction, DefiStep } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { useYearn } from 'features/defi/contexts/YearnProvider/YearnProvider'
 import { canCoverTxFees } from 'features/defi/helpers/utils'
-import { useCallback, useContext, useMemo } from 'react'
-import { useTranslate } from 'react-polyglot'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
 import { poll } from 'lib/poll/poll'
+import { useCallback, useContext, useMemo } from 'react'
+import { useTranslate } from 'react-polyglot'
 import {
   selectAssetById,
   selectBIP44ParamsByAccountId,

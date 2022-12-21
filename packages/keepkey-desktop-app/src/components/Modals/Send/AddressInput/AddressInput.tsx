@@ -1,11 +1,11 @@
 import { IconButton, Input, InputGroup, InputRightElement } from '@chakra-ui/react'
 import { ethChainId } from '@keepkey/caip'
+import { QRCodeIcon } from 'components/Icons/QRCode'
+import { useFeatureFlag } from 'hooks/useFeatureFlag/useFeatureFlag'
 import type { ControllerProps } from 'react-hook-form'
 import { Controller, useWatch } from 'react-hook-form'
 import { useTranslate } from 'react-polyglot'
 import { useHistory } from 'react-router-dom'
-import { QRCodeIcon } from 'components/Icons/QRCode'
-import { useFeatureFlag } from 'hooks/useFeatureFlag/useFeatureFlag'
 
 import type { SendInput } from '../Form'
 import { SendFormFields, SendRoutes } from '../SendCommon'

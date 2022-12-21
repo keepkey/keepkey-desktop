@@ -1,12 +1,12 @@
 import type { AssetId } from '@keepkey/caip'
 import { adapters, btcAssetId } from '@keepkey/caip'
-import concat from 'lodash/concat'
 import banxaLogo from 'assets/banxa.png'
 import gemLogo from 'assets/gem-mark.png'
 import junoPayLogo from 'assets/junoPay.svg'
 import MtPelerinLogo from 'assets/mtpelerin.png'
 import OnRamperLogo from 'assets/on-ramper.png'
 import { logger } from 'lib/logger'
+import concat from 'lodash/concat'
 import type { FeatureFlags } from 'state/slices/preferencesSlice/preferencesSlice'
 
 import { createBanxaUrl, getBanxaAssets } from './fiatRampProviders/banxa'

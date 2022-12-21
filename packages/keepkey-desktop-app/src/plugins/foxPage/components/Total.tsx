@@ -1,8 +1,8 @@
 import { Flex, Text } from '@chakra-ui/layout'
 import { SkeletonText } from '@chakra-ui/react'
-import { useTranslate } from 'react-polyglot'
 import { Amount } from 'components/Amount/Amount'
 import { AssetIcon } from 'components/AssetIcon'
+import { useTranslate } from 'react-polyglot'
 
 type TotalProps = {
   icons: string[]

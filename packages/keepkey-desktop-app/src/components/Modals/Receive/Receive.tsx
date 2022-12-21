@@ -1,9 +1,9 @@
 import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/react'
 import type { Asset } from '@keepkey/asset-service'
 import type { AccountId } from '@keepkey/caip'
+import { useModal } from 'hooks/useModal/useModal'
 import type { RouteComponentProps } from 'react-router-dom'
 import { MemoryRouter, Route, Switch } from 'react-router-dom'
-import { useModal } from 'hooks/useModal/useModal'
 
 import { ReceiveRoutes } from './ReceiveCommon'
 import { ReceiveRouter } from './ReceiveRouter'

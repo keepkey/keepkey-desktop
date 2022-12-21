@@ -1,21 +1,21 @@
 import { CheckIcon, CloseIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 import { Box, Button, Link, Stack } from '@chakra-ui/react'
 import { ASSET_REFERENCE, toAssetId } from '@keepkey/caip'
+import { Amount } from 'components/Amount/Amount'
+import { AssetIcon } from 'components/AssetIcon'
+import { StatusTextEnum } from 'components/RouteSteps/RouteSteps'
+import { Row } from 'components/Row/Row'
+import { Text } from 'components/Text'
 import { Summary } from 'features/defi/components/Summary'
 import { TxStatus } from 'features/defi/components/TxStatus/TxStatus'
 import type {
   DefiParams,
   DefiQueryParams,
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
-import { useCallback, useContext, useEffect, useMemo } from 'react'
-import { useTranslate } from 'react-polyglot'
-import { Amount } from 'components/Amount/Amount'
-import { AssetIcon } from 'components/AssetIcon'
-import { StatusTextEnum } from 'components/RouteSteps/RouteSteps'
-import { Row } from 'components/Row/Row'
-import { Text } from 'components/Text'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import { useCallback, useContext, useEffect, useMemo } from 'react'
+import { useTranslate } from 'react-polyglot'
 import {
   selectAssetById,
   selectFirstAccountIdByChainId,

@@ -1,8 +1,8 @@
 import { Box, Heading } from '@chakra-ui/react'
-import { useTranslate } from 'react-polyglot'
 import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
 import { Text } from 'components/Text'
+import { useTranslate } from 'react-polyglot'
 
 import { LeaderboardTable } from './helpers/LeaderboardTable'
 

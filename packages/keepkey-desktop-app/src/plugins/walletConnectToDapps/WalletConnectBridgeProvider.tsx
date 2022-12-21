@@ -1,20 +1,20 @@
 import { useToast } from '@chakra-ui/react'
 import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
-import { LegacyWCService } from 'kkdesktop/walletconnect'
-import type { FC, PropsWithChildren } from 'react'
-import { useCallback, useEffect, useState } from 'react'
-import { useWallet } from 'hooks/useWallet/useWallet'
-
-import { CallRequestModal } from './components/modal/callRequest/CallRequestModal'
-import { WalletConnectBridgeContext } from './WalletConnectBridgeContext'
-import { getWalletConnect, WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
-import type { CoreTypes, SignClientTypes } from '@walletconnect/types'
-import { SessionProposalModal } from './components/modal/callRequest/SessionProposalModal'
-import { WalletConnectLogic } from 'WalletConnectLogic'
 import LegacyWalletConnect from '@walletconnect/client'
+import type { CoreTypes, SignClientTypes } from '@walletconnect/types'
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import { LegacyWCService } from 'kkdesktop/walletconnect'
+import { getWalletConnect, WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import type { FC, PropsWithChildren } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { WalletConnectLogic } from 'WalletConnectLogic'
+
+import { CallRequestModal } from './components/modal/callRequest/CallRequestModal'
+import { SessionProposalModal } from './components/modal/callRequest/SessionProposalModal'
+import { WalletConnectBridgeContext } from './WalletConnectBridgeContext'
 
 export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children }) => {
   const wallet = useWallet().state.wallet

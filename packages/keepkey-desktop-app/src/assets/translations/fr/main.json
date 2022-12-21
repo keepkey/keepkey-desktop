@@ -971,82 +971,6 @@
         }
       }
     },
-    "keplr": {
-      "errors": {
-        "connectFailure": "Impossible de connecter le porte-monnaie Keplr",
-        "unknown": "Une erreur inattendue s'est produite lors de la communication avec Keplr",
-        "noProvider": "Extension de porte-monnaie Keplr non trouvée"
-      },
-      "connect": {
-        "header": "Appairer Keplr",
-        "body": "Cliquez sur Appairer et connectez-vous à Keplr à partir de la fenêtre popup",
-        "button": "Appairer"
-      },
-      "failure": {
-        "header": "Erreur",
-        "body": "Impossible de se connecter au porte-monnaie Keplr"
-      }
-    },
-    "metaMask": {
-      "errors": {
-        "unknown": "Une erreur inattendue s'est produite lors de la communication avec MetaMask",
-        "connectFailure": "Impossible de se connecter au porte-monnaie MetaMask",
-        "multipleWallets": "Le fournisseur Ethereum détecté n'est pas MetaMask. Avez-vous plusieurs porte-monnaie installés ?",
-        "tallyInstalledAndSetToDefault": "Nous avons détecté que vous avez installé Tally Ho et qu'il est défini par défaut. Si vous préférez utiliser MetaMask à la place, veuillez modifier les paramètres dans Tally Ho et actualiser la page."
-      },
-      "connect": {
-        "header": "Appairer MetaMask",
-        "body": "Cliquez sur Appairer et connectez-vous à MetaMask à partir de la fenêtre popup",
-        "button": "Appairer"
-      },
-      "failure": {
-        "header": "Erreur",
-        "body": "Impossible de se connecter au porte-monnaie MetaMask"
-      },
-      "redirect": {
-        "header": "Ouvrir dans l'app MetaMask",
-        "body": "Cliquez pour ouvrir le tableau de bord de ShapeShift dans MetaMask",
-        "button": "Ouvrir"
-      }
-    },
-    "tallyHo": {
-      "errors": {
-        "unknown": "Une erreur inattendue s'est produite lors de la communication avec Tally Ho",
-        "connectFailure": "Impossible de connecter le porte-monnaie Tally Ho",
-        "network": "Tally Ho n'est pas réglé sur Ethereum Mainnet",
-        "multipleWallets": "Le fournisseur Ethereum détecté n'est pas Tally Ho. Avez-vous plusieurs porte-monnaie installés ?",
-        "tallyNotInstalledOrSetToDefault": "Nous avons détecté que Tally Ho n'est pas installé ou n'est pas défini par défaut. Si vous souhaitez utiliser Tally Ho, veuillez l'installer ou le définir comme votre porte-monnaie par défaut et actualiser la page."
-      },
-      "connect": {
-        "header": "Appairer Tally",
-        "body": "Cliquez sur Appairer et connectez-vous à Tally Ho à partir de la fenêtre popup",
-        "button": "Appairer"
-      },
-      "failure": {
-        "header": "Erreur",
-        "body": "Impossible de connecter le porte-monnaie Tally Ho"
-      },
-      "redirect": {
-        "header": "Ouvrir dans l'app Tally Ho",
-        "body": "Cliquez pour ouvrir le tableau de bord de ShapeShift dans Tally Ho.",
-        "button": "Ouvrir"
-      }
-    },
-    "portis": {
-      "errors": {
-        "unknown": "Une erreur inattendue s'est produite lors de la communication avec Portis",
-        "connectFailure": "Impossible de connecter le porte-monnaie Portis."
-      },
-      "connect": {
-        "header": "Appairer Portis",
-        "body": "Cliquez sur Appairer et connectez-vous à Portis à partir de la fenêtre popup",
-        "button": "Appairer"
-      },
-      "failure": {
-        "header": "Erreur",
-        "body": "Impossible de se connecter au porte-monnaie Portis"
-      }
-    },
     "walletConnect": {
       "errors": {
         "unknown": "Une erreur inattendue s'est produite lors de la communication avec WalletConnect",
@@ -1060,27 +984,6 @@
       "failure": {
         "header": "Erreur",
         "body": "Impossible de se connecter au porte-monnaie WalletConnect"
-      }
-    },
-    "xdefi": {
-      "errors": {
-        "unknown": "Une erreur inattendue s'est produite lors de la communication avec XDEFI",
-        "connectFailure": "Impossible de connecter le porte-monnaie XDEFI",
-        "multipleWallets": "Le fournisseur Ethereum détecté n'est pas XDEFI. Avez-vous plusieurs porte-monnaie installés ?"
-      },
-      "connect": {
-        "header": "Appairer XDEFI",
-        "body": "Cliquez sur Appairer et connectez-vous à XDEFI à partir de la fenêtre popup",
-        "button": "Appairer"
-      },
-      "failure": {
-        "header": "Erreur",
-        "body": "Impossible de connecter le porte-monnaie XDEFI"
-      },
-      "redirect": {
-        "header": "Ouvrir dans l'app XDEFI",
-        "body": "Cliquez pour ouvrir le tableau de bord de ShapeShift dans XDEFI",
-        "button": "Ouvrir"
       }
     },
     "shapeShift": {
@@ -1167,33 +1070,6 @@
         "body": "Saisissez le nouveau surnom de votre porte-monnaie et votre mot de passe pour décrypter votre porte-monnaie.",
         "button": "Suivant",
         "confirmDelete": "Êtes-vous sûr de vouloir supprimer le surnom de ce porte-monnaie ?"
-      },
-      "legacy": {
-        "deprecatedWarning": "L'identification ShapeShift est progressivement abandonnée",
-        "learnMore": "En savoir plus",
-        "alreadySavedConfirm": "Je confirme que ma phrase secrète de récupération est déjà sauvegardée en toute sécurité.",
-        "mobileWalletTitle": "Porte-monnaie mobile ShapeShift",
-        "importInformations": "Pour continuer à utiliser votre porte-monnaie mobile ShapeShift vous devrez l'importer.",
-        "importWallet": "Importer un porte-monnaie",
-        "haveMobileWallet": "Vous avez un porte-monnaie mobile ShapeShift ?",
-        "loginWithAccount": "Se connecter avec un compte ShapeShift",
-        "loginInformations": "Entrez votre adresse de courriel et le mot de passe que vous utilisez pour vous connecter à votre application mobile ShapeShift.",
-        "loginSuccess": "Connexion réussie",
-        "emailAddress": "Adresse de courriel",
-        "password": "Mot de passe",
-        "emailRequired": "L'adresse de courriel est requise",
-        "invalidEmail": "L'adresse de courriel est invalide",
-        "invalidCaptcha": "Le Capcha est invalide",
-        "captchaRequired": "Le Capcha est requis",
-        "tooManyAttempts": "Trop de tentatives, veuillez réessayer plus tard.",
-        "invalidLogin": "Identification invalide",
-        "noWallet": "Impossible de trouver un porte-monnaie ShapeShift Natif pour votre connexion. Si vous pensez que ce message est une erreur, veuillez contacter le support ShapeShift.",
-        "decryptionError": "Une erreur s'est produite lors du décryptage de votre porte-monnaie.",
-        "twoFactorAuthentication": "Authentification à deux facteurs",
-        "twoFactorPlaceholder": "Code à 6 chiffres",
-        "twoFactorRequired": "La 2FA est requise",
-        "invalidTwoFactor": "Le code à 6 chiffres est invalide",
-        "twoFactorDescription": "L'authentification à deux facteurs est activée pour votre compte. Veuillez saisir le code de votre application d'authentification."
       }
     },
     "selectModal": {

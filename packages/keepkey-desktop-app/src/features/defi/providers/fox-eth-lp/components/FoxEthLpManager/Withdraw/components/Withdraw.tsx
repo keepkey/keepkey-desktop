@@ -1,5 +1,10 @@
 import type { AccountId } from '@keepkey/caip'
 import { ethAssetId, foxAssetId } from '@keepkey/caip'
+import type { AccountDropdownProps } from 'components/AccountDropdown/AccountDropdown'
+import { AssetInput } from 'components/DeFi/components/AssetInput'
+import type { StepComponentProps } from 'components/DeFi/components/Steps'
+import { Text } from 'components/Text'
+import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import type { WithdrawValues } from 'features/defi/components/Withdraw/Withdraw'
 import { Field, Withdraw as ReusableWithdraw } from 'features/defi/components/Withdraw/Withdraw'
 import type {
@@ -8,16 +13,11 @@ import type {
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { DefiStep } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { useFoxEthLiquidityPool } from 'features/defi/providers/fox-eth-lp/hooks/useFoxEthLiquidityPool'
-import { useContext, useMemo, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import type { AccountDropdownProps } from 'components/AccountDropdown/AccountDropdown'
-import { AssetInput } from 'components/DeFi/components/AssetInput'
-import type { StepComponentProps } from 'components/DeFi/components/Steps'
-import { Text } from 'components/Text'
-import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
+import { useContext, useMemo, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import {
   selectAssetById,
   selectMarketDataById,

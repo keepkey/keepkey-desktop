@@ -1,10 +1,13 @@
-import path from 'path'
-import nedb from 'nedb'
-import fs from 'fs'
-import type { Server } from 'http'
+import AutoLaunch from 'auto-launch'
 import type { BrowserWindow, IpcMainEvent } from 'electron'
+import log from 'electron-log'
+import fs from 'fs'
 import * as hidefile from 'hidefile'
-import type { UserType } from './helpers/types'
+import type { Server } from 'http'
+import nedb from 'nedb'
+import path from 'path'
+
+import { BridgeLogger } from './helpers/bridgeLogger'
 import {
   CONNECTED,
   DISCONNECTED,
@@ -13,11 +16,9 @@ import {
   NEEDS_INITIALIZE,
 } from './helpers/kk-state-controller'
 import { Settings } from './helpers/settings'
-import AutoLaunch from 'auto-launch'
-import { startTcpBridge, stopTcpBridge } from './tcpBridge'
+import type { UserType } from './helpers/types'
 import { queueIpcEvent } from './helpers/utils'
-import { BridgeLogger } from './helpers/bridgeLogger'
-import log from 'electron-log'
+import { startTcpBridge, stopTcpBridge } from './tcpBridge'
 import { createAndUpdateTray } from './tray'
 
 export const assetsDirectory = path.join(__dirname, 'assets')

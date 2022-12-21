@@ -1,7 +1,7 @@
 import { Button, Link } from '@chakra-ui/react'
-import { useTranslate } from 'react-polyglot'
 import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text'
+import { useTranslate } from 'react-polyglot'
 
 export const DappBack = () => {
   const translate = useTranslate()

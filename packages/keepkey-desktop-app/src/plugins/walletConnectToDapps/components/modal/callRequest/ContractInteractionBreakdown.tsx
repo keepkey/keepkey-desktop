@@ -1,12 +1,12 @@
 import { CopyIcon } from '@chakra-ui/icons'
 import { Box, Divider, HStack, IconButton } from '@chakra-ui/react'
 import { CurrencyAmount } from '@uniswap/sdk'
+import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
+import { RawText, Text } from 'components/Text'
 import { useContract } from 'plugins/walletConnectToDapps/ContractABIContext'
 import { Fragment, useMemo } from 'react'
 import { FaCode } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'
-import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
-import { RawText, Text } from 'components/Text'
 
 import { ModalSection } from './ModalSection'
 

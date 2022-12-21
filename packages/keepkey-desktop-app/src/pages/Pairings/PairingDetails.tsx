@@ -1,12 +1,12 @@
 import { Badge, Box, Button, Code, Heading, Image, Stack, StackDivider } from '@chakra-ui/react'
+import { Card } from 'components/Card/Card'
+import { Main } from 'components/Layout/Main'
+import { RawText, Text } from 'components/Text'
 import dayjs from 'dayjs'
 import { ipcRenderer } from 'electron-shim'
 import { useEffect, useState } from 'react'
 import { FaClipboard } from 'react-icons/fa'
 import { useParams } from 'react-router'
-import { Card } from 'components/Card/Card'
-import { Main } from 'components/Layout/Main'
-import { RawText, Text } from 'components/Text'
 
 import type { PairedAppProps } from './Pairings'
 
@@ -31,7 +31,7 @@ export const PairingDetails = () => {
   }, [params])
 
   useEffect(() => {
-    ipcRenderer.on('@bridge/service-details', (_event, data: any) => {
+    ipcRenderer.on('@bridge/service-details', (_event: unknown, data: any) => {
       setApp(data.app)
       setLogs(data.logs)
     })

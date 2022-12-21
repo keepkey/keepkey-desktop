@@ -1,12 +1,12 @@
 import { DefiProvider } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { useIdle } from 'features/defi/contexts/IdleProvider/IdleProvider'
 import { useYearn } from 'features/defi/contexts/YearnProvider/YearnProvider'
-import { useEffect, useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
 import type { MergedSerializableOpportunity } from 'pages/Defi/hooks/useVaultBalances'
+import { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectPortfolioAssetBalances, selectPortfolioLoading } from 'state/slices/selectors'
 const moduleLogger = logger.child({ namespace: ['useVaultWithoutBalance'] })
 

@@ -1,9 +1,9 @@
 import { Button, Skeleton, Stack, Text as CText } from '@chakra-ui/react'
+import { Amount } from 'components/Amount/Amount'
+import { Text } from 'components/Text'
 import { DefiModalContent } from 'features/defi/components/DefiModal/DefiModalContent'
 import type { EmptyOverviewAsset } from 'features/defi/components/EmptyOverview/EmptyOverview'
 import { EmptyOverview } from 'features/defi/components/EmptyOverview/EmptyOverview'
-import { Amount } from 'components/Amount/Amount'
-import { Text } from 'components/Text'
 
 type FoxFarmingEmptyProps = {
   assets: EmptyOverviewAsset[]

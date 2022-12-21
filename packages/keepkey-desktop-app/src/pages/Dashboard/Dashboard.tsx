@@ -1,9 +1,8 @@
 import { Stack } from '@chakra-ui/react'
 // import { FiatRamps } from 'components/Layout/Header/NavBar/FiatRamps'
 import { Main } from 'components/Layout/Main'
-import { ExplorationBanner } from 'plugins/walletConnectToDapps/components/ExplorationBanner'
 
-import { DashboardSidebar } from './DashboardSidebar'
+// import { DashboardSidebar } from './DashboardSidebar'
 import { Portfolio } from './Portfolio'
 
 export const Dashboard = () => {

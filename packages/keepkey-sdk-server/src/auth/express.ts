@@ -1,4 +1,5 @@
 import type * as express from 'express'
+
 import { getSdkClientFactory } from './sdkClient'
 
 // This is a magic tsoa export name, don't change

@@ -11,10 +11,10 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import { ipcRenderer } from 'electron-shim'
-import { useEffect, useState } from 'react'
-import { useModal } from 'hooks/useModal/useModal'
 import { RawText } from 'components/Text'
+import { ipcRenderer } from 'electron-shim'
+import { useModal } from 'hooks/useModal/useModal'
+import { useEffect, useState } from 'react'
 
 export const UpdateFirmware = (params: any) => {
   const { requestBootloaderMode } = useModal()

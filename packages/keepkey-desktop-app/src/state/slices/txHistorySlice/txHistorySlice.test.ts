@@ -1,9 +1,9 @@
 import { UtxoAccountType } from '@keepkey/types'
 import { TxStatus } from '@keepkey/unchained-client'
 import { map, reverse } from 'lodash'
+import { store } from 'state/store'
 import { mockStore } from 'test/mocks/store'
 import { BtcSend, ethereumTransactions, EthReceive, EthSend } from 'test/mocks/txs'
-import { store } from 'state/store'
 
 import { selectLastNTxIds } from './selectors'
 import type { RebasesState, TxHistory, TxsState } from './txHistorySlice'

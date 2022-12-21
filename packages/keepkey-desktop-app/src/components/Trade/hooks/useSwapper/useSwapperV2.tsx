@@ -7,9 +7,6 @@ import {
   SwapperName,
 } from '@keepkey/swapper'
 import type { KnownChainIds } from '@keepkey/types'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useFormContext, useWatch } from 'react-hook-form'
-import { useSelector } from 'react-redux'
 import { getSwapperManager } from 'components/Trade/hooks/useSwapper/swapperManager'
 import {
   filterAssetsByIds,
@@ -23,6 +20,9 @@ import { type BuildTradeInputCommonArgs } from 'components/Trade/types'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { toBaseUnit } from 'lib/math'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
+import { useSelector } from 'react-redux'
 import { selectAssetIds } from 'state/slices/assetsSlice/selectors'
 import { selectFeatureFlags } from 'state/slices/preferencesSlice/selectors'
 import {

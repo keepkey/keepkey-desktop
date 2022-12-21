@@ -1,13 +1,13 @@
 import type { AccountId } from '@keepkey/caip'
+import { SlideTransition } from 'components/SlideTransition'
 import type {
   DefiParams,
   DefiQueryParams,
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { DefiAction } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
-import { SlideTransition } from 'components/SlideTransition'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
+import { useState } from 'react'
 import type { Nullable } from 'types/common'
 
 import { YearnDeposit } from './Deposit/YearnDeposit'

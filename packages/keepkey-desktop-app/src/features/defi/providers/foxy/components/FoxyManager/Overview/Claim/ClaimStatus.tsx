@@ -1,13 +1,6 @@
 import { Box, Button, Center, Link, ModalBody, ModalFooter, Stack } from '@chakra-ui/react'
 import type { AccountId, AssetId, ChainId } from '@keepkey/caip'
 import { ASSET_REFERENCE, toAssetId } from '@keepkey/caip'
-import { useFoxy } from 'features/defi/contexts/FoxyProvider/FoxyProvider'
-import isNil from 'lodash/isNil'
-import { useEffect, useMemo, useState } from 'react'
-import { FaCheck, FaTimes } from 'react-icons/fa'
-import { useTranslate } from 'react-polyglot'
-import { useLocation } from 'react-router'
-import type { TransactionReceipt } from 'web3-core/types'
 import { Amount } from 'components/Amount/Amount'
 import { AssetIcon } from 'components/AssetIcon'
 import { CircularProgress } from 'components/CircularProgress/CircularProgress'
@@ -16,11 +9,17 @@ import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { Row } from 'components/Row/Row'
 import { SlideTransition } from 'components/SlideTransition'
 import { RawText } from 'components/Text'
+import { useFoxy } from 'features/defi/contexts/FoxyProvider/FoxyProvider'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
 import { poll } from 'lib/poll/poll'
+import isNil from 'lodash/isNil'
 import { useFoxyBalances } from 'pages/Defi/hooks/useFoxyBalances'
+import { useEffect, useMemo, useState } from 'react'
+import { FaCheck, FaTimes } from 'react-icons/fa'
+import { useTranslate } from 'react-polyglot'
+import { useLocation } from 'react-router'
 import {
   selectAssetById,
   selectBIP44ParamsByAccountId,
@@ -28,6 +27,7 @@ import {
 } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 import type { Nullable } from 'types/common'
+import type { TransactionReceipt } from 'web3-core/types'
 
 interface ClaimStatusState {
   txid: string

@@ -3,12 +3,12 @@ import type { ButtonGroupProps, ButtonProps, UseRadioProps } from '@chakra-ui/re
 import { Button, ButtonGroup, useId, useRadio, useRadioGroup } from '@chakra-ui/react'
 import type { ThemeTypings } from '@chakra-ui/styled-system'
 import type { HistoryTimeframe } from '@keepkey/types'
+import { CircularProgress } from 'components/CircularProgress/CircularProgress'
+import { Text } from 'components/Text'
 import type { InterpolationOptions } from 'node-polyglot'
 import type Polyglot from 'node-polyglot'
 import { memo } from 'react'
 import { useTranslate } from 'react-polyglot'
-import { CircularProgress } from 'components/CircularProgress/CircularProgress'
-import { Text } from 'components/Text'
 
 interface RadioCardProps extends UseRadioProps {
   label: string | [string, number | Polyglot.InterpolationOptions]

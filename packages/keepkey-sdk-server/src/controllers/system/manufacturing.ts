@@ -1,20 +1,19 @@
+import type { Readable } from 'stream'
 import {
   Body,
-  Post,
-  Security,
-  Route,
-  Response,
-  Middlewares,
   Deprecated,
-  Tags,
+  Middlewares,
   OperationId,
+  Post,
+  Response,
+  Route,
+  Security,
+  Tags,
 } from 'tsoa'
-import type { Readable } from 'stream'
-
-import type * as types from '../../types'
 
 import { ApiController } from '../../auth'
 import { extra } from '../../middlewares'
+import type * as types from '../../types'
 
 @Route('/system/manufacturing')
 @Tags('Manufacturing')

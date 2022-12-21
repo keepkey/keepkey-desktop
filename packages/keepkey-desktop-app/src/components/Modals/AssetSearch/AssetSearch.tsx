@@ -8,11 +8,11 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react'
 import type { Asset } from '@keepkey/asset-service'
-import { useCallback } from 'react'
-import { useTranslate } from 'react-polyglot'
 import { AssetSearch } from 'components/AssetSearch/AssetSearch'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWindowSize } from 'hooks/useWindowSize/useWindowSize'
+import { useCallback } from 'react'
+import { useTranslate } from 'react-polyglot'
 import { breakpoints } from 'theme/theme'
 
 type AssetSearchModalProps = {

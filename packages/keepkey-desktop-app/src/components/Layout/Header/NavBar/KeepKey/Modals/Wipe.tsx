@@ -9,14 +9,14 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/toast'
-import { useRef, useState } from 'react'
-import { useTranslate } from 'react-polyglot'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { Text } from 'components/Text'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import { useRef, useState } from 'react'
+import { useTranslate } from 'react-polyglot'
 
 const moduleLogger = logger.child({
   namespace: ['Layout', 'Header', 'NavBar', 'KeepKey', 'Modals', 'Wipe'],

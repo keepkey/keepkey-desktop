@@ -11,21 +11,21 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { useCallback, useEffect, useState } from 'react'
-import { useTranslate } from 'react-polyglot'
+import { formatJsonRpcResult } from '@json-rpc-tools/utils'
+import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import type { SignClientTypes } from '@walletconnect/types'
 import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { RawText, Text } from 'components/Text'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import { getSignParamsMessage, rejectEIP155Request } from 'plugins/walletConnectToDapps/utils/utils'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
+import { useCallback, useEffect, useState } from 'react'
+import { useTranslate } from 'react-polyglot'
 
 import { AddressSummaryCard } from './AddressSummaryCard'
-import type { SignClientTypes } from '@walletconnect/types'
-import { getSignParamsMessage, rejectEIP155Request } from 'plugins/walletConnectToDapps/utils/utils'
-import { formatJsonRpcResult } from '@json-rpc-tools/utils'
-import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
-import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
 
 export const EIP155SignMessageConfirmation = () => {
   const translate = useTranslate()

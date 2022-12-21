@@ -9,17 +9,17 @@ import {
   Switch,
 } from '@chakra-ui/react'
 import type { HistoryTimeframe } from '@keepkey/types'
-import { DEFAULT_HISTORY_TIMEFRAME } from 'constants/Config'
-import { useCallback, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { Amount } from 'components/Amount/Amount'
 import { BalanceChart } from 'components/BalanceChart/BalanceChart'
 import { Card } from 'components/Card/Card'
 import { TimeControls } from 'components/Graph/TimeControls'
-import { MaybeChartUnavailable } from 'components/MaybeChartUnavailable'
 import { Text } from 'components/Text'
+import { DEFAULT_HISTORY_TIMEFRAME } from 'constants/Config'
 import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import { ExplorationBanner } from 'plugins/walletConnectToDapps/components/ExplorationBanner'
+import { useCallback, useState } from 'react'
+import { useSelector } from 'react-redux'
 import {
   selectPortfolioAssetIds,
   selectPortfolioLoading,
@@ -28,7 +28,6 @@ import {
 
 import { AccountTable } from './components/AccountList/AccountTable'
 import { PortfolioBreakdown } from './PortfolioBreakdown'
-import { ExplorationBanner } from 'plugins/walletConnectToDapps/components/ExplorationBanner'
 import { RecentlyUsedDapps } from './RecentlyUsedDapps'
 
 export const Portfolio = () => {

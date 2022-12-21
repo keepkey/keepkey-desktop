@@ -1,10 +1,10 @@
 import { Button, Circle, Stack } from '@chakra-ui/react'
-import { useFormContext, useWatch } from 'react-hook-form'
-import type { RouteComponentProps } from 'react-router-dom'
 import { Amount } from 'components/Amount/Amount'
 import { Card } from 'components/Card/Card'
 import { SlideTransition } from 'components/SlideTransition'
 import { RawText, Text } from 'components/Text'
+import { useFormContext, useWatch } from 'react-hook-form'
+import type { RouteComponentProps } from 'react-router-dom'
 
 import type { BridgeChain, BridgeState } from '../types'
 import { BridgeRoutePaths } from '../types'

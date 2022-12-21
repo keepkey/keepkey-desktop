@@ -1,20 +1,20 @@
 import { ModalContent } from '@chakra-ui/modal'
 import { HStack, Modal, ModalCloseButton, ModalHeader, ModalOverlay } from '@chakra-ui/react'
-import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
 import { Text } from 'components/Text'
-
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import { EIP155_SIGNING_METHODS } from 'plugins/walletConnectToDapps/data/EIP115Data'
 import {
   rejectEIP155Request,
   rejectRequestAsUnsupported,
 } from 'plugins/walletConnectToDapps/utils/utils'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
+import type { FC } from 'react'
+
+import { EIP155SendTransactionConfirmation } from './EIP155SendTransactionConfirmation'
+import { EIP155SignMessageConfirmation } from './EIP155SignMessageConfirmation'
 import { SendTransactionConfirmation } from './SendTransactionConfirmation'
 import { SignMessageConfirmation } from './SignMessageConfirmation'
-import type { FC } from 'react'
-import { EIP155SignMessageConfirmation } from './EIP155SignMessageConfirmation'
-import { EIP155_SIGNING_METHODS } from 'plugins/walletConnectToDapps/data/EIP115Data'
-import { EIP155SendTransactionConfirmation } from './EIP155SendTransactionConfirmation'
 
 export const NecessaryModal: FC<{ req?: any; isLegacy: boolean; removeReq: any }> = ({
   req,

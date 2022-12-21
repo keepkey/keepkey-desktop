@@ -1,10 +1,9 @@
 import { WebUSBKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-webusb'
-import { MetaMaskAdapter } from '@shapeshiftoss/hdwallet-metamask'
 import { act, renderHook } from '@testing-library/react'
-import type { PropsWithChildren } from 'react'
-import { TestProviders } from 'test/TestProviders'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import type { PropsWithChildren } from 'react'
+import { TestProviders } from 'test/TestProviders'
 
 import { WalletProvider } from './WalletProvider'
 
@@ -18,12 +17,6 @@ jest.mock('friendly-challenge', () => ({
   WidgetInstance: {},
 }))
 
-jest.mock('@shapeshiftoss/hdwallet-metamask', () => ({
-  MetaMaskAdapter: {
-    useKeyring: jest.fn(),
-  },
-}))
-
 // This mock fixes an issue with rendering the OptInModal in WalletViewsSwitch
 // when the Pendo plugin is disabled
 jest.mock('./WalletViewsRouter', () => ({
@@ -33,10 +26,6 @@ jest.mock('./WalletViewsRouter', () => ({
 const setup = async () => {
   // @ts-ignore
   WebUSBKeepKeyAdapter.useKeyring.mockImplementation(() => ({
-    initialize: jest.fn(() => Promise.resolve()),
-  }))
-  // @ts-ignore
-  MetaMaskAdapter.useKeyring.mockImplementation(() => ({
     initialize: jest.fn(() => Promise.resolve()),
   }))
   const wrapper: React.FC<PropsWithChildren> = ({ children }) => (

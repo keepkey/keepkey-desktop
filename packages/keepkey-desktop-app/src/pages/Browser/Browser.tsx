@@ -9,12 +9,12 @@ import {
   Input,
   Stack,
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
-import { FaBug } from 'react-icons/fa'
 import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useEffect, useState } from 'react'
+import { FaBug } from 'react-icons/fa'
 
 const BrowserHeader = () => {
   return (

@@ -7,13 +7,13 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import { type FC } from 'react'
-import { useTranslate } from 'react-polyglot'
 import { Amount } from 'components/Amount/Amount'
 import { HelperTooltip } from 'components/HelperTooltip/HelperTooltip'
 import { type RowProps, Row } from 'components/Row/Row'
 import { RawText, Text } from 'components/Text'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import { type FC } from 'react'
+import { useTranslate } from 'react-polyglot'
 
 type ReceiveSummaryProps = {
   isLoading?: boolean

@@ -1,9 +1,9 @@
 import { USDC_PRECISION } from 'constants/UsdcPrecision'
-import { useMemo } from 'react'
 import { useVaultWithoutBalance } from 'hooks/useVaultWithoutBalance/useVaultWithoutBalance'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import type { MergedSerializableOpportunity } from 'pages/Defi/hooks/useVaultBalances'
 import { useVaultBalances } from 'pages/Defi/hooks/useVaultBalances'
+import { useMemo } from 'react'
 
 export type VaultWithFiatAmount = MergedSerializableOpportunity & {
   fiatAmount?: string

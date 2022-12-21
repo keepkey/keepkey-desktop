@@ -6,8 +6,8 @@ import {
   ModalBody,
   ModalHeader,
 } from '@chakra-ui/react'
-import type { ReactNode } from 'react'
 import { Text } from 'components/Text'
+import type { ReactNode } from 'react'
 
 export type RedirectModalProps = {
   headerText: string

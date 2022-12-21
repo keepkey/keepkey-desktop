@@ -2,14 +2,14 @@ import type { ChakraStyledOptions } from '@chakra-ui/react'
 import { Alert, Box } from '@chakra-ui/react'
 import type { AssetId } from '@keepkey/caip'
 import type { HistoryTimeframe } from '@keepkey/types'
-import { useEffect, useMemo } from 'react'
-import { FaInfoCircle } from 'react-icons/fa'
 import { Graph } from 'components/Graph/Graph'
 import { IconCircle } from 'components/IconCircle'
 import { Text } from 'components/Text'
 import { makeBalanceChartData } from 'hooks/useBalanceChartData/utils'
 import { useFetchPriceHistories } from 'hooks/useFetchPriceHistories/useFetchPriceHistories'
 import { calculatePercentChange } from 'lib/charts'
+import { useEffect, useMemo } from 'react'
+import { FaInfoCircle } from 'react-icons/fa'
 import {
   selectPriceHistoriesLoadingByAssetTimeframe,
   selectPriceHistoryByAssetTimeframe,

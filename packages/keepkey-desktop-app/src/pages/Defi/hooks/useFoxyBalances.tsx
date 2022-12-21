@@ -1,7 +1,7 @@
 import { ethChainId, fromAccountId, toAccountId } from '@keepkey/caip'
-import { useMemo } from 'react'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useWalletSupportsChain } from 'hooks/useWalletSupportsChain/useWalletSupportsChain'
+import { useMemo } from 'react'
 import { useGetFoxyAprQuery, useGetFoxyBalancesQuery } from 'state/apis/foxy/foxyApi'
 import { selectPortfolioAccountsGroupedByNumberByChainId } from 'state/slices/portfolioSlice/selectors'
 import { useAppSelector } from 'state/store'

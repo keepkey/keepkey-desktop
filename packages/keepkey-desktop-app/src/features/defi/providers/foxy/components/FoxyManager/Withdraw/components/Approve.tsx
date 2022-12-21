@@ -1,6 +1,7 @@
 import { useToast } from '@chakra-ui/react'
 import type { AccountId } from '@keepkey/caip'
 import { ASSET_REFERENCE, toAssetId } from '@keepkey/caip'
+import type { StepComponentProps } from 'components/DeFi/components/Steps'
 import { Approve as ReusableApprove } from 'features/defi/components/Approve/Approve'
 import { ApprovePreFooter } from 'features/defi/components/Approve/ApprovePreFooter'
 import type { WithdrawValues } from 'features/defi/components/Withdraw/Withdraw'
@@ -11,14 +12,13 @@ import type {
 import { DefiAction, DefiStep } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { useFoxy } from 'features/defi/contexts/FoxyProvider/FoxyProvider'
 import { canCoverTxFees } from 'features/defi/helpers/utils'
-import { useCallback, useContext, useMemo } from 'react'
-import { useTranslate } from 'react-polyglot'
-import type { StepComponentProps } from 'components/DeFi/components/Steps'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
 import { poll } from 'lib/poll/poll'
+import { useCallback, useContext, useMemo } from 'react'
+import { useTranslate } from 'react-polyglot'
 import {
   selectAssetById,
   selectBIP44ParamsByAccountId,

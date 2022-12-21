@@ -1,6 +1,6 @@
 import type { ListProps } from '@chakra-ui/react'
-import { FixedSizeList } from 'react-window'
 import { Text } from 'components/Text'
+import { FixedSizeList } from 'react-window'
 
 import type { FiatRampAction, FiatRampAsset } from '../../FiatRampsCommon'
 import { AssetRow } from './AssetRow'

@@ -1,9 +1,9 @@
 import type { AssetId, ChainNamespace, ChainReference } from '@keepkey/caip'
 import { toChainId } from '@keepkey/caip'
+import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { getFoxPageRouteAssetId } from 'plugins/foxPage/utils/getFoxPageRouteAssetId'
 import { useEffect, useState } from 'react'
 import { matchPath, useLocation } from 'react-router'
-import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 
 const getRouteAssetId = (pathname: string) => {
   // Extract the chainId and assetSubId parts from an /assets route, see src/Routes/RoutesCommon.tsx

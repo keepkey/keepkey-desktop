@@ -1,10 +1,10 @@
 import { Center } from '@chakra-ui/layout'
 import { Circle, Spinner } from '@chakra-ui/react'
-import { isFirefox } from 'react-device-detect'
 import Orbs from 'assets/orbs.svg'
 import OrbsStatic from 'assets/orbs-static.png'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { Page } from 'components/Layout/Page'
+import { isFirefox } from 'react-device-detect'
 import { colors } from 'theme/colors'
 
 export const SplashScreen = () => {

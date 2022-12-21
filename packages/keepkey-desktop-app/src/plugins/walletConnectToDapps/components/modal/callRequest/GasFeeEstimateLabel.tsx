@@ -1,9 +1,9 @@
 import { HStack } from '@chakra-ui/react'
-import type { FC } from 'react'
-import { useFormContext, useWatch } from 'react-hook-form'
 import { RawText } from 'components/Text'
 import { useLocaleFormatter } from 'hooks/useLocaleFormatter/useLocaleFormatter'
 import type { BN } from 'lib/bignumber/bignumber'
+import type { FC } from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
 
 type GasFeeEstimateLabelType = {
   symbol: string

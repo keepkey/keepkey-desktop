@@ -682,57 +682,6 @@
         }
       }
     },
-    "keplr": {
-      "errors": {
-        "unknown": "Terjadi kesalahan tak terduga saat berkomunikasi dengan Keplr",
-        "connectFailure": "Tidak dapat menghubungkan dompet Keplr"
-      },
-      "connect": {
-        "header": "Pasangkan Keplr",
-        "body": "Klik Pasangkan lalu pilih Keplr dari jendela popup",
-        "button": "Pasangkan"
-      },
-      "failure": {
-        "header": "Kesalahan",
-        "body": "Tidak dapat menghubungkan dompet Keplr"
-      }
-    },
-    "metaMask": {
-      "errors": {
-        "unknown": "Terjadi kesalahan tak terduga saat berkomunikasi dengan MetaMask",
-        "connectFailure": "Tidak dapat menghubungkan dompet MetaMask",
-        "multipleWallets": "Penyedia Ethereum yang terdeteksi bukan MetaMask. Apakah Anda memiliki banyak dompet yang terpasang?"
-      },
-      "connect": {
-        "header": "Pasangkan MetaMask",
-        "body": "Klik Pasangkan dan login ke MetaMask dari jendela popup",
-        "button": "Pasangkan"
-      },
-      "failure": {
-        "header": "Kesalahan",
-        "body": "Tidak dapat menghubungkan dompet MetaMask"
-      },
-      "redirect": {
-        "header": "Buka di Aplikasi MetaMask",
-        "body": "Klik untuk membuka dasbor ShapeShift di MetaMask",
-        "button": "Buka"
-      }
-    },
-    "portis": {
-      "errors": {
-        "unknown": "Terjadi kesalahan tak terduga saat berkomunikasi dengan Portis",
-        "connectFailure": "Tidak dapat menghubungkan dompet Portis"
-      },
-      "connect": {
-        "header": "Pasangkan Portis",
-        "body": "Klik Pasangkan lalu pilih Portis dari jendela popup",
-        "button": "Pasangkan"
-      },
-      "failure": {
-        "header": "Kesalahan",
-        "body": "Tidak dapat menghubungkan dompet Portis"
-      }
-    },
     "shapeShift": {
       "load": {
         "error": {
@@ -816,32 +765,6 @@
         "body": "Masukkan nama panggilan baru dompet Anda dan kata sandi Anda untuk mendekripsi dompet Anda.",
         "button": "Selanjutnya",
         "confirmDelete": "Apakah Anda yakin ingin menghapus nama panggilan dompet ini??"
-      },
-      "legacy": {
-        "deprecatedWarning": "ShapeShift Log In tidak digunakan lagi",
-        "learnMore": "Pelajari Lebih Lanjut ",
-        "alreadySavedConfirm": "Saya mengonfirmasi bahwa Frase Pemulihan Rahasia saya telah dicadangkan dengan aman.",
-        "mobileWalletTitle": "Dompet Seluler ShapeShift",
-        "importInformations": "Untuk terus menggunakan Dompet Seluler ShapeShift, Anda harus mengimpornya.",
-        "importWallet": "Impor Dompet",
-        "haveMobileWallet": "Punya Dompet Seluler ShapeShift?",
-        "loginWithAccount": "Masuk dengan Akun ShapeShift",
-        "loginInformations": "Masukkan alamat email dan kata sandi yang Anda gunakan untuk masuk ke Aplikasi Seluler ShapeShift Anda.",
-        "loginSuccess": "Berhasil Masuk",
-        "emailAddress": "Alamat email",
-        "password": "Kata Sandi",
-        "emailRequired": "Email diperlukan ",
-        "invalidEmail": "Email tidak valid",
-        "invalidCaptcha": "Captcha tidak valid",
-        "captchaRequired": "Captcha diperlukan",
-        "invalidLogin": "Invalid login",
-        "noWallet": "Tidak dapat menemukan dompet ShapeShift Asli untuk login Anda. Jika Anda merasa pesan ini salah, silakan hubungi dukungan ShapeShift.",
-        "decryptionError": "Terjadi kesalahan saat mendekripsi dompet Anda.",
-        "twoFactorAuthentication": "Otentikasi Dua Faktor",
-        "twoFactorPlaceholder": "Kode 6 digit",
-        "twoFactorRequired": "2FA diperlukan",
-        "invalidTwoFactor": "Kode 6 digit tidak valid",
-        "twoFactorDescription": "Otentikasi dua faktor diaktifkan untuk akun Anda. Silakan masukkan kode dari aplikasi otentikasi Anda."
       }
     },
     "selectModal": {

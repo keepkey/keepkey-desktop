@@ -1,9 +1,9 @@
 import './zendesk.css'
 
 import { getConfig } from 'config'
-import { useCallback, useEffect } from 'react'
 import { useFeatureFlag } from 'hooks/useFeatureFlag/useFeatureFlag'
 import { logger } from 'lib/logger'
+import { useCallback, useEffect } from 'react'
 
 const moduleLogger = logger.child({ namespace: ['Zendesk'] })
 

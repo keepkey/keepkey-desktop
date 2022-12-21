@@ -1,10 +1,10 @@
 import { cosmosAssetId, osmosisAssetId } from '@keepkey/caip'
+import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import type { EarnOpportunityType } from 'features/defi/helpers/normalizeOpportunity'
 import { useNormalizeOpportunities } from 'features/defi/helpers/normalizeOpportunity'
-import { useMemo } from 'react'
-import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import { useCosmosSdkStakingBalances } from 'pages/Defi/hooks/useCosmosSdkStakingBalances'
+import { useMemo } from 'react'
 import { selectFeatureFlags } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 

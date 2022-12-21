@@ -1,8 +1,8 @@
 import { Flex, ModalBody, ModalFooter, Stack } from '@chakra-ui/react'
+import { AssetIcon } from 'components/AssetIcon'
 import type { PropsWithChildren } from 'react'
 import { Fragment } from 'react'
 import { FaArrowRight } from 'react-icons/fa'
-import { AssetIcon } from 'components/AssetIcon'
 
 import { PairIcons } from '../PairIcons/PairIcons'
 

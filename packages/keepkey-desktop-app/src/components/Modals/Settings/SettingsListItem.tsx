@@ -1,8 +1,8 @@
 import type { ButtonProps } from '@chakra-ui/react'
 import { Box, Button, Flex, Icon, Tooltip, useColorModeValue } from '@chakra-ui/react'
+import { Text } from 'components/Text/Text'
 import { FaInfoCircle } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'
-import { Text } from 'components/Text/Text'
 
 type SettingListItemProps = {
   label: string

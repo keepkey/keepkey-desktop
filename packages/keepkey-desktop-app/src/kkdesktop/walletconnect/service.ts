@@ -1,11 +1,11 @@
 import * as core from '@shapeshiftoss/hdwallet-core'
 import type LegacyWalletConnect from '@walletconnect/client'
 import { Buffer } from 'buffer'
-import { ipcRenderer } from 'electron-shim'
-import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
+import { ipcRenderer } from 'electron-shim'
 import { logger } from 'lib/logger'
+import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 
 const moduleLogger = logger.child({ namespace: ['WalletConnect', 'Service'] })
 
@@ -73,15 +73,16 @@ export class LegacyWCService {
       id: payload.id,
       result: 'success',
     })
+    const chainId = payload.params[0].chainId
     this.connector.updateSession({
-      chainId: payload.params[0].chainId,
+      chainId,
       accounts: payload.params[0].accounts,
     })
     const web3Stuff = await web3ByChainId(parseInt(payload.params[0].chainId, 16))
     if (!web3Stuff) throw new Error('no data for chainId')
     this.connector.updateChain({
-      chainId: payload.params[0].chainId,
-      networkId: payload.params[0].chainId,
+      chainId,
+      networkId: chainId,
       rpcUrl: '',
       nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol },
     })

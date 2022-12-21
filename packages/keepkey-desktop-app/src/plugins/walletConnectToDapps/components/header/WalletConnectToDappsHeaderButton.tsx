@@ -1,11 +1,11 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { Menu, MenuButton, MenuList } from '@chakra-ui/menu'
 import { Button } from '@chakra-ui/react'
+import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
+import { RawText } from 'components/Text'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { useState } from 'react'
 import { useTranslate } from 'react-polyglot'
-import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
-import { RawText } from 'components/Text'
 
 import { ConnectModal } from '../modal/connectModal'
 import { DappAvatar } from './DappAvatar'

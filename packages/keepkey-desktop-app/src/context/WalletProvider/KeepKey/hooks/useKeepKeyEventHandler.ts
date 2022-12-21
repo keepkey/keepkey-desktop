@@ -1,14 +1,14 @@
 import { useToast } from '@chakra-ui/toast'
 import type { Event } from '@shapeshiftoss/hdwallet-core'
 import { Events } from '@shapeshiftoss/hdwallet-core'
-import type { Dispatch } from 'react'
-import { useEffect } from 'react'
-import { useTranslate } from 'react-polyglot'
 import type { ActionTypes } from 'context/WalletProvider/actions'
 import { WalletActions } from 'context/WalletProvider/actions'
 import type { DeviceState, InitialState } from 'context/WalletProvider/WalletProvider'
 import { logger } from 'lib/logger'
 import { poll } from 'lib/poll/poll'
+import type { Dispatch } from 'react'
+import { useEffect } from 'react'
+import { useTranslate } from 'react-polyglot'
 
 import { ButtonRequestType, FailureType, Message, MessageType } from '../KeepKeyTypes'
 
@@ -278,8 +278,11 @@ export const useKeepKeyEventHandler = (
     keyring.on(['*', '*', Events.DISCONNECT], handleDisconnect)
 
     return () => {
+      // @ts-expect-error
       keyring.off(['KeepKey', '*', '*'], handleEvent)
+      // @ts-expect-error
       keyring.off(['*', '*', Events.CONNECT], handleConnect)
+      // @ts-expect-error
       keyring.off(['*', '*', Events.DISCONNECT], handleDisconnect)
     }
   }, [

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import { logger } from 'lib/logger'
+import { useEffect, useState } from 'react'
 
 import { getEthersProvider } from '../utils'
 const moduleLogger = logger.child({ namespace: ['useCurrentBlockNumber'] })

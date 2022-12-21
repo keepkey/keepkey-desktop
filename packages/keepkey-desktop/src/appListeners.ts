@@ -1,10 +1,11 @@
 import { app, BrowserWindow } from 'electron'
-import { isLinux, settings, windows, bridgeLogger } from './globalState'
-import { createUpdaterSplashWindow, skipUpdateCheck } from './updaterListeners'
 import isDev from 'electron-is-dev'
 import { autoUpdater } from 'electron-updater'
-import { createMainWindow } from './helpers/utils'
 import { sleep } from 'wait-promise'
+
+import { bridgeLogger, isLinux, settings, windows } from './globalState'
+import { createMainWindow } from './helpers/utils'
+import { createUpdaterSplashWindow, skipUpdateCheck } from './updaterListeners'
 
 export const startAppListeners = () => {
   // app entry point

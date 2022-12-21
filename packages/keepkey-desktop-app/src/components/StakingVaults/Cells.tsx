@@ -11,11 +11,11 @@ import {
 } from '@chakra-ui/react'
 import type { Asset } from '@keepkey/asset-service'
 import type { AssetId } from '@keepkey/caip'
+import { AssetIcon } from 'components/AssetIcon'
+import { RawText } from 'components/Text'
 import { debounce } from 'lodash'
 import { useState } from 'react'
 import { FaInfoCircle } from 'react-icons/fa'
-import { AssetIcon } from 'components/AssetIcon'
-import { RawText } from 'components/Text'
 import { selectAssetById } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 

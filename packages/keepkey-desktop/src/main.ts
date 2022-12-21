@@ -1,16 +1,14 @@
-import isDev from 'electron-is-dev'
-import log from 'electron-log'
-import unhandled from 'electron-unhandled'
-import { app, nativeTheme } from 'electron'
 import * as Sentry from '@sentry/electron'
 import { config as dotenvConfig } from 'dotenv'
-import { startUpdaterListeners } from './updaterListeners'
+import { app, nativeTheme } from 'electron'
+import isDev from 'electron-is-dev'
+import log from 'electron-log'
 import fs from 'fs'
+
+import { startAppListeners } from './appListeners'
 import { isWin, kkAutoLauncher, settings } from './globalState'
 import { startIpcListeners } from './ipcListeners'
-import { startAppListeners } from './appListeners'
-
-// unhandled()
+import { startUpdaterListeners } from './updaterListeners'
 
 if (!app.requestSingleInstanceLock()) app.exit()
 
@@ -39,7 +37,7 @@ try {
   if (isWin && nativeTheme.shouldUseDarkColors === true) {
     fs.unlinkSync(require('path').join(app.getPath('userData'), 'DevTools Extensions'))
   }
-} catch (_) {}
+} catch {}
 
 if (process.defaultApp) {
   app.setAsDefaultProtocolClient('keepkey')

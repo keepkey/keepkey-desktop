@@ -1,3 +1,4 @@
+import { SearchIcon } from '@chakra-ui/icons'
 import {
   Accordion,
   AccordionButton,
@@ -20,21 +21,21 @@ import {
   Spinner,
   Stack,
 } from '@chakra-ui/react'
-// import { SessionTypes } from '@walletconnect/types'
-import { ipcRenderer } from 'electron-shim'
-import { useCallback, useEffect, useState } from 'react'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
+import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
+// import { SessionTypes } from '@walletconnect/types'
+import { ipcRenderer } from 'electron-shim'
+import { useDebounce } from 'hooks/useDebounce/useDebounce'
 import { useModal } from 'hooks/useModal/useModal'
-import { useForm, useWatch } from 'react-hook-form'
-import { SearchIcon } from '@chakra-ui/icons'
 import { getPioneerClient } from 'lib/getPioneerCleint'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
+import { useCallback, useEffect, useState } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
+
 import type { MergedServiceType } from './mergeServices'
 import { mergeServices } from './mergeServices'
 import { pingAndMergeServices } from './mergeServices'
-import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { useDebounce } from 'hooks/useDebounce/useDebounce'
-import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
 
 export const ChainSelectorModal = () => {
   const [loading, setLoading] = useState(false)

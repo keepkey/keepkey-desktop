@@ -1,11 +1,11 @@
 import { Button, Input, ModalBody, ModalHeader } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/toast'
 import type { ResetDevice } from '@shapeshiftoss/hdwallet-core'
-import { useEffect, useState } from 'react'
-import { useTranslate } from 'react-polyglot'
 import { Text } from 'components/Text'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import { useEffect, useState } from 'react'
+import { useTranslate } from 'react-polyglot'
 
 import { useKeepKeyRecover } from '../hooks/useKeepKeyRecover'
 const moduleLogger = logger.child({ namespace: ['Label'] })
@@ -27,7 +27,8 @@ export const KeepKeyLabel = () => {
   const handleInitializeSubmit = async () => {
     setLoading(true)
     //We prevent all special chars and any length > 12. We just yolo trim and send it (user can change later)
-    let sanitizedLabel = label.replace(/[^\x00-\x7F]+/g, "").substring(0, 12)
+    // eslint-disable-next-line no-control-regex
+    let sanitizedLabel = label.replace(/[^\x00-\x7F]+/g, '').substring(0, 12)
     const resetMessage: ResetDevice = { label: sanitizedLabel ?? '', pin: true }
     setDeviceState({ awaitingDeviceInteraction: true, disposition })
     await wallet?.reset(resetMessage).catch(e => {

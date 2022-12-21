@@ -1,13 +1,7 @@
 import { cosmosAssetId } from '@keepkey/caip'
 import { renderHook } from '@testing-library/react'
-import type { PropsWithChildren } from 'react'
-import { mockCosmosAccount, mockCosmosAccountWithStakingData } from 'test/mocks/accounts'
-import { cosmos, mockAssetState } from 'test/mocks/assets'
-import { mockMarketData } from 'test/mocks/marketData'
-import { mockUpsertPortfolio } from 'test/mocks/portfolio'
-import { MOCK_VALIDATORS } from 'test/mocks/validators'
-import { TestProviders } from 'test/TestProviders'
 import { useCosmosSdkStakingBalances } from 'pages/Defi/hooks/useCosmosSdkStakingBalances'
+import type { PropsWithChildren } from 'react'
 import type { ReduxState } from 'state/reducer'
 import { accountSpecifiers } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
 import { assets as assetsSlice } from 'state/slices/assetsSlice/assetsSlice'
@@ -15,6 +9,12 @@ import { marketData as marketDataSlice } from 'state/slices/marketDataSlice/mark
 import { portfolio as portfolioSlice } from 'state/slices/portfolioSlice/portfolioSlice'
 import { validatorData } from 'state/slices/validatorDataSlice/validatorDataSlice'
 import { store } from 'state/store'
+import { mockCosmosAccount, mockCosmosAccountWithStakingData } from 'test/mocks/accounts'
+import { cosmos, mockAssetState } from 'test/mocks/assets'
+import { mockMarketData } from 'test/mocks/marketData'
+import { mockUpsertPortfolio } from 'test/mocks/portfolio'
+import { MOCK_VALIDATORS } from 'test/mocks/validators'
+import { TestProviders } from 'test/TestProviders'
 
 jest.mock('state/slices/selectors', () => ({
   ...jest.requireActual('state/slices/selectors'),

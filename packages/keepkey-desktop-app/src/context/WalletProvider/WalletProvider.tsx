@@ -4,17 +4,17 @@ import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { Keyring } from '@shapeshiftoss/hdwallet-core'
 import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-walletconnect'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
-import * as uuid from 'uuid'
-import { ipcRenderer } from 'electron-shim'
-import type { providers } from 'ethers'
-import debounce from 'lodash/debounce'
-import omit from 'lodash/omit'
-import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import type { Entropy } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { VALID_ENTROPY } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
 import { KeepKeyRoutes } from 'context/WalletProvider/routes'
+import { randomUUID } from 'crypto'
+import { ipcRenderer } from 'electron-shim'
 import { logger } from 'lib/logger'
+import debounce from 'lodash/debounce'
+import omit from 'lodash/omit'
+import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react'
+import * as uuid from 'uuid'
 
 import type { ActionTypes } from './actions'
 import { WalletActions } from './actions'
@@ -27,7 +27,6 @@ import { clearLocalWallet, setLocalWalletTypeAndDeviceId } from './local-wallet'
 import type { IWalletContext } from './WalletContext'
 import { WalletContext } from './WalletContext'
 import { WalletViewsRouter } from './WalletViewsRouter'
-import { randomUUID } from 'crypto'
 
 const moduleLogger = logger.child({ namespace: ['WalletProvider'] })
 
@@ -77,7 +76,6 @@ const initialDeviceState: DeviceState = {
   isUpdatingPin: false,
   isDeviceLoading: false,
 }
-export type MetaMaskLikeProvider = providers.Web3Provider & { isTally?: boolean }
 
 export interface InitialState {
   keyring: Keyring
@@ -89,7 +87,7 @@ export interface InitialState {
   isConnected: boolean
   isUpdatingKeepkey: boolean
   isDemoWallet: boolean
-  provider: MetaMaskLikeProvider | WalletConnectProvider | null
+  provider: WalletConnectProvider | null
   isLocked: boolean
   modal: boolean
   isLoadingLocalWallet: boolean
@@ -356,7 +354,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     debounce(async () => {
       const sdk = await getsdk()
       const adapters: Adapters = new Map()
-      let options: undefined | { portisAppId: string } | WalletConnectProviderConfig
+      let options: undefined | WalletConnectProviderConfig
       for (const walletName of Object.values(KeyManager)) {
         try {
           const adapter = SUPPORTED_WALLETS[walletName].adapter.useKeyring(state.keyring, options)
@@ -385,7 +383,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     }, 2000),
   )
 
-  const getsdk = () => {
+  const getsdk = async () => {
     console.log('setup kk sdk called')
     let serviceKey = window.localStorage.getItem('@app/serviceKey')
     let config = {
@@ -398,18 +396,18 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       window.localStorage.setItem('@app/serviceKey', config.serviceKey)
       ipcRenderer.send('@bridge/add-service', config)
     }
-    return KeepKeySdk.create({
+    return await KeepKeySdk.create({
       apiKey: config.serviceKey,
     })
   }
 
   const startBridgeListeners = useCallback(() => {
-    ipcRenderer.on('@walletconnect/paired', (_event, data) => {
+    ipcRenderer.on('@walletconnect/paired', (_event: unknown, data: WalletConnectApp | null) => {
       dispatch({ type: WalletActions.SET_WALLET_CONNECT_APP, payload: data })
     })
 
     //listen to events on main
-    ipcRenderer.on('hardware', (_event, data) => {
+    ipcRenderer.on('hardware', (_event: unknown, data: any) => {
       switch (data.event.event) {
         case 'connect':
           playSound('success')
@@ -428,7 +426,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
     //HDwallet API
     //TODO moveme into own file
-    ipcRenderer.on('@hdwallet/osmosisGetAddress', async (_event, data) => {
+    ipcRenderer.on('@hdwallet/osmosisGetAddress', async (_event: unknown, data: any) => {
       let payload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -438,7 +436,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/cosmosSignTx', async (_event, data) => {
+    ipcRenderer.on('@hdwallet/cosmosSignTx', async (_event: unknown, data: any) => {
       let HDwalletPayload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -448,7 +446,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('@hdwallet/osmosisSignTx', async (_event, data) => {
+    ipcRenderer.on('@hdwallet/osmosisSignTx', async (_event: unknown, data: any) => {
       let HDwalletPayload = data.payload
       if (state.wallet) {
         console.info('state.wallet: ', state.wallet)
@@ -458,7 +456,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       }
     })
 
-    ipcRenderer.on('connected', async (_event, _data) => {
+    ipcRenderer.on('connected', async () => {
       pairAndConnect.current()
     })
 

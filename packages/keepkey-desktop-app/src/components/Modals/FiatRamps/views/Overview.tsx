@@ -18,18 +18,18 @@ import {
 import type { AccountId } from '@keepkey/caip'
 import { fromAccountId } from '@keepkey/caip'
 import { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
-import { DefiModalHeader } from 'features/defi/components/DefiModal/DefiModalHeader'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { FaCreditCard } from 'react-icons/fa'
-import { useTranslate } from 'react-polyglot'
-import { useParams } from 'react-router'
 import { AccountDropdown } from 'components/AccountDropdown/AccountDropdown'
 import { AssetIcon } from 'components/AssetIcon'
 import { CircularProgress } from 'components/CircularProgress/CircularProgress'
 import { IconCircle } from 'components/IconCircle'
 import { Text } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
+import { DefiModalHeader } from 'features/defi/components/DefiModal/DefiModalHeader'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { FaCreditCard } from 'react-icons/fa'
+import { useTranslate } from 'react-polyglot'
+import { useParams } from 'react-router'
 import {
   selectPortfolioAccountMetadataByAccountId,
   selectPortfolioFiatBalanceByFilter,

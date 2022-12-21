@@ -1,15 +1,15 @@
 import type { AccountId } from '@keepkey/caip'
+import { SlideTransition } from 'components/SlideTransition'
 import { DefiModalHeader } from 'features/defi/components/DefiModal/DefiModalHeader'
 import type {
   DefiParams,
   DefiQueryParams,
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { DefiAction } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
+import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import qs from 'qs'
 import { useTranslate } from 'react-polyglot'
 import { MemoryRouter } from 'react-router'
-import { SlideTransition } from 'components/SlideTransition'
-import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import type { Nullable } from 'types/common'
 
 import { ClaimRoutes } from './ClaimRoutes'

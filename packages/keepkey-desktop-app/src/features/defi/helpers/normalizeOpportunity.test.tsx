@@ -1,9 +1,9 @@
 import { cosmosChainId } from '@keepkey/caip'
 import { renderHook } from '@testing-library/react'
-import type { PropsWithChildren } from 'react'
-import { TestProviders } from 'test/TestProviders'
 import type { MergedActiveStakingOpportunity } from 'pages/Defi/hooks/useCosmosSdkStakingBalances'
 import { useVaultBalances } from 'pages/Defi/hooks/useVaultBalances'
+import type { PropsWithChildren } from 'react'
+import { TestProviders } from 'test/TestProviders'
 
 import { useNormalizeOpportunities } from './normalizeOpportunity'
 

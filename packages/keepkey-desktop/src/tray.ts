@@ -1,6 +1,7 @@
 import { app, Menu, nativeImage, nativeTheme, Tray } from 'electron'
 import path from 'path'
 import { sleep } from 'wait-promise'
+
 import { assetsDirectory, isWalletBridgeRunning, tcpBridgeClosing, windows } from './globalState'
 import { createMainWindow } from './helpers/utils'
 import { startTcpBridge, stopTcpBridge } from './tcpBridge'

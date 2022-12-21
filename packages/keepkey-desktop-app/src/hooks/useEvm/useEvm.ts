@@ -1,9 +1,9 @@
 import { CHAIN_NAMESPACE, fromChainId } from '@keepkey/caip'
 import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
-import { useEffect, useMemo, useState } from 'react'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import { useEffect, useMemo, useState } from 'react'
 import { selectFeatureFlags } from 'state/slices/preferencesSlice/selectors'
 import { useAppSelector } from 'state/store'
 

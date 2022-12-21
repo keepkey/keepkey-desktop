@@ -1,16 +1,14 @@
 import { FeeDataKey } from '@keepkey/chain-adapters'
 import { KnownChainIds } from '@keepkey/types'
 import { act, renderHook, waitFor } from '@testing-library/react'
+import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import { mocked } from 'jest-mock'
+import { ensLookup } from 'lib/address/ens'
+import { fromBaseUnit } from 'lib/math'
 import type { PropsWithChildren } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
-import { ethereum as mockEthereum, rune as mockRune } from 'test/mocks/assets'
-import { TestProviders } from 'test/TestProviders'
-import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import { ensLookup } from 'lib/address/ens'
-import { fromBaseUnit } from 'lib/math'
 import type { PortfolioBalancesById } from 'state/slices/portfolioSlice/portfolioSliceCommon'
 import {
   selectFeeAssetById,
@@ -19,6 +17,8 @@ import {
   selectPortfolioCryptoHumanBalanceByFilter,
   selectPortfolioFiatBalanceByFilter,
 } from 'state/slices/selectors'
+import { ethereum as mockEthereum, rune as mockRune } from 'test/mocks/assets'
+import { TestProviders } from 'test/TestProviders'
 
 import { useSendDetails } from './useSendDetails'
 

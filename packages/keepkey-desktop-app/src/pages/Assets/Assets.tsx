@@ -1,7 +1,7 @@
 import type { Asset } from '@keepkey/asset-service'
-import { useHistory } from 'react-router-dom'
 import { AssetSearchKK } from 'components/AssetSearchKK/AssetSearchKK'
 import { Main } from 'components/Layout/Main'
+import { useHistory } from 'react-router-dom'
 
 export const Assets = () => {
   const history = useHistory()

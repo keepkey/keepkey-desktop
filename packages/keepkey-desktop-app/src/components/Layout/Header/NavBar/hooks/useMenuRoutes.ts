@@ -1,10 +1,10 @@
 import { useToast } from '@chakra-ui/toast'
-import { useCallback } from 'react'
-import { useTranslate } from 'react-polyglot'
-import { useHistory } from 'react-router-dom'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import { useCallback } from 'react'
+import { useTranslate } from 'react-polyglot'
+import { useHistory } from 'react-router-dom'
 
 export enum WalletConnectedRoutes {
   Connected = '/connected',

@@ -5,10 +5,10 @@ import type {
   DefiParams,
   DefiQueryParams,
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
+import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import qs from 'qs'
 import { useCallback, useMemo } from 'react'
 import { useTranslate } from 'react-polyglot'
-import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 
 export type DefiButtonProps = {
   label: string

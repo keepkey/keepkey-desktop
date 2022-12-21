@@ -1,9 +1,9 @@
 import { Badge, Box, Flex } from '@chakra-ui/layout'
 import { Link, Progress, Skeleton, Text as CText, useColorModeValue } from '@chakra-ui/react'
-import { getConfig } from 'config'
 import { Amount } from 'components/Amount/Amount'
 import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text/Text'
+import { getConfig } from 'config'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 
 import { useGetGovernanceData } from '../hooks/getGovernanceData'

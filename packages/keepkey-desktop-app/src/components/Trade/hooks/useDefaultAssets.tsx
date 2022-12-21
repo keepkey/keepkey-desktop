@@ -10,8 +10,6 @@ import {
   osmosisChainId,
 } from '@keepkey/caip'
 import { supportsCosmos, supportsETH, supportsOsmosis } from '@shapeshiftoss/hdwallet-core'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
 import {
   getDefaultAssetIdPairByChainId,
   getReceiveAddress,
@@ -19,6 +17,8 @@ import {
 import { type AssetIdTradePair } from 'components/Trade/types'
 import { useEvm } from 'hooks/useEvm/useEvm'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { swapperApi } from 'state/apis/swapper/swapperApi'
 import { selectAssets } from 'state/slices/assetsSlice/selectors'
 import {

@@ -1,8 +1,6 @@
 import { CloseIcon, LockIcon } from '@chakra-ui/icons'
 import { MenuDivider, MenuGroup, MenuItem } from '@chakra-ui/menu'
 import { Flex } from '@chakra-ui/react'
-import { useCallback, useEffect } from 'react'
-import { useTranslate } from 'react-polyglot'
 import { ExpandedMenuItem } from 'components/Layout/Header/NavBar/ExpandedMenuItem'
 import {
   useMenuRoutes,
@@ -18,6 +16,8 @@ import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyType
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useCallback, useEffect } from 'react'
+import { useTranslate } from 'react-polyglot'
 
 export const KeepKeyMenu = () => {
   const { navigateToRoute } = useMenuRoutes()
@@ -60,10 +60,10 @@ export const KeepKeyMenu = () => {
     keepKeyWipe.open({})
   }
 
-  const handleRemovePinClick = useCallback(() => {
+  const handleRemovePinClick = useCallback(async () => {
     // console.log('KEEPKEY SDK', keepkeySdk)
     if (!keepkeySdk) return
-    keepkeySdk.developer.removePin({ body: {} })
+    await keepkeySdk.system.changePin({ remove: true })
     dispatch({
       type: WalletActions.OPEN_KEEPKEY_PIN,
       payload: {

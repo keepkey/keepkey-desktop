@@ -14,13 +14,13 @@ import {
   useOutsideClick,
 } from '@chakra-ui/react'
 import { TradeType, TransferType } from '@keepkey/unchained-client'
+import { Text } from 'components/Text'
 import dayjs from 'dayjs'
 import { useRef, useState } from 'react'
 import type { FieldValues } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { IoOptionsOutline } from 'react-icons/io5'
 import { useTranslate } from 'react-polyglot'
-import { Text } from 'components/Text'
 
 import { DatePicker } from './components/DatePicker/DatePicker'
 import { FilterGroup } from './components/FilterGroup'

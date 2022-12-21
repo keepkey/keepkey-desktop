@@ -1,5 +1,5 @@
-import { MOCK_VALIDATORS, SHAPESHIFT_OPPORTUNITY } from 'test/mocks/validators'
 import { clearState, store } from 'state/store'
+import { MOCK_VALIDATORS, SHAPESHIFT_OPPORTUNITY } from 'test/mocks/validators'
 
 import { SHAPESHIFT_COSMOS_VALIDATOR_ADDRESS } from './constants'
 import { selectValidatorByAddress } from './selectors'

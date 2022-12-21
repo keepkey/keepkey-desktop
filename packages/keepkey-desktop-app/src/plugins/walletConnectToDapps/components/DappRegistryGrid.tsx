@@ -12,21 +12,18 @@ import {
   Text as PlainText,
   VStack,
 } from '@chakra-ui/react'
-import type { FC } from 'react'
-import { useEffect, useMemo, useState } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
-import { useHistory } from 'react-router'
 import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { getConfig } from 'config'
+import { getPioneerClient } from 'lib/getPioneerCleint'
+import type { FC } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
+import { useHistory } from 'react-router'
 
 import type { RegistryItem } from '../types'
 import { PageInput } from './PageInput'
-// @ts-ignore
-import client from '@pioneer-platform/pioneer-client'
-import { getPioneerClient } from 'lib/getPioneerCleint'
 
 const PAGE_SIZE = 20
 

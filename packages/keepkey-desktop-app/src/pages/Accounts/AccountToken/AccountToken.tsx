@@ -1,9 +1,9 @@
 import type { AssetId } from '@keepkey/caip'
+import { AssetAccountDetails } from 'components/AssetAccountDetails'
 import toLower from 'lodash/toLower'
 import { useSelector } from 'react-redux'
 import { Redirect, useParams } from 'react-router-dom'
 import type { Route } from 'Routes/helpers'
-import { AssetAccountDetails } from 'components/AssetAccountDetails'
 import type { AccountSpecifier } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
 import { selectAccountSpecifierStrings } from 'state/slices/selectors'
 export type MatchParams = {

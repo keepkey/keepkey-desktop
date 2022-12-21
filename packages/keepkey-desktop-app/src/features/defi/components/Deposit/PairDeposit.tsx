@@ -2,11 +2,6 @@ import { Button, Stack, useColorModeValue } from '@chakra-ui/react'
 import type { Asset } from '@keepkey/asset-service'
 import type { AccountId } from '@keepkey/caip/dist/accountId/accountId'
 import type { MarketData } from '@keepkey/types'
-import get from 'lodash/get'
-import { calculateYearlyYield } from 'plugins/cosmos/components/modals/Staking/StakingCommon'
-import type { ControllerProps } from 'react-hook-form'
-import { useController, useForm, useWatch } from 'react-hook-form'
-import { useTranslate } from 'react-polyglot'
 import type { AccountDropdownProps } from 'components/AccountDropdown/AccountDropdown'
 import { Amount } from 'components/Amount/Amount'
 import { AssetIcon } from 'components/AssetIcon'
@@ -15,6 +10,11 @@ import { FormField } from 'components/DeFi/components/FormField'
 import { Row } from 'components/Row/Row'
 import { Text } from 'components/Text'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import get from 'lodash/get'
+import { calculateYearlyYield } from 'plugins/cosmos/components/modals/Staking/StakingCommon'
+import type { ControllerProps } from 'react-hook-form'
+import { useController, useForm, useWatch } from 'react-hook-form'
+import { useTranslate } from 'react-polyglot'
 import type { Nullable } from 'types/common'
 
 import { PairIcons } from '../PairIcons/PairIcons'
@@ -229,7 +229,7 @@ export const PairDeposit = ({
             onAccountIdChange={handleAccountIdChange}
             onMaxClick={value => handlePercentClick(value, true)}
             percentOptions={percentOptions}
-            errors={cryptoError1 || fiatError1}
+            errors={(cryptoError1 || fiatError1) ?? undefined}
           />
           <AssetInput
             {...(accountId ? { accountId } : {})}
@@ -245,7 +245,7 @@ export const PairDeposit = ({
             onAccountIdChange={handleAccountIdChange}
             onMaxClick={value => handlePercentClick(value, false)}
             percentOptions={percentOptions}
-            errors={cryptoError2 || fiatError2}
+            errors={(cryptoError2 || fiatError2) ?? undefined}
           />
           <Row>
             <Stack flex={1} spacing={0}>

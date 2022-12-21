@@ -1,10 +1,10 @@
+import { usePlugins } from 'context/PluginProvider/PluginProvider'
+import { useQuery } from 'hooks/useQuery/useQuery'
 import { union } from 'lodash'
 import React, { useMemo } from 'react'
 import { matchPath, useHistory, useLocation, useParams } from 'react-router-dom'
 import { generateAppRoutes } from 'Routes/helpers'
 import { routes } from 'Routes/RoutesCommon'
-import { usePlugins } from 'context/PluginProvider/PluginProvider'
-import { useQuery } from 'hooks/useQuery/useQuery'
 
 import { BrowserRouterContext } from './BrowserRouterContext'
 

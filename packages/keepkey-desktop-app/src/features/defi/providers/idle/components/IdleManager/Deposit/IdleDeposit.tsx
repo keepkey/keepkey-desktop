@@ -1,6 +1,10 @@
 import { Center, useToast } from '@chakra-ui/react'
 import { toAssetId } from '@keepkey/caip'
 import { KnownChainIds } from '@keepkey/types'
+import { CircularProgress } from 'components/CircularProgress/CircularProgress'
+import type { DefiStepProps } from 'components/DeFi/components/Steps'
+import { Steps } from 'components/DeFi/components/Steps'
+import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { DefiModalContent } from 'features/defi/components/DefiModal/DefiModalContent'
 import { DefiModalHeader } from 'features/defi/components/DefiModal/DefiModalHeader'
 import type {
@@ -9,17 +13,13 @@ import type {
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { DefiAction, DefiStep } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { useIdle } from 'features/defi/contexts/IdleProvider/IdleProvider'
+import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import { logger } from 'lib/logger'
 import qs from 'qs'
 import { useCallback, useEffect, useMemo, useReducer } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { useSelector } from 'react-redux'
-import { CircularProgress } from 'components/CircularProgress/CircularProgress'
-import type { DefiStepProps } from 'components/DeFi/components/Steps'
-import { Steps } from 'components/DeFi/components/Steps'
-import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import { logger } from 'lib/logger'
 import {
   selectAssetById,
   selectMarketDataById,

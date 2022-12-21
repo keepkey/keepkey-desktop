@@ -672,58 +672,6 @@
         }
       }
     },
-    "keplr": {
-      "errors": {
-        "unknown": "与您的 Keplr 通讯出现未知错误",
-        "connectFailure": "无法连接 Keplr"
-      },
-      "connect": {
-        "header": "与 Keplr 配对",
-        "body": "点击配对并在弹窗中选择 Keplr",
-        "button": "配对"
-      },
-      "failure": {
-        "header": "错误",
-        "body": "无法连接 Keplr"
-      }
-    },
-    "metaMask": {
-      "errors": {
-        "unknown": "与您的 MetaMask 通讯出现未知错误",
-        "connectFailure": "无法连接 MetaMask",
-        "network": "MetaMask 未设置为以太坊主网",
-        "multipleWallets": "检测到以太坊连接提供方不是 MetaMask 。您是否安装了多个钱包？"
-      },
-      "connect": {
-        "header": "与 MetaMask 配对",
-        "body": "点击配对并在 MetaMask 弹窗中登录",
-        "button": "配对"
-      },
-      "failure": {
-        "header": "错误",
-        "body": "无法连接 MetaMask"
-      },
-      "redirect": {
-        "header": "打开 MetaMask App",
-        "body": "点击并在 Metamask 中打开 ShapeShift 仪表盘",
-        "button": "打开"
-      }
-    },
-    "portis": {
-      "errors": {
-        "unknown": "与您的 Portis 通讯出现未知错误",
-        "connectFailure": "无法连接 Portis"
-      },
-      "connect": {
-        "header": "与 Portis 配对",
-        "body": "点击配对并在弹窗中选择 Portis",
-        "button": "配对"
-      },
-      "failure": {
-        "header": "错误",
-        "body": "无法连接 Portis"
-      }
-    },
     "shapeShift": {
       "load": {
         "error": {
@@ -807,32 +755,6 @@
         "body": "输入新的昵称以及密码以解密钱包。",
         "button": "下一步",
         "confirmDelete": "您确定删除此钱包的昵称吗？"
-      },
-      "legacy": {
-        "deprecatedWarning": "ShapeShift登录已弃用",
-        "learnMore": "了解更多",
-        "alreadySavedConfirm": "我确认我的秘密恢复短语已经安全备份。",
-        "mobileWalletTitle": "ShapeShift移动端钱包",
-        "importInformations": "要继续使用ShapeShift移动端钱包，您需要将其导入。",
-        "importWallet": "导入钱包",
-        "haveMobileWallet": "拥有一个ShapeShift移动端钱包?",
-        "loginWithAccount": "使用ShapeShift帐户登录",
-        "loginInformations": "输入您的电子邮件地址和密码，您使用登录您的ShapeShift移动端应用程序。",
-        "loginSuccess": "登录成功",
-        "emailAddress": "电子邮件地址",
-        "password": "密码",
-        "emailRequired": "电子邮件是必需的",
-        "invalidEmail": "电子邮件不可用",
-        "invalidCaptcha": "验证码不可用",
-        "captchaRequired": "验证码是必需的",
-        "invalidLogin": "无效的登录",
-        "noWallet": "找不到用于您登录的原生ShapeShift钱包。如果您觉得这条消息是错误的，请联系ShapeShift提供帮助。",
-        "decryptionError": "在解密你的钱包时出了问题。",
-        "twoFactorAuthentication": "双因素身份验证",
-        "twoFactorPlaceholder": "6位代码",
-        "twoFactorRequired": "双因素验证是必须的",
-        "invalidTwoFactor": "6位代码无效",
-        "twoFactorDescription": "您的帐户启用了双因素身份验证。请从您的认证应用程序输入代码。"
       }
     },
     "selectModal": {

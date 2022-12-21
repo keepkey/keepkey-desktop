@@ -1,12 +1,11 @@
 import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/react'
+import { useModal } from 'hooks/useModal/useModal'
 import type { MobileMessageEvent } from 'plugins/mobile'
 import { useEffect } from 'react'
 import { MemoryRouter, Route, Switch, useHistory } from 'react-router-dom'
-import { useModal } from 'hooks/useModal/useModal'
 
 import { SettingsRoutes } from './SettingsCommon'
 import { SettingsRouter } from './SettingsRouter'
-import { Text } from 'components/Text'
 
 export const entries = [
   SettingsRoutes.Index,

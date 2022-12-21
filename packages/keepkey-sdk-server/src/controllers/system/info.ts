@@ -1,21 +1,20 @@
 import type { BTCInputScriptType } from '@shapeshiftoss/hdwallet-core'
+import { Readable } from 'stream'
 import {
   Body,
-  Post,
-  Security,
-  Route,
-  Response,
   Middlewares,
   OperationId,
-  Tags,
+  Post,
   Produces,
+  Response,
+  Route,
+  Security,
+  Tags,
 } from 'tsoa'
-import { Readable } from 'stream'
-
-import type * as types from '../../types'
 
 import { ApiController } from '../../auth'
 import { extra } from '../../middlewares'
+import type * as types from '../../types'
 
 @Route('/system/info')
 @Tags('Info')

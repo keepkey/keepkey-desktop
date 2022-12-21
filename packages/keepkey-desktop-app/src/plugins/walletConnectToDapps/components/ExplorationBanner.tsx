@@ -1,22 +1,22 @@
 import {
   Avatar,
-  Button,
   Box,
+  Button,
   Flex,
   Image,
+  Skeleton,
+  SkeletonText,
   Stack,
   useColorModeValue,
-  SkeletonText,
-  Skeleton,
 } from '@chakra-ui/react'
-import type { FC } from 'react'
-import { useEffect, useState } from 'react'
 import { WalletConnectCurrentColorIcon } from 'components/Icons/WalletConnectIcon'
 import { Text } from 'components/Text'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import { useHistory } from 'react-router'
 import { WalletActions } from 'context/WalletProvider/actions'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import { getPioneerClient } from 'lib/getPioneerCleint'
+import type { FC } from 'react'
+import { useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
 
 export const ExplorationBanner: FC = () => {
   const history = useHistory()

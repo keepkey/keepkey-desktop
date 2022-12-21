@@ -1,9 +1,9 @@
 import { ethAssetId } from '@keepkey/caip'
-import { useEffect } from 'react'
-import { useFormContext, useWatch } from 'react-hook-form'
 import { useSwapper } from 'components/Trade/hooks/useSwapper/useSwapperV2'
 import { getFormFees } from 'components/Trade/hooks/useSwapper/utils'
 import type { TS } from 'components/Trade/types'
+import { useEffect } from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
 import { selectFeeAssetById } from 'state/slices/assetsSlice/selectors'
 import { useAppSelector } from 'state/store'
 

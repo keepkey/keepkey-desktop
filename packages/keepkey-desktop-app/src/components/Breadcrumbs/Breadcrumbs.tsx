@@ -1,9 +1,9 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
+import { AccountLabel } from 'components/AssetHeader/AccountLabel'
+import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import type { BreadcrumbsRoute } from 'react-router-breadcrumbs-hoc'
 import withBreadcrumbs from 'react-router-breadcrumbs-hoc'
 import { Link } from 'react-router-dom'
-import { AccountLabel } from 'components/AssetHeader/AccountLabel'
-import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { selectAssetById } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 

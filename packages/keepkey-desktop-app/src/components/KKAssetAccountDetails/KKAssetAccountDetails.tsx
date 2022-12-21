@@ -1,8 +1,8 @@
 import { Flex, Link, Stack } from '@chakra-ui/react'
-import { useCallback } from 'react'
 import { RawText } from 'components/Text'
 import type { KKAsset } from 'context/WalletProvider/KeepKeyProvider'
 import { useModal } from 'hooks/useModal/useModal'
+import { useCallback } from 'react'
 
 import { Main } from '../Layout/Main'
 import { DappGrid } from './DappGrid'

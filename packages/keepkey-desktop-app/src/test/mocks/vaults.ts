@@ -27,7 +27,6 @@ export const mockVault = (obj: {
   metadata: {
     symbol: '',
     pricePerShare: '',
-    migrationAvailable: false,
     latestVaultAddress: '',
     depositLimit: '',
     emergencyShutdown: false,
@@ -38,6 +37,7 @@ export const mockVault = (obj: {
     displayName: '',
     defaultDisplayToken: '',
     hideIfNoDeposits: false,
+    migrationAvailable: false,
   },
   underlyingAsset: {
     assetId: '',
@@ -72,7 +72,6 @@ export const mockVaultWithBalance = (obj: { id: string; fiatAmount: string }): M
   metadata: {
     symbol: '',
     pricePerShare: '',
-    migrationAvailable: false,
     latestVaultAddress: '',
     depositLimit: '',
     emergencyShutdown: false,
@@ -83,6 +82,7 @@ export const mockVaultWithBalance = (obj: { id: string; fiatAmount: string }): M
     displayName: '',
     defaultDisplayToken: '',
     hideIfNoDeposits: false,
+    migrationAvailable: false,
   },
   underlyingAsset: {
     assetId: '',

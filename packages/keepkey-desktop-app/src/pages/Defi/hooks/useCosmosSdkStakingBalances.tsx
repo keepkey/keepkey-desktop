@@ -1,7 +1,7 @@
 import type { AccountId, AssetId, ChainId } from '@keepkey/caip'
-import { useMemo } from 'react'
 import type { BigNumber } from 'lib/bignumber/bignumber'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
+import { useMemo } from 'react'
 import type { ActiveStakingOpportunity } from 'state/slices/selectors'
 import {
   selectAssetById,

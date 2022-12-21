@@ -1,4 +1,4 @@
-import { shell, app } from 'electron'
+import { app, shell } from 'electron'
 import { createAndUpdateTray } from 'tray'
 import { sleep } from 'wait-promise'
 

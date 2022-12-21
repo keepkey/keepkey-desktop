@@ -1,11 +1,12 @@
-import { autoUpdater } from 'electron-updater'
-import isDev from 'electron-is-dev'
 import { app, BrowserWindow, ipcMain } from 'electron'
+import isDev from 'electron-is-dev'
 import log from 'electron-log'
+import { autoUpdater } from 'electron-updater'
 import path from 'path'
+import { sleep } from 'wait-promise'
+
 import { isLinux, settings, shouldShowWindow, windows } from './globalState'
 import { createMainWindow } from './helpers/utils'
-import { sleep } from 'wait-promise'
 
 export const [updateComplete, setUpdateComplete] = (() => {
   let out: () => void

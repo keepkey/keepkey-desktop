@@ -1,8 +1,8 @@
 import type { TextProps } from '@chakra-ui/react'
-import { useMemo } from 'react'
 import { RawText } from 'components/Text'
 import type { NumberFormatOptions } from 'hooks/useLocaleFormatter/useLocaleFormatter'
 import { useLocaleFormatter } from 'hooks/useLocaleFormatter/useLocaleFormatter'
+import { useMemo } from 'react'
 
 type AmountProps = {
   value: number | string

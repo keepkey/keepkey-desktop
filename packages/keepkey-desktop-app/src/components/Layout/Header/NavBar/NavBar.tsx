@@ -1,13 +1,13 @@
 import type { StackProps } from '@chakra-ui/react'
 import { Divider, Stack, useColorModeValue } from '@chakra-ui/react'
+import { Text } from 'components/Text'
+import { usePlugins } from 'context/PluginProvider/PluginProvider'
 import { union } from 'lodash'
 import { useMemo } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { Link as ReactRouterLink } from 'react-router-dom'
 import type { Route } from 'Routes/helpers'
 import { routes } from 'Routes/RoutesCommon'
-import { Text } from 'components/Text'
-import { usePlugins } from 'context/PluginProvider/PluginProvider'
 
 import { MainNavLink } from './MainNavLink'
 

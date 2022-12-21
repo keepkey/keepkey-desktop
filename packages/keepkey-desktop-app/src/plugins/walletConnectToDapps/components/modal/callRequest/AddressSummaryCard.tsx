@@ -1,9 +1,9 @@
 import { CopyIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 import { Box, HStack, IconButton, Link, useColorModeValue } from '@chakra-ui/react'
-import type { FC, ReactNode } from 'react'
 import { Card } from 'components/Card/Card'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { RawText } from 'components/Text'
+import type { FC, ReactNode } from 'react'
 
 type Props = {
   address: string

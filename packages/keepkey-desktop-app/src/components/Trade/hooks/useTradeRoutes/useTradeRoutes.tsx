@@ -1,10 +1,10 @@
 import type { Asset } from '@keepkey/asset-service'
-import { useCallback } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
 import { useTradeAmounts } from 'components/Trade/hooks/useTradeAmounts'
 import type { TS } from 'components/Trade/types'
 import { TradeAmountInputField, TradeRoutePaths } from 'components/Trade/types'
+import { useCallback } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { useHistory } from 'react-router-dom'
 
 export enum AssetClickAction {
   Buy = 'buy',

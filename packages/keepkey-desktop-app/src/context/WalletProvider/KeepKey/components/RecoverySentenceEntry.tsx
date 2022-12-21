@@ -1,4 +1,4 @@
-import type { PinInputFieldProps } from '@chakra-ui/pin-input/dist/declarations/src/pin-input'
+import type { PinInputFieldProps } from '@chakra-ui/pin-input'
 import {
   Box,
   Button,
@@ -13,9 +13,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
-import type { KeyboardEvent, MouseEvent } from 'react'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { RawText, Text } from 'components/Text'
 import { inputValuesReducer, isLetter, isValidInput } from 'context/WalletProvider/KeepKey/helpers'
@@ -23,6 +20,9 @@ import { useKeepKeyCancel } from 'context/WalletProvider/KeepKey/hooks/useKeepKe
 import { KeepKeyRoutes } from 'context/WalletProvider/routes'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import type { KeyboardEvent, MouseEvent } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 const moduleLogger = logger.child({ namespace: ['RecoverySentenceEntry'] })
 
 const minInputLength = 3

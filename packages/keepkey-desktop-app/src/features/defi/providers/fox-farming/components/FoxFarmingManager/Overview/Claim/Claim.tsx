@@ -1,13 +1,13 @@
 import type { AccountId } from '@keepkey/caip'
+import { SlideTransition } from 'components/SlideTransition'
 import type {
   DefiParams,
   DefiQueryParams,
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { DefiAction } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
+import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import qs from 'qs'
 import { MemoryRouter } from 'react-router'
-import { SlideTransition } from 'components/SlideTransition'
-import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import type { Nullable } from 'types/common'
 
 import { ClaimRoutes } from './ClaimRoutes'

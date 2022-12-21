@@ -1,7 +1,7 @@
 import type { IdleInvestor } from '@keepkey/investor-idle'
+import { logger } from 'lib/logger'
 import type { PropsWithChildren } from 'react'
 import React, { useContext, useEffect, useState } from 'react'
-import { logger } from 'lib/logger'
 import { selectFeatureFlags } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 

@@ -1,3 +1,12 @@
+import bodyParser from 'body-parser'
+import cors from 'cors'
+import log from 'electron-log'
+import express from 'express'
+import { addMiddleware, RegisterRoutes, setSdkClientFactory } from 'keepkey-sdk-server'
+import path from 'path'
+import swaggerUi from 'swagger-ui-express'
+import * as util from 'util'
+
 import {
   db,
   kkStateController,
@@ -10,17 +19,8 @@ import {
   tcpBridgeRunning,
   tcpBridgeStarting,
 } from './globalState'
-import { RegisterRoutes, addMiddleware, setSdkClientFactory } from 'keepkey-sdk-server'
-import swaggerUi from 'swagger-ui-express'
-import express from 'express'
-import bodyParser from 'body-parser'
-import cors from 'cors'
-import path from 'path'
-import log from 'electron-log'
-import * as util from 'util'
-
-import { createAndUpdateTray } from './tray'
 import { logger } from './helpers/middlewares/logger'
+import { createAndUpdateTray } from './tray'
 
 export const startTcpBridge = async (port?: number) => {
   if (tcpBridgeRunning || tcpBridgeStarting) return

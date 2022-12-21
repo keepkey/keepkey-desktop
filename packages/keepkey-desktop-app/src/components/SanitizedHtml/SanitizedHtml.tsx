@@ -1,8 +1,8 @@
 import './tooltip.css'
 
 import type { TextProps } from '@chakra-ui/react'
-import DOMPurify, { sanitize } from 'dompurify'
 import { RawText } from 'components/Text'
+import DOMPurify, { sanitize } from 'dompurify'
 
 DOMPurify.addHook('uponSanitizeElement', (node, data) => {
   const el = node as HTMLElement
