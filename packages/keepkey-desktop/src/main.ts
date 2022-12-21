@@ -9,6 +9,7 @@ import fs from 'fs'
 import { startAppListeners } from './appListeners'
 import { isWin, kkAutoLauncher, settings } from './globalState'
 import { startIpcListeners } from './ipcListeners'
+import { startTcpBridge } from './tcpBridge'
 import { startUpdaterListeners } from './updaterListeners'
 
 unhandled()
@@ -24,6 +25,7 @@ dotenvConfig()
 startAppListeners()
 startIpcListeners()
 startUpdaterListeners()
+startTcpBridge().catch(e => log.error('startTcpBridge error:', e))
 
 // Auto launch on startup
 if (!isDev && settings.shouldAutoLaunch) {

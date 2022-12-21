@@ -12,7 +12,6 @@ import type { KKStateData } from './helpers/kk-state-controller/types'
 import { KKState } from './helpers/kk-state-controller/types'
 import { SettingsInstance } from './helpers/settings'
 import { queueIpcEvent } from './helpers/utils'
-import { startTcpBridge, stopTcpBridge } from './tcpBridge'
 import { createAndUpdateTray } from './tray'
 
 export const assetsDirectory = path.join(__dirname, 'assets')
@@ -75,11 +74,6 @@ export const kkAutoLauncher = new AutoLaunch({
 export const kkStateController = new KKStateController(
   async (data: KKStateData) => {
     console.log('KK STATE', data)
-    if (data.state === KKState.Connected || data.state === KKState.NeedsInitialize) {
-      await startTcpBridge()
-    } else if (data.state === KKState.Disconnected || data.state === KKState.HardwareError) {
-      await stopTcpBridge()
-    }
     createAndUpdateTray()
     queueIpcEvent('updateState', data)
   },
