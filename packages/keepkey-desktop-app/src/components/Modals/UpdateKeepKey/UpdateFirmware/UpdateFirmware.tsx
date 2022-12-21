@@ -47,11 +47,13 @@ export const UpdateFirmware = (params: Record<string, never> | KKStateData) => {
         </Thead>
         <Tbody>
           <Tr>
+            <Td>Current</Td>
             <Td>Recommended</Td>
           </Tr>
         </Tbody>
         <Tbody>
           <Tr>
+            <Td>{params?.state === KKState.UpdateFirmware && params.firmware}</Td>
             <Td>{params?.state === KKState.UpdateFirmware && params.recommendedFirmware}</Td>
           </Tr>
         </Tbody>

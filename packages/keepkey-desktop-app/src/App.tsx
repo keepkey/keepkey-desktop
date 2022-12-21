@@ -81,8 +81,23 @@ export const App = () => {
       pair.open(data)
     })
 
+    // This hack avoids the dreaded "unknown" firmware version after replugging the
+    // device in bootloader mode. Note that if a user unplugs one device and plugs
+    // in a different one with different firmware in bootloader mode, this will lie
+    // to the user and pretend the previous device's firmware is installed.
+    let lastFirmware: string | undefined = undefined
     ipcRenderer.on('updateState', (_event: unknown, data: KKStateData) => {
       console.log('updateState', data)
+      if (
+        ![
+          KKState.Plugin,
+          KKState.Disconnected,
+          KKState.UpdateBootloader,
+          KKState.UpdateFirmware,
+        ].includes(data.state)
+      ) {
+        lastFirmware = undefined
+      }
       switch (data.state) {
         case KKState.Plugin:
           loading.open({ closing: false })
@@ -100,27 +115,24 @@ export const App = () => {
           hardwareError.open({})
           break
         case KKState.UpdateBootloader:
+        case KKState.UpdateFirmware:
           closeAllModals()
           if (!data.bootloaderMode) {
+            if (data.firmware && data.firmware !== 'unknown') lastFirmware = data.firmware
             setIsUpdatingKeepkey(true)
             setConnected(true)
             requestBootloaderMode.open({
               recommendedFirmware: data.recommendedFirmware,
               firmware: data.firmware,
-              bootloaderUpdateNeeded: true,
+              bootloaderUpdateNeeded: data.state === KKState.UpdateBootloader,
             })
           } else {
-            openKeepKeyUpdater(data)
-          }
-          break
-        case KKState.UpdateFirmware:
-          closeAllModals()
-          openKeepKeyUpdater(data)
-          if (!data.bootloaderMode) {
-            requestBootloaderMode.open({
-              recommendedFirmware: data.recommendedFirmware,
-              firmware: data.firmware,
-              bootloaderUpdateNeeded: false,
+            openKeepKeyUpdater({
+              ...data,
+              firmware:
+                (!data.firmware || data.firmware === 'unknown') && lastFirmware
+                  ? lastFirmware
+                  : data.firmware,
             })
           }
           break
