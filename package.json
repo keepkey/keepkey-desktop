@@ -65,6 +65,9 @@
     "node-hid@2.1.2": {
       "unplugged": true
     },
+    "swagger-ui-dist@4.15.5": {
+      "unplugged": true
+    },
     "tiny-secp256k1@1.1.6": {
       "unplugged": true
     },

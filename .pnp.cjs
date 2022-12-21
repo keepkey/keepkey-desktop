@@ -24974,6 +24974,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["request-promise", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:4.2.6"],\
             ["rimraf", "npm:3.0.2"],\
             ["secp256k1", "npm:4.0.3"],\
+            ["swagger-ui-dist", "npm:4.15.5"],\
             ["swagger-ui-express", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:4.6.0"],\
             ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
             ["ts-node", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.9.1"],\
@@ -33592,7 +33593,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],\
       ["swagger-ui-dist", [\
         ["npm:4.15.5", {\
-          "packageLocation": "./.yarn/cache/swagger-ui-dist-npm-4.15.5-9e0c8d56dd-b032ecc124.zip/node_modules/swagger-ui-dist/",\
+          "packageLocation": "./.yarn/unplugged/swagger-ui-dist-npm-4.15.5-9e0c8d56dd/node_modules/swagger-ui-dist/",\
           "packageDependencies": [\
             ["swagger-ui-dist", "npm:4.15.5"]\
           ],\

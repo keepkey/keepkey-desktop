@@ -109,6 +109,7 @@
         "request": "^2.88.2",
         "request-promise": "^4.2.6",
         "secp256k1": "^4.0.3",
+        "swagger-ui-dist": "^4.15.5",
         "swagger-ui-express": "^4.6.0",
         "tiny-secp256k1": "^1.1.6",
         "usb": "^2.5.2",

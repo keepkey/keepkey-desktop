@@ -19555,6 +19555,7 @@ __metadata:
     request-promise: ^4.2.6
     rimraf: ^3.0.2
     secp256k1: ^4.0.3
+    swagger-ui-dist: ^4.15.5
     swagger-ui-express: ^4.6.0
     tiny-secp256k1: ^1.1.6
     ts-node: ^10.9.1
@@ -19593,6 +19594,8 @@ __metadata:
     fswin@3.22.106:
       unplugged: true
     node-hid@2.1.2:
+      unplugged: true
+    swagger-ui-dist@4.15.5:
       unplugged: true
     tiny-secp256k1@1.1.6:
       unplugged: true
@@ -26370,7 +26373,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-ui-dist@npm:>=4.11.0":
+"swagger-ui-dist@npm:>=4.11.0, swagger-ui-dist@npm:^4.15.5":
   version: 4.15.5
   resolution: "swagger-ui-dist@npm:4.15.5"
   checksum: b032ecc1245e10729d0fb0fc681fc61115a78925b9410fe0fa5fe025a0a3e7d1505dacc3b5d7d2355835d118162843ad9a754a810010a4bbf65ef71466e40512
