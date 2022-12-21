@@ -12,12 +12,12 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { Buffer } from 'buffer'
-import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { useCallback, useEffect, useState } from 'react'
-import { useTranslate } from 'react-polyglot'
 import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { RawText, Text } from 'components/Text'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
+import { useCallback, useEffect, useState } from 'react'
+import { useTranslate } from 'react-polyglot'
 
 import { AddressSummaryCard } from './AddressSummaryCard'
 

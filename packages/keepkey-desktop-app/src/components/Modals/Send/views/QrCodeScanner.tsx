@@ -9,6 +9,8 @@ import {
   ModalFooter,
   ModalHeader,
 } from '@chakra-ui/react'
+import { SlideTransition } from 'components/SlideTransition'
+import { Text } from 'components/Text'
 import type {
   Html5QrcodeError,
   QrcodeErrorCallback,
@@ -19,8 +21,6 @@ import { useState } from 'react'
 import { useController } from 'react-hook-form'
 import { useTranslate } from 'react-polyglot'
 import { useHistory } from 'react-router-dom'
-import { SlideTransition } from 'components/SlideTransition'
-import { Text } from 'components/Text'
 
 import { SendFormFields, SendRoutes } from '../SendCommon'
 import { QrCodeReader } from './QrCodeReader'

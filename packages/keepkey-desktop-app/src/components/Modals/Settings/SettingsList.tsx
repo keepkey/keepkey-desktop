@@ -8,15 +8,15 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react'
-import { useCallback, useState } from 'react'
-import { useTranslate } from 'react-polyglot'
-import type { RouteComponentProps } from 'react-router-dom'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
+import { useCallback, useState } from 'react'
+import { useTranslate } from 'react-polyglot'
+import type { RouteComponentProps } from 'react-router-dom'
 
-import { GeneralSettings } from './GeneralSettings'
 import { AppSettings } from './AppSettings'
+import { GeneralSettings } from './GeneralSettings'
 
 export type SettingsListProps = {
   appHistory: RouteComponentProps['history']

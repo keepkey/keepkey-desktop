@@ -7,10 +7,10 @@ import {
   ModalBody,
   ModalHeader,
 } from '@chakra-ui/react'
-import { useRef, useState } from 'react'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useRef, useState } from 'react'
 
 export const KeepKeyPassphrase = ({ deviceId }: { deviceId: string }) => {
   const [error, setError] = useState<string | null>(null)

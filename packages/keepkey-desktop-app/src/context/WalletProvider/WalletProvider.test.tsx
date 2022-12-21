@@ -1,9 +1,9 @@
 import { WebUSBKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-webusb'
 import { act, renderHook } from '@testing-library/react'
-import type { PropsWithChildren } from 'react'
-import { TestProviders } from 'test/TestProviders'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import type { PropsWithChildren } from 'react'
+import { TestProviders } from 'test/TestProviders'
 
 import { WalletProvider } from './WalletProvider'
 

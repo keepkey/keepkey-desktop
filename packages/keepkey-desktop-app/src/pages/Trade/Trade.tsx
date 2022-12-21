@@ -1,10 +1,10 @@
 import { Box, Center, Container, Heading, Stack, useColorModeValue } from '@chakra-ui/react'
-import { useTranslate } from 'react-polyglot'
 import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { RecentTransactions } from 'pages/Dashboard/RecentTransactions'
 import { TradeCard } from 'pages/Dashboard/TradeCard'
+import { useTranslate } from 'react-polyglot'
 
 const TradeHeader = () => {
   const translate = useTranslate()

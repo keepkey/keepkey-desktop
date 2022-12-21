@@ -8,14 +8,14 @@ import {
   Switch,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { useState } from 'react'
-import { useTranslate } from 'react-polyglot'
-import { useHistory } from 'react-router-dom'
 import type { RadioOption } from 'components/Radio/Radio'
 import { Radio } from 'components/Radio/Radio'
 import { Text } from 'components/Text'
 import { KeepKeyRoutes } from 'context/WalletProvider/routes'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useState } from 'react'
+import { useTranslate } from 'react-polyglot'
+import { useHistory } from 'react-router-dom'
 
 export const VALID_ENTROPY_NUMBERS = [128, 192, 256] as const
 export const VALID_ENTROPY = VALID_ENTROPY_NUMBERS.map(entropy => entropy.toString())

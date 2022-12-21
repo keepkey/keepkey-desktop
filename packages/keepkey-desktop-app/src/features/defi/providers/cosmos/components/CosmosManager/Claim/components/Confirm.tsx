@@ -1,16 +1,6 @@
 import { Button, Link, Skeleton, SkeletonText, Stack, useToast } from '@chakra-ui/react'
 import type { AccountId } from '@keepkey/caip'
 import { toAssetId } from '@keepkey/caip'
-import type {
-  DefiParams,
-  DefiQueryParams,
-} from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
-import { DefiStep } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
-import { StakingAction } from 'plugins/cosmos/components/modals/Staking/StakingCommon'
-import { useStakingAction } from 'plugins/cosmos/hooks/useStakingAction/useStakingAction'
-import { getFormFees } from 'plugins/cosmos/utils'
-import { useCallback, useContext, useEffect, useMemo } from 'react'
-import { useTranslate } from 'react-polyglot'
 import { Amount } from 'components/Amount/Amount'
 import { AssetIcon } from 'components/AssetIcon'
 import type { StepComponentProps } from 'components/DeFi/components/Steps'
@@ -18,10 +8,20 @@ import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { Row } from 'components/Row/Row'
 import { Text } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
+import type {
+  DefiParams,
+  DefiQueryParams,
+} from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
+import { DefiStep } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
+import { StakingAction } from 'plugins/cosmos/components/modals/Staking/StakingCommon'
+import { useStakingAction } from 'plugins/cosmos/hooks/useStakingAction/useStakingAction'
+import { getFormFees } from 'plugins/cosmos/utils'
+import { useCallback, useContext, useEffect, useMemo } from 'react'
+import { useTranslate } from 'react-polyglot'
 import {
   selectAssetById,
   selectBIP44ParamsByAccountId,

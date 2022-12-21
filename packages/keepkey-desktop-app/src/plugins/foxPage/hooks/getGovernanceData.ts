@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getConfig } from 'config'
-import { useEffect, useState } from 'react'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import { useEffect, useState } from 'react'
 
 // Non-exhaustive typings. We do not want to keep this a 1/1 mapping to an external API
 export type BoardroomGovernanceResult = {

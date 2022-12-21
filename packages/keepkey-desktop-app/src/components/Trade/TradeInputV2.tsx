@@ -3,11 +3,6 @@ import { Button, IconButton, Stack, useColorModeValue } from '@chakra-ui/react'
 import type { Asset } from '@keepkey/asset-service'
 import { ethAssetId } from '@keepkey/caip'
 import type { KnownChainIds } from '@keepkey/types'
-import type { InterpolationOptions } from 'node-polyglot'
-import { useCallback, useMemo, useState } from 'react'
-import { useFormContext, useWatch } from 'react-hook-form'
-import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router'
 import type { AccountDropdownProps } from 'components/AccountDropdown/AccountDropdown'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
@@ -22,6 +17,11 @@ import { walletSupportsChain } from 'hooks/useWalletSupportsChain/useWalletSuppo
 import { bn, bnOrZero, positiveOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
 import { fromBaseUnit, toBaseUnit } from 'lib/math'
+import type { InterpolationOptions } from 'node-polyglot'
+import { useCallback, useMemo, useState } from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 import {
   selectSwapperApiPending,
   selectSwapperApiTradeQuotePending,

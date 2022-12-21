@@ -1,9 +1,9 @@
 import { cosmosChainId, fromAccountId, osmosisChainId } from '@keepkey/caip'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import type { AccountSpecifierMap } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
 import { portfolioApi } from 'state/slices/portfolioSlice/portfolioSlice'
 import {

@@ -3,7 +3,6 @@ import { ethChainId } from '@keepkey/caip'
 import type { TxTransfer } from '@keepkey/chain-adapters'
 import type { MarketData } from '@keepkey/types'
 import { TradeType, TransferType } from '@keepkey/unchained-client'
-import { useEnsName } from 'wagmi'
 import type { ReduxState } from 'state/reducer'
 import {
   selectAssetById,
@@ -13,6 +12,7 @@ import {
 } from 'state/slices/selectors'
 import type { Tx } from 'state/slices/txHistorySlice/txHistorySlice'
 import { useAppSelector } from 'state/store'
+import { useEnsName } from 'wagmi'
 
 // Adding a new supported method? Also update transactionRow.parser translations accordingly
 export enum ContractMethod {

@@ -1,5 +1,5 @@
-import type { Plugin, Plugins } from 'plugins/types'
 import { logger } from 'lib/logger'
+import type { Plugin, Plugins } from 'plugins/types'
 
 const moduleLogger = logger.child({ namespace: ['plugins', 'PluginManager'] })
 

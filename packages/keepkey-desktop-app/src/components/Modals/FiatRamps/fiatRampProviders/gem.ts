@@ -1,12 +1,12 @@
 import { adapters } from '@keepkey/caip'
 import axios from 'axios'
 import { getConfig } from 'config'
+import { logger } from 'lib/logger'
 import flatten from 'lodash/flatten'
 import memoize from 'lodash/memoize'
 import uniqBy from 'lodash/uniqBy'
 // @ts-ignore
 import queryString from 'querystring-es3'
-import { logger } from 'lib/logger'
 
 import type { FiatRampAction, FiatRampAsset } from '../FiatRampsCommon'
 

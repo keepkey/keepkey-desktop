@@ -1,12 +1,12 @@
 import type { ListProps } from '@chakra-ui/react'
 import { Center } from '@chakra-ui/react'
 import type { Asset } from '@keepkey/asset-service'
-import { useEffect } from 'react'
-import AutoSizer from 'react-virtualized-auto-sizer'
-import { FixedSizeList } from 'react-window'
 import { Text } from 'components/Text'
 import { useRefCallback } from 'hooks/useRefCallback/useRefCallback'
 import { useRouteAssetId } from 'hooks/useRouteAssetId/useRouteAssetId'
+import { useEffect } from 'react'
+import AutoSizer from 'react-virtualized-auto-sizer'
+import { FixedSizeList } from 'react-window'
 
 import { AssetRow } from './AssetRow'
 

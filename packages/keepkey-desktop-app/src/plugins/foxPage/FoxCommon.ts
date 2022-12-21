@@ -1,11 +1,10 @@
 import type { DefiProvider } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 
 import type { TradeOpportunitiesBucket } from './components/TradeOpportunities'
-
-import uniswapPng from './images/uniswap.png'
-import thorswapPng from './images/thorswap.png'
 import coinbasePng from './images/coinbase.png'
 import elasticswapPng from './images/elasticswap.png'
+import thorswapPng from './images/thorswap.png'
+import uniswapPng from './images/uniswap.png'
 
 export const TrimmedDescriptionLength = 191
 

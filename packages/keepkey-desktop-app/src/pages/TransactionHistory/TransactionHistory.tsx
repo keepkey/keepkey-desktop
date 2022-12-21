@@ -1,9 +1,9 @@
 import { Flex, Heading } from '@chakra-ui/react'
-import { useCallback, useMemo, useRef } from 'react'
 import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
 import { Text } from 'components/Text'
 import { TransactionHistoryList } from 'components/TransactionHistory/TransactionHistoryList'
+import { useCallback, useMemo, useRef } from 'react'
 import { selectTxIdsBasedOnSearchTermAndFilters } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 

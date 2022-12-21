@@ -11,10 +11,10 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import React from 'react'
-import { useTranslate } from 'react-polyglot'
 import { CircularProgress } from 'components/CircularProgress/CircularProgress'
 import { RawText, Text } from 'components/Text'
+import React from 'react'
+import { useTranslate } from 'react-polyglot'
 
 import { PairIcons } from './PairIcons'
 

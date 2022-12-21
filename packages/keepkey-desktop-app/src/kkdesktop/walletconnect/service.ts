@@ -1,11 +1,11 @@
 import * as core from '@shapeshiftoss/hdwallet-core'
 import type LegacyWalletConnect from '@walletconnect/client'
 import { Buffer } from 'buffer'
-import { ipcRenderer } from 'electron-shim'
-import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
+import { ipcRenderer } from 'electron-shim'
 import { logger } from 'lib/logger'
+import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 
 const moduleLogger = logger.child({ namespace: ['WalletConnect', 'Service'] })
 

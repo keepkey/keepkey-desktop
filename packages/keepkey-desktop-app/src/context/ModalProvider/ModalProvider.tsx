@@ -1,8 +1,6 @@
-import merge from 'lodash/merge'
-import noop from 'lodash/noop'
-import React, { useMemo, useReducer } from 'react'
 import { WipeModal } from 'components/Layout/Header/NavBar/KeepKey/Modals/Wipe'
 import { AssetSearchModal } from 'components/Modals/AssetSearch/AssetSearch'
+import { ChainSelectorModal } from 'components/Modals/ChainSelector/ChainSelector'
 import { FiatRampsModal } from 'components/Modals/FiatRamps/FiatRamps'
 import { KKVote } from 'components/Modals/kkVote/KKVote'
 import { LoadingModal } from 'components/Modals/Loading/Loading'
@@ -14,10 +12,12 @@ import { SignModal } from 'components/Modals/Sign/Sign'
 import { HardwareErrorModal } from 'components/Modals/UpdateKeepKey/HardwareError/HardwareError'
 import { RequestBootloaderMode } from 'components/Modals/UpdateKeepKey/RequestBootloaderMode/RequestBootloaderMode'
 import { UpdateKeepKey } from 'components/Modals/UpdateKeepKey/UpdateKeepKey'
+import merge from 'lodash/merge'
+import noop from 'lodash/noop'
 import { AddAccountModal } from 'pages/Accounts/AddAccountModal'
+import React, { useMemo, useReducer } from 'react'
 
 import { ModalContext } from './ModalContext'
-import { ChainSelectorModal } from 'components/Modals/ChainSelector/ChainSelector'
 
 // to add new modals, add a new key: value pair below
 // the key is the name returned by the hook and the

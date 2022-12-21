@@ -1,12 +1,12 @@
 import { ethAssetId as mockEthAssetId, foxAssetId as mockFoxAssetId } from '@keepkey/caip'
 import { renderHook } from '@testing-library/react'
+import { useSwapper } from 'components/Trade/hooks/useSwapper/useSwapper'
+import { TradeAmountInputField } from 'components/Trade/types'
 import type { PropsWithChildren } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
 import { ETH as mockETH, FOX as mockFOX, WETH } from 'test/constants'
 import { mockChainAdapters } from 'test/mocks/portfolio'
 import { TestProviders } from 'test/TestProviders'
-import { useSwapper } from 'components/Trade/hooks/useSwapper/useSwapper'
-import { TradeAmountInputField } from 'components/Trade/types'
 
 import { AssetClickAction, useTradeRoutes } from './useTradeRoutes'
 

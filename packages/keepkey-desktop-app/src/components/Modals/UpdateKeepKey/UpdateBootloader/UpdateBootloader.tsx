@@ -11,9 +11,9 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
+import { RawText } from 'components/Text'
 import { ipcRenderer } from 'electron-shim'
 import { useState } from 'react'
-import { RawText } from 'components/Text'
 
 export const UpdateBootloader = (params: any) => {
   const [loading, setLoading] = useState(false)

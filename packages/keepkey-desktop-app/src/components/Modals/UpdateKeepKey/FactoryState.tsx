@@ -1,9 +1,9 @@
 import { Button, ModalBody } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useEffect, useState } from 'react'
 
 export const KeepKeyFactoryState = () => {
   const [loading, setLoading] = useState(false)

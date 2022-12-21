@@ -1,9 +1,9 @@
 import { Box, Button, Text, useColorModeValue } from '@chakra-ui/react'
 import type { Asset } from '@keepkey/asset-service'
-import { useMemo } from 'react'
-import type { ListChildComponentProps } from 'react-window'
 import { AssetIcon } from 'components/AssetIcon'
 import { useRouteAssetId } from 'hooks/useRouteAssetId/useRouteAssetId'
+import { useMemo } from 'react'
+import type { ListChildComponentProps } from 'react-window'
 
 export const AssetRow: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
   const assetId = useRouteAssetId()

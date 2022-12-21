@@ -7,10 +7,6 @@ import type {
   UtxoBaseAdapter,
   UtxoChainId,
 } from '@keepkey/chain-adapters'
-import { debounce } from 'lodash'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useFormContext, useWatch } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
 import type { EstimateFeesInput } from 'components/Modals/Send/utils'
 import { estimateFees } from 'components/Modals/Send/utils'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
@@ -19,6 +15,10 @@ import type { BigNumber } from 'lib/bignumber/bignumber'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
 import { tokenOrUndefined } from 'lib/utils'
+import { debounce } from 'lodash'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
+import { useHistory } from 'react-router-dom'
 import {
   selectFeeAssetById,
   selectMarketDataById,

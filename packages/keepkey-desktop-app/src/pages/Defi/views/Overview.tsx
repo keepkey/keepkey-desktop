@@ -1,7 +1,7 @@
 import { Box, Divider, Heading, Stack } from '@chakra-ui/react'
+import { Main } from 'components/Layout/Main'
 import { useTranslate } from 'react-polyglot'
 import { useSelector } from 'react-redux'
-import { Main } from 'components/Layout/Main'
 import { selectPortfolioTotalFiatBalanceWithStakingData } from 'state/slices/selectors'
 
 import { OpportunityCardList } from '../components/OpportunityCardList'

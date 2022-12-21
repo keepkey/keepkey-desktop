@@ -1,6 +1,6 @@
 import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/modal'
-import React from 'react'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
+import React from 'react'
 
 type EarnModalProps = {
   children: React.ReactNode

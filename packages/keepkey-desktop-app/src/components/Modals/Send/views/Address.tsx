@@ -10,16 +10,16 @@ import {
   ModalHeader,
   Stack,
 } from '@chakra-ui/react'
-import get from 'lodash/get'
-import { useState } from 'react'
-import { useFormContext, useWatch } from 'react-hook-form'
-import { useTranslate } from 'react-polyglot'
-import { useHistory } from 'react-router-dom'
 import { SelectAssetRoutes } from 'components/SelectAssets/SelectAssetCommon'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
 import { parseAddressInput } from 'lib/address/address'
+import get from 'lodash/get'
+import { useState } from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
+import { useTranslate } from 'react-polyglot'
+import { useHistory } from 'react-router-dom'
 
 import { AddressInput } from '../AddressInput/AddressInput'
 import type { SendInput } from '../Form'

@@ -1,11 +1,11 @@
 import { Alert, AlertIcon, Container, Stack } from '@chakra-ui/react'
-import type { FC } from 'react'
-import { getConfig } from 'config'
-import { DappRegistryGrid } from './components/DappRegistryGrid'
-
 // @ts-expect-error
 import Client from '@pioneer-platform/pioneer-client'
+import { getConfig } from 'config'
+import type { FC } from 'react'
 import { useEffect, useState } from 'react'
+
+import { DappRegistryGrid } from './components/DappRegistryGrid'
 
 export const WalletConnectToDapps: FC = () => {
   const [motd, setSetMotd] = useState('')

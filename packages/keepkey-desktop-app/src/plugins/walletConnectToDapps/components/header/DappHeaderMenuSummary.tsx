@@ -1,19 +1,19 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { MenuGroup } from '@chakra-ui/menu'
 import { Box, Button, HStack, MenuDivider, MenuItem, VStack } from '@chakra-ui/react'
+import { getSdkError } from '@walletconnect/utils'
+import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
+import { RawText, Text } from 'components/Text'
+import { useModal } from 'hooks/useModal/useModal'
+import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import type { FC } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { HiSwitchVertical } from 'react-icons/hi'
 import { useTranslate } from 'react-polyglot'
-import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
-import { RawText, Text } from 'components/Text'
 
 import { DappAvatar } from './DappAvatar'
-import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
-import { getSdkError } from '@walletconnect/utils'
-import { useModal } from 'hooks/useModal/useModal'
-import { HiSwitchVertical } from 'react-icons/hi'
 
 export const DappHeaderMenuSummary: FC = () => {
   const translate = useTranslate()

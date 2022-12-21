@@ -1,4 +1,4 @@
-import { Stack, Divider } from '@chakra-ui/layout'
+import { Divider, Stack } from '@chakra-ui/layout'
 import { Icon, Switch } from '@chakra-ui/react'
 import { ipcRenderer } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
@@ -8,6 +8,7 @@ import { FaRocket } from 'react-icons/fa'
 import { HiRefresh } from 'react-icons/hi'
 import { IoFileTray } from 'react-icons/io5'
 import { TbRefreshAlert } from 'react-icons/tb'
+
 import { SettingsListItem } from './SettingsListItem'
 
 export type AppSettingsProps = {

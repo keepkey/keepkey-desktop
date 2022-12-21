@@ -1,6 +1,11 @@
 import { Alert, AlertIcon, Box, Stack } from '@chakra-ui/react'
 import { toAssetId } from '@keepkey/caip'
 import { supportsETH } from '@shapeshiftoss/hdwallet-core'
+import { Amount } from 'components/Amount/Amount'
+import type { StepComponentProps } from 'components/DeFi/components/Steps'
+import { Row } from 'components/Row/Row'
+import { Text } from 'components/Text'
+import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { Confirm as ReusableConfirm } from 'features/defi/components/Confirm/Confirm'
 import { Summary } from 'features/defi/components/Summary'
 import type {
@@ -9,18 +14,13 @@ import type {
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { DefiAction, DefiStep } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { useIdle } from 'features/defi/contexts/IdleProvider/IdleProvider'
-import qs from 'qs'
-import { useCallback, useContext, useEffect, useMemo } from 'react'
-import { useTranslate } from 'react-polyglot'
-import { Amount } from 'components/Amount/Amount'
-import type { StepComponentProps } from 'components/DeFi/components/Steps'
-import { Row } from 'components/Row/Row'
-import { Text } from 'components/Text'
-import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
+import qs from 'qs'
+import { useCallback, useContext, useEffect, useMemo } from 'react'
+import { useTranslate } from 'react-polyglot'
 import {
   selectAssetById,
   selectMarketDataById,

@@ -1,15 +1,15 @@
 import type { AccountId } from '@keepkey/caip'
 import { foxAssetId } from '@keepkey/caip'
+import { RouteSteps } from 'components/RouteSteps/RouteSteps'
+import { SlideTransition } from 'components/SlideTransition'
+import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import type {
   DefiParams,
   DefiQueryParams,
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { AnimatePresence } from 'framer-motion'
-import { Route, Switch, useLocation } from 'react-router'
-import { RouteSteps } from 'components/RouteSteps/RouteSteps'
-import { SlideTransition } from 'components/SlideTransition'
-import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
+import { Route, Switch, useLocation } from 'react-router'
 import type { Nullable } from 'types/common'
 
 import { ClaimConfirm } from './ClaimConfirm'

@@ -1,8 +1,6 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Button, Circle, Stack } from '@chakra-ui/react'
 import { fromAssetId } from '@keepkey/caip'
-import { useSelector } from 'react-redux'
-import type { RouteComponentProps } from 'react-router-dom'
 import { AssetIcon } from 'components/AssetIcon'
 import {
   chainIdToChainName,
@@ -12,6 +10,8 @@ import {
 import { Card } from 'components/Card/Card'
 import { SlideTransition } from 'components/SlideTransition'
 import { RawText, Text } from 'components/Text'
+import { useSelector } from 'react-redux'
+import type { RouteComponentProps } from 'react-router-dom'
 import { selectAssets } from 'state/slices/assetsSlice/selectors'
 import { selectPortfolioBridgeAssets } from 'state/slices/portfolioSlice/selectors'
 

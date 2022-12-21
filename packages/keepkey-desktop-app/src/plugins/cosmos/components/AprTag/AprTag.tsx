@@ -1,8 +1,8 @@
 import { Text as CText } from '@chakra-ui/react'
 import type { TagProps } from '@chakra-ui/tag'
 import { Tag } from '@chakra-ui/tag'
-import { useTranslate } from 'react-polyglot'
 import { Amount } from 'components/Amount/Amount'
+import { useTranslate } from 'react-polyglot'
 
 type AprTagProps = {
   percentage: string | number

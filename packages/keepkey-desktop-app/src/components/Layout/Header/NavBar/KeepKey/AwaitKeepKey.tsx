@@ -1,11 +1,11 @@
 import { InfoIcon } from '@chakra-ui/icons'
 import type { FlexProps } from '@chakra-ui/layout'
 import { Box, Button, Divider, Flex, useColorModeValue } from '@chakra-ui/react'
+import { Text } from 'components/Text'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import type Polyglot from 'node-polyglot'
 import React from 'react'
 import { useTranslate } from 'react-polyglot'
-import { Text } from 'components/Text'
-import { useWallet } from 'hooks/useWallet/useWallet'
 
 export type AwaitKeepKeyProps = {
   translation: string | null | [string, number | Polyglot.InterpolationOptions]

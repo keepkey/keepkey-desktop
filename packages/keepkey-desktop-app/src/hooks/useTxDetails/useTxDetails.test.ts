@@ -1,7 +1,6 @@
 import type { Asset } from '@keepkey/asset-service'
 import type { TxTransfer } from '@keepkey/chain-adapters'
 import { TransferType } from '@keepkey/unchained-client'
-import { BtcSend, createMockEthTxs, EthReceive, EthSend, TradeTx } from 'test/mocks/txs'
 import {
   getBuyTransfer,
   getSellTransfer,
@@ -12,6 +11,7 @@ import {
   isTradeContract,
 } from 'hooks/useTxDetails/useTxDetails'
 import type { Tx } from 'state/slices/txHistorySlice/txHistorySlice'
+import { BtcSend, createMockEthTxs, EthReceive, EthSend, TradeTx } from 'test/mocks/txs'
 
 describe('getStandardTx', () => {
   it('returns the expected values', () => {

@@ -1,9 +1,9 @@
 import { Flex } from '@chakra-ui/layout'
 import { Accordion } from '@chakra-ui/react'
-import type { OpportunitiesBucket } from 'plugins/foxPage/FoxCommon'
-import { useMemo } from 'react'
 import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text/Text'
+import type { OpportunitiesBucket } from 'plugins/foxPage/FoxCommon'
+import { useMemo } from 'react'
 
 import { FoxOtherOpportunityPanel } from './FoxOtherOpportunityPanel'
 

@@ -1,13 +1,13 @@
 import type { Asset } from '@keepkey/asset-service'
 import type { cosmossdk } from '@keepkey/chain-adapters'
 import type { BIP44Params } from '@keepkey/types'
+import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import { logger } from 'lib/logger'
 import {
   isStakingChainAdapter,
   StakingAction,
 } from 'plugins/cosmos/components/modals/Staking/StakingCommon'
-import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import { logger } from 'lib/logger'
 import {
   SHAPESHIFT_COSMOS_VALIDATOR_ADDRESS,
   SHAPESHIFT_OSMOSIS_VALIDATOR_ADDRESS,

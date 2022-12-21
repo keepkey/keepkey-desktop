@@ -12,20 +12,20 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import { WalletConnectToDappsHeaderButton } from 'plugins/walletConnectToDapps/components/header/WalletConnectToDappsHeaderButton'
-import { useCallback, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
 import KeepKeyIconBlack from 'assets/kk-icon-black.png'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
+import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { WalletConnectToDappsHeaderButton } from 'plugins/walletConnectToDapps/components/header/WalletConnectToDappsHeaderButton'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
+import { useCallback, useEffect } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 
 import { AutoCompleteSearch } from './AutoCompleteSearch/AutoCompleteSearch'
 import { ChainMenu } from './NavBar/ChainMenu'
 import { UserMenu } from './NavBar/UserMenu'
 import { SideNavContent } from './SideNavContent'
-import { useModal } from 'hooks/useModal/useModal'
-import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 
 export const Header = () => {
   const { onToggle, isOpen, onClose } = useDisclosure()

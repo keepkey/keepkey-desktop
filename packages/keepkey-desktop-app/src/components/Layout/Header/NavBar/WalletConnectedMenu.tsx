@@ -1,10 +1,6 @@
 // import { ChevronRightIcon, CloseIcon } from '@chakra-ui/icons'
 // import { MenuDivider, MenuGroup, MenuItem } from '@chakra-ui/menu'
 // import { Flex } from '@chakra-ui/react'
-import { AnimatePresence } from 'framer-motion'
-import { useMemo } from 'react'
-// import { useTranslate } from 'react-polyglot'
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
 import {
   // useMenuRoutes,
   WalletConnectedRoutes,
@@ -14,6 +10,10 @@ import type { WalletConnectedProps } from 'components/Layout/Header/NavBar/UserM
 // import { WalletImage } from 'components/Layout/Header/NavBar/WalletImage'
 // import { RawText, Text } from 'components/Text'
 import { SUPPORTED_WALLETS } from 'context/WalletProvider/config'
+import { AnimatePresence } from 'framer-motion'
+import { useMemo } from 'react'
+// import { useTranslate } from 'react-polyglot'
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
 
 export const WalletConnectedMenu = ({
   // onDisconnect,

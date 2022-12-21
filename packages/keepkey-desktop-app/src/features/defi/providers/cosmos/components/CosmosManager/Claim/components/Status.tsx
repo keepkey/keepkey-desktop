@@ -1,12 +1,5 @@
 import { Box, Button, Center, Link, Stack } from '@chakra-ui/react'
 import { toAssetId } from '@keepkey/caip'
-import type {
-  DefiParams,
-  DefiQueryParams,
-} from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
-import { useContext, useMemo } from 'react'
-import { FaCheck, FaTimes } from 'react-icons/fa'
-import { useTranslate } from 'react-polyglot'
 import { Amount } from 'components/Amount/Amount'
 import { AssetIcon } from 'components/AssetIcon'
 import { CircularProgress } from 'components/CircularProgress/CircularProgress'
@@ -14,8 +7,15 @@ import { IconCircle } from 'components/IconCircle'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { Row } from 'components/Row/Row'
 import { RawText } from 'components/Text'
+import type {
+  DefiParams,
+  DefiQueryParams,
+} from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import { useContext, useMemo } from 'react'
+import { FaCheck, FaTimes } from 'react-icons/fa'
+import { useTranslate } from 'react-polyglot'
 import { selectAssetById } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 

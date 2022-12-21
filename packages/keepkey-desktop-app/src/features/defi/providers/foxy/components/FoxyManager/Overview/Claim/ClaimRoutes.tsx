@@ -1,15 +1,15 @@
 import type { AccountId } from '@keepkey/caip'
 import { toAssetId } from '@keepkey/caip'
+import { SlideTransition } from 'components/SlideTransition'
 import type {
   DefiParams,
   DefiQueryParams,
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { AnimatePresence } from 'framer-motion'
-import { useMemo } from 'react'
-import { Route, Switch, useLocation } from 'react-router'
-import { SlideTransition } from 'components/SlideTransition'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import { useFoxyBalances } from 'pages/Defi/hooks/useFoxyBalances'
+import { useMemo } from 'react'
+import { Route, Switch, useLocation } from 'react-router'
 import { selectBIP44ParamsByAccountId } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 import type { Nullable } from 'types/common'

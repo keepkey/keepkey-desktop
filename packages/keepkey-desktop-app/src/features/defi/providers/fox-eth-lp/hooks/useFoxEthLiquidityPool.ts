@@ -10,15 +10,15 @@ import type {
 import type { KnownChainIds } from '@keepkey/types'
 import { supportsETH } from '@shapeshiftoss/hdwallet-core'
 import IUniswapV2Pair from '@uniswap/v2-core/build/IUniswapV2Pair.json'
-import isNumber from 'lodash/isNumber'
-import { FOX_TOKEN_CONTRACT_ADDRESS } from 'plugins/foxPage/const'
-import { getEthersProvider } from 'plugins/foxPage/utils'
-import { useCallback, useMemo } from 'react'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useEvm } from 'hooks/useEvm/useEvm'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
+import isNumber from 'lodash/isNumber'
+import { FOX_TOKEN_CONTRACT_ADDRESS } from 'plugins/foxPage/const'
+import { getEthersProvider } from 'plugins/foxPage/utils'
+import { useCallback, useMemo } from 'react'
 import {
   selectAccountNumberByAccountId,
   selectAssetById,

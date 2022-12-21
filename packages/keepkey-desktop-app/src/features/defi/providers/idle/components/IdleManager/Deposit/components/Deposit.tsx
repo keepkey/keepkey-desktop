@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react'
 import { toAssetId } from '@keepkey/caip'
+import type { StepComponentProps } from 'components/DeFi/components/Steps'
 import type { DepositValues } from 'features/defi/components/Deposit/Deposit'
 import { Deposit as ReusableDeposit } from 'features/defi/components/Deposit/Deposit'
 import type {
@@ -8,14 +9,13 @@ import type {
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { DefiAction, DefiStep } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { useIdle } from 'features/defi/contexts/IdleProvider/IdleProvider'
+import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
+import { bnOrZero } from 'lib/bignumber/bignumber'
+import { logger } from 'lib/logger'
 import qs from 'qs'
 import { useCallback, useContext, useMemo } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { useHistory } from 'react-router-dom'
-import type { StepComponentProps } from 'components/DeFi/components/Steps'
-import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
-import { bnOrZero } from 'lib/bignumber/bignumber'
-import { logger } from 'lib/logger'
 import {
   selectAssetById,
   selectMarketDataById,

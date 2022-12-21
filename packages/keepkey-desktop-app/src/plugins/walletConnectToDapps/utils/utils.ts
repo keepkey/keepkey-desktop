@@ -1,5 +1,8 @@
+import { formatJsonRpcError } from '@json-rpc-tools/utils'
 import type { SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
+import { utils } from 'ethers'
+
 import type { TCosmosChain } from '../data/COSMOSData'
 import { COSMOS_MAINNET_CHAINS } from '../data/COSMOSData'
 import type { TEIP155Chain } from '../data/EIP115Data'
@@ -10,8 +13,6 @@ import type { TNearChain } from '../data/NEARData'
 import { NEAR_TEST_CHAINS } from '../data/NEARData'
 import type { TSolanaChain } from '../data/SolanaData'
 import { SOLANA_CHAINS, SOLANA_MAINNET_CHAINS, SOLANA_TEST_CHAINS } from '../data/SolanaData'
-import { formatJsonRpcError } from '@json-rpc-tools/utils'
-import { utils } from 'ethers'
 
 const CHAIN_METADATA = {
   ...COSMOS_MAINNET_CHAINS,

@@ -1,4 +1,5 @@
 import { Buffer } from 'buffer'
+
 import { logger } from './lib/logger'
 ;(async () => {
   globalThis.__dirname = '/'

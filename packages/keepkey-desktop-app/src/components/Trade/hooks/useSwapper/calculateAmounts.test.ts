@@ -1,6 +1,6 @@
-import { ETH, FOX } from 'test/constants'
 import { TradeAmountInputField } from 'components/Trade/types'
 import { bn } from 'lib/bignumber/bignumber'
+import { ETH, FOX } from 'test/constants'
 
 import { calculateAmounts } from './calculateAmounts'
 

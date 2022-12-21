@@ -10,21 +10,21 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import type { AccountId, AssetId } from '@keepkey/caip'
-import { PairIcons } from 'features/defi/components/PairIcons/PairIcons'
-import type { PropsWithChildren } from 'react'
-import React, { useRef, useState } from 'react'
-import type { FieldError } from 'react-hook-form'
-import NumberFormat from 'react-number-format'
-import { useTranslate } from 'react-polyglot'
 import {
   type AccountDropdownProps,
   AccountDropdown,
 } from 'components/AccountDropdown/AccountDropdown'
 import { Amount } from 'components/Amount/Amount'
 import { AssetIcon } from 'components/AssetIcon'
+import { PairIcons } from 'features/defi/components/PairIcons/PairIcons'
 import { useLocaleFormatter } from 'hooks/useLocaleFormatter/useLocaleFormatter'
 import { useToggle } from 'hooks/useToggle/useToggle'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import type { PropsWithChildren } from 'react'
+import React, { useRef, useState } from 'react'
+import type { FieldError } from 'react-hook-form'
+import NumberFormat from 'react-number-format'
+import { useTranslate } from 'react-polyglot'
 import { colors } from 'theme/colors'
 import type { Nullable } from 'types/common'
 

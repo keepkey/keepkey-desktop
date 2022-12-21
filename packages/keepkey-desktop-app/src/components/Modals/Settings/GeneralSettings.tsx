@@ -1,24 +1,25 @@
-import { SunIcon, MoonIcon, ExternalLinkIcon } from '@chakra-ui/icons'
-import { Stack, Divider, Flex } from '@chakra-ui/layout'
-import { Icon, useColorMode, useColorModeValue, Switch } from '@chakra-ui/react'
+import { ExternalLinkIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
+import { Divider, Flex, Stack } from '@chakra-ui/layout'
+import { Icon, Switch, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { getLocaleLabel } from 'assets/translations/utils'
 import { RawText } from 'components/Text'
+import { useModal } from 'hooks/useModal/useModal'
+import { isMobile as isMobileApp } from 'lib/globals'
 import { FaCoins, FaDollarSign, FaGreaterThanEqual, FaTrash } from 'react-icons/fa'
-import { IoLockClosed, IoDocumentTextOutline } from 'react-icons/io5'
+import { IoDocumentTextOutline, IoLockClosed } from 'react-icons/io5'
 import { MdChevronRight, MdLanguage } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import {
-  selectSelectedLocale,
-  selectSelectedCurrency,
   selectCurrencyFormat,
+  selectSelectedCurrency,
+  selectSelectedLocale,
 } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
+
 import { BalanceThresholdInput } from './BalanceThresholdInput'
-import { SettingsRoutes, currencyFormatsRepresenter } from './SettingsCommon'
+import { currencyFormatsRepresenter, SettingsRoutes } from './SettingsCommon'
 import type { SettingsListProps } from './SettingsList'
 import { SettingsListItem } from './SettingsListItem'
-import { isMobile as isMobileApp } from 'lib/globals'
-import { useModal } from 'hooks/useModal/useModal'
 
 export const GeneralSettings = ({ appHistory, ...routeProps }: SettingsListProps) => {
   const { settings } = useModal()

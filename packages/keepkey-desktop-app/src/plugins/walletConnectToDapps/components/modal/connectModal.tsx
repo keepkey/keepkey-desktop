@@ -10,6 +10,8 @@ import {
   ModalCloseButton,
   VStack,
 } from '@chakra-ui/react'
+import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
+import { Text } from 'components/Text'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import type { FC } from 'react'
 import { useEffect } from 'react'
@@ -17,8 +19,6 @@ import { useCallback } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { FaQrcode } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'
-import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
-import { Text } from 'components/Text'
 
 type Props = {
   isOpen: boolean

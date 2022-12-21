@@ -1,6 +1,12 @@
 import type { AccountId } from '@keepkey/caip'
 import { fromAccountId } from '@keepkey/caip'
+import { SlideTransition } from 'components/SlideTransition'
+import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { AnimatePresence } from 'framer-motion'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import type { ParseAddressInputReturn } from 'lib/address/address'
+import { parseAddressInput } from 'lib/address/address'
+import { logger } from 'lib/logger'
 import isEmpty from 'lodash/isEmpty'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -14,12 +20,6 @@ import {
   useHistory,
   useLocation,
 } from 'react-router'
-import { SlideTransition } from 'components/SlideTransition'
-import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import type { ParseAddressInputReturn } from 'lib/address/address'
-import { parseAddressInput } from 'lib/address/address'
-import { logger } from 'lib/logger'
 import {
   selectPortfolioAccountIds,
   selectPortfolioAccountMetadata,

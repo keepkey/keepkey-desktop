@@ -3,9 +3,9 @@ import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import axios from 'axios'
 import { getConfig } from 'config'
 import { MINIMUM_KK_FIRMWARE_VERSION_SUPPORTING_LITECOIN } from 'constants/Config'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import { useEffect, useState } from 'react'
 import semverGte from 'semver/functions/gte'
-import { useWallet } from 'hooks/useWallet/useWallet'
 
 interface VersionUrl {
   version: string

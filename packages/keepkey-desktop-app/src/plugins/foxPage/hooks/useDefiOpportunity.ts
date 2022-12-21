@@ -1,7 +1,7 @@
+import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import { DefiProvider } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import type { EarnOpportunityType } from 'features/defi/helpers/normalizeOpportunity'
 import { useEffect, useState } from 'react'
-import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import { selectFeatureFlags } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 

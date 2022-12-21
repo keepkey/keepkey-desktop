@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
-import { IoSwapVertical } from 'react-icons/io5'
 import { IconCircle } from 'components/IconCircle'
+import { IoSwapVertical } from 'react-icons/io5'
 
 type MessageOverlayProps = {
   children: React.ReactNode

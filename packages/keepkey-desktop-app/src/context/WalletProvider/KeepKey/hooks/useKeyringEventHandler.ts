@@ -1,8 +1,8 @@
 import type { Keyring } from '@shapeshiftoss/hdwallet-core'
+import { logger } from 'lib/logger'
 import isArray from 'lodash/isArray'
 import join from 'lodash/join'
 import { useEffect } from 'react'
-import { logger } from 'lib/logger'
 
 interface KeyringState {
   keyring: Keyring

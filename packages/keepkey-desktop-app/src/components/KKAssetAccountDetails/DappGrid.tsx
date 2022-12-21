@@ -13,18 +13,18 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import { PageInput } from 'plugins/walletConnectToDapps/components/PageInput'
-import type { FC } from 'react'
-import { useCallback } from 'react'
-import { useEffect, useMemo } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
-import { useHistory } from 'react-router'
 import { Card } from 'components/Card/Card'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import type { KKAsset } from 'context/WalletProvider/KeepKeyProvider'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { PageInput } from 'plugins/walletConnectToDapps/components/PageInput'
+import type { FC } from 'react'
+import { useCallback } from 'react'
+import { useEffect, useMemo } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
+import { useHistory } from 'react-router'
 
 export type Dapp = {
   id: string

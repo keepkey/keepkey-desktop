@@ -2,9 +2,9 @@ import { Contract } from '@ethersproject/contracts'
 import { Fetcher, Token } from '@uniswap/sdk'
 import IUniswapV2Pair from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import type { providers } from 'ethers'
+import { bnOrZero } from 'lib/bignumber/bignumber'
 import memoize from 'lodash/memoize'
 import { useEffect, useMemo, useState } from 'react'
-import { bnOrZero } from 'lib/bignumber/bignumber'
 
 import {
   FOX_TOKEN_CONTRACT_ADDRESS,

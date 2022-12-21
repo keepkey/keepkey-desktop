@@ -1,14 +1,14 @@
 import { Stack } from '@chakra-ui/react'
 import { bnOrZero } from '@keepkey/investor-foxy'
-import { type FC } from 'react'
-import { FaGasPump } from 'react-icons/fa'
-import { useTranslate } from 'react-polyglot'
 import { Amount } from 'components/Amount/Amount'
 import { CircularProgress } from 'components/CircularProgress/CircularProgress'
 import { HelperTooltip } from 'components/HelperTooltip/HelperTooltip'
 import { Row } from 'components/Row/Row'
 import { Text } from 'components/Text'
 import { firstNonZeroDecimal } from 'lib/math'
+import { type FC } from 'react'
+import { FaGasPump } from 'react-icons/fa'
+import { useTranslate } from 'react-polyglot'
 
 type RateGasRowProps = {
   sellSymbol?: string

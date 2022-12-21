@@ -1,11 +1,11 @@
+import { SlideTransition } from 'components/SlideTransition'
+import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import type {
   DefiParams,
   DefiQueryParams,
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { DefiAction } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { AnimatePresence } from 'framer-motion'
-import { SlideTransition } from 'components/SlideTransition'
-import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 
 import { FoxFarmingDeposit } from './Deposit/FoxFarmingDeposit'

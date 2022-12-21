@@ -1,7 +1,7 @@
 import { Box, Button, Text, useColorModeValue } from '@chakra-ui/react'
-import type { ListChildComponentProps } from 'react-window'
 import { Amount } from 'components/Amount/Amount'
 import { AssetIcon } from 'components/AssetIcon'
+import type { ListChildComponentProps } from 'react-window'
 
 import type { FiatRampAsset } from '../../FiatRampsCommon'
 import { FiatRampAction } from '../../FiatRampsCommon'

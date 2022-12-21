@@ -2,11 +2,11 @@ import { ethAssetId, foxAssetId } from '@keepkey/caip'
 import type { RebaseHistory } from '@keepkey/investor-foxy'
 import type { HistoryData } from '@keepkey/types'
 import { HistoryTimeframe } from '@keepkey/types'
-import { ethereum, fox } from 'test/mocks/assets'
-import { ethereumTransactions, FOXSend } from 'test/mocks/txs'
 import { bn } from 'lib/bignumber/bignumber'
 import type { PriceHistoryData } from 'state/slices/marketDataSlice/marketDataSlice'
 import type { PortfolioAssets } from 'state/slices/portfolioSlice/portfolioSliceCommon'
+import { ethereum, fox } from 'test/mocks/assets'
+import { ethereumTransactions, FOXSend } from 'test/mocks/txs'
 
 import type { Bucket } from './useBalanceChartData'
 import {

@@ -15,14 +15,14 @@ import {
   Text as ChakraText,
 } from '@chakra-ui/react'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
-// import { SessionTypes } from '@walletconnect/types'
-import { ipcRenderer } from 'electron-shim'
-import { useEffect, useState } from 'react'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
+// import { SessionTypes } from '@walletconnect/types'
+import { ipcRenderer } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useEffect, useState } from 'react'
 
 export type PairingProps = NativePairingProps | WalletConnectPairingProps
 

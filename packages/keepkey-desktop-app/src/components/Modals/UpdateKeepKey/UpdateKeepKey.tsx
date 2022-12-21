@@ -1,8 +1,8 @@
 import { Modal, ModalCloseButton, ModalContent, ModalOverlay } from '@chakra-ui/react'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
-import { useEffect } from 'react'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useEffect } from 'react'
 
 import { KeepKeyFactoryState } from './FactoryState'
 import { UpdateBootloader } from './UpdateBootloader/UpdateBootloader'

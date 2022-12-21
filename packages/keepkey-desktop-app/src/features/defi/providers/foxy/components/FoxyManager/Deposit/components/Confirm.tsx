@@ -1,6 +1,11 @@
 import { Alert, AlertIcon, Box, Stack, useToast } from '@chakra-ui/react'
 import type { AccountId } from '@keepkey/caip'
 import { ASSET_REFERENCE, fromAccountId, toAssetId } from '@keepkey/caip'
+import { Amount } from 'components/Amount/Amount'
+import { AssetIcon } from 'components/AssetIcon'
+import type { StepComponentProps } from 'components/DeFi/components/Steps'
+import { Row } from 'components/Row/Row'
+import { RawText, Text } from 'components/Text'
 import { Confirm as ReusableConfirm } from 'features/defi/components/Confirm/Confirm'
 import { Summary } from 'features/defi/components/Summary'
 import type {
@@ -9,20 +14,14 @@ import type {
 } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { DefiStep } from 'features/defi/contexts/DefiManagerProvider/DefiCommon'
 import { useFoxy } from 'features/defi/contexts/FoxyProvider/FoxyProvider'
-import isNil from 'lodash/isNil'
-import { useCallback, useContext, useMemo } from 'react'
-import { useTranslate } from 'react-polyglot'
-import type { TransactionReceipt } from 'web3-core'
-import { Amount } from 'components/Amount/Amount'
-import { AssetIcon } from 'components/AssetIcon'
-import type { StepComponentProps } from 'components/DeFi/components/Steps'
-import { Row } from 'components/Row/Row'
-import { RawText, Text } from 'components/Text'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
 import { poll } from 'lib/poll/poll'
+import isNil from 'lodash/isNil'
+import { useCallback, useContext, useMemo } from 'react'
+import { useTranslate } from 'react-polyglot'
 import {
   selectAssetById,
   selectBIP44ParamsByAccountId,
@@ -31,6 +30,7 @@ import {
 } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 import type { Nullable } from 'types/common'
+import type { TransactionReceipt } from 'web3-core'
 
 import { FoxyDepositActionType } from '../DepositCommon'
 import { DepositContext } from '../DepositContext'

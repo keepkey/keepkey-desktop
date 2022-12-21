@@ -8,12 +8,12 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react'
-import { useEffect } from 'react'
-import { useHistory } from 'react-router'
 import KeepKeyConnect from 'assets/connect-keepkey.svg'
 import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useEffect } from 'react'
+import { useHistory } from 'react-router'
 
 export const HardwareErrorModal = (error: any) => {
   const { hardwareError } = useModal()

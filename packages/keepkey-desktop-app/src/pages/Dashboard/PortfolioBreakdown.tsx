@@ -1,6 +1,4 @@
 import { Flex, Skeleton, useColorModeValue } from '@chakra-ui/react'
-import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router'
 import { Amount } from 'components/Amount/Amount'
 import { Card } from 'components/Card/Card'
 import { CircularProgress } from 'components/CircularProgress/CircularProgress'
@@ -9,6 +7,8 @@ import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import { useFeatureFlag } from 'hooks/useFeatureFlag/useFeatureFlag'
 import { bn } from 'lib/bignumber/bignumber'
 import { useEarnBalances } from 'pages/Defi/hooks/useEarnBalances'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 import { selectPortfolioTotalFiatBalanceWithStakingData } from 'state/slices/selectors'
 
 type StatCardProps = {

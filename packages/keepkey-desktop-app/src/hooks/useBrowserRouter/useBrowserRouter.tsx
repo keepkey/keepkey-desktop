@@ -1,6 +1,6 @@
-import { useContext } from 'react'
 import type { BrowserRouterContextProps } from 'context/BrowserRouterProvider/BrowserRouterContext'
 import { BrowserRouterContext } from 'context/BrowserRouterProvider/BrowserRouterContext'
+import { useContext } from 'react'
 
 export function useBrowserRouter<Q, P>() {
   const ctx = useContext<BrowserRouterContextProps<Q, P> | null>(BrowserRouterContext)

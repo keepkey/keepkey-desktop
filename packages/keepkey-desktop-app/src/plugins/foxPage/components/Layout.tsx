@@ -1,7 +1,7 @@
 import { Box, Container, Text, useColorModeValue } from '@chakra-ui/react'
-import type { ReactNode } from 'react'
 import foxPageBg from 'assets/foxpage-bg.png'
 import { AssetIcon } from 'components/AssetIcon'
+import type { ReactNode } from 'react'
 
 type FoxLayoutProps = {
   children: ReactNode

@@ -1,6 +1,6 @@
 import { Stack } from '@chakra-ui/react'
-import { type FC } from 'react'
 import { RawText } from 'components/Text'
+import { type FC } from 'react'
 
 type AccountGroupProps = {
   title: string

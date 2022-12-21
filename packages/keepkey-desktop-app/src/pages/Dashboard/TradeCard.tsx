@@ -1,13 +1,13 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
 import type { AssetId } from '@keepkey/caip'
-import { useMemo } from 'react'
-import { useTranslate } from 'react-polyglot'
-import { useSelector } from 'react-redux'
 import { Bridge } from 'components/Bridge/Bridge'
 import type { CardProps } from 'components/Card/Card'
 import { Card } from 'components/Card/Card'
 import { MessageOverlay } from 'components/MessageOverlay/MessageOverlay'
 import { Trade } from 'components/Trade/Trade'
+import { useMemo } from 'react'
+import { useTranslate } from 'react-polyglot'
+import { useSelector } from 'react-redux'
 import { selectFeatureFlags } from 'state/slices/preferencesSlice/selectors'
 
 type TradeCardProps = {

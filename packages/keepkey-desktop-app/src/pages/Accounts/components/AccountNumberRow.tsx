@@ -12,12 +12,12 @@ import {
 } from '@chakra-ui/react'
 import type { AccountId, ChainId } from '@keepkey/caip'
 import { fromAccountId } from '@keepkey/caip'
-import { useMemo } from 'react'
-import { useTranslate } from 'react-polyglot'
-import { useSelector } from 'react-redux'
 import { Amount } from 'components/Amount/Amount'
 import { NestedList } from 'components/NestedList'
 import { RawText } from 'components/Text'
+import { useMemo } from 'react'
+import { useTranslate } from 'react-polyglot'
+import { useSelector } from 'react-redux'
 import {
   accountIdToFeeAssetId,
   firstFourLastFour,

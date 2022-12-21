@@ -1,11 +1,11 @@
 import type { ChainAdapter } from '@keepkey/chain-adapters'
 import type { YearnInvestor } from '@keepkey/investor-yearn'
 import { KnownChainIds } from '@keepkey/types'
-import type { PropsWithChildren } from 'react'
-import React, { useContext, useEffect, useState } from 'react'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { logger } from 'lib/logger'
 import { getYearnInvestor } from 'lib/yearnInvestorSingleton'
+import type { PropsWithChildren } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 const moduleLogger = logger.child({ namespace: ['YearnProvider'] })
 
 type YearnContextProps = {

@@ -11,12 +11,12 @@ import {
 } from '@chakra-ui/react'
 import { bnOrZero } from '@keepkey/investor-foxy'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useHistory } from 'react-router'
 import { RawText, Text } from 'components/Text'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useHistory } from 'react-router'
 
 import { doApproveTx, doVoteTx, getApprovedAndBalances, getFees } from './utils'
 

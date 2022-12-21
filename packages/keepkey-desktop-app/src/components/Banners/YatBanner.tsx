@@ -1,8 +1,8 @@
 import type { LinkProps } from '@chakra-ui/react'
 import { Flex, Link, Tooltip, useMediaQuery } from '@chakra-ui/react'
-import { useTranslate } from 'react-polyglot'
 import { YatIcon } from 'components/Icons/YatIcon'
 import { Text } from 'components/Text'
+import { useTranslate } from 'react-polyglot'
 import { breakpoints } from 'theme/theme'
 
 type YatBannerProps = {

@@ -1,9 +1,10 @@
-import { parseUri } from '@walletconnect/utils'
-import SignClient from '@walletconnect/sign-client'
-import { getConfig } from 'config'
-import LegacyWalletConnect from '@walletconnect/client'
-import { LegacyWCService } from './service'
 import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
+import LegacyWalletConnect from '@walletconnect/client'
+import SignClient from '@walletconnect/sign-client'
+import { parseUri } from '@walletconnect/utils'
+import { getConfig } from 'config'
+
+import { LegacyWCService } from './service'
 
 export let WalletConnectSignClient: SignClient
 

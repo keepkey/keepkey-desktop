@@ -1,32 +1,32 @@
 import { ModalContent } from '@chakra-ui/modal'
 import {
+  Box,
   Button,
+  Divider,
   HStack,
+  Image,
+  Link,
   Modal,
   ModalCloseButton,
   ModalHeader,
   ModalOverlay,
-  Image,
-  Link,
-  Box,
   Stack,
-  Divider,
 } from '@chakra-ui/react'
-import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
-import { RawText, Text } from 'components/Text'
-
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import type { ProposalTypes, SessionTypes, SignClientTypes } from '@walletconnect/types'
-import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { getSdkError } from '@walletconnect/utils'
 import { Card } from 'components/Card/Card'
-import { formatChainName } from 'plugins/walletConnectToDapps/utils/utils'
+import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
+import { RawText, Text } from 'components/Text'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import { formatChainName } from 'plugins/walletConnectToDapps/utils/utils'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { useState } from 'react'
 
 export const SessionProposalModal = () => {
-  const { proposals, removeProposal, setPairingMeta, setCurrentSessionTopic, onDisconnect } = useWalletConnect()
+  const { proposals, removeProposal, setPairingMeta, setCurrentSessionTopic, onDisconnect } =
+    useWalletConnect()
 
   const currentProposal = proposals[0] as SignClientTypes.EventArguments['session_proposal']
 
@@ -167,7 +167,7 @@ export const SessionProposalModal = () => {
                   const extensionMethods: ProposalTypes.RequiredNamespace['methods'] = []
                   const extensionEvents: ProposalTypes.RequiredNamespace['events'] = []
 
-                  requiredNamespaces[chain].extension?.map(({ chains, methods, events }) => {
+                  requiredNamespaces[chain].extension?.forEach(({ chains, methods, events }) => {
                     if (chains.includes(chainId)) {
                       extensionMethods.push(...methods)
                       extensionEvents.push(...events)

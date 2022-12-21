@@ -5,8 +5,6 @@ import { type GetTradeQuoteInput, type UtxoSupportedChainIds } from '@keepkey/sw
 import type { BIP44Params, UtxoAccountType } from '@keepkey/types'
 import { skipToken } from '@reduxjs/toolkit/query'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
-import { useEffect, useState } from 'react'
-import { useFormContext, useWatch } from 'react-hook-form'
 import { useSwapper } from 'components/Trade/hooks/useSwapper/useSwapperV2'
 import {
   isSupportedNonUtxoSwappingChain,
@@ -17,6 +15,8 @@ import { type TradeQuoteInputCommonArgs } from 'components/Trade/types'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { toBaseUnit } from 'lib/math'
+import { useEffect, useState } from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
 import { useGetTradeQuoteQuery } from 'state/apis/swapper/swapperApi'
 import {
   selectFiatToUsdRate,

@@ -17,15 +17,15 @@ import {
   Textarea,
 } from '@chakra-ui/react'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
-import cryptoTools from 'crypto'
-import { ipcRenderer } from 'electron-shim'
-import React, { useCallback, useEffect, useState } from 'react'
 import HoldAndRelease from 'assets/hold-and-release.svg'
 import { Text } from 'components/Text'
+import cryptoTools from 'crypto'
+import { ipcRenderer } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { MiddleEllipsis } from '../../MiddleEllipsis/MiddleEllipsis'
 import { Row } from '../../Row/Row'

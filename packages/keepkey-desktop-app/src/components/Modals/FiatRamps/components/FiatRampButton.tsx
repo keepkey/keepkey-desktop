@@ -1,11 +1,11 @@
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { Box, Button, Flex, Tooltip, useColorModeValue } from '@chakra-ui/react'
 import { Tag } from '@chakra-ui/tag'
-import { useMemo } from 'react'
-import { useTranslate } from 'react-polyglot'
 import { AssetIcon } from 'components/AssetIcon'
 import { Text } from 'components/Text'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import { useMemo } from 'react'
+import { useTranslate } from 'react-polyglot'
 
 import type { SupportedFiatRampConfig } from '../config'
 import { FiatRampAction } from '../FiatRampsCommon'

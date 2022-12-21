@@ -1,6 +1,5 @@
 import { Box, Button, Flex, useColorModeValue } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/toast'
-import { useTranslate } from 'react-polyglot'
 import { CircularProgress } from 'components/CircularProgress/CircularProgress'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { SubmenuHeader } from 'components/Layout/Header/NavBar/SubmenuHeader'
@@ -11,6 +10,7 @@ import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyType
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import { useTranslate } from 'react-polyglot'
 
 import { useMenuRoutes } from '../hooks/useMenuRoutes'
 import { SubMenuBody } from '../SubMenuBody'

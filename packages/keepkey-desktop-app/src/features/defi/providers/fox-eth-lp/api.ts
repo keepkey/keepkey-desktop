@@ -1,7 +1,7 @@
 import { Contract } from '@ethersproject/contracts'
 import IUniswapV2Pair from '@uniswap/v2-core/build/IUniswapV2Pair.json'
-import { getEthersProvider } from 'plugins/foxPage/utils'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import { getEthersProvider } from 'plugins/foxPage/utils'
 
 import { UNISWAP_V2_WETH_FOX_POOL_ADDRESS } from './constants'
 

@@ -1,9 +1,9 @@
 import { useToast } from '@chakra-ui/react'
 import type { RecoverDevice } from '@shapeshiftoss/hdwallet-core'
-import { useTranslate } from 'react-polyglot'
 import { parseIntToEntropy } from 'context/WalletProvider/KeepKey/helpers'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import { useTranslate } from 'react-polyglot'
 const moduleLogger = logger.child({ namespace: ['useKeepKeyRecover'] })
 
 export const useKeepKeyRecover = () => {

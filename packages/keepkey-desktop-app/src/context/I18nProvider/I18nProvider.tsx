@@ -1,8 +1,8 @@
+import { translations } from 'assets/translations'
 import get from 'lodash/get'
 import type { InterpolationOptions } from 'node-polyglot'
 import { transformPhrase } from 'node-polyglot'
 import { I18n } from 'react-polyglot'
-import { translations } from 'assets/translations'
 import { selectSelectedLocale } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 

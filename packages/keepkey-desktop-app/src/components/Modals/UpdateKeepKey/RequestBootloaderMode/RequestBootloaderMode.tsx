@@ -13,11 +13,10 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react'
-import { RawText, Text } from 'components/Text'
-import { useModal } from 'hooks/useModal/useModal'
-
 import KeepKeyConnect from 'assets/connect-keepkey.svg'
+import { RawText, Text } from 'components/Text'
 import { ipcRenderer } from 'electron-shim'
+import { useModal } from 'hooks/useModal/useModal'
 import type { FC } from 'react'
 import { useTranslate } from 'react-polyglot'
 

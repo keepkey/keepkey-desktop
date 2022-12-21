@@ -1,4 +1,5 @@
 import { btcAssetId, ethAssetId, foxAssetId } from '@keepkey/caip'
+import { createStore } from 'state/store'
 import {
   assetIds,
   btcAddresses,
@@ -19,7 +20,6 @@ import {
 import { mockAssetState } from 'test/mocks/assets'
 import { mockMarketData } from 'test/mocks/marketData'
 import { mockChainAdapters, mockUpsertPortfolio } from 'test/mocks/portfolio'
-import { createStore } from 'state/store'
 
 import { assets as assetsSlice } from '../assetsSlice/assetsSlice'
 import { marketData as marketDataSlice } from '../marketDataSlice/marketDataSlice'

@@ -1,8 +1,8 @@
 import { useToast } from '@chakra-ui/react'
 import { SwapErrorTypes } from '@keepkey/swapper'
+import { logger } from 'lib/logger'
 import { get, isError } from 'lodash'
 import { useTranslate } from 'react-polyglot'
-import { logger } from 'lib/logger'
 
 // TODO support more error types (non swapper errors)
 export const ErrorTranslationMap: Record<string, string> = {

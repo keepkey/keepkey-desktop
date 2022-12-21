@@ -1,11 +1,11 @@
-import { ipcRenderer } from 'electron-shim'
-import { useCallback, useEffect, useState } from 'react'
-import { Routes } from 'Routes/Routes'
 import type { PairingProps } from 'components/Modals/Pair/Pair'
 import { WalletActions } from 'context/WalletProvider/actions'
+import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
+import { ipcRenderer } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
+import { useCallback, useEffect, useState } from 'react'
+import { Routes } from 'Routes/Routes'
 
 export const App = () => {
   const {

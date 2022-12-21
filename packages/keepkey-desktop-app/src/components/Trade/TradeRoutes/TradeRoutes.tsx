@@ -1,10 +1,10 @@
 import type { Asset } from '@keepkey/asset-service'
-import { AnimatePresence } from 'framer-motion'
-import type { RouteComponentProps } from 'react-router-dom'
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
 import { Approval } from 'components/Approval/Approval'
 import { SelectAccount } from 'components/Trade/SelectAccount'
+import { AnimatePresence } from 'framer-motion'
 import { useFeatureFlag } from 'hooks/useFeatureFlag/useFeatureFlag'
+import type { RouteComponentProps } from 'react-router-dom'
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
 
 import { useSwapper } from '../hooks/useSwapper/useSwapperV2'
 import { AssetClickAction, useTradeRoutes } from '../hooks/useTradeRoutes/useTradeRoutes'

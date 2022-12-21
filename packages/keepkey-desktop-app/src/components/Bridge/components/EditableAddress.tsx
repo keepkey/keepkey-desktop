@@ -8,8 +8,8 @@ import {
   Stack,
   useEditableControls,
 } from '@chakra-ui/react'
-import { useController, useFormContext } from 'react-hook-form'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
+import { useController, useFormContext } from 'react-hook-form'
 
 import type { BridgeState } from '../types'
 

@@ -1,9 +1,9 @@
 import { Center, Modal, ModalContent, ModalOverlay, Spinner, Stack } from '@chakra-ui/react'
-import { useEffect } from 'react'
-import { useHistory } from 'react-router'
 import { RawText } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useEffect } from 'react'
+import { useHistory } from 'react-router'
 
 export const LoadingModal = ({ closing = false }: { closing: boolean }) => {
   const { loading } = useModal()

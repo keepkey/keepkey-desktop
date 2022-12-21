@@ -1,16 +1,16 @@
 import type { ButtonProps, SimpleGridProps } from '@chakra-ui/react'
 import { Alert, AlertDescription, AlertIcon, Button, Input, SimpleGrid } from '@chakra-ui/react'
 import type { Event } from '@shapeshiftoss/hdwallet-core'
-import { ipcRenderer } from 'electron-shim'
-import type { KeyboardEvent } from 'react'
-import { useCallback } from 'react'
-import { useEffect, useRef, useState } from 'react'
 import { CircleIcon } from 'components/Icons/Circle'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { FailureType, MessageType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
+import { ipcRenderer } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import type { KeyboardEvent } from 'react'
+import { useCallback } from 'react'
+import { useEffect, useRef, useState } from 'react'
 const moduleLogger = logger.child({ namespace: ['Pin'] })
 
 type KeepKeyPinProps = {

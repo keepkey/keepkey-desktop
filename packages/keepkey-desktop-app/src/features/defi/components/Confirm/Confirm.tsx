@@ -1,10 +1,10 @@
 import { Button } from '@chakra-ui/button'
 import { Stack } from '@chakra-ui/layout'
 import type { StackProps } from '@chakra-ui/react'
-import React from 'react'
-import { useTranslate } from 'react-polyglot'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import React from 'react'
+import { useTranslate } from 'react-polyglot'
 
 type ConfirmProps = {
   onCancel(): void
