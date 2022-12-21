@@ -19,11 +19,16 @@ const appSource = path.join(
   'build',
 )
 const assetsSource = path.join(workspacePath, 'assets')
+const screenshotDesktopSource = path.join(
+  pnpapi.resolveToUnqualified('screenshot-desktop', workspacePath)!,
+  'lib/win32',
+)
 
 const apiPath = path.join(buildPath, 'api')
 const appPath = path.join(buildPath, 'app')
 const assetsPath = path.join(buildPath, 'assets')
 const nativeModulesPath = path.join(buildPath, 'native_modules')
+const screenshotDesktopPath = path.join(buildPath, 'screenshot-desktop')
 
 const sanitizeBuildDir = async () => {
   await fs.promises.rm(buildPath, { recursive: true, force: true })
@@ -32,6 +37,7 @@ const sanitizeBuildDir = async () => {
   await fs.promises.mkdir(appPath, { recursive: true })
   await fs.promises.mkdir(assetsPath, { recursive: true })
   await fs.promises.mkdir(nativeModulesPath, { recursive: true })
+  await fs.promises.mkdir(screenshotDesktopPath, { recursive: true })
 }
 
 const collectDefines = async () => {
@@ -56,6 +62,25 @@ const copyAssetsDir = async () => {
     dereference: true,
     recursive: true,
   })
+}
+
+const copyScreeshotDesktop = async () => {
+  await fs.promises.cp(
+    path.join(screenshotDesktopSource, 'app.manifest'),
+    path.join(screenshotDesktopPath, 'app.manifest'),
+    {
+      dereference: true,
+      recursive: true,
+    },
+  )
+  await fs.promises.cp(
+    path.join(screenshotDesktopSource, 'screenCapture_1.3.2.bat'),
+    path.join(screenshotDesktopPath, 'screenCapture_1.3.2.bat'),
+    {
+      dereference: true,
+      recursive: true,
+    },
+  )
 }
 
 const copyPrebuilds = async (packages: string[]) => {
@@ -156,6 +181,7 @@ export const build = async () => {
         ['node_modules/tiny-secp256k1/native.js', 'native_modules/tiny-secp256k1'],
         ['node_modules/fsevents/fsevents.js', 'native_modules/fsevents'],
         ['node_modules/fswin/index.js', 'native_modules/fswin'],
+        ['node_modules/screenshot-desktop/lib/win32/index.js', 'screenshot-desktop'],
       ],
     ),
   )
@@ -184,6 +210,7 @@ export const build = async () => {
     ]),
     copyAppDir(),
     copyAssetsDir(),
+    copyScreeshotDesktop(),
     esbuild.then(async x => {
       if (isDev) {
         await fs.promises.writeFile(

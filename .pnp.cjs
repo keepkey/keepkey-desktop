@@ -11403,6 +11403,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/offscreencanvas", [\
+        ["npm:2019.7.0", {\
+          "packageLocation": "./.yarn/cache/@types-offscreencanvas-npm-2019.7.0-c691495e16-018cfcd19e.zip/node_modules/@types/offscreencanvas/",\
+          "packageDependencies": [\
+            ["@types/offscreencanvas", "npm:2019.7.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/parse-json", [\
         ["npm:4.0.0", {\
           "packageLocation": "./.yarn/cache/@types-parse-json-npm-4.0.0-298522afa6-fd6bce2b67.zip/node_modules/@types/parse-json/",\
@@ -11669,6 +11678,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-scheduler-npm-0.16.2-ba3a7d8c68-b6b4dcfeae.zip/node_modules/@types/scheduler/",\
           "packageDependencies": [\
             ["@types/scheduler", "npm:0.16.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/screenshot-desktop", [\
+        ["npm:1.12.0", {\
+          "packageLocation": "./.yarn/cache/@types-screenshot-desktop-npm-1.12.0-0b1162fa3f-71f895807c.zip/node_modules/@types/screenshot-desktop/",\
+          "packageDependencies": [\
+            ["@types/screenshot-desktop", "npm:1.12.0"],\
+            ["@types/node", "npm:18.11.9"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24923,6 +24942,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:18.11.9"],\
             ["@types/pnpapi", "npm:0.0.2"],\
             ["@types/request-promise", "npm:4.1.48"],\
+            ["@types/screenshot-desktop", "npm:1.12.0"],\
             ["@types/swagger-ui-express", "npm:4.1.3"],\
             ["@types/wait-promise", "npm:0.4.0"],\
             ["@typescript-eslint/eslint-plugin", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
@@ -24960,9 +24980,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nedb", "npm:1.8.0"],\
             ["node-hid", "patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."],\
             ["prettier", "npm:2.8.0"],\
+            ["qr-scanner", "npm:1.4.2"],\
             ["request", "npm:2.88.2"],\
             ["request-promise", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:4.2.6"],\
             ["rimraf", "npm:3.0.2"],\
+            ["screenshot-desktop", "npm:1.12.7"],\
             ["secp256k1", "npm:4.0.3"],\
             ["swagger-ui-express", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:4.6.0"],\
             ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
@@ -30002,6 +30024,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["qr-scanner", [\
+        ["npm:1.4.2", {\
+          "packageLocation": "./.yarn/cache/qr-scanner-npm-1.4.2-f7f70c1a65-554855c1d6.zip/node_modules/qr-scanner/",\
+          "packageDependencies": [\
+            ["qr-scanner", "npm:1.4.2"],\
+            ["@types/offscreencanvas", "npm:2019.7.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["qrcode", [\
         ["npm:1.4.4", {\
           "packageLocation": "./.yarn/cache/qrcode-npm-1.4.4-f137b3816b-8c1a7ee309.zip/node_modules/qrcode/",\
@@ -32255,6 +32287,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["screenshot-desktop", [\
+        ["npm:1.12.7", {\
+          "packageLocation": "./.yarn/cache/screenshot-desktop-npm-1.12.7-d289296123-7aed4f2fa2.zip/node_modules/screenshot-desktop/",\
+          "packageDependencies": [\
+            ["screenshot-desktop", "npm:1.12.7"],\
+            ["pinkie-promise", "npm:2.0.1"],\
+            ["temp", "npm:0.9.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["scrypt-js", [\
         ["npm:3.0.1", {\
           "packageLocation": "./.yarn/cache/scrypt-js-npm-3.0.1-fd2d3fa606-b7c7d1a68d.zip/node_modules/scrypt-js/",\
@@ -33768,6 +33811,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/temp-npm-0.8.4-d7c7d71d12-f35bed7856.zip/node_modules/temp/",\
           "packageDependencies": [\
             ["temp", "npm:0.8.4"],\
+            ["rimraf", "npm:2.6.3"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.9.4", {\
+          "packageLocation": "./.yarn/cache/temp-npm-0.9.4-750c79cf8d-8709d4d632.zip/node_modules/temp/",\
+          "packageDependencies": [\
+            ["temp", "npm:0.9.4"],\
+            ["mkdirp", "npm:0.5.6"],\
             ["rimraf", "npm:2.6.3"]\
           ],\
           "linkType": "HARD"\

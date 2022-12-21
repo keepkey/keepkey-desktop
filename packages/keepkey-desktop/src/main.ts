@@ -4,6 +4,7 @@ import { app, nativeTheme } from 'electron'
 import isDev from 'electron-is-dev'
 import log from 'electron-log'
 import fs from 'fs'
+import * as foo from 'screenshot-desktop'
 
 import { startAppListeners } from './appListeners'
 import { isWin, kkAutoLauncher, settings } from './globalState'
@@ -42,3 +43,5 @@ try {
 if (process.defaultApp) {
   app.setAsDefaultProtocolClient('keepkey')
 }
+
+foo.listDisplays()
