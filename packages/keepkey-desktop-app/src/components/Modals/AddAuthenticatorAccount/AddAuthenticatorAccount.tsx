@@ -16,7 +16,7 @@ import { ipcRenderer } from 'electron-shim'
 import type { FC } from 'react'
 import { useCallback, useState } from 'react'
 import { SlideTransition } from 'components/SlideTransition'
-import { RawText, Text } from 'components/Text'
+import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { MemoryRouter } from 'react-router'
@@ -53,7 +53,7 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
         description: `Please complete the process on your KeepKey`,
       })
       const msg = `\x15initializeAuth:${acc.domain}:${acc.account}:${acc.secret}`
-      console.log(msg)
+      console.log('addAcc msg: ', msg)
       await wallet
         .ping({
           msg,
