@@ -2,11 +2,11 @@
 
 import 'dotenv/config'
 
+import { dirnamePlugin, workspacePlugin } from '@keepkey/common-esbuild-bits'
+import * as esbuild from 'esbuild'
 import * as fs from 'fs'
 import * as path from 'path'
-import * as esbuild from 'esbuild'
 import * as pnpapi from 'pnpapi'
-import { dirnamePlugin, workspacePlugin } from '@keepkey/common-esbuild-bits'
 
 process.env.NODE_ENV ??= 'production'
 const isDev = process.env.NODE_ENV === 'production'
