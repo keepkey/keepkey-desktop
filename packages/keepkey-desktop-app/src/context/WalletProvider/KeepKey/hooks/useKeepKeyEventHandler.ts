@@ -14,6 +14,16 @@ import { ButtonRequestType, FailureType, Message, MessageType } from '../KeepKey
 
 const moduleLogger = logger.child({ namespace: ['useKeepKeyEventHandler'] })
 
+export const authenticatorErrors = [
+  'Account not found',
+  "Authenticator secret can't be decoded",
+  'Authenticator secret storage full',
+  'Auth secret unknown error',
+  'Account name missing or too long, or seed/message string missing',
+  'Slot request out of range',
+  'Authenticator secret seed too large',
+]
+
 export const useKeepKeyEventHandler = (
   state: InitialState,
   dispatch: Dispatch<ActionTypes>,
@@ -33,6 +43,8 @@ export const useKeepKeyEventHandler = (
     const handleEvent = (e: [deviceId: string, message: Event]) => {
       const [deviceId, event] = e
       const { message_enum, message_type, message, from_wallet } = event
+
+      // console.log('keepkey event: ', event)
 
       const fnLogger = moduleLogger.child({
         namespace: ['handleEvent'],

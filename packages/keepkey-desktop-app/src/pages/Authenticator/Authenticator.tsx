@@ -50,7 +50,7 @@ export const Authenticator = () => {
       const msg = `\x17getAccount:${slotIdx}`
       console.log('getAccount msg: ', msg)
 
-      const data = await wallet.ping({ msg }).catch(console.error)
+      const data = await wallet.ping({ msg }).catch(e => console.log('error', e))
       if (!data) continue
       console.log(slotIdx, data)
       const [domain, account] = data.msg.split(':')
@@ -93,12 +93,14 @@ export const Authenticator = () => {
   )
 
   const generateOtp = useCallback(
-    async (acc: AuthenticatorAccount, timeRemain: number, interval: number) => {
+    async (acc: AuthenticatorAccount, timeSlice: number, timeRemain: number) => {
       if (!wallet) return
 
       assume<KeepKeyHDWallet>(wallet)
 
-      const msg = `\x16generateOTPFrom:${acc.domain}:${acc.account}:${timeRemain}:${interval}`
+      const msg = `\x16generateOTPFrom:${acc.domain}:${acc.account}:${timeSlice.toString(
+        10,
+      )}:${timeRemain}`
       console.log('generateOtp msg: ', msg)
 
       await wallet
@@ -180,9 +182,11 @@ export const Authenticator = () => {
                                 colorScheme='green'
                                 onClick={() => {
                                   const interval = 30
-                                  const currTime = Date.now() / 1000 + 5
+                                  const currTime = Date.now() / 1000
                                   const timeSlice = Math.floor(currTime / interval)
-                                  generateOtp(acc, timeSlice, interval)
+                                  const timeRemain =
+                                    interval - Math.floor(currTime - timeSlice * 30)
+                                  generateOtp(acc, timeSlice, Math.floor(timeRemain))
                                 }}
                               >
                                 <Text translation={'authenticator.cta.generateOtp'} />
