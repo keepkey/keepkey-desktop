@@ -79,7 +79,7 @@ export const useKeepKeyEventHandler = (
             awaitingDeviceInteraction: false,
             lastDeviceInteractionStatus: 'success',
           })
-          disconnect()
+          // disconnect()
           break
         case MessageType.BUTTONREQUEST:
           setDeviceState({ awaitingDeviceInteraction: true })

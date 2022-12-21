@@ -1,56 +1,162 @@
-import { Heading, Stack, StackDivider } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import {
+  Button,
+  Code,
+  Flex,
+  Heading,
+  HStack,
+  Spinner,
+  Stack,
+  StackDivider,
+  useToast,
+} from '@chakra-ui/react'
+import { useCallback, useEffect, useState } from 'react'
 import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
-import { RawText, Text } from 'components/Text'
+import { Text } from 'components/Text'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { useModal } from 'hooks/useModal/useModal'
 
-const AuthenticatorHeader = () => {
-  return (
-    <Stack pb={4}>
-      <Heading>Authenticator</Heading>
-    </Stack>
-  )
-}
+function assume<T>(x: unknown): asserts x is T {}
+
+export type AuthenticatorAccount = { slotIdx: number; domain: string; account: string }
 
 export const Authenticator = () => {
   const {
     state: { wallet },
   } = useWallet()
 
-  const [res, setRes] = useState('')
+  const [accounts, setAccounts] = useState<AuthenticatorAccount[]>([])
+  const [loading, setLoading] = useState(true)
+  const { addAuthenticatorAccount } = useModal()
+  const toast = useToast()
 
-  useEffect(() => {
-    if (!wallet) return // msg = {"\x17" "getAccount:<slot>"};
-    // self.sendMsg(client, msg = b'\x17' + bytes("getAccount:"+str(ctr), 'utf8'))
-    const msg: Uint8Array = new Uint8Array([0x17])
-    const ctrString: string = `getAccount:1`
-    const ctrBytes: Uint8Array = new TextEncoder().encode(ctrString)
-    const combined: Uint8Array = new Uint8Array([...msg, ...ctrBytes])
-    console.log('combined arr', combined)
-    // @ts-ignore
-    ;(wallet as KeepKeyHDWallet).ping({ msg: combined }).then(data => {
-      const bytes = data.msg.split(',').map(Number)
-      const str = new TextDecoder().decode(Uint8Array.from(bytes))
-      console.log('ACCOUNTS: ', str) // Output: "getAccount:1"
-      setRes(str)
-    })
+  const fetchAccs = useCallback(async () => {
+    if (!wallet) return
+
+    assume<KeepKeyHDWallet>(wallet)
+
+    setLoading(true)
+    setAccounts([])
+
+    for (let slotIdx = 0; slotIdx < 20; slotIdx++) {
+      const data = await wallet.ping({ msg: `\x17getAccount:${slotIdx}` }).catch(console.error)
+      if (!data) continue
+      console.log(slotIdx, data)
+      const [domain, account] = data.msg.split(':')
+      setAccounts(accs => {
+        if (accs.length === 0) return [{ slotIdx, domain, account }]
+        const exists = accs.find(acc => acc.slotIdx === slotIdx)
+        if (exists) return accs
+        return [...accs, { slotIdx, domain, account }]
+      })
+    }
+
+    setLoading(false)
   }, [wallet])
 
+  useEffect(() => {
+    fetchAccs()
+  }, [fetchAccs])
+
+  const deleteAcc = useCallback(
+    async (acc: AuthenticatorAccount) => {
+      if (!wallet) return
+
+      assume<KeepKeyHDWallet>(wallet)
+      await wallet
+        .ping({ msg: `\x18removeAccount:${acc.domain}:${acc.account}` })
+        .catch(console.error)
+      const accIdx = accounts.findIndex(a => a.slotIdx === acc.slotIdx)
+      if (accIdx > 0) {
+        toast({
+          status: 'info',
+          title: 'Account deleted',
+          description: `Account ${acc.domain}:${acc.account} deleted`,
+        })
+        fetchAccs()
+      }
+    },
+    [wallet, accounts, toast, fetchAccs],
+  )
+
+  const generateOtp = useCallback(
+    async (acc: AuthenticatorAccount, timeRemain: number, interval: number) => {
+      if (!wallet) return
+
+      assume<KeepKeyHDWallet>(wallet)
+      await wallet
+        .ping({
+          msg: `\x16generateOTPFrom:${acc.domain}:${acc.account}:${timeRemain}:${interval}`,
+        })
+        .catch(console.error)
+      toast({
+        status: 'info',
+        title: 'OTP generated',
+        description: `Please check the OTP on your keepkey`,
+      })
+    },
+    [wallet, toast],
+  )
+
   return (
-    <Main titleComponent={<AuthenticatorHeader />}>
+    <Main
+      titleComponent={
+        <Stack pb={4}>
+          <Heading>
+            <Text translation={'authenticator.heading'} />
+          </Heading>
+        </Stack>
+      }
+    >
       <Card flex={1}>
         <Card.Header>
           <Stack pb={4}>
-            <Heading>
-              <Text translation={'authenticator.header'} />
-            </Heading>
+            <HStack>
+              <Heading>
+                <Text translation={'authenticator.header'} />
+              </Heading>
+              <Flex w='full' flexDirection='row-reverse'>
+                <Button
+                  size='sm'
+                  colorScheme='blue'
+                  onClick={() => addAuthenticatorAccount.open({ fetchAccs })}
+                >
+                  <Text translation={'authenticator.cta.addAcc'} />
+                </Button>
+              </Flex>
+            </HStack>
           </Stack>
         </Card.Header>
         <Card.Body>
           <Stack divider={<StackDivider />}>
-            <RawText>{res}</RawText>
+            {loading && <Spinner />}
+            {!loading &&
+              accounts &&
+              accounts.map(acc => (
+                <HStack>
+                  <Code>
+                    {acc.domain}:{acc.account}
+                  </Code>
+                  <Button
+                    size='sm'
+                    colorScheme='green'
+                    onClick={() => {
+                      const interval = 30
+                      const currTime = Date.now() / 1000 + 5
+                      const timeSlice = currTime / interval
+                      const timeRemain = currTime - timeSlice * interval
+                      generateOtp(acc, timeRemain, interval)
+                    }}
+                  >
+                    <Text translation={'authenticator.cta.generateOtp'} />
+                  </Button>
+                  <Button size='sm' colorScheme='red' onClick={() => deleteAcc(acc)}>
+                    <Text translation={'authenticator.cta.deleteAcc'} />
+                  </Button>
+                </HStack>
+              ))}
+            {!loading && accounts.length === 0 && <Text translation={'authenticator.noAccounts'} />}
           </Stack>
         </Card.Body>
       </Card>

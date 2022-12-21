@@ -464,8 +464,23 @@
     }
   },
   "authenticator": {
+    "heading": "Authenticator",
     "header": "Accounts",
-    "noAccounts": "There are currently no accounts saved on your KeepKey"
+    "noAccounts": "There are currently no accounts saved on your KeepKey",
+    "cta": {
+      "generateOtp": "Generate OTP",
+      "deleteAcc": "Delete Account",
+      "addAcc": "Add account"
+    },
+    "modal": {
+      "header": "Add account",
+      "scan": "Bring the QR code into view and then click the scan button below",
+      "cta": {
+        "manual": "Add manually",
+        "scan": "Scan QR code",
+        "back": "Go Back"
+      }
+    }
   },
   "pairingDetails": {
     "header": "Requests Log",

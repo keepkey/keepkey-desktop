@@ -11222,6 +11222,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/offscreencanvas", [\
+        ["npm:2019.7.0", {\
+          "packageLocation": "./.yarn/cache/@types-offscreencanvas-npm-2019.7.0-c691495e16-018cfcd19e.zip/node_modules/@types/offscreencanvas/",\
+          "packageDependencies": [\
+            ["@types/offscreencanvas", "npm:2019.7.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/parse-json", [\
         ["npm:4.0.0", {\
           "packageLocation": "./.yarn/cache/@types-parse-json-npm-4.0.0-298522afa6-fd6bce2b67.zip/node_modules/@types/parse-json/",\
@@ -24974,6 +24983,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prompts", "npm:2.4.2"],\
             ["protobufjs", "npm:7.1.2"],\
             ["qr-image", "npm:3.2.0"],\
+            ["qr-scanner", "npm:1.4.2"],\
             ["qs", "npm:6.11.0"],\
             ["querystring-es3", "npm:0.2.1"],\
             ["re-reselect", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:4.0.1"],\
@@ -25006,6 +25016,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["resize-observer-polyfill", "npm:1.5.1"],\
             ["resolve", "patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=c3c19d"],\
             ["rimraf", "npm:3.0.2"],\
+            ["screenshot-desktop", "npm:1.12.7"],\
             ["scrypt-js", "npm:3.0.1"],\
             ["semver", "npm:7.3.8"],\
             ["simple-git", "npm:3.15.0"],\
@@ -29754,6 +29765,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["qr-scanner", [\
+        ["npm:1.4.2", {\
+          "packageLocation": "./.yarn/cache/qr-scanner-npm-1.4.2-f7f70c1a65-554855c1d6.zip/node_modules/qr-scanner/",\
+          "packageDependencies": [\
+            ["qr-scanner", "npm:1.4.2"],\
+            ["@types/offscreencanvas", "npm:2019.7.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["qrcode", [\
         ["npm:1.4.4", {\
           "packageLocation": "./.yarn/cache/qrcode-npm-1.4.4-f137b3816b-8c1a7ee309.zip/node_modules/qrcode/",\
@@ -32007,6 +32028,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["screenshot-desktop", [\
+        ["npm:1.12.7", {\
+          "packageLocation": "./.yarn/cache/screenshot-desktop-npm-1.12.7-d289296123-7aed4f2fa2.zip/node_modules/screenshot-desktop/",\
+          "packageDependencies": [\
+            ["screenshot-desktop", "npm:1.12.7"],\
+            ["pinkie-promise", "npm:2.0.1"],\
+            ["temp", "npm:0.9.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["scrypt-js", [\
         ["npm:3.0.1", {\
           "packageLocation": "./.yarn/cache/scrypt-js-npm-3.0.1-fd2d3fa606-b7c7d1a68d.zip/node_modules/scrypt-js/",\
@@ -33520,6 +33552,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/temp-npm-0.8.4-d7c7d71d12-f35bed7856.zip/node_modules/temp/",\
           "packageDependencies": [\
             ["temp", "npm:0.8.4"],\
+            ["rimraf", "npm:2.6.3"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.9.4", {\
+          "packageLocation": "./.yarn/cache/temp-npm-0.9.4-750c79cf8d-8709d4d632.zip/node_modules/temp/",\
+          "packageDependencies": [\
+            ["temp", "npm:0.9.4"],\
+            ["mkdirp", "npm:0.5.6"],\
             ["rimraf", "npm:2.6.3"]\
           ],\
           "linkType": "HARD"\

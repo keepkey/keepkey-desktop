@@ -7672,6 +7672,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/offscreencanvas@npm:^2019.6.4":
+  version: 2019.7.0
+  resolution: "@types/offscreencanvas@npm:2019.7.0"
+  checksum: 018cfcd19e0c59c44d14ba61caaca7246f77fbb512839c7881654b7f2b6591dbdd5857362eccbf49f29cdc93724e71a4b37c8b6cf203388f9c04e913a53ea390
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -19223,6 +19230,7 @@ __metadata:
     prompts: ^2.4.2
     protobufjs: ^7.1.2
     qr-image: ^3.2.0
+    qr-scanner: ^1.4.2
     qs: ^6.10.5
     querystring-es3: ^0.2.1
     re-reselect: ^4.0.0
@@ -19255,6 +19263,7 @@ __metadata:
     resize-observer-polyfill: ^1.5.1
     resolve: ^1.20.0
     rimraf: ^3.0.2
+    screenshot-desktop: ^1.12.7
     scrypt-js: ^3.0.1
     semver: ^7.3.5
     simple-git: ^3.12.0
@@ -22258,7 +22267,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pinkie-promise@npm:^2.0.0":
+"pinkie-promise@npm:^2.0.0, pinkie-promise@npm:^2.0.1":
   version: 2.0.1
   resolution: "pinkie-promise@npm:2.0.1"
   dependencies:
@@ -23254,6 +23263,15 @@ __metadata:
   version: 3.2.0
   resolution: "qr-image@npm:3.2.0"
   checksum: 9d22d9425234b8dfbcf954cff334d1594aa7391f999b15cf3e07d554c99341e7c2303646ddf58237fc498455c11d505b8803a995ff22d8385ddd05f58b3259b5
+  languageName: node
+  linkType: hard
+
+"qr-scanner@npm:^1.4.2":
+  version: 1.4.2
+  resolution: "qr-scanner@npm:1.4.2"
+  dependencies:
+    "@types/offscreencanvas": ^2019.6.4
+  checksum: 554855c1d61cc9f502162d43d76d0cd03d6df77b0ecbfcae2c0f936c31cbd1ac45e673857b91628dde1d3f5156eca6651c4973187fa061ae9ec7ec07a95f7738
   languageName: node
   linkType: hard
 
@@ -24899,6 +24917,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"screenshot-desktop@npm:^1.12.7":
+  version: 1.12.7
+  resolution: "screenshot-desktop@npm:1.12.7"
+  dependencies:
+    pinkie-promise: ^2.0.1
+    temp: ^0.9.4
+  checksum: 7aed4f2fa2f6e88023086a11ef8b0102e4e294a2b72c4da90b282c1e720d2c33fea1e9bc5247db9f16a0d16f6d7cd227ccbbfd5bbaf7a3ff5afedd5b760b71c2
+  languageName: node
+  linkType: hard
+
 "scrypt-js@npm:3.0.1, scrypt-js@npm:^3.0.0, scrypt-js@npm:^3.0.1":
   version: 3.0.1
   resolution: "scrypt-js@npm:3.0.1"
@@ -26278,6 +26306,16 @@ __metadata:
   dependencies:
     rimraf: ~2.6.2
   checksum: f35bed78565355dfdf95f730b7b489728bd6b7e35071bcc6497af7c827fb6c111fbe9063afc7b8cbc19522a072c278679f9a0ee81e684aa2c8617cc0f2e9c191
+  languageName: node
+  linkType: hard
+
+"temp@npm:^0.9.4":
+  version: 0.9.4
+  resolution: "temp@npm:0.9.4"
+  dependencies:
+    mkdirp: ^0.5.1
+    rimraf: ~2.6.2
+  checksum: 8709d4d63278bd309ca0e49e80a268308dea543a949e71acd427b3314cd9417da9a2cc73425dd9c21c6780334dbffd67e05e7be5aaa73e9affe8479afc6f20e3
   languageName: node
   linkType: hard
 
