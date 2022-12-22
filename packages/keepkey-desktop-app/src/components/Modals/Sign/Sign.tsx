@@ -2,7 +2,6 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
-  Badge,
   Box,
   Button,
   Collapse,
@@ -23,7 +22,7 @@ import { Text } from 'components/Text'
 import cryptoTools from 'crypto'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { bnOrZero } from 'lib/bignumber/bignumber'
+// import { bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
 import React, { useCallback, useEffect, useState } from 'react'
 
@@ -261,31 +260,31 @@ export const SignModal = (input: {
 
               {isSwap ? (
                 <div>
-                  <Row>
-                    <Row.Label>
-                      <Text translation={'modals.sign.protocol'} />
-                    </Row.Label>
-                    <Row.Value>
-                      {input?.unsignedTx?.invocation?.unsignedTx?.transaction?.protocol}
-                    </Row.Value>
-                  </Row>
-                  <Row>
-                    <Row.Label>
-                      <Text translation={'modals.sign.router'} />
-                    </Row.Label>
-                    <Row.Value>
-                      {input?.unsignedTx?.invocation?.unsignedTx?.transaction?.router}
-                      <Badge>VALID</Badge>
-                    </Row.Value>
-                  </Row>
-                  <Row>
-                    <Row.Label>
-                      <Text translation={'modals.sign.memo'} />
-                    </Row.Label>
-                    <Row.Value>
-                      <small>{input?.unsignedTx?.invocation?.unsignedTx?.transaction?.memo}</small>
-                    </Row.Value>
-                  </Row>
+                  {/*<Row>*/}
+                  {/*  <Row.Label>*/}
+                  {/*    <Text translation={'modals.sign.protocol'} />*/}
+                  {/*  </Row.Label>*/}
+                  {/*  <Row.Value>*/}
+                  {/*    {input?.unsignedTx?.invocation?.unsignedTx?.transaction?.protocol}*/}
+                  {/*  </Row.Value>*/}
+                  {/*</Row>*/}
+                  {/*<Row>*/}
+                  {/*  <Row.Label>*/}
+                  {/*    <Text translation={'modals.sign.router'} />*/}
+                  {/*  </Row.Label>*/}
+                  {/*  <Row.Value>*/}
+                  {/*    {input?.unsignedTx?.invocation?.unsignedTx?.transaction?.router}*/}
+                  {/*    <Badge>VALID</Badge>*/}
+                  {/*  </Row.Value>*/}
+                  {/*</Row>*/}
+                  {/*<Row>*/}
+                  {/*  <Row.Label>*/}
+                  {/*    <Text translation={'modals.sign.memo'} />*/}
+                  {/*  </Row.Label>*/}
+                  {/*  <Row.Value>*/}
+                  {/*    <small>{input?.unsignedTx?.invocation?.unsignedTx?.transaction?.memo}</small>*/}
+                  {/*  </Row.Value>*/}
+                  {/*</Row>*/}
                 </div>
               ) : (
                 <div></div>
@@ -300,17 +299,17 @@ export const SignModal = (input: {
                       <Text translation={'modals.sign.to'} />
                     </Row.Label>
                     <Row.Value>
-                      <MiddleEllipsis
-                        rounded='lg'
-                        fontSize='sm'
-                        p='1'
-                        pl='2'
-                        pr='2'
-                        bgColor='gray.800'
-                        value={
-                          input?.unsignedTx?.invocation?.unsignedTx?.transaction?.recipient ?? ''
-                        }
-                      />
+                      {/*<MiddleEllipsis*/}
+                      {/*  rounded='lg'*/}
+                      {/*  fontSize='sm'*/}
+                      {/*  p='1'*/}
+                      {/*  pl='2'*/}
+                      {/*  pr='2'*/}
+                      {/*  bgColor='gray.800'*/}
+                      {/*  value={*/}
+                      {/*    input?.unsignedTx?.invocation?.unsignedTx?.transaction?.recipient ?? ''*/}
+                      {/*  }*/}
+                      {/*/>*/}
                     </Row.Value>
                   </Row>
                 </div>
@@ -322,10 +321,10 @@ export const SignModal = (input: {
                 </Row.Label>
                 <Row.Value>
                   <small>
-                    {bnOrZero(input?.unsignedTx?.invocation?.unsignedTx?.transaction?.amount)
-                      .shiftedBy(-18)
-                      .toString()}{' '}
-                    ({input?.unsignedTx?.invocation?.unsignedTx?.transaction?.asset})
+                    {/*{bnOrZero(input?.unsignedTx?.invocation?.unsignedTx?.transaction?.amount)*/}
+                    {/*  .shiftedBy(-18)*/}
+                    {/*  .toString()}{' '}*/}
+                    {/*({input?.unsignedTx?.invocation?.unsignedTx?.transaction?.asset})*/}
                   </small>
                 </Row.Value>
               </Row>
