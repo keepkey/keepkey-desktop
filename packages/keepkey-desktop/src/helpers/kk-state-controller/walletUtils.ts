@@ -1,10 +1,9 @@
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { HIDKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-nodehid'
 import { NodeWebUSBKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-nodewebusb'
 import { findByIds } from 'usb'
 
 import type { KKStateController } from './index'
-import type { WebusbWallet } from './types'
-const { HIDKeepKeyAdapter } = require('@bithighlander/hdwallet-keepkey-nodehid')
 
 const bootloaderHashToVersion: Record<string, string> = {
   '6397c446f6b9002a8b150bf4b9b4e0bb66800ed099b881ca49700139b0559f10': 'v1.0.0',
@@ -49,23 +48,19 @@ export const initializeWallet = async (controller: KKStateController) => {
     return { unplugged: true }
   }
 
-  let resultInit
-
   try {
     const webUSBResultInit = await createWebUsbWallet(controller)
     if (!webUSBResultInit?.success) {
-      resultInit = await createHidWallet(controller)
+      return await createHidWallet(controller)
     } else {
-      resultInit = {
-        ...(webUSBResultInit as WebusbWallet),
+      return {
+        ...webUSBResultInit,
         success: true,
       }
     }
   } catch (e) {
-    resultInit = await createHidWallet(controller)
+    return await createHidWallet(controller)
   }
-
-  return resultInit
 }
 
 const base64toHEX = (base64: any) => {
@@ -82,19 +77,16 @@ const base64toHEX = (base64: any) => {
 
 const createWebUsbWallet = async (controller: KKStateController) => {
   const keepkeyAdapter = NodeWebUSBKeepKeyAdapter.useKeyring(controller.keyring)
-  controller.device = await keepkeyAdapter.getDevice()
-  if (!controller.device) return { success: false, error: 'Unable to get device!' }
-  const transport = await keepkeyAdapter.getTransportDelegate(controller.device)
-  if (!transport) return { success: false, error: 'Unable to connect transport!' }
-  controller.transport = transport
-  await controller.transport.connect()
+  const device = await keepkeyAdapter.getDevice()
+  if (!device) return { success: false, error: 'Unable to get device!' }
   controller.wallet = (await keepkeyAdapter.pairDevice(
-    controller.device.serialNumber,
+    device.serialNumber,
     true,
   )) as KeepKeyHDWallet
   let features = await controller.wallet.getFeatures()
   const { majorVersion, minorVersion, patchVersion, bootloaderHash } = features
   const versionString = `v${majorVersion}.${minorVersion}.${patchVersion}`
+
   return {
     features,
     bootloaderMode: features.bootloaderMode,
@@ -103,15 +95,13 @@ const createWebUsbWallet = async (controller: KKStateController) => {
       : bootloaderHashToVersion[base64toHEX(bootloaderHash)],
     firmwareVersion: features.bootloaderMode ? '' : versionString,
     wallet: controller.wallet,
-    transport: controller.transport,
-    device: controller.device,
     success: true,
   }
 }
 
 const createHidWallet = async (controller: KKStateController) => {
   try {
-    let hidAdapter = await HIDKeepKeyAdapter.useKeyring(controller.keyring)
+    const hidAdapter = await HIDKeepKeyAdapter.useKeyring(controller.keyring)
     await hidAdapter.initialize()
     const wallet = controller.keyring.get()
     if (!wallet) {
@@ -131,11 +121,11 @@ const createHidWallet = async (controller: KKStateController) => {
         features: controller.wallet.features,
       }
     } else {
-      let features = await controller.wallet.getFeatures()
+      const features = await controller.wallet.getFeatures()
       const { majorVersion, minorVersion, patchVersion, bootloaderHash } = features
       const decodedHash = base64toHEX(bootloaderHash)
 
-      let bootloaderVersion = bootloaderHashToVersion[decodedHash]
+      const bootloaderVersion = bootloaderHashToVersion[decodedHash]
       return {
         success: true,
         bootloaderMode: false,

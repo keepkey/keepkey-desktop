@@ -1,120 +1,112 @@
 import { Keyring } from '@shapeshiftoss/hdwallet-core'
-import type { KeepKeyHDWallet, TransportDelegate } from '@shapeshiftoss/hdwallet-keepkey'
-import type { Device } from '@shapeshiftoss/hdwallet-keepkey-nodewebusb'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import log from 'electron-log'
 import { settings } from 'globalState'
 import { usb } from 'usb'
 
 import { getBetaFirmwareData, getLatestFirmwareData } from './firmwareUtils'
+import type { KeyringEventHandler, KKStateData, StateChangeHandler } from './types'
+import { KKState } from './types'
 import { initializeWallet } from './walletUtils'
-
-// possible states
-export const UPDATE_BOOTLOADER = 'updateBootloader'
-export const UPDATE_FIRMWARE = 'updateFirmware'
-export const NEEDS_INITIALIZE = 'needsInitialize'
-export const CONNECTED = 'connected'
-export const HARDWARE_ERROR = 'hardwareError'
-export const DISCONNECTED = 'disconnected'
-export const PLUGIN = 'plugin'
-export const NEEDS_RECONNECT = 'needsReconnect'
 
 /**
  * Keeps track of the last known state of the keepkey
  * sends ipc events to the web renderer on state change
  */
+
+export type OnStateChange = (this: KKStateController, _: KKStateData) => Promise<void>
+export type OnKeyringEvent = (this: KKStateController, _: unknown) => Promise<void>
+
 export class KKStateController {
-  public keyring: Keyring
-  public device?: Device
+  public readonly keyring: Keyring
   public wallet?: KeepKeyHDWallet
-  public transport?: TransportDelegate
 
-  public lastState?: string
-  public lastData?: any
+  public data: KKStateData = { state: KKState.Disconnected }
 
-  public onStateChange: any
+  public readonly onStateChange: StateChangeHandler
 
-  constructor(onStateChange: any, onKeyringEvent: any) {
+  constructor(onStateChange: StateChangeHandler, onKeyringEvent: KeyringEventHandler) {
     log.info('KKStateController constructor')
-    this.keyring = new Keyring()
-    this.onStateChange = onStateChange
+    this.onStateChange = onStateChange.bind(this)
 
-    this.keyring.onAny((e: any) => {
-      onKeyringEvent(e)
+    this.keyring = new Keyring()
+    this.keyring.onAny(async (e: unknown) => {
+      await onKeyringEvent.call(this, e)
     })
 
     usb.on('attach', async e => {
       log.info('KKStateController attach')
       if (e.deviceDescriptor.idVendor !== 11044) return
-      this.updateState(PLUGIN, {})
+      await this.updateState({ state: KKState.Plugin })
       await this.syncState()
     })
     usb.on('detach', async e => {
       log.info('KKStateController detach')
       if (e.deviceDescriptor.idVendor !== 11044) return
-      this.updateState(DISCONNECTED, {})
+      await this.updateState({ state: KKState.Disconnected })
     })
   }
 
-  private updateState = async (newState: string, newData: any) => {
-    // TODO event is a bad name, change it to data everywhere its used
-    this.onStateChange(newState, { event: newData })
-    this.lastState = newState
-    this.lastData = newData
+  private async updateState(data: KKStateData) {
+    this.onStateChange(data)
+    this.data = data
   }
 
-  public skipUpdate = async () => {
-    if (this.lastState === UPDATE_FIRMWARE && this.lastData.bootloaderMode) {
-      return await this.updateState(NEEDS_RECONNECT, { ready: false })
+  public async skipUpdate() {
+    if (this.data.state === KKState.UpdateFirmware && this.data.bootloaderMode) {
+      await this.updateState({ state: KKState.NeedsReconnect })
     }
-    await this.updateState(CONNECTED, {
-      ready: true,
-    })
+    await this.updateState({ state: KKState.Connected })
   }
 
-  public syncState = async () => {
+  public async syncState() {
     log.info('KKStateController syncState')
     const latestFirmware = settings.allowBetaFirmware
       ? await getBetaFirmwareData()
       : await getLatestFirmwareData()
     const resultInit = await initializeWallet(this)
     log.info('KKStateController resultInit: ', resultInit)
-    if (resultInit.unplugged) {
+    if ('unplugged' in resultInit && resultInit.unplugged) {
       log.info('KKStateController resultInit.unplugged')
-      this.updateState(DISCONNECTED, {})
-    } else if (!resultInit || !resultInit.success || resultInit.error) {
+      await this.updateState({ state: KKState.Disconnected })
+    } else if (
+      !resultInit ||
+      !('success' in resultInit) ||
+      !resultInit.success ||
+      ('error' in resultInit && resultInit.error)
+    ) {
       log.info('KKStateController HARDWARE_ERROR')
-      this.updateState(HARDWARE_ERROR, { error: resultInit?.error })
+      await this.updateState({
+        state: KKState.HardwareError,
+        error: 'error' in resultInit ? resultInit.error : undefined,
+      })
     } else if (resultInit.bootloaderVersion !== latestFirmware.bootloader.version) {
       log.info('KKStateController UPDATE_BOOTLOADER')
-      this.updateState(UPDATE_BOOTLOADER, {
-        bootloaderUpdateNeeded: true,
-        firmware: resultInit.firmwareVersion,
-        bootloader: resultInit.bootloaderVersion,
+      await this.updateState({
+        state: KKState.UpdateBootloader,
+        firmware: resultInit.firmwareVersion ?? '',
+        bootloader: resultInit.bootloaderVersion ?? '',
         recommendedBootloader: latestFirmware.bootloader.version,
         recommendedFirmware: latestFirmware.firmware.version,
-        bootloaderMode: resultInit.bootloaderMode,
+        bootloaderMode: !!resultInit.bootloaderMode,
       })
     } else if (resultInit.firmwareVersion !== latestFirmware.firmware.version) {
       log.info('KKStateController UPDATE_FIRMWARE')
       log.info('KKStateController UPDATE_FIRMWARE resultInit: ', resultInit)
-      this.updateState(UPDATE_FIRMWARE, {
-        firmwareUpdateNeededNotBootloader: true,
+      await this.updateState({
+        state: KKState.UpdateFirmware,
         firmware: !!resultInit.firmwareVersion ? resultInit.firmwareVersion : 'unknown',
         bootloader: resultInit.bootloaderVersion,
         recommendedBootloader: latestFirmware.bootloader.version,
         recommendedFirmware: latestFirmware.firmware.version,
-        bootloaderMode: resultInit.bootloaderMode,
+        bootloaderMode: !!resultInit.bootloaderMode,
       })
     } else if (!resultInit?.features?.initialized) {
       log.info('KKStateController NEEDS_INITIALIZE')
-      this.updateState(NEEDS_INITIALIZE, {
-        needsInitialize: true,
-      })
+      await this.updateState({ state: KKState.NeedsInitialize })
     } else {
       log.info('KKStateController CONNECTED')
-      this.updateState(CONNECTED, {
-        ready: true,
-      })
+      await this.updateState({ state: KKState.Connected })
     }
   }
 }

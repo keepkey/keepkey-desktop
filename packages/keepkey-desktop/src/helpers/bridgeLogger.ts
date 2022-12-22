@@ -2,13 +2,7 @@ import { app } from 'electron'
 import * as fs from 'fs'
 import path from 'path'
 
-export interface BridgeLog {
-  serviceKey: string
-  body?: any
-  route: string
-  method: string
-  time: number
-}
+import type { BridgeLog } from './types'
 
 export class BridgeLogger {
   private logs: BridgeLog[] = new Array<BridgeLog>()

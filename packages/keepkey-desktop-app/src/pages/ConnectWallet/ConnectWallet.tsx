@@ -6,12 +6,12 @@ import logo from 'assets/kk-icon-gold.png'
 import heroBgImage from 'assets/splash-bg.png'
 import { Page } from 'components/Layout/Page'
 import { RawText, Text } from 'components/Text'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
 import { useQuery } from 'hooks/useQuery/useQuery'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useEffect } from 'react'
 import { useTranslate } from 'react-polyglot'
-import { generatePath, matchPath, useHistory } from 'react-router-dom'
+import { generatePath, matchPath, useHistory } from 'react-router'
 
 export const ConnectWallet = () => {
   const { state, dispatch } = useWallet()
@@ -21,11 +21,7 @@ export const ConnectWallet = () => {
   const query = useQuery<{ returnUrl: string }>()
 
   const debugDevice = async function () {
-    try {
-      ipcRenderer.send('@app/restart', {})
-    } catch (e) {
-      console.error(e)
-    }
+    await ipcListeners.appRestart()
   }
 
   useEffect(() => {

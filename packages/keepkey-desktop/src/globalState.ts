@@ -1,24 +1,17 @@
 import AutoLaunch from 'auto-launch'
-import type { BrowserWindow, IpcMainEvent } from 'electron'
-import log from 'electron-log'
+import type { BrowserWindow } from 'electron'
 import fs from 'fs'
 import * as hidefile from 'hidefile'
 import type { Server } from 'http'
-import nedb from 'nedb'
+import NedbPromises from 'nedb-promises'
 import path from 'path'
 
 import { BridgeLogger } from './helpers/bridgeLogger'
-import {
-  CONNECTED,
-  DISCONNECTED,
-  HARDWARE_ERROR,
-  KKStateController,
-  NEEDS_INITIALIZE,
-} from './helpers/kk-state-controller'
-import { Settings } from './helpers/settings'
-import type { UserType } from './helpers/types'
-import { queueIpcEvent } from './helpers/utils'
-import { startTcpBridge, stopTcpBridge } from './tcpBridge'
+import { KKStateController } from './helpers/kk-state-controller'
+import type { KKStateData } from './helpers/kk-state-controller/types'
+import { KKState } from './helpers/kk-state-controller/types'
+import { SettingsInstance } from './helpers/settings'
+import { rendererIpc } from './ipcListeners'
 import { createAndUpdateTray } from './tray'
 
 export const assetsDirectory = path.join(__dirname, 'assets')
@@ -36,25 +29,8 @@ if (!fs.existsSync(dbDirPath)) {
 }
 hidefile.hideSync(dbDirPath)
 
-export const db = new nedb({ filename: dbPath, autoload: true })
+export const db = NedbPromises.create({ filename: dbPath, autoload: true })
 
-export const shared: {
-  USER: UserType
-  eventIPC: IpcMainEvent | null
-  KEEPKEY_FEATURES: Record<string, unknown>
-} = {
-  USER: {
-    online: false,
-    accounts: [],
-    balances: [],
-  },
-  eventIPC: null,
-  KEEPKEY_FEATURES: {},
-}
-
-db.findOne({ type: 'user' }, (_err, doc) => {
-  if (doc) shared.USER = doc.user
-})
 export let server: Server
 export let setServer = (value: Server) => (server = value)
 
@@ -83,12 +59,10 @@ export const windows: {
   splash: undefined,
 }
 
-export const ipcQueue = new Array<{ eventName: string; args: any }>()
-
 export const isWalletBridgeRunning = () =>
-  kkStateController?.lastState === CONNECTED && tcpBridgeRunning
+  kkStateController.data.state === KKState.Connected && tcpBridgeRunning
 
-export const settings = new Settings()
+export const settings = new SettingsInstance()
 export const bridgeLogger = new BridgeLogger()
 
 export const kkAutoLauncher = new AutoLaunch({
@@ -96,15 +70,19 @@ export const kkAutoLauncher = new AutoLaunch({
 })
 
 export const kkStateController = new KKStateController(
-  async (eventName: string, args: any) => {
-    console.log('KK STATE', eventName)
-    if (eventName === CONNECTED || eventName === NEEDS_INITIALIZE) await startTcpBridge()
-    else if (eventName === DISCONNECTED || eventName === HARDWARE_ERROR) await stopTcpBridge()
+  async function (this: KKStateController, data: KKStateData) {
+    console.log('KK STATE', data)
     createAndUpdateTray()
-    log.info('keepkey state changed: ', eventName, args)
-    return queueIpcEvent(eventName, args)
+    await rendererIpc.updateState(data)
   },
-  (e: any) => {
-    if (e[2] === '18') queueIpcEvent('requestPin', e)
+  async function (this: KKStateController, e: any) {
+    if (e[2] === '18') {
+      const pin = await rendererIpc.modalPin().catch(() => undefined)
+      if (pin) {
+        await this.wallet!.sendPin(pin)
+      } else {
+        await this.wallet!.cancel()
+      }
+    }
   },
 )

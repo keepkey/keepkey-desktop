@@ -19,11 +19,13 @@ const appSource = path.join(
   'build',
 )
 const assetsSource = path.join(workspacePath, 'assets')
+const swaggerUiDistSource = pnpapi.resolveToUnqualified('swagger-ui-dist', workspacePath)!
 
 const apiPath = path.join(buildPath, 'api')
 const appPath = path.join(buildPath, 'app')
 const assetsPath = path.join(buildPath, 'assets')
 const nativeModulesPath = path.join(buildPath, 'native_modules')
+const swaggerUiDistPath = path.join(buildPath, 'swagger-ui-dist')
 
 const sanitizeBuildDir = async () => {
   await fs.promises.rm(buildPath, { recursive: true, force: true })
@@ -32,6 +34,7 @@ const sanitizeBuildDir = async () => {
   await fs.promises.mkdir(appPath, { recursive: true })
   await fs.promises.mkdir(assetsPath, { recursive: true })
   await fs.promises.mkdir(nativeModulesPath, { recursive: true })
+  await fs.promises.mkdir(swaggerUiDistPath, { recursive: true })
 }
 
 const collectDefines = async () => {
@@ -53,6 +56,13 @@ const copyAppDir = async () => {
 
 const copyAssetsDir = async () => {
   await fs.promises.cp(assetsSource, assetsPath, {
+    dereference: true,
+    recursive: true,
+  })
+}
+
+const copySwaggerUiDist = async () => {
+  await fs.promises.cp(swaggerUiDistSource, swaggerUiDistPath, {
     dereference: true,
     recursive: true,
   })
@@ -156,6 +166,7 @@ export const build = async () => {
         ['node_modules/tiny-secp256k1/native.js', 'native_modules/tiny-secp256k1'],
         ['node_modules/fsevents/fsevents.js', 'native_modules/fsevents'],
         ['node_modules/fswin/index.js', 'native_modules/fswin'],
+        ['node_modules/swagger-ui-dist/absolute-path.js', 'swagger-ui-dist'],
       ],
     ),
   )
@@ -184,6 +195,7 @@ export const build = async () => {
     ]),
     copyAppDir(),
     copyAssetsDir(),
+    copySwaggerUiDist(),
     esbuild.then(async x => {
       if (isDev) {
         await fs.promises.writeFile(

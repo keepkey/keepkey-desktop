@@ -1,6 +1,6 @@
 import { Divider, Stack } from '@chakra-ui/layout'
 import { Icon, Switch } from '@chakra-ui/react'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
@@ -9,22 +9,13 @@ import { HiRefresh } from 'react-icons/hi'
 import { IoFileTray } from 'react-icons/io5'
 import { TbRefreshAlert } from 'react-icons/tb'
 
+import type { Settings } from '../../../../../keepkey-desktop/src/helpers/types'
 import { SettingsListItem } from './SettingsListItem'
-
-export type AppSettingsProps = {
-  shouldAutoLunch: boolean
-  shouldAutoStartBridge: boolean
-  shouldMinimizeToTray: boolean
-  shouldAutoUpdate: boolean
-  allowPreRelease: boolean
-  allowBetaFirmware: boolean
-  bridgeApiPort: number
-}
 
 export const AppSettings: FC = () => {
   const { settings } = useModal()
-  const [appSettings, setAppSettings] = useState<AppSettingsProps>({
-    shouldAutoLunch: true,
+  const [appSettings, setAppSettings] = useState<Settings>({
+    shouldAutoLaunch: true,
     shouldAutoStartBridge: true,
     shouldMinimizeToTray: true,
     shouldAutoUpdate: true,
@@ -33,32 +24,32 @@ export const AppSettings: FC = () => {
     bridgeApiPort: 1646,
   })
 
-  const [prevAppSettings, setPrevAppSettings] = useState<AppSettingsProps>(appSettings)
+  const [prevAppSettings, setPrevAppSettings] = useState<Settings>(appSettings)
 
   useEffect(() => {
-    ipcRenderer.on('@app/settings', (_event: any, data: any) => {
-      // console.log('APP SETTINGS RECIEVED', data)
-      setAppSettings(data)
-    })
-  }, [])
+    ;(async () => {
+      if (
+        prevAppSettings &&
+        appSettings.shouldAutoLaunch === prevAppSettings.shouldAutoLaunch &&
+        appSettings.shouldAutoUpdate === prevAppSettings.shouldAutoUpdate &&
+        appSettings.shouldMinimizeToTray === prevAppSettings.shouldMinimizeToTray &&
+        appSettings.allowPreRelease === prevAppSettings.allowPreRelease &&
+        appSettings.allowBetaFirmware === prevAppSettings.allowBetaFirmware
+      )
+        return
+      setPrevAppSettings(appSettings)
+      // console.log('APP SETTINGS SAVED')
 
-  useEffect(() => {
-    if (
-      prevAppSettings &&
-      appSettings.shouldAutoLunch === prevAppSettings.shouldAutoLunch &&
-      appSettings.shouldAutoUpdate === prevAppSettings.shouldAutoUpdate &&
-      appSettings.shouldMinimizeToTray === prevAppSettings.shouldMinimizeToTray &&
-      appSettings.allowPreRelease === prevAppSettings.allowPreRelease &&
-      appSettings.allowBetaFirmware === prevAppSettings.allowBetaFirmware
-    )
-      return
-    setPrevAppSettings(appSettings)
-    // console.log('APP SETTINGS SAVED')
-    ipcRenderer.send('@app/update-settings', appSettings)
+      await ipcListeners.appUpdateSettings(appSettings)
+    })().catch(e => console.error(e))
   }, [appSettings, prevAppSettings])
 
   useEffect(() => {
-    if (settings.isOpen) ipcRenderer.send('@app/settings')
+    ;(async () => {
+      if (settings.isOpen) {
+        setAppSettings(await ipcListeners.appSettings())
+      }
+    })().catch(e => console.error(e))
   }, [settings.isOpen])
 
   return (
@@ -85,13 +76,13 @@ export const AppSettings: FC = () => {
           setAppSettings(currentSettings => {
             return {
               ...currentSettings,
-              shouldAutoLunch: !currentSettings.shouldAutoLunch,
+              shouldAutoLaunch: !currentSettings.shouldAutoLaunch,
             }
           })
         }}
         icon={<Icon as={FaRocket} color='gray.500' />}
       >
-        <Switch isChecked={appSettings.shouldAutoLunch} pointerEvents='none' />
+        <Switch isChecked={appSettings.shouldAutoLaunch} pointerEvents='none' />
       </SettingsListItem>
       <Divider my={1} />
       <SettingsListItem

@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "ts-node --skipProject --swc scripts/getSpec.ts && openapi-generator-cli generate && yarn lint:fix && tsc",
+    "build": "yarn clean && ts-node --skipProject --swc scripts/getSpec.ts && openapi-generator-cli generate && yarn lint:fix && tsc",
     "dev": "yarn build",
     "clean": "rimraf dist src/generated",
     "lint": "eslint -c .eslintrc src --ext .ts,.tsx",

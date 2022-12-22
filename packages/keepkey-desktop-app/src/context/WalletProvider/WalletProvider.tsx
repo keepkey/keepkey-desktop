@@ -4,12 +4,13 @@ import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { Keyring } from '@shapeshiftoss/hdwallet-core'
 import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-walletconnect'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
+import type { Deferred } from 'common-utils'
 import type { Entropy } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { VALID_ENTROPY } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
 import { KeepKeyRoutes } from 'context/WalletProvider/routes'
 import { randomUUID } from 'crypto'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
 import { logger } from 'lib/logger'
 import debounce from 'lodash/debounce'
 import omit from 'lodash/omit'
@@ -98,6 +99,7 @@ export interface InitialState {
   disconnectOnCloseModal: boolean
   keepkeySdk: KeepKeySdk | null
   browserUrl: string | null
+  pinDeferred?: Deferred<string>
 }
 
 const initialState: InitialState = {
@@ -197,7 +199,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
       }
       return newState
     case WalletActions.OPEN_KEEPKEY_PIN: {
-      const { showBackButton, deviceId, pinRequestType } = action.payload
+      const { showBackButton, deviceId, pinRequestType, deferred } = action.payload
       return {
         ...state,
         modal: true,
@@ -206,6 +208,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         deviceId,
         keepKeyPinRequestType: pinRequestType ?? null,
         initialRoute: KeepKeyRoutes.Pin,
+        pinDeferred: deferred,
       }
     }
     case WalletActions.OPEN_KEEPKEY_CHARACTER_REQUEST: {
@@ -310,26 +313,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
   }
 }
 
-function playSound(type: any) {
-  if (type === 'send') {
-    const audio = new Audio(require('../../assets/sounds/send.mp3'))
-    audio.play()
-  }
-  if (type === 'receive') {
-    const audio = new Audio(require('../../assets/sounds/chaching.mp3'))
-    audio.play()
-  }
-  if (type === 'success') {
-    const audio = new Audio(require('../../assets/sounds/success.wav'))
-    audio.play()
-  }
-  if (type === 'fail') {
-    //eww nerf
-    // const audio = new Audio(require('../../assets/sounds/fail.mp3'))
-    // audio.play()
-  }
-}
-
 export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   // External, exposed state to be consumed with useWallet()
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -352,13 +335,14 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   const pairAndConnect = useRef(
     debounce(async () => {
+      console.log('pairAndConnect')
       const sdk = await getsdk()
       const adapters: Adapters = new Map()
       let options: undefined | WalletConnectProviderConfig
       for (const walletName of Object.values(KeyManager)) {
         try {
           const adapter = SUPPORTED_WALLETS[walletName].adapter.useKeyring(state.keyring, options)
-          const wallet = await adapter.pairDevice(sdk, ipcRenderer.send)
+          const wallet = await adapter.pairDevice(sdk)
           adapters.set(walletName, adapter)
           dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
           const { name, icon } = KeepKeyConfig
@@ -394,76 +378,14 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     }
     if (!serviceKey) {
       window.localStorage.setItem('@app/serviceKey', config.serviceKey)
-      ipcRenderer.send('@bridge/add-service', config)
+      await ipcListeners.bridgeAddService(config)
     }
     return await KeepKeySdk.create({
       apiKey: config.serviceKey,
     })
   }
 
-  const startBridgeListeners = useCallback(() => {
-    ipcRenderer.on('@walletconnect/paired', (_event: unknown, data: WalletConnectApp | null) => {
-      dispatch({ type: WalletActions.SET_WALLET_CONNECT_APP, payload: data })
-    })
-
-    //listen to events on main
-    ipcRenderer.on('hardware', (_event: unknown, data: any) => {
-      switch (data.event.event) {
-        case 'connect':
-          playSound('success')
-          break
-        case 'disconnect':
-          playSound('fail')
-          break
-        default:
-      }
-    })
-
-    ipcRenderer.on('needsInitialize', () => {
-      // if needs initialize we do the normal pair process and then web detects that it needs initialize
-      pairAndConnect.current()
-    })
-
-    //HDwallet API
-    //TODO moveme into own file
-    ipcRenderer.on('@hdwallet/osmosisGetAddress', async (_event: unknown, data: any) => {
-      let payload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.osmosisGetAddress(payload)
-        ipcRenderer.send('@hdwallet/response/osmosisGetAddress', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/cosmosSignTx', async (_event: unknown, data: any) => {
-      let HDwalletPayload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.thorchainSignTx(HDwalletPayload)
-        ipcRenderer.send('@hdwallet/cosmosSignTx', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/osmosisSignTx', async (_event: unknown, data: any) => {
-      let HDwalletPayload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.osmosisSignTx(HDwalletPayload)
-        ipcRenderer.send('@hdwallet/response/osmosisSignTx', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('connected', async () => {
-      pairAndConnect.current()
-    })
-
-    //END HDwallet API
-  }, [state.wallet])
-
-  const setupKeepKeySDK = () => {
+  const setupKeepKeySDK = async () => {
     let serviceKey = window.localStorage.getItem('@app/serviceKey')
     let config = {
       serviceName: 'KeepKey Desktop',
@@ -473,22 +395,20 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     }
     if (!serviceKey) {
       window.localStorage.setItem('@app/serviceKey', config.serviceKey)
-      ipcRenderer.send('@bridge/add-service', config)
+      await ipcListeners.bridgeAddService(config)
     }
-    KeepKeySdk.create({
-      apiKey: config.serviceKey,
-    })
-      .then(sdk => {
-        dispatch({ type: WalletActions.SET_KEEPKEY_SDK, payload: sdk })
+    try {
+      const sdk = await KeepKeySdk.create({
+        apiKey: config.serviceKey,
       })
-      .catch(e => {
-        console.error('GET KEEPKEYSDK ERROR', e)
-      })
+      dispatch({ type: WalletActions.SET_KEEPKEY_SDK, payload: sdk })
+    } catch (e) {
+      console.error('GET KEEPKEYSDK ERROR', e)
+    }
   }
 
   useEffect(() => {
     disconnect()
-    startBridgeListeners()
     setupKeepKeySDK()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

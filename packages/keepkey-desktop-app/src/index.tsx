@@ -2,7 +2,7 @@ import 'lib/polyfills'
 
 import { App } from 'App'
 import { AppProviders } from 'AppProviders'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
 import unhandled from 'electron-unhandled'
 import { renderConsoleArt } from 'lib/consoleArt'
 import { logger } from 'lib/logger'
@@ -12,10 +12,7 @@ import { createRoot } from 'react-dom/client'
 
 unhandled()
 
-ipcRenderer.send('@app/version')
-ipcRenderer.on('@app/version', (_event: unknown, version: string) => {
-  document.title = `KeepKey Desktop (v${version})`
-})
+ipcListeners.appVersion().then(version => (document.title = `KeepKey Desktop (v${version})`))
 
 const root = createRoot(document.getElementById('root')!)
 

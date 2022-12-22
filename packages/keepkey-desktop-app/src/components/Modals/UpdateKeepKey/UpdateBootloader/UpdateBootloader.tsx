@@ -12,15 +12,18 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { RawText } from 'components/Text'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
 import { useState } from 'react'
 
-export const UpdateBootloader = (params: any) => {
+import type { KKStateData } from '../../../../../../keepkey-desktop/src/helpers/kk-state-controller/types'
+import { KKState } from '../../../../../../keepkey-desktop/src/helpers/kk-state-controller/types'
+
+export const UpdateBootloader = (params: Record<string, never> | KKStateData) => {
   const [loading, setLoading] = useState(false)
 
   const onAcceptUpdate = async () => {
     setLoading(true)
-    ipcRenderer.send('@keepkey/update-bootloader', {})
+    await ipcListeners.keepkeyUpdateBootloader()
   }
 
   return (
@@ -46,8 +49,8 @@ export const UpdateBootloader = (params: any) => {
         </Tbody>
         <Tbody>
           <Tr>
-            <Td>{params?.event?.bootloader}</Td>
-            <Td>{params?.event?.recommendedBootloader}</Td>
+            <Td>{params?.state === KKState.UpdateBootloader && params.bootloader}</Td>
+            <Td>{params?.state === KKState.UpdateBootloader && params.recommendedBootloader}</Td>
           </Tr>
         </Tbody>
       </Table>

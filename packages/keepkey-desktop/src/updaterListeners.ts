@@ -1,11 +1,11 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import isDev from 'electron-is-dev'
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 import path from 'path'
 import { sleep } from 'wait-promise'
 
-import { isLinux, settings, shouldShowWindow, windows } from './globalState'
+import { isLinux, shouldShowWindow, windows } from './globalState'
 import { createMainWindow } from './helpers/utils'
 
 export const [updateComplete, setUpdateComplete] = (() => {
@@ -61,23 +61,6 @@ export const startUpdaterListeners = () => {
     if (skipUpdateCheckCompleted) return
     if (!windows.splash) return
     await skipUpdateCheck(windows.splash)
-  })
-
-  ipcMain.on('@app/update', async event => {
-    if (isDev)
-      return event.sender.send('@app/update', { updateInfo: { version: app.getVersion() } })
-    const update = await autoUpdater.checkForUpdates()
-    autoUpdater.autoDownload = settings.shouldAutoUpdate
-    event.sender.send('@app/update', update)
-  })
-
-  ipcMain.on('@app/download-updates', async event => {
-    await autoUpdater.downloadUpdate()
-    event.sender.send('@app/download-updates')
-  })
-
-  ipcMain.on('@app/install-updates', async () => {
-    autoUpdater.quitAndInstall()
   })
 }
 

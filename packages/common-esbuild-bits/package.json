@@ -7,7 +7,6 @@
     "lint:fix": "yarn lint --fix"
   },
   "dependencies": {
-    "dotenv": "^16.0.3",
     "esbuild": "^0.15.14",
     "esbuild-plugin-resolve": "^1.0.3",
     "glob": "^8.0.3"

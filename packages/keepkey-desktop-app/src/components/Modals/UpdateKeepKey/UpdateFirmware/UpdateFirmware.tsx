@@ -12,29 +12,23 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { RawText } from 'components/Text'
-import { ipcRenderer } from 'electron-shim'
-import { useModal } from 'hooks/useModal/useModal'
-import { useEffect, useState } from 'react'
+import { ipcListeners } from 'electron-shim'
+import { useState } from 'react'
 
-export const UpdateFirmware = (params: any) => {
-  const { requestBootloaderMode } = useModal()
+import type { KKStateData } from '../../../../../../keepkey-desktop/src/helpers/kk-state-controller/types'
+import { KKState } from '../../../../../../keepkey-desktop/src/helpers/kk-state-controller/types'
 
+export const UpdateFirmware = (params: Record<string, never> | KKStateData) => {
   const [loading, setLoading] = useState(false)
 
   const onAcceptUpdate = async () => {
     setLoading(true)
-    ipcRenderer.send('@keepkey/update-firmware', {})
+    await ipcListeners.keepkeyUpdateFirmware()
   }
 
   const onSkipUpdate = async () => {
-    ipcRenderer.send('@keepkey/skip-update')
+    await ipcListeners.keepkeySkipUpdate()
   }
-
-  useEffect(() => {
-    if (!params?.event?.bootloaderMode) requestBootloaderMode.open({ ...params.event })
-    if (params?.event?.needsInitialize) requestBootloaderMode.close()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.event])
 
   return (
     <ModalBody pt={5}>
@@ -53,12 +47,14 @@ export const UpdateFirmware = (params: any) => {
         </Thead>
         <Tbody>
           <Tr>
+            <Td>Current</Td>
             <Td>Recommended</Td>
           </Tr>
         </Tbody>
         <Tbody>
           <Tr>
-            <Td>{params?.event?.recommendedFirmware}</Td>
+            <Td>{params?.state === KKState.UpdateFirmware && params.firmware}</Td>
+            <Td>{params?.state === KKState.UpdateFirmware && params.recommendedFirmware}</Td>
           </Tr>
         </Tbody>
       </Table>

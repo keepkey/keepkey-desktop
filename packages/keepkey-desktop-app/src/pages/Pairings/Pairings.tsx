@@ -5,26 +5,12 @@ import { Main } from 'components/Layout/Main'
 import { RawText, Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import dayjs from 'dayjs'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 
-export type PairedAppProps = {
-  addedOn: number
-  serviceName: string
-  serviceImageUrl: string
-  serviceKey: string
-  isKeepKeyDesktop?: boolean
-}
-
-export type PairingProps = {
-  addedOn: number
-  serviceName: string
-  serviceImageUrl: string
-  serviceHomePage?: string
-  pairingType: 'walletconnect' | 'sdk'
-}
+import type { PairedAppProps, PairingProps } from './types'
 
 const PairingsHeader = () => {
   return (
@@ -42,25 +28,23 @@ export const Pairings = () => {
   const history = useHistory()
 
   useEffect(() => {
-    ipcRenderer.send('@bridge/paired-apps')
-    ipcRenderer.send('@app/pairings')
-    ipcRenderer.on('@bridge/paired-apps', (_event: unknown, data: PairedAppProps[]) => {
+    ipcListeners.bridgePairedApps().then((data: PairedAppProps[]) => {
       setApps(data)
     })
-    ipcRenderer.on('@app/pairings', (_event: unknown, data: PairingProps[]) => {
+    ipcListeners.appPairings().then((data: PairingProps[]) => {
       setPairings(data)
     })
   }, [])
 
-  const unpair = (app: PairedAppProps) => {
+  const unpair = async (app: PairedAppProps) => {
     if (app.isKeepKeyDesktop) return
-    ipcRenderer.send('@bridge/remove-service', app)
-    ipcRenderer.send('@bridge/paired-apps')
+    await ipcListeners.bridgeRemoveService(app)
+    setApps(await ipcListeners.bridgePairedApps())
   }
 
-  const unpairAll = useCallback(() => {
+  const unpairAll = useCallback(async () => {
     if (!apps) return
-    apps.forEach(unpair)
+    await Promise.all(apps.map(unpair))
   }, [apps])
 
   return (

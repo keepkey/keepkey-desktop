@@ -15,7 +15,7 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import { useEffect } from 'react'
 import { useHistory } from 'react-router'
 
-export const HardwareErrorModal = (error: any) => {
+export const HardwareErrorModal = (error: { errorCode?: number; needsReconnect?: boolean }) => {
   const { hardwareError } = useModal()
   const { isUpdatingKeepkey } = useWallet()
   const { close, isOpen } = hardwareError
@@ -36,10 +36,6 @@ export const HardwareErrorModal = (error: any) => {
     close()
   }
 
-  // const retryPair = useCallback(async () => {
-  //   pairAndConnect.current()
-  // }, [pairAndConnect])
-  // needsReconnect
   return (
     <Modal
       isOpen={isOpen && !isUpdatingKeepkey}

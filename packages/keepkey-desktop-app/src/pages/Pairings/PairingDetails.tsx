@@ -3,12 +3,12 @@ import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
 import { RawText, Text } from 'components/Text'
 import dayjs from 'dayjs'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
 import { useEffect, useState } from 'react'
 import { FaClipboard } from 'react-icons/fa'
 import { useParams } from 'react-router'
 
-import type { PairedAppProps } from './Pairings'
+import type { PairedAppProps } from './types'
 
 export interface BridgeLog {
   serviceKey: string
@@ -27,15 +27,13 @@ export const PairingDetails = () => {
     if (!params || !params.serviceKey) return
     const serviceKey: string = params.serviceKey
 
-    ipcRenderer.send('@bridge/service-details', serviceKey)
-  }, [params])
-
-  useEffect(() => {
-    ipcRenderer.on('@bridge/service-details', (_event: unknown, data: any) => {
-      setApp(data.app)
-      setLogs(data.logs)
+    ipcListeners.bridgeServiceDetails(serviceKey).then(data => {
+      if (data) {
+        setApp(data.app)
+        setLogs(data.logs)
+      }
     })
-  }, [])
+  }, [params])
 
   const copy = async (data: string) => {
     await navigator.clipboard.writeText(data)

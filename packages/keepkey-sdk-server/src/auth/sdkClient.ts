@@ -11,7 +11,7 @@ export type SdkClient = {
   wallet: KeepKeyHDWallet
 }
 
-export type SdkClientFactory = (apiKey: string) => Promise<SdkClient>
+export type SdkClientFactory = (apiKey: string) => Promise<SdkClient | undefined>
 
 export const [getSdkClientFactory, setSdkClientFactory] = (() => {
   let resolver: (_: SdkClientFactory) => void

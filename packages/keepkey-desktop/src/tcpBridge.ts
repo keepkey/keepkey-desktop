@@ -42,7 +42,7 @@ export const startTcpBridge = async (port?: number) => {
 
   addMiddleware(logger)
   setSdkClientFactory(async (apiKey: string) => {
-    const doc = await util.promisify(db.findOne.bind(db))({ type: 'service', serviceKey: apiKey })
+    const doc = await db.findOne({ type: 'service', serviceKey: apiKey })
     if (!doc) return undefined
 
     const wallet = kkStateController.wallet
@@ -71,8 +71,12 @@ export const stopTcpBridge = async () => {
 
   if (server) {
     log.info('Stopping TCP bridge...')
-    await util.promisify(server.close)()
-    log.info('TCP bridge stopped.')
+    try {
+      await util.promisify(server.close)()
+      log.info('TCP bridge stopped.')
+    } catch (e) {
+      log.warn('Error stopping TCP bridge:', e)
+    }
   }
 
   setTcpBridgeRunning(false)
