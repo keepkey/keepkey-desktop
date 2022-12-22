@@ -3,7 +3,11 @@ import type LegacyWalletConnect from '@walletconnect/client'
 import { Buffer } from 'buffer'
 import { ipcRenderer } from 'electron-shim'
 import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
+import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
+import { logger } from 'lib/logger'
+
+const moduleLogger = logger.child({ namespace: ['WalletConnect', 'Service'] })
 
 const addressNList = core.bip32ToAddressNList("m/44'/60'/0'/0/0")
 
@@ -19,10 +23,7 @@ export class LegacyWCService {
   ) {}
 
   async connect() {
-    console.log("connecting")
-    console.log(this.connector)
     if (!this.connector.connected) {
-      console.log("Creating session")
       await this.connector.createSession()
     }
     this.subscribeToEvents()
@@ -44,7 +45,6 @@ export class LegacyWCService {
   }
 
   async _onSessionRequest(_: Error | null, payload: any) {
-    console.log("Session request", payload)
     const address = await this.wallet.ethGetAddress({ addressNList, showDisplay: false })
     if (address) {
       this.connector.approveSession({
@@ -56,7 +56,6 @@ export class LegacyWCService {
 
   async _onConnect() {
     if (this.connector.connected && this.connector.peerMeta) {
-      console.log("On connect wc")
       ipcRenderer.send('@walletconnect/pairing', {
         serviceName: this.connector.peerMeta.name,
         serviceImageUrl: this.connector.peerMeta.icons[0],
@@ -78,7 +77,7 @@ export class LegacyWCService {
       chainId: payload.params[0].chainId,
       accounts: payload.params[0].accounts,
     })
-    const web3Stuff = web3ByChainId(chainId)
+    const web3Stuff = await web3ByChainId(parseInt(payload.params[0].chainId, 16))
     if (!web3Stuff) throw new Error('no data for chainId')
     this.connector.updateChain({
       chainId: payload.params[0].chainId,
@@ -88,27 +87,39 @@ export class LegacyWCService {
     })
   }
 
-  public doSwitchChain({ chainId }: { chainId: number }) {
-    const web3Stuff = web3ByChainId(chainId)
-    if (!web3Stuff) throw new Error('no data for chainId')
+  public async doSwitchChain({ chain }: { chain: EthChainData }) {
+    if (!chain) throw new Error('no data for chainId')
     this.connector.updateChain({
-      chainId,
-      networkId: chainId,
-      rpcUrl: web3Stuff.providerUrl,
-      nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol },
+      chainId: chain.chainId,
+      networkId: chain.chainId,
+      rpcUrl: chain.providerUrl,
+      nativeCurrency: { name: chain.name, symbol: chain.symbol },
     })
     this.connector.updateSession({
-      chainId,
+      chainId: chain.chainId,
       accounts: this.connector.accounts,
     })
   }
 
-  public async approve(request: any, txData: TxData) {
+  public async approve(request: any, txData: TxData, web3: EthChainData) {
     if (request.method === 'personal_sign') {
+      let message
+      const strip0x = (inputHexString: string) =>
+        inputHexString.startsWith('0x')
+          ? inputHexString.slice(2, inputHexString.length)
+          : inputHexString
+
+      if (request.payload && request.payload.params[0])
+        message = Buffer.from(strip0x(request.payload.params[0]), 'hex').toString('utf8')
+      if (request.params && request.params[0])
+        message = Buffer.from(strip0x(request.params[0]), 'hex').toString('utf8')
+
+      if (!message) throw Error('failed to parse message!')
+
       const response = await this.wallet.ethSignMessage({
         ...txData,
         addressNList,
-        message: this.convertHexToUtf8IfPossible(request.params[0]),
+        message,
       })
       const result = response?.signature
       this.connector.approveRequest({ id: request.id, result })
@@ -134,9 +145,8 @@ export class LegacyWCService {
 
       const signedData = await this.wallet.ethSignTx?.(sendData)
 
-      const chainWeb3 = web3ByChainId(this.connector.chainId) as any
-      await chainWeb3.web3.eth.sendSignedTransaction(signedData?.serialized)
-      const txid = await chainWeb3.web3.utils.sha3(signedData?.serialized)
+      await web3.web3.eth.sendSignedTransaction(signedData?.serialized ?? '')
+      const txid = web3.web3.utils.sha3(signedData?.serialized)
 
       this.connector.approveRequest({ id: request.id, result: txid })
     } else if (request.method === 'eth_signTransaction') {
@@ -151,7 +161,26 @@ export class LegacyWCService {
       })
       const result = response?.serialized
       this.connector.approveRequest({ id: request.id, result })
+    } else if (request.method === 'eth_signTypedData') {
+      if (!this.wallet) throw Error('wallet not init!')
+      if (!this.wallet.ethSignTypedData) throw Error('wallet not latest version ethSignTypedData!')
+      // TODO: verify param[0] matches given address
+
+      const response = await this.wallet.ethSignTypedData({
+        addressNList,
+        typedData: JSON.parse(request.params[1]),
+      })
+      moduleLogger.info(response, 'response')
+      //res?.signature
+      //res?.address
+      //res?.domainSeparatorHash
+      //res?.messageHash
+      this.connector.approveRequest({
+        id: request.id,
+        result: response?.signature,
+      })
     } else {
+      console.error('Method Not Supported! e: ', request.method)
       const message = 'JSON RPC method not supported'
       this.connector.rejectRequest({ id: request.id, error: { message } })
     }

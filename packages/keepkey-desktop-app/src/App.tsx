@@ -45,7 +45,7 @@ export const App = () => {
   // get whether or not bridge is connected for hardwareError modal
   useEffect(() => {
     if (connected === null) {
-      ipcRenderer.on('@bridge/connected', (_event, _connected: boolean) => {
+      ipcRenderer.on('@bridge/connected', (_event: any, _connected: boolean) => {
         setConnected(_connected)
         setIsUpdatingKeepkey(false)
       })
@@ -63,7 +63,7 @@ export const App = () => {
       hardwareError.close()
     })
 
-    ipcRenderer.on('connected', async (_event, _data) => {
+    ipcRenderer.on('connected', async (_event: any, _data: any) => {
       setConnected(true)
       hardwareError.close()
     })
@@ -94,11 +94,11 @@ export const App = () => {
       loading.close()
     })
 
-    ipcRenderer.on('@modal/pair', (_event, data: PairingProps) => {
+    ipcRenderer.on('@modal/pair', (_event: any, data: PairingProps) => {
       pair.open(data)
     })
 
-    ipcRenderer.on('needsInitialize', (_event, data) => {
+    ipcRenderer.on('needsInitialize', (_event: any, data: any) => {
       console.log('NEEDS INITIALIZE')
 
       closeAllModals()

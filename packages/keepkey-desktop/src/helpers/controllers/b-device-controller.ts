@@ -7,6 +7,7 @@ import {
   deviceBusyWrite,
 } from '../../globalState'
 import type { WriteBody } from '../types'
+import log from 'electron-log'
 
 export let lastReadTime = 0
 export let lastWriteTime = 0
@@ -33,11 +34,12 @@ export class BDeviceController extends Controller {
     try {
       lastReadTime = Date.now()
       setDeviceBusyRead(true)
-      // console.log('readDevice')
       let resp = (await kkStateController.transport?.readChunk()) ?? ''
       setDeviceBusyRead(false)
+      const data = Buffer.from(resp as any).toString('hex')
+      log.debug('readDevice', data)
       return {
-        data: Buffer.from(resp as any).toString('hex'),
+        data,
       }
     } catch (e) {
       setDeviceBusyRead(false)
@@ -52,7 +54,7 @@ export class BDeviceController extends Controller {
     try {
       lastWriteTime = Date.now()
       setDeviceBusyWrite(true)
-      // console.log('writeDevice')
+      log.debug('writeDevice', body.data)
       let msg = Buffer.from(body.data, 'hex') ?? ''
       kkStateController.transport?.writeChunk(msg)
       setDeviceBusyWrite(false)

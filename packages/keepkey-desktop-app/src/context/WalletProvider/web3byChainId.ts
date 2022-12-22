@@ -1,4 +1,7 @@
+import type { MergedServiceType } from 'components/Modals/ChainSelector/mergeServices'
+import { mergeServices } from 'components/Modals/ChainSelector/mergeServices'
 import { getConfig } from 'config'
+import { getPioneerClient } from 'lib/getPioneerCleint'
 import Web3 from 'web3'
 
 export type EthChainData = {
@@ -8,6 +11,8 @@ export type EthChainData = {
   symbol: string
   name: string
   coinGeckoId: string
+  service?: MergedServiceType
+  serviceIdx?: number
 }
 
 export const supportedChains: EthChainData[] = [
@@ -59,8 +64,37 @@ export const supportedChains: EthChainData[] = [
     name: 'Gnosis',
     coinGeckoId: 'xdai',
   },
+  {
+    chainId: 56,
+    providerUrl: `https://bsc-dataseed.binance.org`,
+    web3: new Web3(new Web3.providers.HttpProvider(`https://bsc-dataseed.binance.org`)),
+    symbol: 'BNB',
+    name: 'Binance Smart Chain Mainnet',
+    coinGeckoId: 'bnb',
+  },
 ]
 
-export const web3ByChainId = (chainId: number) => {
-  return supportedChains.find(chain => chain.chainId === chainId)
+export const web3ByChainId = async (chainId: number): Promise<EthChainData | undefined> => {
+  const pioneer = await getPioneerClient()
+  let chains = await pioneer.SearchByNetworkId({ chainId })
+  const services = mergeServices(chains.data)
+  if (services.length === 0) return
+  return {
+    ...services[0],
+    providerUrl: services[0].services[0].url,
+    web3: new Web3(new Web3.providers.HttpProvider(services[0].services[0].url)),
+    serviceIdx: 0,
+    coinGeckoId: services[0].name.toLowerCase(),
+  }
+}
+
+export const web3ByServiceType = (service: MergedServiceType, serviceIdx = 0) => {
+  return {
+    ...service,
+    providerUrl: service.services[serviceIdx].url,
+    web3: new Web3(new Web3.providers.HttpProvider(service.services[serviceIdx].url)),
+    coinGeckoId: service.name.toLowerCase(),
+    serviceIdx,
+    service,
+  }
 }

@@ -1,4 +1,5 @@
 import type { CoreTypes } from '@walletconnect/types'
+import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import type { LegacyWCService } from 'kkdesktop/walletconnect'
 import { createContext, useContext } from 'react'
 
@@ -18,6 +19,8 @@ type WalletConnectBridgeContextValue = {
   isLegacy: boolean
   currentSessionTopic: string | undefined
   isConnected: boolean
+  legacyWeb3: EthChainData | undefined
+  setLegacyWeb3: (data: EthChainData | undefined) => void
 }
 
 export const WalletConnectBridgeContext = createContext<WalletConnectBridgeContextValue>({
@@ -36,6 +39,8 @@ export const WalletConnectBridgeContext = createContext<WalletConnectBridgeConte
   isLegacy: false,
   currentSessionTopic: undefined,
   isConnected: false,
+  legacyWeb3: undefined,
+  setLegacyWeb3: () => 0,
 })
 
 export function useWalletConnect() {

@@ -1,50 +1,32 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { MenuGroup } from '@chakra-ui/menu'
-import { Box, HStack, MenuDivider, MenuItem, Select, VStack } from '@chakra-ui/react'
-import dayjs from 'dayjs'
+import { Box, Button, HStack, MenuDivider, MenuItem, VStack } from '@chakra-ui/react'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import type { FC } from 'react'
 import { useEffect } from 'react'
-import { useCallback, useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { RawText, Text } from 'components/Text'
 
 import { DappAvatar } from './DappAvatar'
-import { supportedChains } from 'context/WalletProvider/web3byChainId'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { getSdkError } from '@walletconnect/utils'
+import { useModal } from 'hooks/useModal/useModal'
+import { HiSwitchVertical } from 'react-icons/hi'
 
 export const DappHeaderMenuSummary: FC = () => {
   const translate = useTranslate()
+  const { chainSelector } = useModal()
 
   const walletConnect = useWalletConnect()
-
-  const initialChainSelection = useMemo(
-    () =>
-      supportedChains.findIndex(
-        chain => chain?.chainId === walletConnect?.legacyBridge?.connector?.chainId,
-      ),
-    [walletConnect?.legacyBridge?.connector?.chainId],
-  )
 
   const [chainName, setChainName] = useState<string>()
 
   useEffect(() => {
-    if (!initialChainSelection) return
-    const chain = supportedChains[initialChainSelection]
-    if (chain) setChainName(chain.name)
-  }, [initialChainSelection])
-
-  const onChainClick = useCallback(
-    (event: any) => {
-      walletConnect.legacyBridge?.doSwitchChain({
-        chainId: supportedChains[event.target.value].chainId,
-      })
-      setChainName(supportedChains[event.target.value].name)
-    },
-    [walletConnect.legacyBridge],
-  )
+    if (!walletConnect.legacyWeb3) return
+    if (walletConnect.legacyWeb3.service) setChainName(walletConnect.legacyWeb3.service.name)
+  }, [walletConnect.legacyWeb3])
 
   if (!walletConnect || !walletConnect.dapp) return null
 
@@ -99,13 +81,10 @@ export const DappHeaderMenuSummary: FC = () => {
         )}
       </VStack>
       <MenuDivider />
-
       {walletConnect.isLegacy && (
-        <Select defaultValue={initialChainSelection} variant='outline' onChange={onChainClick}>
-          {supportedChains.map((chain, index) => (
-            <option value={index}>{chain.name}</option>
-          ))}
-        </Select>
+        <Button leftIcon={<HiSwitchVertical />} onClick={() => chainSelector.open({})}>
+          {chainName}
+        </Button>
       )}
       <MenuDivider />
       <MenuItem
@@ -114,7 +93,7 @@ export const DappHeaderMenuSummary: FC = () => {
         onClick={() => {
           walletConnect.onDisconnect()
           if (walletConnect.isLegacy) {
-            walletConnect?.legacyBridge?.disconnect
+            walletConnect?.legacyBridge?.disconnect()
           } else {
             WalletConnectSignClient.disconnect({
               topic: walletConnect.currentSessionTopic ?? '',

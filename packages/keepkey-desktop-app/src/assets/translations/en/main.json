@@ -61,6 +61,7 @@
     "viewAsset": "View Asset",
     "settings": "Settings",
     "joinDiscord": "Support",
+    "getSupport": "Need More help? Get Live Support",
     "legalDated": "Dated: January 2022",
     "approveOnWallet": "Approve On Wallet",
     "confirmOnWallet": "Confirm On Wallet",
@@ -76,18 +77,11 @@
     "txId": "Tx ID",
     "selectAsset": "Select an Asset",
     "switchNetwork": "Switch Network",
-    "unsupportedNetwork": "Unsupported Network",
-    "chartUnavailable": "Balance chart data is temporarily unavailable for %{unavailableAssetNames}."
+    "unsupportedNetwork": "Unsupported Network"
   },
   "updateToast": {
     "body": "A new version of the app is available",
-    "cta": "Reload App",
-    "keepKey": {
-      "title": "KeepKey Update Available",
-      "newUpdateAvailable": "A new KeepKey update is available.",
-      "downloadCta": "Download Update",
-      "updateRequiredForFeature": "This update is required to support %{feature}"
-    }
+    "cta": "Reload App"
   },
   "multiCurrency": {
     "toast": {
@@ -163,7 +157,7 @@
     "header": "Please connect a wallet to get started",
     "cta": "Connect Wallet",
     "viewADemo": "View a Demo",
-    "buyKeepKey": "Buy a KeepKey"
+    "buyKeepKey": "No device? Buy a KeepKey"
   },
   "connectWallet": {
     "menu": {
@@ -593,7 +587,7 @@
         "headerError": "Hardware Error!",
         "headerReconnect": "Please reconnect your keepkey",
         "headerConnect": "No Device Found!",
-        "troubleshoot": "Troubleshoot",
+        "troubleshoot": "Device connected? Troubleshoot",
         "connect": "Please connect or reconnect your KeepKey to continue.",
         "reconnect": "Please disconnect, and reconnect your KeepKey to continue."
       },
@@ -919,7 +913,7 @@
       "minimizeToTray": "Minimize to tray",
       "autoUpdate": "Automatically install updates",
       "downloadPreRelease": "Download pre release builds",
-      "allowBetaFirmware": "Download beta KeepKey Firmware/Bootloaders",
+      "allowBetaFirmware": "Download beta KeepKey Firmware",
       "currencies": {
         "CNY": "Chinese Yuan",
         "USD": "United States Dollar (default)",
@@ -941,6 +935,10 @@
         "SGD": "Singapore Dollar",
         "ILS": "Israeli Shekel",
         "IDR": "Indonesian Rupiah"
+      },
+      "tabs": {
+        "general": "General",
+        "app": "App"
       }
     },
     "mobileWelcome": {

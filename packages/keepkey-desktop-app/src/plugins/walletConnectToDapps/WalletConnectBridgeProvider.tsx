@@ -12,6 +12,9 @@ import type { CoreTypes, SignClientTypes } from '@walletconnect/types'
 import { SessionProposalModal } from './components/modal/callRequest/SessionProposalModal'
 import { WalletConnectLogic } from 'WalletConnectLogic'
 import LegacyWalletConnect from '@walletconnect/client'
+import type { EthChainData } from 'context/WalletProvider/web3byChainId'
+import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
+import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
 
 export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children }) => {
   const wallet = useWallet().state.wallet
@@ -20,6 +23,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
   const [currentSessionTopic, setCurrentSessionTopic] = useState<string>()
   const [isLegacy, setIsLegacy] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
+  const [legacyWeb3, setLegacyWeb3] = useState<EthChainData>()
 
   const [requests, setRequests] = useState<any[]>([])
   const [proposals, setProposals] = useState<SignClientTypes.EventArguments['session_proposal'][]>(
@@ -59,6 +63,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     setIsConnected(false)
     setCurrentSessionTopic(undefined)
     setPairingMeta(undefined)
+    setLegacyWeb3(undefined)
   }, [isLegacy, legacyBridge])
 
   useEffect(() => {
@@ -85,6 +90,8 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         setIsLegacy(true)
         setIsConnected(true)
         if (wc.connector.peerMeta) setPairingMeta(wc.connector.peerMeta)
+        if (wc.connector.chainId) web3ByChainId(Number(wc.connector.chainId)).then(setLegacyWeb3)
+
         rerender()
       })
       wc.connector.on('disconnect', () => {
@@ -95,15 +102,22 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         rerender()
       })
       wc.connector.on('wallet_switchEthereumChain', (_, e) => {
+        const chainId = parseInt(e.params[0].chainId, 16)
         toast({
           title: 'Wallet Connect',
-          description: `Switched to chainId ${e.params[0].chainId}`,
+          description: `Switched to chainId ${chainId}`,
           isClosable: true,
+        })
+        web3ByChainId(chainId).then(web3 => {
+          if (!web3) return
+          if (legacyWeb3 === undefined) return setLegacyWeb3(web3)
+          if (legacyWeb3.chainId === chainId && web3.service)
+            return setLegacyWeb3(web3ByServiceType(web3.service))
         })
         rerender()
       })
     },
-    [addRequest, rerender, toast],
+    [addRequest, rerender, toast, legacyWeb3],
   )
 
   // connects to given URI or attempts previous connection
@@ -113,7 +127,6 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         if (isLegacy && isConnected) await legacyBridge?.disconnect()
         const wc = await getWalletConnect(wallet as ETHWallet, uri)
         if (wc instanceof LegacyWCService) {
-          console.log('Legacy wallet connect')
           setIsLegacy(true)
           setLegcyEvents(wc)
           await wc.connect()
@@ -134,17 +147,21 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         setLegcyEvents(bridgeFromSession)
         await bridgeFromSession.connect()
         setIsConnected(bridgeFromSession.connector.connected)
+        web3ByChainId(Number(bridgeFromSession.connector.chainId)).then(setLegacyWeb3)
         if (bridgeFromSession.connector.peerMeta)
           setPairingMeta(bridgeFromSession.connector.peerMeta)
+
         setLegacyBridge(bridgeFromSession)
       }
     },
-    [wallet, setLegcyEvents],
+    [isConnected, isLegacy, legacyBridge, setLegcyEvents, wallet],
   )
 
   useEffect(() => {
+    if (!wallet) return
     connect()
-  }, [connect])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wallet])
 
   const dapp = pairingMeta
 
@@ -169,6 +186,8 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         requests,
         addRequest,
         setPairingMeta,
+        legacyWeb3,
+        setLegacyWeb3,
       }}
     >
       <WalletConnectLogic />

@@ -13,13 +13,16 @@ import {
 } from '@chakra-ui/react'
 import { Buffer } from 'buffer'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { RawText, Text } from 'components/Text'
 
 import { AddressSummaryCard } from './AddressSummaryCard'
+
+const strip0x = (inputHexString: string) =>
+  inputHexString.startsWith('0x') ? inputHexString.slice(2, inputHexString.length) : inputHexString
 
 export const SignMessageConfirmation = () => {
   const translate = useTranslate()
@@ -28,18 +31,29 @@ export const SignMessageConfirmation = () => {
   const walletConnect = useWalletConnect()
 
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
 
-  const { legacyBridge, requests, removeRequest } = useWalletConnect()
+  const { legacyBridge, requests, removeRequest, legacyWeb3 } = useWalletConnect()
   const toast = useToast()
 
   const currentRequest = requests[0]
-  const message = Buffer.from(currentRequest.payload.params[0], 'hex').toString('utf8')
+
+  useEffect(() => {
+    if (!currentRequest) return
+    if (currentRequest.payload && currentRequest.payload.params[0])
+      setMessage(Buffer.from(strip0x(currentRequest.payload.params[0]), 'hex').toString('utf8'))
+    if (currentRequest.params && currentRequest.params[0])
+      setMessage(Buffer.from(strip0x(currentRequest.params[0]), 'hex').toString('utf8'))
+  }, [currentRequest])
 
   const onConfirm = useCallback(
     async (txData: any) => {
+      if (!legacyWeb3) return
       try {
         setLoading(true)
-        await legacyBridge?.approve(requests[0], txData).then(() => removeRequest(currentRequest.id))
+        await legacyBridge
+          ?.approve(requests[0], txData, legacyWeb3)
+          .then(() => removeRequest(currentRequest.id))
         removeRequest(currentRequest.id)
       } catch (e) {
         toast({
@@ -51,7 +65,7 @@ export const SignMessageConfirmation = () => {
         setLoading(false)
       }
     },
-    [legacyBridge, currentRequest.id, removeRequest, requests, toast],
+    [legacyBridge, currentRequest.id, removeRequest, requests, toast, legacyWeb3],
   )
 
   const onReject = useCallback(async () => {

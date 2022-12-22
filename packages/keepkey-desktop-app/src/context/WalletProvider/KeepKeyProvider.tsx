@@ -1,14 +1,5 @@
 import type { ToastId } from '@chakra-ui/react'
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-  Box,
-  CloseButton,
-  Link,
-  Text,
-  useToast,
-} from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
 import type { Asset } from '@keepkey/asset-service'
 import type { Features } from '@keepkey/device-protocol/lib/messages_pb'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
@@ -24,7 +15,6 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { RiFlashlightLine } from 'react-icons/ri'
 import { useTranslate } from 'react-polyglot'
 import Web3 from 'web3'
 import type { RadioOption } from 'components/Radio/Radio'
@@ -42,8 +32,6 @@ export enum DeviceTimeout {
   FortyFiveMinutes = '2700000',
   SixtyMinutes = '3600000',
 }
-
-const KEEPKEY_TOAST_ID = 'update-available'
 
 export const timeoutOptions: readonly RadioOption<DeviceTimeout>[] = Object.freeze([
   {
@@ -252,50 +240,6 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
     if (!keepKeyWallet) return
     ;(async () => {
       if (!versions || !updaterUrl) return
-
-      if (
-        (versions.bootloader.updateAvailable || versions.firmware.updateAvailable) &&
-        !toast.isActive(KEEPKEY_TOAST_ID)
-      ) {
-        toastRef.current = toast({
-          render: () => {
-            return (
-              <Alert status='info' variant='solid' colorScheme='blue'>
-                <Box alignSelf='flex-start' me={2}>
-                  <RiFlashlightLine size={24} />
-                </Box>
-                <Box>
-                  <AlertTitle>{translate('updateToast.keepKey.title')}</AlertTitle>
-                  <AlertDescription>
-                    <Text>{translate('updateToast.keepKey.newUpdateAvailable')}</Text>
-                    {!isLTCSupportedFirmwareVersion ? (
-                      <Text>
-                        {translate('updateToast.keepKey.updateRequiredForFeature', {
-                          feature: 'Litecoin',
-                        })}
-                      </Text>
-                    ) : null}
-                  </AlertDescription>
-                  <Link href={updaterUrl} display={'block'} fontWeight={'bold'} mt={2} isExternal>
-                    {translate('updateToast.keepKey.downloadCta')}
-                  </Link>
-                </Box>
-                <CloseButton
-                  alignSelf='flex-start'
-                  position='relative'
-                  right={-1}
-                  top={-1}
-                  onClick={onClose}
-                />
-              </Alert>
-            )
-          },
-          id: KEEPKEY_TOAST_ID,
-          duration: null,
-          isClosable: true,
-          position: 'bottom-right',
-        })
-      }
     })()
   }, [
     isLTCSupportedFirmwareVersion,

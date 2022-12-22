@@ -15,7 +15,6 @@ import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { Text } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { fromBaseUnit } from 'lib/math'
@@ -58,22 +57,25 @@ export const SendTransactionConfirmation = () => {
   const [loading, setLoading] = useState(false)
   const [shouldShowGas, setShouldShowGas] = useState(true)
 
-  const { legacyBridge, requests, removeRequest } = useWalletConnect()
+  const { legacyBridge, requests, removeRequest, legacyWeb3 } = useWalletConnect()
   const toast = useToast()
 
   const currentRequest = requests[0]
 
   useEffect(() => {
     if (!currentRequest) return
-    if (currentRequest.method === "eth_signTypedData") return setShouldShowGas(false)
+    if (currentRequest.method === 'eth_signTypedData') return setShouldShowGas(false)
     return setShouldShowGas(true)
   }, [currentRequest])
 
   const onConfirm = useCallback(
     async (txData: any) => {
+      if (!legacyWeb3) return
       try {
         setLoading(true)
-        await legacyBridge?.approve(requests[0], txData).then(() => removeRequest(currentRequest.id))
+        await legacyBridge
+          ?.approve(requests[0], txData, legacyWeb3)
+          .then(() => removeRequest(currentRequest.id))
         removeRequest(currentRequest.id)
       } catch (e) {
         toast({
@@ -85,7 +87,7 @@ export const SendTransactionConfirmation = () => {
         setLoading(false)
       }
     },
-    [legacyBridge, currentRequest.id, removeRequest, requests, toast],
+    [legacyBridge, currentRequest.id, removeRequest, requests, toast, legacyWeb3],
   )
 
   const onReject = useCallback(async () => {
@@ -101,12 +103,6 @@ export const SendTransactionConfirmation = () => {
   const [priceData, setPriceData] = useState(bn(0))
 
   const [web3GasFeeData, setweb3GasFeeData] = useState('0')
-  const [chainWeb3, setChainWeb3] = useState<{
-    web3: Web3
-    symbol: string
-    name: string
-    coinGeckoId: string
-  }>()
 
   // determine which gasLimit to use: user input > from the request > or estimate
   const requestGas = parseInt(currentRequest.params[0].gas ?? '0x0', 16).toString(10)
@@ -136,24 +132,22 @@ export const SendTransactionConfirmation = () => {
     })
 
     // for non mainnet chains we use the simple web3.getGasPrice()
-    const chainWeb3 = web3ByChainId(walletConnect?.legacyBridge?.connector?.chainId as any) as any
-    chainWeb3?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
-    setChainWeb3(chainWeb3)
-  }, [form, txInputGas, walletConnect.legacyBridge?.connector.chainId])
+    legacyWeb3?.web3?.eth?.getGasPrice().then((p: any) => setweb3GasFeeData(p))
+  }, [form, legacyWeb3?.web3?.eth, txInputGas, walletConnect.legacyBridge?.connector.chainId])
 
   useEffect(() => {
-    ; (async () => {
-      if (chainWeb3?.coinGeckoId)
+    ;(async () => {
+      if (legacyWeb3?.coinGeckoId)
         try {
           const { data } = await axios.get(
-            `https://api.coingecko.com/api/v3/simple/price?ids=${chainWeb3.coinGeckoId}&vs_currencies=usd`,
+            `https://api.coingecko.com/api/v3/simple/price?ids=${legacyWeb3?.coinGeckoId}&vs_currencies=usd`,
           )
-          setPriceData(bnOrZero(data?.[chainWeb3.coinGeckoId]?.usd))
+          setPriceData(bnOrZero(data?.[legacyWeb3?.coinGeckoId]?.usd))
         } catch (e) {
           throw new Error('Failed to get price data')
         }
     })()
-  }, [chainWeb3])
+  }, [legacyWeb3])
 
   // determine which gas fees to use: user input > from the request > Fast
   const requestMaxPriorityFeePerGas = currentRequest.params[0].maxPriorityFeePerGas
@@ -176,16 +170,16 @@ export const SendTransactionConfirmation = () => {
     !!inputMaxFeePerGas
       ? inputMaxFeePerGas
       : !!requestMaxFeePerGas
-        ? requestMaxFeePerGas
-        : fastMaxFeePerGas,
+      ? requestMaxFeePerGas
+      : fastMaxFeePerGas,
   )
 
   const txMaxPriorityFeePerGas = Web3.utils.toHex(
     !!inputMaxPriorityFeePerGas
       ? inputMaxPriorityFeePerGas
       : !!requestMaxPriorityFeePerGas
-        ? requestMaxPriorityFeePerGas
-        : fastMaxPriorityFeePerGas,
+      ? requestMaxPriorityFeePerGas
+      : fastMaxPriorityFeePerGas,
   )
 
   // Recalculate estimated fee amount if txMaxFeePerGas changes
@@ -199,25 +193,25 @@ export const SendTransactionConfirmation = () => {
   const inputNonce = useWatch({ control: form.control, name: 'nonce' })
   const [trueNonce, setTrueNonce] = useState('0')
   useEffect(() => {
-    ; (async () => {
-      const count = await chainWeb3?.web3.eth.getTransactionCount(address ?? '')
+    ;(async () => {
+      const count = await legacyWeb3?.web3.eth.getTransactionCount(address ?? '')
       !!count && setTrueNonce(`${count}`)
     })()
-  }, [adapterManager, address, chainWeb3, walletState.wallet])
+  }, [adapterManager, address, legacyWeb3?.web3.eth, walletState.wallet])
   const txInputNonce = Web3.utils.toHex(
     !!inputNonce ? inputNonce : !!requestNonce ? requestNonce : trueNonce,
   )
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       try {
-        const estimate = await (chainWeb3 as any).web3.eth.estimateGas({
+        const estimate = await legacyWeb3?.web3.eth.estimateGas({
           from: walletConnect.legacyBridge?.connector.accounts[0],
-          nonce: txInputNonce,
+          nonce: Number(txInputNonce),
           to: currentRequest.params[0].to,
           data: currentRequest.params[0].data,
         })
-        setEstimatedGas(estimate)
+        setEstimatedGas(estimate?.toString() ?? '')
       } catch (e) {
         // 500k seems reasonable.
         // Maybe its better to gracefully fail here???
@@ -227,9 +221,9 @@ export const SendTransactionConfirmation = () => {
   }, [
     txInputNonce,
     address,
-    chainWeb3,
     walletConnect.legacyBridge?.connector.accounts,
     currentRequest.params,
+    legacyWeb3?.web3.eth,
   ])
 
   if (!walletConnect.legacyBridge || !walletConnect.dapp) return null
@@ -299,28 +293,30 @@ export const SendTransactionConfirmation = () => {
           </Card>
         </Box>
 
-        {shouldShowGas && <ModalSection
-          title={
-            <HStack justify='space-between'>
-              <Text translation='plugins.walletConnectToDapps.modal.sendTransaction.estGasCost' />
-              {chainWeb3?.symbol && (
-                <GasFeeEstimateLabel symbol={chainWeb3.symbol} fiatRate={priceData} />
-              )}
-            </HStack>
-          }
-          icon={<FaGasPump />}
-          defaultOpen={false}
-        >
-          <Box pt={2}>
-            <GasInput
-              gasLimit={txInputGas}
-              recommendedGasPriceData={{
-                maxPriorityFeePerGas: currentRequest.params[0].maxPriorityFeePerGas,
-                maxFeePerGas: currentRequest.params[0].maxFeePerGas,
-              }}
-            />
-          </Box>
-        </ModalSection>}
+        {shouldShowGas && (
+          <ModalSection
+            title={
+              <HStack justify='space-between'>
+                <Text translation='plugins.walletConnectToDapps.modal.sendTransaction.estGasCost' />
+                {legacyWeb3?.symbol && (
+                  <GasFeeEstimateLabel symbol={legacyWeb3?.symbol} fiatRate={priceData} />
+                )}
+              </HStack>
+            }
+            icon={<FaGasPump />}
+            defaultOpen={false}
+          >
+            <Box pt={2}>
+              <GasInput
+                gasLimit={txInputGas}
+                recommendedGasPriceData={{
+                  maxPriorityFeePerGas: currentRequest.params[0].maxPriorityFeePerGas,
+                  maxFeePerGas: currentRequest.params[0].maxFeePerGas,
+                }}
+              />
+            </Box>
+          </ModalSection>
+        )}
 
         <ModalSection
           title={translate(

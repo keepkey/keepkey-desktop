@@ -20,7 +20,6 @@ export const UpdateBootloader = (params: any) => {
 
   const onAcceptUpdate = async () => {
     setLoading(true)
-    console.log('onAcceptUpdate: ')
     ipcRenderer.send('@keepkey/update-bootloader', {})
   }
 

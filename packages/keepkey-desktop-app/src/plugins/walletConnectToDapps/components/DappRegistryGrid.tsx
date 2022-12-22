@@ -26,6 +26,7 @@ import type { RegistryItem } from '../types'
 import { PageInput } from './PageInput'
 // @ts-ignore
 import client from '@pioneer-platform/pioneer-client'
+import { getPioneerClient } from 'lib/getPioneerCleint'
 
 const PAGE_SIZE = 20
 
@@ -61,17 +62,8 @@ export const DappRegistryGrid: FC = () => {
 
   let findDapps = async function () {
     try {
-      let spec = getConfig().REACT_APP_DAPP_URL
-      let config = {
-        queryKey: 'key:public',
-        username: 'user:public',
-        spec,
-      }
-      let pioneer = new client(spec, config)
-      pioneer = await pioneer.init()
-
-      let dapps = await pioneer.ListApps()
-      console.log('apps: ', dapps.data)
+      const pioneer = await getPioneerClient()
+      let dapps = await pioneer.ListApps({ limit: 30, skip: 0 })
       setRegistryItems(dapps.data)
     } catch (e) {
       console.error(' e: ', e)
