@@ -25035,6 +25035,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/pnpapi", "npm:0.0.2"],\
             ["@types/request-promise", "npm:4.1.48"],\
             ["@types/swagger-ui-express", "npm:4.1.3"],\
+            ["@types/uuid", "npm:9.0.0"],\
             ["@types/wait-promise", "npm:0.4.0"],\
             ["@typescript-eslint/eslint-plugin", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
             ["@typescript-eslint/parser", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
@@ -25086,6 +25087,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
             ["usb", "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A."],\
             ["utf-8-validate", "npm:5.0.10"],\
+            ["uuid", "npm:9.0.0"],\
             ["wait-promise", "npm:0.4.1"],\
             ["web3", "npm:1.8.1"]\
           ],\

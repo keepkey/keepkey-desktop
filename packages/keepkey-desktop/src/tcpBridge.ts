@@ -2,10 +2,17 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import log from 'electron-log'
 import express from 'express'
-import { addMiddleware, RegisterRoutes, setSdkClientFactory } from 'keepkey-sdk-server'
+import {
+  addMiddleware,
+  RegisterRoutes,
+  setSdkClientFactory,
+  setSdkPairingHandler,
+} from 'keepkey-sdk-server'
+import type { PairingInfo } from 'keepkey-sdk-server/dist/auth/sdkClient'
 import path from 'path'
 import swaggerUi from 'swagger-ui-express'
 import * as util from 'util'
+import * as uuid from 'uuid'
 
 import {
   db,
@@ -41,8 +48,23 @@ export const startTcpBridge = async (port?: number) => {
   appExpress.use('/spec', express.static(path.join(__dirname, 'api')))
 
   addMiddleware(logger)
+  setSdkPairingHandler(async (info: PairingInfo) => {
+    const apiKey = uuid.v4()
+    console.log('approving pairing request', info, apiKey)
+    await db.insertOne({
+      type: 'service',
+      serviceKey: apiKey,
+      serviceName: info.name,
+      serviceImageUrl: info.imageUrl,
+    })
+
+    return apiKey
+  })
   setSdkClientFactory(async (apiKey: string) => {
-    const doc = await db.findOne({ type: 'service', serviceKey: apiKey })
+    const doc = await db.findOne<Record<`service${'Key' | 'Name' | 'ImageUrl'}`, string>>({
+      type: 'service',
+      serviceKey: apiKey,
+    })
     if (!doc) return undefined
 
     const wallet = kkStateController.wallet
@@ -51,6 +73,10 @@ export const startTcpBridge = async (port?: number) => {
     return {
       apiKey,
       wallet,
+      pairingInfo: {
+        name: doc.serviceName,
+        imageUrl: doc.serviceImageUrl,
+      },
     }
   })
   RegisterRoutes(appExpress)

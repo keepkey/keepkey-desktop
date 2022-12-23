@@ -30,7 +30,7 @@ ipcMain.on('@app/get-ipc-listeners', (event: IpcMainEvent) => {
   Comlink.expose(ipcListeners, electronEndpoint(event.ports[0]))
 })
 
-ipcMain.once('@app/register-render-listeners', (event: IpcMainEvent) => {
+ipcMain.on('@app/register-render-listeners', (event: IpcMainEvent) => {
   const rendererIpcPort = event.ports[0]
 
   rendererIpcQueue.addEventListener('message', e => {
