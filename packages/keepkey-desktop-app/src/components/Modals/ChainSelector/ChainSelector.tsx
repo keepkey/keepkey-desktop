@@ -19,6 +19,7 @@ import {
   ModalOverlay,
   Spinner,
   Stack,
+  Image,
 } from '@chakra-ui/react'
 // import { SessionTypes } from '@walletconnect/types'
 import { ipcRenderer } from 'electron-shim'
@@ -56,6 +57,7 @@ export const ChainSelectorModal = () => {
     const pioneer = await getPioneerClient()
     let test = await pioneer.AtlasNetwork({ start: 1, stop: 10, limit: 5 })
     setLoading(false)
+    console.log('fetch chains data:', test.data)
     const mergedservices = mergeServices(test.data)
     setChains(mergedservices)
     pingAndMergeServices(mergedservices).then(setChains)
@@ -77,6 +79,7 @@ export const ChainSelectorModal = () => {
     getPioneerClient().then(pioneer => {
       pioneer.SearchByNetworkName(debouncedSearch).then((info: { data: any }) => {
         setLoading(false)
+        console.log('search data:', info.data)
         const mergedservices = mergeServices(info.data)
         setChains(mergedservices)
         pingAndMergeServices(mergedservices).then(setChains)
@@ -145,6 +148,7 @@ export const ChainSelectorModal = () => {
                     return (
                       <AccordionItem w='full'>
                         <HStack gap={4}>
+                          <Image src={chain.image} boxSize='24px' />
                           <Box w='full' as='button' onClick={() => switchChain(chain)}>
                             {chain.name} ({chain.services[0].latency}ms)
                           </Box>

@@ -136,10 +136,14 @@ export const Header = () => {
                   <Button rightIcon={<ChevronDownIcon />} onClick={() => chainSelector.open({})}>
                     <Image
                       boxSize={6}
-                      src={`https://pioneers.dev/coins/${legacyWeb3?.name
-                        .toLowerCase()
-                        .replaceAll('mainnet', '')
-                        .replaceAll(' ', '')}.png`}
+                      src={
+                        legacyWeb3?.image
+                          ? legacyWeb3.image
+                          : `https://pioneers.dev/coins/${legacyWeb3?.name
+                              .toLowerCase()
+                              .replaceAll('mainnet', '')
+                              .replaceAll(' ', '')}.png`
+                      }
                     />
                   </Button>
                 </Box>
