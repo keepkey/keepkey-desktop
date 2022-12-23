@@ -28,7 +28,6 @@ import {
 
 import { AccountTable } from './components/AccountList/AccountTable'
 import { PortfolioBreakdown } from './PortfolioBreakdown'
-import { ExplorationBanner } from 'plugins/walletConnectToDapps/components/ExplorationBanner'
 import { RecentlyUsedDapps } from './RecentlyUsedDapps'
 
 export const Portfolio = () => {
@@ -51,7 +50,6 @@ export const Portfolio = () => {
 
   return (
     <Stack spacing={6} width='full'>
-      <ExplorationBanner />
       <Card variant='footer-stub'>
         <Card.Header
           display='flex'
