@@ -36,7 +36,7 @@ export class AuthController extends Controller {
       throw {}
     }
 
-    return req.user.pairingInfo
+    return req.user.info
   }
 
   /**

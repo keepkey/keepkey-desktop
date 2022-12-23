@@ -1,3 +1,4 @@
+import type { PairingInfo } from './generated'
 import { Configuration } from './generated'
 import * as apis from './generated/apis'
 
@@ -36,11 +37,43 @@ export class KeepKeySdk {
     this.xrp = new apis.XRPApi(configuration)
   }
 
-  static async create(config: { basePath?: string; apiKey: string }): Promise<KeepKeySdk> {
+  static async create(config: {
+    basePath?: string
+    get apiKey(): string | undefined
+    set apiKey(value: string | undefined)
+    pairingInfo?: PairingInfo
+  }): Promise<KeepKeySdk> {
+    const existingKey = config.apiKey
+    const sdkWithExistingKey = new KeepKeySdk(
+      new Configuration({
+        basePath: config?.basePath,
+        accessToken: existingKey,
+      }),
+    )
+    const keyOk = await sdkWithExistingKey.auth.verify().then(
+      x => {
+        console.log('verified', x)
+        return true
+      },
+      e => {
+        console.warn('verify failed', e)
+        return false
+      },
+    )
+    if (keyOk) return sdkWithExistingKey
+
+    if (!config.pairingInfo) {
+      throw new Error('bad API key, and no pairingInfo provided')
+    }
+
+    const { apiKey: newKey } = await sdkWithExistingKey.auth.pair(config.pairingInfo)
+
+    config.apiKey = newKey
+
     return new KeepKeySdk(
       new Configuration({
         basePath: config?.basePath,
-        accessToken: config.apiKey,
+        accessToken: newKey,
       }),
     )
   }
