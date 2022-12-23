@@ -4,7 +4,7 @@ import { Body, Consumes, Post, Produces, Response, Route, Security, Tags } from 
 import { ApiController } from '../auth'
 
 export * from './addresses'
-// export * from './auth'
+export * from './auth'
 export * from './bnb'
 export * from './cosmos'
 export * from './ethereum'
