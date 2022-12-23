@@ -134,7 +134,7 @@ export const DappRegistryGrid: FC = () => {
           ))}
         </SimpleGrid>
       )}
-      {!loading && filteredListings && filteredListings.length !== 0 ? (
+      {filteredListings && filteredListings.length !== 0 ? (
         <SimpleGrid columns={{ lg: 4, sm: 2, base: 1 }} spacing={4}>
           {filteredListings.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE).map(listing => (
             <Link key={listing.id} onClick={() => openDapp(listing)}>
@@ -167,24 +167,26 @@ export const DappRegistryGrid: FC = () => {
           ))}
         </SimpleGrid>
       ) : (
-        <VStack alignItems='center' p={8} spacing={0}>
-          <Card
-            display='grid'
-            width={14}
-            height={14}
-            placeItems='center'
-            borderRadius='2xl'
-            borderWidth={0}
-            mb={4}
-          >
-            <SearchIcon color='gray.500' fontSize='xl' />{' '}
-          </Card>
-          <Text translation='common.noResultsFound' fontWeight='medium' fontSize='lg' />
-          <Text
-            translation='plugins.walletConnectToDapps.registry.emptyStateDescription'
-            color='gray.500'
-          />
-        </VStack>
+        !loading && (
+          <VStack alignItems='center' p={8} spacing={0}>
+            <Card
+              display='grid'
+              width={14}
+              height={14}
+              placeItems='center'
+              borderRadius='2xl'
+              borderWidth={0}
+              mb={4}
+            >
+              <SearchIcon color='gray.500' fontSize='xl' />{' '}
+            </Card>
+            <Text translation='common.noResultsFound' fontWeight='medium' fontSize='lg' />
+            <Text
+              translation='plugins.walletConnectToDapps.registry.emptyStateDescription'
+              color='gray.500'
+            />
+          </VStack>
+        )
       )}
     </Box>
   )
