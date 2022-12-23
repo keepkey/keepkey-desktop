@@ -159,7 +159,10 @@ export const Authenticator = () => {
                         <Text translation={'authenticator.account'} />
                       </Th>
                       <Th>
-                        <Text translation={'authenticator.actions'} />
+                        <Text translation={'authenticator.cta.generateOtp'} />
+                      </Th>
+                      <Th>
+                        <Text translation={'authenticator.cta.deleteAcc'} />
                       </Th>
                     </Tr>
                   </Thead>
@@ -173,25 +176,24 @@ export const Authenticator = () => {
                             </Code>
                           </Td>
                           <Td>
-                            <HStack gap={4}>
-                              <Button
-                                size='sm'
-                                colorScheme='green'
-                                onClick={() => {
-                                  const interval = 30
-                                  const currTime = Date.now() / 1000
-                                  const timeSlice = Math.floor(currTime / interval)
-                                  const timeRemain =
-                                    interval - Math.floor(currTime - timeSlice * 30)
-                                  generateOtp(acc, timeSlice, Math.floor(timeRemain))
-                                }}
-                              >
-                                <Text translation={'authenticator.cta.generateOtp'} />
-                              </Button>
-                              <Button size='sm' colorScheme='red' onClick={() => deleteAcc(acc)}>
-                                <Text translation={'authenticator.cta.deleteAcc'} />
-                              </Button>
-                            </HStack>
+                            <Button
+                              size='sm'
+                              colorScheme='green'
+                              onClick={() => {
+                                const interval = 30
+                                const currTime = Date.now() / 1000
+                                const timeSlice = Math.floor(currTime / interval)
+                                const timeRemain = interval - Math.floor(currTime - timeSlice * 30)
+                                generateOtp(acc, timeSlice, Math.floor(timeRemain))
+                              }}
+                            >
+                              <Text translation={'authenticator.cta.generateOtp'} />
+                            </Button>
+                          </Td>
+                          <Td>
+                            <Button size='sm' colorScheme='red' onClick={() => deleteAcc(acc)}>
+                              <Text translation={'authenticator.cta.deleteAcc'} />
+                            </Button>
                           </Td>
                         </Tr>
                       ))}
