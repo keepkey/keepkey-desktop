@@ -5,6 +5,7 @@ export * from './generated'
 
 export class KeepKeySdk {
   readonly address: apis.AddressApi
+  readonly auth: apis.AuthApi
   readonly bnb: apis.BNBApi
   readonly cosmos: apis.CosmosApi
   readonly eth: apis.ETHApi
@@ -19,6 +20,7 @@ export class KeepKeySdk {
 
   protected constructor(configuration?: Configuration) {
     this.address = new apis.AddressApi(configuration)
+    this.auth = new apis.AuthApi(configuration)
     this.bnb = new apis.BNBApi(configuration)
     this.cosmos = new apis.CosmosApi(configuration)
     this.eth = new apis.ETHApi(configuration)
