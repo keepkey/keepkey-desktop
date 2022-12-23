@@ -51,19 +51,18 @@ export const startTcpBridge = async (port?: number) => {
   setSdkPairingHandler(async (info: PairingInfo) => {
     const apiKey = uuid.v4()
     console.log('approving pairing request', info, apiKey)
-    await db.insertOne({
-      type: 'service',
-      serviceKey: apiKey,
-      serviceName: info.name,
-      serviceImageUrl: info.imageUrl,
+    await db.insertOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
+      type: 'sdk-pairing',
+      apiKey,
+      info,
     })
 
     return apiKey
   })
   setSdkClientFactory(async (apiKey: string) => {
-    const doc = await db.findOne<Record<`service${'Key' | 'Name' | 'ImageUrl'}`, string>>({
-      type: 'service',
-      serviceKey: apiKey,
+    const doc = await db.findOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
+      type: 'sdk-pairing',
+      apiKey,
     })
     if (!doc) return undefined
 
@@ -71,12 +70,9 @@ export const startTcpBridge = async (port?: number) => {
     if (!wallet) throw new Error('wallet not set')
 
     return {
-      apiKey,
+      apiKey: doc.apiKey,
       wallet,
-      pairingInfo: {
-        name: doc.serviceName,
-        imageUrl: doc.serviceImageUrl,
-      },
+      info: doc.info,
     }
   })
   RegisterRoutes(appExpress)

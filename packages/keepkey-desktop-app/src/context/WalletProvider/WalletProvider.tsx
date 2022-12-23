@@ -378,8 +378,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     }
     if (!serviceKey) {
       window.localStorage.setItem('@app/serviceKey', config.serviceKey)
-      await ipcListeners.bridgeAddService(config)
     }
+    await ipcListeners.bridgeAddService(config)
     return await KeepKeySdk.create({
       apiKey: config.serviceKey,
     })
@@ -395,8 +395,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     }
     if (!serviceKey) {
       window.localStorage.setItem('@app/serviceKey', config.serviceKey)
-      await ipcListeners.bridgeAddService(config)
     }
+    await ipcListeners.bridgeAddService(config)
     try {
       const sdk = await KeepKeySdk.create({
         apiKey: config.serviceKey,

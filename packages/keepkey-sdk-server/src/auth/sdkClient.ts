@@ -10,13 +10,15 @@ export type PairingInfo = {
   /** @minLength 1 */
   name: string
   /** @format url */
-  imageUrl?: string
+  url?: string
+  /** @format url */
+  imageUrl: string
 }
 
 export type SdkClient = {
   apiKey: string
   wallet: KeepKeyHDWallet
-  pairingInfo: PairingInfo
+  info: PairingInfo
 }
 
 export type SdkClientFactory = (apiKey: string) => Promise<SdkClient | undefined>
@@ -27,7 +29,7 @@ export const [getSdkClientFactory, setSdkClientFactory] = (() => {
   return [promise, resolver!]
 })()
 
-export type SdkPairingHandler = (pairingInfo: PairingInfo) => Promise<string | undefined>
+export type SdkPairingHandler = (info: PairingInfo) => Promise<string | undefined>
 
 export const [getSdkPairingHandler, setSdkPairingHandler] = (() => {
   let resolver: (_: SdkPairingHandler) => void

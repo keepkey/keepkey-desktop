@@ -146,15 +146,22 @@ export const ipcListeners: IpcListeners = {
     serviceImageUrl: string
     serviceHomePage?: string
   }) {
-    await db.insert({
-      type: 'service',
-      isKeepKeyDesktop: true,
-      addedOn: Date.now(),
-      serviceName: data.serviceName,
-      serviceImageUrl: data.serviceImageUrl,
-      serviceHomePage: data.serviceHomePage,
-      pairingType: 'walletconnect',
-    })
+    await db.updateOne(
+      {
+        type: 'sdk-pairing',
+        apiKey: data.serviceKey,
+      },
+      {
+        type: 'sdk-pairing',
+        apiKey: data.serviceKey,
+        info: {
+          name: data.serviceName,
+          url: data.serviceHomePage,
+          imageUrl: data.serviceImageUrl,
+        },
+      },
+      { upsert: true },
+    )
   },
 
   // used for unpairing apps
