@@ -2,6 +2,8 @@ import type { Asset } from '@keepkey/asset-service'
 import { useHistory } from 'react-router-dom'
 import { AssetSearchKK } from 'components/AssetSearchKK/AssetSearchKK'
 import { Main } from 'components/Layout/Main'
+import { Stack, Heading } from '@chakra-ui/layout'
+import { Text } from 'components/Text'
 
 export const Assets = () => {
   const history = useHistory()
@@ -16,7 +18,18 @@ export const Assets = () => {
     history.push({ pathname: url })
   }
   return (
-    <Main display='flex' flexDir='column' height='calc(100vh - 72px)'>
+    <Main
+      display='flex'
+      flexDir='column'
+      height='calc(100vh - 72px)'
+      titleComponent={
+        <Stack pb={4}>
+          <Heading>
+            <Text translation='navBar.assets' />
+          </Heading>
+        </Stack>
+      }
+    >
       <AssetSearchKK onClick={onClick} />
     </Main>
   )
