@@ -148,7 +148,7 @@ export const ChainSelectorModal = () => {
                     return (
                       <AccordionItem w='full'>
                         <HStack gap={4}>
-                          <Image src={chain.image} boxSize='34px' />
+                          <Image src={chain.image} boxSize='24px' />
                           <Box
                             alignContent='right'
                             w='full'
