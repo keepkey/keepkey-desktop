@@ -51,6 +51,13 @@ export const routes: NestedRoute[] = [
   //   category: RouteCategory.Wallet,
   // },
   {
+    path: '/transaction-history',
+    label: 'navBar.transactionHistory',
+    icon: <TxHistoryIcon />,
+    main: TransactionHistory,
+    category: RouteCategory.Explore,
+  },
+  {
     path: '/browser',
     label: 'navBar.browser',
     icon: <FaGlobe />,
@@ -166,13 +173,6 @@ export const routes: NestedRoute[] = [
         ],
       },
     ],
-  },
-  {
-    path: '/transaction-history',
-    label: 'navBar.transactionHistory',
-    icon: <TxHistoryIcon />,
-    main: TransactionHistory,
-    category: RouteCategory.Wallet,
   },
   {
     path: '/flags',

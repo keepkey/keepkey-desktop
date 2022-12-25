@@ -59,14 +59,19 @@ export const DappRegistryGrid: FC = () => {
       setLoading(true)
       const pioneer = await getPioneerClient()
       let dapps = await pioneer.ListApps({ limit: 1000, skip: 0 })
-      const sortArrayByScore = (arr: any[]) => {
-        return arr.sort((a, b) => {
-          if (a.score === undefined) a.score = 0;
-          if (b.score === undefined) b.score = 0;
-          return b.score - a.score;
-        });
+      function sortByScore(arr: any[]) {
+        //sort array by score
+        arr.sort((a, b) => {
+          const scoreA = a.score || 0
+          const scoreB = b.score || 0
+          return scoreB - scoreA
+        })
+        //filter out elements with score less than 0
+        arr = arr.filter(el => el.score >= 0)
+        //return sorted array
+        return arr
       }
-      dapps = sortArrayByScore(dapps.data)
+      dapps = sortByScore(dapps.data)
       setRegistryItems(dapps)
       setLoading(false)
     } catch (e) {
