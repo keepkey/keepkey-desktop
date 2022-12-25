@@ -58,8 +58,16 @@ export const DappRegistryGrid: FC = () => {
     try {
       setLoading(true)
       const pioneer = await getPioneerClient()
-      let dapps = await pioneer.ListApps({ limit: 30, skip: 0 })
-      setRegistryItems(dapps.data)
+      let dapps = await pioneer.ListApps({ limit: 1000, skip: 0 })
+      const sortArrayByScore = (arr: any[]) => {
+        return arr.sort((a, b) => {
+          if (a.score === undefined) a.score = 0;
+          if (b.score === undefined) b.score = 0;
+          return b.score - a.score;
+        });
+      }
+      dapps = sortArrayByScore(dapps.data)
+      setRegistryItems(dapps)
       setLoading(false)
     } catch (e) {
       console.error(' e: ', e)
@@ -72,7 +80,7 @@ export const DappRegistryGrid: FC = () => {
   const maxPage = filteredListings ? Math.floor(filteredListings.length / PAGE_SIZE) : 0
 
   const openDapp = (app: RegistryItem) => {
-    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.homepage })
+    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.app })
     history.push('/browser')
   }
 
