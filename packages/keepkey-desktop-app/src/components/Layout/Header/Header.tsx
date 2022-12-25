@@ -145,6 +145,7 @@ export const Header = () => {
                               .replaceAll(' ', '')}.png`
                       }
                     />
+                    {legacyWeb3?.chainId}
                   </Button>
                 </Box>
               )}
