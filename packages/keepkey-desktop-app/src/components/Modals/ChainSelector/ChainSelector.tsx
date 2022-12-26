@@ -57,7 +57,6 @@ export const ChainSelectorModal = () => {
     const pioneer = await getPioneerClient()
     let test = await pioneer.AtlasNetwork({ start: 1, stop: 10, limit: 5 })
     setLoading(false)
-    console.log('fetch chains data:', test.data)
     const mergedservices = mergeServices(test.data)
     setChains(mergedservices)
     pingAndMergeServices(mergedservices).then(setChains)
@@ -79,7 +78,6 @@ export const ChainSelectorModal = () => {
     getPioneerClient().then(pioneer => {
       pioneer.SearchByNetworkName(debouncedSearch).then((info: { data: any }) => {
         setLoading(false)
-        console.log('search data:', info.data)
         const mergedservices = mergeServices(info.data)
         setChains(mergedservices)
         pingAndMergeServices(mergedservices).then(setChains)
