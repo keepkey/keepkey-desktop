@@ -16,14 +16,6 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import { useEffect, useState } from 'react'
 import { FaBug } from 'react-icons/fa'
 
-const BrowserHeader = () => {
-  return (
-    <Stack pb={4}>
-      <Heading>Browser</Heading>
-    </Stack>
-  )
-}
-
 export const Browser = () => {
   const [url, setUrl] = useState('')
   const [inputUrl, setInputUrl] = useState('')
@@ -107,8 +99,16 @@ export const Browser = () => {
   }
 
   return (
-    <Main titleComponent={<BrowserHeader />} height='full'>
-      <Stack direction={{ base: 'column', md: 'column' }} spacing={6} height='full'>
+    <Main height='full'>
+      <webview
+          id='webview'
+          src={url}
+          style={{
+            minHeight: url !== '' ? '60em' : '0px',
+          }}
+      ></webview>
+      <Stack direction={{ base: 'column', md: 'column' }} height='full'>
+
         <form onSubmit={loadUrl}>
           <HStack>
             <Input
@@ -153,13 +153,6 @@ export const Browser = () => {
                 This webpage failed to load
               </Alert>
             )}
-            <webview
-              id='webview'
-              src={url}
-              style={{
-                minHeight: url !== '' ? '60em' : '0px',
-              }}
-            ></webview>
           </Card.Body>
         </Card>
       </Stack>

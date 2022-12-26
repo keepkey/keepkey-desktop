@@ -3,13 +3,18 @@ import { Alert, AlertIcon, Container, Stack } from '@chakra-ui/react'
 import Client from '@pioneer-platform/pioneer-client'
 import { getConfig } from 'config'
 import type { FC } from 'react'
+import { WalletActions } from 'context/WalletProvider/actions'
+import { ExplorationBanner } from './components/ExplorationBanner'
 import { useEffect, useState } from 'react'
-
+import { useWallet } from '../../hooks/useWallet/useWallet'
 import { DappRegistryGrid } from './components/DappRegistryGrid'
+import { useHistory } from 'react-router'
+import type { RegistryItem } from './types'
 
 export const WalletConnectToDapps: FC = () => {
   const [motd, setSetMotd] = useState('')
-
+  const { dispatch } = useWallet()
+  const history = useHistory()
   //get MOTD
   let updateMotd = async function () {
     try {
@@ -28,6 +33,11 @@ export const WalletConnectToDapps: FC = () => {
     updateMotd()
   }, [])
 
+  const openDapp = (app: RegistryItem) => {
+    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.app })
+    history.push('/browser')
+  }
+
   return (
     <Container p={4} maxW='container.lg'>
       <Stack spacing={10}>
@@ -35,6 +45,7 @@ export const WalletConnectToDapps: FC = () => {
           <AlertIcon />
           {motd}
         </Alert>
+        <ExplorationBanner size={100} openDapp={openDapp} />
         <DappRegistryGrid />
       </Stack>
     </Container>

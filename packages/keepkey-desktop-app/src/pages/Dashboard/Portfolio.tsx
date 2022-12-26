@@ -50,7 +50,6 @@ export const Portfolio = () => {
 
   return (
     <Stack spacing={6} width='full'>
-      <ExplorationBanner />
       <Card variant='footer-stub'>
         <Card.Header
           display='flex'

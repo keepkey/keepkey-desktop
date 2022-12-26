@@ -1,4 +1,3 @@
-import { SearchIcon } from '@chakra-ui/icons'
 import {
   Accordion,
   AccordionButton,
@@ -20,6 +19,7 @@ import {
   ModalOverlay,
   Spinner,
   Stack,
+  Image,
 } from '@chakra-ui/react'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
@@ -27,6 +27,7 @@ import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
 // import { SessionTypes } from '@walletconnect/types'
 import { useDebounce } from 'hooks/useDebounce/useDebounce'
 import { useModal } from 'hooks/useModal/useModal'
+import { SearchIcon } from '@chakra-ui/icons'
 import { getPioneerClient } from 'lib/getPioneerCleint'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { useCallback, useEffect, useState } from 'react'
@@ -133,7 +134,7 @@ export const ChainSelectorModal = () => {
                 </InputGroup>
               </Box>
               {loading && (
-                <Flex alignContent='center' w='full' h='full' justifyItems='center'>
+                <Flex alignContent='right' w='full' h='full' justifyItems='center'>
                   <Spinner />
                 </Flex>
               )}
@@ -144,8 +145,17 @@ export const ChainSelectorModal = () => {
                     return (
                       <AccordionItem w='full'>
                         <HStack gap={4}>
-                          <Box w='full' as='button' onClick={() => switchChain(chain)}>
-                            {chain.name} id: {chain.chainId}
+                          <Image src={chain.image} boxSize='24px' />
+                          <Box
+                            alignContent='right'
+                            w='full'
+                            as='button'
+                            onClick={() => switchChain(chain)}
+                          >
+                            {chain.name} <small>({chain.services[0].latency}ms)</small>
+                          </Box>
+                          <Box alignContent='left'>
+                            <small>chainId: {chain.chainId}</small>
                           </Box>
                           <AccordionButton w='fit-content'>
                             <AccordionIcon />
@@ -154,7 +164,10 @@ export const ChainSelectorModal = () => {
                         <AccordionPanel>
                           {chain.services.map((service, idx) => (
                             <Box fontSize='sm' as='button' onClick={() => switchChain(chain, idx)}>
-                              <small>{service.url}</small>
+                              {service.url.length > 20
+                                ? service.url.substring(0, 20).concat('...')
+                                : service.url}{' '}
+                              ({service.latency}ms)
                               <Divider />
                             </Box>
                           ))}

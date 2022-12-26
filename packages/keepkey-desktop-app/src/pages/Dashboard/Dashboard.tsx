@@ -1,13 +1,23 @@
-import { Stack } from '@chakra-ui/react'
+import { Heading, Stack } from '@chakra-ui/react'
 // import { FiatRamps } from 'components/Layout/Header/NavBar/FiatRamps'
 import { Main } from 'components/Layout/Main'
+import { DashboardSidebar } from './DashboardSidebar'
 
 // import { DashboardSidebar } from './DashboardSidebar'
 import { Portfolio } from './Portfolio'
+import { Text } from 'components/Text'
 
 export const Dashboard = () => {
   return (
-    <Main>
+    <Main
+      titleComponent={
+        <Stack pb={4}>
+          <Heading>
+            <Text translation='navBar.dashboard' />
+          </Heading>
+        </Stack>
+      }
+    >
       <Stack
         alignItems='flex-start'
         spacing={4}
