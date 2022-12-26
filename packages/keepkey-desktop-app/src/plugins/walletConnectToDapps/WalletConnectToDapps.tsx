@@ -45,7 +45,6 @@ export const WalletConnectToDapps: FC = () => {
           <AlertIcon />
           {motd}
         </Alert>
-        <ExplorationBanner size={100} openDapp={openDapp} />
         <DappRegistryGrid />
       </Stack>
     </Container>
