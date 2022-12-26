@@ -175,11 +175,11 @@ export const routes: NestedRoute[] = [
       },
     ],
   },
-  {
-    path: '/flags',
-    label: 'navBar.featureFlags',
-    icon: <FaFlag />,
-    category: RouteCategory.Explore,
-    main: Flags,
-  },
+  // {
+  //   path: '/flags',
+  //   label: 'navBar.featureFlags',
+  //   icon: <FaFlag />,
+  //   category: RouteCategory.Explore,
+  //   main: Flags,
+  // },
 ]

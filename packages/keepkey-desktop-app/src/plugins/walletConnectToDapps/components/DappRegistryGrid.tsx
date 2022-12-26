@@ -14,21 +14,21 @@ import {
   Skeleton,
   SkeletonText,
 } from '@chakra-ui/react'
-import { Card } from 'components/Card/Card'
-import { Text } from 'components/Text'
-import { WalletActions } from 'context/WalletProvider/actions'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import { getPioneerClient } from 'lib/getPioneerCleint'
 import type { FC } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { useHistory } from 'react-router'
+import { Card } from 'components/Card/Card'
+import { Text } from 'components/Text'
+import { WalletActions } from 'context/WalletProvider/actions'
+import { useWallet } from 'hooks/useWallet/useWallet'
 
 import type { RegistryItem } from '../types'
 import { PageInput } from './PageInput'
-
+import { getPioneerClient } from 'lib/getPioneerCleint'
 
 const PAGE_SIZE = 20
+const loadingImg = 'https://github.com/keepkey/keepkey-desktop/blob/develop/packages/keepkey-desktop/icon.png?raw=true'
 
 export const DappRegistryGrid: FC = () => {
   const [registryItems, setRegistryItems] = useState<RegistryItem[]>()
