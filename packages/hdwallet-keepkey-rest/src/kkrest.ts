@@ -371,9 +371,9 @@ export class KeepKeyRestHDWallet
     // })).address
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async btcSignTx(msg: core.BTCSignTxKK): Promise<core.BTCSignedTx> {
-    throw new Error('not implemented')
+  public async btcSignTx(msg: any): Promise<any> {
+    const output = await this.sdk.bitcoin.btcSignTransaction(msg)
+    return output
   }
 
   public async btcSupportsSecureTransfer(): Promise<boolean> {
