@@ -83,6 +83,23 @@ const createWebUsbWallet = async (controller: KKStateController) => {
     device.serialNumber,
     true,
   )) as KeepKeyHDWallet
+
+  const transport = controller.wallet.transport as unknown as {
+    write(data: Uint8Array, debugLink?: boolean): Promise<void>
+    read(debugLink?: boolean): Promise<Uint8Array>
+  }
+  const transportWrite = transport.write.bind(transport)
+  const transportRead = transport.read.bind(transport)
+  transport.read = async (debugLink?: boolean) => {
+    const out = await transportRead(debugLink)
+    console.log('readDevice:', Buffer.from(out).toString('hex'))
+    return out
+  }
+  transport.write = async (data: Uint8Array, debugLink?: boolean) => {
+    console.log('writeDevice:', Buffer.from(data).toString('hex'))
+    return await transportWrite(data, debugLink)
+  }
+
   let features = await controller.wallet.getFeatures()
   const { majorVersion, minorVersion, patchVersion, bootloaderHash } = features
   const versionString = `v${majorVersion}.${minorVersion}.${patchVersion}`
