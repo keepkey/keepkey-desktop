@@ -13,6 +13,9 @@ export interface IWalletContext {
   isUpdatingKeepkey: boolean
   setIsUpdatingKeepkey: (x: boolean) => void
   pairAndConnect: React.MutableRefObject<DebouncedFunc<() => Promise<void>>>
+  deviceBusy: boolean
+  desiredLabel: string
+  setDesiredLabel: (arg0: string) => any
 }
 
 export const WalletContext = createContext<IWalletContext | null>(null)

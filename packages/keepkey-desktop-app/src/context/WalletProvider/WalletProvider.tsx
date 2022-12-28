@@ -322,6 +322,11 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   // so we dont unintentionally show the keepkey error modal while updating
   const [isUpdatingKeepkey, setIsUpdatingKeepkey] = useState(false)
 
+  // is keepkey device currently being interacted with
+  const [deviceBusy] = useState(false)
+
+  const [desiredLabel, setDesiredLabel] = useState('')
+
   const disconnect = useCallback(async () => {
     /**
      * in case of KeepKey placeholder wallet,
@@ -432,8 +437,21 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       isUpdatingKeepkey,
       setIsUpdatingKeepkey,
       pairAndConnect,
+      deviceBusy,
+      desiredLabel,
+      setDesiredLabel,
     }),
-    [state, disconnect, setDeviceState, setIsUpdatingKeepkey, isUpdatingKeepkey, pairAndConnect],
+    [
+      state,
+      disconnect,
+      setDeviceState,
+      setIsUpdatingKeepkey,
+      isUpdatingKeepkey,
+      pairAndConnect,
+      deviceBusy,
+      desiredLabel,
+      setDesiredLabel,
+    ],
   )
 
   return (

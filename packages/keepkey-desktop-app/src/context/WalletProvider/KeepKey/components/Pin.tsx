@@ -39,6 +39,7 @@ export const KeepKeyPin = ({
       pinDeferred,
     },
     dispatch,
+    desiredLabel,
   } = useWallet()
 
   const pinFieldRef = useRef<HTMLInputElement | null>(null)
@@ -81,7 +82,6 @@ export const KeepKeyPin = ({
             })
             break
           default:
-            dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
             break
         }
       } catch (e) {
@@ -122,7 +122,8 @@ export const KeepKeyPin = ({
      * Handle errors reported by the KeepKey
      * Specifically look for PIN errors that are relevant to this modal
      */
-    const handleError = (e: Event) => {
+    const handleError = (events: Event[]) => {
+      const e = events[1]
       if (e.message_enum === MessageType.FAILURE) {
         switch (e.message?.code as FailureType) {
           // Device has a programmed PIN
@@ -149,11 +150,17 @@ export const KeepKeyPin = ({
       // @ts-expect-error
       keyring.off(['KeepKey', deviceId, String(MessageType.FAILURE)], handleError)
     }
-  }, [deviceId, keyring])
+  }, [desiredLabel, deviceId, disposition, keyring, setDeviceState])
+
+  const [disablePin, setDisablePin] = useState(true)
 
   useEffect(() => {
     pinFieldRef.current?.focus()
-  }, [])
+
+    setTimeout(() => {
+      setDisablePin(false)
+    }, 3000)
+  }, [disablePin])
 
   return (
     <>
