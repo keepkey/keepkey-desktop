@@ -163,6 +163,8 @@ export const useKeepKeyEventHandler = (
           break
         // ACK just means we sent it, doesn't mean it was successful
         case MessageType.PINMATRIXACK:
+          if (disposition !== 'initializing')
+            dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
           break
         // @TODO: What do we want to do with these events?
         case MessageType.FAILURE:

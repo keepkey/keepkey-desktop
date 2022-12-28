@@ -39,7 +39,7 @@ export const KeepKeyPin = ({
       deviceState: { disposition },
     },
     dispatch,
-    desiredLabel
+    desiredLabel,
   } = useWallet()
   const wallet = keyring.get(deviceId)
 
@@ -149,9 +149,15 @@ export const KeepKeyPin = ({
     }
   }, [desiredLabel, deviceId, disposition, keyring, setDeviceState, wallet])
 
+  const [disablePin, setDisablePin] = useState(true)
+
   useEffect(() => {
     pinFieldRef.current?.focus()
-  }, [])
+
+    setTimeout(() => {
+      setDisablePin(false)
+    }, 3000)
+  }, [disablePin])
 
   return (
     <>
@@ -167,6 +173,7 @@ export const KeepKeyPin = ({
       >
         {pinNumbers.map(number => (
           <Button
+            disabled={disablePin}
             key={number}
             size={'lg'}
             p={8}
