@@ -83,7 +83,6 @@ export const KeepKeyPin = ({
             })
             break
           default:
-            // dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
             break
         }
       } catch (e) {
