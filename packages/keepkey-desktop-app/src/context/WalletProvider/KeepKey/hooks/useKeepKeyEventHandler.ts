@@ -171,10 +171,6 @@ export const useKeepKeyEventHandler = (
             case FailureType.PINCANCELLED:
               fnLogger.warn('PIN Cancelled')
               break
-            case FailureType.ACTIONCANCELLED:
-              fnLogger.debug('Action Cancelled')
-              setDeviceState({ awaitingDeviceInteraction: false })
-              break
             case FailureType.NOTINITIALIZED:
               ;(async () => {
                 const id = keyring.getAlias(deviceId)

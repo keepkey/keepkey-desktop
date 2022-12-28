@@ -127,7 +127,7 @@ export const KeepKeyPin = ({
         switch (e.message?.code as FailureType) {
           // Device has a programmed PIN
           case FailureType.PININVALID:
-            setError(`walletProvider.keepKey.errors.pinInvalid`)
+            setError(`walletProvider.keepKey.errors.pinMismatch`)
             break
           // A "cancel" command was sent while showing the PIN screen on the KK
           case FailureType.PINCANCELLED:
