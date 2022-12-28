@@ -66,9 +66,9 @@ export const KeepKeyPin = ({
     if (pin && pin.length > 0) {
       try {
         // The event handler will pick up the response to the sendPin request
-        // console.log('about to send pin', wallet)
+        moduleLogger.debug('About to send pin')
         await wallet?.sendPin(pin)
-        // console.log('done sending pin')
+        moduleLogger.debug('done sending pin')
         if (translationType === 'remove') return setLoading(false)
         switch (disposition) {
           case 'recovering':
