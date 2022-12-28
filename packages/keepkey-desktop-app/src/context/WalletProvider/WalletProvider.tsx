@@ -345,6 +345,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   // is keepkey device currently being interacted with
   const [deviceBusy, setDeviceBusy] = useState(false)
 
+  const [desiredLabel, setDesiredLabel] = useState('')
+
   const disconnect = useCallback(async () => {
     /**
      * in case of KeepKey placeholder wallet,
@@ -506,6 +508,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       setIsUpdatingKeepkey,
       pairAndConnect,
       deviceBusy,
+      desiredLabel,
+      setDesiredLabel,
     }),
     [
       state,
@@ -515,6 +519,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       isUpdatingKeepkey,
       pairAndConnect,
       deviceBusy,
+      desiredLabel,
+      setDesiredLabel,
     ],
   )
 

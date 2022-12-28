@@ -1,6 +1,6 @@
 import type { ButtonProps, SimpleGridProps } from '@chakra-ui/react'
 import { Alert, AlertDescription, AlertIcon, Button, Input, SimpleGrid } from '@chakra-ui/react'
-import type { Event } from '@shapeshiftoss/hdwallet-core'
+import type { Event, ResetDevice } from '@shapeshiftoss/hdwallet-core'
 import { ipcRenderer } from 'electron-shim'
 import type { KeyboardEvent } from 'react'
 import { useCallback } from 'react'
@@ -39,6 +39,7 @@ export const KeepKeyPin = ({
       deviceState: { disposition },
     },
     dispatch,
+    desiredLabel
   } = useWallet()
   const wallet = keyring.get(deviceId)
 
@@ -82,7 +83,6 @@ export const KeepKeyPin = ({
             })
             break
           default:
-            dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
             break
         }
       } catch (e) {
@@ -123,23 +123,21 @@ export const KeepKeyPin = ({
      * Handle errors reported by the KeepKey
      * Specifically look for PIN errors that are relevant to this modal
      */
-    const handleError = (e: Event) => {
+    const handleError = (events: Event[]) => {
+      const e = events[1]
       if (e.message_enum === MessageType.FAILURE) {
         switch (e.message?.code as FailureType) {
           // Device has a programmed PIN
           case FailureType.PININVALID:
             setError(`walletProvider.keepKey.errors.pinInvalid`)
-            break
-          // A "cancel" command was sent while showing the PIN screen on the KK
-          case FailureType.PINCANCELLED:
-            setError(`walletProvider.keepKey.errors.pinCancelled`)
-            break
-          // Creating a NEW PIN, the user didn't enter the same PIN in steps 1 and 2
-          case FailureType.PINMISMATCH:
-            setError(`walletProvider.keepKey.errors.pinMismatch`)
+            setTimeout(() => {
+              const sanitizedLabel = desiredLabel.replace(/[^\x00-\x7F]+/g, '').substring(0, 12)
+              const resetMessage: ResetDevice = { label: sanitizedLabel ?? '', pin: true }
+              setDeviceState({ awaitingDeviceInteraction: true, disposition })
+              wallet?.reset(resetMessage)
+            }, 3000)
             break
           default:
-            setError('walletProvider.keepKey.errors.unknown')
         }
       }
     }
@@ -149,7 +147,7 @@ export const KeepKeyPin = ({
     return () => {
       keyring.off(['KeepKey', deviceId, String(MessageType.FAILURE)], handleError)
     }
-  }, [deviceId, keyring])
+  }, [desiredLabel, deviceId, disposition, keyring, setDeviceState, wallet])
 
   useEffect(() => {
     pinFieldRef.current?.focus()
