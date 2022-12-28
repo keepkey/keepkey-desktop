@@ -47,9 +47,9 @@ export const UpdateKeepKey = (params: Record<string, never> | KKStateData) => {
     <Modal
       isOpen={isOpen}
       onClose={() => {
-        disconnect()
-        close()
-        setStep(0)
+        // disconnect()
+        // close()
+        // setStep(0)
       }}
       isCentered
       closeOnOverlayClick={false}
@@ -57,7 +57,7 @@ export const UpdateKeepKey = (params: Record<string, never> | KKStateData) => {
     >
       <ModalOverlay />
       <ModalContent justifyContent='center' p={3}>
-        <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+        {/*<ModalCloseButton ml='auto' borderRadius='full' position='static' />*/}
         <Steps activeStep={activeStep}>
           {steps.map(({ label, content }: any) => (
             <Step label={label} key={label}>
