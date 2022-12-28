@@ -1,5 +1,4 @@
 import { Button, Input, ModalBody, ModalHeader } from '@chakra-ui/react'
-import { useToast } from '@chakra-ui/toast'
 import type { ResetDevice } from '@shapeshiftoss/hdwallet-core'
 import { useEffect, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
@@ -8,6 +7,7 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
 
 import { useKeepKeyRecover } from '../hooks/useKeepKeyRecover'
+import { WalletActions } from 'context/WalletProvider/actions'
 const moduleLogger = logger.child({ namespace: ['Label'] })
 
 export const KeepKeyLabel = () => {
@@ -18,29 +18,28 @@ export const KeepKeyLabel = () => {
       deviceState: { disposition },
       wallet,
     },
+    dispatch,
+    desiredLabel,
+    setDesiredLabel,
   } = useWallet()
-  const toast = useToast()
   const translate = useTranslate()
-  const [label, setLabel] = useState('')
   const recoverKeepKey = useKeepKeyRecover()
 
   const handleInitializeSubmit = async () => {
     setLoading(true)
     //We prevent all special chars and any length > 12. We just yolo trim and send it (user can change later)
-    let sanitizedLabel = label.replace(/[^\x00-\x7F]+/g, "").substring(0, 12)
+    let sanitizedLabel = desiredLabel.replace(/[^\x00-\x7F]+/g, '').substring(0, 12)
     const resetMessage: ResetDevice = { label: sanitizedLabel ?? '', pin: true }
     setDeviceState({ awaitingDeviceInteraction: true, disposition })
-    await wallet?.reset(resetMessage).catch(e => {
+
+    try {
+      await wallet?.reset(resetMessage)
+      dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
+    } catch (e: any) {
       setLoading(false)
       setDeviceState({ awaitingDeviceInteraction: false, disposition })
       moduleLogger.error(e)
-      toast({
-        title: translate('common.error'),
-        description: e?.message?.message ?? translate('common.somethingWentWrong'),
-        status: 'error',
-        isClosable: true,
-      })
-    })
+    }
   }
 
   useEffect(() => {
@@ -53,7 +52,7 @@ export const KeepKeyLabel = () => {
 
   const handleRecoverSubmit = async () => {
     setLoading(true)
-    await recoverKeepKey(label)
+    await recoverKeepKey(desiredLabel)
   }
 
   return (
@@ -65,10 +64,10 @@ export const KeepKeyLabel = () => {
         <Text color='gray.500' translation={'modals.keepKey.label.body'} mb={4} />
         <Input
           type='text'
-          value={label}
+          value={desiredLabel}
           disabled={loading}
           placeholder={translate('modals.keepKey.label.placeholder')}
-          onChange={e => setLabel(e.target.value)}
+          onChange={e => setDesiredLabel(e.target.value)}
           size='lg'
           variant='filled'
           mt={3}
@@ -84,7 +83,7 @@ export const KeepKeyLabel = () => {
         >
           <Text
             translation={
-              label ? 'modals.keepKey.label.setLabelButton' : 'modals.keepKey.label.skipLabelButton'
+              desiredLabel ? 'modals.keepKey.label.setLabelButton' : 'modals.keepKey.label.skipLabelButton'
             }
           />
         </Button>

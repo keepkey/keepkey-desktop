@@ -13,6 +13,9 @@ export interface IWalletContext {
   setIsUpdatingKeepkey: any
   pairAndConnect: any
   deviceBusy: boolean
+  desiredLabel: string
+  setDesiredLabel: (arg0: string) => any
+
 }
 
 export const WalletContext = createContext<IWalletContext | null>(null)

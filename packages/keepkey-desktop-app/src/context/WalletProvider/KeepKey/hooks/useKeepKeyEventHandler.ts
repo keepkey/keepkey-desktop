@@ -163,7 +163,7 @@ export const useKeepKeyEventHandler = (
           break
         // ACK just means we sent it, doesn't mean it was successful
         case MessageType.PINMATRIXACK:
-          if (modal) dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
+//          if (modal) dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
           break
         // @TODO: What do we want to do with these events?
         case MessageType.FAILURE:
@@ -171,9 +171,15 @@ export const useKeepKeyEventHandler = (
             case FailureType.PINCANCELLED:
               fnLogger.warn('PIN Cancelled')
               break
-            case FailureType.ACTIONCANCELLED:
-              fnLogger.debug('Action Cancelled')
+            case FailureType.PININVALID:
+              fnLogger.debug('PININVALID')
               setDeviceState({ awaitingDeviceInteraction: false })
+              // dispatch({
+              //   type: WalletActions.OPEN_KEEPKEY_LABEL,
+              //   payload: {
+              //     deviceId,
+              //   },
+              // })
               break
             case FailureType.NOTINITIALIZED:
               ;(async () => {
