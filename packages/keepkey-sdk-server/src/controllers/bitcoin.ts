@@ -34,6 +34,9 @@ export class BitcoinController extends ApiController {
     }
     if (body.vaultAddress) input.vaultAddress = body.vaultAddress
     if (body.opReturnData) input.opReturnData = body.opReturnData
+
+    console.log('*** input: ', JSON.stringify(input))
+
     return await this.context.wallet.btcSignTx(input)
   }
 }

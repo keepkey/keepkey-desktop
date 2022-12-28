@@ -2,7 +2,6 @@ import { Body, Middlewares, OperationId, Post, Response, Route, Security, Tags }
 
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'
-import type * as types from '../types'
 
 @Route('/xrp')
 @Tags('XRP')
@@ -18,11 +17,21 @@ export class XrpController extends ApiController {
   @OperationId('xrp_signTransaction')
   public async signTransaction(
     @Body()
-    _body: // eslint-disable-line @typescript-eslint/no-unused-vars
-    {
-      tx_json: types.xrp.Transaction
+    body: {
+      addressNList: any
+      tx: any
+      flags: undefined
+      sequence: string
+      lastLedgerSequence: string
+      payment: {
+        amount: string
+        destination: string
+        destinationTag: string
+      }
     },
-  ): Promise<types.xrp.Signature> {
-    throw new Error('signTransaction not implemented')
+  ): Promise<any> {
+    //santize? validate?
+    let input: any = body
+    return await this.context.wallet.rippleSignTx(input)
   }
 }

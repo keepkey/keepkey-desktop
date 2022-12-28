@@ -3,6 +3,7 @@ import { Body, Middlewares, OperationId, Post, Response, Route, Security, Tags }
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'
 import type * as types from '../types'
+import { BTCInputScriptType } from '@shapeshiftoss/hdwallet-core'
 
 @Route('/addresses')
 @Tags('Address')
@@ -11,6 +12,34 @@ import type * as types from '../types'
 @Response(400, 'Bad request')
 @Response(500, 'Error processing request')
 export class AddressesController extends ApiController {
+  /**
+   * Get a Bitcoin/Dogecoin/Dash.... cont. (see coin-support) Chain address, loading it into the current session and optionally displaying it on-device.
+   * @summary Get Binance Address
+   */
+  @Post('/utxo')
+  @OperationId('UTXOGetAddress')
+  public async utxo(
+    @Body()
+    body: {
+      address_n: types.AddressNList
+      coin: string
+      script_type: BTCInputScriptType
+      show_display?: boolean
+    },
+  ): Promise<{ address: any }> {
+    const response = await this.context.wallet.btcGetAddress({
+      addressNList: body.address_n,
+      coin: body.coin,
+      scriptType: body.script_type,
+      showDisplay: !!body.show_display,
+    })
+    await this.context.saveAccount(response!, body.address_n)
+
+    return {
+      address: response,
+    }
+  }
+
   /**
    * Get a Binance Chain address, loading it into the current session and optionally displaying it on-device.
    * @summary Get Binance Address

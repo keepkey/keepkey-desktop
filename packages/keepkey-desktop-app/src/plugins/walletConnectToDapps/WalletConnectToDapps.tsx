@@ -33,11 +33,6 @@ export const WalletConnectToDapps: FC = () => {
     updateMotd()
   }, [])
 
-  const openDapp = (app: RegistryItem) => {
-    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.app })
-    history.push('/browser')
-  }
-
   return (
     <Container p={4} maxW='container.lg'>
       <Stack spacing={10}>
