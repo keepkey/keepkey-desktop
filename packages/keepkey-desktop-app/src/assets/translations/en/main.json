@@ -586,9 +586,9 @@
       "hardware": {
         "headerError": "Hardware Error!",
         "headerReconnect": "Please reconnect your keepkey",
-        "headerConnect": "Device Unable to Communicate",
+        "headerConnect": "Welcome To KeepKey Desktop!",
         "troubleshoot": "Device connected? Troubleshoot",
-        "connect": "Please connect your KeepKey to continue. If your device is already connected, disconnect and reconnect to reset your device state.",
+        "connect": "To Begin \n Please connect your KeepKey to continue.\n \nIf your device is already connected, disconnect and reconnect to reset your device state.",
         "reconnect": "Please disconnect, and reconnect your KeepKey to continue."
       },
       "bootloader": {
