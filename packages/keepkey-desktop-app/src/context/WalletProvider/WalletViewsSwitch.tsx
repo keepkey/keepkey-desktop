@@ -26,9 +26,8 @@ export const WalletViewsSwitch = () => {
   const location = useLocation()
   const toast = useToast()
   const translate = useTranslate()
-  const match = useRouteMatch('/keepkey/label')
   const {
-    state: { wallet, modal, showBackButton, initialRoute, type, disconnectOnCloseModal },
+    state: { wallet, modal, initialRoute, type, disconnectOnCloseModal },
     dispatch,
     disconnect,
   } = useWallet()

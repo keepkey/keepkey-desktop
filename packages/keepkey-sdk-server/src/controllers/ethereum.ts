@@ -118,15 +118,13 @@ export class EthereumController extends ApiController {
       message: types.eth.HexData
       address: types.eth.Address
     },
-  ): Promise<types.eth.Signature> {
+  ): Promise<any> {
     const account = await this.context.getAccount(body.address)
 
-    return (
-      await this.context.wallet.ethSignMessage({
-        addressNList: account.addressNList,
-        message: body.message,
-      })
-    ).signature
+    return await this.context.wallet.ethSignMessage({
+      addressNList: account.addressNList,
+      message: body.message,
+    })
   }
 
   /**

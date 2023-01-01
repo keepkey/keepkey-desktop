@@ -9,6 +9,7 @@ import {
   InputRightElement,
   ModalCloseButton,
   VStack,
+  Link
 } from '@chakra-ui/react'
 import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
 import { Text } from 'components/Text'
@@ -78,10 +79,15 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
             <Heading flex={1} fontSize='xl'>
               <Text translation='plugins.walletConnectToDapps.modal.connect.title' />
             </Heading>
-            {/* TODO: Make youtube video and link it here
-            <Button colorScheme='blue' as={Link} variant='link' href="" isExternal>
+            <Button
+              colorScheme='blue'
+              as={Link}
+              variant='link'
+              href='https://www.keepkey.com/dapps'
+              isExternal
+            >
               {translate('plugins.walletConnectToDapps.modal.connect.howTo')}
-            </Button> */}
+            </Button>
             <FormControl isInvalid={Boolean(formState.errors.uri)} mb={6}>
               <InputGroup size='lg'>
                 <InputRightElement pointerEvents='none'>

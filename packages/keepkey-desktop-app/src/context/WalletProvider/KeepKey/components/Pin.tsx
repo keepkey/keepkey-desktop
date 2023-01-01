@@ -34,6 +34,7 @@ export const KeepKeyPin = ({
     setDeviceState,
     state: {
       keyring,
+      modal,
       deviceId,
       deviceState: { disposition },
       pinDeferred,
@@ -82,6 +83,9 @@ export const KeepKeyPin = ({
             })
             break
           default:
+            // @ts-ignore
+            moduleLogger.debug('disposition: ', disposition)
+            //
             break
         }
       } catch (e) {
@@ -156,7 +160,6 @@ export const KeepKeyPin = ({
 
   useEffect(() => {
     pinFieldRef.current?.focus()
-
     setTimeout(() => {
       setDisablePin(false)
     }, 3000)

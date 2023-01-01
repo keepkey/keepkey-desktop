@@ -363,12 +363,15 @@ export class KeepKeyRestHDWallet
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  readonly btcGetAddress = _.memoize(async (msg: core.BTCGetAddress): Promise<string> => {
-    throw new Error('not implemented')
-    // return (await this.sdk.address.utxoGetAddress({
-    //   addressN: msg.addressNList,
-    //   showDisplay: msg.showDisplay,
-    // })).address
+  readonly btcGetAddress = _.memoize(async (msg: any): Promise<string> => {
+    return (
+      await this.sdk.address.uTXOGetAddress({
+        script_type: msg.scriptType,
+        coin: msg.coin,
+        address_n: msg.addressNList,
+        show_display: msg.showDisplay,
+      })
+    ).address
   })
 
   public async btcSignTx(msg: any): Promise<any> {
@@ -405,6 +408,7 @@ export class KeepKeyRestHDWallet
   }
 
   public async ethSignTx(msg: core.ETHSignTx): Promise<core.ETHSignedTx> {
+    console.log('msg: ', msg)
     const sig = (await this.sdk.eth.ethSignTransaction({
       nonce: msg.nonce,
       value: msg.value,
@@ -421,6 +425,7 @@ export class KeepKeyRestHDWallet
       maxPriorityFeePerGas: msg.maxPriorityFeePerGas,
     })) as string
     if (sig.length !== 130) throw new Error('bad sig length')
+    console.log('sig: ', sig)
     return {
       r: sig.slice(0, 64),
       s: sig.slice(64, 128),
@@ -440,19 +445,23 @@ export class KeepKeyRestHDWallet
     ).address
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async ethSignMessage(_msg: core.ETHSignMessage): Promise<core.ETHSignedMessage> {
-    throw new Error('not implemented')
+  public async ethSignMessage(_msg: any): Promise<any> {
+    console.log('_msg: ', _msg)
+    const sig = await this.sdk.eth.ethSign(_msg)
+    console.log('sig: ', sig)
+    return sig
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async ethSignTypedData(_msg: core.ETHSignTypedData): Promise<core.ETHSignedTypedData> {
-    throw new Error('not implemented')
+  public async ethSignTypedData(_msg: any): Promise<any> {
+    console.log('_msg: ', _msg)
+    const sig = await this.sdk.eth.ethSignTypedData(_msg)
+    console.log('_msg: ', _msg)
+    return sig
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async ethVerifyMessage(_msg: core.ETHVerifyMessage): Promise<boolean> {
-    throw new Error('not implemented')
+  public async ethVerifyMessage(_msg: any): Promise<boolean> {
+    const output = await this.sdk.eth.ethVerify(_msg)
+    return output
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

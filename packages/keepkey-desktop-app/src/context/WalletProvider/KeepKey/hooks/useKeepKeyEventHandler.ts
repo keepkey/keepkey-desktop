@@ -231,9 +231,16 @@ export const useKeepKeyEventHandler = (
       try {
         const id = keyring.getAlias(deviceId)
         const wallet = keyring.get(id)
+        console.log('CHECKPPIONT DEVICE UNLOCKED handleConnect')
+        console.log('wallet: ', wallet)
+        console.log('id: ', id)
+        console.log('state.walletInfo?.deviceId: ', state.walletInfo?.deviceId)
+        console.log('state.walletInfo?: ', state.walletInfo)
+        dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
         if (wallet && id === state.walletInfo?.deviceId) {
           // This gets the firmware version needed for some KeepKey "supportsX" functions
           await wallet.getFeatures()
+          console.log('CHECKPPIONT DEVICE UNLOCKED 2')
           // Show the label from the wallet instead of a generic name
           const name = (await wallet.getLabel()) || state.walletInfo.name
           // The keyring might have a new HDWallet instance for the device.
@@ -249,7 +256,10 @@ export const useKeepKeyEventHandler = (
               icon: state.walletInfo.icon, // We're reconnecting the same wallet so we can reuse the walletInfo
             },
           })
+
+          dispatch({ type: WalletActions.CLEAR_MODAL_CACHE, payload: { deviceId: id } })
           dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
+        } else {
         }
       } catch (e) {
         moduleLogger.error(e, { fn: 'handleConnect' }, 'Device Connected Error')

@@ -9700,7 +9700,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],\
       ["@shapeshiftoss/hdwallet-keepkey", [\
         ["npm:1.41.0", {\
-          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024-7c65fed7f9.zip/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
+          "packageLocation": "./.yarn/unplugged/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
           "packageDependencies": [\
             ["@shapeshiftoss/hdwallet-keepkey", "npm:1.41.0"],\
             ["@ethereumjs/common", "npm:2.6.5"],\
