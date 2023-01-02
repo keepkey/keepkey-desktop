@@ -2,6 +2,7 @@ import { Body, Post, Security, Route, Response, Middlewares, OperationId, Tags }
 
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'
+import type * as types from '../types'
 
 @Route('/bitcoin')
 @Tags('BTC')
@@ -24,7 +25,9 @@ export class BitcoinController extends ApiController {
       vaultAddress?: string
       opReturnData?: string
     },
-  ): Promise<any> {
+  ): Promise<{
+    serializedTx: types.hex.bytes.Lower
+  }> {
     let input: any = {
       coin: body.coin,
       inputs: body.inputs,
