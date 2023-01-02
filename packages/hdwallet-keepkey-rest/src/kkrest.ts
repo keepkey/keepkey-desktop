@@ -408,8 +408,7 @@ export class KeepKeyRestHDWallet
   }
 
   public async ethSignTx(msg: core.ETHSignTx): Promise<core.ETHSignedTx> {
-    console.log('msg: ', msg)
-    const sig = (await this.sdk.eth.ethSignTransaction({
+    const sig = await this.sdk.eth.ethSignTransaction({
       nonce: msg.nonce,
       value: msg.value,
       data: msg.data,
@@ -423,14 +422,14 @@ export class KeepKeyRestHDWallet
       maxFeePerGas: msg.maxFeePerGas,
       // @ts-expect-error
       maxPriorityFeePerGas: msg.maxPriorityFeePerGas,
-    })) as string
-    if (sig.length !== 130) throw new Error('bad sig length')
-    console.log('sig: ', sig)
+      chainId: msg.chainId,
+    })
     return {
-      r: sig.slice(0, 64),
-      s: sig.slice(64, 128),
-      v: Buffer.from(sig.slice(128, 130), 'hex')[0],
-      serialized: sig,
+      // @ts-expect-error
+      v: sig.v,
+      r: sig.r,
+      s: sig.s,
+      serialized: sig.serialized,
     }
   }
 
