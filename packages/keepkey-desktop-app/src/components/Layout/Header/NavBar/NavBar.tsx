@@ -1,7 +1,7 @@
 import type { StackProps } from '@chakra-ui/react'
 import { Divider, Stack, useColorModeValue } from '@chakra-ui/react'
 import { union } from 'lodash'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { Link as ReactRouterLink } from 'react-router-dom'
 import type { Route } from 'Routes/helpers'
@@ -10,6 +10,7 @@ import { Text } from 'components/Text'
 import { usePlugins } from 'context/PluginProvider/PluginProvider'
 
 import { MainNavLink } from './MainNavLink'
+import { useWallet } from 'hooks/useWallet/useWallet'
 
 type NavBarProps = {
   isCompact?: boolean
@@ -21,6 +22,12 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
   const { routes: pluginRoutes } = usePlugins()
   const groupColor = useColorModeValue('gray.300', 'gray.600')
 
+  const {
+    state: { wallet },
+  } = useWallet()
+
+  const [supportsAuthenticator, setSupportsAuthenticator] = useState(false)
+
   const navItemGroups = useMemo(() => {
     const allRoutes = union(routes, pluginRoutes).filter(route => !route.disable && !route.hide)
     const groups = allRoutes.reduce(
@@ -31,8 +38,22 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
         ]),
       new Map(),
     )
-    return Array.from(groups.entries())
-  }, [pluginRoutes])
+
+    const entries = Array.from(groups.entries())
+
+    const index = entries[1][1].findIndex((entry: any) => entry.path === '/authenticator')
+
+    !supportsAuthenticator && entries[1][1].splice(index, 1)
+
+    return entries
+  }, [pluginRoutes, supportsAuthenticator])
+
+  useEffect(() => {
+    wallet?.getFirmwareVersion().then(version => {
+      const [major, minor] = version.replace('v', '').split('.')
+      if (Number(major) >= 7 && Number(minor) >= 6) setSupportsAuthenticator(true)
+    })
+  }, [wallet])
 
   return (
     <Stack width='full' flex='1 1 0%' spacing={6} divider={<Divider />} {...rest}>
