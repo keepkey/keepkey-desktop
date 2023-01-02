@@ -1,9 +1,9 @@
+import { Heading, Stack } from '@chakra-ui/layout'
 import type { Asset } from '@keepkey/asset-service'
-import { useHistory } from 'react-router-dom'
 import { AssetSearchKK } from 'components/AssetSearchKK/AssetSearchKK'
 import { Main } from 'components/Layout/Main'
-import { Stack, Heading } from '@chakra-ui/layout'
 import { Text } from 'components/Text'
+import { useHistory } from 'react-router-dom'
 
 export const Assets = () => {
   const history = useHistory()

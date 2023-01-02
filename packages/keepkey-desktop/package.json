@@ -26,6 +26,7 @@
         "productName": "KeepKey Desktop",
         "generateUpdatesFilesForAllChannels": true,
         "afterSign": "./scripts/afterSign.js",
+        "publish": "github",
         "files": [
             "build/**/*"
         ],
@@ -48,18 +49,12 @@
             "target": [
                 "dmg",
                 "zip"
-            ],
-            "publish": [
-                "github"
             ]
         },
         "win": {
             "icon": "icon.png",
             "target": [
                 "nsis"
-            ],
-            "publish": [
-                "github"
             ]
         },
         "linux": {
@@ -67,9 +62,6 @@
             "target": [
                 "deb",
                 "AppImage"
-            ],
-            "publish": [
-                "github"
             ]
         }
     },
