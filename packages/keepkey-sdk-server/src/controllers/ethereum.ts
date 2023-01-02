@@ -36,6 +36,7 @@ export class EthereumController extends ApiController {
       gas: types.eth.HexQuantity
       value: types.eth.HexQuantity
       nonce: types.eth.HexQuantity
+      /** @minValue 1 */
       chainId: number
     } & (
       | /** @title EIP-1559 */ {
