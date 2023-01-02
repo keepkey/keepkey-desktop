@@ -1,4 +1,5 @@
 import {
+  Menu,
   ModalBody,
   ModalCloseButton,
   ModalHeader,
@@ -17,6 +18,8 @@ import { useModal } from 'hooks/useModal/useModal'
 
 import { GeneralSettings } from './GeneralSettings'
 import { AppSettings } from './AppSettings'
+import { WalletConnected } from 'components/Layout/Header/NavBar/UserMenu'
+import { useWallet } from 'hooks/useWallet/useWallet'
 
 export type SettingsListProps = {
   appHistory: RouteComponentProps['history']
@@ -41,6 +44,9 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
     }
   }, [appHistory, clickCount, setClickCount, settings])
 
+  const { state, disconnect } = useWallet()
+  const { isConnected, isDemoWallet, walletInfo, type } = state
+
   return (
     <SlideTransition>
       <ModalHeader textAlign='center' userSelect='none' onClick={handleHeaderClick}>
@@ -56,6 +62,9 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
             <Tab>
               <Text translation='modals.settings.tabs.app' />
             </Tab>
+            <Tab>
+              <Text translation='modals.settings.tabs.keepkey' />
+            </Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -63,6 +72,16 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
             </TabPanel>
             <TabPanel>
               <AppSettings />
+            </TabPanel>
+            <TabPanel>
+              <Menu>
+                <WalletConnected
+                  isConnected={isConnected || isDemoWallet}
+                  walletInfo={walletInfo}
+                  onDisconnect={disconnect}
+                  type={type}
+                />
+              </Menu>
             </TabPanel>
           </TabPanels>
         </Tabs>

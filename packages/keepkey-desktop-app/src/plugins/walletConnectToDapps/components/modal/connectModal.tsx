@@ -4,6 +4,7 @@ import {
   FormControl,
   FormErrorMessage,
   Heading,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -19,6 +20,7 @@ import { FaQrcode } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'
 import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
 import { Text } from 'components/Text'
+import { readQrCode } from 'lib/readQrCode'
 
 type Props = {
   isOpen: boolean
@@ -32,7 +34,7 @@ type FormValues = {
 export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
   const translate = useTranslate()
 
-  const { register, handleSubmit, control, formState, setValue } = useForm<FormValues>({
+  const { register, handleSubmit, control, formState, setValue, getValues } = useForm<FormValues>({
     mode: 'onChange',
     defaultValues: { uri: '' },
   })
@@ -41,10 +43,11 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
   const { connect } = useWalletConnect()
   const handleConnect = useCallback(
     async (values: FormValues) => {
+      if (!values) values = getValues()
       await connect(values.uri)
       onClose()
     },
-    [connect, onClose],
+    [connect, getValues, onClose],
   )
 
   useEffect(() => {
@@ -57,6 +60,18 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
       })
     })
   }, [isOpen, setValue])
+
+  const scan = () => {
+    readQrCode()
+      .then(value => {
+        console.log(value)
+        if (value.startsWith('wc:')) {
+          setValue('uri', value)
+          handleSubmit(handleConnect)
+        }
+      })
+      .catch(console.error)
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} variant='header-nav'>
@@ -84,9 +99,6 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
             </Button> */}
             <FormControl isInvalid={Boolean(formState.errors.uri)} mb={6}>
               <InputGroup size='lg'>
-                <InputRightElement pointerEvents='none'>
-                  <FaQrcode color='gray.300' />
-                </InputRightElement>
                 <Input
                   {...register('uri')}
                   type='text'
@@ -96,6 +108,13 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
                   autoFocus // eslint-disable-line jsx-a11y/no-autofocus
                   variant='filled'
                 />
+                <InputRightElement>
+                  <IconButton
+                    aria-label='Scan QR'
+                    onClick={() => scan()}
+                    icon={<FaQrcode color='gray.300' />}
+                  />
+                </InputRightElement>
               </InputGroup>
               <FormErrorMessage>{formState.errors?.uri?.message}</FormErrorMessage>
             </FormControl>
