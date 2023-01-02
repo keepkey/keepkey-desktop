@@ -13,6 +13,7 @@ export const startAppListeners = () => {
   app.on('ready', async () => {
     await createUpdaterSplashWindow()
     const loadedSettings = await settings.loadSettingsFromDb()
+    autoUpdater.setFeedURL({ provider: 'github', owner: 'keepkey', repo: 'keepkey-desktop' })
     autoUpdater.autoDownload = loadedSettings.shouldAutoUpdate
     autoUpdater.allowPrerelease = loadedSettings.allowPreRelease
     if (!windows.splash) return
