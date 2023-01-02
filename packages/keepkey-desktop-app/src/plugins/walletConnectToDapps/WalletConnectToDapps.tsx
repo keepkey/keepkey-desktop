@@ -26,7 +26,6 @@ export const WalletConnectToDapps: FC = () => {
       let Api = new Client(spec, config)
       let api = await Api.init()
       let info = await api.Globals()
-      console.log('info: ', info.data)
       setSetMotd(info.data.motd)
     } catch (e) {
       console.error(e)
@@ -38,7 +37,7 @@ export const WalletConnectToDapps: FC = () => {
   }, [])
 
   const openDapp = (app: RegistryItem) => {
-    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.homepage })
+    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.app })
     history.push('/browser')
   }
 
@@ -49,7 +48,6 @@ export const WalletConnectToDapps: FC = () => {
           <AlertIcon />
           {motd}
         </Alert>
-        <ExplorationBanner size={100} openDapp={openDapp} />
         <DappRegistryGrid />
       </Stack>
     </Container>

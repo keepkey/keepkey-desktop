@@ -345,6 +345,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   // is keepkey device currently being interacted with
   const [deviceBusy, setDeviceBusy] = useState(false)
 
+  const [desiredLabel, setDesiredLabel] = useState('')
+
   const disconnect = useCallback(async () => {
     /**
      * in case of KeepKey placeholder wallet,
@@ -358,7 +360,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   const pairAndConnect = useRef(
     debounce(async () => {
-      console.log('pairAndConnect')
       const adapters: Adapters = new Map()
       let options: undefined | { portisAppId: string } | WalletConnectProviderConfig
       for (const walletName of Object.values(KeyManager)) {
@@ -476,7 +477,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
         dispatch({ type: WalletActions.SET_KEEPKEY_SDK, payload: sdk })
       })
       .catch(e => {
-        console.log('GET KEEPKEYSDK ERROR', e)
+        console.error('GET KEEPKEYSDK ERROR', e)
       })
   }
 
@@ -507,6 +508,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       setIsUpdatingKeepkey,
       pairAndConnect,
       deviceBusy,
+      desiredLabel,
+      setDesiredLabel,
     }),
     [
       state,
@@ -516,6 +519,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       isUpdatingKeepkey,
       pairAndConnect,
       deviceBusy,
+      desiredLabel,
+      setDesiredLabel,
     ],
   )
 

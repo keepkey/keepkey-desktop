@@ -49,27 +49,27 @@ export const checkKeepKeyUnlocked = async () => {
   if (!kkStateController.wallet) return
   let isLocked
   try {
-      isLocked = await kkStateController.wallet.isLocked()
+    isLocked = await kkStateController.wallet.isLocked()
   } catch (e) {
-      console.log('error is', e)
+    console.log('error is', e)
   }
-  console.log("KEEPKEY LOCKED: ", isLocked)
+  console.log('KEEPKEY LOCKED: ', isLocked)
   if (isLocked) {
-      if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
-          if (!await createMainWindow()) return
-      }
-      if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
-          windows.mainWindow.focus()
-          windows.mainWindow.webContents.send('@modal/pin');
-      }
+    if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
+      if (!(await createMainWindow())) return
+    }
+    if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
+      windows.mainWindow.focus()
+      windows.mainWindow.webContents.send('@modal/pin')
+    }
   } else {
-      return
+    return
   }
 
   const p = new Promise((resolve: any) => {
-      ipcMain.once("@modal/pin-close", () => {
-          return resolve()
-      })
+    ipcMain.once('@modal/pin-close', () => {
+      return resolve()
+    })
   })
   await p
 }
@@ -108,8 +108,8 @@ export const createMainWindow = async () => {
 
   windows.mainWindow = new BrowserWindow({
     focusable: true,
-    width: isDev ? 1960 : 1024,
-    height: 780,
+    width: isDev ? 1960 : 1148,
+    height: 920,
     show: false,
     backgroundColor: 'white',
     autoHideMenuBar: true,

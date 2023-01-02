@@ -609,9 +609,9 @@
       "hardware": {
         "headerError": "Hardware Error!",
         "headerReconnect": "Please reconnect your keepkey",
-        "headerConnect": "No Device Found!",
+        "headerConnect": "Device Unable to Communicate",
         "troubleshoot": "Device connected? Troubleshoot",
-        "connect": "Please connect or reconnect your KeepKey to continue.",
+        "connect": "Please connect your KeepKey to continue. If your device is already connected, disconnect and reconnect to reset your device state.",
         "reconnect": "Please disconnect, and reconnect your KeepKey to continue."
       },
       "bootloader": {
@@ -1021,12 +1021,12 @@
       },
       "newPin": {
         "header": "Enter Your New PIN",
-        "body": "Create a new PIN (up to 9 digits) using the layout display on your KeepKey.",
+        "body": "Create a new PIN (up to 9 digits) using the Cypher displayed on your KeepKey.",
         "button": "Confirm"
       },
       "newPinConfirm": {
         "header": "Confirm Your New PIN",
-        "body": "Re-enter your PIN using the layout displayed on your KeepKey.",
+        "body": "Re-enter your PIN using the Cypher displayed displayed on your KeepKey.",
         "button": "Save PIN"
       },
       "remove": {

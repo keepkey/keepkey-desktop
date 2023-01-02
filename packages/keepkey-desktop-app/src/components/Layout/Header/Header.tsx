@@ -59,8 +59,6 @@ export const Header = () => {
 
   const handleBannerClick = () => dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: true })
 
-  console.log('legacyWeb3', legacyWeb3)
-
   return (
     <>
       <Flex
@@ -138,11 +136,16 @@ export const Header = () => {
                   <Button rightIcon={<ChevronDownIcon />} onClick={() => chainSelector.open({})}>
                     <Image
                       boxSize={6}
-                      src={`https://pioneers.dev/coins/${legacyWeb3?.name
-                        .toLowerCase()
-                        .replaceAll('mainnet', '')
-                        .replaceAll(' ', '')}.png`}
+                      src={
+                        legacyWeb3?.image
+                          ? legacyWeb3.image
+                          : `https://pioneers.dev/coins/${legacyWeb3?.name
+                              .toLowerCase()
+                              .replaceAll('mainnet', '')
+                              .replaceAll(' ', '')}.png`
+                      }
                     />
+                    {legacyWeb3?.chainId}
                   </Button>
                 </Box>
               )}
