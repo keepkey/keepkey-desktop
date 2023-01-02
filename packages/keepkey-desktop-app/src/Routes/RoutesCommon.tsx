@@ -1,5 +1,5 @@
 import { WalletConnectToDapps } from 'plugins/walletConnectToDapps/WalletConnectToDapps'
-import { FaFlag, FaGlobe, FaBuromobelexperte, FaPlug } from 'react-icons/fa'
+import { FaFlag, FaGlobe, FaBuromobelexperte, FaPlug, FaLock } from 'react-icons/fa'
 // import { IoSwapVertical } from 'react-icons/io5'
 import { AccountsIcon } from 'components/Icons/Accounts'
 import { AssetsIcon } from 'components/Icons/Assets'
@@ -27,6 +27,7 @@ import { IoSwapVertical } from 'react-icons/io5'
 
 import type { Route as NestedRoute } from './helpers'
 import { RouteCategory } from './helpers'
+import { Authenticator } from 'pages/Authenticator/Authenticator'
 
 export const routes: NestedRoute[] = [
   {
@@ -87,6 +88,13 @@ export const routes: NestedRoute[] = [
         hide: true,
       },
     ],
+  },
+  {
+    path: '/authenticator',
+    label: 'navBar.authenticator',
+    icon: <FaLock />,
+    category: RouteCategory.Explore,
+    main: Authenticator,
   },
   {
     path: '/assets',

@@ -17,6 +17,7 @@ import { selectSelectedLocale } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 
 import { PrivateRoute } from './PrivateRoute'
+import { Authenticator } from 'pages/Authenticator/Authenticator'
 
 function useLocationBackground() {
   const location = useLocation<{ background: any }>()
@@ -110,6 +111,11 @@ export const Routes = () => {
       <Route path='/pairings'>
         <Layout>
           <Pairings />
+        </Layout>
+      </Route>
+      <Route path='/authenticator'>
+        <Layout>
+          <Authenticator />
         </Layout>
       </Route>
       <Redirect from='/' to='/dashboard' />

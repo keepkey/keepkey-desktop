@@ -13,18 +13,18 @@ import { ModalSection } from './ModalSection'
 export const ContractInteractionBreakdown = ({ request }: { request: any }) => {
   const translate = useTranslate()
 
-  const { contract } = useContract(request.params[0].to)
+  const { contract } = useContract(request?.params[0].to)
 
   const transaction = useMemo(() => {
     try {
       return contract?.parseTransaction({
-        data: request.params[0].data,
-        value: request.params[0].value,
+        data: request?.params[0].data,
+        value: request?.params[0].value,
       })
     } catch (e) {
       return
     }
-  }, [contract, request.params])
+  }, [contract, request?.params])
 
   if (!transaction) return null
   return (
@@ -45,7 +45,7 @@ export const ContractInteractionBreakdown = ({ request }: { request: any }) => {
         />
         <RawText fontWeight='medium'>
           {/* TODO: what's the best way to format e.g. an ether amount with the appropriate amount of decimals? */}
-          {CurrencyAmount.ether(request.params[0].value ?? '0x0').toFixed()}
+          {CurrencyAmount.ether(request?.params[0].value ?? '0x0').toFixed()}
         </RawText>
 
         <Divider my={4} />
@@ -56,13 +56,13 @@ export const ContractInteractionBreakdown = ({ request }: { request: any }) => {
           translation='plugins.walletConnectToDapps.modal.sendTransaction.contractInteraction.data'
         />
         <HStack>
-          <MiddleEllipsis value={request.params[0].data} fontWeight='medium' />
+          <MiddleEllipsis value={request?.params[0].data} fontWeight='medium' />
           <IconButton
             size='small'
             variant='ghost'
             aria-label='Copy'
             icon={<CopyIcon />}
-            onClick={() => navigator.clipboard.writeText(request.params[0].data)}
+            onClick={() => navigator.clipboard.writeText(request?.params[0].data)}
           />
         </HStack>
 
