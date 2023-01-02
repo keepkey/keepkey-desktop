@@ -46,13 +46,11 @@ export class ApiContext {
 
   async getAccount(address: string): Promise<{
     addressNList: BIP32Path
-    chainId: number
   }> {
     const out = this.accounts[address]
     if (!out) throw new Error('unrecognized address')
     return {
       addressNList: out,
-      chainId: 0,
     }
   }
 

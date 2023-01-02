@@ -1,9 +1,9 @@
+import type { BTCInputScriptType } from '@shapeshiftoss/hdwallet-core'
 import { Body, Middlewares, OperationId, Post, Response, Route, Security, Tags } from 'tsoa'
 
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'
 import type * as types from '../types'
-import { BTCInputScriptType } from '@shapeshiftoss/hdwallet-core'
 
 @Route('/addresses')
 @Tags('Address')

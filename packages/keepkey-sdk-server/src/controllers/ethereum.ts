@@ -36,6 +36,7 @@ export class EthereumController extends ApiController {
       gas: types.eth.HexQuantity
       value: types.eth.HexQuantity
       nonce: types.eth.HexQuantity
+      chainId: number
     } & (
       | /** @title EIP-1559 */ {
           /** Maximum total price, in wei/gas, to pay for the gas needed for this transaction */
@@ -51,38 +52,41 @@ export class EthereumController extends ApiController {
           gasPrice: types.eth.HexQuantity & unknown
         }
     ),
-  ): Promise<types.eth.Signature> {
+  ): Promise<{
+    v: types.numeric.U32
+    r: types.eth.HexData
+    s: types.eth.HexData
+    serialized: types.eth.HexData
+  }> {
     assume<{ maxFeePerGas?: string | null }>(body)
     assume<{ gasPrice?: string | null }>(body)
 
     const account = await this.context.getAccount(body.from)
 
-    return (
-      await this.context.wallet.ethSignTx({
-        addressNList: account.addressNList,
-        chainId: account.chainId,
-        nonce: body.nonce,
-        value: body.value ?? '0x0',
-        data: body.data ?? '',
-        gasLimit: body.gas,
-        ...(typeof body.to === 'string'
-          ? {
-              to: body.to,
-            }
-          : {
-              to: '',
-              toAddressNList: body.to,
-            }),
-        ...(body.maxFeePerGas ?? undefined !== undefined
-          ? {
-              maxFeePerGas: body.maxFeePerGas!,
-              maxPriorityFeePerGas: body.maxPriorityFeePerGas!,
-            }
-          : {
-              gasPrice: body.gasPrice!,
-            }),
-      })
-    ).serialized
+    return await this.context.wallet.ethSignTx({
+      addressNList: account.addressNList,
+      chainId: body.chainId,
+      nonce: body.nonce,
+      value: body.value ?? '0x0',
+      data: body.data ?? '',
+      gasLimit: body.gas,
+      ...(typeof body.to === 'string'
+        ? {
+            to: body.to,
+          }
+        : {
+            to: '',
+            toAddressNList: body.to,
+          }),
+      ...(body.maxFeePerGas ?? undefined !== undefined
+        ? {
+            maxFeePerGas: body.maxFeePerGas!,
+            maxPriorityFeePerGas: body.maxPriorityFeePerGas!,
+          }
+        : {
+            gasPrice: body.gasPrice!,
+          }),
+    })
   }
 
   /**
