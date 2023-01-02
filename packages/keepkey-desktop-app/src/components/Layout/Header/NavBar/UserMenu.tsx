@@ -1,6 +1,6 @@
 import { ChevronDownIcon, WarningTwoIcon } from '@chakra-ui/icons'
-import { Menu, MenuButton, MenuGroup, MenuItem, MenuList } from '@chakra-ui/menu'
-import { Button, ButtonGroup, Flex, HStack, IconButton, useColorModeValue } from '@chakra-ui/react'
+import { MenuGroup, MenuItem } from '@chakra-ui/menu'
+import { Button, ButtonGroup, Flex, HStack, useColorModeValue } from '@chakra-ui/react'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { FaWallet } from 'react-icons/fa'
@@ -149,10 +149,9 @@ const WalletButton: FC<WalletButtonProps> = ({
 
 export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   const { state, dispatch, disconnect, deviceBusy } = useWallet()
-  const { isConnected, isDemoWallet, walletInfo, isLocked, type } = state
+  const { isConnected, isDemoWallet, walletInfo, isLocked } = state
 
   if (isLocked) disconnect()
-  const hasWallet = Boolean(walletInfo?.deviceId)
   const handleConnect = () => {
     onClick && onClick()
     dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: true })
@@ -167,32 +166,6 @@ export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
         isDemoWallet={isDemoWallet}
         isLoadingLocalWallet={state.isLoadingLocalWallet}
       />
-      <Menu>
-        <MenuButton
-          as={IconButton}
-          aria-label='Open wallet dropdown menu'
-          icon={<ChevronDownIcon />}
-          data-test='navigation-wallet-dropdown-button'
-        />
-        <MenuList
-          maxWidth={{ base: 'full', md: 'xs' }}
-          minWidth={{ base: 0, md: 'xs' }}
-          overflow='hidden'
-          // Override zIndex to prevent InputLeftElement displaying over menu
-          zIndex={2}
-        >
-          {hasWallet ? (
-            <WalletConnected
-              isConnected={isConnected || isDemoWallet}
-              walletInfo={walletInfo}
-              onDisconnect={disconnect}
-              type={type}
-            />
-          ) : (
-            <NoWallet onClick={handleConnect} />
-          )}
-        </MenuList>
-      </Menu>
     </ButtonGroup>
   )
 }

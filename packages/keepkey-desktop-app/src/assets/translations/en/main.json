@@ -469,6 +469,11 @@
     "noAccounts": "There are currently no accounts saved on your KeepKey",
     "actions": "Actions",
     "account": "Account",
+    "unsupported": {
+      "title": "Feature unsupported!",
+      "description1": "Your need to update your KeepKey's firmware to version ",
+      "description2": " or above to use this feature"
+    }, 
     "cta": {
       "generateOtp": "Generate OTP",
       "deleteAcc": "Delete Account",
@@ -961,7 +966,8 @@
       },
       "tabs": {
         "general": "General",
-        "app": "App"
+        "app": "App",
+        "keepkey": "KeepKey"
       }
     },
     "mobileWelcome": {

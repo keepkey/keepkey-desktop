@@ -1,4 +1,8 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Button,
   Code,
   Flex,
@@ -35,11 +39,28 @@ export const Authenticator = () => {
 
   const [accounts, setAccounts] = useState<AuthenticatorAccount[]>([])
   const [loading, setLoading] = useState(true)
+  const [supportsFeature, setSupportsFeature] = useState(false)
   const { addAuthenticatorAccount } = useModal()
   const toast = useToast()
 
-  const fetchAccs = useCallback(async () => {
+  useEffect(() => {
     if (!wallet) return
+
+    assume<KeepKeyHDWallet>(wallet)
+
+    wallet.getFirmwareVersion().then(version => {
+      const [major, minor] = version.replace('v', '').split('.')
+      if (Number(major) >= 7 && Number(minor) >= 6) setSupportsFeature(true)
+    })
+  }, [wallet])
+
+  useEffect(() => {
+    if (!supportsFeature) setLoading(false)
+    else setLoading(true)
+  }, [supportsFeature])
+
+  const fetchAccs = useCallback(async () => {
+    if (!wallet || !supportsFeature) return
 
     assume<KeepKeyHDWallet>(wallet)
 
@@ -63,7 +84,7 @@ export const Authenticator = () => {
     }
 
     setLoading(false)
-  }, [wallet])
+  }, [wallet, supportsFeature])
 
   useEffect(() => {
     fetchAccs()
@@ -71,7 +92,7 @@ export const Authenticator = () => {
 
   const deleteAcc = useCallback(
     async (acc: AuthenticatorAccount) => {
-      if (!wallet) return
+      if (!wallet || !supportsFeature) return
 
       assume<KeepKeyHDWallet>(wallet)
 
@@ -86,12 +107,12 @@ export const Authenticator = () => {
       })
       setTimeout(fetchAccs, 2000)
     },
-    [wallet, toast, fetchAccs],
+    [wallet, toast, fetchAccs, supportsFeature],
   )
 
   const generateOtp = useCallback(
     async (acc: AuthenticatorAccount, timeSlice: number, timeRemain: number) => {
-      if (!wallet) return
+      if (!wallet || !supportsFeature) return
 
       assume<KeepKeyHDWallet>(wallet)
 
@@ -111,7 +132,7 @@ export const Authenticator = () => {
         description: `Please check the OTP on your keepkey`,
       })
     },
-    [wallet, toast],
+    [wallet, toast, supportsFeature],
   )
 
   return (
@@ -126,7 +147,20 @@ export const Authenticator = () => {
     >
       <Card flex={1}>
         <Card.Header>
-          <Stack pb={4}>
+          <Stack pb={4} gap={4}>
+            {!supportsFeature && (
+              <Alert status='error'>
+                <AlertIcon />
+                <AlertTitle>
+                  <Text translation='authenticator.unsupported.title' />
+                </AlertTitle>
+                <AlertDescription display='inline-flex'>
+                  <Text pr={2} translation='authenticator.unsupported.description1' />
+                  <Code>v7.6.0</Code>
+                  <Text translation='authenticator.unsupported.description2' pl={2} />
+                </AlertDescription>
+              </Alert>
+            )}
             <HStack>
               <Heading>
                 <Text translation={'authenticator.header'} />
