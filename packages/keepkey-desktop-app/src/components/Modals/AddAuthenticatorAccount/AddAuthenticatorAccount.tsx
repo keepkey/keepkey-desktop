@@ -11,23 +11,20 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { SlideTransition } from 'components/SlideTransition'
+import { RawText, Text } from 'components/Text'
 // import { SessionTypes } from '@walletconnect/types'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners, ipcRenderer } from 'electron-shim'
+import { AnimatePresence } from 'framer-motion'
+import { useModal } from 'hooks/useModal/useModal'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import type { FC } from 'react'
 import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
-import { SlideTransition } from 'components/SlideTransition'
-import { RawText, Text } from 'components/Text'
-import { useModal } from 'hooks/useModal/useModal'
-import { useWallet } from 'hooks/useWallet/useWallet'
 import { MemoryRouter } from 'react-router'
 import { Route } from 'react-router'
 import { useHistory } from 'react-router'
 import { Switch } from 'react-router'
-import { AnimatePresence } from 'framer-motion'
-import { readQrCode } from 'lib/readQrCode'
-// import screenshot from 'screenshot-desktop'
-// import QrScanner from 'qr-scanner'
 
 function assume<T>(x: unknown): asserts x is T {}
 
@@ -152,7 +149,10 @@ const AddByScanning: FC<{ addAcc: any }> = ({ addAcc }) => {
   const [error, setError] = useState('')
 
   const scan = () => {
-    readQrCode().then(setScannedQr).catch(setError)
+    ipcListeners
+      .appReadQr()
+      .then(scanned => setScannedQr(scanned ?? ''))
+      .catch(setError)
   }
 
   useEffect(() => {

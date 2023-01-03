@@ -1,13 +1,12 @@
 import * as Comlink from 'comlink'
 import { electronEndpoint } from 'comlink-electron-endpoint/main'
-import type { IpcMainEvent, desktopCapturer } from 'electron'
-import { app, ipcMain, desktopCapturer } from 'electron'
+import type { IpcMainEvent } from 'electron'
+import { app, desktopCapturer, ipcMain } from 'electron'
 import log from 'electron-log'
+import jsQR from 'jsqr'
 // import isDev from 'electron-is-dev'
 // import { autoUpdater } from 'electron-updater'
 import { sleep } from 'wait-promise'
-import QRCode from 'qrcode-reader'
-import Jimp from 'jimp'
 
 import type {
   PairedAppProps,
@@ -209,31 +208,19 @@ export const ipcListeners: IpcListeners = {
     await kkStateController.skipUpdate()
   },
 
-  // async readQr() {
-  //   //@TODO nerdhair
-  //   //if (!data.nonce) return
-  //   desktopCapturer
-  //       .getSources({ types: ['screen'], thumbnailSize: { width: 1280, height: 720 } })
-  //       .then(sources => {
-  //         const thumbnail = sources[0].thumbnail
-  //         const qr = new QRCode()
-  //         qr.callback = function (err: any, value: any) {
-  //           if (err) {
-  //             return event.sender.send(`@app/read-qr-${data.nonce}`, {
-  //               success: false,
-  //               reason: err,
-  //               nonce: data.nonce,
-  //             })
-  //           }
-  //           event.sender.send(`@app/read-qr-${data.nonce}`, {
-  //             success: true,
-  //             result: value.result,
-  //             nonce: data.nonce,
-  //           })
-  //         }
-  //         qr.decode({ ...thumbnail.getSize() }, thumbnail.getBitmap())
-  //       })
-  // },
+  async appReadQr(): Promise<string | undefined> {
+    const sources = await desktopCapturer.getSources({
+      types: ['screen'],
+      thumbnailSize: { width: 1280, height: 720 },
+    })
+
+    const thumbnail = sources[0].thumbnail
+    const { height, width } = thumbnail.getSize()
+
+    const scanned = jsQR(new Uint8ClampedArray(thumbnail.getBitmap()), width, height)
+
+    return scanned?.data ?? undefined
+  },
 
   // async appUpdate() {
   //   if (isDev) {

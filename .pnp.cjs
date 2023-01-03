@@ -25860,6 +25860,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["jsqr", [\
+        ["npm:1.4.0", {\
+          "packageLocation": "./.yarn/cache/jsqr-npm-1.4.0-bd73c752f2-7c572971f9.zip/node_modules/jsqr/",\
+          "packageDependencies": [\
+            ["jsqr", "npm:1.4.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["jssha", [\
         ["npm:2.4.2", {\
           "packageLocation": "./.yarn/cache/jssha-npm-2.4.2-9a91eba44b-d723629cf7.zip/node_modules/jssha/",\
@@ -25982,6 +25991,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fswin", "patch:fswin@npm%3A3.22.106#./.yarn/patches/fswin-npm-3.22.106-41f613c183.patch::version=3.22.106&hash=36c8eb&locator=keepkey-monorepo%40workspace%3A."],\
             ["hidefile", "npm:3.0.0"],\
             ["jimp", "npm:0.16.2"],\
+            ["jsqr", "npm:1.4.0"],\
             ["keccak", "npm:3.0.2"],\
             ["keepkey-desktop-app", "workspace:packages/keepkey-desktop-app"],\
             ["keepkey-sdk-server", "workspace:packages/keepkey-sdk-server"],\
@@ -25990,7 +26000,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["node-hid", "patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."],\
             ["prettier", "npm:2.8.0"],\
             ["promise.any", "npm:2.0.5"],\
-            ["qrcode-reader", "npm:1.0.4"],\
             ["request", "npm:2.88.2"],\
             ["request-promise", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:4.2.6"],\
             ["rimraf", "npm:3.0.2"],\
@@ -31121,15 +31130,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["isarray", "npm:2.0.5"],\
             ["pngjs", "npm:3.4.0"],\
             ["yargs", "npm:13.3.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["qrcode-reader", [\
-        ["npm:1.0.4", {\
-          "packageLocation": "./.yarn/cache/qrcode-reader-npm-1.0.4-5292843993-dbc5fd6dba.zip/node_modules/qrcode-reader/",\
-          "packageDependencies": [\
-            ["qrcode-reader", "npm:1.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\

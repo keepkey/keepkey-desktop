@@ -76,6 +76,8 @@ export type IpcListeners = {
   }>
   keepkeySkipUpdate(): Promise<void>
 
+  appReadQr(): Promise<string | undefined>
+
   // appUpdate(): Promise<UpdateCheckResult | { updateInfo: { version: string } } | undefined>
   // appDownloadUpdates(): Promise<void>
   // appInstallUpdates(): Promise<void>

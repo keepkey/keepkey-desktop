@@ -8,12 +8,13 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Link,
   ModalCloseButton,
   VStack,
-  Link
 } from '@chakra-ui/react'
 import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
 import { Text } from 'components/Text'
+import { ipcListeners } from 'electron-shim'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import type { FC } from 'react'
 import { useEffect } from 'react'
@@ -21,7 +22,6 @@ import { useCallback } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { FaQrcode } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'
-import { readQrCode } from 'lib/readQrCode'
 
 type Props = {
   isOpen: boolean
@@ -63,10 +63,11 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
   }, [isOpen, setValue])
 
   const scan = () => {
-    readQrCode()
+    ipcListeners
+      .appReadQr()
       .then(value => {
         console.log(value)
-        if (value.startsWith('wc:')) {
+        if (value?.startsWith('wc:')) {
           setValue('uri', value)
           handleSubmit(handleConnect)
         }
