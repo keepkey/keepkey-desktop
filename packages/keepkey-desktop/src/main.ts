@@ -25,15 +25,15 @@ startUpdaterListeners()
 startTcpBridge().catch(e => log.error('startTcpBridge error:', e))
 
 // Auto launch on startup
-if (!isDev && settings.shouldAutoLaunch) {
-  kkAutoLauncher.enable()
-  kkAutoLauncher.isEnabled().then(function (isEnabled) {
-    if (isEnabled) {
-      return
-    }
-    kkAutoLauncher.enable()
-  })
-}
+;(async () => {
+  if (!isDev && settings.shouldAutoLaunch) {
+    await kkAutoLauncher.enable()
+    console.log('autolaunch enabled')
+  } else {
+    await kkAutoLauncher.disable()
+    console.log('autolaunch disabled')
+  }
+})().catch(e => log.error('autolaunch setup error:', e))
 
 try {
   if (isWin && nativeTheme.shouldUseDarkColors === true) {

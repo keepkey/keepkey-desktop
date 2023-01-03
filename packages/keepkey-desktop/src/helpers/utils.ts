@@ -76,9 +76,7 @@ export const createMainWindow = async () => {
     },
   })
 
-  windows.mainWindow.loadURL(
-    isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, 'app/index.html')}`,
-  )
+  windows.mainWindow.loadURL(`file://${path.join(__dirname, 'app/index.html')}`)
 
   startWindowListeners()
 

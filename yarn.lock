@@ -19758,6 +19758,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsqr@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "jsqr@npm:1.4.0"
+  checksum: 7c572971f90c42772e30d152bde63b84edf1164bde80c53942e6b2068ea31caf00ad704aa46cacc9e71645f52dbeddebc6e84ba15e883c678ee93cde690de339
+  languageName: node
+  linkType: hard
+
 "jssha@npm:^2.4.2":
   version: 2.4.2
   resolution: "jssha@npm:2.4.2"
@@ -20134,6 +20141,7 @@ __metadata:
     fswin: ^3.22.106
     hidefile: ^3.0.0
     jimp: ^0.16.2
+    jsqr: ^1.4.0
     keccak: ^3.0.2
     keepkey-desktop-app: "workspace:*"
     keepkey-sdk-server: "workspace:*"
@@ -20142,7 +20150,6 @@ __metadata:
     node-hid: ^2.1.2
     prettier: ^2.3.2
     promise.any: ^2.0.5
-    qrcode-reader: ^1.0.4
     request: ^2.88.2
     request-promise: ^4.2.6
     rimraf: ^3.0.2
@@ -24164,13 +24171,6 @@ __metadata:
   version: 3.2.0
   resolution: "qr-image@npm:3.2.0"
   checksum: 9d22d9425234b8dfbcf954cff334d1594aa7391f999b15cf3e07d554c99341e7c2303646ddf58237fc498455c11d505b8803a995ff22d8385ddd05f58b3259b5
-  languageName: node
-  linkType: hard
-
-"qrcode-reader@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "qrcode-reader@npm:1.0.4"
-  checksum: dbc5fd6dba41fc5a01988b3d75cb97066f8e251bf5309992cf095a9c679a6c5a81191e2343f53b5d3be97223f3a573d6289e7cb99fd6645a77c1d1fd6e13b203
   languageName: node
   linkType: hard
 
