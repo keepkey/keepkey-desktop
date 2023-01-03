@@ -6,6 +6,9 @@ import type { AllFirmwareAndBootloaderData, FirmwareAndBootloaderData } from './
 const FIRMWARE_BASE_URL =
   'https://raw.githubusercontent.com/keepkey/keepkey-desktop/master/firmware/'
 
+const FIRMWARE_BASE_URL_BETA =
+  'https://raw.githubusercontent.com/keepkey/keepkey-desktop/develop/firmware/'
+
 export const downloadFirmware = async (path: string) => {
   try {
     let firmware = await request({
@@ -43,6 +46,14 @@ export const getAllFirmwareData = () =>
     })
   })
 
+export const getAllBetaFirmwareData = () =>
+  new Promise<AllFirmwareAndBootloaderData>((resolve, reject) => {
+    request(`${FIRMWARE_BASE_URL_BETA}releases.json`, (err: any, _response: unknown, body: any) => {
+      if (err) return reject(err)
+      resolve(JSON.parse(body))
+    })
+  })
+
 export const getLatestFirmwareData = () =>
   new Promise<FirmwareAndBootloaderData>(async resolve => {
     const allFirmwareData = await getAllFirmwareData()
@@ -51,6 +62,6 @@ export const getLatestFirmwareData = () =>
 
 export const getBetaFirmwareData = () =>
   new Promise<FirmwareAndBootloaderData>(async resolve => {
-    const allFirmwareData = await getAllFirmwareData()
+    const allFirmwareData = await getAllBetaFirmwareData()
     resolve(allFirmwareData.beta)
   })
