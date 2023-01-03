@@ -1,13 +1,11 @@
 import * as Comlink from 'comlink'
 import { electronEndpoint } from 'comlink-electron-endpoint/main'
-import type { IpcMainEvent, desktopCapturer } from 'electron'
-import { app, ipcMain, desktopCapturer } from 'electron'
+import type { IpcMainEvent } from 'electron'
+import { app, desktopCapturer, ipcMain } from 'electron'
 import log from 'electron-log'
 // import isDev from 'electron-is-dev'
 // import { autoUpdater } from 'electron-updater'
 import { sleep } from 'wait-promise'
-import QRCode from 'qrcode-reader'
-import Jimp from 'jimp'
 
 import type {
   PairedAppProps,
@@ -194,6 +192,7 @@ export const ipcListeners: IpcListeners = {
     const result = settings.allowBetaFirmware
       ? await getBetaFirmwareData()
       : await getLatestFirmwareData()
+    console.log('keepkeyUpdateBootloader', result)
     const firmware = await downloadFirmware(result.bootloader.url)
     if (!firmware) throw new Error(`Failed to load bootloader from url '${result.firmware.url}'`)
     const wallet = kkStateController.wallet

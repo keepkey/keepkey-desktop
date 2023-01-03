@@ -64,6 +64,7 @@ export class KKStateController {
     const latestFirmware = settings.allowBetaFirmware
       ? await getBetaFirmwareData()
       : await getLatestFirmwareData()
+    console.log('latestFirmware', latestFirmware)
     const resultInit = await initializeWallet(this)
     log.info('KKStateController resultInit: ', resultInit)
     if ('unplugged' in resultInit && resultInit.unplugged) {
