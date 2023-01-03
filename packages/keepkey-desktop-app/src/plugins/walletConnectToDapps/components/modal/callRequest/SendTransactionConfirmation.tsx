@@ -87,7 +87,7 @@ export const SendTransactionConfirmation = () => {
         setLoading(false)
       }
     },
-    [legacyBridge, currentRequest.id, removeRequest, requests, toast, legacyWeb3],
+    [legacyBridge, currentRequest?.id, removeRequest, requests, toast, legacyWeb3],
   )
 
   const onReject = useCallback(async () => {
@@ -105,7 +105,7 @@ export const SendTransactionConfirmation = () => {
   const [web3GasFeeData, setweb3GasFeeData] = useState('0')
 
   // determine which gasLimit to use: user input > from the request > or estimate
-  const requestGas = parseInt(currentRequest.params[0].gas ?? '0x0', 16).toString(10)
+  const requestGas = parseInt(currentRequest?.params[0].gas ?? '0x0', 16).toString(10)
   const inputGas = useWatch({ control: form.control, name: 'gasLimit' })
 
   const [estimatedGas, setEstimatedGas] = useState('0')
@@ -150,8 +150,8 @@ export const SendTransactionConfirmation = () => {
   }, [legacyWeb3])
 
   // determine which gas fees to use: user input > from the request > Fast
-  const requestMaxPriorityFeePerGas = currentRequest.params[0].maxPriorityFeePerGas
-  const requestMaxFeePerGas = currentRequest.params[0].maxFeePerGas
+  const requestMaxPriorityFeePerGas = currentRequest?.params[0].maxPriorityFeePerGas
+  const requestMaxFeePerGas = currentRequest?.params[0].maxFeePerGas
 
   const inputMaxPriorityFeePerGas = useWatch({
     control: form.control,
@@ -189,7 +189,7 @@ export const SendTransactionConfirmation = () => {
   }, [form, inputMaxFeePerGas, txInputGas, txMaxFeePerGas])
 
   // determine which nonce to use: user input > from the request > true nonce
-  const requestNonce = currentRequest.params[0].nonce
+  const requestNonce = currentRequest?.params[0].nonce
   const inputNonce = useWatch({ control: form.control, name: 'nonce' })
   const [trueNonce, setTrueNonce] = useState('0')
   useEffect(() => {
@@ -222,7 +222,7 @@ export const SendTransactionConfirmation = () => {
     txInputNonce,
     address,
     walletConnect.legacyBridge?.connector.accounts,
-    currentRequest.params,
+    currentRequest?.params,
     legacyWeb3?.web3.eth,
   ])
 
@@ -231,9 +231,9 @@ export const SendTransactionConfirmation = () => {
   const txInput: TxData = {
     nonce: txInputNonce,
     gasLimit: txInputGas,
-    data: currentRequest.params[0].data,
-    to: currentRequest.params[0].to,
-    value: currentRequest.params[0].value,
+    data: currentRequest?.params[0].data,
+    to: currentRequest?.params[0].to,
+    value: currentRequest?.params[0].value,
     maxFeePerGas: txMaxFeePerGas,
     maxPriorityFeePerGas: txMaxPriorityFeePerGas,
   }
@@ -270,7 +270,7 @@ export const SendTransactionConfirmation = () => {
             mb={4}
           />
           <AddressSummaryCard
-            address={currentRequest.params[0].to}
+            address={currentRequest?.params[0].to}
             icon={
               <Image
                 borderRadius='full'
@@ -310,8 +310,8 @@ export const SendTransactionConfirmation = () => {
               <GasInput
                 gasLimit={txInputGas}
                 recommendedGasPriceData={{
-                  maxPriorityFeePerGas: currentRequest.params[0].maxPriorityFeePerGas,
-                  maxFeePerGas: currentRequest.params[0].maxFeePerGas,
+                  maxPriorityFeePerGas: currentRequest?.params[0].maxPriorityFeePerGas,
+                  maxFeePerGas: currentRequest?.params[0].maxFeePerGas,
                 }}
               />
             </Box>

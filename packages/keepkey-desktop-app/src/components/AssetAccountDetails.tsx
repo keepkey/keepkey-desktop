@@ -43,7 +43,7 @@ export const AssetAccountDetails = ({ assetId, accountId }: AssetDetailsProps) =
           {accountId && <AccountAssets assetId={assetId} accountId={accountId} />}
           <AssetAccounts assetId={assetId} accountId={accountId} />
           <AssetAccountNft assetId={assetId} />
-          <EarnOpportunities assetId={assetId} accountId={accountId} />
+          {/*<EarnOpportunities assetId={assetId} accountId={accountId} />*/}
           <UnderlyingToken assetId={assetId} accountId={accountId} />
           <AssetTransactionHistory limit={3} assetId={assetId} accountId={accountId} />
         </Stack>
@@ -54,7 +54,7 @@ export const AssetAccountDetails = ({ assetId, accountId }: AssetDetailsProps) =
           maxWidth={{ base: 'full', xl: 'sm' }}
           gap={4}
         >
-          <TradeCard defaultBuyAssetId={assetId} display={{ base: 'none', md: 'block' }} />
+          {/*<TradeCard defaultBuyAssetId={assetId} display={{ base: 'none', md: 'block' }} />*/}
           {marketData && <AssetMarketData assetId={assetId} />}
           <AssetDescription assetId={assetId} />
         </Flex>

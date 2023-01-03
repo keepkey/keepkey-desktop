@@ -1,11 +1,13 @@
 import * as Comlink from 'comlink'
 import { electronEndpoint } from 'comlink-electron-endpoint/main'
-import type { IpcMainEvent } from 'electron'
-import { app, ipcMain } from 'electron'
+import type { IpcMainEvent, desktopCapturer } from 'electron'
+import { app, ipcMain, desktopCapturer } from 'electron'
 import log from 'electron-log'
 // import isDev from 'electron-is-dev'
 // import { autoUpdater } from 'electron-updater'
 import { sleep } from 'wait-promise'
+import QRCode from 'qrcode-reader'
+import Jimp from 'jimp'
 
 import type {
   PairedAppProps,
@@ -206,6 +208,32 @@ export const ipcListeners: IpcListeners = {
   async keepkeySkipUpdate() {
     await kkStateController.skipUpdate()
   },
+
+  // async readQr() {
+  //   //@TODO nerdhair
+  //   //if (!data.nonce) return
+  //   desktopCapturer
+  //       .getSources({ types: ['screen'], thumbnailSize: { width: 1280, height: 720 } })
+  //       .then(sources => {
+  //         const thumbnail = sources[0].thumbnail
+  //         const qr = new QRCode()
+  //         qr.callback = function (err: any, value: any) {
+  //           if (err) {
+  //             return event.sender.send(`@app/read-qr-${data.nonce}`, {
+  //               success: false,
+  //               reason: err,
+  //               nonce: data.nonce,
+  //             })
+  //           }
+  //           event.sender.send(`@app/read-qr-${data.nonce}`, {
+  //             success: true,
+  //             result: value.result,
+  //             nonce: data.nonce,
+  //           })
+  //         }
+  //         qr.decode({ ...thumbnail.getSize() }, thumbnail.getBitmap())
+  //       })
+  // },
 
   // async appUpdate() {
   //   if (isDev) {
