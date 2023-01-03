@@ -601,6 +601,12 @@
     "recentTrades": "Recent Trades"
   },
   "modals": {
+    "clickDapp": {
+      "header": "Extended Validation",
+      "content": "This is the content section. Highlander to replace this content with something useful",
+      "verify": "Verify",
+      "continue": "Continue"
+    },
     "keepKey": {
       "passphrase": {
         "errors": {
