@@ -7,7 +7,10 @@ const FIRMWARE_BASE_URL =
   'https://raw.githubusercontent.com/keepkey/keepkey-desktop/master/firmware/'
 
 const FIRMWARE_BASE_URL_BETA =
-  'https://raw.githubusercontent.com/keepkey/keepkey-desktop/develop/firmware/'
+    'https://raw.githubusercontent.com/keepkey/keepkey-desktop/master/firmware/'
+
+// const FIRMWARE_BASE_URL_BETA =
+//   'https://raw.githubusercontent.com/keepkey/keepkey-desktop/develop/firmware/'
 
 export const downloadFirmware = async (path: string) => {
   try {
