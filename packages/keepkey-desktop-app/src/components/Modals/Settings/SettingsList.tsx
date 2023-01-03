@@ -9,17 +9,17 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react'
+import { WalletConnected } from 'components/Layout/Header/NavBar/UserMenu'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import { useCallback, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 import type { RouteComponentProps } from 'react-router-dom'
 
-import { GeneralSettings } from './GeneralSettings'
 import { AppSettings } from './AppSettings'
-import { WalletConnected } from 'components/Layout/Header/NavBar/UserMenu'
-import { useWallet } from 'hooks/useWallet/useWallet'
+import { GeneralSettings } from './GeneralSettings'
 
 export type SettingsListProps = {
   appHistory: RouteComponentProps['history']
