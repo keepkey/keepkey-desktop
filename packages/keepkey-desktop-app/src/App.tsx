@@ -109,6 +109,7 @@ export const App = () => {
               setConnected(true)
               const skipUpdate = deferred()
               skipUpdate.then(async () => {
+                await ipcListeners.keepkeySkipUpdate()
                 setIsUpdatingKeepkey(false)
                 updateKeepKey.close()
                 requestBootloaderMode.close()
