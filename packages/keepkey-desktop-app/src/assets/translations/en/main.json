@@ -381,6 +381,7 @@
     "dApps": "dApps",
     "featureFlags": "Feature Flags",
     "pairings": "Pairings",
+    "authenticator": "Authenticator",
     "demoMode": "Demo Mode",
     "clickToConnect": "Click to connect a wallet",
     "wallet": "Wallet",
@@ -460,6 +461,33 @@
       "body": "List of all the apps that have been paired with KeepKey desktop",
       "noApps": "There have been no previously paired apps",
       "notPairedWith": "No apps have been previously paired with %{name}"
+    }
+  },
+  "authenticator": {
+    "heading": "Authenticator",
+    "header": "Accounts",
+    "noAccounts": "There are currently no accounts saved on your KeepKey",
+    "actions": "Actions",
+    "account": "Account",
+    "unsupported": {
+      "title": "Feature unsupported!",
+      "description1": "Your need to update your KeepKey's firmware to version ",
+      "description2": " or above to use this feature"
+    }, 
+    "cta": {
+      "generateOtp": "Generate OTP",
+      "deleteAcc": "Delete Account",
+      "addAcc": "Add account",
+      "refresh": "Refresh accounts"
+    },
+    "modal": {
+      "header": "Add account",
+      "scan": "Bring the QR code into view and then click the scan button below",
+      "cta": {
+        "manual": "Add manually",
+        "scan": "Scan QR code",
+        "back": "Go Back"
+      }
     }
   },
   "pairingDetails": {
@@ -586,9 +614,9 @@
       "hardware": {
         "headerError": "Hardware Error!",
         "headerReconnect": "Please reconnect your keepkey",
-        "headerConnect": "No Device Found!",
+        "headerConnect": "Device Unable to Communicate",
         "troubleshoot": "Device connected? Troubleshoot",
-        "connect": "Please connect or reconnect your KeepKey to continue.",
+        "connect": "Please connect your KeepKey to continue. If your device is already connected, disconnect and reconnect to reset your device state.",
         "reconnect": "Please disconnect, and reconnect your KeepKey to continue."
       },
       "bootloader": {
@@ -938,7 +966,8 @@
       },
       "tabs": {
         "general": "General",
-        "app": "App"
+        "app": "App",
+        "keepkey": "KeepKey"
       }
     },
     "mobileWelcome": {
@@ -998,12 +1027,12 @@
       },
       "newPin": {
         "header": "Enter Your New PIN",
-        "body": "Create a new PIN (up to 9 digits) using the layout display on your KeepKey.",
+        "body": "Create a new PIN (up to 9 digits) using the Cypher displayed on your KeepKey.",
         "button": "Confirm"
       },
       "newPinConfirm": {
         "header": "Confirm Your New PIN",
-        "body": "Re-enter your PIN using the layout displayed on your KeepKey.",
+        "body": "Re-enter your PIN using the Cypher displayed displayed on your KeepKey.",
         "button": "Save PIN"
       },
       "remove": {

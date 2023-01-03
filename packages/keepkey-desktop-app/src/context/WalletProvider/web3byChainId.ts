@@ -13,6 +13,7 @@ export type EthChainData = {
   coinGeckoId: string
   service?: MergedServiceType
   serviceIdx?: number
+  image?: string
 }
 
 export const supportedChains: EthChainData[] = [

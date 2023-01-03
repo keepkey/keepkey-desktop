@@ -37,10 +37,13 @@ export const TransactionHistory = () => {
   }, [handleInputChange, resetFilters])
 
   return (
-    <Main>
-      <Heading mb={{ base: 1, md: 4 }} ml={4} fontSize={['md', 'lg', '3xl']}>
-        <Text translation='transactionHistory.transactionHistory' />
-      </Heading>
+    <Main
+      titleComponent={
+        <Heading mb={{ base: 1, md: 4 }} ml={4} fontSize={['md', 'lg', '3xl']}>
+          <Text translation='transactionHistory.transactionHistory' />
+        </Heading>
+      }
+    >
       <Card>
         <Card.Heading p={[2, 3, 6]}>
           <Flex justifyContent='space-between'>

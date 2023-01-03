@@ -14,6 +14,16 @@ import { ButtonRequestType, FailureType, Message, MessageType } from '../KeepKey
 
 const moduleLogger = logger.child({ namespace: ['useKeepKeyEventHandler'] })
 
+export const authenticatorErrors = [
+  'Account not found',
+  "Authenticator secret can't be decoded",
+  'Authenticator secret storage full',
+  'Auth secret unknown error',
+  'Account name missing or too long, or seed/message string missing',
+  'Slot request out of range',
+  'Authenticator secret seed too large',
+]
+
 export const useKeepKeyEventHandler = (
   state: InitialState,
   dispatch: Dispatch<ActionTypes>,
@@ -33,6 +43,8 @@ export const useKeepKeyEventHandler = (
     const handleEvent = (e: [deviceId: string, message: Event]) => {
       const [deviceId, event] = e
       const { message_enum, message_type, message, from_wallet } = event
+
+      // console.log('keepkey event: ', event)
 
       const fnLogger = moduleLogger.child({
         namespace: ['handleEvent'],
@@ -79,7 +91,7 @@ export const useKeepKeyEventHandler = (
             awaitingDeviceInteraction: false,
             lastDeviceInteractionStatus: 'success',
           })
-          disconnect()
+          // disconnect()
           break
         case MessageType.BUTTONREQUEST:
           setDeviceState({ awaitingDeviceInteraction: true })
@@ -163,7 +175,8 @@ export const useKeepKeyEventHandler = (
           break
         // ACK just means we sent it, doesn't mean it was successful
         case MessageType.PINMATRIXACK:
-          if (modal) dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
+          if (disposition !== 'initializing')
+            dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
           break
         // @TODO: What do we want to do with these events?
         case MessageType.FAILURE:
@@ -171,8 +184,8 @@ export const useKeepKeyEventHandler = (
             case FailureType.PINCANCELLED:
               fnLogger.warn('PIN Cancelled')
               break
-            case FailureType.ACTIONCANCELLED:
-              fnLogger.debug('Action Cancelled')
+            case FailureType.PININVALID:
+              fnLogger.debug('PININVALID')
               setDeviceState({ awaitingDeviceInteraction: false })
               break
             case FailureType.NOTINITIALIZED:

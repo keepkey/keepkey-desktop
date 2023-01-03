@@ -11,6 +11,8 @@ import {
   Stack,
   Text as PlainText,
   VStack,
+  Skeleton,
+  SkeletonText,
 } from '@chakra-ui/react'
 import type { FC } from 'react'
 import { useEffect, useMemo, useState } from 'react'
@@ -20,27 +22,18 @@ import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { getConfig } from 'config'
 
 import type { RegistryItem } from '../types'
 import { PageInput } from './PageInput'
-// @ts-ignore
-import client from '@pioneer-platform/pioneer-client'
 import { getPioneerClient } from 'lib/getPioneerCleint'
 
 const PAGE_SIZE = 20
+const loadingImg = 'https://github.com/BitHighlander/keepkey-desktop/raw/master/electron/icon.png'
 
 export const DappRegistryGrid: FC = () => {
-  const [registryItems, setRegistryItems] = useState([
-    {
-      category: 'dapp',
-      id: 'a85fb60f37b9971969e00caa241ed2b6ccd8fce369f59d3a965202595a4a9462',
-      homepage: 'https://gnosis-safe.io/',
-      name: 'Gnosis Safe Multisig',
-      image:
-        'https://explorer-api.walletconnect.com/v3/logo/md/0b7e0f05-0a5b-4f3c-315d-59c1c4c22c00?projectId=2f05ae7f1116030fde2d36508f472bfb',
-    },
-  ])
+  const [registryItems, setRegistryItems] = useState<RegistryItem[]>()
+  const [loading, setLoading] = useState(true)
+
   const { register, setValue, control } = useForm<{ search: string; page: number }>({
     mode: 'onChange',
     defaultValues: { search: '', page: 0 },
@@ -54,6 +47,7 @@ export const DappRegistryGrid: FC = () => {
 
   const filteredListings = useMemo(
     () =>
+      registryItems &&
       registryItems.filter(
         registryItem => !search || registryItem.name.toLowerCase().includes(search.toLowerCase()),
       ),
@@ -62,9 +56,24 @@ export const DappRegistryGrid: FC = () => {
 
   let findDapps = async function () {
     try {
+      setLoading(true)
       const pioneer = await getPioneerClient()
-      let dapps = await pioneer.ListApps({ limit: 30, skip: 0 })
-      setRegistryItems(dapps.data)
+      let dapps = await pioneer.ListApps({ limit: 1000, skip: 0 })
+      function sortByScore(arr: any[]) {
+        //sort array by score
+        arr.sort((a, b) => {
+          const scoreA = a.score || 0
+          const scoreB = b.score || 0
+          return scoreB - scoreA
+        })
+        //filter out elements with score less than 0
+        arr = arr.filter(el => el.score >= 0)
+        //return sorted array
+        return arr
+      }
+      dapps = sortByScore(dapps.data)
+      setRegistryItems(dapps)
+      setLoading(false)
     } catch (e) {
       console.error(' e: ', e)
     }
@@ -73,10 +82,10 @@ export const DappRegistryGrid: FC = () => {
     findDapps()
   }, [])
 
-  const maxPage = Math.floor(filteredListings.length / PAGE_SIZE)
+  const maxPage = filteredListings ? Math.floor(filteredListings.length / PAGE_SIZE) : 0
 
   const openDapp = (app: RegistryItem) => {
-    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.homepage })
+    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.app })
     history.push('/browser')
   }
 
@@ -103,7 +112,42 @@ export const DappRegistryGrid: FC = () => {
         </Box>
         <PageInput value={page} max={maxPage} onChange={value => setValue('page', value)} />
       </Stack>
-      {!!filteredListings.length ? (
+      {loading && (
+        <SimpleGrid columns={{ lg: 4, sm: 2, base: 1 }} spacing={4}>
+          {Array.from(Array(PAGE_SIZE).keys()).map((_i, idx) => (
+            <Box
+              borderRadius='lg'
+              p={2}
+              position='relative'
+              overflow='hidden'
+              _hover={{ opacity: 0.8, transition: 'opacity 0.2s ease-in-out' }}
+            >
+              <Image
+                src={loadingImg}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  filter: 'blur(20px)',
+                  opacity: 0.3,
+                  zIndex: -1,
+                }}
+              />
+              <Stack direction='row' alignItems='center'>
+                <Skeleton key={idx} isLoaded={!loading} boxSize='48px'>
+                  <Image borderRadius='full' boxSize='48px' m={2} src={loadingImg} />
+                </Skeleton>
+                <SkeletonText noOfLines={1} isLoaded={!loading}>
+                  <PlainText fontWeight='semibold'>Fake name</PlainText>
+                </SkeletonText>
+              </Stack>
+            </Box>
+          ))}
+        </SimpleGrid>
+      )}
+      {filteredListings && filteredListings.length !== 0 ? (
         <SimpleGrid columns={{ lg: 4, sm: 2, base: 1 }} spacing={4}>
           {filteredListings.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE).map(listing => (
             <Link key={listing.id} onClick={() => openDapp(listing)}>
@@ -136,24 +180,26 @@ export const DappRegistryGrid: FC = () => {
           ))}
         </SimpleGrid>
       ) : (
-        <VStack alignItems='center' p={8} spacing={0}>
-          <Card
-            display='grid'
-            width={14}
-            height={14}
-            placeItems='center'
-            borderRadius='2xl'
-            borderWidth={0}
-            mb={4}
-          >
-            <SearchIcon color='gray.500' fontSize='xl' />{' '}
-          </Card>
-          <Text translation='common.noResultsFound' fontWeight='medium' fontSize='lg' />
-          <Text
-            translation='plugins.walletConnectToDapps.registry.emptyStateDescription'
-            color='gray.500'
-          />
-        </VStack>
+        !loading && (
+          <VStack alignItems='center' p={8} spacing={0}>
+            <Card
+              display='grid'
+              width={14}
+              height={14}
+              placeItems='center'
+              borderRadius='2xl'
+              borderWidth={0}
+              mb={4}
+            >
+              <SearchIcon color='gray.500' fontSize='xl' />{' '}
+            </Card>
+            <Text translation='common.noResultsFound' fontWeight='medium' fontSize='lg' />
+            <Text
+              translation='plugins.walletConnectToDapps.registry.emptyStateDescription'
+              color='gray.500'
+            />
+          </VStack>
+        )
       )}
     </Box>
   )

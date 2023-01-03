@@ -42,6 +42,7 @@ export type ServiceType = {
   facts: any[]
   infoURL: string
   shortName: string
+  image?: string
   nativeCurrency: {
     name: string
     symbol: string
@@ -63,6 +64,7 @@ export type MergedServiceType = {
   facts: any[]
   infoURL: string
   shortName: string
+  image?: string
   nativeCurrency: {
     name: string
     symbol: string
