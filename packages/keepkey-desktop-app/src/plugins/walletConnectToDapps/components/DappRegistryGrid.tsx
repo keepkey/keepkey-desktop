@@ -36,6 +36,9 @@ export const DappRegistryGrid: FC = () => {
   const [registryItems, setRegistryItems] = useState<RegistryItem[]>()
   const [loading, setLoading] = useState(true)
 
+  const {
+    state: { wallet },
+  } = useWallet()
   const { dappClick } = useModal()
 
   const { register, setValue, control } = useForm<{ search: string; page: number }>({
@@ -49,6 +52,14 @@ export const DappRegistryGrid: FC = () => {
   const history = useHistory()
   const { dispatch } = useWallet()
 
+  const [supportsVerify, setSupportsVerify] = useState(false)
+
+  useEffect(() => {
+    wallet?.getFirmwareVersion().then(version => {
+      const [major, minor] = version.replace('v', '').split('.')
+      if (Number(major) >= 7 && Number(minor) >= 6) setSupportsVerify(true)
+    })
+  }, [wallet])
   const filteredListings = useMemo(
     () =>
       registryItems &&
@@ -99,7 +110,8 @@ export const DappRegistryGrid: FC = () => {
   const clickDapp = useCallback(
     (app: RegistryItem) => {
       console.log('Dapp clicked', app)
-      dappClick.open({ onContinue: () => openDapp(app) })
+      if (supportsVerify) dappClick.open({ onContinue: () => openDapp(app) })
+      else openDapp(app)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dappClick, openDapp],
