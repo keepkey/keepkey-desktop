@@ -123,13 +123,15 @@ export class EthereumController extends ApiController {
       message: types.eth.HexData
       address: types.eth.Address
     },
-  ): Promise<any> {
+  ): Promise<types.eth.Signature> {
     const account = await this.context.getAccount(body.address)
 
-    return await this.context.wallet.ethSignMessage({
-      addressNList: account.addressNList,
-      message: body.message,
-    })
+    return (
+      await this.context.wallet.ethSignMessage({
+        addressNList: account.addressNList,
+        message: new TextDecoder().decode(Buffer.from(body.message.replace(/^0x/, ''), 'hex')),
+      })
+    ).signature
   }
 
   /**
@@ -150,7 +152,7 @@ export class EthereumController extends ApiController {
     },
   ): Promise<boolean> {
     return await this.context.wallet.ethVerifyMessage({
-      message: body.message,
+      message: new TextDecoder().decode(Buffer.from(body.message.replace(/^0x/, ''), 'hex')),
       address: body.address,
       signature: body.signature,
     })
