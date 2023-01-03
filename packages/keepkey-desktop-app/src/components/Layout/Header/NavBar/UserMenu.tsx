@@ -1,6 +1,5 @@
-import { ChevronDownIcon, WarningTwoIcon } from '@chakra-ui/icons'
-import { Menu, MenuButton, MenuGroup, MenuItem, MenuList } from '@chakra-ui/menu'
-import { Button, ButtonGroup, Flex, HStack, IconButton, useColorModeValue } from '@chakra-ui/react'
+import { WarningTwoIcon } from '@chakra-ui/icons'
+import { Button, ButtonGroup, Flex, HStack, useColorModeValue } from '@chakra-ui/react'
 import { WalletConnectedRoutes } from 'components/Layout/Header/NavBar/hooks/useMenuRoutes'
 // import { WalletConnectedMenu } from 'components/Layout/Header/NavBar/WalletConnectedMenu'
 import { WalletImage } from 'components/Layout/Header/NavBar/WalletImage'
@@ -12,25 +11,12 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { FaWallet } from 'react-icons/fa'
-import { useTranslate } from 'react-polyglot'
 import { MemoryRouter, Route, Switch } from 'react-router-dom'
 import { useEnsName } from 'wagmi'
 
 import { WalletConnectedMenu } from './WalletConnectedMenu'
 
 export const entries = [WalletConnectedRoutes.Connected]
-
-const NoWallet = ({ onClick }: { onClick: () => void }) => {
-  const translate = useTranslate()
-  return (
-    <MenuGroup title={translate('common.noWallet')} ml={3} color='gray.500'>
-      <MenuItem onClick={onClick} alignItems='center' justifyContent='space-between'>
-        {translate('common.connectWallet')}
-        <ChevronDownIcon />
-      </MenuItem>
-    </MenuGroup>
-  )
-}
 
 export type WalletConnectedProps = {
   onDisconnect: () => void
@@ -147,10 +133,9 @@ const WalletButton: FC<WalletButtonProps> = ({
 
 export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   const { state, dispatch, disconnect } = useWallet()
-  const { isConnected, isDemoWallet, walletInfo, isLocked, type } = state
+  const { isConnected, isDemoWallet, walletInfo, isLocked } = state
 
   if (isLocked) disconnect()
-  const hasWallet = Boolean(walletInfo?.deviceId)
   const handleConnect = () => {
     onClick && onClick()
     dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: true })
@@ -164,32 +149,6 @@ export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
         isDemoWallet={isDemoWallet}
         isLoadingLocalWallet={state.isLoadingLocalWallet}
       />
-      <Menu>
-        <MenuButton
-          as={IconButton}
-          aria-label='Open wallet dropdown menu'
-          icon={<ChevronDownIcon />}
-          data-test='navigation-wallet-dropdown-button'
-        />
-        <MenuList
-          maxWidth={{ base: 'full', md: 'xs' }}
-          minWidth={{ base: 0, md: 'xs' }}
-          overflow='hidden'
-          // Override zIndex to prevent InputLeftElement displaying over menu
-          zIndex={2}
-        >
-          {hasWallet ? (
-            <WalletConnected
-              isConnected={isConnected || isDemoWallet}
-              walletInfo={walletInfo}
-              onDisconnect={disconnect}
-              type={type}
-            />
-          ) : (
-            <NoWallet onClick={handleConnect} />
-          )}
-        </MenuList>
-      </Menu>
     </ButtonGroup>
   )
 }

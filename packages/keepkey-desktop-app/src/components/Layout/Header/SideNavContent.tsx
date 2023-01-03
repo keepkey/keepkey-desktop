@@ -9,7 +9,7 @@ import { AutoCompleteSearch } from './AutoCompleteSearch/AutoCompleteSearch'
 import { ChainMenu } from './NavBar/ChainMenu'
 import { MainNavLink } from './NavBar/MainNavLink'
 import { NavBar } from './NavBar/NavBar'
-import { UserMenu } from './NavBar/UserMenu'
+// import { UserMenu } from './NavBar/UserMenu'
 
 type HeaderContentProps = {
   isCompact?: boolean
@@ -49,9 +49,9 @@ export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
             onClick={() => handleClick()}
           />
           <Flex gap={2}>
-            <Flex width='full'>
-              <UserMenu onClick={() => handleClick()} />
-            </Flex>
+            {/*<Flex width='full'>*/}
+            {/*  <UserMenu onClick={() => handleClick()} />*/}
+            {/*</Flex>*/}
             <ChainMenu />
           </Flex>
           <Box width='full'>

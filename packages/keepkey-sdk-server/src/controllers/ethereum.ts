@@ -59,6 +59,7 @@ export class EthereumController extends ApiController {
     s: types.eth.HexData
     serialized: types.eth.HexData
   }> {
+    console.log('Body: ', body)
     assume<{ maxFeePerGas?: string | null }>(body)
     assume<{ gasPrice?: string | null }>(body)
 
@@ -129,7 +130,7 @@ export class EthereumController extends ApiController {
     return (
       await this.context.wallet.ethSignMessage({
         addressNList: account.addressNList,
-        message: new TextDecoder().decode(Buffer.from(body.message.replace(/^0x/, ''), 'hex')),
+        message: Buffer.from(body.message.replace(/^0x/, ''), 'hex'),
       })
     ).signature
   }
@@ -152,7 +153,7 @@ export class EthereumController extends ApiController {
     },
   ): Promise<boolean> {
     return await this.context.wallet.ethVerifyMessage({
-      message: new TextDecoder().decode(Buffer.from(body.message.replace(/^0x/, ''), 'hex')),
+      message: Buffer.from(body.message.replace(/^0x/, ''), 'hex'),
       address: body.address,
       signature: body.signature,
     })

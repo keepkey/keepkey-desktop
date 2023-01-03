@@ -24,7 +24,6 @@ import { Link, useHistory } from 'react-router-dom'
 
 import { AutoCompleteSearch } from './AutoCompleteSearch/AutoCompleteSearch'
 import { ChainMenu } from './NavBar/ChainMenu'
-import { UserMenu } from './NavBar/UserMenu'
 import { SideNavContent } from './SideNavContent'
 
 export const Header = () => {
@@ -125,9 +124,6 @@ export const Header = () => {
               <AutoCompleteSearch />
             </HStack>
             <Flex justifyContent='flex-end' flex={1} rowGap={4} columnGap={2}>
-              <Box display={{ base: 'none', md: 'block' }}>
-                <UserMenu />
-              </Box>
               <Box display={{ base: 'none', md: 'block' }}>
                 <WalletConnectToDappsHeaderButton />
               </Box>

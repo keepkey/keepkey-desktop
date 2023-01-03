@@ -16,6 +16,7 @@ import { useCallback, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 import type { RouteComponentProps } from 'react-router-dom'
 
+import { GeneralSettings } from './GeneralSettings'
 import { AppSettings } from './AppSettings'
 import { WalletConnected } from 'components/Layout/Header/NavBar/UserMenu'
 import { useWallet } from 'hooks/useWallet/useWallet'
