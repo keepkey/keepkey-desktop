@@ -1,6 +1,6 @@
 import type * as Messages from '@keepkey/device-protocol/lib/messages_pb'
 import type * as Types from '@keepkey/device-protocol/lib/types_pb'
-import type { KeepKeySdk } from '@keepkey/keepkey-sdk'
+import type { KeepKeySdk, TypesEthTypedData } from '@keepkey/keepkey-sdk'
 import * as core from '@shapeshiftoss/hdwallet-core'
 import _ from 'lodash'
 import semver from 'semver'
@@ -444,22 +444,52 @@ export class KeepKeyRestHDWallet
     ).address
   })
 
-  public async ethSignMessage(_msg: any): Promise<any> {
-    console.log('_msg: ', _msg)
-    const sig = await this.sdk.eth.ethSign(_msg)
-    console.log('sig: ', sig)
-    return sig
+  public async ethSignMessage(msg: core.ETHSignMessage): Promise<core.ETHSignedMessage> {
+    const address = (await this.sdk.address.ethereumGetAddress({ address_n: msg.addressNList }))
+      .address
+    const message = `0x${Buffer.from(
+      Uint8Array.from(
+        typeof msg.message === 'string' ? new TextEncoder().encode(msg.message) : msg.message,
+      ),
+    ).toString('hex')}`
+    const signature = await this.sdk.eth.ethSign({
+      address,
+      message,
+    })
+    return {
+      address,
+      // TODO: openapi-generator types are terrible
+      // @ts-expect-error
+      signature,
+    }
   }
 
-  public async ethSignTypedData(_msg: any): Promise<any> {
-    console.log('_msg: ', _msg)
-    const sig = await this.sdk.eth.ethSignTypedData(_msg)
-    console.log('_msg: ', _msg)
-    return sig
+  public async ethSignTypedData(msg: core.ETHSignTypedData): Promise<core.ETHSignedTypedData> {
+    const address = (await this.sdk.address.ethereumGetAddress({ address_n: msg.addressNList }))
+      .address
+    // TODO: openapi-generator types are terrible
+    const signature = (await this.sdk.eth.ethSignTypedData({
+      // (Our types are a bit stricter than the ones from the eip712 library.)
+      typedData: msg.typedData as TypesEthTypedData,
+      address,
+    })) as string
+    return {
+      address,
+      signature,
+    }
   }
 
-  public async ethVerifyMessage(_msg: any): Promise<boolean> {
-    const output = await this.sdk.eth.ethVerify(_msg)
+  public async ethVerifyMessage(msg: core.ETHVerifyMessage): Promise<boolean> {
+    const message = `0x${Buffer.from(
+      Uint8Array.from(
+        typeof msg.message === 'string' ? new TextEncoder().encode(msg.message) : msg.message,
+      ),
+    ).toString('hex')}`
+    const output = await this.sdk.eth.ethVerify({
+      signature: msg.signature,
+      address: msg.address,
+      message,
+    })
     return output
   }
 

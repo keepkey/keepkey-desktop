@@ -104,7 +104,7 @@ export class LegacyWCService {
   }
 
   public async approve(request: any, txData: TxData, web3: EthChainData) {
-    if (request.method === 'personal_sign') {
+    if (request.method === 'personal_sign' || request.method === 'eth_sign') {
       let message
       const strip0x = (inputHexString: string) =>
         inputHexString.startsWith('0x')
