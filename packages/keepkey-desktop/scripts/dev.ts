@@ -12,6 +12,7 @@ const distPath = path.join(workspacePath, 'dist')
 
 export const dev = async () => {
   process.env.NODE_ENV ??= 'development'
+  process.env.ELECTRON_IS_DEV ??= '1'
 
   await build()
 
