@@ -14,7 +14,7 @@ import {
   Skeleton,
   SkeletonText,
 } from '@chakra-ui/react'
-import type { FC } from 'react'
+import { FC, useCallback } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { useHistory } from 'react-router'
@@ -26,13 +26,20 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import type { RegistryItem } from '../types'
 import { PageInput } from './PageInput'
 import { getPioneerClient } from 'lib/getPioneerCleint'
+import { useModal } from 'hooks/useModal/useModal'
 
 const PAGE_SIZE = 20
-const loadingImg = 'https://github.com/keepkey/keepkey-desktop/blob/develop/packages/keepkey-desktop/icon.png?raw=true'
+const loadingImg =
+  'https://github.com/keepkey/keepkey-desktop/blob/develop/packages/keepkey-desktop/icon.png?raw=true'
 
 export const DappRegistryGrid: FC = () => {
   const [registryItems, setRegistryItems] = useState<RegistryItem[]>()
   const [loading, setLoading] = useState(true)
+
+  const {
+    state: { wallet },
+  } = useWallet()
+  const { dappClick } = useModal()
 
   const { register, setValue, control } = useForm<{ search: string; page: number }>({
     mode: 'onChange',
@@ -45,6 +52,14 @@ export const DappRegistryGrid: FC = () => {
   const history = useHistory()
   const { dispatch } = useWallet()
 
+  const [supportsVerify, setSupportsVerify] = useState(false)
+
+  useEffect(() => {
+    wallet?.getFirmwareVersion().then(version => {
+      const [major, minor] = version.replace('v', '').split('.')
+      if (Number(major) >= 7 && Number(minor) >= 6) setSupportsVerify(true)
+    })
+  }, [wallet])
   const filteredListings = useMemo(
     () =>
       registryItems &&
@@ -84,10 +99,23 @@ export const DappRegistryGrid: FC = () => {
 
   const maxPage = filteredListings ? Math.floor(filteredListings.length / PAGE_SIZE) : 0
 
-  const openDapp = (app: RegistryItem) => {
-    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.app })
-    history.push('/browser')
-  }
+  const openDapp = useCallback(
+    (app: RegistryItem) => {
+      dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.app })
+      history.push('/browser')
+    },
+    [dispatch, history],
+  )
+
+  const clickDapp = useCallback(
+    (app: RegistryItem) => {
+      console.log('Dapp clicked', app)
+      if (supportsVerify) dappClick.open({ onContinue: () => openDapp(app) })
+      else openDapp(app)
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dappClick, openDapp],
+  )
 
   return (
     <Box>
@@ -150,7 +178,7 @@ export const DappRegistryGrid: FC = () => {
       {filteredListings && filteredListings.length !== 0 ? (
         <SimpleGrid columns={{ lg: 4, sm: 2, base: 1 }} spacing={4}>
           {filteredListings.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE).map(listing => (
-            <Link key={listing.id} onClick={() => openDapp(listing)}>
+            <Link key={listing.id} onClick={() => clickDapp(listing)}>
               <Box
                 borderRadius='lg'
                 p={2}
