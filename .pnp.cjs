@@ -19488,6 +19488,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["npm:18.3.7", {\
+          "packageLocation": "./.yarn/unplugged/electron-npm-18.3.7-62ff4573e0/node_modules/electron/",\
+          "packageDependencies": [\
+            ["electron", "npm:18.3.7"],\
+            ["@electron/get", "npm:1.14.1"],\
+            ["@types/node", "npm:16.18.10"],\
+            ["extract-zip", "npm:1.7.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:22.0.0", {\
           "packageLocation": "./.yarn/unplugged/electron-npm-22.0.0-1476c0568e/node_modules/electron/",\
           "packageDependencies": [\
@@ -25879,7 +25889,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cors", "npm:2.8.5"],\
             ["dmg-builder", "npm:24.0.0-alpha.5"],\
             ["dotenv", "npm:16.0.3"],\
-            ["electron", "npm:16.0.7"],\
+            ["electron", "npm:18.3.7"],\
             ["electron-builder", "npm:24.0.0-alpha.5"],\
             ["electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.5.0"],\
             ["electron-is-dev", "npm:2.0.0"],\
@@ -26078,7 +26088,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["dayjs", "npm:1.11.6"],\
             ["dompurify", "npm:2.4.1"],\
             ["dotenv", "npm:16.0.3"],\
-            ["electron", "npm:16.0.7"],\
+            ["electron", "npm:18.3.7"],\
             ["electron-unhandled", "npm:4.0.1"],\
             ["envalid", "npm:7.3.1"],\
             ["esbuild", "npm:0.15.16"],\

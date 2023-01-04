@@ -14364,6 +14364,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"electron@npm:18.3.7":
+  version: 18.3.7
+  resolution: "electron@npm:18.3.7"
+  dependencies:
+    "@electron/get": ^1.13.0
+    "@types/node": ^16.11.26
+    extract-zip: ^1.0.3
+  bin:
+    electron: cli.js
+  checksum: 365a82082926ccf062e9dcc7d997e43988c9d2a1b1bf9ea1e5c3f00d0ec05c9e45d3382cbfa51673a50e0f0127cabc3c4eb5ced0bd797ea2eebe36f1a27e0ecb
+  languageName: node
+  linkType: hard
+
 "elliptic@npm:6.5.4, elliptic@npm:^6.0.0, elliptic@npm:^6.4.0, elliptic@npm:^6.5.2, elliptic@npm:^6.5.3, elliptic@npm:^6.5.4":
   version: 6.5.4
   resolution: "elliptic@npm:6.5.4"
@@ -19882,7 +19895,7 @@ __metadata:
     dayjs: ^1.11.3
     dompurify: ^2.3.8
     dotenv: ^16.0.1
-    electron: 16.0.7
+    electron: 18.3.7
     electron-unhandled: ^4.0.1
     envalid: ^7.3.1
     esbuild: ^0.15.14
@@ -20033,7 +20046,7 @@ __metadata:
     cors: ^2.8.5
     dmg-builder: ^24.0.0-alpha.5
     dotenv: ^16.0.3
-    electron: 16.0.7
+    electron: 18.3.7
     electron-builder: ^24.0.0-alpha.5
     electron-builder-notarize: ^1.5.0
     electron-is-dev: ^2.0.0
