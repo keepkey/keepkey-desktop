@@ -1,3 +1,5 @@
+import 'source-map-support/register'
+
 import { Buffer } from 'buffer'
 
 import { logger } from './lib/logger'

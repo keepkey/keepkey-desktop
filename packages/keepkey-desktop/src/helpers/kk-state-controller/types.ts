@@ -70,8 +70,8 @@ export type FirmwareAndBootloaderData = {
 }
 
 export type FirmwareAndBootloaderHashes = {
-  bootloader: { [key: string]: string }[]
-  firmware: { [key: string]: string }[]
+  bootloader: Record<string, string>
+  firmware: Record<string, string>
 }
 
 export type AllFirmwareAndBootloaderData = {

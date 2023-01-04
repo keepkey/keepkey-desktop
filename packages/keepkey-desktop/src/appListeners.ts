@@ -7,6 +7,10 @@ import { bridgeLogger, isLinux, settings, windows } from './globalState'
 import { createMainWindow } from './helpers/utils'
 import { createUpdaterSplashWindow, skipUpdateCheck } from './updaterListeners'
 
+export const appReady = new Promise<void>(resolve => {
+  app.once('ready', () => resolve())
+})
+
 export const startAppListeners = () => {
   // app entry point
   // creates splash window to look for updates and then start the main window

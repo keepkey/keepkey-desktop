@@ -66,14 +66,8 @@ export type IpcListeners = {
     serviceImageUrl: string
   }): Promise<void>
 
-  keepkeyUpdateFirmware(): Promise<{
-    bootloader: boolean
-    success: boolean
-  }>
-  keepkeyUpdateBootloader(): Promise<{
-    bootloader: boolean
-    success: boolean
-  }>
+  keepkeyUpdateFirmware(): Promise<void>
+  keepkeyUpdateBootloader(): Promise<void>
   keepkeySkipUpdate(): Promise<void>
 
   appReadQr(): Promise<string>

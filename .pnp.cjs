@@ -3079,47 +3079,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["@bithighlander/hdwallet-core", [\
-        ["npm:2.14.2", {\
-          "packageLocation": "./.yarn/cache/@bithighlander-hdwallet-core-npm-2.14.2-476130f11b-6f753c4622.zip/node_modules/@bithighlander/hdwallet-core/",\
-          "packageDependencies": [\
-            ["@bithighlander/hdwallet-core", "npm:2.14.2"],\
-            ["eventemitter2", "npm:5.0.1"],\
-            ["rxjs", "npm:6.6.7"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@bithighlander/hdwallet-keepkey", [\
-        ["npm:2.14.2", {\
-          "packageLocation": "./.yarn/cache/@bithighlander-hdwallet-keepkey-npm-2.14.2-3214eaf2ca-7aea8a796a.zip/node_modules/@bithighlander/hdwallet-keepkey/",\
-          "packageDependencies": [\
-            ["@bithighlander/hdwallet-keepkey", "npm:2.14.2"],\
-            ["@bithighlander/hdwallet-core", "npm:2.14.2"],\
-            ["@keepkey/device-protocol", "npm:6.4.1"],\
-            ["@types/eventemitter2", "npm:4.1.0"],\
-            ["eip55", "npm:1.0.3"],\
-            ["ethereumjs-tx", "npm:1.3.7"],\
-            ["eventemitter2", "npm:5.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@bithighlander/hdwallet-keepkey-nodehid", [\
-        ["npm:2.14.3", {\
-          "packageLocation": "./.yarn/cache/@bithighlander-hdwallet-keepkey-nodehid-npm-2.14.3-c274f1008c-f8c928d2e4.zip/node_modules/@bithighlander/hdwallet-keepkey-nodehid/",\
-          "packageDependencies": [\
-            ["@bithighlander/hdwallet-keepkey-nodehid", "npm:2.14.3"],\
-            ["@bithighlander/hdwallet-core", "npm:2.14.2"],\
-            ["@bithighlander/hdwallet-keepkey", "npm:2.14.2"],\
-            ["bytebuffer", "npm:5.0.1"],\
-            ["crypto", "npm:1.0.1"],\
-            ["eventemitter2", "npm:5.0.1"],\
-            ["node-hid", "patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["@chakra-ui/accordion", [\
         ["npm:2.1.3", {\
           "packageLocation": "./.yarn/cache/@chakra-ui-accordion-npm-2.1.3-41f02bcb91-24aa7ff087.zip/node_modules/@chakra-ui/accordion/",\
@@ -8955,15 +8914,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@keepkey/device-protocol", [\
-        ["npm:6.4.1", {\
-          "packageLocation": "./.yarn/cache/@keepkey-device-protocol-npm-6.4.1-2b13464a82-9e9331c41e.zip/node_modules/@keepkey/device-protocol/",\
-          "packageDependencies": [\
-            ["@keepkey/device-protocol", "npm:6.4.1"],\
-            ["google-protobuf", "npm:3.21.2"],\
-            ["pbjs", "npm:0.0.5"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:7.10.2", {\
           "packageLocation": "./.yarn/cache/@keepkey-device-protocol-npm-7.10.2-84a137c440-375cb8ab9d.zip/node_modules/@keepkey/device-protocol/",\
           "packageDependencies": [\
@@ -9797,7 +9747,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["os", "npm:0.1.2"],\
             ["request", "npm:2.88.2"],\
             ["request-promise", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:4.2.6"],\
-            ["ts-node", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:8.10.2"],\
+            ["ts-node", "virtual:ff9728af92353809647d9ed70e5ddb9ac4d712973b39c6f70437ed59e7f0019f7975257b83bf464a736a677de9b345b482b86076d557eaecd01c4884fad520b0#npm:8.10.2"],\
             ["typescript", "patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"]\
           ],\
           "linkType": "HARD"\
@@ -9813,7 +9763,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["js-yaml", "npm:3.14.1"],\
             ["openapi-client-axios", "virtual:ff9728af92353809647d9ed70e5ddb9ac4d712973b39c6f70437ed59e7f0019f7975257b83bf464a736a677de9b345b482b86076d557eaecd01c4884fad520b0#npm:3.14.1"],\
             ["request", "npm:2.88.2"],\
-            ["ts-node", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:8.10.2"],\
+            ["ts-node", "virtual:ff9728af92353809647d9ed70e5ddb9ac4d712973b39c6f70437ed59e7f0019f7975257b83bf464a736a677de9b345b482b86076d557eaecd01c4884fad520b0#npm:8.10.2"],\
             ["typescript", "patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"]\
           ],\
           "linkType": "HARD"\
@@ -11854,16 +11804,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-emscripten-npm-1.39.6-c9c4021365-437f2f9cdf.zip/node_modules/@types/emscripten/",\
           "packageDependencies": [\
             ["@types/emscripten", "npm:1.39.6"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@types/eventemitter2", [\
-        ["npm:4.1.0", {\
-          "packageLocation": "./.yarn/cache/@types-eventemitter2-npm-4.1.0-a6e4143ef4-977c697420.zip/node_modules/@types/eventemitter2/",\
-          "packageDependencies": [\
-            ["@types/eventemitter2", "npm:4.1.0"],\
-            ["eventemitter2", "npm:6.4.9"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -19518,14 +19458,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["eip55", [\
-        ["npm:1.0.3", {\
-          "packageLocation": "./.yarn/cache/eip55-npm-1.0.3-cced61e1f3-081a731b94.zip/node_modules/eip55/",\
-          "packageDependencies": [\
-            ["eip55", "npm:1.0.3"],\
-            ["keccak", "npm:1.4.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:2.1.0", {\
           "packageLocation": "./.yarn/cache/eip55-npm-2.1.0-f8c2bc8f37-80999b66f4.zip/node_modules/eip55/",\
           "packageDependencies": [\
@@ -25909,7 +25841,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/keepkey-desktop/",\
           "packageDependencies": [\
             ["keepkey-desktop", "workspace:packages/keepkey-desktop"],\
-            ["@bithighlander/hdwallet-keepkey-nodehid", "npm:2.14.3"],\
             ["@keepkey/common-esbuild-bits", "workspace:packages/common-esbuild-bits"],\
             ["@keepkey/device-protocol", "npm:7.10.2"],\
             ["@keepkey/errors", "npm:1.1.3"],\
@@ -25920,7 +25851,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/hdwallet-keepkey", "npm:1.41.0"],\
             ["@shapeshiftoss/hdwallet-keepkey-nodehid", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.41.0"],\
             ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.41.0"],\
-            ["@shapeshiftoss/hdwallet-native", "npm:1.41.0"],\
             ["@swc/cli", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:0.1.57"],\
             ["@swc/core", "npm:1.3.20"],\
             ["@tsoa/cli", "npm:4.1.3"],\
@@ -25980,6 +25910,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["promise.any", "npm:2.0.5"],\
             ["rimraf", "npm:3.0.2"],\
             ["secp256k1", "npm:4.0.3"],\
+            ["source-map-support", "npm:0.5.21"],\
             ["swagger-ui-dist", "npm:4.15.5"],\
             ["swagger-ui-express", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:4.6.0"],\
             ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
@@ -26234,6 +26165,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["semver", "npm:7.3.8"],\
             ["simple-git", "npm:3.15.0"],\
             ["simplex-noise", "npm:3.0.1"],\
+            ["source-map-support", "npm:0.5.21"],\
             ["ssri", "npm:8.0.1"],\
             ["stream-browserify", "npm:3.0.0"],\
             ["stream-http", "npm:3.2.0"],\
@@ -35469,24 +35401,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:8.10.2", {\
-          "packageLocation": "./.yarn/__virtual__/ts-node-virtual-a38aa08529/0/cache/ts-node-npm-8.10.2-b4fe5a56b0-480adb076f.zip/node_modules/ts-node/",\
-          "packageDependencies": [\
-            ["ts-node", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:8.10.2"],\
-            ["@types/typescript", null],\
-            ["arg", "npm:4.1.3"],\
-            ["diff", "npm:4.0.2"],\
-            ["make-error", "npm:1.3.6"],\
-            ["source-map-support", "npm:0.5.21"],\
-            ["typescript", "patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"],\
-            ["yn", "npm:3.1.1"]\
-          ],\
-          "packagePeers": [\
-            "@types/typescript",\
-            "typescript"\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["virtual:ea9598466b05f88130ddea63047a73d1d3920e02ec841c0a3aa5aa7e106cc081e3992947a54ec81e4e42c3822b0366da55afe2db9d1160eb0ae5b34d31b33ac3#npm:10.9.1", {\
           "packageLocation": "./.yarn/__virtual__/ts-node-virtual-4cc0801823/0/cache/ts-node-npm-10.9.1-6c268be7f4-090adff130.zip/node_modules/ts-node/",\
           "packageDependencies": [\
@@ -35518,6 +35432,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/node",\
             "@types/swc__core",\
             "@types/swc__wasm",\
+            "@types/typescript",\
+            "typescript"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:ff9728af92353809647d9ed70e5ddb9ac4d712973b39c6f70437ed59e7f0019f7975257b83bf464a736a677de9b345b482b86076d557eaecd01c4884fad520b0#npm:8.10.2", {\
+          "packageLocation": "./.yarn/__virtual__/ts-node-virtual-2e1b574403/0/cache/ts-node-npm-8.10.2-b4fe5a56b0-480adb076f.zip/node_modules/ts-node/",\
+          "packageDependencies": [\
+            ["ts-node", "virtual:ff9728af92353809647d9ed70e5ddb9ac4d712973b39c6f70437ed59e7f0019f7975257b83bf464a736a677de9b345b482b86076d557eaecd01c4884fad520b0#npm:8.10.2"],\
+            ["@types/typescript", null],\
+            ["arg", "npm:4.1.3"],\
+            ["diff", "npm:4.0.2"],\
+            ["make-error", "npm:1.3.6"],\
+            ["source-map-support", "npm:0.5.21"],\
+            ["typescript", "patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"],\
+            ["yn", "npm:3.1.1"]\
+          ],\
+          "packagePeers": [\
             "@types/typescript",\
             "typescript"\
           ],\
