@@ -15,7 +15,7 @@ import type {
 import { bridgeLogger, db, isWalletBridgeRunning, kkStateController, settings } from './globalState'
 import {
   downloadFirmware,
-  getBetaFirmwareData,
+  getFirmwareBaseUrl,
   getLatestFirmwareData,
   loadFirmware,
 } from './helpers/kk-state-controller/firmwareUtils'
@@ -171,11 +171,10 @@ export const ipcListeners: IpcListeners = {
   },
 
   async keepkeyUpdateFirmware() {
-    const { result, baseUrl } = settings.allowBetaFirmware
-      ? await getBetaFirmwareData()
-      : await getLatestFirmwareData()
-    const firmware = await downloadFirmware(new URL(result.firmware.url, baseUrl).toString())
-    if (!firmware) throw new Error(`Failed to load firmware from url '${result.firmware.url}'`)
+    const baseUrl = await getFirmwareBaseUrl()
+    const url = (await getLatestFirmwareData(baseUrl)).bootloader.url
+    const firmware = await downloadFirmware(baseUrl, url)
+    if (!firmware) throw new Error(`Failed to load firmware from url '${url}'`)
     const wallet = kkStateController.wallet
     if (!wallet) throw new Error('No HDWallet instance found')
     await loadFirmware(wallet, firmware)
@@ -192,11 +191,10 @@ export const ipcListeners: IpcListeners = {
   },
 
   async keepkeyUpdateBootloader() {
-    const { result, baseUrl } = settings.allowBetaFirmware
-      ? await getBetaFirmwareData()
-      : await getLatestFirmwareData()
-    const firmware = await downloadFirmware(new URL(result.bootloader.url, baseUrl).toString())
-    if (!firmware) throw new Error(`Failed to load bootloader from url '${result.firmware.url}'`)
+    const baseUrl = await getFirmwareBaseUrl()
+    const url = (await getLatestFirmwareData(baseUrl)).bootloader.url
+    const firmware = await downloadFirmware(baseUrl, url)
+    if (!firmware) throw new Error(`Failed to load bootloader from url '${url}'`)
     const wallet = kkStateController.wallet
     if (!wallet) throw new Error('No HDWallet instance found')
     await loadFirmware(wallet, firmware)
