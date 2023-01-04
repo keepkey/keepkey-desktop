@@ -11,7 +11,7 @@ const FIRMWARE_BASE_URL_BETA =
   'https://raw.githubusercontent.com/keepkey/keepkey-desktop/develop/firmware/'
 
 export const getFirmwareBaseUrl = async () => {
-  return settings.allowBetaFirmware ? FIRMWARE_BASE_URL_BETA : FIRMWARE_BASE_URL
+  return (await settings.allowBetaFirmware) ? FIRMWARE_BASE_URL_BETA : FIRMWARE_BASE_URL
 }
 
 export const downloadFirmware = async (baseUrl: string, url: string): Promise<Buffer> => {
@@ -54,5 +54,5 @@ export const getLatestFirmwareData = async (
   baseUrl: string,
 ): Promise<FirmwareAndBootloaderData> => {
   const allFirmwareData = await getAllFirmwareData(baseUrl)
-  return allFirmwareData.latest
+  return allFirmwareData[(await settings.allowBetaFirmware) ? 'beta' : 'latest']
 }

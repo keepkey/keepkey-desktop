@@ -9,38 +9,40 @@ import type { Settings } from './types'
 export class SettingsInstance {
   static #singletonInitialized = false
 
+  readonly loaded = this.loadSettingsFromDb()
+
   #shouldAutoStartBridge = true
   get shouldAutoStartBridge() {
-    return this.#shouldAutoStartBridge
+    return (async () => (await this.loaded, this.#shouldAutoStartBridge))()
   }
   #bridgeApiPort = 1646
   get bridgeApiPort() {
-    return this.#bridgeApiPort
+    return (async () => (await this.loaded, this.#bridgeApiPort))()
   }
 
   #shouldAutoLaunch = true
   get shouldAutoLaunch() {
-    return this.#shouldAutoLaunch
+    return (async () => (await this.loaded, this.#shouldAutoLaunch))()
   }
 
   #shouldMinimizeToTray = true
   get shouldMinimizeToTray() {
-    return this.#shouldMinimizeToTray
+    return (async () => (await this.loaded, this.#shouldMinimizeToTray))()
   }
 
   #shouldAutoUpdate = true
   get shouldAutoUpdate() {
-    return this.#shouldAutoUpdate
+    return (async () => (await this.loaded, this.#shouldAutoUpdate))()
   }
 
   #allowPreRelease = false
   get allowPreRelease() {
-    return this.#allowPreRelease
+    return (async () => (await this.loaded, this.#allowPreRelease))()
   }
 
   #allowBetaFirmware = false
   get allowBetaFirmware() {
-    return this.#allowBetaFirmware
+    return (async () => (await this.loaded, this.#allowBetaFirmware))()
   }
 
   constructor() {
@@ -103,6 +105,7 @@ export class SettingsInstance {
   }
 
   async setShouldAutoLaunch(value: boolean) {
+    await this.loaded
     this.#shouldAutoLaunch = value
     const autoLaunch = await kkAutoLauncher.isEnabled()
     if (!autoLaunch && value) await kkAutoLauncher.enable()
@@ -111,21 +114,25 @@ export class SettingsInstance {
   }
 
   async setShouldAutoStartBridge(value: boolean) {
+    await this.loaded
     this.#shouldAutoStartBridge = value
     await this.syncSettingsWithDB()
   }
 
   async setShouldMinimizeToTray(value: boolean) {
+    await this.loaded
     this.#shouldMinimizeToTray = value
     await this.syncSettingsWithDB()
   }
 
   async setShouldAutoUpdate(value: boolean) {
+    await this.loaded
     this.#shouldAutoUpdate = value
     await this.syncSettingsWithDB()
   }
 
   async setBridgeApiPort(value: number) {
+    await this.loaded
     this.#bridgeApiPort = value
     if (tcpBridgeRunning) {
       const address = server.address() as AddressInfo
@@ -138,12 +145,14 @@ export class SettingsInstance {
   }
 
   async setAllowPreRelease(value: boolean) {
+    await this.loaded
     this.#allowPreRelease = value
     setAllowPreRelease(value)
     await this.syncSettingsWithDB()
   }
 
   async setAllowBetaFirmware(value: boolean) {
+    await this.loaded
     this.#allowBetaFirmware = value
     await this.syncSettingsWithDB()
   }
@@ -165,6 +174,7 @@ export class SettingsInstance {
     allowPreRelease?: boolean
     allowBetaFirmware?: boolean
   }) {
+    await this.loaded
     log.info(
       shouldAutoLaunch,
       shouldAutoStartBridge,

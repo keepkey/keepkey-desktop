@@ -59,7 +59,7 @@ export const createMainWindow = async () => {
     }
   }
 
-  if (settings.shouldAutoStartBridge) await startTcpBridge(settings.bridgeApiPort)
+  if (await settings.shouldAutoStartBridge) await startTcpBridge(await settings.bridgeApiPort)
 
   windows.mainWindow = new BrowserWindow({
     focusable: true,

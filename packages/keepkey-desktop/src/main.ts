@@ -26,7 +26,7 @@ startTcpBridge().catch(e => log.error('startTcpBridge error:', e))
 
 // Auto launch on startup
 ;(async () => {
-  if (!isDev && settings.shouldAutoLaunch) {
+  if (!isDev && (await settings.shouldAutoLaunch)) {
     await kkAutoLauncher.enable()
     console.log('autolaunch enabled')
   } else {
