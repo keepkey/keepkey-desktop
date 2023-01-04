@@ -1,9 +1,13 @@
 import { WipeModal } from 'components/Layout/Header/NavBar/KeepKey/Modals/Wipe'
+import { AddAuthenticatorAccountModal } from 'components/Modals/AddAuthenticatorAccount/AddAuthenticatorAccount'
 import { AssetSearchModal } from 'components/Modals/AssetSearch/AssetSearch'
 import { ChainSelectorModal } from 'components/Modals/ChainSelector/ChainSelector'
+import { DappClickModal } from 'components/Modals/DappClick/DappClick'
 import { FiatRampsModal } from 'components/Modals/FiatRamps/FiatRamps'
 import { KKVote } from 'components/Modals/kkVote/KKVote'
 import { LoadingModal } from 'components/Modals/Loading/Loading'
+import { Languages } from 'components/Modals/OnboardingSteps/Languages'
+import { OnboardingSteps } from 'components/Modals/OnboardingSteps/OnboardingSteps'
 import { PairModal } from 'components/Modals/Pair/Pair'
 import { ReceiveModal } from 'components/Modals/Receive/Receive'
 import { SendModal } from 'components/Modals/Send/Send'
@@ -18,11 +22,6 @@ import { AddAccountModal } from 'pages/Accounts/AddAccountModal'
 import React, { useMemo, useReducer } from 'react'
 
 import { ModalContext } from './ModalContext'
-import { ChainSelectorModal } from 'components/Modals/ChainSelector/ChainSelector'
-import { AddAuthenticatorAccountModal } from 'components/Modals/AddAuthenticatorAccount/AddAuthenticatorAccount'
-import { DappClickModal } from 'components/Modals/DappClick/DappClick'
-import { OnboardingSteps } from 'components/Modals/OnboardingSteps/OnboardingSteps'
-import { Languages } from 'components/Modals/OnboardingSteps/Languages'
 
 // to add new modals, add a new key: value pair below
 // the key is the name returned by the hook and the
