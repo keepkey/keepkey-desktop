@@ -14,6 +14,15 @@ export const iocContainer: IocContainerFactory = function (request: express.Requ
           throw new Error('expected request.user to be provided by expressAuthentication()')
         }
 
+        let reqCompleted = false
+        request.once('close', () => {
+          reqCompleted = true
+        })
+        request.socket.setMaxListeners(Infinity)
+        request.socket.once('end', () => {
+          if (!reqCompleted) sdkClient.wallet.cancel()
+        })
+
         const context = await ApiContext.create(sdkClient)
 
         return new (x as new (context: ApiContext) => T)(context)
