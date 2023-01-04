@@ -117,9 +117,15 @@ export class KeepKeyRestHDWallet
     },
   )
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async ping(_msg: core.Ping): Promise<core.Pong> {
-    throw new Error('not implemented')
+  public async ping(msg: core.Ping): Promise<core.Pong> {
+    const formattedMsg = {
+      ...msg,
+      passphrase_protection: msg.passphrase,
+      pin_protection: msg.pin,
+      button_protection: msg.button,
+    }
+    const { message: respmsg } = await this.sdk.system.info.ping(formattedMsg)
+    return { msg: respmsg }
   }
 
   public async reset(msg: core.ResetDevice): Promise<void> {
