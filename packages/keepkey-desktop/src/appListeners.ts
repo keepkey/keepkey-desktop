@@ -12,12 +12,12 @@ export const startAppListeners = () => {
   // creates splash window to look for updates and then start the main window
   app.on('ready', async () => {
     await createUpdaterSplashWindow()
-    const loadedSettings = await settings.loadSettingsFromDb()
     autoUpdater.setFeedURL({ provider: 'github', owner: 'keepkey', repo: 'keepkey-desktop' })
-    autoUpdater.autoDownload = loadedSettings.shouldAutoUpdate
-    autoUpdater.allowPrerelease = loadedSettings.allowPreRelease
+    autoUpdater.autoDownload = await settings.shouldAutoUpdate
+    autoUpdater.allowPrerelease = await settings.allowPreRelease
     if (!windows.splash) return
-    if (isDev || isLinux || !loadedSettings.shouldAutoUpdate) await skipUpdateCheck(windows.splash)
+    if (isDev || isLinux || !(await settings.shouldAutoUpdate))
+      await skipUpdateCheck(windows.splash)
     if (!isDev && !isLinux) await autoUpdater.checkForUpdates()
   })
 
@@ -35,7 +35,7 @@ export const startAppListeners = () => {
   })
 
   app.on('window-all-closed', async () => {
-    if (!settings.shouldMinimizeToTray) {
+    if (!(await settings.shouldMinimizeToTray)) {
       app.quit()
       await sleep(250)
       app.exit()
