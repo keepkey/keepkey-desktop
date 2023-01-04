@@ -68,13 +68,13 @@ export const ipcListeners: IpcListeners = {
 
   async appSettings(): Promise<Settings> {
     return {
-      shouldAutoLaunch: settings.shouldAutoLaunch,
-      shouldAutoStartBridge: settings.shouldAutoStartBridge,
-      shouldMinimizeToTray: settings.shouldMinimizeToTray,
-      shouldAutoUpdate: settings.shouldAutoUpdate,
-      bridgeApiPort: settings.bridgeApiPort,
-      allowPreRelease: settings.allowPreRelease,
-      allowBetaFirmware: settings.allowBetaFirmware,
+      shouldAutoLaunch: await settings.shouldAutoLaunch,
+      shouldAutoStartBridge: await settings.shouldAutoStartBridge,
+      shouldMinimizeToTray: await settings.shouldMinimizeToTray,
+      shouldAutoUpdate: await settings.shouldAutoUpdate,
+      bridgeApiPort: await settings.bridgeApiPort,
+      allowPreRelease: await settings.allowPreRelease,
+      allowBetaFirmware: await settings.allowBetaFirmware,
     }
   },
 
@@ -227,7 +227,7 @@ export const ipcListeners: IpcListeners = {
   //     return { updateInfo: { version: app.getVersion() } }
   //   }
   //   const update = await autoUpdater.checkForUpdates()
-  //   autoUpdater.autoDownload = settings.shouldAutoUpdate
+  //   autoUpdater.autoDownload = await settings.shouldAutoUpdate
   //   return update ?? undefined
   // },
 
