@@ -26,13 +26,14 @@ import { useTranslate } from 'react-polyglot'
 type Props = {
   isOpen: boolean
   onClose(): void
+  scannedQr?: string
 }
 
 type FormValues = {
   uri: string
 }
 
-export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
+export const ConnectModal: FC<Props> = ({ isOpen, onClose, scannedQr }) => {
   const translate = useTranslate()
 
   const { register, handleSubmit, control, formState, setValue, getValues } = useForm<FormValues>({
@@ -74,6 +75,14 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
       })
       .catch(console.error)
   }
+
+  useEffect(() => {
+    if (!scannedQr) return
+    if (scannedQr.startsWith('wc:')) {
+      setValue('uri', scannedQr)
+      handleSubmit(handleConnect)
+    }
+  }, [handleConnect, handleSubmit, scannedQr, setValue])
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} variant='header-nav'>

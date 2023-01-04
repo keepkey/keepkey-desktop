@@ -152,8 +152,11 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
           setPairingMeta(bridgeFromSession.connector.peerMeta)
 
         setLegacyBridge(bridgeFromSession)
+
+        onDisconnect()
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isConnected, isLegacy, legacyBridge, setLegcyEvents, wallet],
   )
 
