@@ -10,9 +10,9 @@ export const initializeWallet = async (
   const hidAdapter = await HIDKeepKeyAdapter.useKeyring(keyring)
 
   const wallet = await (async () => {
-    const webUsbDevice = await webUsbAdapter.getDevice()
+    const webUsbDevice = await webUsbAdapter.getDevice().catch(() => undefined)
     if (webUsbDevice) return webUsbAdapter.pairRawDevice(webUsbDevice)
-    const hidDevice = await hidAdapter.getDevice()
+    const hidDevice = await hidAdapter.getDevice().catch(() => undefined)
     if (hidDevice) return hidAdapter.pairRawDevice(hidDevice)
     return undefined
   })()
