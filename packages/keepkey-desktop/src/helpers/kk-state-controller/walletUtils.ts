@@ -21,6 +21,22 @@ export const initializeWallet = async (
     return { wallet }
   }
 
+  const transport = wallet.transport as unknown as {
+    write(data: Uint8Array, debugLink?: boolean): Promise<void>
+    read(debugLink?: boolean): Promise<Uint8Array>
+  }
+  const transportWrite = transport.write.bind(transport)
+  const transportRead = transport.read.bind(transport)
+  transport.read = async (debugLink?: boolean) => {
+    const out = await transportRead(debugLink)
+    console.log('readDevice:', Buffer.from(out).toString('hex'))
+    return out
+  }
+  transport.write = async (data: Uint8Array, debugLink?: boolean) => {
+    console.log('writeDevice:', Buffer.from(data).toString('hex'))
+    return await transportWrite(data, debugLink)
+  }
+
   // wallet.features will not be undefined because adapter.pairRawDevice() calls wallet.initialize() for us
   const features = wallet.features!
   const { majorVersion, minorVersion, patchVersion, bootloaderHash } = features
