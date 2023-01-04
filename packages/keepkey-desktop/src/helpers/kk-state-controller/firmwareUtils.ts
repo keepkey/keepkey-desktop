@@ -51,8 +51,7 @@ export const getAllFirmwareData = async (
 }
 
 export const getLatestFirmwareData = async (
-  baseUrl: string,
+  allFirmwareData: AllFirmwareAndBootloaderData,
 ): Promise<FirmwareAndBootloaderData> => {
-  const allFirmwareData = await getAllFirmwareData(baseUrl)
   return allFirmwareData[(await settings.allowBetaFirmware) ? 'beta' : 'latest']
 }

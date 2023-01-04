@@ -3,7 +3,7 @@ import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import log from 'electron-log'
 import { usb } from 'usb'
 
-import { getFirmwareBaseUrl, getLatestFirmwareData } from './firmwareUtils'
+import { getAllFirmwareData, getFirmwareBaseUrl, getLatestFirmwareData } from './firmwareUtils'
 import type { KeyringEventHandler, KKStateData, StateChangeHandler } from './types'
 import { KKState } from './types'
 import { initializeWallet } from './walletUtils'
@@ -60,24 +60,27 @@ export class KKStateController {
 
   public async syncState() {
     log.info('KKStateController syncState')
-    const latestFirmware = await getLatestFirmwareData(await getFirmwareBaseUrl())
+    const firmwareData = await getAllFirmwareData(await getFirmwareBaseUrl())
+    const latestFirmware = await getLatestFirmwareData(firmwareData)
     console.log('latestFirmware', latestFirmware)
-    const resultInit = await initializeWallet(this)
-    log.info('KKStateController resultInit: ', resultInit)
-    if ('unplugged' in resultInit && resultInit.unplugged) {
-      log.info('KKStateController resultInit.unplugged')
-      await this.updateState({ state: KKState.Disconnected })
-    } else if (
-      !resultInit ||
-      !('success' in resultInit) ||
-      !resultInit.success ||
-      ('error' in resultInit && resultInit.error)
-    ) {
-      log.info('KKStateController HARDWARE_ERROR')
+    const bootloaderHashes = firmwareData.hashes.bootloader
+    console.log('bootloaderHashes', bootloaderHashes)
+
+    const resultInit = await initializeWallet(this.keyring, bootloaderHashes).catch(async err => {
+      log.warn('KKStateController HARDWARE_ERROR', err)
       await this.updateState({
         state: KKState.HardwareError,
-        error: 'error' in resultInit ? resultInit.error : undefined,
+        error: String(err),
       })
+      return undefined
+    })
+    this.wallet = resultInit?.wallet
+    if (!resultInit) return
+
+    log.info('KKStateController resultInit: ', resultInit)
+    if (!resultInit.wallet) {
+      log.info('KKStateController resultInit.unplugged')
+      await this.updateState({ state: KKState.Disconnected })
     } else if (resultInit.bootloaderVersion !== latestFirmware.bootloader.version) {
       log.info('KKStateController UPDATE_BOOTLOADER')
       await this.updateState({
@@ -99,7 +102,7 @@ export class KKStateController {
         recommendedFirmware: latestFirmware.firmware.version,
         bootloaderMode: !!resultInit.bootloaderMode,
       })
-    } else if (!resultInit?.features?.initialized) {
+    } else if (!resultInit.features.initialized) {
       log.info('KKStateController NEEDS_INITIALIZE')
       await this.updateState({ state: KKState.NeedsInitialize })
     } else {
