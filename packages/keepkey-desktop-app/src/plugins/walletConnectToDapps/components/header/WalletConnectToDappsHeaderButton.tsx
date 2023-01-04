@@ -22,10 +22,10 @@ export const WalletConnectToDappsHeaderButton = () => {
   const scanQrAndOpen = () => {
     ipcListeners
       .appReadQr()
-      .then(v => {
+      .then(async v => {
         setScannedQr(v)
-        connect(v)
         setOpen(true)
+        await connect(v)
       })
       .catch(e => {
         console.error(e)
