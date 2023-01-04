@@ -62,10 +62,13 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose, scannedQr }) => {
     navigator.clipboard.read().then(async data => {
       const link = await data[0].getType('text/plain')
       link.text().then(uri => {
-        if (uri.startsWith('wc:')) setValue('uri', uri)
+        if (uri.startsWith('wc:')) {
+          setValue('uri', uri)
+          connect(uri)
+        }
       })
     })
-  }, [isOpen, setValue])
+  }, [connect, isOpen, setValue])
 
   const scan = () => {
     ipcListeners

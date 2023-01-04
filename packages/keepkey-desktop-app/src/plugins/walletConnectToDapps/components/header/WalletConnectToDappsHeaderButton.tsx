@@ -24,7 +24,7 @@ export const WalletConnectToDappsHeaderButton = () => {
       .appReadQr()
       .then(v => {
         setScannedQr(v)
-        connect(scannedQr)
+        connect(v)
         setOpen(true)
       })
       .catch(e => {
