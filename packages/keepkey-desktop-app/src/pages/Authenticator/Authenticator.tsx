@@ -20,13 +20,13 @@ import {
   Tr,
   useToast,
 } from '@chakra-ui/react'
-import { useCallback, useEffect, useState } from 'react'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
 import { Text } from 'components/Text'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { useModal } from 'hooks/useModal/useModal'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import { useCallback, useEffect, useState } from 'react'
 
 function assume<T>(_x: unknown): asserts _x is T {}
 
