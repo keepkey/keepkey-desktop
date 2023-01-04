@@ -42,7 +42,7 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose, scannedQr }) => {
   })
   const canConnect = !!useWatch({ control, name: 'uri' })
 
-  const { connect } = useWalletConnect()
+  const { connect, isConnected } = useWalletConnect()
   const handleConnect = useCallback(
     async (values: FormValues) => {
       if (!values) values = getValues()
@@ -51,6 +51,10 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose, scannedQr }) => {
     },
     [connect, getValues, onClose],
   )
+
+  useEffect(() => {
+    if (isConnected) onClose()
+  }, [isConnected, onClose])
 
   useEffect(() => {
     if (!isOpen) return
