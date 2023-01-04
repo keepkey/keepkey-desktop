@@ -1,29 +1,54 @@
 import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/react'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import { useModal } from 'hooks/useModal/useModal'
+import { useCallback } from 'react'
 
-import { Step0 } from './Step0/Step0'
+import { Step0 } from './steps/Step0'
 
 export const OnboardingSteps = () => {
-  const { updateKeepKey } = useModal()
-  const { close, isOpen } = updateKeepKey
+  const { onboardingSteps } = useModal()
+  const { close, isOpen } = onboardingSteps
   const { setStep, activeStep } = useSteps({
     initialStep: 0,
   })
 
+  const { hardwareError } = useModal()
+
+  const doNextStep = useCallback(() => {
+    if (activeStep === 2) {
+      close()
+      hardwareError.open({})
+      window.localStorage.setItem('onboarded', 'true')
+    } else {
+      setStep(activeStep + 1)
+    }
+  }, [activeStep, close, hardwareError, setStep])
+
+  const doPreviousStep = useCallback(() => {
+    if (activeStep === 0) {
+    } else {
+      setStep(activeStep - 1)
+    }
+  }, [activeStep, setStep])
+
   const steps = [
-    { label: 'Step0', content: <Step0 /> },
-    { label: 'Step1', content: <Step0 /> },
-    { label: 'Step2', content: <Step0 /> },
+    {
+      label: 'Mnemonics',
+      content: <Step0 doNextStep={doNextStep} doPreviousStep={doPreviousStep} />,
+    },
+    { label: 'Pin', content: <Step0 doNextStep={doNextStep} doPreviousStep={doPreviousStep} /> },
+    {
+      label: 'Restore',
+      content: <Step0 doNextStep={doNextStep} doPreviousStep={doPreviousStep} />,
+    },
   ]
 
   return (
     <Modal
+      size='full'
       isOpen={isOpen}
       onClose={() => {
-        // disconnect()
-        // close()
-        // setStep(0)
+        close()
       }}
       isCentered
       closeOnOverlayClick={false}
@@ -31,7 +56,6 @@ export const OnboardingSteps = () => {
     >
       <ModalOverlay />
       <ModalContent justifyContent='center' p={3}>
-        {/*<ModalCloseButton ml='auto' borderRadius='full' position='static' />*/}
         <Steps activeStep={activeStep}>
           {steps.map(({ label, content }: any) => (
             <Step label={label} key={label}>

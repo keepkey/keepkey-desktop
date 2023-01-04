@@ -34,7 +34,6 @@ export const KeepKeyPin = ({
     setDeviceState,
     state: {
       keyring,
-      modal,
       deviceId,
       deviceState: { disposition },
       pinDeferred,

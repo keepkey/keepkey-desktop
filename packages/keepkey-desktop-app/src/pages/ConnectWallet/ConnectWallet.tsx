@@ -7,6 +7,8 @@ import heroBgImage from 'assets/splash-bg.png'
 import { Page } from 'components/Layout/Page'
 import { RawText, Text } from 'components/Text'
 import { ipcListeners } from 'electron-shim'
+import { useModal } from 'hooks/useModal/useModal'
+//import { useModal } from 'hooks/useModal/useModal'
 import { useQuery } from 'hooks/useQuery/useQuery'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useEffect } from 'react'
@@ -19,6 +21,8 @@ export const ConnectWallet = () => {
   const history = useHistory()
   const translate = useTranslate()
   const query = useQuery<{ returnUrl: string }>()
+
+  const { onboardingSteps, languages } = useModal()
 
   const debugDevice = async function () {
     await ipcListeners.appRestart()
@@ -43,6 +47,21 @@ export const ConnectWallet = () => {
       : query?.returnUrl
     hasWallet && history.push(path ?? '/dashboard')
   }, [history, hasWallet, query, state, dispatch])
+
+  useEffect(() => {
+    if (
+      window.localStorage.getItem('onboarded') !== 'true' &&
+      window.localStorage.getItem('languageSelected') === 'true'
+    )
+      onboardingSteps.open({})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    const languageSelected = window.localStorage.getItem('languageSelected')
+    if (languageSelected !== 'true') languages.open({})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Page>
