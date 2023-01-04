@@ -3,6 +3,7 @@ import { Menu, MenuButton, MenuList } from '@chakra-ui/menu'
 import { Button } from '@chakra-ui/react'
 import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
 import { RawText } from 'components/Text'
+import { ipcListeners } from 'electron-shim'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { useState } from 'react'
 import { useTranslate } from 'react-polyglot'
@@ -15,6 +16,20 @@ export const WalletConnectToDappsHeaderButton = () => {
   const [isOpen, setOpen] = useState(false)
   const translate = useTranslate()
   const walletConnect = useWalletConnect()
+  const [scannedQr, setScannedQr] = useState<string>()
+
+  const scanQrAndOpen = () => {
+    ipcListeners
+      .appReadQr()
+      .then(v => {
+        setScannedQr(v)
+        setOpen(true)
+      })
+      .catch(e => {
+        console.error(e)
+        setOpen(true)
+      })
+  }
 
   if (!walletConnect || !walletConnect.isConnected || !walletConnect.dapp) {
     return (
@@ -22,11 +37,11 @@ export const WalletConnectToDappsHeaderButton = () => {
         <Button
           leftIcon={<WalletConnectIcon />}
           rightIcon={<ChevronRightIcon />}
-          onClick={() => setOpen(true)}
+          onClick={scanQrAndOpen}
         >
           {translate('plugins.walletConnectToDapps.header.connectDapp')}
         </Button>
-        <ConnectModal isOpen={isOpen} onClose={() => setOpen(false)} />
+        <ConnectModal isOpen={isOpen} onClose={() => setOpen(false)} scannedQr={scannedQr} />
       </>
     )
   }
