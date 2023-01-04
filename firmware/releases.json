@@ -18,7 +18,7 @@
     "firmware": {
       "version": "v7.7.0",
       "url": "v7.7.0/firmware.keepkey.bin",
-      "hash": "713e3dcd90386878c33d65c7eff01e21cdf97a41fd9bd764974af3b543fe803d"
+      "hash": "83c51cece5d2d85b8e46078d52d6a38ff88bb20c79fdb6c7cc13ee55acb9a232"
     },
     "bootloader": {
       "version": "v2.1.4",
