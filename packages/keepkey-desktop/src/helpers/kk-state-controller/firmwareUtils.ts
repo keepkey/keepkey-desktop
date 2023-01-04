@@ -38,30 +38,24 @@ export const loadFirmware = async (wallet: KeepKeyHDWallet, firmware: Buffer) =>
   return uploadResult
 }
 
-export const getAllFirmwareData = () =>
-  new Promise<AllFirmwareAndBootloaderData>((resolve, reject) => {
-    request(`${FIRMWARE_BASE_URL}releases.json`, (err: any, _response: unknown, body: any) => {
-      if (err) return reject(err)
-      resolve(JSON.parse(body))
-    })
-  })
+export const getAllFirmwareData = async () => {
+  return (await (
+    await fetch(new URL('releases.json', FIRMWARE_BASE_URL))
+  ).json()) as AllFirmwareAndBootloaderData
+}
 
-export const getAllBetaFirmwareData = () =>
-  new Promise<AllFirmwareAndBootloaderData>((resolve, reject) => {
-    request(`${FIRMWARE_BASE_URL_BETA}releases.json`, (err: any, _response: unknown, body: any) => {
-      if (err) return reject(err)
-      resolve(JSON.parse(body))
-    })
-  })
+export const getAllBetaFirmwareData = async () => {
+  return (await (
+    await fetch(new URL('releases.json', FIRMWARE_BASE_URL_BETA))
+  ).json()) as AllFirmwareAndBootloaderData
+}
 
-export const getLatestFirmwareData = () =>
-  new Promise<FirmwareAndBootloaderData>(async resolve => {
-    const allFirmwareData = await getAllFirmwareData()
-    resolve(allFirmwareData.latest)
-  })
+export const getLatestFirmwareData = async () => {
+  const allFirmwareData = await getAllFirmwareData()
+  return { baseUrl: FIRMWARE_BASE_URL, result: allFirmwareData.latest as FirmwareAndBootloaderData }
+}
 
-export const getBetaFirmwareData = () =>
-  new Promise<FirmwareAndBootloaderData>(async resolve => {
-    const allFirmwareData = await getAllBetaFirmwareData()
-    resolve(allFirmwareData.beta)
-  })
+export const getBetaFirmwareData = async () => {
+  const allFirmwareData = await getAllBetaFirmwareData()
+  return { baseUrl: FIRMWARE_BASE_URL, result: allFirmwareData.latest as FirmwareAndBootloaderData }
+}

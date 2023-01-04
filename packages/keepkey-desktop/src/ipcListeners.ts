@@ -171,8 +171,10 @@ export const ipcListeners: IpcListeners = {
   },
 
   async keepkeyUpdateFirmware() {
-    const result = await getLatestFirmwareData()
-    const firmware = await downloadFirmware(result.firmware.url)
+    const { result, baseUrl } = settings.allowBetaFirmware
+      ? await getBetaFirmwareData()
+      : await getLatestFirmwareData()
+    const firmware = await downloadFirmware(new URL(result.firmware.url, baseUrl).toString())
     if (!firmware) throw new Error(`Failed to load firmware from url '${result.firmware.url}'`)
     const wallet = kkStateController.wallet
     if (!wallet) throw new Error('No HDWallet instance found')
@@ -190,11 +192,10 @@ export const ipcListeners: IpcListeners = {
   },
 
   async keepkeyUpdateBootloader() {
-    const result = settings.allowBetaFirmware
+    const { result, baseUrl } = settings.allowBetaFirmware
       ? await getBetaFirmwareData()
       : await getLatestFirmwareData()
-    console.log('keepkeyUpdateBootloader', result)
-    const firmware = await downloadFirmware(result.bootloader.url)
+    const firmware = await downloadFirmware(new URL(result.bootloader.url, baseUrl).toString())
     if (!firmware) throw new Error(`Failed to load bootloader from url '${result.firmware.url}'`)
     const wallet = kkStateController.wallet
     if (!wallet) throw new Error('No HDWallet instance found')
