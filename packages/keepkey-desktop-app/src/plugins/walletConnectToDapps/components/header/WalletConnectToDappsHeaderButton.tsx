@@ -17,12 +17,14 @@ export const WalletConnectToDappsHeaderButton = () => {
   const translate = useTranslate()
   const walletConnect = useWalletConnect()
   const [scannedQr, setScannedQr] = useState<string>()
+  const { connect } = useWalletConnect()
 
   const scanQrAndOpen = () => {
     ipcListeners
       .appReadQr()
       .then(v => {
         setScannedQr(v)
+        connect(scannedQr)
         setOpen(true)
       })
       .catch(e => {
