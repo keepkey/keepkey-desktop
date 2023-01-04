@@ -17,13 +17,13 @@ export class AddressesController extends ApiController {
    * @summary Get Binance Address
    */
   @Post('/utxo')
-  @OperationId('UTXOGetAddress')
+  @OperationId('UtxoGetAddress')
   public async utxo(
     @Body()
     body: {
       address_n: types.AddressNList
       coin: string
-      script_type: BTCInputScriptType
+      script_type?: BTCInputScriptType
       show_display?: boolean
     },
   ): Promise<{ address: any }> {

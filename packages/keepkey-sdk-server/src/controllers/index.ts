@@ -9,6 +9,7 @@ export * from './bnb'
 export * from './cosmos'
 export * from './ethereum'
 export * from './system'
+export * from './utxo'
 export * from './xrp'
 
 @Tags('Raw')

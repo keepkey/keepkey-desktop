@@ -369,9 +369,9 @@ export class KeepKeyRestHDWallet
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  readonly btcGetAddress = _.memoize(async (msg: any): Promise<string> => {
+  readonly btcGetAddress = _.memoize(async (msg: core.BTCGetAddress): Promise<string> => {
     return (
-      await this.sdk.address.uTXOGetAddress({
+      await this.sdk.address.utxoGetAddress({
         script_type: msg.scriptType,
         coin: msg.coin,
         address_n: msg.addressNList,
@@ -380,9 +380,12 @@ export class KeepKeyRestHDWallet
     ).address
   })
 
-  public async btcSignTx(msg: any): Promise<any> {
-    const output = await this.sdk.bitcoin.btcSignTransaction(msg)
-    return output
+  public async btcSignTx(msg: core.BTCSignTxKK): Promise<core.BTCSignedTx> {
+    const { serializedTx } = await this.sdk.utxo.utxoSignTransaction(msg)
+    return {
+      signatures: core.untouchable('signatures field not implemented'),
+      serializedTx: serializedTx as string,
+    }
   }
 
   public async btcSupportsSecureTransfer(): Promise<boolean> {
