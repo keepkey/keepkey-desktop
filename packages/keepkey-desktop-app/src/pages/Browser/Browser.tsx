@@ -1,14 +1,5 @@
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
-import {
-  Alert,
-  AlertIcon,
-  Button,
-  Heading,
-  HStack,
-  IconButton,
-  Input,
-  Stack,
-} from '@chakra-ui/react'
+import { Alert, AlertIcon, Button, HStack, IconButton, Input, Stack } from '@chakra-ui/react'
 import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
 import { WalletActions } from 'context/WalletProvider/actions'
@@ -49,6 +40,19 @@ export const Browser = () => {
       setFailedToLoad(false)
       dispatch({ type: WalletActions.SET_BROWSER_URL, payload: webviewUrl })
     })
+    // electron webview doesn't allow listening for onClick
+    // webview.addEventListener('click', () => {
+    //   console.log('webview click')
+    //   navigator.clipboard.read().then(async data => {
+    //     console.log('clipboard data', data)
+    //     const link = await data[0].getType('text/plain')
+    //     link.text().then(uri => {
+    //       if (uri.startsWith('wc:')) {
+    //         connect(uri)
+    //       }
+    //     })
+    //   })
+    // })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -101,14 +105,13 @@ export const Browser = () => {
   return (
     <Main height='full'>
       <webview
-          id='webview'
-          src={url}
-          style={{
-            minHeight: url !== '' ? '60em' : '0px',
-          }}
+        id='webview'
+        src={url}
+        style={{
+          minHeight: url !== '' ? '60em' : '0px',
+        }}
       ></webview>
       <Stack direction={{ base: 'column', md: 'column' }} height='full'>
-
         <form onSubmit={loadUrl}>
           <HStack>
             <Input
