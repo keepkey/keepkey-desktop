@@ -21,6 +21,8 @@ import { ModalContext } from './ModalContext'
 import { ChainSelectorModal } from 'components/Modals/ChainSelector/ChainSelector'
 import { AddAuthenticatorAccountModal } from 'components/Modals/AddAuthenticatorAccount/AddAuthenticatorAccount'
 import { DappClickModal } from 'components/Modals/DappClick/DappClick'
+import { OnboardingSteps } from 'components/Modals/OnboardingSteps/OnboardingSteps'
+import { Languages } from 'components/Modals/OnboardingSteps/Languages'
 
 // to add new modals, add a new key: value pair below
 // the key is the name returned by the hook and the
@@ -43,6 +45,8 @@ const MODALS = {
   loading: LoadingModal,
   chainSelector: ChainSelectorModal,
   dappClick: DappClickModal,
+  onboardingSteps: OnboardingSteps,
+  languages: Languages,
 }
 
 // state

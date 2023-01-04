@@ -26323,7 +26323,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["promise.any", "npm:2.0.5"],\
             ["rimraf", "npm:3.0.2"],\
             ["tsoa", "npm:4.1.3"],\
-            ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"]\
+            ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
+            ["web-encoding", "npm:1.1.3"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -36609,6 +36610,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["web-encoding", [\
+        ["npm:1.1.3", {\
+          "packageLocation": "./.yarn/cache/web-encoding-npm-1.1.3-e3574f54b7-8cef15f44c.zip/node_modules/web-encoding/",\
+          "packageDependencies": [\
+            ["web-encoding", "npm:1.1.3"],\
+            ["@zxing/text-encoding", "npm:0.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.1.5", {\
           "packageLocation": "./.yarn/cache/web-encoding-npm-1.1.5-d5a3c7dc3d-2234a2b122.zip/node_modules/web-encoding/",\
           "packageDependencies": [\

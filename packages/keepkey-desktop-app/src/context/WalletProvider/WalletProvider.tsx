@@ -202,7 +202,11 @@ const reducer = (state: InitialState, action: ActionTypes) => {
       const { showBackButton, deviceId, pinRequestType, deferred } = action.payload
       return {
         ...state,
-        modal: true,
+        modal:
+          window.localStorage.getItem('onboarded') === 'true' &&
+          window.localStorage.getItem('languageSelected') === 'true'
+            ? true
+            : false,
         type: KeyManager.KeepKey,
         showBackButton: showBackButton ?? false,
         deviceId,
