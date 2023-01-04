@@ -208,18 +208,23 @@ export const ipcListeners: IpcListeners = {
     await kkStateController.skipUpdate()
   },
 
-  async appReadQr(): Promise<string | undefined> {
+  async appReadQr(): Promise<string> {
     const sources = await desktopCapturer.getSources({
       types: ['screen'],
-      thumbnailSize: { width: 1280, height: 720 },
+      thumbnailSize: { width: 1920, height: 1080 },
     })
 
-    const thumbnail = sources[0].thumbnail
-    const { height, width } = thumbnail.getSize()
+    for (let index = 0; index < sources.length; index++) {
+      const source = sources[index]
+      const thumbnail = source.thumbnail
+      const { height, width } = thumbnail.getSize()
 
-    const scanned = jsQR(new Uint8ClampedArray(thumbnail.getBitmap()), width, height)
+      const scanned = jsQR(new Uint8ClampedArray(thumbnail.getBitmap()), width, height)
+      if (!scanned) continue
 
-    return scanned?.data ?? undefined
+      return scanned.data
+    }
+    return 'Unable to scan QR'
   },
 
   // async appUpdate() {
