@@ -1,6 +1,7 @@
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
-import request from 'request-promise'
+import fetch from 'node-fetch'
 
+import { settings } from '../../globalState'
 import type { AllFirmwareAndBootloaderData, FirmwareAndBootloaderData } from './types'
 
 const FIRMWARE_BASE_URL =
@@ -9,28 +10,31 @@ const FIRMWARE_BASE_URL =
 const FIRMWARE_BASE_URL_BETA =
   'https://raw.githubusercontent.com/keepkey/keepkey-desktop/develop/firmware/'
 
-export const downloadFirmware = async (path: string) => {
-  try {
-    let firmware = await request({
-      url: FIRMWARE_BASE_URL + path,
-      headers: {
-        accept: 'application/octet-stream',
-      },
-      encoding: null,
-    })
-
-    //TODO validate
-    //     const firmwareIsValid = !!body
-    //         && body.slice(0x0000, 0x0004).toString() === 'KPKY' // check for 'magic' bytes
-    //         && body.slice(0x0004, 0x0008).readUInt32LE() === body.length - 256 // check firmware length - metadata
-    //         && body.slice(0x000B, 0x000C).readUInt8() & 0x01 // check that flag is not set to wipe device
-    //     if(!firmwareIsValid) throw Error('Fetched data is not valid firmware')
-
-    return firmware
-  } catch (e) {
-    console.error(e)
-  }
+export const getFirmwareBaseUrl = async () => {
+  return settings.allowBetaFirmware ? FIRMWARE_BASE_URL_BETA : FIRMWARE_BASE_URL
 }
+
+export const downloadFirmware = async (baseUrl: string, url: string): Promise<Buffer> => {
+  const firmware = Buffer.from(
+    await (
+      await fetch(new URL(url, baseUrl).toString(), {
+        headers: {
+          accept: 'application/octet-stream',
+        },
+      })
+    ).arrayBuffer(),
+  )
+
+  //TODO validate
+  //     const firmwareIsValid = !!body
+  //         && body.slice(0x0000, 0x0004).toString() === 'KPKY' // check for 'magic' bytes
+  //         && body.slice(0x0004, 0x0008).readUInt32LE() === body.length - 256 // check firmware length - metadata
+  //         && body.slice(0x000B, 0x000C).readUInt8() & 0x01 // check that flag is not set to wipe device
+  //     if(!firmwareIsValid) throw Error('Fetched data is not valid firmware')
+
+  return firmware
+}
+
 export const loadFirmware = async (wallet: KeepKeyHDWallet, firmware: Buffer) => {
   if (!wallet) return
   await wallet.firmwareErase()
@@ -38,30 +42,17 @@ export const loadFirmware = async (wallet: KeepKeyHDWallet, firmware: Buffer) =>
   return uploadResult
 }
 
-export const getAllFirmwareData = () =>
-  new Promise<AllFirmwareAndBootloaderData>((resolve, reject) => {
-    request(`${FIRMWARE_BASE_URL}releases.json`, (err: any, _response: unknown, body: any) => {
-      if (err) return reject(err)
-      resolve(JSON.parse(body))
-    })
-  })
+export const getAllFirmwareData = async (
+  baseUrl: string,
+): Promise<AllFirmwareAndBootloaderData> => {
+  return (await (
+    await fetch(new URL('releases.json', baseUrl).toString())
+  ).json()) as AllFirmwareAndBootloaderData
+}
 
-export const getAllBetaFirmwareData = () =>
-  new Promise<AllFirmwareAndBootloaderData>((resolve, reject) => {
-    request(`${FIRMWARE_BASE_URL_BETA}releases.json`, (err: any, _response: unknown, body: any) => {
-      if (err) return reject(err)
-      resolve(JSON.parse(body))
-    })
-  })
-
-export const getLatestFirmwareData = () =>
-  new Promise<FirmwareAndBootloaderData>(async resolve => {
-    const allFirmwareData = await getAllFirmwareData()
-    resolve(allFirmwareData.latest)
-  })
-
-export const getBetaFirmwareData = () =>
-  new Promise<FirmwareAndBootloaderData>(async resolve => {
-    const allFirmwareData = await getAllBetaFirmwareData()
-    resolve(allFirmwareData.beta)
-  })
+export const getLatestFirmwareData = async (
+  baseUrl: string,
+): Promise<FirmwareAndBootloaderData> => {
+  const allFirmwareData = await getAllFirmwareData(baseUrl)
+  return allFirmwareData.latest
+}

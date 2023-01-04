@@ -164,15 +164,36 @@ export const App = () => {
 
       async modalPin(): Promise<string> {
         const out = deferred<string>()
-        dispatch({
-          type: WalletActions.OPEN_KEEPKEY_PIN,
-          payload: {
-            deviceId,
-            pinRequestType: PinMatrixRequestType.CURRENT,
-            showBackButton: true,
-            deferred: out,
-          },
-        })
+        if (window.localStorage.getItem('onboarded') === 'true') {
+          dispatch({
+            type: WalletActions.OPEN_KEEPKEY_PIN,
+            payload: {
+              deviceId,
+              pinRequestType: PinMatrixRequestType.CURRENT,
+              showBackButton: true,
+              deferred: out,
+            },
+          })
+        } else {
+          await new Promise(resolve => {
+            const interval = setInterval(() => {
+              if (window.localStorage.getItem('onboarded') === 'true') {
+                resolve(true)
+                clearInterval(interval)
+              }
+            }, 500)
+          })
+          hardwareError.close()
+          dispatch({
+            type: WalletActions.OPEN_KEEPKEY_PIN,
+            payload: {
+              deviceId,
+              pinRequestType: PinMatrixRequestType.CURRENT,
+              showBackButton: true,
+              deferred: out,
+            },
+          })
+        }
         return await out
       },
 

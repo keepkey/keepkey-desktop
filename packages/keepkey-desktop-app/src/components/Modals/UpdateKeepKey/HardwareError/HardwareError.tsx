@@ -38,7 +38,7 @@ export const HardwareErrorModal = (error: { errorCode?: number; needsReconnect?:
 
   return (
     <Modal
-      isOpen={isOpen && !isUpdatingKeepkey}
+      isOpen={isOpen && !isUpdatingKeepkey && window.localStorage.getItem('onboarded') === 'true'}
       onClose={() => {
         close()
       }}

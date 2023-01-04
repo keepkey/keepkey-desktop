@@ -31,7 +31,7 @@ export const PairModal = (input: {
   const [loading] = useState(false)
   const { pair } = useModal()
   const { close, isOpen } = pair
-  console.log(input)
+
   // const [accounts, setAccounts] = useState<string[]>([])
   //
   // const { state, dispatch } = useWallet()

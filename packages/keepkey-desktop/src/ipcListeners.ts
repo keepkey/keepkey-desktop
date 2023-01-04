@@ -3,6 +3,7 @@ import { electronEndpoint } from 'comlink-electron-endpoint/main'
 import type { IpcMainEvent } from 'electron'
 import { app, desktopCapturer, ipcMain } from 'electron'
 import log from 'electron-log'
+import jsQR from 'jsqr'
 // import isDev from 'electron-is-dev'
 // import { autoUpdater } from 'electron-updater'
 import { sleep } from 'wait-promise'
@@ -14,7 +15,7 @@ import type {
 import { bridgeLogger, db, isWalletBridgeRunning, kkStateController, settings } from './globalState'
 import {
   downloadFirmware,
-  getBetaFirmwareData,
+  getFirmwareBaseUrl,
   getLatestFirmwareData,
   loadFirmware,
 } from './helpers/kk-state-controller/firmwareUtils'
@@ -170,9 +171,10 @@ export const ipcListeners: IpcListeners = {
   },
 
   async keepkeyUpdateFirmware() {
-    const result = await getLatestFirmwareData()
-    const firmware = await downloadFirmware(result.firmware.url)
-    if (!firmware) throw new Error(`Failed to load firmware from url '${result.firmware.url}'`)
+    const baseUrl = await getFirmwareBaseUrl()
+    const url = (await getLatestFirmwareData(baseUrl)).bootloader.url
+    const firmware = await downloadFirmware(baseUrl, url)
+    if (!firmware) throw new Error(`Failed to load firmware from url '${url}'`)
     const wallet = kkStateController.wallet
     if (!wallet) throw new Error('No HDWallet instance found')
     await loadFirmware(wallet, firmware)
@@ -189,12 +191,10 @@ export const ipcListeners: IpcListeners = {
   },
 
   async keepkeyUpdateBootloader() {
-    const result = settings.allowBetaFirmware
-      ? await getBetaFirmwareData()
-      : await getLatestFirmwareData()
-    console.log('keepkeyUpdateBootloader', result)
-    const firmware = await downloadFirmware(result.bootloader.url)
-    if (!firmware) throw new Error(`Failed to load bootloader from url '${result.firmware.url}'`)
+    const baseUrl = await getFirmwareBaseUrl()
+    const url = (await getLatestFirmwareData(baseUrl)).bootloader.url
+    const firmware = await downloadFirmware(baseUrl, url)
+    if (!firmware) throw new Error(`Failed to load bootloader from url '${url}'`)
     const wallet = kkStateController.wallet
     if (!wallet) throw new Error('No HDWallet instance found')
     await loadFirmware(wallet, firmware)
@@ -208,31 +208,19 @@ export const ipcListeners: IpcListeners = {
     await kkStateController.skipUpdate()
   },
 
-  // async readQr() {
-  //   //@TODO nerdhair
-  //   //if (!data.nonce) return
-  //   desktopCapturer
-  //       .getSources({ types: ['screen'], thumbnailSize: { width: 1280, height: 720 } })
-  //       .then(sources => {
-  //         const thumbnail = sources[0].thumbnail
-  //         const qr = new QRCode()
-  //         qr.callback = function (err: any, value: any) {
-  //           if (err) {
-  //             return event.sender.send(`@app/read-qr-${data.nonce}`, {
-  //               success: false,
-  //               reason: err,
-  //               nonce: data.nonce,
-  //             })
-  //           }
-  //           event.sender.send(`@app/read-qr-${data.nonce}`, {
-  //             success: true,
-  //             result: value.result,
-  //             nonce: data.nonce,
-  //           })
-  //         }
-  //         qr.decode({ ...thumbnail.getSize() }, thumbnail.getBitmap())
-  //       })
-  // },
+  async appReadQr(): Promise<string | undefined> {
+    const sources = await desktopCapturer.getSources({
+      types: ['screen'],
+      thumbnailSize: { width: 1280, height: 720 },
+    })
+
+    const thumbnail = sources[0].thumbnail
+    const { height, width } = thumbnail.getSize()
+
+    const scanned = jsQR(new Uint8ClampedArray(thumbnail.getBitmap()), width, height)
+
+    return scanned?.data ?? undefined
+  },
 
   // async appUpdate() {
   //   if (isDev) {
