@@ -115,6 +115,7 @@ export class KeepKeyRestHDWallet
         }),
       )
     },
+    msg => JSON.stringify(msg),
   )
 
   public async ping(msg: core.Ping): Promise<core.Pong> {
@@ -369,16 +370,19 @@ export class KeepKeyRestHDWallet
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  readonly btcGetAddress = _.memoize(async (msg: core.BTCGetAddress): Promise<string> => {
-    return (
-      await this.sdk.address.utxoGetAddress({
-        script_type: msg.scriptType,
-        coin: msg.coin,
-        address_n: msg.addressNList,
-        show_display: msg.showDisplay,
-      })
-    ).address
-  })
+  readonly btcGetAddress = _.memoize(
+    async (msg: core.BTCGetAddress): Promise<string> => {
+      return (
+        await this.sdk.address.utxoGetAddress({
+          script_type: msg.scriptType,
+          coin: msg.coin,
+          address_n: msg.addressNList,
+          show_display: msg.showDisplay,
+        })
+      ).address
+    },
+    msg => JSON.stringify(msg),
+  )
 
   public async btcSignTx(msg: core.BTCSignTxKK): Promise<core.BTCSignedTx> {
     const { serializedTx } = await this.sdk.utxo.utxoSignTransaction(msg)
@@ -444,14 +448,17 @@ export class KeepKeyRestHDWallet
 
   // TODO check if sdk supports below messages
 
-  readonly ethGetAddress = _.memoize(async (msg: core.ETHGetAddress): Promise<string> => {
-    return (
-      await this.sdk.address.ethereumGetAddress({
-        address_n: msg.addressNList,
-        show_display: msg.showDisplay,
-      })
-    ).address
-  })
+  readonly ethGetAddress = _.memoize(
+    async (msg: core.ETHGetAddress): Promise<string> => {
+      return (
+        await this.sdk.address.ethereumGetAddress({
+          address_n: msg.addressNList,
+          show_display: msg.showDisplay,
+        })
+      ).address
+    },
+    msg => JSON.stringify(msg),
+  )
 
   public async ethSignMessage(msg: core.ETHSignMessage): Promise<core.ETHSignedMessage> {
     const address = (await this.sdk.address.ethereumGetAddress({ address_n: msg.addressNList }))
@@ -538,14 +545,17 @@ export class KeepKeyRestHDWallet
     ]
   }
 
-  readonly rippleGetAddress = _.memoize(async (msg: core.RippleGetAddress): Promise<string> => {
-    return (
-      await this.sdk.address.xrpGetAddress({
-        address_n: msg.addressNList,
-        show_display: msg.showDisplay,
-      })
-    ).address
-  })
+  readonly rippleGetAddress = _.memoize(
+    async (msg: core.RippleGetAddress): Promise<string> => {
+      return (
+        await this.sdk.address.xrpGetAddress({
+          address_n: msg.addressNList,
+          show_display: msg.showDisplay,
+        })
+      ).address
+    },
+    msg => JSON.stringify(msg),
+  )
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async rippleSignTx(msg: core.RippleSignTx): Promise<core.RippleSignedTx> {
@@ -566,14 +576,17 @@ export class KeepKeyRestHDWallet
     ]
   }
 
-  readonly cosmosGetAddress = _.memoize(async (msg: core.CosmosGetAddress): Promise<string> => {
-    return (
-      await this.sdk.address.cosmosGetAddress({
-        address_n: msg.addressNList,
-        show_display: msg.showDisplay,
-      })
-    ).address
-  })
+  readonly cosmosGetAddress = _.memoize(
+    async (msg: core.CosmosGetAddress): Promise<string> => {
+      return (
+        await this.sdk.address.cosmosGetAddress({
+          address_n: msg.addressNList,
+          show_display: msg.showDisplay,
+        })
+      ).address
+    },
+    msg => JSON.stringify(msg),
+  )
 
   public async cosmosSignTx(msg: core.CosmosSignTx): Promise<core.CosmosSignedTx> {
     const signerAddress = (
@@ -622,6 +635,7 @@ export class KeepKeyRestHDWallet
         })
       ).address
     },
+    msg => JSON.stringify(msg),
   )
 
   public async thorchainSignTx(msg: core.ThorchainSignTx): Promise<core.ThorchainSignedTx> {
@@ -660,16 +674,19 @@ export class KeepKeyRestHDWallet
     throw new Error('not implemented')
   }
 
-  readonly binanceGetAddress = _.memoize(async (msg: core.BinanceGetAddress): Promise<string> => {
-    // TODO: busted openapi-generator types
-    // @ts-expect-error
-    return (
-      await this.sdk.address.binanceGetAddress({
-        address_n: msg.addressNList,
-        show_display: msg.showDisplay,
-      })
-    ).address
-  })
+  readonly binanceGetAddress = _.memoize(
+    async (msg: core.BinanceGetAddress): Promise<string> => {
+      // TODO: busted openapi-generator types
+      // @ts-expect-error
+      return (
+        await this.sdk.address.binanceGetAddress({
+          address_n: msg.addressNList,
+          show_display: msg.showDisplay,
+        })
+      ).address
+    },
+    msg => JSON.stringify(msg),
+  )
 
   public async binanceSignTx(msg: core.BinanceSignTx): Promise<core.BinanceSignedTx> {
     const signerAddress = await this.sdk.address.binanceGetAddress({
@@ -705,10 +722,13 @@ export class KeepKeyRestHDWallet
     ]
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  readonly eosGetPublicKey = _.memoize(async (msg: core.EosGetPublicKey): Promise<string> => {
-    throw new Error('not implemented')
-  })
+  readonly eosGetPublicKey = _.memoize(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async (msg: core.EosGetPublicKey): Promise<string> => {
+      throw new Error('not implemented')
+    },
+    msg => JSON.stringify(msg),
+  )
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async eosSignTx(msg: core.EosToSignTx): Promise<core.EosTxSigned> {
