@@ -1,10 +1,16 @@
-import { Keyring } from '@shapeshiftoss/hdwallet-core'
+import * as core from '@shapeshiftoss/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { assume } from 'common-utils'
 import log from 'electron-log'
 import { usb } from 'usb'
 
 import { getAllFirmwareData, getFirmwareBaseUrl, getLatestFirmwareData } from './firmwareUtils'
-import type { KeyringEventHandler, KKStateData, StateChangeHandler } from './types'
+import type {
+  KeyringEventHandler,
+  KKStateData,
+  StateChangeHandler,
+  TransportEventHandler,
+} from './types'
 import { KKState } from './types'
 import { initializeWallet } from './walletUtils'
 
@@ -13,24 +19,58 @@ import { initializeWallet } from './walletUtils'
  * sends ipc events to the web renderer on state change
  */
 
-export type OnStateChange = (this: KKStateController, _: KKStateData) => Promise<void>
-export type OnKeyringEvent = (this: KKStateController, _: unknown) => Promise<void>
+export type OnStateChange = (
+  this: KKStateController,
+  ...args: Parameters<StateChangeHandler>
+) => ReturnType<StateChangeHandler>
+export type OnKeyringEvent = (
+  this: KKStateController,
+  ...args: Parameters<KeyringEventHandler>
+) => ReturnType<KeyringEventHandler>
+export type OnTransportEvent = (
+  this: KKStateController,
+  ...args: Parameters<TransportEventHandler>
+) => ReturnType<TransportEventHandler>
 
 export class KKStateController {
-  public readonly keyring: Keyring
-  public wallet?: KeepKeyHDWallet
+  public readonly keyring = new core.Keyring()
+
+  #wallet: KeepKeyHDWallet | undefined = undefined
+  get wallet() {
+    return this.#wallet
+  }
+  set wallet(value: KeepKeyHDWallet | undefined) {
+    if (this.#wallet) {
+      this.#wallet.transport.offAny(this.#onTransportEvent)
+    }
+    if (value) {
+      value.transport.onAny(this.#onTransportEvent)
+    }
+    this.#wallet = value
+  }
 
   public data: KKStateData = { state: KKState.Disconnected }
 
   public readonly onStateChange: StateChangeHandler
+  public readonly onKeyringEvent: KeyringEventHandler
+  public readonly onTransportEvent: TransportEventHandler
+  readonly #onTransportEvent = (_: unknown, e: core.Event) => {
+    this.onTransportEvent(e)
+  }
 
-  constructor(onStateChange: StateChangeHandler, onKeyringEvent: KeyringEventHandler) {
+  constructor(
+    onStateChange: OnStateChange,
+    onKeyringEvent: OnKeyringEvent,
+    onTransportEvent: OnTransportEvent,
+  ) {
     log.info('KKStateController constructor')
     this.onStateChange = onStateChange.bind(this)
+    this.onKeyringEvent = onKeyringEvent.bind(this)
+    this.onTransportEvent = onTransportEvent.bind(this)
 
-    this.keyring = new Keyring()
     this.keyring.onAny(async (e: unknown) => {
-      await onKeyringEvent.call(this, e)
+      assume<[vendor: string, deviceId: string, event: string]>(e)
+      await onKeyringEvent.call(this, e[0], e[1], e[2])
     })
 
     usb.on('attach', async e => {

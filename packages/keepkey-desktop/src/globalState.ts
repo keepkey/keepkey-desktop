@@ -1,3 +1,5 @@
+import type { PinMatrixRequestTypeMap } from '@keepkey/device-protocol/lib/types_pb'
+import type * as core from '@shapeshiftoss/hdwallet-core'
 import AutoLaunch from 'auto-launch'
 import type { BrowserWindow } from 'electron'
 import fs from 'fs'
@@ -5,6 +7,7 @@ import * as hidefile from 'hidefile'
 import type { Server } from 'http'
 import NedbPromises from 'nedb-promises'
 import path from 'path'
+import { PinMatrixRequestType2 } from 'types'
 
 import { BridgeLogger } from './helpers/bridgeLogger'
 import { KKStateController } from './helpers/kk-state-controller'
@@ -75,9 +78,20 @@ export const kkStateController = new KKStateController(
     createAndUpdateTray()
     await rendererIpc.updateState(data)
   },
-  async function (this: KKStateController, e: any) {
-    if (e[2] === '18') {
-      const pin = await rendererIpc.modalPin().catch(() => undefined)
+  async function (this: KKStateController, vendor: string, deviceId: string, e: string) {
+    console.log('KEYRING EVENT', vendor, deviceId, e)
+  },
+  async function (this: KKStateController, e: core.Event) {
+    console.log('TRANSPORT EVENT', {
+      ...{
+        ...e,
+        date: undefined,
+        proto: e.proto?.toObject(),
+      },
+    })
+    if (e.message_type === 'PINMATRIXREQUEST') {
+      const pinRequestType: PinMatrixRequestType2 = e.message.type
+      const pin = await rendererIpc.modalPin(pinRequestType).catch(() => undefined)
       if (pin) {
         await this.wallet!.sendPin(pin)
       } else {
