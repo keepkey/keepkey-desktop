@@ -1,4 +1,4 @@
-import type { PinMatrixRequestTypeMap } from '@keepkey/device-protocol/lib/types_pb'
+import { FailureType } from '@keepkey/device-protocol/lib/types_pb'
 import type * as core from '@shapeshiftoss/hdwallet-core'
 import AutoLaunch from 'auto-launch'
 import type { BrowserWindow } from 'electron'
@@ -7,7 +7,7 @@ import * as hidefile from 'hidefile'
 import type { Server } from 'http'
 import NedbPromises from 'nedb-promises'
 import path from 'path'
-import { PinMatrixRequestType2 } from 'types'
+import type { FailureType2, PinMatrixRequestType2 } from 'types'
 
 import { BridgeLogger } from './helpers/bridgeLogger'
 import { KKStateController } from './helpers/kk-state-controller'
@@ -72,6 +72,8 @@ export const kkAutoLauncher = new AutoLaunch({
   name: 'KeepKey Desktop',
 })
 
+let lastFailure: FailureType2 | undefined = undefined
+
 export const kkStateController = new KKStateController(
   async function (this: KKStateController, data: KKStateData) {
     console.log('KK STATE', data)
@@ -83,15 +85,24 @@ export const kkStateController = new KKStateController(
   },
   async function (this: KKStateController, e: core.Event) {
     console.log('TRANSPORT EVENT', {
-      ...{
-        ...e,
-        date: undefined,
-        proto: e.proto?.toObject(),
-      },
+      message_type: e.message_type,
+      message: e.message,
     })
-    if (e.message_type === 'PINMATRIXREQUEST') {
+    if (e.message_type === 'SUCCESS') {
+      lastFailure = undefined
+    } else if (e.message_type === 'FAILURE') {
+      if (
+        (
+          [FailureType.FAILURE_ACTIONCANCELLED, FailureType.FAILURE_PINCANCELLED] as FailureType2[]
+        ).includes(e.message.code as FailureType2)
+      ) {
+        lastFailure = undefined
+      } else {
+        lastFailure = e.message.code as FailureType2
+      }
+    } else if (e.message_type === 'PINMATRIXREQUEST') {
       const pinRequestType: PinMatrixRequestType2 = e.message.type
-      const pin = await rendererIpc.modalPin(pinRequestType).catch(() => undefined)
+      const pin = await rendererIpc.modalPin(pinRequestType, lastFailure).catch(() => undefined)
       if (pin) {
         await this.wallet!.sendPin(pin)
       } else {

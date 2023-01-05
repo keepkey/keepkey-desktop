@@ -1,8 +1,8 @@
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
-import { Deferred } from 'common-utils'
+import type { Deferred } from 'common-utils'
 
-import type { PinMatrixRequestType } from './KeepKey/KeepKeyTypes'
+import type { FailureType, PinMatrixRequestType } from './KeepKey/KeepKeyTypes'
 import type { KeyManager } from './KeyManager'
 import type { Adapters, InitialState, WalletConnectApp, WalletInfo } from './WalletProvider'
 import type { DeviceState } from './WalletProvider'
@@ -72,6 +72,7 @@ export type ActionTypes =
         pinRequestType?: PinMatrixRequestType
         showBackButton?: boolean
         deferred?: Deferred<string>
+        lastFailure?: FailureType
       }
     }
   | {

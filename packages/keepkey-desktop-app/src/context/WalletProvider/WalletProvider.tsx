@@ -22,7 +22,7 @@ import { WalletActions } from './actions'
 import { SUPPORTED_WALLETS } from './config'
 import { KeepKeyConfig } from './KeepKey/config'
 import { useKeyringEventHandler } from './KeepKey/hooks/useKeyringEventHandler'
-import type { PinMatrixRequestType } from './KeepKey/KeepKeyTypes'
+import type { FailureType, PinMatrixRequestType } from './KeepKey/KeepKeyTypes'
 import { KeyManager } from './KeyManager'
 import { clearLocalWallet, setLocalWalletTypeAndDeviceId } from './local-wallet'
 import type { IWalletContext } from './WalletContext'
@@ -100,6 +100,7 @@ export interface InitialState {
   keepkeySdk: KeepKeySdk | null
   browserUrl: string | null
   pinDeferred?: Deferred<string>
+  lastPinFailure?: FailureType
 }
 
 const initialState: InitialState = {
@@ -199,7 +200,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
       }
       return newState
     case WalletActions.OPEN_KEEPKEY_PIN: {
-      const { showBackButton, deviceId, pinRequestType, deferred } = action.payload
+      const { showBackButton, deviceId, pinRequestType, deferred, lastFailure } = action.payload
       return {
         ...state,
         modal:
@@ -213,6 +214,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         keepKeyPinRequestType: pinRequestType ?? null,
         initialRoute: KeepKeyRoutes.Pin,
         pinDeferred: deferred,
+        lastPinFailure: lastFailure,
       }
     }
     case WalletActions.OPEN_KEEPKEY_CHARACTER_REQUEST: {

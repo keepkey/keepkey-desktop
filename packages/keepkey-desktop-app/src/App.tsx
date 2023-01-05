@@ -1,8 +1,12 @@
-import { PinMatrixRequestType as PinMatrixRequestTypeDeviceProto } from '@keepkey/device-protocol/lib/types_pb'
+import {
+  FailureType as FailureTypeDeviceProto,
+  PinMatrixRequestType as PinMatrixRequestTypeDeviceProto,
+} from '@keepkey/device-protocol/lib/types_pb'
 import * as Comlink from 'comlink'
 import { assertNever, deferred } from 'common-utils'
 import type { PairingProps } from 'components/Modals/Pair/types'
 import { WalletActions } from 'context/WalletProvider/actions'
+import { FailureType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 import { ipcListeners, ipcRenderer } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
@@ -14,9 +18,9 @@ import { Routes } from 'Routes/Routes'
 import type { KKStateData } from '../../keepkey-desktop/src/helpers/kk-state-controller/types'
 import { KKState } from '../../keepkey-desktop/src/helpers/kk-state-controller/types'
 import type { RendererIpc } from '../../keepkey-desktop/src/types'
-import type { PinMatrixRequestType2 } from '../../keepkey-desktop/src/types'
+import type { FailureType2, PinMatrixRequestType2 } from '../../keepkey-desktop/src/types'
 
-const mapPinRequestType = (pinRequestType: PinMatrixRequestType2) => {
+const mapPinRequestType = (pinRequestType: PinMatrixRequestType2): PinMatrixRequestType => {
   switch (pinRequestType) {
     case PinMatrixRequestTypeDeviceProto.PINMATRIXREQUESTTYPE_CURRENT:
       return PinMatrixRequestType.CURRENT
@@ -26,6 +30,39 @@ const mapPinRequestType = (pinRequestType: PinMatrixRequestType2) => {
       return PinMatrixRequestType.NEWSECOND
     default:
       assertNever(pinRequestType)
+  }
+}
+
+const mapFailureType = (failureType: FailureType2): FailureType => {
+  switch (failureType) {
+    case FailureTypeDeviceProto.FAILURE_ACTIONCANCELLED:
+      return FailureType.OTHER
+    case FailureTypeDeviceProto.FAILURE_BUTTONEXPECTED:
+      return FailureType.BUTTONEXPECTED
+    case FailureTypeDeviceProto.FAILURE_FIRMWAREERROR:
+      return FailureType.FIRMWAREERROR
+    case FailureTypeDeviceProto.FAILURE_INVALIDSIGNATURE:
+      return FailureType.INVALIDSIGNATURE
+    case FailureTypeDeviceProto.FAILURE_NOTENOUGHFUNDS:
+      return FailureType.NOTENOUGHFUNDS
+    case FailureTypeDeviceProto.FAILURE_NOTINITIALIZED:
+      return FailureType.NOTINITIALIZED
+    case FailureTypeDeviceProto.FAILURE_OTHER:
+      return FailureType.OTHER
+    case FailureTypeDeviceProto.FAILURE_PINCANCELLED:
+      return FailureType.PINCANCELLED
+    case FailureTypeDeviceProto.FAILURE_PINEXPECTED:
+      return FailureType.PINEXPECTED
+    case FailureTypeDeviceProto.FAILURE_PININVALID:
+      return FailureType.PININVALID
+    case FailureTypeDeviceProto.FAILURE_PINMISMATCH:
+      return FailureType.PINMISMATCH
+    case FailureTypeDeviceProto.FAILURE_SYNTAXERROR:
+      return FailureType.SYNTAXERROR
+    case FailureTypeDeviceProto.FAILURE_UNEXPECTEDMESSAGE:
+      return FailureType.UNEXPECTEDMESSAGE
+    default:
+      assertNever(failureType)
   }
 }
 
@@ -180,8 +217,12 @@ export const App = () => {
         return await out
       },
 
-      async modalPin(pinRequestType2: PinMatrixRequestType2): Promise<string> {
-        const pinRequestType: PinMatrixRequestType = mapPinRequestType(pinRequestType2)
+      async modalPin(
+        pinRequestType2: PinMatrixRequestType2,
+        lastFailure2: FailureType2 | undefined,
+      ): Promise<string> {
+        const pinRequestType = mapPinRequestType(pinRequestType2)
+        const lastFailure = lastFailure2 ? mapFailureType(lastFailure2) : undefined
         const out = deferred<string>()
         if (window.localStorage.getItem('onboarded') === 'true') {
           dispatch({
@@ -191,6 +232,7 @@ export const App = () => {
               pinRequestType,
               showBackButton: true,
               deferred: out,
+              lastFailure,
             },
           })
         } else {
