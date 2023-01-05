@@ -605,7 +605,7 @@
       "mnemonicsTitle": "What is a mnemonic?",
       "mnemonicsText1": "This is a placeholder. Highlander will use chat gpt for this content. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       "mnemonicsText2": "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "restoreTitle": "What is a restore cypher?",
+      "restoreTitle": "What is a restore cipher?",
       "restoreText1": "This is a placeholder. Highlander will use chat gpt for this content. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       "restoreText2": "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       "pinTitle": "What is a pin?",
@@ -636,34 +636,34 @@
         "headerConnect": "Welcome To KeepKey Desktop!",
         "troubleshoot": "Device connected? Troubleshoot",
         "connect": "#### **To Begin**\nPlease connect your KeepKey to continue.\n\nIf your device is already connected, disconnect and reconnect to reset your device state.",
-        "reconnect": "Please disconnect, and reconnect your KeepKey to continue."
+        "reconnect": "Please disconnect and reconnect your KeepKey to continue."
       },
       "bootloader": {
         "header": "Bootloader Update Required for Your KeepKey!",
-        "cta": "Your KeepKey is out of date! lets update your bootloader.",
-        "bootloaderUpdate": "Updating your device's bootloader",
-        "update": "check KeepKey Status",
-        "continue": "approve and continue",
-        "bootloaderNeeded": "to continue you must updater your bootloader!",
-        "bootloader": "BootLoader version",
+        "cta": "Your KeepKey is out of date! Let's update your bootloader.",
+        "bootloaderUpdate": "Updating your KeepKey's bootloader",
+        "update": "Check KeepKey Status",
+        "continue": "Approve and continue",
+        "bootloaderNeeded": "To continue, you must update your device's bootloader.",
+        "bootloader": "Bootloader version",
         "firmware": "Firmware version",
-        "updater": "To continue you must place your KeepKey into Updater Mode",
+        "updater": "To continue, you must place your KeepKey into Firmware Update Mode.",
         "step1": "Please disconnect",
-        "step2": "hold down button",
-        "step3": "reconnect (while holding the button) the device to enter bootloader mode and continue."
+        "step2": "Hold down button",
+        "step3": "Reconnect the device (while holding down the button) to enter Firmware Update Mode and continue."
       },
       "firmware": {
         "header": "Firmware Update Required for Your KeepKey!",
-        "firmwareUpdate": "Updating your device's Firmware",
+        "firmwareUpdate": "Updating your KeepKey's firmware",
         "update": "check KeepKey Status",
-        "cta": "Please disconnect, hold down button, and reconnect device to enter bootloader mode to continue.",
-        "continue": "approve and continue",
-        "firmwareNeeded": "to continue you must updater your firmware!",
+        "cta": "Please disconnect your KeepKey, hold down the button, and reconnect it (while holding down the button) to enter Firmware Update Mode.",
+        "continue": "Approve and continue",
+        "firmwareNeeded": "To continue, you must update your device's firmware.",
         "firmware": "Firmware version"
       },
       "label": {
         "header": "Label Your KeepKey (optional)",
-        "body": "Labeling each of your devices allows you to easily distinguish one from the other.",
+        "body": "Labelling each of your devices allows you to easily distinguish one from the other.",
         "setLabelButton": "Set Label",
         "skipLabelButton": "Skip",
         "placeholder": "Optional"
@@ -685,8 +685,8 @@
         "awaitingButtonPress": "Follow the steps on your KeepKey to view your Recovery Sentence. Write it down!"
       },
       "factoryState": {
-        "header": "Get Started with Keepkey",
-        "body": "Your KeepKey is set to factory default settings. Create a new wallet, or restore a wallet using your secret recovery phrase",
+        "header": "Get Started with KeepKey",
+        "body": "Your KeepKey is set to factory default settings. You can create a new wallet, or restore a wallet using a Recovery Sentence.",
         "createButton": "Create a New Wallet",
         "recoverButton": "Recover Wallet"
       },
@@ -702,8 +702,8 @@
         "body": "Please wait while we initialize your device and sync your addresses."
       },
       "recoveryInvalid": {
-        "header": "Invalid Recovery Phrase",
-        "body": "The Recovery Phrase you have entered is invalid.",
+        "header": "Invalid Recovery Sentence",
+        "body": "The Recovery Sentence you have entered is invalid.",
         "button": "Try Again"
       },
       "downloadUpdater": {
@@ -713,7 +713,7 @@
       },
       "requestBootloaderMode": {
         "title": "An update is available",
-        "versionAlert1": "Your keepkey is currently on version ",
+        "versionAlert1": "Your KeepKey is currently version ",
         "versionAlert2": ", version ",
         "versionAlert3": " is now available",
         "restart": "Restart device holding down button",
@@ -761,7 +761,7 @@
         "info": {
           "title": "Your Secret Recovery Phrase",
           "description": "Write these 12 words down and store them securely offline. This 12 word phrase is used to recover your wallet private keys.",
-          "warning": "Note: if you lose your Secret Recovery Phrase, ShapeShift can't help you recover your wallet and your funds will be lost forever."
+          "warning": "Note: if you lose your Secret Recovery Phrase, KeepKey can't help you recover your wallet and your funds will be lost forever."
         },
         "success": {
           "title": "Success",
@@ -1046,12 +1046,12 @@
       },
       "newPin": {
         "header": "Enter Your New PIN",
-        "body": "Create a new PIN (up to 9 digits) using the Cypher displayed on your KeepKey.",
+        "body": "Create a new PIN (up to 9 digits) using the cipher displayed on your KeepKey.",
         "button": "Confirm"
       },
       "newPinConfirm": {
         "header": "Confirm Your New PIN",
-        "body": "Re-enter your PIN using the Cypher displayed displayed on your KeepKey.",
+        "body": "Re-enter your PIN using the cipher displayed on your KeepKey.",
         "button": "Save PIN"
       },
       "remove": {
@@ -1087,7 +1087,7 @@
         "descriptions": {
           "pin": "The PIN is a combination of up to 9 numbers that you select after initializing your KeepKey. A PIN protects your device against unauthorized use in the event your KeepKey falls into the wrong hands.",
           "passphrase": "Enable the ability to have multiple wallets, accessible by using a unique passphrase for each wallet.",
-          "label": "Labelling each of devices allows you to easily distinguish one from the other.",
+          "label": "Labelling each of your devices allows you to easily distinguish one from the other.",
           "timeout": "Your device goes to sleep after 10 minutes of activity by default. However, you can change this.",
           "buttonPrompt": "Press and hold the button on your KeepKey to change the device %{setting}.",
           "updateSuccess": "%{setting} successfully updated!",
