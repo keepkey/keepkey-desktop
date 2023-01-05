@@ -635,7 +635,7 @@
         "headerReconnect": "Please reconnect your keepkey",
         "headerConnect": "Welcome To KeepKey Desktop!",
         "troubleshoot": "Device connected? Troubleshoot",
-        "connect": "To Begin \n Please connect your KeepKey to continue.\n \nIf your device is already connected, disconnect and reconnect to reset your device state.",
+        "connect": "#### **To Begin**\nPlease connect your KeepKey to continue.\n\nIf your device is already connected, disconnect and reconnect to reset your device state.",
         "reconnect": "Please disconnect, and reconnect your KeepKey to continue."
       },
       "bootloader": {
