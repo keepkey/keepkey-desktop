@@ -66,6 +66,8 @@ const mapFailureType = (failureType: FailureType2): FailureType => {
   }
 }
 
+let walletModalCloseTimeout: number | undefined = undefined
+
 export const App = () => {
   const {
     state: { deviceId },
@@ -224,6 +226,12 @@ export const App = () => {
         const pinRequestType = mapPinRequestType(pinRequestType2)
         const lastFailure = lastFailure2 ? mapFailureType(lastFailure2) : undefined
         const out = deferred<string>()
+        clearTimeout(walletModalCloseTimeout)
+        out.finally(() => {
+          walletModalCloseTimeout = setTimeout(() => {
+            dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
+          }, 5000) as unknown as number
+        })
         if (window.localStorage.getItem('onboarded') === 'true') {
           dispatch({
             type: WalletActions.OPEN_KEEPKEY_PIN,
