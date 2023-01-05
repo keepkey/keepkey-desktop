@@ -1,3 +1,4 @@
+import { PinMatrixRequestType as PinMatrixRequestTypeDeviceProto } from '@keepkey/device-protocol/lib/types_pb'
 import * as Comlink from 'comlink'
 import { assertNever, deferred } from 'common-utils'
 import type { PairingProps } from 'components/Modals/Pair/types'
@@ -13,6 +14,20 @@ import { Routes } from 'Routes/Routes'
 import type { KKStateData } from '../../keepkey-desktop/src/helpers/kk-state-controller/types'
 import { KKState } from '../../keepkey-desktop/src/helpers/kk-state-controller/types'
 import type { RendererIpc } from '../../keepkey-desktop/src/types'
+import type { PinMatrixRequestType2 } from '../../keepkey-desktop/src/types'
+
+const mapPinRequestType = (pinRequestType: PinMatrixRequestType2) => {
+  switch (pinRequestType) {
+    case PinMatrixRequestTypeDeviceProto.PINMATRIXREQUESTTYPE_CURRENT:
+      return PinMatrixRequestType.CURRENT
+    case PinMatrixRequestTypeDeviceProto.PINMATRIXREQUESTTYPE_NEWFIRST:
+      return PinMatrixRequestType.NEWFIRST
+    case PinMatrixRequestTypeDeviceProto.PINMATRIXREQUESTTYPE_NEWSECOND:
+      return PinMatrixRequestType.NEWSECOND
+    default:
+      assertNever(pinRequestType)
+  }
+}
 
 export const App = () => {
   const {
@@ -165,19 +180,9 @@ export const App = () => {
         return await out
       },
 
-      async modalPin(): Promise<string> {
-        const out = deferred<string>()
-        if (window.localStorage.getItem('onboarded') === 'true') {
-          dispatch({
-            type: WalletActions.OPEN_KEEPKEY_PIN,
-            payload: {
-              deviceId,
-              pinRequestType: PinMatrixRequestType.CURRENT,
-              showBackButton: true,
-              deferred: out,
-            },
-          })
-        } else {
+      async modalPin(pinRequestType2: PinMatrixRequestType2): Promise<string> {
+        const pinRequestType: PinMatrixRequestType = mapPinRequestType(pinRequestType2)
+        if (window.localStorage.getItem('onboarded') !== 'true') {
           await new Promise(resolve => {
             const interval = setInterval(() => {
               if (window.localStorage.getItem('onboarded') === 'true') {
@@ -187,16 +192,17 @@ export const App = () => {
             }, 500)
           })
           hardwareError.close()
-          dispatch({
-            type: WalletActions.OPEN_KEEPKEY_PIN,
-            payload: {
-              deviceId,
-              pinRequestType: PinMatrixRequestType.CURRENT,
-              showBackButton: true,
-              deferred: out,
-            },
-          })
         }
+        const out = deferred<string>()
+        dispatch({
+          type: WalletActions.OPEN_KEEPKEY_PIN,
+          payload: {
+            deviceId,
+            pinRequestType,
+            showBackButton: true,
+            deferred: out,
+          },
+        })
         return await out
       },
 

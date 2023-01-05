@@ -1,5 +1,7 @@
 // import type { UpdateCheckResult } from 'electron-updater'
 
+import type { PinMatrixRequestTypeMap } from '@keepkey/device-protocol/lib/types_pb'
+
 import type { PairingProps } from '../../keepkey-desktop-app/src/components/Modals/Pair/types'
 import type {
   PairedAppProps,
@@ -8,11 +10,13 @@ import type {
 import type { KKStateData } from './helpers/kk-state-controller/types'
 import type { BridgeLog, Settings } from './helpers/types'
 
+export type PinMatrixRequestType2 = PinMatrixRequestTypeMap[keyof PinMatrixRequestTypeMap]
+
 export type RendererIpc = {
   updateState(data: KKStateData): Promise<void>
   appClosing(): Promise<void>
   modalPair(data: PairingProps): Promise<undefined | string[]>
-  modalPin(): Promise<string>
+  modalPin(pinRequestType: PinMatrixRequestType2): Promise<string>
   accountSignTx(data: {
     invocation: {
       unsignedTx: {
