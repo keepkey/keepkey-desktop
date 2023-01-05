@@ -26,7 +26,7 @@ export const KeepKeyMenu = () => {
   const {
     setDeviceState,
     disconnect,
-    state: { isConnected, walletInfo, keepkeySdk, deviceId },
+    state: { isConnected, walletInfo },
   } = useWallet()
   const { keepKeyWipe, hardwareError } = useModal()
 
@@ -128,7 +128,11 @@ export const KeepKeyMenu = () => {
           <ExpandedMenuItem
             onClick={() => navigateToRoute(WalletConnectedRoutes.KeepKeyPin)}
             label='walletProvider.keepKey.settings.menuLabels.pin'
-            value='••••••'
+            value={translate(
+              `walletProvider.keepKey.settings.status.${
+                features?.pinProtection ? 'hasPin' : 'noPin'
+              }`,
+            )}
             hasSubmenu={true}
           />
           <MenuDivider />

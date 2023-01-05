@@ -24,7 +24,10 @@ const moduleLogger = logger.child({
 export const ChangePin = () => {
   const { handleBackClick } = useMenuRoutes()
   const translate = useTranslate()
-  const { keepKeyWallet } = useKeepKey()
+  const {
+    keepKeyWallet,
+    state: { features },
+  } = useKeepKey()
   const {
     dispatch,
     state: {
@@ -147,16 +150,23 @@ export const ChangePin = () => {
             onClick={() => handleChangePin(false)}
             isLoading={awaitingDeviceInteraction}
           >
-            {translate('walletProvider.keepKey.settings.actions.update', { setting })}
+            {translate(
+              `walletProvider.keepKey.settings.actions.${
+                features?.pinProtection ? 'update' : 'enable'
+              }`,
+              { setting },
+            )}
           </Button>
-          <Button
-            colorScheme='red'
-            size='sm'
-            onClick={() => handleChangePin(true)}
-            isLoading={awaitingDeviceInteraction}
-          >
-            {translate('walletProvider.keepKey.settings.menuLabels.removePin', { setting })}
-          </Button>
+          {features?.pinProtection && (
+            <Button
+              colorScheme='red'
+              size='sm'
+              onClick={() => handleChangePin(true)}
+              isLoading={awaitingDeviceInteraction}
+            >
+              {translate('walletProvider.keepKey.settings.menuLabels.removePin', { setting })}
+            </Button>
+          )}
         </SubMenuBody>
         <AwaitKeepKey
           translation={['walletProvider.keepKey.settings.descriptions.buttonPrompt', { setting }]}

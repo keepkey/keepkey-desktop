@@ -1075,7 +1075,9 @@
           "enabled": "Enabled",
           "disabled": "Disabled",
           "upToDate": "Up to date",
-          "updateAvailable": "Update available"
+          "updateAvailable": "Update available",
+          "hasPin": "••••••",
+          "noPin": "(none)"
         },
         "headings": {
           "deviceSetting": "Device %{setting}",
