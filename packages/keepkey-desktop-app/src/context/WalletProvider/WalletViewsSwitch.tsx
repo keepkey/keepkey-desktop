@@ -1,4 +1,4 @@
-import { Flex, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react'
+import { Flex, Modal, ModalCloseButton, ModalContent, ModalOverlay } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/toast'
 import { SlideTransition } from 'components/SlideTransition'
 import { WalletActions } from 'context/WalletProvider/actions'
@@ -19,7 +19,7 @@ export const WalletViewsSwitch = () => {
   const toast = useToast()
   const translate = useTranslate()
   const {
-    state: { wallet, modal, initialRoute, type, disconnectOnCloseModal },
+    state: { wallet, modal, initialRoute, type, disconnectOnCloseModal, showBackButton },
     dispatch,
     disconnect,
   } = useWallet()
@@ -93,18 +93,7 @@ export const WalletViewsSwitch = () => {
         <ModalOverlay />
         <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
           <Flex justifyContent='space-between' alignItems='center' position='relative'>
-            {/*{!match?.isExact && showBackButton && (*/}
-            {/*  <IconButton*/}
-            {/*    icon={<ArrowBackIcon />}*/}
-            {/*    aria-label='Back'*/}
-            {/*    variant='ghost'*/}
-            {/*    fontSize='xl'*/}
-            {/*    size='sm'*/}
-            {/*    isRound*/}
-            {/*    onClick={handleBack}*/}
-            {/*  />*/}
-            {/*)}*/}
-            {/*<ModalCloseButton ml='auto' borderRadius='full' position='static' />*/}
+            {showBackButton && <ModalCloseButton ml='auto' borderRadius='full' position='static' />}
           </Flex>
           <AnimatePresence exitBeforeEnter initial={false}>
             <SlideTransition key={location.key}>
