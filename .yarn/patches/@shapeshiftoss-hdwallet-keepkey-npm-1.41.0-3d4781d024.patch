@@ -1,0 +1,15 @@
+diff --git a/dist/transport.js b/dist/transport.js
+index 7aeb7af77d31d9d9b3d15386ea02eed672fa496a..13a9b616750f2e48a8bc7ca78c3b54dfa39afe02 100644
+--- a/dist/transport.js
++++ b/dist/transport.js
+@@ -306,9 +306,7 @@ class Transport extends core.Transport {
+             try {
+                 this.callInProgress = { main: undefined, debug: undefined };
+                 const cancelMsg = new Messages.Cancel();
+-                yield this.call(Messages.MessageType.MESSAGETYPE_CANCEL, cancelMsg, {
+-                    noWait: this.userActionRequired,
+-                });
++                yield this.call(Messages.MessageType.MESSAGETYPE_CANCEL, cancelMsg);
+             }
+             catch (e) {
+                 console.error("Cancel Pending Error", e);
