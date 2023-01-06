@@ -72,7 +72,7 @@ export const Authenticator = () => {
       console.log('getAccount msg: ', msg)
 
       const data = await wallet.ping({ msg }).catch(e => console.log('error', e))
-      if (!data) continue
+      if (!data || !data.msg || data.msg === '') continue
       console.log(slotIdx, data)
       const [domain, account] = data.msg.split(':')
       setAccounts(accs => {
