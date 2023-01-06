@@ -156,8 +156,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         onDisconnect()
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isConnected, isLegacy, legacyBridge, setLegacyEvents, wallet],
+    [isConnected, isLegacy, legacyBridge, setLegacyEvents, wallet, onDisconnect],
   )
 
   useEffect(() => {
