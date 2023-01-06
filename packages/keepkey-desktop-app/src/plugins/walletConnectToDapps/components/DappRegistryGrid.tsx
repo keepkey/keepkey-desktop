@@ -14,6 +14,7 @@ import {
   Text as PlainText,
   VStack,
 } from '@chakra-ui/react'
+import kkIconBlack from 'assets/kk-icon-black.png'
 import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
@@ -30,8 +31,7 @@ import type { RegistryItem } from '../types'
 import { PageInput } from './PageInput'
 
 const PAGE_SIZE = 20
-const loadingImg =
-  'https://github.com/keepkey/keepkey-desktop/blob/develop/packages/keepkey-desktop/icon.png?raw=true'
+const loadingImg = kkIconBlack
 
 export const DappRegistryGrid: FC = () => {
   const [registryItems, setRegistryItems] = useState<RegistryItem[]>()

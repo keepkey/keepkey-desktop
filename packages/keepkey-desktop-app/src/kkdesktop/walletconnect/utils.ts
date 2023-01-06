@@ -2,6 +2,7 @@ import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
 import LegacyWalletConnect from '@walletconnect/client'
 import SignClient from '@walletconnect/sign-client'
 import { parseUri } from '@walletconnect/utils'
+import kkIconBlack from 'assets/kk-icon-black.png'
 import { getConfig } from 'config'
 
 import { LegacyWCService } from './service'
@@ -26,7 +27,7 @@ export async function createSignClient() {
       name: 'KeepKey Desktop',
       description: 'KeepKey Desktop Application',
       url: 'https://keepkey.com/',
-      icons: ['https://github.com/BitHighlander/keepkey-desktop/raw/master/electron/icon.png'],
+      icons: [kkIconBlack],
     },
   })
 
