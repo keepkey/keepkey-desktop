@@ -80,7 +80,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [WalletConnectSignClient])
 
-  const setLegcyEvents = useCallback(
+  const setLegacyEvents = useCallback(
     (wc: LegacyWCService) => {
       wc.connector.on('call_request', (_e, payload) => {
         addRequest(payload)
@@ -131,7 +131,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         const wc = await getWalletConnect(wallet as ETHWallet, uri)
         if (wc instanceof LegacyWCService) {
           setIsLegacy(true)
-          setLegcyEvents(wc)
+          setLegacyEvents(wc)
           await wc.connect()
           setLegacyBridge(wc)
         } else {
@@ -147,7 +147,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
           new LegacyWalletConnect({ session }),
         )
         setIsLegacy(true)
-        setLegcyEvents(bridgeFromSession)
+        setLegacyEvents(bridgeFromSession)
         await bridgeFromSession.connect()
         setIsConnected(bridgeFromSession.connector.connected)
         web3ByChainId(Number(bridgeFromSession.connector.chainId)).then(setLegacyWeb3)
@@ -159,8 +159,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         onDisconnect()
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isConnected, isLegacy, legacyBridge, setLegcyEvents, wallet],
+    [isConnected, isLegacy, legacyBridge, setLegacyEvents, wallet, onDisconnect],
   )
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import 'source-map-support/register'
+import './comlinkTransferHandlers'
 
 import * as Sentry from '@sentry/electron'
 import { app, nativeTheme } from 'electron'

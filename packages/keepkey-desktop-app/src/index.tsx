@@ -1,4 +1,5 @@
 import 'lib/polyfills'
+import '../../keepkey-desktop/src/comlinkTransferHandlers'
 
 import { App } from 'App'
 import { AppProviders } from 'AppProviders'

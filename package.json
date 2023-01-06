@@ -42,7 +42,8 @@
     "@shapeshiftoss/hdwallet-keepkey@1.40.0": "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.40.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.40.0-91917954a1.patch",
     "@tsoa/runtime@^4.1.3": "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch",
     "web3@1.7.4": "^1.8.1",
-    "@shapeshiftoss/hdwallet-keepkey-nodewebusb@^1.41.0": "patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.41.0-3660b239f5.patch"
+    "@shapeshiftoss/hdwallet-keepkey-nodewebusb@^1.41.0": "patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.41.0-3660b239f5.patch",
+    "comlink-electron-endpoint@^1.0.3": "patch:comlink-electron-endpoint@npm%3A1.0.3#./.yarn/patches/comlink-electron-endpoint-npm-1.0.3-e9e40b4d5c.patch"
   },
   "dependenciesMeta": {
     "@openapitools/openapi-generator-cli@2.5.2": {
