@@ -16,9 +16,36 @@ index 89edcaeeaef4495c0f89c997348928cf3f11dfc7..fb8a1bcf294665c04246de7339c836bc
  exports.electronEndpoint = electronEndpoint;
  var handler = comlink_1.transferHandlers.get("proxy");
 diff --git a/renderer.js b/renderer.js
-index 8e6fd03d2189fffe2865068ee69148e649b28054..2e07646ea2ec1328b2680e2b2d2a7bf5eaf1a652 100644
+index 8e6fd03d2189fffe2865068ee69148e649b28054..48a0acb44c52a7ddb6b3eb51d7fb6f3afe20b1f2 100644
 --- a/renderer.js
 +++ b/renderer.js
+@@ -20,19 +20,19 @@ function packWireValue(val, transfers) {
+ }
+ // check for proxyToken sentinel value and swap out the index for the endpoint
+ function unpackWireValue(val, transfers, electronEndpoint) {
+-    if (val.type === proxyToken) {
++    if (val?.type === proxyToken) {
+         val.type = "HANDLER" /* HANDLER */;
+         val.value = electronEndpoint(transfers[val.value]);
+     }
+     return val;
+ }
+ function isMessage(val) {
+-    return (val.type === "APPLY" /* APPLY */ ||
+-        val.type === "CONSTRUCT" /* CONSTRUCT */ ||
+-        val.type === "ENDPOINT" /* ENDPOINT */ ||
+-        val.type === "GET" /* GET */ ||
+-        val.type === "RELEASE" /* RELEASE */ ||
+-        val.type === "SET" /* SET */);
++    return (val?.type === "APPLY" /* APPLY */ ||
++        val?.type === "CONSTRUCT" /* CONSTRUCT */ ||
++        val?.type === "ENDPOINT" /* ENDPOINT */ ||
++        val?.type === "GET" /* GET */ ||
++        val?.type === "RELEASE" /* RELEASE */ ||
++        val?.type === "SET" /* SET */);
+ }
+ // pack all the transferrables and properly transfer ports
+ function packMessage(message, transfers) {
 @@ -66,7 +66,7 @@ function unpackMessage(message, transfers, electronEndpoint) {
      }
      return message;

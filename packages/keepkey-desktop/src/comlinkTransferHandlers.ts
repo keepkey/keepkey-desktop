@@ -10,7 +10,7 @@ Comlink.transferHandlers.set('AbortSignal', {
   deserialize(signalPort: MessagePort): AbortSignal {
     const abortController = new AbortController()
     signalPort.addEventListener('message', (e: MessageEvent<{ reason: unknown }>) =>
-      abortController.abort(e.data.reason),
+      abortController.abort(e.data?.reason),
     )
     signalPort.start()
 
