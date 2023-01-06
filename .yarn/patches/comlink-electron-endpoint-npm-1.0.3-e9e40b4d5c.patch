@@ -1,0 +1,39 @@
+diff --git a/main.js b/main.js
+index 89edcaeeaef4495c0f89c997348928cf3f11dfc7..fb8a1bcf294665c04246de7339c836bc08259d8c 100644
+--- a/main.js
++++ b/main.js
+@@ -5,9 +5,9 @@ var comlink_1 = require("comlink");
+ var electron_1 = require("electron");
+ var renderer_1 = require("./renderer");
+ function electronEndpoint(port) {
+-    port.addEventListener = port.on.bind(port);
+-    port.removeEventListener = port.off.bind(port);
+-    return (0, renderer_1.electronEndpoint)(port);
++    if (port.on) port.addEventListener = port.on.bind(port);
++    if (port.off) port.removeEventListener = port.off.bind(port);
++    return (0, renderer_1.electronEndpoint)(port, electronEndpoint);
+ }
+ exports.electronEndpoint = electronEndpoint;
+ var handler = comlink_1.transferHandlers.get("proxy");
+diff --git a/renderer.js b/renderer.js
+index 8e6fd03d2189fffe2865068ee69148e649b28054..2e07646ea2ec1328b2680e2b2d2a7bf5eaf1a652 100644
+--- a/renderer.js
++++ b/renderer.js
+@@ -66,7 +66,7 @@ function unpackMessage(message, transfers, electronEndpoint) {
+     }
+     return message;
+ }
+-function electronEndpoint(port) {
++function electronEndpoint(port, electronEndpointFn) {
+     var listeners = new WeakMap();
+     return {
+         postMessage: function (message, ports) {
+@@ -78,7 +78,7 @@ function electronEndpoint(port) {
+             var l = function (_a) {
+                 var data = _a.data, ports = _a.ports;
+                 // shim for comlink proxy
+-                data = unpackMessage(data, ports, electronEndpoint);
++                data = unpackMessage(data, ports, electronEndpointFn || electronEndpoint);
+                 listener({ data: data, ports: ports });
+             };
+             port.addEventListener("message", l);

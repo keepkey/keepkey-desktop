@@ -12462,13 +12462,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"comlink-electron-endpoint@npm:^1.0.3":
+"comlink-electron-endpoint@npm:1.0.3":
   version: 1.0.3
   resolution: "comlink-electron-endpoint@npm:1.0.3"
   dependencies:
     comlink: "*"
     electron: "*"
   checksum: 428f9ff87f45a8d3251a1650f0054f868470a34427be5d58fb0d9329b1d18674d0e6b6e6a5c13ec8a03e1bd9426445af5850426271206357e34ddd442d45ff41
+  languageName: node
+  linkType: hard
+
+"comlink-electron-endpoint@patch:comlink-electron-endpoint@npm%3A1.0.3#./.yarn/patches/comlink-electron-endpoint-npm-1.0.3-e9e40b4d5c.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 1.0.3
+  resolution: "comlink-electron-endpoint@patch:comlink-electron-endpoint@npm%3A1.0.3#./.yarn/patches/comlink-electron-endpoint-npm-1.0.3-e9e40b4d5c.patch::version=1.0.3&hash=086cc2&locator=keepkey-monorepo%40workspace%3A."
+  dependencies:
+    comlink: "*"
+    electron: "*"
+  checksum: 4990800f3976c1c4fcef48cc416d9b4ea31442f7ff06cfeb424169292f78215691920e68e512ae812f312fe3f00e0cd0857b3367812e0e0b3796e9d87bb7ca19
   languageName: node
   linkType: hard
 

@@ -17476,10 +17476,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["comlink-electron-endpoint", [\
-        ["npm:1.0.3", {\
-          "packageLocation": "./.yarn/cache/comlink-electron-endpoint-npm-1.0.3-e9e40b4d5c-428f9ff87f.zip/node_modules/comlink-electron-endpoint/",\
+        ["patch:comlink-electron-endpoint@npm%3A1.0.3#./.yarn/patches/comlink-electron-endpoint-npm-1.0.3-e9e40b4d5c.patch::version=1.0.3&hash=086cc2&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/cache/comlink-electron-endpoint-patch-4b62813cda-4990800f39.zip/node_modules/comlink-electron-endpoint/",\
           "packageDependencies": [\
-            ["comlink-electron-endpoint", "npm:1.0.3"],\
+            ["comlink-electron-endpoint", "patch:comlink-electron-endpoint@npm%3A1.0.3#./.yarn/patches/comlink-electron-endpoint-npm-1.0.3-e9e40b4d5c.patch::version=1.0.3&hash=086cc2&locator=keepkey-monorepo%40workspace%3A."],\
             ["comlink", "npm:4.3.1"],\
             ["electron", "npm:22.0.0"]\
           ],\
@@ -25971,7 +25971,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["body-parser", "npm:1.20.1"],\
             ["bufferutil", "npm:4.0.7"],\
             ["comlink", "npm:4.3.1"],\
-            ["comlink-electron-endpoint", "npm:1.0.3"],\
+            ["comlink-electron-endpoint", "patch:comlink-electron-endpoint@npm%3A1.0.3#./.yarn/patches/comlink-electron-endpoint-npm-1.0.3-e9e40b4d5c.patch::version=1.0.3&hash=086cc2&locator=keepkey-monorepo%40workspace%3A."],\
             ["common-utils", "workspace:packages/common-utils"],\
             ["concurrently", "npm:7.6.0"],\
             ["cors", "npm:2.8.5"],\
@@ -26164,7 +26164,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["chakra-ui-steps", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.8.0"],\
             ["chalk", "npm:4.1.2"],\
             ["comlink", "npm:4.3.1"],\
-            ["comlink-electron-endpoint", "npm:1.0.3"],\
+            ["comlink-electron-endpoint", "patch:comlink-electron-endpoint@npm%3A1.0.3#./.yarn/patches/comlink-electron-endpoint-npm-1.0.3-e9e40b4d5c.patch::version=1.0.3&hash=086cc2&locator=keepkey-monorepo%40workspace%3A."],\
             ["common-utils", "workspace:packages/common-utils"],\
             ["concurrently", "npm:7.6.0"],\
             ["cors", "npm:2.8.5"],\
