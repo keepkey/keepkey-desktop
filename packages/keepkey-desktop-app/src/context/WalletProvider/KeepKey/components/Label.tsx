@@ -3,7 +3,7 @@ import type { ResetDevice } from '@shapeshiftoss/hdwallet-core'
 import { Text } from 'components/Text'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 
 import { useKeepKeyRecover } from '../hooks/useKeepKeyRecover'
@@ -17,14 +17,14 @@ export const KeepKeyLabel = () => {
       deviceState: { disposition },
       wallet,
     },
-    dispatch,
     desiredLabel,
     setDesiredLabel,
   } = useWallet()
   const translate = useTranslate()
   const recoverKeepKey = useKeepKeyRecover()
 
-  const handleInitializeSubmit = async () => {
+  const handleInitializeSubmit = useCallback(async () => {
+    if (!wallet) return
     setLoading(true)
     //We prevent all special chars and any length > 12. We just yolo trim and send it (user can change later)
     let sanitizedLabel = desiredLabel.replace(/[^\x00-\x7F]+/g, '').substring(0, 12)
@@ -32,13 +32,13 @@ export const KeepKeyLabel = () => {
     setDeviceState({ awaitingDeviceInteraction: true, disposition })
 
     try {
-      await wallet?.reset(resetMessage)
+      await wallet.reset(resetMessage)
     } catch (e: any) {
       setLoading(false)
       setDeviceState({ awaitingDeviceInteraction: false, disposition })
       moduleLogger.error(e)
     }
-  }
+  }, [desiredLabel, disposition, setDeviceState, wallet])
 
   useEffect(() => {
     // Label screen hangs if you click skip too quickly
@@ -81,7 +81,9 @@ export const KeepKeyLabel = () => {
         >
           <Text
             translation={
-              desiredLabel ? 'modals.keepKey.label.setLabelButton' : 'modals.keepKey.label.skipLabelButton'
+              desiredLabel
+                ? 'modals.keepKey.label.setLabelButton'
+                : 'modals.keepKey.label.skipLabelButton'
             }
           />
         </Button>

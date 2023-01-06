@@ -12,6 +12,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useColorMode,
 } from '@chakra-ui/react'
 import HoldAndConnect from 'assets/hold-and-connect.svg'
 import type { Deferred } from 'common-utils'
@@ -33,6 +34,7 @@ export const RequestBootloaderMode: FC<RequestBootloaderModeProps> = ({
   recommendedFirmware,
   firmware,
 }) => {
+  const { colorMode } = useColorMode()
   const { requestBootloaderMode } = useModal()
   const { close, isOpen } = requestBootloaderMode
   const translate = useTranslate()
@@ -68,7 +70,11 @@ export const RequestBootloaderMode: FC<RequestBootloaderModeProps> = ({
                 </RawText>
               </Alert>
             )}
-            <Image src={HoldAndConnect} alt='reconnect Device!' />
+            <Image
+              src={HoldAndConnect}
+              filter={colorMode === 'light' ? 'invert(100%);' : ''}
+              alt='reconnect Device!'
+            />
             <Text align='center' translation={'modals.keepKey.requestBootloaderMode.restart'} />
           </ModalBody>
           {!bootloaderUpdateNeeded && (
