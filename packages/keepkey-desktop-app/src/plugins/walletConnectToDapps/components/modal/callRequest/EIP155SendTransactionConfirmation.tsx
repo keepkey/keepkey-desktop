@@ -1,17 +1,18 @@
 import { Box, Button, HStack, Image, useColorModeValue, useToast, VStack } from '@chakra-ui/react'
 import { formatJsonRpcResult } from '@json-rpc-tools/utils'
 import type { ethereum } from '@keepkey/chain-adapters'
+import type { GasFeeDataEstimate } from '@keepkey/chain-adapters'
 import { FeeDataKey } from '@keepkey/chain-adapters'
 import { KnownChainIds } from '@keepkey/types'
 import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import type * as core from '@shapeshiftoss/hdwallet-core'
 import type { SignClientTypes } from '@walletconnect/types'
 import axios from 'axios'
 import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { Text } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { useWallet } from 'hooks/useWallet/useWallet'
+import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { fromBaseUnit } from 'lib/math'
@@ -47,16 +48,14 @@ export type TxData = {
 export const EIP155SendTransactionConfirmation = () => {
   const translate = useTranslate()
   const cardBg = useColorModeValue('white', 'gray.850')
-  const {
-    state: { wallet },
-  } = useWallet()
+  const { keepKeyWallet } = useKeepKey()
 
   const adapterManager = useMemo(() => getChainAdapterManager(), [])
 
   const [address, setAddress] = useState<string>()
   const [accountPath, setAccountPath] = useState<BIP32Path>()
 
-  const form = useForm<any>({
+  const form = useForm({
     defaultValues: {
       nonce: '',
       gasLimit: '',
@@ -77,20 +76,20 @@ export const EIP155SendTransactionConfirmation = () => {
   const [chainId, setChainId] = useState<number>()
 
   useEffect(() => {
-    if (!wallet) return
+    if (!keepKeyWallet) return
     setLoading(true)
-    const accounts = (wallet as KeepKeyHDWallet).ethGetAccountPaths({
+    const accounts = keepKeyWallet.ethGetAccountPaths({
       coin: 'Ethereum',
       accountIdx: 0,
     })
     setAccountPath(accounts[0].addressNList)
-    ;(wallet as KeepKeyHDWallet)
+    keepKeyWallet
       .ethGetAddress({ addressNList: accounts[0].addressNList, showDisplay: false })
       .then(accAddress => {
         setLoading(false)
         setAddress(accAddress)
       })
-  }, [wallet])
+  }, [keepKeyWallet])
 
   useEffect(() => {
     if (!chainIdString) return
@@ -100,11 +99,11 @@ export const EIP155SendTransactionConfirmation = () => {
   }, [chainIdString])
 
   const onConfirm = useCallback(
-    async (txData: any) => {
-      if (!wallet || !accountPath || !chainId || !legacyWeb3) return
+    async (txData: TxData) => {
+      if (!keepKeyWallet || !accountPath || !chainId || !legacyWeb3) return
       try {
         setLoading(true)
-        const signData: any = {
+        const signData: core.ETHSignTx = {
           addressNList: accountPath,
           chainId,
           data: txData.data,
@@ -112,18 +111,18 @@ export const EIP155SendTransactionConfirmation = () => {
           to: txData.to,
           value: txData.value ?? '0x0',
           nonce: txData.nonce,
-          maxPriorityFeePerGas: txData.maxPriorityFeePerGas,
-          maxFeePerGas: txData.maxFeePerGas,
+          // if gasPrice was passed in it means we couldnt get maxPriorityFeePerGas & maxFeePerGas
+          ...(!txData.gasPrice
+            ? {
+                maxPriorityFeePerGas: txData.maxPriorityFeePerGas,
+                maxFeePerGas: txData.maxFeePerGas,
+              }
+            : {
+                gasPrice: request.params[0].gasPrice,
+              }),
         }
 
-        // if gasPrice was passed in it means we couldnt get maxPriorityFeePerGas & maxFeePerGas
-        if (request.params[0].gasPrice) {
-          signData.gasPrice = request.params[0].gasPrice
-          delete signData.maxPriorityFeePerGas
-          delete signData.maxFeePerGas
-        }
-
-        const response = await (wallet as KeepKeyHDWallet).ethSignTx(signData)
+        const response = await keepKeyWallet.ethSignTx(signData)
 
         const signedTx = response?.serialized
 
@@ -131,8 +130,7 @@ export const EIP155SendTransactionConfirmation = () => {
 
         if (request.method === EIP155_SIGNING_METHODS.ETH_SEND_TRANSACTION) {
           await legacyWeb3.web3.eth.sendSignedTransaction(signedTx)
-          const txid = legacyWeb3.web3.utils.sha3(signedTx)
-          // @ts-ignore
+          const txid = legacyWeb3.web3.utils.sha3(signedTx)!
           jsonresponse = formatJsonRpcResult(id, txid)
         }
 
@@ -154,7 +152,7 @@ export const EIP155SendTransactionConfirmation = () => {
       }
     },
     [
-      wallet,
+      keepKeyWallet,
       accountPath,
       chainId,
       legacyWeb3,
@@ -178,7 +176,7 @@ export const EIP155SendTransactionConfirmation = () => {
     setLoading(false)
   }, [currentRequest, removeRequest])
 
-  const [gasFeeData, setGasFeeData] = useState(undefined as any)
+  const [gasFeeData, setGasFeeData] = useState<GasFeeDataEstimate | undefined>(undefined)
   const [priceData, setPriceData] = useState(bn(0))
 
   const [web3GasFeeData, setweb3GasFeeData] = useState('0')
@@ -210,7 +208,7 @@ export const EIP155SendTransactionConfirmation = () => {
     })
 
     // for non mainnet chains we use the simple web3.getGasPrice()
-    legacyWeb3.web3.eth.getGasPrice().then((p: any) => setweb3GasFeeData(p))
+    legacyWeb3.web3.eth.getGasPrice().then(p => setweb3GasFeeData(p))
   }, [form, txInputGas, chainId, legacyWeb3])
 
   useEffect(() => {
@@ -289,8 +287,8 @@ export const EIP155SendTransactionConfirmation = () => {
           to: request.params[0].to,
           data: request.params[0].data,
         })
-        .then((estimate: any) => {
-          setEstimatedGas(estimate)
+        .then(estimate => {
+          setEstimatedGas(String(estimate))
         })
     } catch (e) {
       // 500k seemed reasonable
