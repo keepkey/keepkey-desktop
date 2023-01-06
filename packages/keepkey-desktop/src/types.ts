@@ -71,6 +71,11 @@ export type IpcListeners = {
   keepkeySkipUpdate(): Promise<void>
 
   appReadQr(): Promise<string>
+  appMonitorWebContentsForQr(
+    webContentsId: number,
+    signal: AbortSignal,
+    callback: (data: string) => Promise<void>,
+  ): Promise<void>
 
   // appUpdate(): Promise<UpdateCheckResult | { updateInfo: { version: string } } | undefined>
   // appDownloadUpdates(): Promise<void>

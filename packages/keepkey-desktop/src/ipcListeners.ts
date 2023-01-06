@@ -1,9 +1,11 @@
 import * as Comlink from 'comlink'
 import { electronEndpoint } from 'comlink-electron-endpoint/main'
 import type { IpcMainEvent } from 'electron'
+import { webContents } from 'electron'
 import { app, desktopCapturer, ipcMain } from 'electron'
 import log from 'electron-log'
 import jsQR from 'jsqr'
+import * as _ from 'lodash'
 // import isDev from 'electron-is-dev'
 // import { autoUpdater } from 'electron-updater'
 import { sleep } from 'wait-promise'
@@ -220,6 +222,43 @@ export const ipcListeners: IpcListeners = {
       return scanned.data
     }
     return 'Unable to scan QR'
+  },
+
+  async appMonitorWebContentsForQr(
+    webContentsId: number,
+    signal: AbortSignal,
+    callback: (data: string) => Promise<void>,
+  ): Promise<void> {
+    console.log(`appMonitorWebContentsForQr: subscribing to ${webContentsId}`)
+
+    let lastScannedValue: string | undefined = undefined
+
+    const contents = webContents.fromId(webContentsId)
+    const handler = _.debounce(
+      () => {
+        ;(async () => {
+          const image = await contents.capturePage()
+          const { width, height } = image.getSize()
+          const scanned = jsQR(new Uint8ClampedArray(image.getBitmap()), width, height)?.data
+          if (scanned && scanned !== lastScannedValue) {
+            lastScannedValue = scanned
+            console.log('appMonitorWebContentsForQr: scanned', scanned)
+            callback(scanned).catch(e =>
+              console.error('appMonitorWebContentsForQr callback error:', e),
+            )
+          }
+        })().catch(e => console.error('appMonitorWebContentsForQr:debouncedHandler error:', e))
+      },
+      1000,
+      { leading: false, trailing: true },
+    )
+    contents.on('input-event', handler)
+    signal.addEventListener('abort', () => {
+      console.log(`appMonitorWebContentsForQr: unsubscribing from ${webContentsId}`)
+      try {
+        contents.off('input-event', handler)
+      } catch {} // the contents object might have already been destroyed, and that's ok
+    })
   },
 
   // async appUpdate() {

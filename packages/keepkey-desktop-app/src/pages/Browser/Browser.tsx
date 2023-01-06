@@ -6,9 +6,13 @@ import {
   RepeatIcon,
 } from '@chakra-ui/icons'
 import { Alert, AlertIcon, HStack, IconButton, Input, Stack } from '@chakra-ui/react'
+import * as Comlink from 'comlink'
 import { Main } from 'components/Layout/Main'
 // import { WalletActions } from 'context/WalletProvider/actions'
+import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import * as _ from 'lodash'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import React, { useCallback, useEffect, useState } from 'react'
 import { FaBug } from 'react-icons/fa'
 
@@ -48,6 +52,8 @@ const formatUrl = (inputUrl: string) => {
   return undefined
 }
 
+let connectIndirect: (url: string) => Promise<void> = async () => {}
+
 export const Browser = () => {
   const [url, setUrl] = useState('about:blank')
   const [inputUrl, setInputUrl] = useState(url)
@@ -60,6 +66,7 @@ export const Browser = () => {
     dispatch,
     state: { browserUrl },
   } = useWallet()
+  const { connect } = useWalletConnect()
 
   const [webviewReady, setWebviewReady] = useState(false)
   useEffect(() => {
@@ -160,6 +167,29 @@ export const Browser = () => {
       console.error('invalid browserUrl', browserUrl)
     }
   }, [browserUrl, webviewReady])
+
+  useEffect(() => {
+    if (!webviewReady) return
+
+    const contentsId = getWebview()!.getWebContentsId()
+    const abortController = new AbortController()
+    const callback = _.memoize(async (data: string) => {
+      if (!data.startsWith('wc:')) return
+      console.log(`got scanned code, connecting to ${data}`)
+      await connectIndirect('')
+      await connectIndirect(data)
+    })
+
+    ipcListeners
+      .appMonitorWebContentsForQr(contentsId, abortController.signal, Comlink.proxy(callback))
+      .catch(e => console.error('appMonitorWebContentsForQr error:', e))
+
+    return () => abortController.abort()
+  }, [webviewReady])
+
+  useEffect(() => {
+    connectIndirect = connect
+  }, [connect])
 
   return (
     <Main
