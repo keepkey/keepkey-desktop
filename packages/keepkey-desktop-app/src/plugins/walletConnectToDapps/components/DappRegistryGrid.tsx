@@ -8,25 +8,26 @@ import {
   InputLeftElement,
   Link,
   SimpleGrid,
+  Skeleton,
+  SkeletonText,
   Stack,
   Text as PlainText,
   VStack,
-  Skeleton,
-  SkeletonText,
 } from '@chakra-ui/react'
-import { FC, useCallback } from 'react'
-import { useEffect, useMemo, useState } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
-import { useHistory } from 'react-router'
 import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
+import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { getPioneerClient } from 'lib/getPioneerCleint'
+import type { FC } from 'react'
+import { useCallback } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
+import { useHistory } from 'react-router'
 
 import type { RegistryItem } from '../types'
 import { PageInput } from './PageInput'
-import { getPioneerClient } from 'lib/getPioneerCleint'
-import { useModal } from 'hooks/useModal/useModal'
 
 const PAGE_SIZE = 20
 const loadingImg =
@@ -144,6 +145,7 @@ export const DappRegistryGrid: FC = () => {
         <SimpleGrid columns={{ lg: 4, sm: 2, base: 1 }} spacing={4}>
           {Array.from(Array(PAGE_SIZE).keys()).map((_i, idx) => (
             <Box
+              key={`loading_${idx}`}
               borderRadius='lg'
               p={2}
               position='relative'

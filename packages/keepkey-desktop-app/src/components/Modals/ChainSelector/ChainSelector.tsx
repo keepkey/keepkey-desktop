@@ -1,3 +1,4 @@
+import { SearchIcon } from '@chakra-ui/icons'
 import {
   Accordion,
   AccordionButton,
@@ -8,6 +9,7 @@ import {
   Divider,
   Flex,
   HStack,
+  Image,
   Input,
   InputGroup,
   InputLeftElement,
@@ -19,7 +21,6 @@ import {
   ModalOverlay,
   Spinner,
   Stack,
-  Image,
 } from '@chakra-ui/react'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
@@ -27,7 +28,6 @@ import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
 // import { SessionTypes } from '@walletconnect/types'
 import { useDebounce } from 'hooks/useDebounce/useDebounce'
 import { useModal } from 'hooks/useModal/useModal'
-import { SearchIcon } from '@chakra-ui/icons'
 import { getPioneerClient } from 'lib/getPioneerCleint'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { useCallback, useEffect, useState } from 'react'
@@ -143,7 +143,7 @@ export const ChainSelectorModal = () => {
                   chains &&
                   chains.map(chain => {
                     return (
-                      <AccordionItem w='full'>
+                      <AccordionItem w='full' key={chain._id}>
                         <HStack gap={4}>
                           <Image src={chain.image} boxSize='24px' />
                           <Box
@@ -163,7 +163,12 @@ export const ChainSelectorModal = () => {
                         </HStack>
                         <AccordionPanel>
                           {chain.services.map((service, idx) => (
-                            <Box fontSize='sm' as='button' onClick={() => switchChain(chain, idx)}>
+                            <Box
+                              fontSize='sm'
+                              as='button'
+                              onClick={() => switchChain(chain, idx)}
+                              key={service.url}
+                            >
                               {service.url.length > 20
                                 ? service.url.substring(0, 20).concat('...')
                                 : service.url}{' '}
