@@ -7,6 +7,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  useColorMode,
 } from '@chakra-ui/react'
 import KeepKeyConnect from 'assets/connect-keepkey.svg'
 import { Text } from 'components/Text'
@@ -22,6 +23,7 @@ export const HardwareErrorModal = (error: { errorCode?: number; needsReconnect?:
   const { isUpdatingKeepkey } = useWallet()
   const translate = useTranslate()
   const { close, isOpen } = hardwareError
+  const { colorMode } = useColorMode()
 
   const history = useHistory()
 
@@ -79,7 +81,11 @@ export const HardwareErrorModal = (error: { errorCode?: number; needsReconnect?:
                   }
                 />
               </ModalHeader>
-              <Image src={KeepKeyConnect} alt='Reconnect Device!' />
+              <Image
+                filter={colorMode === 'light' ? 'invert(100%);' : ''}
+                src={KeepKeyConnect}
+                alt='Reconnect Device!'
+              />
               <style type='text/css'>{`
                 .hardwareErrorIntroText * {
                   margin: 0.5em 0;

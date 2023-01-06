@@ -130,6 +130,7 @@ export class KeepKeyRestHDWallet
   }
 
   public async reset(msg: core.ResetDevice): Promise<void> {
+    console.log('sending reset', msg)
     await this.sdk.system.initialize.resetDevice({
       u2f_counter: msg.u2fCounter,
       auto_lock_delay_ms: msg.autoLockDelayMs,
