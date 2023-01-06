@@ -34,7 +34,7 @@ export const DappHeaderMenuSummary: FC = () => {
 
   return (
     <>
-      <Box borderWidth='1px' rounded='md' p={3}>
+      <Box p={2}>
         <MenuGroup
           title={translate('plugins.walletConnectToDapps.header.connectedDapp')}
           ml={3}
