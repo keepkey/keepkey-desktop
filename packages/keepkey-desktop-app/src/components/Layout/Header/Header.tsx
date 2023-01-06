@@ -94,14 +94,7 @@ export const Header = () => {
           </Box>
         )}
         <HStack height='4.5rem' width='full' borderBottomWidth={1} borderColor={borderColor}>
-          <HStack
-            width='full'
-            margin='0 auto'
-            maxW='container.3xl'
-            px={{ base: 0, md: 4 }}
-            spacing={0}
-            columnGap={4}
-          >
+          <HStack width='full' margin='0 auto' px={{ base: 0, md: 4 }} spacing={0} columnGap={4}>
             <Box flex={1} display={{ base: 'block', md: 'none' }}>
               <IconButton
                 aria-label='Open menu'
