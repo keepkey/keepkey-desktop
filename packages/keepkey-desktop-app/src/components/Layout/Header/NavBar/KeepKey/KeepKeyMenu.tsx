@@ -1,23 +1,19 @@
-import { CloseIcon, LockIcon } from '@chakra-ui/icons'
+import { CloseIcon } from '@chakra-ui/icons'
 import { MenuDivider, MenuGroup, MenuItem } from '@chakra-ui/menu'
 import { Flex } from '@chakra-ui/react'
-import { untouchable } from 'common-utils'
 import { ExpandedMenuItem } from 'components/Layout/Header/NavBar/ExpandedMenuItem'
 import {
   useMenuRoutes,
   WalletConnectedRoutes,
 } from 'components/Layout/Header/NavBar/hooks/useMenuRoutes'
 import { SubMenuContainer } from 'components/Layout/Header/NavBar/SubMenuContainer'
-import { SubmenuHeader } from 'components/Layout/Header/NavBar/SubmenuHeader'
 import { WalletImage } from 'components/Layout/Header/NavBar/WalletImage'
 import { RawText, Text } from 'components/Text'
-import { WalletActions } from 'context/WalletProvider/actions'
 import { useKeepKeyVersions } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyVersions'
-import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useTranslate } from 'react-polyglot'
 
 export const KeepKeyMenu = () => {
@@ -29,9 +25,8 @@ export const KeepKeyMenu = () => {
   const { versions, updaterUrl } = useKeepKeyVersions()
   const {
     setDeviceState,
-    dispatch,
     disconnect,
-    state: { isConnected, walletInfo, keepkeySdk, deviceId },
+    state: { isConnected, walletInfo },
   } = useWallet()
   const { keepKeyWipe, hardwareError } = useModal()
 
@@ -60,20 +55,6 @@ export const KeepKeyMenu = () => {
   const handleWipeClick = () => {
     keepKeyWipe.open({})
   }
-
-  const handleRemovePinClick = useCallback(async () => {
-    // console.log('KEEPKEY SDK', keepkeySdk)
-    if (!keepkeySdk) return
-    await keepkeySdk.system.changePin({ remove: true })
-    dispatch({
-      type: WalletActions.OPEN_KEEPKEY_PIN,
-      payload: {
-        deviceId,
-        pinRequestType: PinMatrixRequestType.REMOVE,
-        deferred: untouchable(),
-      },
-    })
-  }, [keepkeySdk, dispatch, deviceId])
 
   const deviceTimeoutTranslation: string =
     typeof deviceTimeout?.label === 'object'
@@ -147,7 +128,11 @@ export const KeepKeyMenu = () => {
           <ExpandedMenuItem
             onClick={() => navigateToRoute(WalletConnectedRoutes.KeepKeyPin)}
             label='walletProvider.keepKey.settings.menuLabels.pin'
-            value='••••••'
+            value={translate(
+              `walletProvider.keepKey.settings.status.${
+                features?.pinProtection ? 'hasPin' : 'noPin'
+              }`,
+            )}
             hasSubmenu={true}
           />
           <MenuDivider />
@@ -165,9 +150,6 @@ export const KeepKeyMenu = () => {
             hasSubmenu={true}
           />
           <MenuDivider />
-          <MenuItem onClick={handleRemovePinClick} color='red.500' icon={<LockIcon />}>
-            {translate('walletProvider.keepKey.settings.menuLabels.removePin')}
-          </MenuItem>
           <MenuItem
             onClick={() => {
               hardwareError.open({})

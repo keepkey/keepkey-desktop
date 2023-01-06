@@ -10,15 +10,31 @@ export const initializeWallet = async (
   const hidAdapter = await HIDKeepKeyAdapter.useKeyring(keyring)
 
   const wallet = await (async () => {
-    const webUsbDevice = await webUsbAdapter.getDevice()
+    const webUsbDevice = await webUsbAdapter.getDevice().catch(() => undefined)
     if (webUsbDevice) return webUsbAdapter.pairRawDevice(webUsbDevice)
-    const hidDevice = await hidAdapter.getDevice()
+    const hidDevice = await hidAdapter.getDevice().catch(() => undefined)
     if (hidDevice) return hidAdapter.pairRawDevice(hidDevice)
     return undefined
   })()
 
   if (!wallet) {
     return { wallet }
+  }
+
+  const transport = wallet.transport as unknown as {
+    write(data: Uint8Array, debugLink?: boolean): Promise<void>
+    read(debugLink?: boolean): Promise<Uint8Array>
+  }
+  const transportWrite = transport.write.bind(transport)
+  const transportRead = transport.read.bind(transport)
+  transport.read = async (debugLink?: boolean) => {
+    const out = await transportRead(debugLink)
+    console.log('readDevice:', Buffer.from(out).toString('hex'))
+    return out
+  }
+  transport.write = async (data: Uint8Array, debugLink?: boolean) => {
+    console.log('writeDevice:', Buffer.from(data).toString('hex'))
+    return await transportWrite(data, debugLink)
   }
 
   // wallet.features will not be undefined because adapter.pairRawDevice() calls wallet.initialize() for us

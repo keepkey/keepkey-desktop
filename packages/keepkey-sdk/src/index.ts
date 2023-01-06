@@ -11,7 +11,7 @@ export class KeepKeySdk {
   readonly cosmos: apis.CosmosApi
   readonly eth: apis.ETHApi
   readonly raw: apis.RawApi
-  readonly bitcoin: apis.BTCApi
+  readonly utxo: apis.UTXOApi
   readonly system: apis.SystemApi & {
     readonly debug: apis.DebugApi
     readonly info: apis.InfoApi
@@ -23,7 +23,7 @@ export class KeepKeySdk {
   protected constructor(configuration?: Configuration) {
     this.address = new apis.AddressApi(configuration)
     this.auth = new apis.AuthApi(configuration)
-    this.bitcoin = new apis.BTCApi(configuration)
+    this.utxo = new apis.UTXOApi(configuration)
     this.bnb = new apis.BNBApi(configuration)
     this.cosmos = new apis.CosmosApi(configuration)
     this.eth = new apis.ETHApi(configuration)

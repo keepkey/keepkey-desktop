@@ -1,21 +1,21 @@
-import { Body, Post, Security, Route, Response, Middlewares, OperationId, Tags } from 'tsoa'
+import { Body, Middlewares, OperationId, Post, Response, Route, Security, Tags } from 'tsoa'
 
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'
 import type * as types from '../types'
 
-@Route('/bitcoin')
-@Tags('BTC')
+@Route('/utxo')
+@Tags('UTXO')
 @Security('apiKey')
 @Middlewares(extra)
 @Response(400, 'Bad request')
 @Response(500, 'Error processing request')
-export class BitcoinController extends ApiController {
+export class UtxoController extends ApiController {
   /**
-   * @summary Sign an Bitcoin transaction
+   * @summary Sign a UTXO transaction
    */
   @Post('sign-transaction')
-  @OperationId('btc_signTransaction')
+  @OperationId('utxo_signTransaction')
   public async signTransaction(
     @Body()
     body: {

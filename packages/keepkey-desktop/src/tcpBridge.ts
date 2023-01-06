@@ -94,7 +94,7 @@ export const stopTcpBridge = async () => {
   if (server) {
     log.info('Stopping TCP bridge...')
     try {
-      await util.promisify(server.close)()
+      await util.promisify(server.close.bind(server))()
       log.info('TCP bridge stopped.')
     } catch (e) {
       log.warn('Error stopping TCP bridge:', e)

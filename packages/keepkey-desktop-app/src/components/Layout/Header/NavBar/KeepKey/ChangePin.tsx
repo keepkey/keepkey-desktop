@@ -24,7 +24,10 @@ const moduleLogger = logger.child({
 export const ChangePin = () => {
   const { handleBackClick } = useMenuRoutes()
   const translate = useTranslate()
-  const { keepKeyWallet } = useKeepKey()
+  const {
+    keepKeyWallet,
+    state: { features },
+  } = useKeepKey()
   const {
     dispatch,
     state: {
@@ -74,7 +77,7 @@ export const ChangePin = () => {
     await handleBackClick()
   }
 
-  const handleChangePin = async () => {
+  const handleChangePin = async (remove: boolean) => {
     const fnLogger = moduleLogger.child({ namespace: ['handleChangePin'] })
     fnLogger.trace('Applying new PIN...')
 
@@ -85,10 +88,9 @@ export const ChangePin = () => {
 
     dispatch({ type: WalletActions.RESET_LAST_DEVICE_INTERACTION_STATE })
 
-    await keepKeyWallet
-      ?.changePin()
+    await keepKeyWallet?.[remove ? 'removePin' : 'changePin']()
       .catch(e => {
-        fnLogger.error(e, 'Error applying new PIN')
+        fnLogger.error(e, remove ? 'Error removing PIN' : 'Error applying new PIN')
         toast({
           title: translate('common.error'),
           description: e?.message?.message ?? translate('common.somethingWentWrong'),
@@ -145,11 +147,26 @@ export const ChangePin = () => {
           <Button
             colorScheme='blue'
             size='sm'
-            onClick={handleChangePin}
+            onClick={() => handleChangePin(false)}
             isLoading={awaitingDeviceInteraction}
           >
-            {translate('walletProvider.keepKey.settings.actions.update', { setting })}
+            {translate(
+              `walletProvider.keepKey.settings.actions.${
+                features?.pinProtection ? 'update' : 'enable'
+              }`,
+              { setting },
+            )}
           </Button>
+          {features?.pinProtection && (
+            <Button
+              colorScheme='red'
+              size='sm'
+              onClick={() => handleChangePin(true)}
+              isLoading={awaitingDeviceInteraction}
+            >
+              {translate('walletProvider.keepKey.settings.menuLabels.removePin', { setting })}
+            </Button>
+          )}
         </SubMenuBody>
         <AwaitKeepKey
           translation={['walletProvider.keepKey.settings.descriptions.buttonPrompt', { setting }]}
