@@ -219,7 +219,7 @@ export const Pairings = () => {
               {pairings &&
                 pairings.filter(app => app.pairingType === 'walletconnect').length === 0 && (
                   <Text
-                    translation={['pairedApps.history.notPairedWith', { name: 'Wallet Connect' }]}
+                    translation={['pairedApps.history.notPairedWith', { name: 'WalletConnect' }]}
                     color='gray.500'
                   />
                 )}
