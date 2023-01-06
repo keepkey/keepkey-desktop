@@ -1,3 +1,4 @@
+import { appReady } from 'appListeners'
 import { app, Menu, nativeImage, nativeTheme, Tray } from 'electron'
 import path from 'path'
 import { sleep } from 'wait-promise'
@@ -9,8 +10,15 @@ import { startTcpBridge, stopTcpBridge } from './tcpBridge'
 export let tray: Tray
 const lightDark = nativeTheme.shouldUseDarkColors ? 'dark' : 'light'
 
+let createAndUpdateTrayQueued = false
+
 // createAndUpdateTray must be called anytime bridgeRunning or bridgeCLosing changes
-export const createAndUpdateTray = () => {
+export const createAndUpdateTray = async () => {
+  if (createAndUpdateTrayQueued) return
+  createAndUpdateTrayQueued = true
+  await appReady
+  createAndUpdateTrayQueued = false
+
   const menuTemplate: any = [
     {
       label: !isWalletBridgeRunning() ? 'Bridge Not Running!' : 'Bridge Running',

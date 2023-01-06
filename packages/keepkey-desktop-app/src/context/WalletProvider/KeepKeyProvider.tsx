@@ -6,6 +6,7 @@ import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
 import axios from 'axios'
 import type { RadioOption } from 'components/Radio/Radio'
+import { getConfig } from 'config'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { erc20Abi } from 'pages/Leaderboard/helpers/erc20Abi'
 import { nftAbi } from 'pages/Leaderboard/helpers/nftAbi'
@@ -174,11 +175,8 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
   }, [loadKeepkeyAssets])
 
   const loadWeb3 = useCallback(() => {
-    const network = 'goerli'
     const web3 = new Web3(
-      new Web3.providers.HttpProvider(
-        `https://${network}.infura.io/v3/fb05c87983c4431baafd4600fd33de7e`,
-      ),
+      new Web3.providers.HttpProvider(getConfig().REACT_APP_ETHEREUM_INFURA_URL2),
     )
 
     const erc20Address = '0xcc5a5975E8f6dF4dDD9Ff4Eb57471a3Ff32526a3'

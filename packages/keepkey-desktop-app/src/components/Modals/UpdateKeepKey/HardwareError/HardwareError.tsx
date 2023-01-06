@@ -13,11 +13,14 @@ import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useEffect } from 'react'
+import ReactMarkdown from 'react-markdown'
+import { useTranslate } from 'react-polyglot'
 import { useHistory } from 'react-router'
 
 export const HardwareErrorModal = (error: { errorCode?: number; needsReconnect?: boolean }) => {
   const { hardwareError } = useModal()
   const { isUpdatingKeepkey } = useWallet()
+  const translate = useTranslate()
   const { close, isOpen } = hardwareError
 
   const history = useHistory()
@@ -77,13 +80,24 @@ export const HardwareErrorModal = (error: { errorCode?: number; needsReconnect?:
                 />
               </ModalHeader>
               <Image src={KeepKeyConnect} alt='Reconnect Device!' />
-              <Text
-                translation={
-                  error.needsReconnect
-                    ? 'modals.keepKey.hardware.reconnect'
-                    : 'modals.keepKey.hardware.connect'
+              <style type='text/css'>{`
+                .hardwareErrorIntroText * {
+                  margin: 0.5em 0;
                 }
-              />
+
+                .hardwareErrorIntroText :is(h1, h2, h3, h4, h5, h6) {
+                  text-align: center;
+                }
+              `}</style>
+              <div className='hardwareErrorIntroText'>
+                <ReactMarkdown>
+                  {translate(
+                    error.needsReconnect
+                      ? 'modals.keepKey.hardware.reconnect'
+                      : 'modals.keepKey.hardware.connect',
+                  )}
+                </ReactMarkdown>
+              </div>
               {/*<Button isDisabled={deviceBusy} onClick={retryPair}>*/}
               {/*  {`${deviceBusy ? 'Retry (Device busy, please wait)' : 'Retry'}`}*/}
               {/*</Button>*/}

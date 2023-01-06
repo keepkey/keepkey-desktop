@@ -27,24 +27,16 @@ export const supportedChains: EthChainData[] = [
   },
   {
     chainId: 5,
-    providerUrl: 'https://goerli.infura.io/v3/fb05c87983c4431baafd4600fd33de7e',
-    web3: new Web3(
-      new Web3.providers.HttpProvider(
-        `https://goerli.infura.io/v3/fb05c87983c4431baafd4600fd33de7e`,
-      ),
-    ),
+    providerUrl: getConfig().REACT_APP_ETHEREUM_INFURA_URL2,
+    web3: new Web3(new Web3.providers.HttpProvider(getConfig().REACT_APP_ETHEREUM_INFURA_URL2)),
     symbol: 'ETH',
     name: 'Goerli Testnet',
     coinGeckoId: 'ethereum',
   },
   {
     chainId: 43114,
-    providerUrl: 'https://avalanche-mainnet.infura.io/v3/fb05c87983c4431baafd4600fd33de7e',
-    web3: new Web3(
-      new Web3.providers.HttpProvider(
-        `https://avalanche-mainnet.infura.io/v3/fb05c87983c4431baafd4600fd33de7e`,
-      ),
-    ),
+    providerUrl: getConfig().REACT_APP_ETHEREUM_INFURA_URL3,
+    web3: new Web3(new Web3.providers.HttpProvider(getConfig().REACT_APP_ETHEREUM_INFURA_URL3)),
     symbol: 'AVAX',
     name: 'Avalanche',
     coinGeckoId: 'avalanche-2',

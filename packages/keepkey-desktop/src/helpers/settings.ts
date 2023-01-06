@@ -89,13 +89,13 @@ export class SettingsInstance {
       {
         type: 'settings',
         settings: {
-          shouldAutoLaunch: this.shouldAutoLaunch,
-          shouldAutoStartBridge: this.shouldAutoStartBridge,
-          shouldMinimizeToTray: this.shouldMinimizeToTray,
-          shouldAutoUpdate: this.shouldAutoUpdate,
-          bridgeApiPort: this.bridgeApiPort,
-          allowPreRelease: this.allowPreRelease,
-          allowBetaFirmware: this.allowBetaFirmware,
+          shouldAutoLaunch: await this.shouldAutoLaunch,
+          shouldAutoStartBridge: await this.shouldAutoStartBridge,
+          shouldMinimizeToTray: await this.shouldMinimizeToTray,
+          shouldAutoUpdate: await this.shouldAutoUpdate,
+          bridgeApiPort: await this.bridgeApiPort,
+          allowPreRelease: await this.allowPreRelease,
+          allowBetaFirmware: await this.allowBetaFirmware,
         },
       },
       {
