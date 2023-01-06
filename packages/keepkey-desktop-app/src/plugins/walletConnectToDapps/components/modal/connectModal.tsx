@@ -56,20 +56,6 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose, scannedQr }) => {
     if (isConnected) onClose()
   }, [isConnected, onClose])
 
-  useEffect(() => {
-    if (!isOpen) return
-    // @ts-ignore
-    navigator.clipboard.read().then(async data => {
-      const link = await data[0].getType('text/plain')
-      link.text().then(uri => {
-        if (uri.startsWith('wc:')) {
-          setValue('uri', uri)
-          connect(uri)
-        }
-      })
-    })
-  }, [connect, isOpen, setValue])
-
   const scan = () => {
     ipcListeners
       .appReadQr()
@@ -84,12 +70,14 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose, scannedQr }) => {
   }
 
   useEffect(() => {
+    console.log('scanned qr', scannedQr)
     if (!scannedQr) return
     if (scannedQr.startsWith('wc:')) {
       setValue('uri', scannedQr)
-      handleSubmit(handleConnect)
+      connect(scannedQr)
     }
-  }, [handleConnect, handleSubmit, scannedQr, setValue])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scannedQr])
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} variant='header-nav'>

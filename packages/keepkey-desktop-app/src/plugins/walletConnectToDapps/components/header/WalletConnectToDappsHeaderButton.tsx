@@ -17,20 +17,27 @@ export const WalletConnectToDappsHeaderButton = () => {
   const translate = useTranslate()
   const walletConnect = useWalletConnect()
   const [scannedQr, setScannedQr] = useState<string>()
-  const { connect } = useWalletConnect()
 
-  const scanQrAndOpen = () => {
-    ipcListeners
+  const scanOrReadQrAndOpen = async () => {
+    await navigator.clipboard.read().then(async data => {
+      const link = await data[0].getType('text/plain')
+      link.text().then(uri => {
+        if (uri.startsWith('wc:')) {
+          setScannedQr(uri)
+        }
+      })
+    })
+
+    await ipcListeners
       .appReadQr()
       .then(async v => {
         setScannedQr(v)
-        setOpen(true)
-        await connect(v)
       })
       .catch(e => {
         console.error(e)
-        setOpen(true)
       })
+
+    setOpen(true)
   }
 
   if (!walletConnect || !walletConnect.isConnected || !walletConnect.dapp) {
@@ -39,7 +46,7 @@ export const WalletConnectToDappsHeaderButton = () => {
         <Button
           leftIcon={<WalletConnectIcon />}
           rightIcon={<ChevronRightIcon />}
-          onClick={scanQrAndOpen}
+          onClick={scanOrReadQrAndOpen}
         >
           {translate('plugins.walletConnectToDapps.header.connectDapp')}
         </Button>
