@@ -4,6 +4,7 @@ import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { Keyring } from '@shapeshiftoss/hdwallet-core'
 import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-walletconnect'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
+import kkIconBlack from 'assets/kk-icon-black.png'
 import type { Deferred } from 'common-utils'
 import type { Entropy } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { VALID_ENTROPY } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
@@ -381,8 +382,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     let serviceKey = window.localStorage.getItem('@app/serviceKey')
     let config = {
       serviceName: 'KeepKey Desktop',
-      serviceImageUrl:
-        'https://github.com/BitHighlander/keepkey-desktop/raw/master/electron/icon.png',
+      serviceImageUrl: kkIconBlack,
       serviceKey: serviceKey ? serviceKey : randomUUID(),
     }
     if (!serviceKey) {
@@ -398,8 +398,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
     let serviceKey = window.localStorage.getItem('@app/serviceKey')
     let config = {
       serviceName: 'KeepKey Desktop',
-      serviceImageUrl:
-        'https://github.com/BitHighlander/keepkey-desktop/raw/master/electron/icon.png',
+      serviceImageUrl: kkIconBlack,
       serviceKey: serviceKey ? serviceKey : uuid.v4(),
     }
     if (!serviceKey) {

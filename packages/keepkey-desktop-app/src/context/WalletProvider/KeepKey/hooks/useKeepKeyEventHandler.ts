@@ -243,7 +243,7 @@ export const useKeepKeyEventHandler = (
       try {
         const id = keyring.getAlias(deviceId)
         const wallet = keyring.get(id)
-        console.log('CHECKPPIONT DEVICE UNLOCKED handleConnect')
+        console.log('CHECKPOINT DEVICE UNLOCKED handleConnect')
         console.log('wallet: ', wallet)
         console.log('id: ', id)
         console.log('state.walletInfo?.deviceId: ', state.walletInfo?.deviceId)
@@ -252,7 +252,7 @@ export const useKeepKeyEventHandler = (
         if (wallet && id === state.walletInfo?.deviceId) {
           // This gets the firmware version needed for some KeepKey "supportsX" functions
           await wallet.getFeatures()
-          console.log('CHECKPPIONT DEVICE UNLOCKED 2')
+          console.log('CHECKPOINT DEVICE UNLOCKED 2')
           // Show the label from the wallet instead of a generic name
           const name = (await wallet.getLabel()) || state.walletInfo.name
           // The keyring might have a new HDWallet instance for the device.

@@ -1,163 +1,253 @@
-import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
-import { Alert, AlertIcon, Button, HStack, IconButton, Input, Stack } from '@chakra-ui/react'
-import { Card } from 'components/Card/Card'
+import {
+  ArrowForwardIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  CloseIcon,
+  RepeatIcon,
+} from '@chakra-ui/icons'
+import { Alert, AlertIcon, HStack, IconButton, Input, Stack } from '@chakra-ui/react'
+import * as Comlink from 'comlink'
 import { Main } from 'components/Layout/Main'
-import { WalletActions } from 'context/WalletProvider/actions'
+// import { WalletActions } from 'context/WalletProvider/actions'
+import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { useEffect, useState } from 'react'
+import * as _ from 'lodash'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FaBug } from 'react-icons/fa'
 
+const getWebview = () => document.getElementById('webview') as Electron.WebviewTag | null
+
+const goBack = () => {
+  const webview = getWebview()
+  if (!webview) return
+  if (webview.canGoBack()) webview.goBack()
+}
+
+const goForward = () => {
+  const webview = getWebview()
+  if (!webview) return
+  if (webview.canGoForward()) webview.goForward()
+}
+
+const openDevTools = () => {
+  const webview = getWebview()
+  if (!webview) return
+  webview.openDevTools()
+}
+
+const stopLoading = () => {
+  const webview = getWebview()
+  if (!webview) return
+  webview.stop()
+}
+
+const formatUrl = (inputUrl: string) => {
+  try {
+    return new URL(inputUrl).toString()
+  } catch {}
+  try {
+    return new URL(`https://${inputUrl}`).toString()
+  } catch {}
+  return undefined
+}
+
+let connectIndirect: (url: string) => Promise<void> = async () => {}
+
 export const Browser = () => {
-  const [url, setUrl] = useState('')
-  const [inputUrl, setInputUrl] = useState('')
+  const [url, setUrl] = useState('about:blank')
+  const [inputUrl, setInputUrl] = useState(url)
   const [loading, setLoading] = useState(false)
-  const [failedToLoad, setFailedToLoad] = useState(false)
-  const [hasMounted, setHasMounted] = useState(false)
+  const [webviewLoadFailure, setWebviewLoadFailure] = useState<string | undefined>(undefined)
+  const [canGoBack, setCanGoBack] = useState(false)
+  const [canGoForward, setCanGoForward] = useState(false)
+  const [forceLoad, setForceLoad] = useState(false)
   const {
     dispatch,
     state: { browserUrl },
   } = useWallet()
+  const { connect } = useWalletConnect()
 
-  const formatAndSaveUrl = (url: string) => {
-    if (url.startsWith('http') || url.startsWith('https')) return setInputUrl(url)
-    setInputUrl(`https://${url}`)
-  }
-
+  const [webviewReady, setWebviewReady] = useState(false)
   useEffect(() => {
-    const webview: any = document.getElementById('webview')
-    if (!webview) return
-    webview.setAttribute('autosize', 'on')
-    webview.setAttribute('allowpopups', 'true')
-    setHasMounted(true)
-    webview.addEventListener('did-start-loading', () => {
-      setLoading(true)
-      setFailedToLoad(false)
-    })
-    webview.addEventListener('did-stop-loading', () => {
-      const webviewUrl = webview.getURL()
-      setInputUrl(webviewUrl)
-      setLoading(false)
-      setFailedToLoad(false)
-      dispatch({ type: WalletActions.SET_BROWSER_URL, payload: webviewUrl })
-    })
-    // electron webview doesn't allow listening for onClick
-    // webview.addEventListener('click', () => {
-    //   console.log('webview click')
-    //   navigator.clipboard.read().then(async data => {
-    //     console.log('clipboard data', data)
-    //     const link = await data[0].getType('text/plain')
-    //     link.text().then(uri => {
-    //       if (uri.startsWith('wc:')) {
-    //         connect(uri)
-    //       }
-    //     })
-    //   })
-    // })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const webview = getWebview()!
+    const listener = () => setWebviewReady(true)
+    webview.addEventListener('dom-ready', listener)
+    return () => {
+      webview.removeEventListener('dom-ready', listener)
+    }
   }, [])
 
   useEffect(() => {
-    if (!browserUrl || !hasMounted) return
-    if (browserUrl === inputUrl) return
-    setUrl(browserUrl)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [browserUrl, hasMounted])
+    const webview = getWebview()!
+    webview.setAttribute('autosize', 'on')
+    webview.setAttribute('allow-popups', 'true')
+  }, [])
 
   useEffect(() => {
-    if (loading) {
-      setTimeout(() => {
-        setLoading(currentLoading => {
-          if (currentLoading) {
-            setFailedToLoad(true)
-            dispatch({ type: WalletActions.SET_BROWSER_URL, payload: null })
-            return false
-          }
-          return currentLoading
-        })
-      }, 10000)
+    const webview = getWebview()!
+    const listener = () => {
+      setLoading(true)
+      setWebviewLoadFailure(undefined)
     }
-  }, [dispatch, loading])
+    webview.addEventListener('did-start-loading', listener)
+    return () => {
+      webview.removeEventListener('did-start-loading', listener)
+    }
+  }, [])
 
-  const loadUrl = (e: any) => {
-    e.preventDefault()
-    setLoading(true)
-    setUrl(inputUrl)
-  }
+  useEffect(() => {
+    const webview = getWebview()!
+    const listener = () => {
+      const webview = getWebview()!
+      const currentUrl = webview.getURL()
+      setUrl(currentUrl)
+      setInputUrl(currentUrl)
+      setCanGoBack(webview.canGoBack())
+      setCanGoForward(webview.canGoForward())
+      setLoading(false)
+    }
+    webview.addEventListener('did-stop-loading', listener)
+    return () => {
+      webview.removeEventListener('did-stop-loading', listener)
+    }
+  }, [])
 
-  const goBack = () => {
-    const webview: any = document.getElementById('webview')
-    if (!webview) return
-    if (webview.canGoBack()) webview.goBack()
-  }
+  useEffect(() => {
+    const webview = getWebview()!
+    const listener = (e: Electron.DidFailLoadEvent) => {
+      setWebviewLoadFailure(e.errorDescription)
+    }
+    webview.addEventListener('did-fail-load', listener)
+    return () => {
+      webview.removeEventListener('did-fail-load', listener)
+    }
+  }, [])
 
-  const goForward = () => {
-    const webview: any = document.getElementById('webview')
-    if (!webview) return
-    if (webview.canGoForward()) webview.goForward()
-  }
+  useEffect(() => {
+    const webview = getWebview()!
+    const listener = () => {
+      // dispatch({ type: WalletActions.SET_BROWSER_URL, payload: webview.getURL() })
+    }
+    webview.addEventListener('did-finish-load', listener)
+    return () => {
+      webview.removeEventListener('did-finish-load', listener)
+    }
+  }, [dispatch])
 
-  const openDevTools = () => {
-    const webview: any = document.getElementById('webview')
-    if (!webview) return
-    webview.openDevTools()
-  }
+  useEffect(() => {
+    const webview = getWebview()!
+    if (webviewReady && (url !== webview.getURL() || forceLoad)) {
+      setForceLoad(false)
+      webview.loadURL(url)
+    }
+  }, [webviewReady, url, forceLoad])
+
+  const formatAndSaveUrl = useCallback(
+    (e?: React.SyntheticEvent) => {
+      e?.preventDefault()
+      const newUrl = formatUrl(inputUrl) ?? url
+      setInputUrl(newUrl)
+      setUrl(newUrl)
+      setForceLoad(true)
+    },
+    [inputUrl, url],
+  )
+
+  useEffect(() => {
+    if (!webviewReady) return
+    if (!browserUrl) return
+    const newUrl = formatUrl(browserUrl)
+
+    if (newUrl) {
+      console.log('browserUrl', browserUrl)
+      setInputUrl(newUrl)
+      setUrl(newUrl)
+    } else {
+      console.error('invalid browserUrl', browserUrl)
+    }
+  }, [browserUrl, webviewReady])
+
+  useEffect(() => {
+    if (!webviewReady) return
+
+    const contentsId = getWebview()!.getWebContentsId()
+    const abortController = new AbortController()
+    const callback = _.memoize(async (data: string) => {
+      if (!data.startsWith('wc:')) return
+      console.log(`got scanned code, connecting to ${data}`)
+      await connectIndirect('')
+      await connectIndirect(data)
+    })
+
+    ipcListeners
+      .appMonitorWebContentsForQr(contentsId, abortController.signal, Comlink.proxy(callback))
+      .catch(e => console.error('appMonitorWebContentsForQr error:', e))
+
+    return () => abortController.abort()
+  }, [webviewReady])
+
+  useEffect(() => {
+    connectIndirect = connect
+  }, [connect])
 
   return (
-    <Main height='full'>
+    <Main
+      height='full'
+      style={{
+        padding: 0,
+        minWidth: '100%',
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <webview
         id='webview'
-        src={url}
+        src='about:blank'
         style={{
-          minHeight: url !== '' ? '60em' : '0px',
+          flexGrow: 1,
         }}
       ></webview>
-      <Stack direction={{ base: 'column', md: 'column' }} height='full'>
-        <form onSubmit={loadUrl}>
+      <Stack direction={{ base: 'column', md: 'column' }} height='full' style={{ margin: '5px' }}>
+        {webviewLoadFailure !== undefined && (
+          <Alert status='error'>
+            <AlertIcon />
+            {webviewLoadFailure}
+          </Alert>
+        )}
+        <form onSubmit={formatAndSaveUrl}>
           <HStack>
             <Input
               disabled={loading}
               value={inputUrl}
-              onChange={e => formatAndSaveUrl(e.target.value)}
+              onChange={e => setInputUrl(e.target.value)}
+              onBlur={formatAndSaveUrl}
             />
-            <Button isLoading={loading} type='submit'>
-              Load URL
-            </Button>
+            {loading ? (
+              <IconButton aria-label='Stop' icon={<CloseIcon />} onClick={stopLoading} />
+            ) : url === inputUrl && webviewLoadFailure === undefined ? (
+              <IconButton aria-label='Reload' icon={<RepeatIcon />} type='submit' />
+            ) : (
+              <IconButton aria-label='Go' icon={<ArrowForwardIcon />} type='submit' />
+            )}
             <IconButton
-              aria-label='Go back'
-              icon={<ArrowBackIcon />}
+              aria-label='Back'
+              icon={<ArrowLeftIcon />}
               onClick={goBack}
               isLoading={loading}
+              isDisabled={!canGoBack}
             />
             <IconButton
-              aria-label='Go forward'
-              icon={<ArrowForwardIcon />}
+              aria-label='Forward'
+              icon={<ArrowRightIcon />}
               onClick={goForward}
               isLoading={loading}
+              isDisabled={!canGoForward}
             />
             <IconButton aria-label='Open developer tools' icon={<FaBug />} onClick={openDevTools} />
           </HStack>
         </form>
-
-        <Card
-          height='full'
-          flex={1}
-          style={
-            url === ''
-              ? {
-                  height: '0px',
-                }
-              : {}
-          }
-        >
-          <Card.Body height='full'>
-            {failedToLoad && (
-              <Alert status='error'>
-                <AlertIcon />
-                This webpage failed to load
-              </Alert>
-            )}
-          </Card.Body>
-        </Card>
       </Stack>
     </Main>
   )

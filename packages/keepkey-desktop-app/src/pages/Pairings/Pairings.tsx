@@ -62,8 +62,14 @@ export const Pairings = () => {
           <Card.Body>
             <Stack divider={<StackDivider />}>
               {apps &&
-                apps.map((app, idx) => (
-                  <Box display='flex' flexDirection='row' alignItems='center' gap='10px' key={idx}>
+                apps.map(app => (
+                  <Box
+                    display='flex'
+                    flexDirection='row'
+                    alignItems='center'
+                    gap='10px'
+                    key={app.serviceKey}
+                  >
                     <Image src={app.serviceImageUrl} borderRadius='full' height='10' width='10' />
                     <Box display='flex' flexDirection='row' flexGrow={1} alignItems='center'>
                       <p>{app.serviceName}</p>
@@ -124,13 +130,13 @@ export const Pairings = () => {
               {pairings &&
                 pairings
                   .filter(app => app.pairingType === 'sdk')
-                  .map((app, idx) => (
+                  .map(app => (
                     <Box
                       display='flex'
                       flexDirection='row'
                       alignItems='center'
                       gap='10px'
-                      key={idx}
+                      key={`sdk_${app.serviceName}_${app.addedOn}`}
                     >
                       <Image src={app.serviceImageUrl} borderRadius='full' height='10' width='10' />
                       <Box display='flex' flexDirection='row' flexGrow={1} alignItems='center'>
@@ -174,7 +180,13 @@ export const Pairings = () => {
                 pairings
                   .filter(app => app.pairingType === 'walletconnect')
                   .map(app => (
-                    <Box display='flex' flexDirection='row' alignItems='center' gap='10px'>
+                    <Box
+                      display='flex'
+                      flexDirection='row'
+                      alignItems='center'
+                      gap='10px'
+                      key={`history_${app.serviceName}_${app.addedOn}`}
+                    >
                       <Image src={app.serviceImageUrl} borderRadius='full' height='10' width='10' />
                       <Box display='flex' flexDirection='row' flexGrow={1} alignItems='center'>
                         <p>{app.serviceName}</p>
@@ -207,7 +219,7 @@ export const Pairings = () => {
               {pairings &&
                 pairings.filter(app => app.pairingType === 'walletconnect').length === 0 && (
                   <Text
-                    translation={['pairedApps.history.notPairedWith', { name: 'Wallet Connect' }]}
+                    translation={['pairedApps.history.notPairedWith', { name: 'WalletConnect' }]}
                     color='gray.500'
                   />
                 )}
