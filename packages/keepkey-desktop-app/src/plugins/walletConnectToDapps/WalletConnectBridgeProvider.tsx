@@ -56,15 +56,18 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
 
   const toast = useToast()
 
-  const onDisconnect = useCallback(() => {
+  const onDisconnect = useCallback(async () => {
     if (isLegacy && legacyBridge) {
-      legacyBridge.connector.killSession()
+      await legacyBridge.disconnect()
     }
     setIsConnected(false)
+    setIsLegacy(false)
+    setLegacyBridge(undefined)
     setCurrentSessionTopic(undefined)
     setPairingMeta(undefined)
     setLegacyWeb3(undefined)
-  }, [isLegacy, legacyBridge])
+    rerender()
+  }, [isLegacy, legacyBridge, rerender])
 
   useEffect(() => {
     if (!WalletConnectSignClient) return
