@@ -1,4 +1,5 @@
-import { Button, Center, ModalBody, Stack } from '@chakra-ui/react'
+import { Box, Button, Center, Image, ModalBody, Stack } from '@chakra-ui/react'
+import cipher from 'assets/cipher.png'
 import { Text } from 'components/Text'
 
 export const Step0 = ({
@@ -10,9 +11,20 @@ export const Step0 = ({
 }) => {
   return (
     <ModalBody p='20px'>
-      <Text p='20px' fontWeight='bold' size='xl' translation='modals.onboarding.mnemonicsTitle' />
-      <Text p='20px' translation='modals.onboarding.mnemonicsText1' />
-      <Text p='20px' translation='modals.onboarding.mnemonicsText2' />
+      <Text p='20px' fontWeight='bold' size='xl' translation='modals.onboarding.pinTitle' />
+      <Box
+        p='1rem'
+        border='1px'
+        borderColor='gray.300'
+        display='flex'
+        justifyContent='space-between'
+      >
+        <Image src={cipher} style={{ width: '40%', height: '60%' }} />
+        <Box>
+          <Text p='20px' fontSize='1rem' translation='modals.onboarding.pinText1' />
+          <Text p='20px' fontSize='1rem' translation='modals.onboarding.pinText2' />
+        </Box>
+      </Box>
 
       <Center>
         <Stack>

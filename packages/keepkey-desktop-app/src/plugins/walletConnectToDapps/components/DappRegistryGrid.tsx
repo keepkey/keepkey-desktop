@@ -18,6 +18,7 @@ import kkIconBlack from 'assets/kk-icon-black.png'
 import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
+import { ipcListeners } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { getPioneerClient } from 'lib/getPioneerCleint'
@@ -74,7 +75,10 @@ export const DappRegistryGrid: FC = () => {
     try {
       setLoading(true)
       const pioneer = await getPioneerClient()
-      let dapps = await pioneer.ListApps({ limit: 1000, skip: 0 })
+      let version = await ipcListeners.appVersion()
+      console.log('version: ', version)
+      // let dapps = await pioneer.ListApps({ limit: 1000, skip: 0 })
+      let dapps = await pioneer.ListAppsByVersion({ minVersion: version, limit: 1000, skip: 0 })
       function sortByScore(arr: any[]) {
         //sort array by score
         arr.sort((a, b) => {

@@ -602,16 +602,16 @@
   },
   "modals": {
     "onboarding": {
-      "mnemonicsTitle": "What is a mnemonic?",
-      "mnemonicsText1": "This is a placeholder. Highlander will use chat gpt for this content. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "mnemonicsText2": "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "restoreTitle": "What is a restore cipher?",
-      "restoreText1": "This is a placeholder. Highlander will use chat gpt for this content. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "restoreText2": "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "pinTitle": "What is a pin?",
-      "pinText1": "This is a placeholder. Highlander will use chat gpt for this content. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "pinText2": "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "next": "next",
+      "dappsTitle": "What is a DApp?",
+      "dappsText1": "The KeepKey Desktop client has a built-in DApp Store. This store allows you to discover and connect to a list of decentralized applications.",
+      "dappsText2": "KeepKey makes it easy to interact with decentralized applications. You can use our in-app browser to easily access these dApps and use our wallet-connect integration. Our in-app browser leverages the power of communities to curate the best and most reputable dApps for you.",
+      "dappsText3": "Join the ShapeShift community and use your FOX tokens to vote for the best DApps in the Pioneer DApp. Unlock exclusive benefits and rewards by being the first to track and develop dApps and assets!",
+      "restoreTitle": "What is a Mnemonic?",
+      "restoreText1": "First step in the process of setting up a new cryptocurrency wallet is the issuance of a 12 to 24-word mnemonic phrase or seed phrases. These seed phrases are necessary for account recovery in case of lost access to users’ funds. The Bitcoin Improvement Proposal number 39 (BIP39) is an implementation design that describes how cryptocurrency wallets generate mnemonic phrases and convert them into binary seeds, which can be used to create deterministic wallets. In short, BIP39 standardizes how wallets handle this overarching process.",
+      "restoreText2": "BIP39 works by taking a random number and deriving a mnemonic phrase from it. This phrase is then used to generate a seed that can, in turn, be used to create private keys and addresses.",
+      "pinTitle": "What is a Pin Cipher?",
+      "pinText1": "There is a lot of malware and dangerous software lurking around modern day computers. To protect your funds, KeepKey scrambles the PIN entry for our applications. This way, your unencrypted PIN is never exposed to your computer and is only used to unlock your device.",
+      "pinText2": "To enter a scrambled PIN, note the location on the grid from the screen of your KeepKey. Click the location on your screen to enter the value. Repeat for the rest of your PIN. Note that the cipher is static and will not change after each entry. It will, however, change every time you attempt to unlock your device.",
       "previous": "previous"
     },
     "clickDapp": {
