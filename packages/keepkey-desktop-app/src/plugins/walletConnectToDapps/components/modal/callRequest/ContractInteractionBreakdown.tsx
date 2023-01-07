@@ -3,12 +3,15 @@ import { Box, Divider, HStack, IconButton } from '@chakra-ui/react'
 import { CurrencyAmount } from '@uniswap/sdk'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { RawText, Text } from 'components/Text'
+import { logger } from 'lib/logger'
 import { useContract } from 'plugins/walletConnectToDapps/ContractABIContext'
 import { Fragment, useMemo } from 'react'
 import { FaCode } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'
 
 import { ModalSection } from './ModalSection'
+
+const moduleLogger = logger.child({ namespace: 'ContractInteractionBreakdown' })
 
 export const ContractInteractionBreakdown = ({ request }: { request: any }) => {
   const translate = useTranslate()
@@ -22,7 +25,8 @@ export const ContractInteractionBreakdown = ({ request }: { request: any }) => {
         value: request?.params[0].value,
       })
     } catch (e) {
-      return
+      moduleLogger.error(e, 'parseTransaction')
+      return undefined
     }
   }, [contract, request?.params])
 
