@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - release-candidate
+      - release-candidate-*
       - feature-*
   workflow_dispatch:
 
