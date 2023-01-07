@@ -1,19 +1,21 @@
 import { Box, Button, HStack, Image, useColorModeValue, useToast, VStack } from '@chakra-ui/react'
 import { formatJsonRpcResult } from '@json-rpc-tools/utils'
 import type { ethereum } from '@keepkey/chain-adapters'
+import type { GasFeeDataEstimate } from '@keepkey/chain-adapters'
 import { FeeDataKey } from '@keepkey/chain-adapters'
 import { KnownChainIds } from '@keepkey/types'
 import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import type * as core from '@shapeshiftoss/hdwallet-core'
 import type { SignClientTypes } from '@walletconnect/types'
 import axios from 'axios'
 import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { Text } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { useWallet } from 'hooks/useWallet/useWallet'
+import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
+import { logger } from 'lib/logger'
 import { fromBaseUnit } from 'lib/math'
 import { EIP155_SIGNING_METHODS } from 'plugins/walletConnectToDapps/data/EIP115Data'
 import { rejectEIP155Request } from 'plugins/walletConnectToDapps/utils/utils'
@@ -44,29 +46,61 @@ export type TxData = {
   value: string
 }
 
+export type EIP155SendTxConfirmFormContext = {
+  nonce: string
+  gasLimit: string
+  maxPriorityFeePerGas: string
+  maxFeePerGas: string
+  currentFeeAmount: string
+}
+
+const moduleLogger = logger.child({ namespace: 'EIP155SendTransactionConfirmation' })
+
 export const EIP155SendTransactionConfirmation = () => {
   const translate = useTranslate()
   const cardBg = useColorModeValue('white', 'gray.850')
-  const {
-    state: { wallet },
-  } = useWallet()
+  const { keepKeyWallet } = useKeepKey()
 
   const adapterManager = useMemo(() => getChainAdapterManager(), [])
 
   const [address, setAddress] = useState<string>()
   const [accountPath, setAccountPath] = useState<BIP32Path>()
 
-  const form = useForm<any>({
+  const form = useForm({
     defaultValues: {
       nonce: '',
       gasLimit: '',
       maxPriorityFeePerGas: '',
       maxFeePerGas: '',
       currentFeeAmount: '',
-    },
+    } satisfies EIP155SendTxConfirmFormContext,
   })
 
+  const [loadingAddress, setLoadingAddress] = useState(true)
+  const [loadingGas, setLoadingGas] = useState(true)
+  const [loadingNonce, setLoadingNonce] = useState(true)
+  const [loadingGasEstimate, setLoadingGasEstimate] = useState(true)
+  const [loadingPriceData, setLoadingPriceData] = useState(true)
+  const [loadingSigningInProgress, setLoadingSigningInProgress] = useState(false)
+
   const [loading, setLoading] = useState(false)
+  useEffect(() => {
+    setLoading(
+      loadingAddress ||
+        loadingGas ||
+        loadingNonce ||
+        loadingGasEstimate ||
+        loadingPriceData ||
+        loadingSigningInProgress,
+    )
+  }, [
+    loadingAddress,
+    loadingGas,
+    loadingNonce,
+    loadingGasEstimate,
+    loadingPriceData,
+    loadingSigningInProgress,
+  ])
 
   const { requests, removeRequest, isConnected, dapp, legacyWeb3 } = useWalletConnect()
   const toast = useToast()
@@ -77,20 +111,22 @@ export const EIP155SendTransactionConfirmation = () => {
   const [chainId, setChainId] = useState<number>()
 
   useEffect(() => {
-    if (!wallet) return
-    setLoading(true)
-    const accounts = (wallet as KeepKeyHDWallet).ethGetAccountPaths({
-      coin: 'Ethereum',
-      accountIdx: 0,
-    })
-    setAccountPath(accounts[0].addressNList)
-    ;(wallet as KeepKeyHDWallet)
-      .ethGetAddress({ addressNList: accounts[0].addressNList, showDisplay: false })
-      .then(accAddress => {
-        setLoading(false)
-        setAddress(accAddress)
+    ;(async () => {
+      if (!keepKeyWallet) return
+      setLoadingAddress(true)
+      const accounts = keepKeyWallet.ethGetAccountPaths({
+        coin: 'Ethereum',
+        accountIdx: 0,
       })
-  }, [wallet])
+      setAccountPath(accounts[0].addressNList)
+      const accAddress = await keepKeyWallet.ethGetAddress({
+        addressNList: accounts[0].addressNList,
+        showDisplay: false,
+      })
+      setLoadingAddress(false)
+      setAddress(accAddress)
+    })().catch(e => moduleLogger.error(e))
+  }, [keepKeyWallet])
 
   useEffect(() => {
     if (!chainIdString) return
@@ -100,11 +136,11 @@ export const EIP155SendTransactionConfirmation = () => {
   }, [chainIdString])
 
   const onConfirm = useCallback(
-    async (txData: any) => {
-      if (!wallet || !accountPath || !chainId || !legacyWeb3) return
+    async (txData: TxData) => {
+      if (!keepKeyWallet || !accountPath || !chainId || !legacyWeb3) return
       try {
-        setLoading(true)
-        const signData: any = {
+        setLoadingSigningInProgress(true)
+        const signData = {
           addressNList: accountPath,
           chainId,
           data: txData.data,
@@ -112,18 +148,18 @@ export const EIP155SendTransactionConfirmation = () => {
           to: txData.to,
           value: txData.value ?? '0x0',
           nonce: txData.nonce,
-          maxPriorityFeePerGas: txData.maxPriorityFeePerGas,
-          maxFeePerGas: txData.maxFeePerGas,
-        }
+          // if gasPrice was passed in it means we couldnt get maxPriorityFeePerGas & maxFeePerGas
+          ...(!txData.gasPrice
+            ? {
+                maxPriorityFeePerGas: txData.maxPriorityFeePerGas,
+                maxFeePerGas: txData.maxFeePerGas,
+              }
+            : {
+                gasPrice: request.params[0].gasPrice,
+              }),
+        } satisfies core.ETHSignTx
 
-        // if gasPrice was passed in it means we couldnt get maxPriorityFeePerGas & maxFeePerGas
-        if (request.params[0].gasPrice) {
-          signData.gasPrice = request.params[0].gasPrice
-          delete signData.maxPriorityFeePerGas
-          delete signData.maxFeePerGas
-        }
-
-        const response = await (wallet as KeepKeyHDWallet).ethSignTx(signData)
+        const response = await keepKeyWallet.ethSignTx(signData)
 
         const signedTx = response?.serialized
 
@@ -131,8 +167,7 @@ export const EIP155SendTransactionConfirmation = () => {
 
         if (request.method === EIP155_SIGNING_METHODS.ETH_SEND_TRANSACTION) {
           await legacyWeb3.web3.eth.sendSignedTransaction(signedTx)
-          const txid = legacyWeb3.web3.utils.sha3(signedTx)
-          // @ts-ignore
+          const txid = legacyWeb3.web3.utils.sha3(signedTx)!
           jsonresponse = formatJsonRpcResult(id, txid)
         }
 
@@ -150,11 +185,11 @@ export const EIP155SendTransactionConfirmation = () => {
           isClosable: true,
         })
       } finally {
-        setLoading(false)
+        setLoadingSigningInProgress(false)
       }
     },
     [
-      wallet,
+      keepKeyWallet,
       accountPath,
       chainId,
       legacyWeb3,
@@ -175,10 +210,10 @@ export const EIP155SendTransactionConfirmation = () => {
       response,
     })
     removeRequest(currentRequest.id)
-    setLoading(false)
+    setLoadingSigningInProgress(false)
   }, [currentRequest, removeRequest])
 
-  const [gasFeeData, setGasFeeData] = useState(undefined as any)
+  const [gasFeeData, setGasFeeData] = useState<GasFeeDataEstimate | undefined>(undefined)
   const [priceData, setPriceData] = useState(bn(0))
 
   const [web3GasFeeData, setweb3GasFeeData] = useState('0')
@@ -194,28 +229,44 @@ export const EIP155SendTransactionConfirmation = () => {
   )
 
   useEffect(() => {
-    if (!chainId || !legacyWeb3) return
-    const adapterManager = getChainAdapterManager()
-    const adapter = adapterManager.get(
-      KnownChainIds.EthereumMainnet,
-    ) as unknown as ethereum.ChainAdapter
-    adapter.getGasFeeData().then(feeData => {
-      setGasFeeData(feeData)
-      const fastData = feeData[FeeDataKey.Fast]
-      const fastAmount = fromBaseUnit(
-        bnOrZero(fastData?.maxFeePerGas).times(txInputGas),
-        18,
-      ).toString()
-      form.setValue('currentFeeAmount', fastAmount)
-    })
+    ;(async () => {
+      if (!chainId || !legacyWeb3) return
+      const adapterManager = getChainAdapterManager()
+      const adapter = adapterManager.get(
+        KnownChainIds.EthereumMainnet,
+      )! as unknown as ethereum.ChainAdapter
+      setLoadingGas(true)
 
-    // for non mainnet chains we use the simple web3.getGasPrice()
-    legacyWeb3.web3.eth.getGasPrice().then((p: any) => setweb3GasFeeData(p))
+      await Promise.all([
+        (async () => {
+          const feeData = await adapter.getGasFeeData()
+          moduleLogger.debug(feeData, 'getGasFeeData')
+          setGasFeeData(feeData)
+          const fastData = feeData[FeeDataKey.Fast]
+          const fastAmount = fromBaseUnit(
+            bnOrZero(fastData?.maxFeePerGas).times(txInputGas),
+            18,
+          ).toString()
+          form.setValue('maxFeePerGas', fastData.maxFeePerGas)
+          form.setValue('maxPriorityFeePerGas', fastData.maxPriorityFeePerGas)
+          form.setValue('currentFeeAmount', fastAmount)
+        })(),
+        (async () => {
+          // for non mainnet chains we use the simple web3.getGasPrice()
+          const p = await legacyWeb3.web3.eth.getGasPrice()
+          moduleLogger.debug(p, 'getGasPrice')
+          setweb3GasFeeData(p)
+        })(),
+      ])
+
+      setLoadingGas(false)
+    })().catch(e => moduleLogger.error(e, 'getGasPrice'))
   }, [form, txInputGas, chainId, legacyWeb3])
 
   useEffect(() => {
     ;(async () => {
-      if (legacyWeb3?.coinGeckoId)
+      if (legacyWeb3?.coinGeckoId) {
+        setLoadingPriceData(true)
         try {
           const { data } = await axios.get(
             `https://api.coingecko.com/api/v3/simple/price?ids=${legacyWeb3.coinGeckoId}&vs_currencies=usd`,
@@ -224,6 +275,8 @@ export const EIP155SendTransactionConfirmation = () => {
         } catch (e) {
           throw new Error('Failed to get price data')
         }
+      }
+      setLoadingPriceData(false)
     })()
   }, [legacyWeb3])
 
@@ -272,30 +325,34 @@ export const EIP155SendTransactionConfirmation = () => {
   const [trueNonce, setTrueNonce] = useState('0')
   useEffect(() => {
     ;(async () => {
+      setLoadingNonce(true)
       const count = await legacyWeb3?.web3.eth.getTransactionCount(address ?? '')
       setTrueNonce(`${count}`)
-    })()
+      setLoadingNonce(false)
+    })().catch(e => moduleLogger.error(e, 'useEffect for setTrueNonce'))
   }, [adapterManager, address, legacyWeb3])
   const txInputNonce = Web3.utils.toHex(
     !!inputNonce ? inputNonce : !!requestNonce ? requestNonce : trueNonce,
   )
 
   useEffect(() => {
-    try {
-      legacyWeb3?.web3.eth
-        .estimateGas({
+    ;(async () => {
+      try {
+        setLoadingGasEstimate(true)
+        const estimate = await legacyWeb3?.web3.eth.estimateGas({
           from: request.params[0].from,
           nonce: Number(txInputNonce),
           to: request.params[0].to,
           data: request.params[0].data,
         })
-        .then((estimate: any) => {
-          setEstimatedGas(estimate)
-        })
-    } catch (e) {
-      // 500k seemed reasonable
-      setEstimatedGas('500000')
-    }
+        setEstimatedGas(String(estimate))
+      } catch (e) {
+        // 500k seemed reasonable
+        setEstimatedGas('500000')
+      } finally {
+        setLoadingGasEstimate(false)
+      }
+    })().catch(e => moduleLogger.error(e, 'useEffect for setEstimatedGas'))
   }, [txInputNonce, address, currentRequest.params, legacyWeb3?.web3.eth, request.params])
 
   if (!isConnected || !dapp || !currentRequest) return null

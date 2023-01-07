@@ -9,6 +9,7 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react'
+import type { GasFeeDataEstimate } from '@keepkey/chain-adapters'
 import type { ethereum } from '@keepkey/chain-adapters'
 import { FeeDataKey } from '@keepkey/chain-adapters'
 import { bnOrZero } from '@keepkey/investor-foxy'
@@ -17,6 +18,7 @@ import { HelperTooltip } from 'components/HelperTooltip/HelperTooltip'
 import { getFeeTranslation } from 'components/Modals/Send/TxFeeRadioGroup'
 import { RawText, Text } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
+import { logger } from 'lib/logger'
 import { fromBaseUnit } from 'lib/math'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
@@ -27,9 +29,14 @@ import { useTranslate } from 'react-polyglot'
 import type { TxData } from './SendTransactionConfirmation'
 
 type GasInputProps = {
-  recommendedGasPriceData?: any
-  gasLimit: any
+  recommendedGasPriceData?: {
+    maxFeePerGas: string
+    maxPriorityFeePerGas: string
+  }
+  gasLimit?: string
 }
+
+const moduleLogger = logger.child({ namespace: 'GasInput' })
 
 export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit = '250000' }) => {
   const { setValue } = useFormContext<TxData>()
@@ -38,7 +45,7 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
   const bgColor = useColorModeValue('white', 'gray.850')
   const translate = useTranslate()
 
-  const [gasFeeData, setGasFeeData] = useState(undefined as any)
+  const [gasFeeData, setGasFeeData] = useState<GasFeeDataEstimate | undefined>(undefined)
 
   const currentFeeAmount = useWatch({ name: 'currentFeeAmount' })
 
@@ -47,10 +54,13 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
 
     const adapter = adapterManager.get(
       KnownChainIds.EthereumMainnet,
-    ) as unknown as ethereum.ChainAdapter
-    adapter.getGasFeeData().then(feeData => {
-      setGasFeeData(feeData)
-    })
+    )! as unknown as ethereum.ChainAdapter
+    adapter
+      .getGasFeeData()
+      .then(feeData => {
+        setGasFeeData(feeData)
+      })
+      .catch(e => moduleLogger.error(e, 'getGasFeeData'))
   }, [])
 
   // calculate fee amounts for each selection
@@ -88,14 +98,13 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
       [FeeDataKey.Fast]: fastAmount,
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gasFeeData, gasLimit, recommendedGasPriceData.maxFeePerGas])
+  }, [gasFeeData, gasLimit, recommendedGasPriceData?.maxFeePerGas])
 
-  const options: any = [
+  const options = [
     {
       value: FeeDataKey.Slow,
       label: translate(getFeeTranslation(FeeDataKey.Slow)),
       duration: '',
-      // @ts-ignore
       amount: amounts[FeeDataKey.Slow],
       color: 'green.200',
     },
@@ -103,7 +112,6 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
       value: FeeDataKey.Average,
       label: translate(getFeeTranslation(FeeDataKey.Average)),
       duration: '',
-      // @ts-ignore
       amount: amounts[FeeDataKey.Average],
       color: 'blue.200',
     },
@@ -111,42 +119,40 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
       value: FeeDataKey.Fast,
       label: translate(getFeeTranslation(FeeDataKey.Fast)),
       duration: '',
-      // @ts-ignore
       amount: amounts[FeeDataKey.Fast],
       color: 'red.400',
     },
   ]
 
-  if (!!recommendedGasPriceData.maxFeePerGas) {
+  if (!!recommendedGasPriceData?.maxFeePerGas) {
     options.push({
-      value: 'recommended',
+      value: 'recommended' as FeeDataKey,
       label: 'Recommended',
       duration: '',
-      // @ts-ignore
       amount: amounts.recommended,
       color: 'green.200',
     })
   }
   const [currentRadioSelection, setCurrentRadioSelection] = useState(
-    !!recommendedGasPriceData.maxFeePerGas ? 'recommended' : FeeDataKey.Fast,
+    !!recommendedGasPriceData?.maxFeePerGas ? 'recommended' : FeeDataKey.Fast,
   )
 
   const handleRadioChange = useCallback(
-    (selection: any) => {
+    (selection: string) => {
       setCurrentRadioSelection(selection)
 
       if (selection === 'recommended') {
-        setValue('maxPriorityFeePerGas', recommendedGasPriceData.maxPriorityFeePerGas)
-        setValue('maxFeePerGas', recommendedGasPriceData.maxFeePerGas)
+        setValue('maxPriorityFeePerGas', recommendedGasPriceData?.maxPriorityFeePerGas!)
+        setValue('maxFeePerGas', recommendedGasPriceData?.maxFeePerGas!)
       } else if (selection === FeeDataKey.Slow) {
-        setValue('maxPriorityFeePerGas', gasFeeData.slow.maxPriorityFeePerGas)
-        setValue('maxFeePerGas', gasFeeData.slow.maxFeePerGas)
+        setValue('maxPriorityFeePerGas', gasFeeData?.slow?.maxPriorityFeePerGas!)
+        setValue('maxFeePerGas', gasFeeData?.slow?.maxFeePerGas!)
       } else if (selection === FeeDataKey.Average) {
-        setValue('maxPriorityFeePerGas', gasFeeData.average.maxPriorityFeePerGas)
-        setValue('maxFeePerGas', gasFeeData.average.maxFeePerGas)
+        setValue('maxPriorityFeePerGas', gasFeeData?.average?.maxPriorityFeePerGas!)
+        setValue('maxFeePerGas', gasFeeData?.average?.maxFeePerGas!)
       } else if (selection === FeeDataKey.Fast) {
-        setValue('maxPriorityFeePerGas', gasFeeData.fast.maxPriorityFeePerGas)
-        setValue('maxFeePerGas', gasFeeData.fast.maxFeePerGas)
+        setValue('maxPriorityFeePerGas', gasFeeData?.fast?.maxPriorityFeePerGas!)
+        setValue('maxFeePerGas', gasFeeData?.fast?.maxFeePerGas!)
       } else {
         throw new Error('unknown value')
       }
@@ -158,14 +164,14 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
       gasFeeData?.fast?.maxPriorityFeePerGas,
       gasFeeData?.slow?.maxFeePerGas,
       gasFeeData?.slow?.maxPriorityFeePerGas,
-      recommendedGasPriceData.maxFeePerGas,
-      recommendedGasPriceData.maxPriorityFeePerGas,
+      recommendedGasPriceData?.maxFeePerGas,
+      recommendedGasPriceData?.maxPriorityFeePerGas,
       setValue,
     ],
   )
 
   const baseFeeInputChange = useCallback(
-    (selection: any) => {
+    (selection: string) => {
       setCurrentRadioSelection('custom')
       setValue('maxFeePerGas', selection)
     },
@@ -173,7 +179,7 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
   )
 
   const priorityFeeInputChange = useCallback(
-    (selection: any) => {
+    (selection: string) => {
       setCurrentRadioSelection('custom')
       setValue('maxPriorityFeePerGas', selection)
     },
@@ -202,7 +208,7 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
       <Box borderWidth={1} borderRadius='lg' borderColor={borderColor}>
         <RadioGroup alignItems='stretch' value={currentRadioSelection} onChange={handleRadioChange}>
           <VStack spacing={0}>
-            {options.map((option: any) => (
+            {options.map(option => (
               <Fragment key={option.value}>
                 <HStack
                   alignItems='center'
