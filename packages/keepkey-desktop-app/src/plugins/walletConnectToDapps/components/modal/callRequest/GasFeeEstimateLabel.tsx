@@ -5,13 +5,15 @@ import type { BN } from 'lib/bignumber/bignumber'
 import type { FC } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
 
+import type { EIP155SendTxConfirmFormContext } from './EIP155SendTransactionConfirmation'
+
 type GasFeeEstimateLabelType = {
   symbol: string
   fiatRate: BN
 }
 
 export const GasFeeEstimateLabel: FC<GasFeeEstimateLabelType> = ({ symbol, fiatRate }) => {
-  const { control } = useFormContext<any>()
+  const { control } = useFormContext<EIP155SendTxConfirmFormContext>()
   const currentFeeAmount = useWatch({ control, name: 'currentFeeAmount' })
   const {
     number: { toFiat },

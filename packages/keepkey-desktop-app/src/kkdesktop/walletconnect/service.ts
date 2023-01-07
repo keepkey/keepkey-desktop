@@ -160,6 +160,14 @@ export class LegacyWCService {
         nonce: txData.nonce,
         to: txData.to,
         value: txData.value,
+        ...(txData.maxFeePerGas
+          ? {
+              maxFeePerGas: txData.maxFeePerGas,
+              maxPriorityFeePerGas: txData.maxPriorityFeePerGas,
+            }
+          : {
+              gasPrice: txData.gasPrice,
+            }),
       })
       const result = response?.serialized
       this.connector.approveRequest({ id: request.id, result })
