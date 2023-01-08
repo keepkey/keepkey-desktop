@@ -18,11 +18,13 @@ import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import type { KKAsset } from 'context/WalletProvider/KeepKeyProvider'
+import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { getPioneerClient } from 'lib/getPioneerCleint'
 import { PageInput } from 'plugins/walletConnectToDapps/components/PageInput'
 import type { FC } from 'react'
 import { useCallback } from 'react'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { useHistory } from 'react-router'
 
@@ -39,8 +41,6 @@ export type Dapp = {
   }
 }
 
-const dapps: Dapp[] = require('./dapps.json')
-
 const PAGE_SIZE = 20
 
 export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
@@ -48,25 +48,25 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
     mode: 'onChange',
     defaultValues: { search: '', page: 0 },
   })
-
+  const [dapps, setDapps] = useState([])
   const search = useWatch({ control, name: 'search' })
   const page = useWatch({ control, name: 'page' })
   useEffect(() => setValue('page', 0), [search, setValue])
   const history = useHistory()
   const { dispatch } = useWallet()
 
-  const filteredListings = useMemo(
-    () =>
-      dapps.filter(
-        dapp =>
-          (!search || dapp.name.toLowerCase().includes(search.toLowerCase())) &&
-          dapp.associatedAsset.assetId === asset.assetId &&
-          dapp.associatedAsset.symbol === asset.symbol,
-      ),
-    [asset.assetId, asset.symbol, search],
-  )
+  // const dapps = useMemo(
+  //   () =>
+  //     dapps.filter(
+  //       dapp =>
+  //         (!search || dapp?.name.toLowerCase().includes(search.toLowerCase())) &&
+  //         dapp?.associatedAsset?.assetId === asset.assetId &&
+  //         dapp?.associatedAsset?.symbol === asset.symbol,
+  //     ),
+  //   [asset.assetId, asset.symbol, search],
+  // )
 
-  const maxPage = Math.floor(filteredListings.length / PAGE_SIZE)
+  const maxPage = Math.floor(dapps.length / PAGE_SIZE)
 
   const openDapp = (app: Dapp) => {
     dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.homepage })
@@ -97,6 +97,42 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
     [toast],
   )
 
+  //onstart get data
+  let findDapps = async function () {
+    try {
+      const pioneer = await getPioneerClient()
+      let version = await ipcListeners.appVersion()
+      console.log('version: ', version)
+      // let dapps = await pioneer.ListApps({ limit: 1000, skip: 0 })
+      let dapps = await pioneer.ListAppsByVersionAndAsset({
+        asset: asset.name,
+        minVersion: version,
+        limit: 1000,
+        skip: 0,
+      })
+      function sortByScore(arr: any[]) {
+        //sort array by score
+        arr.sort((a, b) => {
+          const scoreA = a.score || 0
+          const scoreB = b.score || 0
+          return scoreB - scoreA
+        })
+        //filter out elements with score less than 0
+        arr = arr.filter(el => el.score >= 0)
+        //return sorted array
+        return arr
+      }
+      dapps = sortByScore(dapps.data)
+      console.log('dapps: ', dapps)
+      setDapps(dapps)
+    } catch (e) {
+      console.error(' e: ', e)
+    }
+  }
+  useEffect(() => {
+    findDapps()
+  }, [])
+
   return (
     <Box>
       <Stack direction='row' alignItems='center' mb={4}>
@@ -120,9 +156,9 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
         </Box>
         <PageInput value={page} max={maxPage} onChange={value => setValue('page', value)} />
       </Stack>
-      {!!filteredListings.length ? (
+      {!!dapps.length ? (
         <SimpleGrid columns={{ lg: 4, sm: 2, base: 1 }} spacing={4}>
-          {filteredListings.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE).map(listing => (
+          {dapps.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE).map(dapp => (
             <Box
               borderRadius='lg'
               p={2}
@@ -131,7 +167,7 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
               _hover={{ opacity: 0.8, transition: 'opacity 0.2s ease-in-out' }}
             >
               <Image
-                src={listing.image}
+                src={dapp?.image}
                 style={{
                   position: 'absolute',
                   top: 0,
@@ -144,26 +180,26 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
                 }}
               />
               <Stack direction='column' alignItems='left' spacing={0}>
-                <Link key={listing.id} onClick={() => openDapp(listing)}>
+                <Link key={dapp?.id} onClick={() => openDapp(dapp)}>
                   <Stack direction='row' alignItems='center'>
-                    <Image borderRadius='full' boxSize='48px' m={2} src={listing.image} />
-                    <PlainText fontWeight='semibold'>{listing.name}</PlainText>
+                    <Image borderRadius='full' boxSize='48px' m={2} src={dapp?.image} />
+                    <PlainText fontWeight='semibold'>{dapp?.name}</PlainText>
                   </Stack>
                 </Link>
                 <Stack alignItems='center'>
                   <PlainText color='gray.500' display='inline-flex' fontSize='sm'>
-                    Author: {listing.author}
+                    Author: {dapp?.developer}
                     {' ('}
                     <MiddleEllipsis
                       color='gray.500'
                       alignItems='center'
                       justifyContent='center'
                       fontSize='sm'
-                      onClick={() => handleCopyClick(listing)}
+                      onClick={() => handleCopyClick(dapp)}
                       _hover={{ color: 'blue.500' }}
                       _active={{ color: 'blue.800' }}
                       cursor='pointer'
-                      value={listing.devSignAddress}
+                      value={dapp?.developer}
                       data-test='receive-address-label'
                     />
                     {')'}
