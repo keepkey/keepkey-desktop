@@ -9,7 +9,6 @@ import { KeepKeyMenu } from 'components/Layout/Header/NavBar/KeepKey/KeepKeyMenu
 import { UpdateKeepKey } from 'components/Modals/UpdateKeepKey/UpdateKeepKey'
 import type { RouteProps } from 'react-router-dom'
 
-import { KeepKeyDownloadUpdaterApp } from './KeepKey/components/DownloadUpdaterApp'
 import { KeepKeyLabel } from './KeepKey/components/Label'
 import { KeepKeyPassphrase } from './KeepKey/components/Passphrase'
 import { KeepKeyPinModal } from './KeepKey/components/PinModal'
@@ -18,7 +17,6 @@ import { KeepKeyRecoverySentenceEntry } from './KeepKey/components/RecoverySente
 import { KeepKeyRecoverySentenceInvalid } from './KeepKey/components/RecoverySentenceInvalid'
 import { KeepKeyRecoverySettings } from './KeepKey/components/RecoverySettings'
 import { RecoverySettingUp } from './KeepKey/components/RecoverySettingUp'
-import { KeepKeySuccess } from './KeepKey/components/Success'
 import { KeepKeyConfig } from './KeepKey/config'
 import { KeyManager } from './KeyManager'
 import { KeepKeyRoutes } from './routes'
@@ -37,7 +35,6 @@ export const SUPPORTED_WALLETS: Record<KeyManager, SupportedWalletInfo> = {
     ...KeepKeyConfig,
     adapter: keepkeyRest.KkRestAdapter,
     routes: [
-      { path: KeepKeyRoutes.Success, component: KeepKeySuccess },
       { path: KeepKeyRoutes.Pin, component: KeepKeyPinModal },
       { path: KeepKeyRoutes.Passphrase, component: KeepKeyPassphrase },
       { path: KeepKeyRoutes.FactoryState, component: UpdateKeepKey },
@@ -47,7 +44,6 @@ export const SUPPORTED_WALLETS: Record<KeyManager, SupportedWalletInfo> = {
       { path: KeepKeyRoutes.RecoverySettings, component: KeepKeyRecoverySettings },
       { path: KeepKeyRoutes.RecoverySettingUp, component: RecoverySettingUp },
       { path: KeepKeyRoutes.RecoverySentenceInvalid, component: KeepKeyRecoverySentenceInvalid },
-      { path: KeepKeyRoutes.DownloadUpdater, component: KeepKeyDownloadUpdaterApp },
     ],
     connectedWalletMenuRoutes: [
       { path: WalletConnectedRoutes.KeepKey, component: KeepKeyMenu },
