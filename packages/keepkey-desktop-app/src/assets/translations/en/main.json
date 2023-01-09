@@ -607,11 +607,12 @@
       "dappsText2": "KeepKey makes it easy to interact with decentralized applications. You can use our in-app browser to easily access these dApps and use our wallet-connect integration. Our in-app browser leverages the power of communities to curate the best and most reputable dApps for you.",
       "dappsText3": "Join the ShapeShift community and use your FOX tokens to vote for the best DApps in the Pioneer DApp. Unlock exclusive benefits and rewards by being the first to track and develop dApps and assets!",
       "restoreTitle": "What is a Mnemonic?",
-      "restoreText1": "First step in the process of setting up a new cryptocurrency wallet is the issuance of a 12 to 24-word mnemonic phrase or seed phrases. These seed phrases are necessary for account recovery in case of lost access to users’ funds. The Bitcoin Improvement Proposal number 39 (BIP39) is an implementation design that describes how cryptocurrency wallets generate mnemonic phrases and convert them into binary seeds, which can be used to create deterministic wallets. In short, BIP39 standardizes how wallets handle this overarching process.",
-      "restoreText2": "BIP39 works by taking a random number and deriving a mnemonic phrase from it. This phrase is then used to generate a seed that can, in turn, be used to create private keys and addresses.",
+      "restoreText1": "BIP39 is an implementation design that standardizes how wallets handle mnemonic phrases and seed phrases, which allow for account recovery in case of lost access to funds.",
+      "restoreText2": "A BIP39 recovery phrase is universal, meaning it can be imported into any wallet in the cryptocurrency ecosystem.",
+      "restoreText3": "While possible to restore funds into other wallets for recovery, we strongly recommend entering a 12-word mnemonic only into another hardware wallet and ALWAYS doing so in a way that is protected from the host machine. For instance, the KeepKey uses a word cypher for restoration, as shown below.",
       "pinTitle": "What is a Pin Cipher?",
-      "pinText1": "There is a lot of malware and dangerous software lurking around modern day computers. To protect your funds, KeepKey scrambles the PIN entry for our applications. This way, your unencrypted PIN is never exposed to your computer and is only used to unlock your device.",
-      "pinText2": "To enter a scrambled PIN, note the location on the grid from the screen of your KeepKey. Click the location on your screen to enter the value. Repeat for the rest of your PIN. Note that the cipher is static and will not change after each entry. It will, however, change every time you attempt to unlock your device.",
+      "pinText1": "During the Pin Entry Process a Cipher get generated on Device",
+      "pinText2": "Note the cipher displayed on the right represents what is displayed on device. As seen below. To enter Pin, press the location of the number of your pin from device into the Pin entry modal of the KeepKey Desktop application.",
       "previous": "previous"
     },
     "clickDapp": {
