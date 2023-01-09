@@ -27,6 +27,7 @@ export const NecessaryModal: FC<{ req?: any; isLegacy: boolean; removeReq: any }
     else return <SendTransactionConfirmation />
   } else {
     switch (req.params.request.method) {
+      case EIP155_SIGNING_METHODS.ETH_SIGN_TYPED_DATA_V4:
       case EIP155_SIGNING_METHODS.PERSONAL_SIGN:
       case EIP155_SIGNING_METHODS.ETH_SIGN:
         return <EIP155SignMessageConfirmation />
