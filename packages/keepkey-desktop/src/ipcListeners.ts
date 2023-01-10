@@ -4,8 +4,10 @@ import type { IpcMainEvent } from 'electron'
 import { webContents } from 'electron'
 import { app, desktopCapturer, ipcMain } from 'electron'
 import log from 'electron-log'
+import { autoUpdater } from 'electron-updater'
 import jsQR from 'jsqr'
 import * as _ from 'lodash'
+import fetch from 'node-fetch'
 // import isDev from 'electron-is-dev'
 // import { autoUpdater } from 'electron-updater'
 import { sleep } from 'wait-promise'
@@ -63,6 +65,23 @@ export const ipcListeners: IpcListeners = {
 
   async appVersion() {
     return app.getVersion()
+  },
+
+  async appPreRelease() {
+    if (!autoUpdater.allowPrerelease) return false
+    const currentVersion = app.getVersion()
+
+    try {
+      const r = await fetch(
+        `https://api.github.com/repos/keepkey/keepkey-desktop/releases/tags/v${currentVersion}`,
+      )
+      const resp: any = await r.json()
+      if (!resp) return false
+      return resp.prerelease
+    } catch (error) {
+      console.error(error)
+      return false
+    }
   },
 
   async appUpdateSettings(data: Partial<Settings>) {
