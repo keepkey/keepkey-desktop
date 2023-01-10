@@ -52,13 +52,13 @@ export const routes: NestedRoute[] = [
   //   main: Leaderboard,
   //   category: RouteCategory.Wallet,
   // },
-  {
-    path: '/transaction-history',
-    label: 'navBar.transactionHistory',
-    icon: <TxHistoryIcon />,
-    main: TransactionHistory,
-    category: RouteCategory.Explore,
-  },
+  // {
+  //   path: '/transaction-history',
+  //   label: 'navBar.transactionHistory',
+  //   icon: <TxHistoryIcon />,
+  //   main: TransactionHistory,
+  //   category: RouteCategory.Explore,
+  // },
   {
     path: '/browser',
     label: 'navBar.browser',
@@ -138,51 +138,51 @@ export const routes: NestedRoute[] = [
       },
     ],
   },
-  {
-    path: '/accounts',
-    label: 'navBar.accounts',
-    main: Accounts,
-    icon: <AccountsIcon />,
-    category: RouteCategory.Explore,
-    routes: [
-      {
-        path: '/:accountId',
-        label: 'Account Details',
-        main: null,
-        hide: true,
-        routes: [
-          {
-            path: '/',
-            label: 'navBar.overview',
-            main: Account,
-          },
-          {
-            path: '/transactions',
-            label: 'navBar.transactions',
-            main: AccountTxHistory,
-          },
-          {
-            path: '/:assetId',
-            label: 'navBar.overview',
-            main: null,
-            hide: true,
-            routes: [
-              {
-                path: '/',
-                main: AccountToken,
-                label: 'navBar.overview',
-              },
-              {
-                path: '/transactions',
-                main: AccountTokenTxHistory,
-                label: 'navBar.transactions',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   path: '/accounts',
+  //   label: 'navBar.accounts',
+  //   main: Accounts,
+  //   icon: <AccountsIcon />,
+  //   category: RouteCategory.Explore,
+  //   routes: [
+  //     {
+  //       path: '/:accountId',
+  //       label: 'Account Details',
+  //       main: null,
+  //       hide: true,
+  //       routes: [
+  //         {
+  //           path: '/',
+  //           label: 'navBar.overview',
+  //           main: Account,
+  //         },
+  //         {
+  //           path: '/transactions',
+  //           label: 'navBar.transactions',
+  //           main: AccountTxHistory,
+  //         },
+  //         {
+  //           path: '/:assetId',
+  //           label: 'navBar.overview',
+  //           main: null,
+  //           hide: true,
+  //           routes: [
+  //             {
+  //               path: '/',
+  //               main: AccountToken,
+  //               label: 'navBar.overview',
+  //             },
+  //             {
+  //               path: '/transactions',
+  //               main: AccountTokenTxHistory,
+  //               label: 'navBar.transactions',
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   // {
   //   path: '/flags',
   //   label: 'navBar.featureFlags',

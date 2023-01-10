@@ -50,7 +50,7 @@ export const AutoCompleteSearch = ({ filterBy }: AssetSearchProps) => {
   const debounceBlur = debounce(() => setIsFocused(false), 150)
 
   const handleClick = (asset: Asset) => {
-    const isKeepkeyAsset = asset.assetId.startsWith('keepkey')
+    const isKeepkeyAsset = true
 
     const routeAssetId = isKeepkeyAsset ? `${asset.chainId}/${asset.assetId}` : asset.assetId
 

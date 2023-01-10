@@ -8,13 +8,13 @@ import { useHistory } from 'react-router-dom'
 export const Assets = () => {
   const history = useHistory()
   const onClick = (asset: Asset) => {
-    const isKeepkeyAsset = asset.assetId.startsWith('keepkey')
+    const isKeepkeyAsset = true
 
     const routeAssetId = isKeepkeyAsset ? `${asset.chainId}/${asset.assetId}` : asset.assetId
 
     // AssetId has a `/` separator so the router will have to parse 2 variables
     // e.g., /assets/:chainId/:assetSubId
-    const url = !isKeepkeyAsset ? `/assets/${routeAssetId}` : `/assets/keepkey/${routeAssetId}`
+    const url = `/assets/keepkey/${routeAssetId}`
     history.push({ pathname: url })
   }
   return (

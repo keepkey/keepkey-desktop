@@ -31,7 +31,7 @@ export const mergeKKAssets = (webAssets: any, kkAssets: any) => {
   const kkAssetsToAdd = kkAssets.filter((kkAsset: any) => {
     return !webAssetSymbols[kkAsset.symbol]
   })
-  return webAssets.concat(kkAssetsToAdd)
+  return kkAssets
 }
 
 export const AssetSearchKK = ({ onClick, filterBy }: AssetSearchProps) => {
