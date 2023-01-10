@@ -13,7 +13,11 @@ import { createRoot } from 'react-dom/client'
 
 unhandled()
 
-ipcListeners.appVersion().then(version => (document.title = `KeepKey Desktop (v${version})`))
+ipcListeners.appVersion().then(version => {
+  ipcListeners.appPreRelease().then(isPreRelease => {
+    document.title = `KeepKey Desktop (${isPreRelease ? 'Pre-Release ' : ''}v${version})`
+  })
+})
 
 const root = createRoot(document.getElementById('root')!)
 
