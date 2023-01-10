@@ -55,17 +55,6 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
   const history = useHistory()
   const { dispatch } = useWallet()
 
-  // const dapps = useMemo(
-  //   () =>
-  //     dapps.filter(
-  //       dapp =>
-  //         (!search || dapp?.name.toLowerCase().includes(search.toLowerCase())) &&
-  //         dapp?.associatedAsset?.assetId === asset.assetId &&
-  //         dapp?.associatedAsset?.symbol === asset.symbol,
-  //     ),
-  //   [asset.assetId, asset.symbol, search],
-  // )
-
   const maxPage = Math.floor(dapps.length / PAGE_SIZE)
 
   const openDapp = (app: Dapp) => {
@@ -102,8 +91,8 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
     try {
       const pioneer = await getPioneerClient()
       let version = await ipcListeners.appVersion()
-      console.log('version: ', version)
-      // let dapps = await pioneer.ListApps({ limit: 1000, skip: 0 })
+      console.log('asset: ', asset.name)
+
       let dapps = await pioneer.ListAppsByVersionAndAsset({
         asset: asset.name,
         minVersion: version,
