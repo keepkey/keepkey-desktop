@@ -19,23 +19,15 @@ export const WalletConnectToDappsHeaderButton = () => {
   const [scannedQr, setScannedQr] = useState<string>()
 
   const scanOrReadQrAndOpen = async () => {
-    await navigator.clipboard.read().then(async data => {
-      const link = await data[0].getType('text/plain')
-      link.text().then(uri => {
-        if (uri.startsWith('wc:')) {
-          setScannedQr(uri)
-        }
-      })
-    })
+    const clipboardData = await navigator.clipboard.read()
+    const link = await clipboardData[0].getType('text/plain')
+    const clipboardUri = await link.text()
+    if (clipboardUri.startsWith('wc:')) {
+      setScannedQr(clipboardUri)
+    }
 
-    await ipcListeners
-      .appReadQr()
-      .then(async v => {
-        setScannedQr(v)
-      })
-      .catch(e => {
-        console.error(e)
-      })
+    const readQr = await ipcListeners.appReadQr().catch(console.error)
+    if (readQr) setScannedQr(readQr)
 
     setOpen(true)
   }
