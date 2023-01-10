@@ -1,0 +1,13 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+
+yarn-error.log*
+
+# TS
+*.tsbuildinfo
+
+# Turbo
+.turbo
