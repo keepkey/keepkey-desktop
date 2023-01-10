@@ -1,7 +1,6 @@
 import { WarningTwoIcon } from '@chakra-ui/icons'
 import { Button, ButtonGroup, Flex, HStack, useColorModeValue } from '@chakra-ui/react'
 import { WalletConnectedRoutes } from 'components/Layout/Header/NavBar/hooks/useMenuRoutes'
-// import { WalletConnectedMenu } from 'components/Layout/Header/NavBar/WalletConnectedMenu'
 import { WalletImage } from 'components/Layout/Header/NavBar/WalletImage'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { RawText, Text } from 'components/Text'

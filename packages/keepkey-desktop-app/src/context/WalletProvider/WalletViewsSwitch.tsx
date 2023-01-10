@@ -1,12 +1,4 @@
-import { ArrowBackIcon } from '@chakra-ui/icons'
-import {
-  Flex,
-  IconButton,
-  Modal,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
-} from '@chakra-ui/react'
+import { Flex, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/toast'
 import { SlideTransition } from 'components/SlideTransition'
 import { WalletActions } from 'context/WalletProvider/actions'
@@ -15,7 +7,7 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useTranslate } from 'react-polyglot'
-import { Route, Switch, useHistory, useLocation, useRouteMatch } from 'react-router-dom'
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 
 import { SUPPORTED_WALLETS } from './config'
 
