@@ -140,7 +140,7 @@ export const EIP155SendTransactionConfirmation = () => {
       if (!keepKeyWallet || !accountPath || !chainId || !legacyWeb3) return
       try {
         setLoadingSigningInProgress(true)
-        const signData = {
+        const signData: any = {
           addressNList: accountPath,
           chainId,
           data: txData.data,
@@ -148,17 +148,18 @@ export const EIP155SendTransactionConfirmation = () => {
           to: txData.to,
           value: txData.value ?? '0x0',
           nonce: txData.nonce,
-          // if gasPrice was passed in it means we couldnt get maxPriorityFeePerGas & maxFeePerGas
-          ...(!txData.gasPrice
-            ? {
-                maxPriorityFeePerGas: txData.maxPriorityFeePerGas,
-                maxFeePerGas: txData.maxFeePerGas,
-              }
-            : {
-                gasPrice: request.params[0].gasPrice,
-              }),
-        } satisfies core.ETHSignTx
+          maxPriorityFeePerGas: txData.maxPriorityFeePerGas,
+          maxFeePerGas: txData.maxFeePerGas,
+        }
 
+        // if gasPrice was passed in it means we couldnt get maxPriorityFeePerGas & maxFeePerGas
+        if (request.params[0].gasPrice) {
+          signData.gasPrice = request.params[0].gasPrice
+          delete signData.maxPriorityFeePerGas
+          delete signData.maxFeePerGas
+        }
+        moduleLogger.debug(signData, 'signData')
+        if (!signData.gasPrice) throw Error('Invalid TX need gasPrice!')
         const response = await keepKeyWallet.ethSignTx(signData)
 
         const signedTx = response?.serialized

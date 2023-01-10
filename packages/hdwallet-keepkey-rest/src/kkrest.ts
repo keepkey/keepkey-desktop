@@ -422,6 +422,7 @@ export class KeepKeyRestHDWallet
   }
 
   public async ethSignTx(msg: core.ETHSignTx): Promise<core.ETHSignedTx> {
+    console.log('MSG: ', msg)
     const sig = await this.sdk.eth.ethSignTransaction({
       nonce: msg.nonce,
       value: msg.value,

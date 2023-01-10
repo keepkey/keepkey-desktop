@@ -1,9 +1,11 @@
-import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/react'
+import { Modal, ModalContent, ModalOverlay, Text } from '@chakra-ui/react'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import { useModal } from 'hooks/useModal/useModal'
 import { useCallback } from 'react'
 
 import { Step0 } from './steps/Step0'
+import { Step1 } from './steps/Step1'
+import { Step2 } from './steps/Step2'
 
 export const OnboardingSteps = () => {
   const { onboardingSteps } = useModal()
@@ -33,13 +35,16 @@ export const OnboardingSteps = () => {
 
   const steps = [
     {
-      label: 'Mnemonics',
+      label: 'Pin',
       content: <Step0 doNextStep={doNextStep} doPreviousStep={doPreviousStep} />,
     },
-    { label: 'Pin', content: <Step0 doNextStep={doNextStep} doPreviousStep={doPreviousStep} /> },
     {
-      label: 'Restore',
-      content: <Step0 doNextStep={doNextStep} doPreviousStep={doPreviousStep} />,
+      label: 'Mnemonics',
+      content: <Step1 doNextStep={doNextStep} doPreviousStep={doPreviousStep} />,
+    },
+    {
+      label: 'Dapps',
+      content: <Step2 doNextStep={doNextStep} doPreviousStep={doPreviousStep} />,
     },
   ]
 
@@ -55,11 +60,11 @@ export const OnboardingSteps = () => {
       closeOnEsc={false}
     >
       <ModalOverlay />
-      <ModalContent justifyContent='center' p={3}>
+      <ModalContent p={3}>
         <Steps activeStep={activeStep}>
           {steps.map(({ label, content }: any) => (
-            <Step label={label} key={label}>
-              {content}
+            <Step label={<h1>{label}</h1>} key={label}>
+              <Text>{content}</Text>
             </Step>
           ))}
         </Steps>

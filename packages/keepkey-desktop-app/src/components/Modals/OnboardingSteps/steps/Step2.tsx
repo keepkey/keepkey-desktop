@@ -1,5 +1,6 @@
-import { Button, Center, ModalBody, Stack } from '@chakra-ui/react'
+import { Box, Button, Center, Image, ModalBody, Stack } from '@chakra-ui/react'
 import { Text } from 'components/Text'
+import dapps from 'assets/dapps-banner.png'
 
 export const Step2 = ({
   doNextStep,
@@ -10,9 +11,21 @@ export const Step2 = ({
 }) => {
   return (
     <ModalBody p='20px'>
-      <Text p='20px' fontWeight='bold' size='xl' translation='modals.onboarding.restoreTitle' />
-      <Text p='20px' translation='modals.onboarding.restoreText1' />
-      <Text p='20px' translation='modals.onboarding.restoreText2' />
+      <Text p='20px' fontWeight='bold' size='xl' translation='modals.onboarding.dappsTitle' />
+      <Box
+        p='1rem'
+        border='1px'
+        borderColor='gray.300'
+        display='flex'
+        justifyContent='space-between'
+      >
+        <Image src={dapps} style={{ width: '60%', height: '1200%' }} />
+        <Box>
+          <Text p='20px' fontSize='1rem' translation='modals.onboarding.dappsText1' />
+          <Text p='20px' fontSize='1rem' translation='modals.onboarding.dappsText2' />
+          <Text p='20px' fontSize='1rem' translation='modals.onboarding.dappsText3' />
+        </Box>
+      </Box>
 
       <Center>
         <Stack>

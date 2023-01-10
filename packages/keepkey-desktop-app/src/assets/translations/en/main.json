@@ -602,16 +602,17 @@
   },
   "modals": {
     "onboarding": {
-      "mnemonicsTitle": "What is a mnemonic?",
-      "mnemonicsText1": "This is a placeholder. Highlander will use chat gpt for this content. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "mnemonicsText2": "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "restoreTitle": "What is a restore cipher?",
-      "restoreText1": "This is a placeholder. Highlander will use chat gpt for this content. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "restoreText2": "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "pinTitle": "What is a pin?",
-      "pinText1": "This is a placeholder. Highlander will use chat gpt for this content. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "pinText2": "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "next": "next",
+      "dappsTitle": "What is a DApp?",
+      "dappsText1": "The KeepKey Desktop client has a built-in DApp Store. This store allows you to discover and connect to a list of decentralized applications.",
+      "dappsText2": "KeepKey makes it easy to interact with decentralized applications. You can use our in-app browser to easily access these dApps and use our wallet-connect integration. Our in-app browser leverages the power of communities to curate the best and most reputable dApps for you.",
+      "dappsText3": "Join the ShapeShift community and use your FOX tokens to vote for the best DApps in the Pioneer DApp. Unlock exclusive benefits and rewards by being the first to track and develop dApps and assets!",
+      "restoreTitle": "What is a Mnemonic?",
+      "restoreText1": "BIP39 is an implementation design that standardizes how wallets handle mnemonic phrases and seed phrases, which allow for account recovery in case of lost access to funds.",
+      "restoreText2": "A BIP39 recovery phrase is universal, meaning it can be imported into any wallet in the cryptocurrency ecosystem.",
+      "restoreText3": "While possible to restore funds into other wallets for recovery, we strongly recommend entering a 12-word mnemonic only into another hardware wallet and ALWAYS doing so in a way that is protected from the host machine. For instance, the KeepKey uses a word cypher for restoration, as shown below.",
+      "pinTitle": "What is a Pin Cipher?",
+      "pinText1": "During the Pin Entry Process a Cipher get generated on Device",
+      "pinText2": "Note the cipher displayed on the right represents what is displayed on device. As seen below. To enter Pin, press the location of the number of your pin from device into the Pin entry modal of the KeepKey Desktop application.",
       "previous": "previous"
     },
     "clickDapp": {
