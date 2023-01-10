@@ -1,5 +1,6 @@
 import { Box, Button, Center, Image, ModalBody, Stack } from '@chakra-ui/react'
 import cipher from 'assets/cipher.png'
+import pin from 'assets/kkpin.png'
 import { Text } from 'components/Text'
 
 export const Step0 = ({
@@ -21,8 +22,13 @@ export const Step0 = ({
       >
         <Image src={cipher} style={{ width: '40%', height: '60%' }} />
         <Box>
-          <Text p='20px' fontSize='1rem' translation='modals.onboarding.pinText1' />
-          <Text p='20px' fontSize='1rem' translation='modals.onboarding.pinText2' />
+          <p>
+            <Text p='20px' fontSize='2rem' translation='modals.onboarding.pinText1' />
+            <Text p='20px' fontSize='1rem' translation='modals.onboarding.pinText2' />
+          </p>
+          <div justifyContent='flex-end'>
+            <Image src={pin} style={{ width: '40%', height: '60%' }} />
+          </div>
         </Box>
       </Box>
 
