@@ -16,7 +16,6 @@ export type FeatureFlags = {
   CowSwap: boolean
   IdleFinance: boolean
   Axelar: boolean
-  Zendesk: boolean
   Yat: boolean
   MultiAccounts: boolean
   SwapperV2: boolean
@@ -49,7 +48,6 @@ const initialState: Preferences = {
     CowSwap: getConfig().REACT_APP_FEATURE_COWSWAP,
     IdleFinance: getConfig().REACT_APP_FEATURE_IDLE,
     Axelar: getConfig().REACT_APP_FEATURE_AXELAR,
-    Zendesk: getConfig().REACT_APP_FEATURE_ZENDESK,
     Yat: getConfig().REACT_APP_FEATURE_YAT,
     MultiAccounts: getConfig().REACT_APP_FEATURE_MULTI_ACCOUNTS,
     SwapperV2: getConfig().REACT_APP_FEATURE_SWAPPER_V2,
