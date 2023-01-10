@@ -23,13 +23,17 @@ export class LegacyWCService {
   ) {}
 
   async connect() {
+    console.log('attempting connection')
     if (!this.connector.connected) {
+      console.log('creating session')
       await this.connector.createSession()
     }
     this.subscribeToEvents()
   }
 
   disconnect = async () => {
+    console.log(this.connector.connected)
+    console.log(this.connector.session)
     await this.connector.killSession()
     this.connector.off('session_request')
     this.connector.off('connect')

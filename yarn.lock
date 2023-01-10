@@ -20037,6 +20037,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^17.3.0
     "@commitlint/config-conventional": ^17.3.0
+    "@walletconnect/client": ^1.8.0
     "@yarnpkg/sdks": ^3.0.0-rc.31
     crypto: ^1.0.1
     eslint: ^8.28.0
