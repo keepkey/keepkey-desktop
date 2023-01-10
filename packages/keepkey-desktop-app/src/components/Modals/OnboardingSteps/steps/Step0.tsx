@@ -1,6 +1,6 @@
 import { Box, Button, Center, Image, ModalBody, Stack } from '@chakra-ui/react'
 import cipher from 'assets/cipher.png'
-import pin from 'assets/kkpin.png'
+import pin from 'assets/KKpin.png'
 import { Text } from 'components/Text'
 
 export const Step0 = ({
