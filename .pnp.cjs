@@ -57,6 +57,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@commitlint/cli", "npm:17.3.0"],\
             ["@commitlint/config-conventional", "npm:17.3.0"],\
+            ["@walletconnect/client", "npm:1.8.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
             ["crypto", "npm:1.0.1"],\
             ["eslint", "npm:8.28.0"],\
@@ -26148,6 +26149,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["keepkey-monorepo", "workspace:."],\
             ["@commitlint/cli", "npm:17.3.0"],\
             ["@commitlint/config-conventional", "npm:17.3.0"],\
+            ["@walletconnect/client", "npm:1.8.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
             ["crypto", "npm:1.0.1"],\
             ["eslint", "npm:8.28.0"],\

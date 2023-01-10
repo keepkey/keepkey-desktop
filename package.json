@@ -81,6 +81,7 @@
     }
   },
   "dependencies": {
+    "@walletconnect/client": "^1.8.0",
     "crypto": "^1.0.1"
   }
 }

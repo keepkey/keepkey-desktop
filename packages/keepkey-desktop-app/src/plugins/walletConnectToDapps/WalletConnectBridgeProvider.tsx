@@ -2,6 +2,7 @@ import { useToast } from '@chakra-ui/react'
 import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
 import LegacyWalletConnect from '@walletconnect/client'
 import type { CoreTypes, SignClientTypes } from '@walletconnect/types'
+import { getSdkError } from '@walletconnect/utils'
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
@@ -56,15 +57,23 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
 
   const toast = useToast()
 
-  const onDisconnect = useCallback(() => {
-    if (isLegacy && legacyBridge) {
-      legacyBridge.connector.killSession()
+  const onDisconnect = useCallback(async () => {
+    if (isLegacy) {
+      if (legacyBridge) await legacyBridge.disconnect()
+    } else {
+      WalletConnectSignClient.disconnect({
+        topic: currentSessionTopic ?? '',
+        reason: getSdkError('USER_DISCONNECTED'),
+      })
     }
     setIsConnected(false)
+    setIsLegacy(false)
+    setLegacyBridge(undefined)
     setCurrentSessionTopic(undefined)
     setPairingMeta(undefined)
     setLegacyWeb3(undefined)
-  }, [isLegacy, legacyBridge])
+    rerender()
+  }, [currentSessionTopic, isLegacy, legacyBridge, rerender])
 
   useEffect(() => {
     if (!WalletConnectSignClient) return
@@ -154,6 +163,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         setLegacyBridge(bridgeFromSession)
 
         onDisconnect()
+        localStorage.removeItem('walletconnect')
       }
     },
     [isConnected, isLegacy, legacyBridge, setLegacyEvents, wallet, onDisconnect],

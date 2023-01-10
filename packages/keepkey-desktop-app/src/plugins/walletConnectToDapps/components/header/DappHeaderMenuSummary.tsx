@@ -1,6 +1,6 @@
 import { CloseIcon, InfoIcon } from '@chakra-ui/icons'
 import { MenuGroup } from '@chakra-ui/menu'
-import { Box, Button, HStack, MenuDivider, MenuItem, VStack, } from '@chakra-ui/react'
+import { Box, Button, HStack, MenuDivider, MenuItem, VStack } from '@chakra-ui/react'
 import { getSdkError } from '@walletconnect/utils'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { RawText, Text } from 'components/Text'
@@ -101,14 +101,6 @@ export const DappHeaderMenuSummary: FC = () => {
           icon={<CloseIcon />}
           onClick={() => {
             walletConnect.onDisconnect()
-            if (walletConnect.isLegacy) {
-              walletConnect?.legacyBridge?.disconnect()
-            } else {
-              WalletConnectSignClient.disconnect({
-                topic: walletConnect.currentSessionTopic ?? '',
-                reason: getSdkError('USER_DISCONNECTED'),
-              })
-            }
           }}
           color='red.500'
         >
