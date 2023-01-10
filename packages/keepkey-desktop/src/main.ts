@@ -17,6 +17,7 @@ import { startUpdaterListeners } from './updaterListeners'
 unhandled()
 
 if (!app.requestSingleInstanceLock()) app.exit()
+app.disableHardwareAcceleration()
 
 log.transports.file.level = 'debug'
 
