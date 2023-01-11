@@ -49,6 +49,7 @@ export const KeepKeyPassphrase = ({ deviceId }: { deviceId: string }) => {
           variant='filled'
           mt={3}
           mb={6}
+          autoFocus={true}
           autoComplete='current-password'
         />
         {error && (
