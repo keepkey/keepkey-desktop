@@ -68,16 +68,15 @@ export type ActionTypes =
   | {
       type: WalletActions.OPEN_KEEPKEY_PIN
       payload: {
-        deviceId: string
-        pinRequestType?: PinMatrixRequestType
+        pinRequestType: PinMatrixRequestType
         showBackButton?: boolean
-        deferred?: Deferred<string>
+        deferred: Deferred<string>
       }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_PASSPHRASE
       payload: {
-        deviceId: string
+        deferred: Deferred<string>
       }
     }
   | {

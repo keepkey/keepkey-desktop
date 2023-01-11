@@ -15,7 +15,6 @@ import { KeepKeyRoutes } from 'context/WalletProvider/routes'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useState } from 'react'
 import { useTranslate } from 'react-polyglot'
-import { useHistory } from 'react-router-dom'
 
 export const VALID_ENTROPY_NUMBERS = [128, 192, 256] as const
 export const VALID_ENTROPY = VALID_ENTROPY_NUMBERS.map(entropy => entropy.toString())
@@ -44,7 +43,6 @@ const sentenceLengthOptions: readonly RadioOption<Entropy>[] = Object.freeze([
 
 export const KeepKeyRecoverySettings = () => {
   const translate = useTranslate()
-  const history = useHistory()
   const [useRecoveryPassphrase, setUseRecoveryPassphrase] = useState(false)
   const [sentenceLengthSelection, setSentenceLengthSelection] = useState<Entropy>(
     sentenceLength.TwelveWords,

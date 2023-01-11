@@ -3,7 +3,6 @@ import { electronEndpoint } from 'comlink-electron-endpoint/main'
 import type { IpcMainEvent } from 'electron'
 import { webContents } from 'electron'
 import { app, desktopCapturer, ipcMain } from 'electron'
-import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 import jsQR from 'jsqr'
 import * as _ from 'lodash'
@@ -27,30 +26,14 @@ import {
 import type { BridgeLog, Settings } from './helpers/types'
 import type { IpcListeners, RendererIpc } from './types'
 
-export const [rendererIpc, rendererIpcQueue] = (() => {
-  const { port1, port2 } = new MessageChannel()
-  return [Comlink.wrap<RendererIpc>(port1), port2]
-})()
+export const rendererIpc = new Promise<RendererIpc>(resolve => {
+  ipcMain.on('@app/register-render-listeners', (event: IpcMainEvent) =>
+    resolve(Comlink.wrap<RendererIpc>(electronEndpoint(event.ports[0]))),
+  )
+})
 
 ipcMain.on('@app/get-ipc-listeners', (event: IpcMainEvent) => {
   Comlink.expose(ipcListeners, electronEndpoint(event.ports[0]))
-})
-
-ipcMain.on('@app/register-render-listeners', (event: IpcMainEvent) => {
-  const rendererIpcPort = event.ports[0]
-
-  rendererIpcQueue.addEventListener('message', e => {
-    rendererIpcPort.postMessage(e.data)
-  })
-  rendererIpcQueue.addEventListener('messageerror', e => log.error('messageerror', e))
-
-  rendererIpcPort.on('message', e => {
-    rendererIpcQueue.postMessage(e.data)
-  })
-  // no messageerror on Electron.MessagePortMain
-
-  rendererIpcQueue.start()
-  rendererIpcPort.start()
 })
 
 export const ipcListeners: IpcListeners = {
@@ -240,7 +223,8 @@ export const ipcListeners: IpcListeners = {
 
       return scanned.data
     }
-    return 'Unable to scan QR'
+
+    throw new Error('Unable to scan QR')
   },
 
   async appMonitorWebContentsForQr(

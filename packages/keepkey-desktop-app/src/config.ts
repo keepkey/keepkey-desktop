@@ -52,8 +52,6 @@ const validators = {
   REACT_APP_MTPELERIN_SELL_URL: url(),
   REACT_APP_MTPELERIN_REFERRAL_CODE: str(),
   REACT_APP_FRIENDLY_CAPTCHA_SITE_KEY: str(),
-  REACT_APP_ZENDESK_KEY: str({ default: '' }),
-  REACT_APP_FEATURE_ZENDESK: bool({ default: false }),
   REACT_APP_FEATURE_YEARN: bool({ default: true }),
   REACT_APP_FEATURE_OSMOSIS: bool({ default: false }),
   REACT_APP_FEATURE_FOX_LP: bool({ default: false }),
