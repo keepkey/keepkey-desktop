@@ -1,3 +1,5 @@
+import type * as core from '@shapeshiftoss/hdwallet-core'
+
 // possible states
 export enum KKState {
   UpdateBootloader = 'updateBootloader',
@@ -48,7 +50,8 @@ export type KKStateData =
     }
 
 export type StateChangeHandler = (state: KKStateData) => Promise<void>
-export type KeyringEventHandler = (e: unknown) => Promise<void>
+export type KeyringEventHandler = (vendor: string, deviceId: string, event: string) => Promise<void>
+export type TransportEventHandler = (e: core.Event) => Promise<void>
 
 export type GenericError = {
   prompt?: string

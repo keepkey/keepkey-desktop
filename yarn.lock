@@ -6788,7 +6788,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/hdwallet-keepkey@npm:1.41.0, @shapeshiftoss/hdwallet-keepkey@npm:^1.41.0":
+"@shapeshiftoss/hdwallet-keepkey@npm:1.41.0":
   version: 1.41.0
   resolution: "@shapeshiftoss/hdwallet-keepkey@npm:1.41.0"
   dependencies:
@@ -6810,6 +6810,31 @@ __metadata:
     semver: ^6.3.0
     tiny-secp256k1: ^1.1.6
   checksum: 7c65fed7f98382a52b0a92a0ea3feb15cd6f52887ef5613ae18ed49ff55eddf21a2e56aa06e9a3074ca6043e757a8456393e13b2920154dd27a969e98bb7905e
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/hdwallet-keepkey@patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 1.41.0
+  resolution: "@shapeshiftoss/hdwallet-keepkey@patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch::version=1.41.0&hash=be0da1&locator=keepkey-monorepo%40workspace%3A."
+  dependencies:
+    "@ethereumjs/common": ^2.4.0
+    "@ethereumjs/tx": ^3.3.0
+    "@keepkey/device-protocol": ^7.10.2
+    "@shapeshiftoss/bitcoinjs-lib": 5.2.0-shapeshift.2
+    "@shapeshiftoss/hdwallet-core": 1.41.0
+    "@shapeshiftoss/proto-tx-builder": ^0.4.0
+    bignumber.js: ^9.0.1
+    bnb-javascript-sdk-nobroadcast: ^2.16.14
+    crypto-js: ^4.0.0
+    eip-712: ^1.0.0
+    eip55: ^2.1.0
+    google-protobuf: ^3.15.8
+    icepick: ^2.4.0
+    lodash: ^4.17.21
+    p-lazy: ^3.1.0
+    semver: ^6.3.0
+    tiny-secp256k1: ^1.1.6
+  checksum: 47dd15aa1196040095a663119a24416b8fad9e8a3630bc00c3092243ed592ad0bf0c84bcf80ad2481cdf30059656c17f64516935bf1b8bf032fcf86d4261ae86
   languageName: node
   linkType: hard
 

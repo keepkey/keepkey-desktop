@@ -112,12 +112,12 @@ export const useKeepKeyEventHandler = (
             })
           }
           break
-        case MessageType.PASSPHRASEREQUEST:
-          dispatch({
-            type: WalletActions.OPEN_KEEPKEY_PASSPHRASE,
-            payload: { deviceId },
-          })
-          break
+        // case MessageType.PASSPHRASEREQUEST:
+        //   dispatch({
+        //     type: WalletActions.OPEN_KEEPKEY_PASSPHRASE,
+        //     payload: { deviceId },
+        //   })
+        //   break
         // ACK just means we sent it, doesn't mean it was successful
         case MessageType.PASSPHRASEACK:
           if (modal) dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })

@@ -1,8 +1,10 @@
+import { PinMatrixRequestType as PinMatrixRequestTypeDeviceProto } from '@keepkey/device-protocol/lib/types_pb'
 import * as Comlink from 'comlink'
 import { assertNever, deferred } from 'common-utils'
 import type { PairingProps } from 'components/Modals/Pair/types'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
+import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { ipcListeners, ipcRenderer } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
@@ -13,15 +15,26 @@ import { Routes } from 'Routes/Routes'
 import type { KKStateData } from '../../keepkey-desktop/src/helpers/kk-state-controller/types'
 import { KKState } from '../../keepkey-desktop/src/helpers/kk-state-controller/types'
 import type { RendererIpc } from '../../keepkey-desktop/src/types'
+import type { PinMatrixRequestType2 } from '../../keepkey-desktop/src/types'
+
+const mapPinRequestType = (pinRequestType: PinMatrixRequestType2) => {
+  switch (pinRequestType) {
+    case PinMatrixRequestTypeDeviceProto.PINMATRIXREQUESTTYPE_CURRENT:
+      return PinMatrixRequestType.CURRENT
+    case PinMatrixRequestTypeDeviceProto.PINMATRIXREQUESTTYPE_NEWFIRST:
+      return PinMatrixRequestType.NEWFIRST
+    case PinMatrixRequestTypeDeviceProto.PINMATRIXREQUESTTYPE_NEWSECOND:
+      return PinMatrixRequestType.NEWSECOND
+    default:
+      assertNever(pinRequestType)
+  }
+}
 
 export const App = () => {
-  const {
-    state: { deviceId },
-    dispatch,
-    pairAndConnect,
-  } = useWallet()
+  const { dispatch, pairAndConnect } = useWallet()
   const { setIsUpdatingKeepkey, state, disconnect } = useWallet()
   const { legacyBridge, isLegacy, isConnected } = useWalletConnect()
+  const { updateFeatures } = useKeepKey()
 
   const { pair, sign, hardwareError, updateKeepKey, requestBootloaderMode, loading } = useModal()
 
@@ -165,19 +178,9 @@ export const App = () => {
         return await out
       },
 
-      async modalPin(): Promise<string> {
-        const out = deferred<string>()
-        if (window.localStorage.getItem('onboarded') === 'true') {
-          dispatch({
-            type: WalletActions.OPEN_KEEPKEY_PIN,
-            payload: {
-              deviceId,
-              pinRequestType: PinMatrixRequestType.CURRENT,
-              showBackButton: true,
-              deferred: out,
-            },
-          })
-        } else {
+      async modalPin(pinRequestType2: PinMatrixRequestType2, signal: AbortSignal): Promise<string> {
+        const pinRequestType: PinMatrixRequestType = mapPinRequestType(pinRequestType2)
+        if (window.localStorage.getItem('onboarded') !== 'true') {
           await new Promise(resolve => {
             const interval = setInterval(() => {
               if (window.localStorage.getItem('onboarded') === 'true') {
@@ -187,17 +190,59 @@ export const App = () => {
             }, 500)
           })
           hardwareError.close()
-          dispatch({
-            type: WalletActions.OPEN_KEEPKEY_PIN,
-            payload: {
-              deviceId,
-              pinRequestType: PinMatrixRequestType.CURRENT,
-              showBackButton: true,
-              deferred: out,
-            },
-          })
         }
+        const out = deferred<string>()
+        dispatch({
+          type: WalletActions.OPEN_KEEPKEY_PIN,
+          payload: {
+            pinRequestType,
+            showBackButton: true,
+            deferred: out,
+          },
+        })
+        const done = Promise.any([
+          out,
+          new Promise((_resolve, reject) => signal.addEventListener('abort', reject)),
+        ])
+        done.finally(() => {
+          dispatch({
+            type: WalletActions.SET_WALLET_MODAL,
+            payload: false,
+          })
+        })
         return await out
+      },
+
+      async modalPassphrase(signal: AbortSignal): Promise<string> {
+        const out = deferred<string>()
+        dispatch({
+          type: WalletActions.OPEN_KEEPKEY_PASSPHRASE,
+          payload: {
+            deferred: out,
+          },
+        })
+        const done = Promise.any([
+          out,
+          new Promise((_resolve, reject) => signal.addEventListener('abort', reject)),
+        ])
+        done.finally(() => {
+          dispatch({
+            type: WalletActions.SET_WALLET_MODAL,
+            payload: false,
+          })
+        })
+        return await out
+      },
+
+      async modalCloseAll(): Promise<void> {
+        dispatch({
+          type: WalletActions.SET_WALLET_MODAL,
+          payload: false,
+        })
+      },
+
+      async updateFeatures(): Promise<void> {
+        updateFeatures(false)
       },
 
       async accountSignTx(data: {

@@ -4,7 +4,6 @@ import {
   createLocalStorageManager,
   createStandaloneToast,
 } from '@chakra-ui/react'
-import { Zendesk } from 'components/Zendesk/Zendesk'
 import { AppProvider } from 'context/AppProvider/AppContext'
 import { BrowserRouterProvider } from 'context/BrowserRouterProvider/BrowserRouterProvider'
 import { FoxEthProvider } from 'context/FoxEthProvider/FoxEthProvider'
@@ -42,7 +41,6 @@ export function AppProviders({ children }: ProvidersProps) {
           <ColorModeScript storageKey='ss-theme' />
           <ChakraProvider theme={theme} colorModeManager={manager} cssVarsRoot='body'>
             <ToastContainer />
-            <Zendesk />
             <PersistGate loading={<SplashScreen />} persistor={persistor}>
               <HashRouter basename='/'>
                 <ScrollToTop />

@@ -88,6 +88,7 @@ export interface IKeepKeyContext {
   keepKeyWallet: KeepKeyHDWallet | undefined
   getKeepkeyAssets: () => KKAsset[]
   getKeepkeyAsset: (geckoId: string) => KKAsset | undefined
+  updateFeatures: (cached?: boolean) => void
   kkWeb3: Web3 | undefined
   kkNftContract: any
   kkErc20Contract: any
@@ -222,17 +223,22 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
     })
   }, [])
 
-  useEffect(() => {
-    if (!keepKeyWallet) return
-    ;(async () => {
-      const features = await keepKeyWallet.getFeatures()
-      dispatch({ type: KeepKeyActions.SET_FEATURES, payload: features })
-      setHasPassphrase(features?.passphraseProtection)
-      setDeviceTimeout(
-        Object.values(timeoutOptions).find(t => Number(t.value) === features?.autoLockDelayMs),
-      )
-    })()
-  }, [keepKeyWallet, keepKeyWallet?.features, setDeviceTimeout, setHasPassphrase])
+  const updateFeatures = useCallback(
+    (cached?: boolean) => {
+      if (!keepKeyWallet) return
+      ;(async () => {
+        const features = await keepKeyWallet.getFeatures(cached)
+        dispatch({ type: KeepKeyActions.SET_FEATURES, payload: features })
+        setHasPassphrase(features?.passphraseProtection)
+        setDeviceTimeout(
+          Object.values(timeoutOptions).find(t => Number(t.value) === features?.autoLockDelayMs),
+        )
+      })()
+    },
+    [keepKeyWallet, setDeviceTimeout, setHasPassphrase],
+  )
+
+  useEffect(() => updateFeatures(), [updateFeatures])
 
   useEffect(() => {
     if (!keepKeyWallet) return
@@ -257,6 +263,7 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
       setHasPassphrase,
       getKeepkeyAssets,
       getKeepkeyAsset,
+      updateFeatures,
       kkWeb3,
       kkNftContract,
       kkErc20Contract,
@@ -267,6 +274,7 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
       setHasPassphrase,
       getKeepkeyAssets,
       getKeepkeyAsset,
+      updateFeatures,
       kkWeb3,
       kkNftContract,
       kkErc20Contract,

@@ -275,31 +275,24 @@ export const ReceiveInfo = ({ asset, accountId }: ReceivePropsType) => {
                 </Circle>
                 <Text translation='modals.receive.copy' />
               </Button>
-              {!(wallet.getVendor() === 'Native') ? (
-                <Button
-                  color={verified ? 'green.500' : verified === false ? 'red.500' : 'gray.500'}
-                  flexDir='column'
-                  role='group'
-                  variant='link'
-                  isDisabled={!(shouldUseXpub ? xpub : receiveAddress)}
-                  _hover={{ textDecoration: 'none', color: hoverColor }}
-                  onClick={handleVerify}
-                >
-                  <Circle
-                    bg={bg}
-                    mb={2}
-                    size='40px'
-                    _groupHover={{ bg: 'blue.500', color: 'white' }}
-                  >
-                    {verified ? <CheckIcon /> : <ViewIcon />}
-                  </Circle>
-                  <Text
-                    translation={`modals.receive.${
-                      verified ? 'verified' : verified === false ? 'notVerified' : 'verify'
-                    }`}
-                  />
-                </Button>
-              ) : undefined}
+              <Button
+                color={verified ? 'green.500' : verified === false ? 'red.500' : 'gray.500'}
+                flexDir='column'
+                role='group'
+                variant='link'
+                isDisabled={!(shouldUseXpub ? xpub : receiveAddress)}
+                _hover={{ textDecoration: 'none', color: hoverColor }}
+                onClick={handleVerify}
+              >
+                <Circle bg={bg} mb={2} size='40px' _groupHover={{ bg: 'blue.500', color: 'white' }}>
+                  {verified ? <CheckIcon /> : <ViewIcon />}
+                </Circle>
+                <Text
+                  translation={`modals.receive.${
+                    verified ? 'verified' : verified === false ? 'notVerified' : 'verify'
+                  }`}
+                />
+              </Button>
               <Button
                 as={Link}
                 href={`${asset?.explorerAddressLink}${receiveAddress}`}

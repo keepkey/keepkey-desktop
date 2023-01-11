@@ -21,6 +21,8 @@ const moduleLogger = logger.child({
   namespace: ['Layout', 'Header', 'NavBar', 'KeepKey', 'ChangePin'],
 })
 
+let cancelled = false
+
 export const ChangePin = () => {
   const { handleBackClick } = useMenuRoutes()
   const translate = useTranslate()
@@ -54,6 +56,8 @@ export const ChangePin = () => {
   const handleCancel = async () => {
     const fnLogger = moduleLogger.child({ namespace: ['handleChangePinBackClick'] })
 
+    cancelled = true
+
     await keepKeyWallet
       ?.cancel()
       .catch(e => {
@@ -78,6 +82,8 @@ export const ChangePin = () => {
   }
 
   const handleChangePin = async (remove: boolean) => {
+    cancelled = false
+
     const fnLogger = moduleLogger.child({ namespace: ['handleChangePin'] })
     fnLogger.trace('Applying new PIN...')
 
@@ -90,6 +96,7 @@ export const ChangePin = () => {
 
     await keepKeyWallet?.[remove ? 'removePin' : 'changePin']()
       .catch(e => {
+        if (cancelled) return
         fnLogger.error(e, remove ? 'Error removing PIN' : 'Error applying new PIN')
         toast({
           title: translate('common.error'),
@@ -170,6 +177,9 @@ export const ChangePin = () => {
         </SubMenuBody>
         <AwaitKeepKey
           translation={['walletProvider.keepKey.settings.descriptions.buttonPrompt', { setting }]}
+          onCancel={() => {
+            cancelled = true
+          }}
         />
       </>
     )
@@ -178,17 +188,19 @@ export const ChangePin = () => {
   return (
     <SubMenuContainer>
       <Flex flexDir='column'>
-        {!shouldDisplayEntryPinView ? (
-          <SubmenuHeader
-            title={translate('walletProvider.keepKey.settings.headings.deviceSetting', {
-              setting,
-            })}
-            description={translate('walletProvider.keepKey.settings.descriptions.pin')}
-            onBackClick={handleHeaderBackClick}
-          />
-        ) : (
-          <SubmenuHeader title={translate(`walletProvider.keepKey.${translationType}.header`)} />
-        )}
+        <div style={{ marginBottom: '0.75em' }}>
+          {!shouldDisplayEntryPinView ? (
+            <SubmenuHeader
+              title={translate('walletProvider.keepKey.settings.headings.deviceSetting', {
+                setting,
+              })}
+              description={translate('walletProvider.keepKey.settings.descriptions.pin')}
+              onBackClick={handleHeaderBackClick}
+            />
+          ) : (
+            <SubmenuHeader title={translate(`walletProvider.keepKey.${translationType}.header`)} />
+          )}
+        </div>
         {renderedPinState}
       </Flex>
     </SubMenuContainer>

@@ -1,10 +1,13 @@
+import type * as core from '@shapeshiftoss/hdwallet-core'
 import AutoLaunch from 'auto-launch'
+import * as Comlink from 'comlink'
 import type { BrowserWindow } from 'electron'
 import fs from 'fs'
 import * as hidefile from 'hidefile'
 import type { Server } from 'http'
 import NedbPromises from 'nedb-promises'
 import path from 'path'
+import type { PinMatrixRequestType2 } from 'types'
 
 import { BridgeLogger } from './helpers/bridgeLogger'
 import { KKStateController } from './helpers/kk-state-controller'
@@ -69,20 +72,56 @@ export const kkAutoLauncher = new AutoLaunch({
   name: 'KeepKey Desktop',
 })
 
+let disconnectionAborter = new AbortController()
 export const kkStateController = new KKStateController(
   async function (this: KKStateController, data: KKStateData) {
     console.log('KK STATE', data)
     createAndUpdateTray()
-    await rendererIpc.updateState(data)
+    await (await rendererIpc).updateState(data)
+    if (data.state === 'disconnected') {
+      disconnectionAborter.abort()
+      disconnectionAborter = new AbortController()
+      await (await rendererIpc).modalCloseAll()
+    }
   },
-  async function (this: KKStateController, e: any) {
-    if (e[2] === '18') {
-      const pin = await rendererIpc.modalPin().catch(() => undefined)
-      if (pin) {
+  async function (this: KKStateController, vendor: string, deviceId: string, e: string) {
+    console.log('KEYRING EVENT', vendor, deviceId, e)
+  },
+  async function (this: KKStateController, e: core.Event) {
+    console.log('TRANSPORT EVENT', {
+      ...{
+        ...e,
+        date: undefined,
+        proto: e.proto?.toObject(),
+      },
+    })
+    if (e.message_type === 'PINMATRIXREQUEST') {
+      const pinRequestType: PinMatrixRequestType2 = e.message.type
+      const pin = await (await rendererIpc)
+        .modalPin(pinRequestType, Comlink.proxy(disconnectionAborter.signal))
+        .catch(e => {
+          console.error('modalPin error:', e)
+          return undefined
+        })
+      if (pin !== undefined) {
         await this.wallet!.sendPin(pin)
       } else {
         await this.wallet!.cancel()
       }
+    } else if (e.message_type === 'PASSPHRASEREQUEST') {
+      const passphrase = await (await rendererIpc)
+        .modalPassphrase(Comlink.proxy(disconnectionAborter.signal))
+        .catch(e => {
+          console.error('modalPassphrase error:', e)
+          return undefined
+        })
+      if (passphrase !== undefined) {
+        await this.wallet!.sendPassphrase(passphrase)
+      } else {
+        await this.wallet!.cancel()
+      }
+    } else if (e.message_type === 'SUCCESS' && e.message.message === 'Settings applied') {
+      await (await rendererIpc).updateFeatures()
     }
   },
 )

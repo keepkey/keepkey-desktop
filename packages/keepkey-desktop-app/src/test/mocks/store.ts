@@ -60,7 +60,6 @@ export const mockStore: ReduxState = {
       CowSwap: false,
       IdleFinance: false,
       Axelar: false,
-      Zendesk: false,
       Yat: false,
       MultiAccounts: false,
       SwapperV2: false,
