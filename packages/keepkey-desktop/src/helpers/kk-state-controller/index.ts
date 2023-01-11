@@ -66,6 +66,18 @@ export class KKStateController {
     })
   }
 
+  public isOlderVersion = function(currentVersion:string, latestVersion:string) {
+    let parsedCurrentVersion = currentVersion.split('.');
+    let parsedLatestVersion = latestVersion.split('.');
+
+    for (let i = 0; i < parsedCurrentVersion.length; i++) {
+      if (parseInt(parsedCurrentVersion[i]) < parseInt(parsedLatestVersion[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public syncState = async () => {
     log.info('KKStateController syncState')
     const latestFirmware = settings.allowBetaFirmware
@@ -89,7 +101,7 @@ export class KKStateController {
         recommendedFirmware: latestFirmware.firmware.version,
         bootloaderMode: resultInit.bootloaderMode,
       })
-    } else if (resultInit.firmwareVersion !== latestFirmware.firmware.version) {
+    } else if (resultInit.firmwareVersion !== latestFirmware.firmware.version && !this.isOlderVersion(resultInit.firmwareVersion, latestFirmware.firmware.version)) {
       log.info('KKStateController UPDATE_FIRMWARE')
       log.info('KKStateController UPDATE_FIRMWARE resultInit: ', resultInit)
       this.updateState(UPDATE_FIRMWARE, {
