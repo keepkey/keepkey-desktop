@@ -333,6 +333,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   const [desiredLabel, setDesiredLabel] = useState('')
 
+  const [desiredLabel, setDesiredLabel] = useState('')
+
   const disconnect = useCallback(async () => {
     /**
      * in case of KeepKey placeholder wallet,
