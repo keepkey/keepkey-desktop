@@ -156,7 +156,7 @@ export const KeepKeyPin = ({
 
     setTimeout(() => {
       setDisablePin(false)
-    }, 3000)
+    }, 1)
   }, [disablePin])
 
   return (
