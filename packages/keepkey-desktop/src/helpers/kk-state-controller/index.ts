@@ -132,7 +132,7 @@ export class KKStateController {
     if (!resultInit.wallet) {
       log.info('KKStateController resultInit.unplugged')
       await this.updateState({ state: KKState.Disconnected })
-    } else if (resultInit.bootloaderVersion !== latestFirmware.bootloader.version) {
+    } else if (resultInit.bootloaderVersion !== latestFirmware.bootloader.version && semver.lt(resultInit.bootloaderVersion, latestFirmware.bootloader.version)) {
       log.info('KKStateController UPDATE_BOOTLOADER')
       await this.updateState({
         state: KKState.UpdateBootloader,
