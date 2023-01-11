@@ -21,9 +21,9 @@ export const Step2 = ({
       >
         <Image src={dapps} style={{ width: '60%', height: '1200%' }} />
         <Box>
-          <Text p='20px' fontSize='1.2rem' translation='modals.onboarding.dappsText1' />
-          <Text p='20px' fontSize='1.2rem' translation='modals.onboarding.dappsText2' />
-          <Text p='20px' fontSize='1.2rem' translation='modals.onboarding.dappsText3' />
+          <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.dappsText1' />
+          <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.dappsText2' />
+          <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.dappsText3' />
         </Box>
       </Box>
 

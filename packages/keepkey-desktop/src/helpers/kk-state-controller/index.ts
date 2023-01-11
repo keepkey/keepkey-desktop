@@ -14,6 +14,8 @@ import type {
 import { KKState } from './types'
 import { initializeWallet } from './walletUtils'
 
+const semver = require('semver')
+
 /**
  * Keeps track of the last known state of the keepkey
  * sends ipc events to the web renderer on state change
@@ -120,6 +122,13 @@ export class KKStateController {
     if (!resultInit) return
 
     log.info('KKStateController resultInit: ', resultInit)
+
+    //
+    log.info('resultInit.firmwareVersion: ', resultInit.firmwareVersion)
+    log.info('latestFirmware.firmware.version: ', latestFirmware.firmware.version)
+    let isOlder = semver.gt(resultInit.firmwareVersion, latestFirmware.firmware.version)
+    log.info('isOlder: ', isOlder)
+
     if (!resultInit.wallet) {
       log.info('KKStateController resultInit.unplugged')
       await this.updateState({ state: KKState.Disconnected })
@@ -133,7 +142,7 @@ export class KKStateController {
         recommendedFirmware: latestFirmware.firmware.version,
         bootloaderMode: !!resultInit.bootloaderMode,
       })
-    } else if (resultInit.firmwareVersion !== latestFirmware.firmware.version) {
+    } else if (resultInit.firmwareVersion !== latestFirmware.firmware.version && semver.lt(resultInit.firmwareVersion, latestFirmware.firmware.version)) {
       log.info('KKStateController UPDATE_FIRMWARE')
       log.info('KKStateController UPDATE_FIRMWARE resultInit: ', resultInit)
       await this.updateState({

@@ -25863,6 +25863,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["promise.any", "npm:2.0.5"],\
             ["rimraf", "npm:3.0.2"],\
             ["secp256k1", "npm:4.0.3"],\
+            ["semver", "npm:7.3.8"],\
             ["source-map-support", "npm:0.5.21"],\
             ["swagger-ui-dist", "npm:4.15.5"],\
             ["swagger-ui-express", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:4.6.0"],\

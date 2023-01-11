@@ -5,7 +5,7 @@ import { Keyring } from '@shapeshiftoss/hdwallet-core'
 import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-walletconnect'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
 import kkIconBlack from 'assets/kk-icon-black.png'
-import { deferred, Deferred } from 'common-utils'
+import { Deferred } from 'common-utils'
 import type { Entropy } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { VALID_ENTROPY } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
@@ -330,8 +330,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   // is keepkey device currently being interacted with
   const [deviceBusy] = useState(false)
-
-  const [desiredLabel, setDesiredLabel] = useState('')
 
   const [desiredLabel, setDesiredLabel] = useState('')
 

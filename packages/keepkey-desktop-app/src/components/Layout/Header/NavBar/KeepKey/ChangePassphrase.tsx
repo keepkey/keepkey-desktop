@@ -22,7 +22,6 @@ import { useTranslate } from 'react-polyglot'
 
 import { SubMenuBody } from '../SubMenuBody'
 import { SubMenuContainer } from '../SubMenuContainer'
-import { useModal } from 'hooks/useModal/useModal'
 
 const moduleLogger = logger.child({
   namespace: ['Layout', 'Header', 'NavBar', 'KeepKey', 'ChangePassphrase'],
@@ -42,15 +41,12 @@ export const ChangePassphrase = () => {
     },
   } = useWallet()
 
-  const { settings } = useModal()
-
   const handleToggle = async () => {
     const fnLogger = moduleLogger.child({ namespace: ['handleToggle'], hasPassphrase })
     fnLogger.trace('Applying Passphrase setting...')
 
     const currentValue = !!hasPassphrase
     setHasPassphrase(!hasPassphrase)
-    if (!currentValue) setTimeout(settings.close, 1000)
     await keepKeyWallet?.applySettings({ usePassphrase: !currentValue }).catch(e => {
       fnLogger.error(e, 'Error applying Passphrase setting')
       toast({

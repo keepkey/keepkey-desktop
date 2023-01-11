@@ -23,9 +23,9 @@ export const Step1 = ({
       >
         <Image src={recovery} style={{ width: '20%', height: '30%' }} />
         <Box>
-          <Text p='20px' fontSize='1.2rem' translation='modals.onboarding.restoreText1' />
-          <Text p='20px' fontSize='1.2rem' translation='modals.onboarding.restoreText2' />
-          <Text p='20px' fontSize='1.2rem' translation='modals.onboarding.restoreText3' />
+          <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.restoreText1' />
+          <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.restoreText2' />
+          <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.restoreText3' />
         </Box>
         <Box>
           <Image src={recoveryCipher} />

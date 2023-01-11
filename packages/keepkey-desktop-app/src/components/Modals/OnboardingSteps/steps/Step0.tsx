@@ -24,7 +24,7 @@ export const Step0 = ({
         <Box>
           <p>
             <Text p='20px' fontSize='2rem' translation='modals.onboarding.pinText1' />
-            <Text p='20px' fontSize='1.2rem' translation='modals.onboarding.pinText2' />
+            <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.pinText2' />
           </p>
         </Box>
         <Box>
