@@ -99,21 +99,7 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
         limit: 1000,
         skip: 0,
       })
-      function sortByScore(arr: any[]) {
-        //sort array by score
-        arr.sort((a, b) => {
-          const scoreA = a.score || 0
-          const scoreB = b.score || 0
-          return scoreB - scoreA
-        })
-        //filter out elements with score less than 0
-        arr = arr.filter(el => el.score >= 0)
-        //return sorted array
-        return arr
-      }
-      dapps = sortByScore(dapps.data)
-      console.log('dapps: ', dapps)
-      setDapps(dapps)
+      setDapps(dapps.data)
     } catch (e) {
       console.error(' e: ', e)
     }

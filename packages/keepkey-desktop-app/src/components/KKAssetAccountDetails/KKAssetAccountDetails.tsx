@@ -21,16 +21,6 @@ export const KKAssetAccountDetails = ({ asset }: AssetDetailsProps) => {
   return (
     <Main titleComponent={<KKAssetHeader asset={asset} onVoteClick={onVoteClick} />}>
       <Stack>
-        <Flex height='20px' flexDirection='row' justifyContent='space-between'>
-          <RawText fontWeight='bold'>RANK: {`${asset.rank}`}</RawText>
-          <Link pb={6} fontWeight='bold' color='blue.500' isExternal href={asset.link}>
-            Visit Coingecko Page
-          </Link>
-        </Flex>
-        <RawText fontWeight='bold' pb={4}>
-          MARKET CAP: {`$${asset.marketCap}`}
-        </RawText>
-
         <DappGrid asset={asset} />
       </Stack>
     </Main>

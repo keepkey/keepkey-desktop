@@ -11,6 +11,7 @@ import { Main } from 'components/Layout/Main'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import React, { useCallback, useEffect, useState } from 'react'
 import { FaBug } from 'react-icons/fa'
+import { v4 as uuidv4 } from 'uuid'
 
 const getWebview = () => document.getElementById('webview') as Electron.WebviewTag | null
 
@@ -52,6 +53,7 @@ export const Browser = () => {
   const [url, setUrl] = useState('about:blank')
   const [inputUrl, setInputUrl] = useState(url)
   const [loading, setLoading] = useState(false)
+  const [partition, setPartition] = useState('')
   const [webviewLoadFailure, setWebviewLoadFailure] = useState<string | undefined>(undefined)
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
@@ -69,6 +71,10 @@ export const Browser = () => {
     return () => {
       webview.removeEventListener('dom-ready', listener)
     }
+  }, [])
+
+  useEffect(() => {
+    setPartition(uuidv4())
   }, [])
 
   useEffect(() => {
@@ -197,6 +203,7 @@ export const Browser = () => {
     >
       <webview
         id='webview'
+        partition={partition}
         src='about:blank'
         style={{
           flexGrow: 1,
