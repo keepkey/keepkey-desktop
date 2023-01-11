@@ -180,6 +180,8 @@ export const useKeepKeyEventHandler = (
           break
         // @TODO: What do we want to do with these events?
         case MessageType.FAILURE:
+          console.log("message?.code: ",message?.code)
+          console.log("message: ",message)
           switch (message?.code) {
             case FailureType.PINCANCELLED:
               fnLogger.warn('PIN Cancelled')
@@ -219,7 +221,7 @@ export const useKeepKeyEventHandler = (
               break
             default:
               fnLogger.warn('Unexpected MessageType')
-              setDeviceState({ lastDeviceInteractionStatus: 'error' })
+              // setDeviceState({ lastDeviceInteractionStatus: 'error' })
               break
           }
           break

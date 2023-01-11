@@ -27,13 +27,13 @@ export const useKeepKeyRecover = () => {
       autoLockDelayMs: 600000, // Ten minutes
     }
     await wallet?.recover(recoverParams).catch(e => {
-      moduleLogger.error(e)
-      toast({
-        title: translate('common.error'),
-        description: e?.message ?? translate('common.somethingWentWrong'),
-        status: 'error',
-        isClosable: true,
-      })
+      moduleLogger.error(" FOBAR ",e)
+      // toast({
+      //   title: translate('common.error'),
+      //   description: e?.message ?? translate('common.somethingWentWrong'),
+      //   status: 'error',
+      //   isClosable: true,
+      // })
     })
   }
 

@@ -126,6 +126,7 @@ export const KeepKeyPin = ({
     const handleError = (events: Event[]) => {
       const e = events[1]
       if (e.message_enum === MessageType.FAILURE) {
+        console.log("PIN MODAL: message: ",e)
         switch (e.message?.code as FailureType) {
           // Device has a programmed PIN
           case FailureType.PININVALID:
@@ -156,7 +157,7 @@ export const KeepKeyPin = ({
 
     setTimeout(() => {
       setDisablePin(false)
-    }, 3000)
+    }, 1)
   }, [disablePin])
 
   return (
