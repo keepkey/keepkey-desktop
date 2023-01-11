@@ -136,6 +136,7 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
           {dapps.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE).map(dapp => (
             <Box
               borderRadius='lg'
+              borderWidth='1px'
               p={2}
               position='relative'
               overflow='hidden'
@@ -163,7 +164,12 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
                 </Link>
                 <Stack alignItems='center'>
                   <PlainText color='gray.500' display='inline-flex' fontSize='sm'>
-                    Author: {dapp?.developer}
+                    Description: {dapp?.description}
+                  </PlainText>
+                  <PlainText color='gray.500' display='inline-flex' fontSize='sm'>
+                    score: {dapp?.score}
+                  </PlainText>
+                  <PlainText color='gray.500' display='inline-flex' fontSize='sm'>
                     {' ('}
                     <MiddleEllipsis
                       color='gray.500'
