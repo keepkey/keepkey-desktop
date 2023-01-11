@@ -611,7 +611,7 @@
       "restoreText2": "A BIP39 recovery phrase is universal, meaning it can be imported into any wallet in the cryptocurrency ecosystem.",
       "restoreText3": "While possible to restore funds into other wallets for recovery, we strongly recommend entering a 12-word mnemonic only into another hardware wallet and ALWAYS doing so in a way that is protected from the host machine. For instance, the KeepKey uses a word cypher for restoration, as shown below.",
       "pinTitle": "What is a Pin Cipher?",
-      "pinText1": "During the Pin Entry Process a Cipher get generated on Device",
+      "pinText1": "Pin Entry Process uses a Cipher get generated on Device.",
       "pinText2": "Note the cipher displayed on the right represents what is displayed on device. As seen below. To enter Pin, press the location of the number of your pin from device into the Pin entry modal of the KeepKey Desktop application.",
       "previous": "previous"
     },
