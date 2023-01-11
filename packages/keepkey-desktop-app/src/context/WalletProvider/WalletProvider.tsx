@@ -5,7 +5,7 @@ import { Keyring } from '@shapeshiftoss/hdwallet-core'
 import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-walletconnect'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
 import kkIconBlack from 'assets/kk-icon-black.png'
-import type { Deferred } from 'common-utils'
+import { deferred, Deferred } from 'common-utils'
 import type { Entropy } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { VALID_ENTROPY } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
@@ -101,6 +101,7 @@ export interface InitialState {
   keepkeySdk: KeepKeySdk | null
   browserUrl: string | null
   pinDeferred?: Deferred<string>
+  passphraseDeferred?: Deferred<string>
 }
 
 const initialState: InitialState = {
@@ -200,7 +201,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
       }
       return newState
     case WalletActions.OPEN_KEEPKEY_PIN: {
-      const { showBackButton, deviceId, pinRequestType, deferred } = action.payload
+      const { showBackButton, pinRequestType, deferred } = action.payload
       return {
         ...state,
         modal:
@@ -210,7 +211,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
             : false,
         type: KeyManager.KeepKey,
         showBackButton: showBackButton ?? false,
-        deviceId,
         keepKeyPinRequestType: pinRequestType ?? null,
         initialRoute: KeepKeyRoutes.Pin,
         pinDeferred: deferred,
@@ -233,13 +233,14 @@ const reducer = (state: InitialState, action: ActionTypes) => {
       }
     }
     case WalletActions.OPEN_KEEPKEY_PASSPHRASE:
+      const { deferred } = action.payload
       return {
         ...state,
         modal: true,
         type: KeyManager.KeepKey,
         showBackButton: false,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.Passphrase,
+        passphraseDeferred: deferred,
       }
     case WalletActions.OPEN_KEEPKEY_INITIALIZE:
       return {

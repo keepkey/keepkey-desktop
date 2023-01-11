@@ -29,7 +29,7 @@ export const startWindowListeners = () => {
         app.exit()
       }, 1000)
 
-      await rendererIpc.appClosing()
+      await (await rendererIpc).appClosing()
 
       return e.preventDefault()
     } else {

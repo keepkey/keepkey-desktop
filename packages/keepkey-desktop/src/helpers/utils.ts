@@ -27,7 +27,7 @@ export const openSignTxWindow = async (signArgs: any) => {
   if (!windowWasPreviouslyOpen) windows.mainWindow.focus()
   // windows.mainWindow.setContentSize(400, 780)
 
-  await rendererIpc.accountSignTx(signArgs)
+  await (await rendererIpc).accountSignTx(signArgs)
 
   windows.mainWindow.setAlwaysOnTop(false)
   if (windowWasPreviouslyOpen && windows.mainWindow.minimizable) {

@@ -16,7 +16,10 @@ export type RendererIpc = {
   updateState(data: KKStateData): Promise<void>
   appClosing(): Promise<void>
   modalPair(data: PairingProps): Promise<undefined | string[]>
-  modalPin(pinRequestType: PinMatrixRequestType2): Promise<string>
+  modalPin(pinRequestType: PinMatrixRequestType2, signal: AbortSignal): Promise<string>
+  modalPassphrase(signal: AbortSignal): Promise<string>
+  modalCloseAll(): Promise<void>
+  updateFeatures(): Promise<void>
   accountSignTx(data: {
     invocation: {
       unsignedTx: {
