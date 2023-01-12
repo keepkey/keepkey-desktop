@@ -106,6 +106,8 @@ export const App = () => {
             hardwareError.close()
             break
           case KKState.Disconnected:
+            hardwareError.close()
+            hardwareError.open({})
             dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
             disconnect()
             loading.close()
@@ -113,7 +115,6 @@ export const App = () => {
           case KKState.HardwareError:
             dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
             loading.close()
-            console.log("****** data: ", data)
             hardwareError.open(data)
             break
           case KKState.UpdateBootloader:

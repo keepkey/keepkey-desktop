@@ -15,7 +15,7 @@ import {
   ModalOverlay,
   Stack,
   StackDivider,
-  useColorMode
+  useColorMode,
 } from '@chakra-ui/react'
 import KeepKeyConnect from 'assets/connect-keepkey.svg'
 import { Text } from 'components/Text'
@@ -71,21 +71,7 @@ export const HardwareErrorModal = (error: {
       <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
         <ModalCloseButton ml='auto' borderRadius='full' position='static' />
         <ModalBody>
-          {error.error === 'claimInterface error: Error: LIBUSB_ERROR_ACCESS' ? (
-            <div>
-              <ModalHeader>
-                <Text translation='modals.keepKey.hardware.headerConnect' />
-              </ModalHeader>
-              <Image src={KeepKeyConnect} alt='Reconnect Device!' />
-              <Text translation={'modals.keepKey.hardware.reconnect'} />
-              <Button size='lg' colorScheme='blue' onClick={HandleTroubleShoot}>
-                <Text translation={'modals.keepKey.hardware.troubleshoot'} />
-              </Button>
-              <Button size='lg' colorScheme='blue' ref='https://discord.gg/stfRnW3Jys'>
-                <Text translation={'modals.common.getSupport'} />
-              </Button>
-            </div>
-          ) : (
+          {error && error.error && error.error.includes('claimInterface') ? (
             <div>
               <Card>
                 <CardHeader>
@@ -117,6 +103,44 @@ export const HardwareErrorModal = (error: {
                   </Stack>
                 </CardBody>
               </Card>
+            </div>
+          ) : (
+            <div>
+              <ModalHeader>
+                <Text
+                  translation={
+                    error.needsReconnect
+                      ? 'modals.keepKey.hardware.headerReconnect'
+                      : 'modals.keepKey.hardware.headerConnect'
+                  }
+                />
+              </ModalHeader>
+              <Image
+                filter={colorMode === 'light' ? 'invert(100%);' : ''}
+                src={KeepKeyConnect}
+                alt='Reconnect Device!'
+              />
+              <style type='text/css'>{`
+                .hardwareErrorIntroText * {
+                  margin: 0.5em 0;
+                }
+
+                .hardwareErrorIntroText :is(h1, h2, h3, h4, h5, h6) {
+                  text-align: center;
+                }
+              `}</style>
+              <div className='hardwareErrorIntroText'>
+                <ReactMarkdown>
+                  {translate(
+                    error.needsReconnect
+                      ? 'modals.keepKey.hardware.reconnect'
+                      : 'modals.keepKey.hardware.connect',
+                  )}
+                </ReactMarkdown>
+              </div>
+              {/*<Button isDisabled={deviceBusy} onClick={retryPair}>*/}
+              {/*  {`${deviceBusy ? 'Retry (Device busy, please wait)' : 'Retry'}`}*/}
+              {/*</Button>*/}
             </div>
           )}
         </ModalBody>
