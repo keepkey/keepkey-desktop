@@ -14,25 +14,21 @@ type SidebarLinkProps = {
 } & ButtonProps
 
 export const MainNavLink = memo(
-  forwardRef<SidebarLinkProps, 'div'>(({ isCompact, ...rest }: SidebarLinkProps, ref) => {
+  forwardRef<SidebarLinkProps, 'div'>(({ isCompact = true, ...rest }: SidebarLinkProps, ref) => {
     const { href, label } = rest
-    const [isLargerThan2xl] = useMediaQuery(`(min-width: ${breakpoints['2xl']})`, { ssr: false })
     const location = useLocation()
     const active = location?.pathname.includes(href ?? '')
     return (
-      <Tooltip label={label} isDisabled={isLargerThan2xl || !isCompact} placement='right'>
+      <Tooltip label={label} placement='top'>
         <Button
           width='full'
-          justifyContent={{ base: isCompact ? 'center' : 'flex-start', '2xl': 'flex-start' }}
+          justifyContent={'center'}
           variant='nav-link'
           isActive={href ? active : false}
-          minWidth={isCompact ? 'auto' : 10}
-          iconSpacing={isLargerThan2xl ? 4 : isCompact ? 0 : 4}
+          minWidth={'auto'}
           ref={ref}
           {...rest}
-        >
-          <Box display={{ base: isCompact ? 'none' : 'flex', '2xl': 'block' }}>{label}</Box>
-        </Button>
+        />
       </Tooltip>
     )
   }),
