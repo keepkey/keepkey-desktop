@@ -227,17 +227,18 @@ export const SendTransactionConfirmation = () => {
   ])
 
   if (!walletConnect.legacyBridge || !walletConnect.dapp) return null
+  if (!currentRequest) return null
   if (!currentRequest?.params[0].data) return null
   if (!currentRequest?.params[0].to) return null
-  if (!currentRequest?.params[0].value) return null
+  // if (!currentRequest?.params[0].value) return null
   console.log('currentRequest: ', currentRequest?.params[0].data)
 
   const txInput: TxData = {
     nonce: txInputNonce,
     gasLimit: txInputGas,
-    data: currentRequest?.params[0].data,
-    to: currentRequest?.params[0].to,
-    value: currentRequest?.params[0].value,
+    data: currentRequest.params[0].data,
+    to: currentRequest.params[0].to,
+    value: currentRequest.params[0].value || '0x0',
     maxFeePerGas: txMaxFeePerGas,
     maxPriorityFeePerGas: txMaxPriorityFeePerGas,
   }
