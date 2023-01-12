@@ -2,6 +2,7 @@ import type * as core from '@shapeshiftoss/hdwallet-core'
 import AutoLaunch from 'auto-launch'
 import * as Comlink from 'comlink'
 import type { BrowserWindow } from 'electron'
+import { app } from 'electron'
 import fs from 'fs'
 import * as hidefile from 'hidefile'
 import type { Server } from 'http'
@@ -108,6 +109,14 @@ export const kkStateController = new KKStateController(
       } else {
         await this.wallet!.cancel()
       }
+    }
+    if (e.message_type === 'SUCCESS') {
+      if (e.message.message === 'PIN removed' || e.message.message === 'PIN changed') {
+        //restart app
+        console.log('restarting app')
+        app.relaunch()
+        app.exit()
+      }
     } else if (e.message_type === 'PASSPHRASEREQUEST') {
       const passphrase = await (await rendererIpc)
         .modalPassphrase(Comlink.proxy(disconnectionAborter.signal))
@@ -119,6 +128,21 @@ export const kkStateController = new KKStateController(
         await this.wallet!.sendPassphrase(passphrase)
       } else {
         await this.wallet!.cancel()
+      }
+    } else if (e.message_type === 'FAILURE') {
+      //known
+      if (e.message.message === 'PINs do not match') {
+        //attempted incorrect pin attempt, try again
+        console.log('attempted incorrect pin attempt, try again')
+        //send error to pin modal, reset modal
+      }
+
+      // *magic
+      //Malformed tiny packet
+      if (e.message.message === 'Malformed tiny packet') {
+        //attempted invalid pin, clear and reset pin
+        console.log('attempted invalid pin, clear and reset pin')
+        //send error to pin modal, reset modal
       }
     } else if (e.message_type === 'SUCCESS' && e.message.message === 'Settings applied') {
       await (await rendererIpc).updateFeatures()
