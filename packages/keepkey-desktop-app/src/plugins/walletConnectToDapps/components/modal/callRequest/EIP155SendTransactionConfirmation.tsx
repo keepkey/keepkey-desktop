@@ -122,7 +122,7 @@ export const EIP155SendTransactionConfirmation = () => {
           delete signData.maxPriorityFeePerGas
           delete signData.maxFeePerGas
         }
-
+        console.log('signData: ', signData)
         const response = await (wallet as KeepKeyHDWallet).ethSignTx(signData)
 
         const signedTx = response?.serialized

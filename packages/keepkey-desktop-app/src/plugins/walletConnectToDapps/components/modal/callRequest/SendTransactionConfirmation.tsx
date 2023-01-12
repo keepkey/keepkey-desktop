@@ -227,6 +227,10 @@ export const SendTransactionConfirmation = () => {
   ])
 
   if (!walletConnect.legacyBridge || !walletConnect.dapp) return null
+  if (!currentRequest?.params[0].data) return null
+  if (!currentRequest?.params[0].to) return null
+  if (!currentRequest?.params[0].value) return null
+  console.log('currentRequest: ', currentRequest?.params[0].data)
 
   const txInput: TxData = {
     nonce: txInputNonce,
