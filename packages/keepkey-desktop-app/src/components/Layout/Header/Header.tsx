@@ -64,9 +64,9 @@ export const Header = () => {
         direction='column'
         bg={bg}
         width='full'
-        position='sticky'
-        zIndex='banner'
-        top={0}
+        // position='sticky'
+        // zIndex='banner'
+        // top={0}
         paddingTop={{ base: isDemoWallet ? 0 : 'env(safe-area-inset-top)', md: 0 }}
       >
         {isDemoWallet && (

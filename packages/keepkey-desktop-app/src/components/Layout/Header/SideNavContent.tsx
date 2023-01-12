@@ -17,9 +17,7 @@ type HeaderContentProps = {
 } & FlexProps
 
 export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
-  const translate = useTranslate()
   const [isLargerThanMd] = useMediaQuery(`(min-width: ${breakpoints['md']})`, { ssr: false })
-  const { settings } = useModal()
 
   const handleClick = (onClick?: () => void) => {
     onClose && onClose()
@@ -34,9 +32,8 @@ export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
       alignItems='flex-start'
       justifyContent='flex-start'
       data-test='full-width-header'
-      flexDir='column'
+      flexDir='row'
       overflowY='auto'
-      paddingTop={`calc(1.5rem + env(safe-area-inset-top))`}
       p={4}
     >
       {!isLargerThanMd && (
@@ -60,27 +57,7 @@ export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
         </Flex>
       )}
 
-      <NavBar isCompact={isCompact} mt={6} onClick={() => handleClick()} />
-      <Stack width='full' mt={6} spacing={0}>
-        <MainNavLink
-          isCompact={isCompact}
-          size='sm'
-          onClick={() => handleClick(() => settings.open({}))}
-          label={translate('common.settings')}
-          leftIcon={<SettingsIcon />}
-          data-test='navigation-settings-button'
-        />
-        <MainNavLink
-          isCompact={isCompact}
-          as={Link}
-          isExternal
-          size='sm'
-          href='https://discord.gg/stfRnW3Jys'
-          label={translate('common.joinDiscord')}
-          leftIcon={<ChatIcon />}
-          data-test='navigation-join-discord-button'
-        />
-      </Stack>
+      <NavBar isCompact={true} onClick={() => handleClick()} />
     </Flex>
   )
 }
