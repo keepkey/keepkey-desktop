@@ -113,7 +113,8 @@ export const App = () => {
           case KKState.HardwareError:
             dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
             loading.close()
-            hardwareError.open({})
+            console.log("****** data: ", data)
+            hardwareError.open(data)
             break
           case KKState.UpdateBootloader:
           case KKState.UpdateFirmware:

@@ -632,6 +632,10 @@
         "button": "Submit Passphrase"
       },
       "hardware": {
+        "claimTitle": "Already Claimed Interface!",
+        "claimInterface": "Other software is currently using the KeepKey.",
+        "claimInterface2": "close other software and try again.",
+        "claimInterface3": "Check all browser tabs. and close app.ShapeShift.com if it is open!.",
         "headerError": "Hardware Error!",
         "headerReconnect": "Please reconnect your keepkey",
         "headerConnect": "Welcome To KeepKey Desktop!",
