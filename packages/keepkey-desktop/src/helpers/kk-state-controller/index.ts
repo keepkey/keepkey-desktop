@@ -122,12 +122,7 @@ export class KKStateController {
     if (!resultInit) return
 
     log.info('KKStateController resultInit: ', resultInit)
-
-    //
-    log.info('resultInit.firmwareVersion: ', resultInit.firmwareVersion)
-    log.info('latestFirmware.firmware.version: ', latestFirmware.firmware.version)
-    let isOlder = semver.gt(resultInit.firmwareVersion, latestFirmware.firmware.version)
-    log.info('isOlder: ', isOlder)
+    if (!resultInit.firmwareVersion) resultInit.firmwareVersion = '0.0.0'
 
     if (!resultInit.wallet) {
       log.info('KKStateController resultInit.unplugged')
