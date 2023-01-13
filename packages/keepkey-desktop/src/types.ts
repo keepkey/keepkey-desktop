@@ -15,9 +15,10 @@ export type PinMatrixRequestType2 = PinMatrixRequestTypeMap[keyof PinMatrixReque
 export type RendererIpc = {
   updateState(data: KKStateData): Promise<void>
   appClosing(): Promise<void>
-  modalPair(data: PairingProps): Promise<undefined | string[]>
-  modalPin(pinRequestType: PinMatrixRequestType2, signal: AbortSignal): Promise<string>
+  modalPair(data: PairingProps): Promise<boolean>
   modalPassphrase(signal: AbortSignal): Promise<string>
+  modalPin(pinRequestType: PinMatrixRequestType2): Promise<string>
+  modalPassphrase(): Promise<string>
   modalCloseAll(): Promise<void>
   updateFeatures(): Promise<void>
   accountSignTx(data: {

@@ -2,6 +2,7 @@ import type * as core from '@shapeshiftoss/hdwallet-core'
 import AutoLaunch from 'auto-launch'
 import * as Comlink from 'comlink'
 import type { BrowserWindow } from 'electron'
+import { app } from 'electron'
 import fs from 'fs'
 import * as hidefile from 'hidefile'
 import type { Server } from 'http'
@@ -72,15 +73,13 @@ export const kkAutoLauncher = new AutoLaunch({
   name: 'KeepKey Desktop',
 })
 
-let disconnectionAborter = new AbortController()
+const redacted = Symbol.for('redacted')
 export const kkStateController = new KKStateController(
   async function (this: KKStateController, data: KKStateData) {
     console.log('KK STATE', data)
     createAndUpdateTray()
     await (await rendererIpc).updateState(data)
     if (data.state === 'disconnected') {
-      disconnectionAborter.abort()
-      disconnectionAborter = new AbortController()
       await (await rendererIpc).modalCloseAll()
     }
   },
@@ -92,36 +91,50 @@ export const kkStateController = new KKStateController(
       ...{
         ...e,
         date: undefined,
-        proto: e.proto?.toObject(),
+        ...(e.message_type !== 'PASSPHRASEACK'
+          ? {
+              proto: e.proto?.toObject(),
+            }
+          : {
+              message: redacted,
+              proto: redacted,
+            }),
       },
     })
     if (e.message_type === 'PINMATRIXREQUEST') {
       const pinRequestType: PinMatrixRequestType2 = e.message.type
-      const pin = await (await rendererIpc)
-        .modalPin(pinRequestType, Comlink.proxy(disconnectionAborter.signal))
-        .catch(e => {
-          console.error('modalPin error:', e)
-          return undefined
-        })
+      const pin = await (await rendererIpc).modalPin(pinRequestType).catch(e => {
+        console.error('modalPin error:', e)
+        return undefined
+      })
+      await (await rendererIpc).modalCloseAll()
       if (pin !== undefined) {
         await this.wallet!.sendPin(pin)
       } else {
         await this.wallet!.cancel()
       }
-    } else if (e.message_type === 'PASSPHRASEREQUEST') {
-      const passphrase = await (await rendererIpc)
-        .modalPassphrase(Comlink.proxy(disconnectionAborter.signal))
-        .catch(e => {
-          console.error('modalPassphrase error:', e)
-          return undefined
-        })
-      if (passphrase !== undefined) {
-        await this.wallet!.sendPassphrase(passphrase)
-      } else {
-        await this.wallet!.cancel()
+    }
+    if (e.message_type === 'SUCCESS') {
+      if (e.message.message === 'PIN removed' || e.message.message === 'PIN changed') {
+        //restart app
+        console.log('restarting app')
+        app.relaunch()
+        app.exit()
       }
-    } else if (e.message_type === 'SUCCESS' && e.message.message === 'Settings applied') {
-      await (await rendererIpc).updateFeatures()
+    } else if (e.message_type === 'PASSPHRASEREQUEST') {
+      const passphrase = await (await rendererIpc).modalPassphrase().catch(e => {
+        console.error('modalPassphrase error:', e)
+        return undefined
+      })
+      try {
+        if (passphrase !== undefined) {
+          await this.wallet!.sendPassphrase(passphrase)
+        } else {
+          await this.wallet!.cancel()
+        }
+      } finally {
+        await (await rendererIpc).modalCloseAll()
+      }
     }
   },
 )

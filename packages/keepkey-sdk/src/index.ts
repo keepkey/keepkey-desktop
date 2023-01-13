@@ -1,4 +1,4 @@
-import type { PairingInfo } from './generated'
+import type { Middleware, PairingInfo, ResponseContext } from './generated'
 import { Configuration } from './generated'
 import * as apis from './generated/apis'
 
@@ -45,10 +45,20 @@ export class KeepKeySdk {
     set apiKey(value: string | undefined)
     pairingInfo?: PairingInfo
   }): Promise<KeepKeySdk> {
+    const middleware: Middleware[] = [
+      {
+        async post(context: ResponseContext): Promise<void> {
+          if (context.response.status === 500) {
+            throw await context.response.json()
+          }
+        },
+      },
+    ]
     const existingKey = config.apiKey
     const sdkWithExistingKey = new KeepKeySdk(
       new Configuration({
         basePath: config?.basePath,
+        middleware,
         accessToken: existingKey,
       }),
     )
@@ -75,6 +85,7 @@ export class KeepKeySdk {
     return new KeepKeySdk(
       new Configuration({
         basePath: config?.basePath,
+        middleware,
         accessToken: newKey,
       }),
     )

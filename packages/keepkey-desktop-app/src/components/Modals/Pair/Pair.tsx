@@ -1,9 +1,12 @@
+import { WarningTwoIcon } from '@chakra-ui/icons'
 import {
   Alert,
   AlertDescription,
   AlertIcon,
   Box,
   Button,
+  ChakraText,
+  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -19,55 +22,58 @@ import { Text } from 'components/Text'
 // import { WalletActions } from 'context/WalletProvider/actions'
 // import { SessionTypes } from '@walletconnect/types'
 import { useModal } from 'hooks/useModal/useModal'
-import { useState } from 'react'
+import { getPioneerClient } from 'lib/getPioneerCleint'
+import { useEffect, useState } from 'react'
 
 import type { PairingProps } from './types'
 
-export const PairModal = (input: {
-  deferred?: Deferred<undefined | string[]>
-  data?: PairingProps
-}) => {
+export const PairModal = (input: { deferred?: Deferred<boolean>; data?: PairingProps }) => {
   const [error] = useState<string | null>(null)
   const [loading] = useState(false)
+  const [isFound, setIsFound] = useState(false)
   const { pair } = useModal()
   const { close, isOpen } = pair
 
-  // const [accounts, setAccounts] = useState<string[]>([])
-  //
-  // const { state, dispatch } = useWallet()
+  let onStart = async function () {
+    try {
+      const pioneer = await getPioneerClient()
 
-  // useEffect(() => {
-  //   if (input.data?.type === 'walletconnect') {
-  //     ;(state.wallet as KeepKeyHDWallet)
-  //       .ethGetAddress({
-  //         addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
-  //         showDisplay: false,
-  //       })
-  //       .then(address => {
-  //         setAccounts([address])
-  //       })
-  //   }
-  // }, [state.wallet, input.data?.type])
+      let globals = await pioneer.Globals()
+      console.log('globals: ', globals)
+      console.log('input.data: ', input.data)
+      console.log('input.data: ', input.data.name)
+
+      //find EVP by name
+      let evpData = await pioneer.ListAppsByName({ name: input.data.name })
+      console.log('evpData: ', evpData)
+      //if found EVP, send to device
+
+      if (evpData[0]) {
+        //send to device
+      } else {
+        //show Warning
+        setIsFound(false)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  useEffect(() => {
+    onStart()
+  }, [input, input.data, input.data?.type])
 
   const HandleSubmit = async () => {
-    // if (input.data?.type === 'native') {
-    //   input.deferred?.resolve(undefined)
-    // }
-    // if (input.data?.type === 'walletconnect') {
-    //   input.deferred?.resolve(accounts)
-    //   dispatch({
-    //     type: WalletActions.SET_WALLET_CONNECT_APP,
-    //     payload: input.data?.data.params[0]?.peerMeta,
-    //   })
-    // }
+    console.log('Approving!')
+    input.deferred?.resolve(true)
     close()
   }
 
   const HandleReject = async () => {
+    console.log('Rejecting!')
+    console.log('input: !', input)
+    input.deferred?.resolve(false)
     close()
-    // if (input.data?.type === 'native') {
-    //   input.deferred?.reject()
-    // }
   }
 
   return (
@@ -86,41 +92,50 @@ export const PairModal = (input: {
         <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
           <ModalCloseButton ml='auto' borderRadius='full' position='static' />
           <ModalHeader>
-            {/*<Text*/}
-            {/*  translation={*/}
-            {/*    input.data?.type === 'native'*/}
-            {/*      ? 'modals.pair.native.header'*/}
-            {/*      : 'modals.pair.walletconnect.header'*/}
-            {/*  }*/}
-            {/*/>*/}
+            <Text
+              translation={
+                input.data?.type === 'native'
+                  ? 'modals.pair.native.header'
+                  : 'modals.pair.walletconnect.header'
+              }
+            />
           </ModalHeader>
           <ModalBody>
             <Stack spacing={4} mb={4}>
               <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center'>
-                {/*<Image*/}
-                {/*  src={*/}
-                {/*    input.data?.type === 'native'*/}
-                {/*      ? input.data?.data.serviceImageUrl*/}
-                {/*      : input?.data?.data.params[0]?.peerMeta?.icons[0]*/}
-                {/*  }*/}
-                {/*  borderRadius='full'*/}
-                {/*  height='10'*/}
-                {/*  width='10'*/}
-                {/*/>*/}
-
                 <Box display='flex' flexDirection='column'>
-                  {/*<Text*/}
-                  {/*  translation={[*/}
-                  {/*    'modals.pair.native.body',*/}
-                  {/*    {*/}
-                  {/*      serviceName:*/}
-                  {/*        input.data?.type === 'native'*/}
-                  {/*          ? input.data?.data.serviceName*/}
-                  {/*          : input?.data?.data.params[0]?.peerMeta.name,*/}
-                  {/*    },*/}
-                  {/*  ]}*/}
-                  {/*  pl='2'*/}
-                  {/*/>*/}
+                  <Text
+                    translation={[
+                      'modals.pair.native.body',
+                      {
+                        serviceName:
+                          input.data?.type === 'native'
+                            ? input.data.name
+                            : input?.data?.data.params[0]?.peerMeta.name,
+                      },
+                    ]}
+                    pl='2'
+                  />
+                  {isFound ? (
+                    <div>
+                      <Image
+                        src={
+                          input.data?.type === 'native'
+                            ? input.data?.ImageUrl
+                            : input?.data?.data.params[0]?.peerMeta?.icons[0]
+                        }
+                        borderRadius='full'
+                        height='10'
+                        width='10'
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <WarningTwoIcon boxSize={12} color='yellow.500' />
+                      <h4>This Dapp is not recognized, use at your own risk!</h4>
+                    </div>
+                  )}
+
                   {/*{input.data?.type === 'walletconnect' ? (*/}
                   {/*  <ChakraText pl={2} color='gray.500' fontSize='sm'>*/}
                   {/*    {input?.data?.data.params[0]?.peerMeta.description}*/}

@@ -27,6 +27,7 @@ import {
   tcpBridgeStarting,
 } from './globalState'
 import { logger } from './helpers/middlewares/logger'
+import { rendererIpc } from './ipcListeners'
 import { createAndUpdateTray } from './tray'
 
 export const startTcpBridge = async (port?: number) => {
@@ -51,13 +52,22 @@ export const startTcpBridge = async (port?: number) => {
   setSdkPairingHandler(async (info: PairingInfo) => {
     const apiKey = uuid.v4()
     console.log('approving pairing request', info, apiKey)
-    await db.insertOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
-      type: 'sdk-pairing',
-      apiKey,
-      info,
-    })
-
-    return apiKey
+    // await promptUser(){}
+    let input: any = info
+    input.type = 'native'
+    let result = await (await rendererIpc).modalPair(input)
+    console.log('PAIR RESULT: ', result)
+    if (result) {
+      console.log('USER APPROVED!')
+      await db.insertOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
+        type: 'sdk-pairing',
+        apiKey,
+        info,
+      })
+      return apiKey
+    } else {
+      return 'rejected'
+    }
   })
   setSdkClientFactory(async (apiKey: string) => {
     const doc = await db.findOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({

@@ -33,7 +33,7 @@ export const useKeepKeyEventHandler = (
   const {
     keyring,
     modal,
-    deviceState: { disposition, isUpdatingPin },
+    deviceState: { disposition },
   } = state
 
   const toast = useToast()
@@ -312,7 +312,6 @@ export const useKeepKeyEventHandler = (
     dispatch,
     keyring,
     disconnect,
-    isUpdatingPin,
     modal,
     state.walletInfo,
     setDeviceState,

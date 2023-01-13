@@ -106,6 +106,8 @@ export const App = () => {
             hardwareError.close()
             break
           case KKState.Disconnected:
+            hardwareError.close()
+            hardwareError.open({})
             dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
             disconnect()
             loading.close()
@@ -113,7 +115,7 @@ export const App = () => {
           case KKState.HardwareError:
             dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
             loading.close()
-            hardwareError.open({})
+            hardwareError.open(data)
             break
           case KKState.UpdateBootloader:
           case KKState.UpdateFirmware:
@@ -173,12 +175,12 @@ export const App = () => {
       },
 
       async modalPair(data: PairingProps) {
-        const out = deferred<undefined | string[]>()
+        const out = deferred<boolean>()
         pair.open({ deferred: out, data })
         return await out
       },
 
-      async modalPin(pinRequestType2: PinMatrixRequestType2, signal: AbortSignal): Promise<string> {
+      async modalPin(pinRequestType2: PinMatrixRequestType2): Promise<string> {
         const pinRequestType: PinMatrixRequestType = mapPinRequestType(pinRequestType2)
         if (window.localStorage.getItem('onboarded') !== 'true') {
           await new Promise(resolve => {
@@ -200,36 +202,16 @@ export const App = () => {
             deferred: out,
           },
         })
-        const done = Promise.any([
-          out,
-          new Promise((_resolve, reject) => signal.addEventListener('abort', reject)),
-        ])
-        done.finally(() => {
-          dispatch({
-            type: WalletActions.SET_WALLET_MODAL,
-            payload: false,
-          })
-        })
         return await out
       },
 
-      async modalPassphrase(signal: AbortSignal): Promise<string> {
+      async modalPassphrase(): Promise<string> {
         const out = deferred<string>()
         dispatch({
           type: WalletActions.OPEN_KEEPKEY_PASSPHRASE,
           payload: {
             deferred: out,
           },
-        })
-        const done = Promise.any([
-          out,
-          new Promise((_resolve, reject) => signal.addEventListener('abort', reject)),
-        ])
-        done.finally(() => {
-          dispatch({
-            type: WalletActions.SET_WALLET_MODAL,
-            payload: false,
-          })
         })
         return await out
       },
@@ -239,10 +221,12 @@ export const App = () => {
           type: WalletActions.SET_WALLET_MODAL,
           payload: false,
         })
+        state.passphraseDeferred?.reject()
+        state.pinDeferred?.reject()
       },
 
       async updateFeatures(): Promise<void> {
-        updateFeatures(false)
+        updateFeatures()
       },
 
       async accountSignTx(data: {

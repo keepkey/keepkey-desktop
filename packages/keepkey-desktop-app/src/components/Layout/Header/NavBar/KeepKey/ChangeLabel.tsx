@@ -23,7 +23,7 @@ export const ChangeLabel = () => {
   const toast = useToast()
   const { state, setDeviceState } = useWallet()
   const { walletInfo } = state
-  const { keepKeyWallet } = useKeepKey()
+  const { keepKeyWallet, updateFeatures } = useKeepKey()
   const {
     state: {
       deviceState: { awaitingDeviceInteraction },
@@ -37,22 +37,15 @@ export const ChangeLabel = () => {
 
     cancelled = true
 
-    await keepKeyWallet
-      ?.cancel()
-      .catch(e => {
-        fnLogger.error(e, 'Error cancelling new label...')
-        toast({
-          title: translate('common.error'),
-          description: e?.message?.message ?? translate('common.somethingWentWrong'),
-          status: 'error',
-          isClosable: true,
-        })
+    await keepKeyWallet?.cancel().catch(e => {
+      fnLogger.error(e, 'Error cancelling new label...')
+      toast({
+        title: translate('common.error'),
+        description: e?.message?.message ?? translate('common.somethingWentWrong'),
+        status: 'error',
+        isClosable: true,
       })
-      .finally(() => {
-        setDeviceState({
-          isUpdatingPin: false,
-        })
-      })
+    })
   }
 
   const handleHeaderBackClick = async () => {
@@ -61,6 +54,8 @@ export const ChangeLabel = () => {
   }
 
   const handleChangeLabelInitializeEvent = async () => {
+    if (!keepKeyWallet) return
+
     const fnLogger = moduleLogger.child({
       namespace: ['handleChangeLabelInitializeEvent'],
       keepKeyLabel,
@@ -72,16 +67,22 @@ export const ChangeLabel = () => {
     })
 
     cancelled = false
-    await keepKeyWallet?.applySettings({ label: keepKeyLabel }).catch(e => {
-      if (cancelled) return
-      fnLogger.error(e, 'Error applying KeepKey settings')
-      toast({
-        title: translate('common.error'),
-        description: e?.message ?? translate('common.somethingWentWrong'),
-        status: 'error',
-        isClosable: true,
+    await keepKeyWallet
+      .applySettings({ label: keepKeyLabel })
+      .catch(e => {
+        if (cancelled) return
+        fnLogger.error(e, 'Error applying KeepKey settings')
+        toast({
+          title: translate('common.error'),
+          description: e?.message ?? translate('common.somethingWentWrong'),
+          status: 'error',
+          isClosable: true,
+        })
       })
-    })
+      .finally(() => {
+        setDeviceState({ awaitingDeviceInteraction: false })
+        updateFeatures()
+      })
 
     fnLogger.trace('KeepKey Label Applied')
   }

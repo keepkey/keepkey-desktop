@@ -3,8 +3,8 @@ export type PairingProps = NativePairingProps | WalletConnectPairingProps
 export type NativePairingProps = {
   type: 'native'
   data: {
-    serviceName: string
-    serviceImageUrl: string
+    ImageUrl: string
+    name: string
   }
   nonce: string
 }
