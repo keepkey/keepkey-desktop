@@ -1,6 +1,7 @@
 import * as Comlink from 'comlink'
 import { electronEndpoint } from 'comlink-electron-endpoint/main'
 import type { IpcMainEvent } from 'electron'
+import { session } from 'electron'
 import { webContents } from 'electron'
 import { app, desktopCapturer, ipcMain } from 'electron'
 import { autoUpdater } from 'electron-updater'
@@ -262,6 +263,12 @@ export const ipcListeners: IpcListeners = {
         contents.off('input-event', handler)
       } catch {} // the contents object might have already been destroyed, and that's ok
     })
+  },
+
+  async clearBrowserSession() {
+    const browserSession = session.fromPartition('browser')
+    await browserSession.clearStorageData()
+    await browserSession.clearCache()
   },
 
   // async appUpdate() {

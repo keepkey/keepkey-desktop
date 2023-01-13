@@ -1,8 +1,10 @@
 import type { ButtonProps, SimpleGridProps } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/react'
 import { Alert, AlertDescription, AlertIcon, Button, Input, SimpleGrid } from '@chakra-ui/react'
 import { CircleIcon } from 'components/Icons/Circle'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
+import { useModal } from 'hooks/useModal/useModal'
 // import { FailureType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
@@ -41,6 +43,8 @@ export const KeepKeyPin = ({
   const pinFieldRef = useRef<HTMLInputElement | null>(null)
 
   const pinNumbers = [7, 8, 9, 4, 5, 6, 1, 2, 3]
+
+  const { keepKeyWipe } = useModal()
 
   const handlePinPress = useCallback(
     (value: number) => {
@@ -176,6 +180,13 @@ export const KeepKeyPin = ({
           </Button>
         ))}
       </SimpleGrid>
+      <Link
+        onClick={() => {
+          keepKeyWipe.open({})
+        }}
+      >
+        Forgot your pin? Wipe device
+      </Link>
       <Input
         type='password'
         ref={pinFieldRef}

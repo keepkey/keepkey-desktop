@@ -86,6 +86,8 @@ export type IpcListeners = {
     callback: (data: string) => Promise<void>,
   ): Promise<void>
 
+  clearBrowserSession(): Promise<void>
+
   // appUpdate(): Promise<UpdateCheckResult | { updateInfo: { version: string } } | undefined>
   // appDownloadUpdates(): Promise<void>
   // appInstallUpdates(): Promise<void>
