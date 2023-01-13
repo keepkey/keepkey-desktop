@@ -20100,6 +20100,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "keepkey-sdk-server@workspace:packages/keepkey-sdk-server"
   dependencies:
+    "@keepkey/device-protocol": ^7.10.2
     "@shapeshiftoss/hdwallet-core": ^1.41.0
     "@shapeshiftoss/hdwallet-keepkey": ^1.41.0
     "@tsoa/runtime": ^4.1.3

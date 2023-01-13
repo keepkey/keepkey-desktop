@@ -18,6 +18,7 @@ import { SubmenuHeader } from 'components/Layout/Header/NavBar/SubmenuHeader'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import { useCallback } from 'react'
 import { useTranslate } from 'react-polyglot'
 
 import { SubMenuBody } from '../SubMenuBody'
@@ -27,42 +28,60 @@ const moduleLogger = logger.child({
   namespace: ['Layout', 'Header', 'NavBar', 'KeepKey', 'ChangePassphrase'],
 })
 
+let cancelled = false
+
 export const ChangePassphrase = () => {
   const translate = useTranslate()
   const toast = useToast()
   const {
     keepKeyWallet,
     setHasPassphrase,
+    updateFeatures,
     state: { hasPassphrase },
   } = useKeepKey()
   const {
     state: {
       deviceState: { awaitingDeviceInteraction },
     },
+    setDeviceState,
   } = useWallet()
 
   const handleToggle = async () => {
+    if (!keepKeyWallet) return
+    cancelled = false
+
     const fnLogger = moduleLogger.child({ namespace: ['handleToggle'], hasPassphrase })
     fnLogger.trace('Applying Passphrase setting...')
 
     const currentValue = !!hasPassphrase
-    setHasPassphrase(!hasPassphrase)
-    await keepKeyWallet?.applySettings({ usePassphrase: !currentValue }).catch(e => {
-      fnLogger.error(e, 'Error applying Passphrase setting')
-      toast({
-        title: translate('common.error'),
-        description: e?.message ?? translate('common.somethingWentWrong'),
-        status: 'error',
-        isClosable: true,
+    setHasPassphrase(!currentValue)
+    setDeviceState({ awaitingDeviceInteraction: true })
+    await keepKeyWallet
+      .applySettings({ usePassphrase: !currentValue })
+      .then(() => {
+        fnLogger.trace({ enabled: !hasPassphrase }, 'Passphrase setting changed')
       })
-    })
-
-    fnLogger.trace({ enabled: !hasPassphrase }, 'Passphrase setting changed')
+      .catch(e => {
+        setHasPassphrase(currentValue)
+        fnLogger.error(e, 'Error applying Passphrase setting')
+        if (!cancelled) {
+          toast({
+            title: translate('common.error'),
+            description: e?.message ?? translate('common.somethingWentWrong'),
+            status: 'error',
+            isClosable: true,
+          })
+        }
+      })
+      .finally(() => {
+        setDeviceState({ awaitingDeviceInteraction: false })
+        updateFeatures()
+      })
   }
 
-  const onCancel = () => {
-    setHasPassphrase(!hasPassphrase)
-  }
+  const handleCancel = useCallback(() => {
+    cancelled = true
+  }, [])
 
   const setting = 'Passphrase'
 
@@ -112,7 +131,7 @@ export const ChangePassphrase = () => {
       </SubMenuBody>
       <AwaitKeepKey
         translation={['walletProvider.keepKey.settings.descriptions.buttonPrompt', { setting }]}
-        onCancel={onCancel}
+        onCancel={handleCancel}
       />
     </SubMenuContainer>
   )

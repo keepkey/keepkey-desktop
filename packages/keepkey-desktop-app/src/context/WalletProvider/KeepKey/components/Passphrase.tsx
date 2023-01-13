@@ -1,4 +1,5 @@
 import { Button, Input, ModalBody, ModalHeader } from '@chakra-ui/react'
+import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { Text } from 'components/Text'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useCallback, useRef, useState } from 'react'
@@ -35,6 +36,11 @@ export const KeepKeyPassphrase = () => {
         <Button width='full' size='lg' colorScheme='blue' onClick={handleSubmit} disabled={loading}>
           <Text translation={'modals.keepKey.passphrase.button'} />
         </Button>
+        <AwaitKeepKey
+          translation={'modals.keepKey.passphrase.bodyConfirm'}
+          noCancel={true}
+          awaitingDeviceInteraction={loading}
+        />
       </ModalBody>
     </>
   )
