@@ -1,22 +1,18 @@
-import { ChatIcon, CloseIcon, SettingsIcon } from '@chakra-ui/icons'
+import { CloseIcon } from '@chakra-ui/icons'
 import type { FlexProps } from '@chakra-ui/react'
-import { Box, Flex, IconButton, Link, Stack, useMediaQuery } from '@chakra-ui/react'
-import { useModal } from 'hooks/useModal/useModal'
-import { useTranslate } from 'react-polyglot'
+import { Box, Flex, IconButton, useMediaQuery } from '@chakra-ui/react'
 import { breakpoints } from 'theme/theme'
 
 import { AutoCompleteSearch } from './AutoCompleteSearch/AutoCompleteSearch'
 import { ChainMenu } from './NavBar/ChainMenu'
-import { MainNavLink } from './NavBar/MainNavLink'
 import { NavBar } from './NavBar/NavBar'
-// import { UserMenu } from './NavBar/UserMenu'
 
 type HeaderContentProps = {
   isCompact?: boolean
   onClose?: () => void
 } & FlexProps
 
-export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
+export const SideNavContent = ({ onClose }: HeaderContentProps) => {
   const [isLargerThanMd] = useMediaQuery(`(min-width: ${breakpoints['md']})`, { ssr: false })
 
   const handleClick = (onClick?: () => void) => {
@@ -35,6 +31,8 @@ export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
       flexDir='row'
       overflowY='auto'
       p={4}
+      maxWidth='1000px'
+      margin='auto'
     >
       {!isLargerThanMd && (
         <Flex direction='column' rowGap={2} columnGap={2} width='full'>
@@ -46,9 +44,6 @@ export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
             onClick={() => handleClick()}
           />
           <Flex gap={2}>
-            {/*<Flex width='full'>*/}
-            {/*  <UserMenu onClick={() => handleClick()} />*/}
-            {/*</Flex>*/}
             <ChainMenu />
           </Flex>
           <Box width='full'>
