@@ -226,7 +226,7 @@ export const App = () => {
       },
 
       async updateFeatures(): Promise<void> {
-        updateFeatures(false)
+        updateFeatures()
       },
 
       async accountSignTx(data: {

@@ -135,23 +135,6 @@ export const kkStateController = new KKStateController(
       } finally {
         await (await rendererIpc).modalCloseAll()
       }
-    } else if (e.message_type === 'FAILURE') {
-      //known
-      if (e.message.message === 'PINs do not match') {
-        //attempted incorrect pin attempt, try again
-        console.log('attempted incorrect pin attempt, try again')
-        //send error to pin modal, reset modal
-      }
-
-      // *magic
-      //Malformed tiny packet
-      if (e.message.message === 'Malformed tiny packet') {
-        //attempted invalid pin, clear and reset pin
-        console.log('attempted invalid pin, clear and reset pin')
-        //send error to pin modal, reset modal
-      }
-    } else if (e.message_type === 'SUCCESS' && e.message.message === 'Settings applied') {
-      await (await rendererIpc).updateFeatures()
     }
   },
 )

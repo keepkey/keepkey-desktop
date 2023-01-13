@@ -88,7 +88,7 @@ export interface IKeepKeyContext {
   keepKeyWallet: KeepKeyHDWallet | undefined
   getKeepkeyAssets: () => KKAsset[]
   getKeepkeyAsset: (geckoId: string) => KKAsset | undefined
-  updateFeatures: (cached?: boolean) => void
+  updateFeatures: () => void
   kkWeb3: Web3 | undefined
   kkNftContract: any
   kkErc20Contract: any
@@ -105,7 +105,15 @@ const reducer = (state: InitialState, action: KeepKeyActionTypes) => {
     case KeepKeyActions.SET_HAS_PASSPHRASE:
       return { ...state, hasPassphrase: action.payload }
     case KeepKeyActions.SET_FEATURES:
-      return { ...state, features: action.payload }
+      const deviceTimeout = Object.values(timeoutOptions).find(
+        t => Number(t.value) === action.payload?.autoLockDelayMs,
+      )
+      return {
+        ...state,
+        features: action.payload,
+        hasPassphrase: !!action.payload?.passphraseProtection,
+        deviceTimeout,
+      }
     case KeepKeyActions.SET_DEVICE_TIMEOUT:
       return { ...state, deviceTimeout: action.payload }
     case KeepKeyActions.RESET_STATE:
@@ -216,29 +224,17 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
     })
   }, [])
 
-  const setDeviceTimeout = useCallback((payload: RadioOption<DeviceTimeout> | undefined) => {
-    dispatch({
-      type: KeepKeyActions.SET_DEVICE_TIMEOUT,
-      payload,
-    })
-  }, [])
+  const updateFeatures = useCallback(() => {
+    if (!keepKeyWallet) return
+    keepKeyWallet
+      .getFeatures(false)
+      .then(payload => dispatch({ type: KeepKeyActions.SET_FEATURES, payload }))
+      .catch(e => console.error('updateFeatures error:', e))
+  }, [keepKeyWallet])
 
-  const updateFeatures = useCallback(
-    (cached?: boolean) => {
-      if (!keepKeyWallet) return
-      ;(async () => {
-        const features = await keepKeyWallet.getFeatures(cached)
-        dispatch({ type: KeepKeyActions.SET_FEATURES, payload: features })
-        setHasPassphrase(features?.passphraseProtection)
-        setDeviceTimeout(
-          Object.values(timeoutOptions).find(t => Number(t.value) === features?.autoLockDelayMs),
-        )
-      })()
-    },
-    [keepKeyWallet, setDeviceTimeout, setHasPassphrase],
-  )
-
-  useEffect(() => updateFeatures(), [updateFeatures])
+  useEffect(() => {
+    updateFeatures()
+  }, [updateFeatures])
 
   useEffect(() => {
     if (!keepKeyWallet) return
