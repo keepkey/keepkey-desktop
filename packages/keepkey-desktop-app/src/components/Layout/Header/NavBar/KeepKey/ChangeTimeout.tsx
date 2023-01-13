@@ -7,7 +7,7 @@ import { Radio } from 'components/Radio/Radio'
 import { DeviceTimeout, timeoutOptions, useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 
 import { SubMenuBody } from '../SubMenuBody'
@@ -17,39 +17,65 @@ const moduleLogger = logger.child({
   namespace: ['Layout', 'Header', 'NavBar', 'KeepKey', 'ChangeTimeout'],
 })
 
+let cancelled = false
+
 export const ChangeTimeout = () => {
   const translate = useTranslate()
   const {
     keepKeyWallet,
     state: { deviceTimeout },
+    updateFeatures,
   } = useKeepKey()
   const {
     state: {
       deviceState: { awaitingDeviceInteraction },
     },
+    setDeviceState,
   } = useWallet()
   const toast = useToast()
   const [radioTimeout, setRadioTimeout] = useState<DeviceTimeout>()
 
-  const handleChange = async (value: DeviceTimeout) => {
-    const fnLogger = moduleLogger.child({ namespace: ['handleChange'] })
+  const handleChange = useCallback(
+    async (value: DeviceTimeout) => {
+      if (!keepKeyWallet) return
 
-    const parsedTimeout = value ? parseInt(value) : parseInt(DeviceTimeout.TenMinutes)
-    fnLogger.trace({ autoLockDelayMs: parsedTimeout }, 'Applying autoLockDelayMs...')
+      const oldValue = radioTimeout
+      const parsedTimeout = value ? parseInt(value) : parseInt(DeviceTimeout.TenMinutes)
+      const fnLogger = moduleLogger.child({ namespace: ['handleChange'] })
+      fnLogger.trace({ parsedTimeout, oldValue }, 'Applying autoLockDelayMs...')
 
-    value && setRadioTimeout(value)
-    await keepKeyWallet?.applySettings({ autoLockDelayMs: parsedTimeout }).catch(e => {
-      fnLogger.error(e, { autoLockDelayMs: parsedTimeout }, 'Error applying autoLockDelayMs')
-      toast({
-        title: translate('common.error'),
-        description: e?.message ?? translate('common.somethingWentWrong'),
-        status: 'error',
-        isClosable: true,
-      })
-    })
+      setRadioTimeout(value)
 
-    fnLogger.trace({ autoLockDelayMs: parsedTimeout }, 'Applied autoLockDelayMs')
-  }
+      cancelled = false
+      setDeviceState({ awaitingDeviceInteraction: true })
+      await keepKeyWallet
+        .applySettings({ autoLockDelayMs: parsedTimeout })
+        .then(() => {
+          fnLogger.trace({ parsedTimeout, oldValue }, 'Applied autoLockDelayMs')
+        })
+        .catch(e => {
+          setRadioTimeout(oldValue)
+          fnLogger.error(e, { parsedTimeout, oldValue }, 'Error applying autoLockDelayMs')
+          if (!cancelled) {
+            toast({
+              title: translate('common.error'),
+              description: e?.message ?? translate('common.somethingWentWrong'),
+              status: 'error',
+              isClosable: true,
+            })
+          }
+        })
+        .finally(() => {
+          setDeviceState({ awaitingDeviceInteraction: false })
+          updateFeatures()
+        })
+    },
+    [radioTimeout, keepKeyWallet, setDeviceState, toast, translate, updateFeatures],
+  )
+
+  const handleCancel = useCallback(() => {
+    cancelled = true
+  }, [])
 
   const setting = 'timeout'
   const colorScheme = useColorModeValue('blackAlpha', 'white')
@@ -76,7 +102,7 @@ export const ChangeTimeout = () => {
           options={timeoutOptions}
           onChange={handleChange}
           colorScheme={colorScheme}
-          defaultValue={radioTimeout}
+          value={radioTimeout}
           checkColor={checkColor}
           isLoading={awaitingDeviceInteraction}
           radioProps={{ width: 'full', justifyContent: 'flex-start' }}
@@ -92,6 +118,7 @@ export const ChangeTimeout = () => {
       </SubMenuBody>
       <AwaitKeepKey
         translation={['walletProvider.keepKey.settings.descriptions.buttonPrompt', { setting }]}
+        onCancel={handleCancel}
       />
     </SubMenuContainer>
   )
