@@ -1,3 +1,4 @@
+import { WarningTwoIcon } from '@chakra-ui/icons'
 import {
   Alert,
   AlertDescription,
@@ -32,6 +33,7 @@ export const PairModal = (input: {
 }) => {
   const [error] = useState<string | null>(null)
   const [loading] = useState(false)
+  const [isFound, setIsFound] = useState(false)
   const { pair } = useModal()
   const { close, isOpen } = pair
 
@@ -64,6 +66,16 @@ export const PairModal = (input: {
       console.log('input.data: ', input.data.name)
 
       //find EVP by name
+      let evpData = await pioneer.ListAppsByName({ name: input.data.name })
+      console.log('evpData: ', evpData)
+      //if found EVP, send to device
+
+      if (evpData[0]) {
+        //send to device
+      } else {
+        //show Warning
+        setIsFound(false)
+      }
     } catch (e) {
       console.error(e)
     }
@@ -113,17 +125,18 @@ export const PairModal = (input: {
           <ModalBody>
             <Stack spacing={4} mb={4}>
               <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center'>
-                <Image
-                  src={
-                    input.data?.type === 'native'
-                      ? input.data?.ImageUrl
-                      : input?.data?.data.params[0]?.peerMeta?.icons[0]
-                  }
-                  borderRadius='full'
-                  height='10'
-                  width='10'
-                />
-
+                <Box display='flex' flexDirection='column'>
+                  <Image
+                    src={
+                      input.data?.type === 'native'
+                        ? input.data?.ImageUrl
+                        : input?.data?.data.params[0]?.peerMeta?.icons[0]
+                    }
+                    borderRadius='full'
+                    height='10'
+                    width='10'
+                  />
+                </Box>
                 <Box display='flex' flexDirection='column'>
                   <Text
                     translation={[
@@ -137,6 +150,15 @@ export const PairModal = (input: {
                     ]}
                     pl='2'
                   />
+                  {isFound ? (
+                    <div>EVP Found</div>
+                  ) : (
+                    <div>
+                      <WarningTwoIcon boxSize={48} color='yellow.500' />
+                      <h2>This Dapp is not recognized, use at your own risk!</h2>
+                    </div>
+                  )}
+
                   {/*{input.data?.type === 'walletconnect' ? (*/}
                   {/*  <ChakraText pl={2} color='gray.500' fontSize='sm'>*/}
                   {/*    {input?.data?.data.params[0]?.peerMeta.description}*/}

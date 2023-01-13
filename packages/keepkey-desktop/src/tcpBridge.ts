@@ -13,7 +13,6 @@ import path from 'path'
 import swaggerUi from 'swagger-ui-express'
 import * as util from 'util'
 import * as uuid from 'uuid'
-import { rendererIpc } from './ipcListeners'
 
 import {
   db,
@@ -28,6 +27,7 @@ import {
   tcpBridgeStarting,
 } from './globalState'
 import { logger } from './helpers/middlewares/logger'
+import { rendererIpc } from './ipcListeners'
 import { createAndUpdateTray } from './tray'
 
 export const startTcpBridge = async (port?: number) => {
@@ -56,7 +56,7 @@ export const startTcpBridge = async (port?: number) => {
     let input: any = info
     input.type = 'native'
     let result = await (await rendererIpc).modalPair(input)
-    console.log(result)
+    console.log('PAIR RESULT: ', result)
     if (result) {
       console.log('USER APPROVED!')
       await db.insertOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
@@ -66,7 +66,7 @@ export const startTcpBridge = async (port?: number) => {
       })
       return apiKey
     } else {
-      throw Error('user-rejected')
+      return 'rejected'
     }
   })
   setSdkClientFactory(async (apiKey: string) => {
