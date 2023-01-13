@@ -628,7 +628,8 @@
           "empty": "You are using an empty passphrase"
         },
         "header": "Enter Your Passphrase",
-        "body": "After submitting your passphrase, use the button on the KeepKey to approve it",
+        "body": "After submitting your passphrase, use the button on the KeepKey to approve it.",
+        "bodyConfirm": "Press and hold the button on the KeepKey to confirm your passphrase.",
         "button": "Submit Passphrase"
       },
       "hardware": {

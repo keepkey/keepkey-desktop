@@ -11,6 +11,8 @@ export type AwaitKeepKeyProps = {
   translation: string | null | [string, number | Polyglot.InterpolationOptions]
   children?: React.ReactNode
   onCancel?: () => Promise<void> | void
+  noCancel?: boolean
+  awaitingDeviceInteraction?: boolean
 } & FlexProps
 
 export const AwaitKeepKey = ({ children, translation, onCancel, ...props }: AwaitKeepKeyProps) => {
@@ -32,7 +34,7 @@ export const AwaitKeepKey = ({ children, translation, onCancel, ...props }: Awai
     await wallet?.cancel()
   }
 
-  return awaitingDeviceInteraction ? (
+  return props.awaitingDeviceInteraction ?? awaitingDeviceInteraction ? (
     <>
       <Divider />
       <Box p={3}>
@@ -40,9 +42,11 @@ export const AwaitKeepKey = ({ children, translation, onCancel, ...props }: Awai
           <InfoIcon color={blueShade} mt={1} />
           <Box ml={3}>
             <Text translation={translation} mb={3} fontWeight='medium' color={blueShade} />
-            <Button colorScheme='blue' variant='ghost-filled' onClick={cancel} size='sm'>
-              {translate('common.cancel')}
-            </Button>
+            {!props.noCancel && (
+              <Button colorScheme='blue' variant='ghost-filled' onClick={cancel} size='sm'>
+                {translate('common.cancel')}
+              </Button>
+            )}
           </Box>
         </Flex>
       </Box>

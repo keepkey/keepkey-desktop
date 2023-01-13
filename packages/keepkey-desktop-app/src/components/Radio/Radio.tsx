@@ -63,6 +63,7 @@ export interface RadioOption<T> {
 export interface RadioProps<T> {
   name?: string
   defaultValue?: T
+  value?: T
   options: readonly RadioOption<T>[]
   onChange: (value: T) => void
   variant?: string
@@ -81,6 +82,7 @@ export const Radio = <T extends RadioTypes>({
   options,
   onChange,
   defaultValue,
+  value,
   variant = 'ghost',
   colorScheme = 'blue',
   buttonGroupProps,
@@ -92,6 +94,7 @@ export const Radio = <T extends RadioTypes>({
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: name ?? 'radio',
     defaultValue,
+    value,
     onChange,
   })
 

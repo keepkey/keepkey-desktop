@@ -73,15 +73,13 @@ export const kkAutoLauncher = new AutoLaunch({
   name: 'KeepKey Desktop',
 })
 
-let disconnectionAborter = new AbortController()
+const redacted = Symbol.for('redacted')
 export const kkStateController = new KKStateController(
   async function (this: KKStateController, data: KKStateData) {
     console.log('KK STATE', data)
     createAndUpdateTray()
     await (await rendererIpc).updateState(data)
     if (data.state === 'disconnected') {
-      disconnectionAborter.abort()
-      disconnectionAborter = new AbortController()
       await (await rendererIpc).modalCloseAll()
     }
   },
@@ -93,17 +91,23 @@ export const kkStateController = new KKStateController(
       ...{
         ...e,
         date: undefined,
-        proto: e.proto?.toObject(),
+        ...(e.message_type !== 'PASSPHRASEACK'
+          ? {
+              proto: e.proto?.toObject(),
+            }
+          : {
+              message: redacted,
+              proto: redacted,
+            }),
       },
     })
     if (e.message_type === 'PINMATRIXREQUEST') {
       const pinRequestType: PinMatrixRequestType2 = e.message.type
-      const pin = await (await rendererIpc)
-        .modalPin(pinRequestType, Comlink.proxy(disconnectionAborter.signal))
-        .catch(e => {
-          console.error('modalPin error:', e)
-          return undefined
-        })
+      const pin = await (await rendererIpc).modalPin(pinRequestType).catch(e => {
+        console.error('modalPin error:', e)
+        return undefined
+      })
+      await (await rendererIpc).modalCloseAll()
       if (pin !== undefined) {
         await this.wallet!.sendPin(pin)
       } else {
@@ -118,34 +122,19 @@ export const kkStateController = new KKStateController(
         app.exit()
       }
     } else if (e.message_type === 'PASSPHRASEREQUEST') {
-      const passphrase = await (await rendererIpc)
-        .modalPassphrase(Comlink.proxy(disconnectionAborter.signal))
-        .catch(e => {
-          console.error('modalPassphrase error:', e)
-          return undefined
-        })
-      if (passphrase !== undefined) {
-        await this.wallet!.sendPassphrase(passphrase)
-      } else {
-        await this.wallet!.cancel()
+      const passphrase = await (await rendererIpc).modalPassphrase().catch(e => {
+        console.error('modalPassphrase error:', e)
+        return undefined
+      })
+      try {
+        if (passphrase !== undefined) {
+          await this.wallet!.sendPassphrase(passphrase)
+        } else {
+          await this.wallet!.cancel()
+        }
+      } finally {
+        await (await rendererIpc).modalCloseAll()
       }
-    } else if (e.message_type === 'FAILURE') {
-      //known
-      if (e.message.message === 'PINs do not match') {
-        //attempted incorrect pin attempt, try again
-        console.log('attempted incorrect pin attempt, try again')
-        //send error to pin modal, reset modal
-      }
-
-      // *magic
-      //Malformed tiny packet
-      if (e.message.message === 'Malformed tiny packet') {
-        //attempted invalid pin, clear and reset pin
-        console.log('attempted invalid pin, clear and reset pin')
-        //send error to pin modal, reset modal
-      }
-    } else if (e.message_type === 'SUCCESS' && e.message.message === 'Settings applied') {
-      await (await rendererIpc).updateFeatures()
     }
   },
 )

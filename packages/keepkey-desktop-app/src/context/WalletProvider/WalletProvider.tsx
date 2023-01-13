@@ -5,7 +5,7 @@ import { Keyring } from '@shapeshiftoss/hdwallet-core'
 import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-walletconnect'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
 import kkIconBlack from 'assets/kk-icon-black.png'
-import { Deferred } from 'common-utils'
+import type { Deferred } from 'common-utils'
 import type { Entropy } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { VALID_ENTROPY } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
@@ -63,7 +63,6 @@ export type DeviceState = {
   recoveryEntropy: Entropy
   recoveryCharacterIndex: number | undefined
   recoveryWordIndex: number | undefined
-  isUpdatingPin: boolean | undefined
   isDeviceLoading: boolean | undefined
 }
 
@@ -75,7 +74,6 @@ const initialDeviceState: DeviceState = {
   recoveryEntropy: VALID_ENTROPY[0],
   recoveryCharacterIndex: undefined,
   recoveryWordIndex: undefined,
-  isUpdatingPin: false,
   isDeviceLoading: false,
 }
 
@@ -172,7 +170,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         disposition = deviceState.disposition,
         recoverWithPassphrase = deviceState.recoverWithPassphrase,
         recoveryEntropy = deviceState.recoveryEntropy,
-        isUpdatingPin = deviceState.isUpdatingPin,
         isDeviceLoading = deviceState.isDeviceLoading,
       } = action.payload
       return {
@@ -184,7 +181,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
           disposition,
           recoverWithPassphrase,
           recoveryEntropy,
-          isUpdatingPin,
           isDeviceLoading,
         },
       }
