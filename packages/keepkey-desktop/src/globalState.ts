@@ -73,6 +73,7 @@ export const kkAutoLauncher = new AutoLaunch({
   name: 'KeepKey Desktop',
 })
 
+const redacted = Symbol.for('redacted')
 export const kkStateController = new KKStateController(
   async function (this: KKStateController, data: KKStateData) {
     console.log('KK STATE', data)
@@ -90,7 +91,14 @@ export const kkStateController = new KKStateController(
       ...{
         ...e,
         date: undefined,
-        proto: e.proto?.toObject(),
+        ...(e.message_type !== 'PASSPHRASEACK'
+          ? {
+              proto: e.proto?.toObject(),
+            }
+          : {
+              message: redacted,
+              proto: redacted,
+            }),
       },
     })
     if (e.message_type === 'PINMATRIXREQUEST') {
