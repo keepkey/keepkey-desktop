@@ -127,7 +127,10 @@ export class KKStateController {
     if (!resultInit.wallet) {
       log.info('KKStateController resultInit.unplugged')
       await this.updateState({ state: KKState.Disconnected })
-    } else if (resultInit.bootloaderVersion !== latestFirmware.bootloader.version && semver.lt(resultInit.bootloaderVersion, latestFirmware.bootloader.version)) {
+    } else if (
+      resultInit.bootloaderVersion !== latestFirmware.bootloader.version &&
+      semver.lt(resultInit.bootloaderVersion, latestFirmware.bootloader.version)
+    ) {
       log.info('KKStateController UPDATE_BOOTLOADER')
       await this.updateState({
         state: KKState.UpdateBootloader,
@@ -137,7 +140,10 @@ export class KKStateController {
         recommendedFirmware: latestFirmware.firmware.version,
         bootloaderMode: !!resultInit.bootloaderMode,
       })
-    } else if (resultInit.firmwareVersion !== latestFirmware.firmware.version && semver.lt(resultInit.firmwareVersion, latestFirmware.firmware.version)) {
+    } else if (
+      resultInit.firmwareVersion !== latestFirmware.firmware.version &&
+      semver.lt(resultInit.firmwareVersion, latestFirmware.firmware.version)
+    ) {
       log.info('KKStateController UPDATE_FIRMWARE')
       log.info('KKStateController UPDATE_FIRMWARE resultInit: ', resultInit)
       await this.updateState({
