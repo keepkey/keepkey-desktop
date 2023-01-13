@@ -3,6 +3,7 @@ import { LanguageTypeEnum } from 'constants/LanguageTypeEnum'
 import { useBrowserRouter } from 'hooks/useBrowserRouter/useBrowserRouter'
 import { useQuery } from 'hooks/useQuery/useQuery'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { Authenticator } from 'pages/Authenticator/Authenticator'
 import { ConnectWallet } from 'pages/ConnectWallet/ConnectWallet'
 import { Flags } from 'pages/Flags/Flags'
 import { PrivacyPolicy } from 'pages/Legal/PrivacyPolicy'
@@ -17,7 +18,6 @@ import { selectSelectedLocale } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 
 import { PrivateRoute } from './PrivateRoute'
-import { Authenticator } from 'pages/Authenticator/Authenticator'
 
 function useLocationBackground() {
   const location = useLocation<{ background: any }>()
