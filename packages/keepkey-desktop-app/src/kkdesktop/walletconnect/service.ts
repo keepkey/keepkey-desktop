@@ -88,7 +88,7 @@ export class LegacyWCService {
     this.connector.updateChain({
       chainId,
       networkId: chainId,
-      rpcUrl: '',
+      rpcUrl: web3Stuff.providerUrl,
       nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol },
     })
   }

@@ -119,7 +119,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         })
         web3ByChainId(chainId).then(web3 => {
           if (!web3) return
-          if (legacyWeb3 === undefined) return setLegacyWeb3(web3)
+          if (legacyWeb3 === undefined || legacyWeb3.chainId !== chainId) return setLegacyWeb3(web3)
           if (legacyWeb3.chainId === chainId && web3.service)
             return setLegacyWeb3(web3ByServiceType(web3.service))
         })
