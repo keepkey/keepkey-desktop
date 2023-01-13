@@ -37,22 +37,15 @@ export const ChangeLabel = () => {
 
     cancelled = true
 
-    await keepKeyWallet
-      ?.cancel()
-      .catch(e => {
-        fnLogger.error(e, 'Error cancelling new label...')
-        toast({
-          title: translate('common.error'),
-          description: e?.message?.message ?? translate('common.somethingWentWrong'),
-          status: 'error',
-          isClosable: true,
-        })
+    await keepKeyWallet?.cancel().catch(e => {
+      fnLogger.error(e, 'Error cancelling new label...')
+      toast({
+        title: translate('common.error'),
+        description: e?.message?.message ?? translate('common.somethingWentWrong'),
+        status: 'error',
+        isClosable: true,
       })
-      .finally(() => {
-        setDeviceState({
-          isUpdatingPin: false,
-        })
-      })
+    })
   }
 
   const handleHeaderBackClick = async () => {

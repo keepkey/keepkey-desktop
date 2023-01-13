@@ -1,11 +1,13 @@
 import { Box, Button, Flex, useColorModeValue } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/toast'
+import { assume } from 'common-utils'
 import { CircularProgress } from 'components/CircularProgress/CircularProgress'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { SubmenuHeader } from 'components/Layout/Header/NavBar/SubmenuHeader'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { KeepKeyPin } from 'context/WalletProvider/KeepKey/components/Pin'
+import { FailureType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { useWallet } from 'hooks/useWallet/useWallet'
@@ -21,8 +23,6 @@ const moduleLogger = logger.child({
   namespace: ['Layout', 'Header', 'NavBar', 'KeepKey', 'ChangePin'],
 })
 
-let cancelled = false
-
 export const ChangePin = () => {
   const { handleBackClick } = useMenuRoutes()
   const translate = useTranslate()
@@ -34,7 +34,7 @@ export const ChangePin = () => {
     dispatch,
     state: {
       keepKeyPinRequestType,
-      deviceState: { awaitingDeviceInteraction, isUpdatingPin, isDeviceLoading },
+      deviceState: { awaitingDeviceInteraction, isDeviceLoading },
     },
     setDeviceState,
   } = useWallet()
@@ -56,24 +56,15 @@ export const ChangePin = () => {
   const handleCancel = async () => {
     const fnLogger = moduleLogger.child({ namespace: ['handleChangePinBackClick'] })
 
-    cancelled = true
-
-    await keepKeyWallet
-      ?.cancel()
-      .catch(e => {
-        fnLogger.error(e, 'Error cancelling new PIN...')
-        toast({
-          title: translate('common.error'),
-          description: e?.message?.message ?? translate('common.somethingWentWrong'),
-          status: 'error',
-          isClosable: true,
-        })
+    await keepKeyWallet?.cancel().catch(e => {
+      fnLogger.error(e, 'Error cancelling new PIN...')
+      toast({
+        title: translate('common.error'),
+        description: e?.message?.message ?? translate('common.somethingWentWrong'),
+        status: 'error',
+        isClosable: true,
       })
-      .finally(() => {
-        setDeviceState({
-          isUpdatingPin: false,
-        })
-      })
+    })
   }
 
   const handleHeaderBackClick = async () => {
@@ -82,40 +73,45 @@ export const ChangePin = () => {
   }
 
   const handleChangePin = async (remove: boolean) => {
-    cancelled = false
-
     const fnLogger = moduleLogger.child({ namespace: ['handleChangePin'] })
     fnLogger.trace('Applying new PIN...')
 
     setDeviceState({
-      isUpdatingPin: true,
       awaitingDeviceInteraction: true,
     })
 
     dispatch({ type: WalletActions.RESET_LAST_DEVICE_INTERACTION_STATE })
 
-    await keepKeyWallet?.[remove ? 'removePin' : 'changePin']()
-      .catch(e => {
-        if (cancelled) return
-        fnLogger.error(e, remove ? 'Error removing PIN' : 'Error applying new PIN')
+    try {
+      await keepKeyWallet?.[remove ? 'removePin' : 'changePin']()
+    } catch (e: unknown) {
+      fnLogger.error(e, remove ? 'Error removing PIN' : 'Error applying new PIN')
+      if (e && typeof e === 'object' && 'failure_type' in e && e.failure_type) {
+        assume<{ message?: string; failure_type: FailureType }>(e)
+        if (![FailureType.ACTIONCANCELLED, FailureType.PINCANCELLED].includes(e.failure_type)) {
+          toast({
+            title: translate('common.error'),
+            description: e.message ?? translate('common.somethingWentWrong'),
+            status: 'error',
+            isClosable: true,
+          })
+        }
+      } else {
         toast({
           title: translate('common.error'),
-          description: e?.message?.message ?? translate('common.somethingWentWrong'),
+          description: translate('common.somethingWentWrong'),
           status: 'error',
           isClosable: true,
         })
-      })
-      .finally(() => {
-        setDeviceState({
-          isUpdatingPin: false,
-        })
-      })
+      }
+    }
 
     fnLogger.trace('PIN Changed')
   }
+
   const setting = 'PIN'
 
-  const shouldDisplayEntryPinView = isUpdatingPin && !awaitingDeviceInteraction
+  const shouldDisplayEntryPinView = false && !awaitingDeviceInteraction
 
   const renderedPinState: JSX.Element = (() => {
     return shouldDisplayEntryPinView ? (
@@ -177,9 +173,6 @@ export const ChangePin = () => {
         </SubMenuBody>
         <AwaitKeepKey
           translation={['walletProvider.keepKey.settings.descriptions.buttonPrompt', { setting }]}
-          onCancel={() => {
-            cancelled = true
-          }}
         />
       </>
     )

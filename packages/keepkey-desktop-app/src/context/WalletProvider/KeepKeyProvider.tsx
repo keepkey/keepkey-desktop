@@ -5,6 +5,7 @@ import type { Features } from '@keepkey/device-protocol/lib/messages_pb'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
 import axios from 'axios'
+import { assertNever } from 'common-utils'
 import type { RadioOption } from 'components/Radio/Radio'
 import { getConfig } from 'config'
 import { useWallet } from 'hooks/useWallet/useWallet'
@@ -119,7 +120,7 @@ const reducer = (state: InitialState, action: KeepKeyActionTypes) => {
     case KeepKeyActions.RESET_STATE:
       return initialState
     default:
-      return state
+      assertNever(action)
   }
 }
 
