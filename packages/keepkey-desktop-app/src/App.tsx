@@ -175,7 +175,7 @@ export const App = () => {
       },
 
       async modalPair(data: PairingProps) {
-        const out = deferred<undefined | string[]>()
+        const out = deferred<boolean>()
         pair.open({ deferred: out, data })
         return await out
       },

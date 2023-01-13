@@ -27,34 +27,12 @@ import { useEffect, useState } from 'react'
 
 import type { PairingProps } from './types'
 
-export const PairModal = (input: {
-  deferred?: Deferred<undefined | string[]>
-  data?: PairingProps
-}) => {
+export const PairModal = (input: { deferred?: Deferred<boolean>; data?: PairingProps }) => {
   const [error] = useState<string | null>(null)
   const [loading] = useState(false)
   const [isFound, setIsFound] = useState(false)
   const { pair } = useModal()
   const { close, isOpen } = pair
-
-  // const [accounts, setAccounts] = useState<string[]>([])
-  //
-  // const { state, dispatch } = useWallet()
-
-  // useEffect(() => {
-  //   //
-  //   const pioneer = await getPioneerClient()
-  //   // if (input.data?.type === 'walletconnect') {
-  //   //   ;(state.wallet as KeepKeyHDWallet)
-  //   //     .ethGetAddress({
-  //   //       addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
-  //   //       showDisplay: false,
-  //   //     })
-  //   //     .then(address => {
-  //   //       setAccounts([address])
-  //   //     })
-  //   // }
-  // }, [state.wallet, input.data?.type])
 
   let onStart = async function () {
     try {
@@ -87,14 +65,14 @@ export const PairModal = (input: {
 
   const HandleSubmit = async () => {
     console.log('Approving!')
-    input.deferred?.resolve(undefined)
+    input.deferred?.resolve(true)
     close()
   }
 
   const HandleReject = async () => {
     console.log('Rejecting!')
     console.log('input: !', input)
-    input.deferred?.reject()
+    input.deferred?.resolve(false)
     close()
   }
 
@@ -126,18 +104,6 @@ export const PairModal = (input: {
             <Stack spacing={4} mb={4}>
               <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center'>
                 <Box display='flex' flexDirection='column'>
-                  <Image
-                    src={
-                      input.data?.type === 'native'
-                        ? input.data?.ImageUrl
-                        : input?.data?.data.params[0]?.peerMeta?.icons[0]
-                    }
-                    borderRadius='full'
-                    height='10'
-                    width='10'
-                  />
-                </Box>
-                <Box display='flex' flexDirection='column'>
                   <Text
                     translation={[
                       'modals.pair.native.body',
@@ -151,11 +117,22 @@ export const PairModal = (input: {
                     pl='2'
                   />
                   {isFound ? (
-                    <div>EVP Found</div>
+                    <div>
+                      <Image
+                        src={
+                          input.data?.type === 'native'
+                            ? input.data?.ImageUrl
+                            : input?.data?.data.params[0]?.peerMeta?.icons[0]
+                        }
+                        borderRadius='full'
+                        height='10'
+                        width='10'
+                      />
+                    </div>
                   ) : (
                     <div>
-                      <WarningTwoIcon boxSize={48} color='yellow.500' />
-                      <h2>This Dapp is not recognized, use at your own risk!</h2>
+                      <WarningTwoIcon boxSize={12} color='yellow.500' />
+                      <h4>This Dapp is not recognized, use at your own risk!</h4>
                     </div>
                   )}
 
