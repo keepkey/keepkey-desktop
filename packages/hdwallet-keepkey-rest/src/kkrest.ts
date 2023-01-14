@@ -322,52 +322,57 @@ export class KeepKeyRestHDWallet
     // await this.sdk.developer.initialize({ body: {} });
   }
 
-  public async getFeaturesUncached(): Promise<Messages.Features.AsObject> {
-    return await this.abortable(async signal => {
-      const raw = await this.sdk.system.info.getFeatures({ signal })
-      return {
-        vendor: raw.vendor,
-        // TODO: openapi-generator has busted types on these
-        majorVersion: raw.major_version as number | undefined,
-        minorVersion: raw.minor_version as number | undefined,
-        patchVersion: raw.patch_version as number | undefined,
-        bootloaderMode: raw.bootloader_mode,
-        pinProtection: raw.pin_protection,
-        passphraseProtection: raw.passphrase_protection,
-        deviceId: raw.device_id,
-        model: raw.model,
-        language: raw.language,
-        label: raw.label,
-        coinsList: [],
-        initialized: raw.initialized,
-        revision: Buffer.from((raw.revision as string | undefined) ?? '', 'utf8').toString(
-          'base64',
-        ),
-        bootloaderHash: Buffer.from(
-          (raw.bootloader_hash as string | undefined) ?? '',
-          'hex',
-        ).toString('base64'),
-        firmwareHash: Buffer.from((raw.firmware_hash as string | undefined) ?? '', 'hex').toString(
-          'base64',
-        ),
-        imported: raw.imported,
-        pinCached: raw.pin_cached,
-        passphraseCached: raw.passphrase_cached,
-        policiesList: (raw.policies ?? []).map(x => ({
-          policyName: x.policy_name,
-          enabled: x.enabled,
-        })),
-        firmwareVariant: raw.firmware_variant,
-        noBackup: raw.no_backup,
-        wipeCodeProtection: raw.wipe_code_protection,
-        autoLockDelayMs: raw.auto_lock_delay_ms as number | undefined,
-      }
-    })
+  protected async getFeaturesUncached(): Promise<Messages.Features.AsObject> {
+    const raw = await this.sdk.system.info.getFeatures()
+    return {
+      vendor: raw.vendor,
+      // TODO: openapi-generator has busted types on these
+      majorVersion: raw.major_version as number | undefined,
+      minorVersion: raw.minor_version as number | undefined,
+      patchVersion: raw.patch_version as number | undefined,
+      bootloaderMode: raw.bootloader_mode,
+      pinProtection: raw.pin_protection,
+      passphraseProtection: raw.passphrase_protection,
+      deviceId: raw.device_id,
+      model: raw.model,
+      language: raw.language,
+      label: raw.label,
+      coinsList: [],
+      initialized: raw.initialized,
+      revision: Buffer.from((raw.revision as string | undefined) ?? '', 'utf8').toString('base64'),
+      bootloaderHash: Buffer.from(
+        (raw.bootloader_hash as string | undefined) ?? '',
+        'hex',
+      ).toString('base64'),
+      firmwareHash: Buffer.from((raw.firmware_hash as string | undefined) ?? '', 'hex').toString(
+        'base64',
+      ),
+      imported: raw.imported,
+      pinCached: raw.pin_cached,
+      passphraseCached: raw.passphrase_cached,
+      policiesList: (raw.policies ?? []).map(x => ({
+        policyName: x.policy_name,
+        enabled: x.enabled,
+      })),
+      firmwareVariant: raw.firmware_variant,
+      noBackup: raw.no_backup,
+      wipeCodeProtection: raw.wipe_code_protection,
+      autoLockDelayMs: raw.auto_lock_delay_ms as number | undefined,
+    }
   }
 
-  readonly getFeatures = _.memoize(async (): Promise<Messages.Features.AsObject> => {
-    return await this.getFeaturesUncached()
-  })
+  protected readonly getFeaturesCached = _.memoize(
+    async (): Promise<Messages.Features.AsObject> => {
+      return await this.getFeaturesUncached()
+    },
+  )
+
+  public async getFeatures(cached?: boolean): Promise<Messages.Features.AsObject> {
+    if (!(cached ?? true)) {
+      this.getFeaturesCached.cache = new _.memoize.Cache()
+    }
+    return await this.getFeaturesCached()
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async getEntropy(_size: number): Promise<Uint8Array> {
