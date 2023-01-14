@@ -42,8 +42,8 @@
     "web3@1.7.4": "^1.8.1",
     "@shapeshiftoss/hdwallet-keepkey-nodewebusb@^1.41.0": "patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.41.0-3660b239f5.patch",
     "comlink-electron-endpoint@^1.0.3": "patch:comlink-electron-endpoint@npm%3A1.0.3#./.yarn/patches/comlink-electron-endpoint-npm-1.0.3-e9e40b4d5c.patch",
-    "@shapeshiftoss/hdwallet-keepkey@^1.41.0": "patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@npm%253A1.41.0%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%3A%3Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch",
-    "@shapeshiftoss/hdwallet-keepkey@1.41.0": "patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@npm%253A1.41.0%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%3A%3Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch"
+    "@shapeshiftoss/hdwallet-keepkey@^1.41.0": "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch",
+    "@shapeshiftoss/hdwallet-keepkey@1.41.0": "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch"
   },
   "dependenciesMeta": {
     "@openapitools/openapi-generator-cli@2.5.2": {
