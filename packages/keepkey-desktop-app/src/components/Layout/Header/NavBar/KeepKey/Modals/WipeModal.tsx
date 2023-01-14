@@ -21,7 +21,7 @@ export const WipeModal = () => {
       isOpen={isOpen}
       onClose={close}
     >
-      <KeepKeyWipe />
+      <KeepKeyWipe onClose={close} />
     </Modal>
   )
 }

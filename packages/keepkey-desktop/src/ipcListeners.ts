@@ -271,6 +271,12 @@ export const ipcListeners: IpcListeners = {
     await browserSession.clearCache()
   },
 
+  async wipeKeepKey() {
+    if (!kkStateController.wallet) return
+    await kkStateController.wallet.cancel()
+    await kkStateController.wallet.wipe()
+  },
+
   // async appUpdate() {
   //   if (isDev) {
   //     return { updateInfo: { version: app.getVersion() } }

@@ -10,10 +10,10 @@ import {
 import { useToast } from '@chakra-ui/toast'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { Text } from 'components/Text'
-import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
-import { useModal } from 'hooks/useModal/useModal'
+import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import type { FC } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 
@@ -21,15 +21,15 @@ const moduleLogger = logger.child({
   namespace: ['Layout', 'Header', 'NavBar', 'KeepKey', 'Modals', 'Wipe'],
 })
 
-export const KeepKeyWipe = () => {
+export type KeepKeyWipeType = {
+  onClose?: any
+}
+
+export const KeepKeyWipe: FC<KeepKeyWipeType> = ({ onClose }) => {
   const initRef = useRef<HTMLInputElement | null>(null)
-  const { keepKeyWallet } = useKeepKey()
   const { disconnect } = useWallet()
   const translate = useTranslate()
-  const {
-    keepKeyWipe: { close },
-    hardwareError,
-  } = useModal()
+
   const {
     state: {
       deviceState: { awaitingDeviceInteraction },
@@ -38,26 +38,12 @@ export const KeepKeyWipe = () => {
   const toast = useToast()
   const [wipeConfirmationChecked, setWipeConfirmationChecked] = useState(false)
 
-  const onClose = () => {
-    keepKeyWallet?.cancel().catch(e => {
-      moduleLogger.error(e, { fn: 'onClose' }, 'Error canceling KeepKey action')
-      toast({
-        title: translate('common.error'),
-        description: e?.message ?? translate('common.somethingWentWrong'),
-        status: 'error',
-        isClosable: true,
-      })
-    })
-    close()
-  }
-
   const wipeDevice = async () => {
     moduleLogger.trace({ fn: 'wipeDevice' }, 'Wiping KeepKey...')
     try {
-      await keepKeyWallet?.wipe()
-      hardwareError.open({})
+      ipcListeners.wipeKeepKey()
       disconnect()
-      onClose()
+      onClose && onClose()
     } catch (e) {
       moduleLogger.error(e, { fn: 'wipeDevice' }, 'KeepKey Wipe Failed')
       toast({
