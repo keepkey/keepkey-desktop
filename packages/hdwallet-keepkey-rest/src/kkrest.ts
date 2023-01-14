@@ -367,9 +367,21 @@ export class KeepKeyRestHDWallet
     },
   )
 
+  protected resetCaches() {
+    this.getFeaturesCached.cache = new _.memoize.Cache()
+    this.btcGetAddress.cache = new _.memoize.Cache()
+    this.ethGetAddress.cache = new _.memoize.Cache()
+    this.rippleGetAddress.cache = new _.memoize.Cache()
+    this.cosmosGetAddress.cache = new _.memoize.Cache()
+    this.thorchainGetAddress.cache = new _.memoize.Cache()
+    this.binanceGetAddress.cache = new _.memoize.Cache()
+    this.eosGetPublicKey.cache = new _.memoize.Cache()
+    this.getPublicKeys.cache = new _.memoize.Cache()
+  }
+
   public async getFeatures(cached?: boolean): Promise<Messages.Features.AsObject> {
     if (!(cached ?? true)) {
-      this.getFeaturesCached.cache = new _.memoize.Cache()
+      this.resetCaches()
     }
     return await this.getFeaturesCached()
   }
