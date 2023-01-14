@@ -1,6 +1,5 @@
 import type * as core from '@shapeshiftoss/hdwallet-core'
 import AutoLaunch from 'auto-launch'
-import * as Comlink from 'comlink'
 import type { BrowserWindow } from 'electron'
 import { app } from 'electron'
 import fs from 'fs'
