@@ -128,8 +128,9 @@ export const kkStateController = new KKStateController(
       })
       try {
         if (passphrase !== undefined) {
+          const finished = this.nextButtonRequestFinished()
           await this.wallet!.sendPassphrase(passphrase)
-          //init pwm
+          await finished
         } else {
           await this.wallet!.cancel()
         }
