@@ -32,6 +32,8 @@ export const KeepKeyPassphrase = () => {
           mb={6}
           autoFocus={true}
           autoComplete='current-password'
+          onSubmit={handleSubmit}
+          disabled={loading}
         />
         <Button width='full' size='lg' colorScheme='blue' onClick={handleSubmit} disabled={loading}>
           <Text translation={'modals.keepKey.passphrase.button'} />

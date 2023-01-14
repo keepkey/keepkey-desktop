@@ -194,7 +194,9 @@ export const KeepKeyPin = ({
         variant='filled'
         mb={3}
         autoComplete='one-time-code'
+        autoFocus={true}
         onKeyDown={handleKeyboardInput}
+        onSubmit={handleSubmit}
         onKeyUp={() => setIsPinEmpty(!pinFieldRef.current?.value)}
       />
       {error && (
