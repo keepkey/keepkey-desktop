@@ -6,7 +6,7 @@ import { ChangePassphrase } from 'components/Layout/Header/NavBar/KeepKey/Change
 import { ChangePin } from 'components/Layout/Header/NavBar/KeepKey/ChangePin'
 import { ChangeTimeout } from 'components/Layout/Header/NavBar/KeepKey/ChangeTimeout'
 import { KeepKeyMenu } from 'components/Layout/Header/NavBar/KeepKey/KeepKeyMenu'
-import { KeepKeyWipe } from 'components/Layout/Header/NavBar/KeepKey/Modals/Wipe'
+import { KeepKeyWipe } from 'components/Layout/Header/NavBar/KeepKey/Modals/KeepKeyWipe'
 import { UpdateKeepKey } from 'components/Modals/UpdateKeepKey/UpdateKeepKey'
 import type { RouteProps } from 'react-router-dom'
 

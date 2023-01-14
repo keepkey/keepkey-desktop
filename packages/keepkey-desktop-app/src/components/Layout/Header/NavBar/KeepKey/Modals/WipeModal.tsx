@@ -2,7 +2,7 @@ import { Modal } from '@chakra-ui/modal'
 import { useModal } from 'hooks/useModal/useModal'
 import { useRef } from 'react'
 
-import { KeepKeyWipe } from './Wipe'
+import { KeepKeyWipe } from './KeepKeyWipe'
 
 export const WipeModal = () => {
   const initRef = useRef<HTMLInputElement | null>(null)
