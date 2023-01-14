@@ -15,12 +15,19 @@ export type AwaitKeepKeyProps = {
   awaitingDeviceInteraction?: boolean
 } & FlexProps
 
-export const AwaitKeepKey = ({ children, translation, onCancel, ...props }: AwaitKeepKeyProps) => {
+export const AwaitKeepKey = ({
+  children,
+  translation,
+  onCancel,
+  awaitingDeviceInteraction: propsAwaitingDeviceInteraction,
+  noCancel,
+  ...props
+}: AwaitKeepKeyProps) => {
   const translate = useTranslate()
   const {
     setDeviceState,
     state: {
-      deviceState: { awaitingDeviceInteraction },
+      deviceState: { awaitingDeviceInteraction: deviceStateAwaitingDeviceInteraction },
       wallet,
     },
   } = useWallet()
@@ -34,7 +41,7 @@ export const AwaitKeepKey = ({ children, translation, onCancel, ...props }: Awai
     await wallet?.cancel()
   }
 
-  return props.awaitingDeviceInteraction ?? awaitingDeviceInteraction ? (
+  return propsAwaitingDeviceInteraction ?? deviceStateAwaitingDeviceInteraction ? (
     <>
       <Divider />
       <Box p={3}>
@@ -42,7 +49,7 @@ export const AwaitKeepKey = ({ children, translation, onCancel, ...props }: Awai
           <InfoIcon color={blueShade} mt={1} />
           <Box ml={3}>
             <Text translation={translation} mb={3} fontWeight='medium' color={blueShade} />
-            {!props.noCancel && (
+            {!noCancel && (
               <Button colorScheme='blue' variant='ghost-filled' onClick={cancel} size='sm'>
                 {translate('common.cancel')}
               </Button>
