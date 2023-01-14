@@ -15,6 +15,7 @@ import { useToast } from '@chakra-ui/toast'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { LastDeviceInteractionStatus } from 'components/Layout/Header/NavBar/KeepKey/LastDeviceInteractionStatus'
 import { SubmenuHeader } from 'components/Layout/Header/NavBar/SubmenuHeader'
+import { WalletActions } from 'context/WalletProvider/actions'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
@@ -44,6 +45,7 @@ export const ChangePassphrase = () => {
       deviceState: { awaitingDeviceInteraction },
     },
     setDeviceState,
+    dispatch,
   } = useWallet()
 
   const handleToggle = async () => {
@@ -60,6 +62,7 @@ export const ChangePassphrase = () => {
       .applySettings({ usePassphrase: !currentValue })
       .then(() => {
         fnLogger.trace({ enabled: !hasPassphrase }, 'Passphrase setting changed')
+        dispatch({ type: WalletActions.RESET_STATE })
       })
       .catch(e => {
         setHasPassphrase(currentValue)
