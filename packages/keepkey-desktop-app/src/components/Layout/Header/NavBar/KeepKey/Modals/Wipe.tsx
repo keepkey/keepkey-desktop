@@ -2,7 +2,6 @@ import { ModalCloseButton } from '@chakra-ui/modal'
 import {
   Button,
   Checkbox,
-  Modal,
   ModalBody,
   ModalContent,
   ModalHeader,
@@ -22,14 +21,13 @@ const moduleLogger = logger.child({
   namespace: ['Layout', 'Header', 'NavBar', 'KeepKey', 'Modals', 'Wipe'],
 })
 
-export const WipeModal = () => {
+export const KeepKeyWipe = () => {
   const initRef = useRef<HTMLInputElement | null>(null)
-  const finalRef = useRef<HTMLDivElement | null>(null)
   const { keepKeyWallet } = useKeepKey()
   const { disconnect } = useWallet()
   const translate = useTranslate()
   const {
-    keepKeyWipe: { close, isOpen },
+    keepKeyWipe: { close },
     hardwareError,
   } = useModal()
   const {
@@ -72,15 +70,7 @@ export const WipeModal = () => {
   }
 
   return (
-    <Modal
-      initialFocusRef={initRef}
-      finalFocusRef={finalRef}
-      isCentered
-      closeOnOverlayClick
-      closeOnEsc
-      isOpen={isOpen}
-      onClose={onClose}
-    >
+    <>
       <ModalOverlay />
       <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
         <ModalHeader>
@@ -120,6 +110,6 @@ export const WipeModal = () => {
           pr={6}
         />
       </ModalContent>
-    </Modal>
+    </>
   )
 }

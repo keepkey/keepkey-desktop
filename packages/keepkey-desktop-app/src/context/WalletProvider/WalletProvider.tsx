@@ -294,6 +294,13 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         keepKeyPinRequestType: null,
         keyring: new Keyring(),
       }
+    case WalletActions.OPEN_KEEPKEY_WIPE:
+      return {
+        ...state,
+        modal: true,
+        type: KeyManager.KeepKey,
+        initialRoute: KeepKeyRoutes.Wipe,
+      }
     case WalletActions.SET_LOCAL_WALLET_LOADING:
       return { ...state, isLoadingLocalWallet: action.payload }
     case WalletActions.RESET_STATE:
