@@ -271,6 +271,10 @@ export const ipcListeners: IpcListeners = {
     await browserSession.clearCache()
   },
 
+  async forceReconnect() {
+    await kkStateController.forceReconnect()
+  },
+
   // async appUpdate() {
   //   if (isDev) {
   //     return { updateInfo: { version: app.getVersion() } }

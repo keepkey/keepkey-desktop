@@ -15,8 +15,9 @@ import { useToast } from '@chakra-ui/toast'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { LastDeviceInteractionStatus } from 'components/Layout/Header/NavBar/KeepKey/LastDeviceInteractionStatus'
 import { SubmenuHeader } from 'components/Layout/Header/NavBar/SubmenuHeader'
-import { WalletActions } from 'context/WalletProvider/actions'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
+import { ipcListeners } from 'electron-shim'
+import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
 import { useCallback } from 'react'
@@ -45,10 +46,11 @@ export const ChangePassphrase = () => {
       deviceState: { awaitingDeviceInteraction },
     },
     setDeviceState,
-    dispatch,
+    disconnect,
   } = useWallet()
+  const { settings } = useModal()
 
-  const handleToggle = async () => {
+  const handleToggle = useCallback(async () => {
     if (!keepKeyWallet) return
     cancelled = false
 
@@ -60,9 +62,11 @@ export const ChangePassphrase = () => {
     setDeviceState({ awaitingDeviceInteraction: true })
     await keepKeyWallet
       .applySettings({ usePassphrase: !currentValue })
-      .then(() => {
+      .then(async () => {
         fnLogger.trace({ enabled: !hasPassphrase }, 'Passphrase setting changed')
-        dispatch({ type: WalletActions.RESET_STATE })
+        settings.close()
+        disconnect()
+        await ipcListeners.forceReconnect()
       })
       .catch(e => {
         setHasPassphrase(currentValue)
@@ -80,7 +84,17 @@ export const ChangePassphrase = () => {
         setDeviceState({ awaitingDeviceInteraction: false })
         updateFeatures()
       })
-  }
+  }, [
+    disconnect,
+    hasPassphrase,
+    keepKeyWallet,
+    setDeviceState,
+    setHasPassphrase,
+    settings,
+    toast,
+    translate,
+    updateFeatures,
+  ])
 
   const handleCancel = useCallback(() => {
     cancelled = true

@@ -94,6 +94,10 @@ export class KKStateController {
     this.data = data
   }
 
+  public async forceReconnect() {
+    await this.updateState({ state: KKState.NeedsReconnect })
+  }
+
   public async skipUpdate() {
     if (this.data.state === KKState.UpdateFirmware && this.data.bootloaderMode) {
       await this.updateState({ state: KKState.NeedsReconnect })
