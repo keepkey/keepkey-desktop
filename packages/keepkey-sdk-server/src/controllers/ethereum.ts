@@ -100,11 +100,17 @@ export class EthereumController extends ApiController {
     @Body()
     body: {
       address: types.eth.Address
-      typedData: types.eth.TypedData
+      typedData: any
     },
   ): Promise<types.eth.Signature> {
     const account = await this.context.getAccount(body.address)
-
+    console.log(
+      'payload: ',
+      JSON.stringify({
+        addressNList: account.addressNList,
+        typedData: body.typedData,
+      }),
+    )
     return (
       await this.context.wallet.ethSignTypedData({
         addressNList: account.addressNList,
