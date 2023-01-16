@@ -575,8 +575,10 @@ export class KeepKeyRestHDWallet
     })
   }
 
-  public async ethSignTypedData(msg: core.ETHSignTypedData): Promise<core.ETHSignedTypedData> {
+  public async ethSignTypedData(msg: any): Promise<core.ETHSignedTypedData> {
     return await this.abortable(async signal => {
+      console.log('msg: ', msg)
+      console.log('msg: ', JSON.stringify(msg))
       const address = (
         await this.sdk.address.ethereumGetAddress({ address_n: msg.addressNList }, { signal })
       ).address
