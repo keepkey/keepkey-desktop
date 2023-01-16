@@ -18220,15 +18220,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["cryptr", [\
-        ["npm:6.1.0", {\
-          "packageLocation": "./.yarn/cache/cryptr-npm-6.1.0-009b5905d5-2748f34f06.zip/node_modules/cryptr/",\
-          "packageDependencies": [\
-            ["cryptr", "npm:6.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["css-b64-images", [\
         ["npm:0.2.5", {\
           "packageLocation": "./.yarn/cache/css-b64-images-npm-0.2.5-62889f846d-c4e3480e0c.zip/node_modules/css-b64-images/",\
@@ -22340,16 +22331,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:11.1.0", {\
-          "packageLocation": "./.yarn/cache/fs-extra-npm-11.1.0-2cd157426f-5ca476103f.zip/node_modules/fs-extra/",\
-          "packageDependencies": [\
-            ["fs-extra", "npm:11.1.0"],\
-            ["graceful-fs", "npm:4.2.10"],\
-            ["jsonfile", "npm:6.1.0"],\
-            ["universalify", "npm:2.0.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:4.0.3", {\
           "packageLocation": "./.yarn/cache/fs-extra-npm-4.0.3-2a1f6bc181-c5ae3c7043.zip/node_modules/fs-extra/",\
           "packageDependencies": [\
@@ -26195,14 +26176,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
             ["@typescript-eslint/parser", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
             ["common-utils", "workspace:packages/common-utils"],\
-            ["cryptr", "npm:6.1.0"],\
             ["eslint", "npm:8.28.0"],\
             ["eslint-config-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:8.5.0"],\
             ["eslint-plugin-import", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:2.26.0"],\
             ["eslint-plugin-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:4.2.1"],\
             ["eslint-plugin-simple-import-sort", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:7.0.0"],\
             ["express", "npm:4.18.2"],\
-            ["fs-extra", "npm:11.1.0"],\
             ["lodash", "npm:4.17.21"],\
             ["mkdirp", "npm:1.0.4"],\
             ["openapi-format", "npm:1.13.0"],\
