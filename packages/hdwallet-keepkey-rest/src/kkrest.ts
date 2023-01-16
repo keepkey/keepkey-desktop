@@ -1,6 +1,6 @@
 import type * as Messages from '@keepkey/device-protocol/lib/messages_pb'
 import type * as Types from '@keepkey/device-protocol/lib/types_pb'
-import type { KeepKeySdk, TypesEthTypedData } from '@keepkey/keepkey-sdk'
+import type { KeepKeySdk } from '@keepkey/keepkey-sdk'
 import { FetchError } from '@keepkey/keepkey-sdk'
 import * as core from '@shapeshiftoss/hdwallet-core'
 import _ from 'lodash'
@@ -586,7 +586,7 @@ export class KeepKeyRestHDWallet
       const signature = (await this.sdk.eth.ethSignTypedData(
         {
           // (Our types are a bit stricter than the ones from the eip712 library.)
-          typedData: msg.typedData as TypesEthTypedData,
+          typedData: msg.typedData,
           address,
         },
         { signal },
