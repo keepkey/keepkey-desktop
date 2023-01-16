@@ -13157,6 +13157,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cryptr@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "cryptr@npm:6.1.0"
+  checksum: 2748f34f0669d18848626bec1f09c17a396741bea1f4c764eed92cf3428643580211ebe27d536558708b746fa2a1418863f81272a56fc41848523e90a9d2fb38
+  languageName: node
+  linkType: hard
+
 "css-b64-images@npm:~0.2.5":
   version: 0.2.5
   resolution: "css-b64-images@npm:0.2.5"
@@ -16673,6 +16680,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fs-extra@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "fs-extra@npm:11.1.0"
+  dependencies:
+    graceful-fs: ^4.2.0
+    jsonfile: ^6.0.1
+    universalify: ^2.0.0
+  checksum: 5ca476103fa1f5ff4a9b3c4f331548f8a3c1881edaae323a4415d3153b5dc11dc6a981c8d1dd93eec8367ceee27b53f8bd27eecbbf66ffcdd04927510c171e7f
+  languageName: node
+  linkType: hard
+
 "fs-extra@npm:^4.0.2":
   version: 4.0.3
   resolution: "fs-extra@npm:4.0.3"
@@ -20110,13 +20128,16 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.45.0
     "@typescript-eslint/parser": ^5.45.0
     common-utils: "workspace:*"
+    cryptr: ^6.1.0
     eslint: ^8.28.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-import: ^2.26.0
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-simple-import-sort: ^7.0.0
     express: ^4.18.2
+    fs-extra: ^11.1.0
     lodash: ^4.17.21
+    mkdirp: ^1.0.4
     openapi-format: ^1.13.0
     prettier: ^2.3.2
     promise.any: ^2.0.5
