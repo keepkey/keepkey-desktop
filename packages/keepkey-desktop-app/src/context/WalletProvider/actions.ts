@@ -88,6 +88,9 @@ export type ActionTypes =
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_LABEL
+      payload: {
+        deferred: Deferred<string>
+      }
     }
   | { type: WalletActions.SET_WALLET_CONNECT_APP; payload: WalletConnectApp | null }
   | { type: WalletActions.SET_KEEPKEY_SDK; payload: KeepKeySdk | null }

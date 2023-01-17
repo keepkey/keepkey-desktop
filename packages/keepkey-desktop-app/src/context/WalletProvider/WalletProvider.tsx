@@ -2,6 +2,7 @@ import type { ComponentWithAs, IconProps } from '@chakra-ui/react'
 import { KeepKeySdk } from '@keepkey/keepkey-sdk'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { Keyring } from '@shapeshiftoss/hdwallet-core'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-walletconnect'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
 import kkIconBlack from 'assets/kk-icon-black.png'
@@ -98,6 +99,7 @@ export interface InitialState {
   browserUrl: string | null
   pinDeferred?: Deferred<string>
   passphraseDeferred?: Deferred<string>
+  labelDeferred?: Deferred<string>
 }
 
 const initialState: InitialState = {
@@ -243,7 +245,8 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         type: KeyManager.KeepKey,
         initialRoute: KeepKeyRoutes.FactoryState,
       }
-    case WalletActions.OPEN_KEEPKEY_LABEL:
+    case WalletActions.OPEN_KEEPKEY_LABEL: {
+      const { deferred } = action.payload
       return {
         ...state,
         modal: true,
@@ -251,7 +254,9 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         disconnectOnCloseModal: true,
         type: KeyManager.KeepKey,
         initialRoute: KeepKeyRoutes.NewLabel,
+        labelDeferred: deferred,
       }
+    }
     case WalletActions.OPEN_KEEPKEY_RECOVERY:
       return {
         ...state,
@@ -312,11 +317,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   // so we dont unintentionally show the keepkey error modal while updating
   const [isUpdatingKeepkey, setIsUpdatingKeepkey] = useState(false)
 
-  // is keepkey device currently being interacted with
-  const [deviceBusy] = useState(false)
-
-  const [desiredLabel, setDesiredLabel] = useState('')
-
   const disconnect = useCallback(async () => {
     /**
      * in case of KeepKey placeholder wallet,
@@ -337,7 +337,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       for (const walletName of Object.values(KeyManager)) {
         try {
           const adapter = SUPPORTED_WALLETS[walletName].adapter.useKeyring(state.keyring, options)
-          const wallet = await adapter.pairDevice(sdk)
+          const wallet: KeepKeyHDWallet = await adapter.pairDevice(sdk)
           adapters.set(walletName, adapter)
           dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
           const { name, icon } = KeepKeyConfig
@@ -348,7 +348,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
             type: WalletActions.SET_WALLET,
             payload: { wallet, name: label, icon, deviceId, meta: { label } },
           })
-          dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
+          if ((await wallet.getFeatures()).initialized) {
+            dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
+          }
           /**
            * The real deviceId of KeepKey wallet could be different from the
            * deviceId recieved from the wallet, so we need to keep
@@ -357,6 +359,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
           setLocalWalletTypeAndDeviceId(KeyManager.KeepKey, state.keyring.getAlias(deviceId))
         } catch (e) {
           moduleLogger.error(e, 'Error initializing HDWallet adapters')
+          disconnect()
         }
       }
     }, 2000),
@@ -425,21 +428,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       isUpdatingKeepkey,
       setIsUpdatingKeepkey,
       pairAndConnect,
-      deviceBusy,
-      desiredLabel,
-      setDesiredLabel,
     }),
-    [
-      state,
-      disconnect,
-      setDeviceState,
-      setIsUpdatingKeepkey,
-      isUpdatingKeepkey,
-      pairAndConnect,
-      deviceBusy,
-      desiredLabel,
-      setDesiredLabel,
-    ],
+    [state, disconnect, setDeviceState, setIsUpdatingKeepkey, isUpdatingKeepkey, pairAndConnect],
   )
 
   return (

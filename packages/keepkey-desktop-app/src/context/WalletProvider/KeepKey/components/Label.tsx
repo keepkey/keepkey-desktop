@@ -1,58 +1,25 @@
 import { Button, Input, ModalBody, ModalHeader } from '@chakra-ui/react'
-import type { ResetDevice } from '@shapeshiftoss/hdwallet-core'
 import { Text } from 'components/Text'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { logger } from 'lib/logger'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 
-import { useKeepKeyRecover } from '../hooks/useKeepKeyRecover'
-const moduleLogger = logger.child({ namespace: ['Label'] })
-
 export const KeepKeyLabel = () => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const {
-    setDeviceState,
-    state: {
-      deviceState: { disposition },
-      wallet,
-    },
-    desiredLabel,
-    setDesiredLabel,
+    state: { labelDeferred },
   } = useWallet()
+  const [desiredLabel, setDesiredLabel] = useState('')
   const translate = useTranslate()
-  const recoverKeepKey = useKeepKeyRecover()
 
-  const handleInitializeSubmit = useCallback(async () => {
-    if (!wallet) return
+  const handleSubmit = useCallback(async () => {
     setLoading(true)
+
     //We prevent all special chars and any length > 12. We just yolo trim and send it (user can change later)
     // eslint-disable-next-line no-control-regex
     let sanitizedLabel = desiredLabel.replace(/[^\x00-\x7F]+/g, '').substring(0, 12)
-    const resetMessage: ResetDevice = { label: sanitizedLabel ?? '', pin: true }
-    setDeviceState({ awaitingDeviceInteraction: true, disposition })
-
-    try {
-      await wallet.reset(resetMessage)
-    } catch (e: any) {
-      setLoading(false)
-      setDeviceState({ awaitingDeviceInteraction: false, disposition })
-      moduleLogger.error(e)
-    }
-  }, [desiredLabel, disposition, setDeviceState, wallet])
-
-  useEffect(() => {
-    // Label screen hangs if you click skip too quickly
-    // Hack to keep that from happening
-    setTimeout(() => {
-      setLoading(false)
-    }, 2000)
-  }, [])
-
-  const handleRecoverSubmit = async () => {
-    setLoading(true)
-    await recoverKeepKey(desiredLabel)
-  }
+    labelDeferred?.resolve(sanitizedLabel ?? '')
+  }, [desiredLabel, labelDeferred])
 
   return (
     <>
@@ -71,12 +38,13 @@ export const KeepKeyLabel = () => {
           variant='filled'
           mt={3}
           mb={6}
+          autoFocus={true}
         />
         <Button
           width='full'
           size='lg'
           colorScheme='blue'
-          onClick={disposition === 'initializing' ? handleInitializeSubmit : handleRecoverSubmit}
+          onClick={handleSubmit}
           disabled={loading}
           mb={3}
         >
