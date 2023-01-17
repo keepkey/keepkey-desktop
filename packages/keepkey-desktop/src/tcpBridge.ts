@@ -2,6 +2,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import log from 'electron-log'
 import express from 'express'
+import type { PairingProps } from 'keepkey-desktop-app/src/components/Modals/Pair/types'
 import {
   addMiddleware,
   RegisterRoutes,
@@ -53,8 +54,10 @@ export const startTcpBridge = async (port?: number) => {
     const apiKey = uuid.v4()
     console.log('approving pairing request', info, apiKey)
     // await promptUser(){}
-    let input: any = info
-    input.type = 'native'
+    let input = {
+      type: 'native',
+      data: info,
+    } satisfies PairingProps
     let result = await (await rendererIpc).modalPair(input)
     console.log('PAIR RESULT: ', result)
     if (result) {

@@ -44,16 +44,6 @@ export const WalletViewsSwitch = () => {
     await cancelWalletRequests()
   }
 
-  const handleBack = async () => {
-    history.goBack()
-    // If we're back at the select wallet modal, remove the initial route
-    // otherwise clicking the button for the same wallet doesn't do anything
-    if (history.location.pathname === '/select') {
-      dispatch({ type: WalletActions.SET_INITIAL_ROUTE, payload: '' })
-    }
-    await cancelWalletRequests()
-  }
-
   useEffect(() => {
     if (initialRoute) {
       history.push(initialRoute)

@@ -8,7 +8,7 @@
     "build": "yarn build:spec && tsoa routes && tsc --build",
     "build:spec": "tsoa spec && yarn openapi-format dist/swagger.json --output dist/swagger.json",
     "dev": "yarn build",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist src/generated",
     "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
     "lint:fix": "yarn lint --fix"
   },

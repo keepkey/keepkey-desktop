@@ -52,19 +52,34 @@ export function untouchable(message?: string): any {
 export type Deferred<T> = Promise<T> & {
   resolve: (value: T | PromiseLike<T>) => void
   reject: (reason?: unknown) => void
+  get settled(): boolean
 }
 
 export function deferred<T = void>(): Deferred<T> {
   let resolver: (value: T | PromiseLike<T>) => void
   let rejector: (reason?: unknown) => void
+  let settled = false
 
   const out = new Promise<T>((resolve, reject) => {
-    resolver = resolve
-    rejector = reject
+    resolver = (x: T | PromiseLike<T>) => {
+      settled = true
+      resolve(x)
+    }
+    rejector = (x?: unknown) => {
+      settled = true
+      reject(x)
+    }
   }) as Deferred<T>
 
   out.resolve = resolver!
   out.reject = rejector!
+  Object.defineProperty(out, 'settled', {
+    enumerable: true,
+    configurable: true,
+    get() {
+      return settled
+    },
+  })
 
   return out
 }

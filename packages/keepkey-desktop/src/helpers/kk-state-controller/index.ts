@@ -1,3 +1,4 @@
+import * as Messages from '@keepkey/device-protocol/lib/messages_pb'
 import * as core from '@shapeshiftoss/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { assume } from 'common-utils'
@@ -93,6 +94,10 @@ export class KKStateController {
     this.data = data
   }
 
+  public async forceReconnect() {
+    await this.updateState({ state: KKState.NeedsReconnect })
+  }
+
   public async skipUpdate() {
     if (this.data.state === KKState.UpdateFirmware && this.data.bootloaderMode) {
       await this.updateState({ state: KKState.NeedsReconnect })
@@ -161,5 +166,20 @@ export class KKStateController {
       log.info('KKStateController CONNECTED')
       await this.updateState({ state: KKState.Connected })
     }
+  }
+
+  async nextButtonRequestFinished() {
+    if (!this.wallet) return
+    const transport = this.wallet!.transport
+
+    return await new Promise<void>(resolve => {
+      transport.once(String(Messages.MessageType.MESSAGETYPE_BUTTONACK), () => {
+        const listener = () => {
+          resolve()
+          transport.offAny(listener)
+        }
+        transport.onAny(listener)
+      })
+    })
   }
 }
