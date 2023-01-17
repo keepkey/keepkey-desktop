@@ -40,18 +40,10 @@ export const WalletConnected = (props: WalletConnectedProps) => {
 
 type WalletButtonProps = {
   isConnected: boolean
-  isDemoWallet: boolean
-  isLoadingLocalWallet: boolean
   onConnect: () => void
 } & Pick<InitialState, 'walletInfo'>
 
-const WalletButton: FC<WalletButtonProps> = ({
-  isConnected,
-  isDemoWallet,
-  walletInfo,
-  onConnect,
-  isLoadingLocalWallet,
-}) => {
+const WalletButton: FC<WalletButtonProps> = ({ isConnected, walletInfo, onConnect }) => {
   const [walletLabel, setWalletLabel] = useState('')
   const [shouldShorten, setShouldShorten] = useState(true)
   const bgColor = useColorModeValue('gray.300', 'gray.800')
@@ -88,17 +80,14 @@ const WalletButton: FC<WalletButtonProps> = ({
     })()
   }, [ensName, isEnsNameLoading, isEnsNameLoaded, walletInfo])
 
-  return Boolean(walletInfo?.deviceId) || isLoadingLocalWallet ? (
+  return Boolean(walletInfo?.deviceId) ? (
     <Button
       width={{ base: '100%', lg: 'auto' }}
       justifyContent='flex-start'
       variant='outline'
-      isLoading={isLoadingLocalWallet}
       leftIcon={
         <HStack>
-          {!(isConnected || isDemoWallet) && (
-            <WarningTwoIcon ml={2} w={3} h={3} color='yellow.500' />
-          )}
+          {!isConnected && <WarningTwoIcon ml={2} w={3} h={3} color='yellow.500' />}
           <WalletImage walletInfo={walletInfo} />
         </HStack>
       }
@@ -116,10 +105,7 @@ const WalletButton: FC<WalletButtonProps> = ({
             value={walletLabel}
           />
         ) : (
-          <RawText>
-            sadfsdfasdfasdfsadfasdffdsa
-            {walletInfo?.name}
-          </RawText>
+          <RawText>{walletInfo?.name}</RawText>
         )}
       </Flex>
     </Button>
@@ -132,7 +118,7 @@ const WalletButton: FC<WalletButtonProps> = ({
 
 export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   const { state, dispatch, disconnect } = useWallet()
-  const { isConnected, isDemoWallet, walletInfo, isLocked } = state
+  const { isConnected, walletInfo, isLocked } = state
 
   if (isLocked) disconnect()
   const handleConnect = () => {
@@ -141,13 +127,7 @@ export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   }
   return (
     <ButtonGroup width='full'>
-      <WalletButton
-        onConnect={handleConnect}
-        walletInfo={walletInfo}
-        isConnected={isConnected}
-        isDemoWallet={isDemoWallet}
-        isLoadingLocalWallet={state.isLoadingLocalWallet}
-      />
+      <WalletButton onConnect={handleConnect} walletInfo={walletInfo} isConnected={isConnected} />
     </ButtonGroup>
   )
 }

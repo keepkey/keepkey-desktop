@@ -5,7 +5,6 @@ import {
   AlertIcon,
   Box,
   Button,
-  ChakraText,
   Image,
   Modal,
   ModalBody,
@@ -23,56 +22,65 @@ import { Text } from 'components/Text'
 // import { SessionTypes } from '@walletconnect/types'
 import { useModal } from 'hooks/useModal/useModal'
 import { getPioneerClient } from 'lib/getPioneerCleint'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import type { PairingProps } from './types'
 
-export const PairModal = (input: { deferred?: Deferred<boolean>; data?: PairingProps }) => {
+export const PairModal = ({
+  deferred,
+  input,
+}: {
+  deferred?: Deferred<boolean>
+  input?: PairingProps
+}) => {
   const [error] = useState<string | null>(null)
   const [loading] = useState(false)
   const [isFound, setIsFound] = useState(false)
   const { pair } = useModal()
   const { close, isOpen } = pair
 
-  let onStart = async function () {
-    try {
-      const pioneer = await getPioneerClient()
+  let onStart = useCallback(
+    async function () {
+      try {
+        const pioneer = await getPioneerClient()
 
-      let globals = await pioneer.Globals()
-      console.log('globals: ', globals)
-      console.log('input.data: ', input.data)
-      console.log('input.data: ', input.data.name)
+        let globals = await pioneer.Globals()
+        console.log('globals: ', globals)
+        console.log('input.data: ', input?.data)
+        console.log('input.data: ', input?.data.name)
 
-      //find EVP by name
-      let evpData = await pioneer.ListAppsByName({ name: input.data.name })
-      console.log('evpData: ', evpData)
-      //if found EVP, send to device
+        //find EVP by name
+        let evpData = await pioneer.ListAppsByName({ name: input?.data.name })
+        console.log('evpData: ', evpData)
+        //if found EVP, send to device
 
-      if (evpData[0]) {
-        //send to device
-      } else {
-        //show Warning
-        setIsFound(false)
+        if (evpData[0]) {
+          //send to device
+        } else {
+          //show Warning
+          setIsFound(false)
+        }
+      } catch (e) {
+        console.error(e)
       }
-    } catch (e) {
-      console.error(e)
-    }
-  }
+    },
+    [input?.data],
+  )
 
   useEffect(() => {
     onStart()
-  }, [input, input.data, input.data?.type])
+  }, [input, input?.data, input?.type, onStart])
 
   const HandleSubmit = async () => {
     console.log('Approving!')
-    input.deferred?.resolve(true)
+    deferred?.resolve(true)
     close()
   }
 
   const HandleReject = async () => {
     console.log('Rejecting!')
     console.log('input: !', input)
-    input.deferred?.resolve(false)
+    deferred?.resolve(false)
     close()
   }
 
@@ -94,7 +102,7 @@ export const PairModal = (input: { deferred?: Deferred<boolean>; data?: PairingP
           <ModalHeader>
             <Text
               translation={
-                input.data?.type === 'native'
+                input?.type === 'native'
                   ? 'modals.pair.native.header'
                   : 'modals.pair.walletconnect.header'
               }
@@ -109,9 +117,9 @@ export const PairModal = (input: { deferred?: Deferred<boolean>; data?: PairingP
                       'modals.pair.native.body',
                       {
                         serviceName:
-                          input.data?.type === 'native'
-                            ? input.data.name
-                            : input?.data?.data.params[0]?.peerMeta.name,
+                          input?.type === 'native'
+                            ? input?.data.name
+                            : input?.data.params[0]?.peerMeta.name,
                       },
                     ]}
                     pl='2'
@@ -120,9 +128,9 @@ export const PairModal = (input: { deferred?: Deferred<boolean>; data?: PairingP
                     <div>
                       <Image
                         src={
-                          input.data?.type === 'native'
-                            ? input.data?.ImageUrl
-                            : input?.data?.data.params[0]?.peerMeta?.icons[0]
+                          input?.type === 'native'
+                            ? input?.data?.imageUrl
+                            : input?.data?.params[0]?.peerMeta?.icons[0]
                         }
                         borderRadius='full'
                         height='10'

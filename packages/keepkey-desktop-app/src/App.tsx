@@ -177,7 +177,7 @@ export const App = () => {
 
       async modalPair(data: PairingProps) {
         const out = deferred<boolean>()
-        pair.open({ deferred: out, data })
+        pair.open({ deferred: out, input: data })
         return await out
       },
 
@@ -199,7 +199,7 @@ export const App = () => {
           type: WalletActions.OPEN_KEEPKEY_PIN,
           payload: {
             pinRequestType,
-            showBackButton: true,
+            showBackButton: state.deviceState.disposition === 'initialized',
             deferred: out,
           },
         })

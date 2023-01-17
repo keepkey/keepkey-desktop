@@ -1,5 +1,6 @@
 import * as Comlink from 'comlink'
 import { electronEndpoint } from 'comlink-electron-endpoint/main'
+import { deferred } from 'common-utils'
 import type { IpcMainEvent } from 'electron'
 import { session } from 'electron'
 import { webContents } from 'electron'
@@ -27,10 +28,11 @@ import {
 import type { BridgeLog, Settings } from './helpers/types'
 import type { IpcListeners, RendererIpc } from './types'
 
-export const rendererIpc = new Promise<RendererIpc>(resolve => {
-  ipcMain.on('@app/register-render-listeners', (event: IpcMainEvent) =>
-    resolve(Comlink.wrap<RendererIpc>(electronEndpoint(event.ports[0]))),
-  )
+export let rendererIpc = deferred<RendererIpc>()
+
+ipcMain.on('@app/register-render-listeners', (event: IpcMainEvent) => {
+  if (rendererIpc.settled) rendererIpc = deferred<RendererIpc>()
+  rendererIpc.resolve(Comlink.wrap<RendererIpc>(electronEndpoint(event.ports[0])))
 })
 
 ipcMain.on('@app/get-ipc-listeners', (event: IpcMainEvent) => {
@@ -269,6 +271,10 @@ export const ipcListeners: IpcListeners = {
     const browserSession = session.fromPartition('browser')
     await browserSession.clearStorageData()
     await browserSession.clearCache()
+  },
+
+  async forceReconnect() {
+    await kkStateController.forceReconnect()
   },
 
   // async appUpdate() {

@@ -36,6 +36,7 @@ export const WipeModal = () => {
     state: {
       deviceState: { awaitingDeviceInteraction },
     },
+    setDeviceState,
   } = useWallet()
   const toast = useToast()
   const [wipeConfirmationChecked, setWipeConfirmationChecked] = useState(false)
@@ -56,7 +57,12 @@ export const WipeModal = () => {
   const wipeDevice = async () => {
     moduleLogger.trace({ fn: 'wipeDevice' }, 'Wiping KeepKey...')
     try {
-      await keepKeyWallet?.wipe()
+      setDeviceState({ awaitingDeviceInteraction: true })
+      try {
+        await keepKeyWallet?.wipe()
+      } finally {
+        setDeviceState({ awaitingDeviceInteraction: false })
+      }
       hardwareError.open({})
       disconnect()
       onClose()

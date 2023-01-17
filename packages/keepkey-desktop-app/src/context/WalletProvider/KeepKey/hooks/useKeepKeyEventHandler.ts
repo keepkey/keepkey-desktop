@@ -106,10 +106,7 @@ export const useKeepKeyEventHandler = (
             'isRecoverySeedBackupRequest',
           )
           if (isRecoverySeedBackupRequest) {
-            dispatch({
-              type: WalletActions.OPEN_KEEPKEY_RECOVERY,
-              payload: { deviceId },
-            })
+            dispatch({ type: WalletActions.OPEN_KEEPKEY_RECOVERY })
           }
           break
         // case MessageType.PASSPHRASEREQUEST:
@@ -210,12 +207,7 @@ export const useKeepKeyEventHandler = (
               moduleLogger.warn(
                 'KeepKey Event [FAILURE]: Invalid mnemonic, are words in correct order?',
               )
-              dispatch({
-                type: WalletActions.OPEN_KEEPKEY_RECOVERY_SYNTAX_FAILURE,
-                payload: {
-                  deviceId,
-                },
-              })
+              dispatch({ type: WalletActions.OPEN_KEEPKEY_RECOVERY_SYNTAX_FAILURE })
               break
             default:
               fnLogger.warn('Unexpected MessageType')
@@ -269,7 +261,7 @@ export const useKeepKeyEventHandler = (
             },
           })
 
-          dispatch({ type: WalletActions.CLEAR_MODAL_CACHE, payload: { deviceId: id } })
+          dispatch({ type: WalletActions.CLEAR_MODAL_CACHE })
           dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
         } else {
         }

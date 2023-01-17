@@ -1,7 +1,6 @@
 import { WarningTwoIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Button,
   Card,
   CardBody,
   CardHeader,
@@ -48,15 +47,6 @@ export const HardwareErrorModal = (error: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.pathname])
 
-  const retryPair = async () => {
-    console.log('retryPair: ')
-  }
-
-  const HandleTroubleShoot = async () => {
-    //
-    close()
-  }
-
   return (
     <Modal
       isOpen={isOpen && !isUpdatingKeepkey && window.localStorage.getItem('onboarded') === 'true'}
@@ -69,7 +59,9 @@ export const HardwareErrorModal = (error: {
     >
       <ModalOverlay />
       <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
-        <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+        {!error.needsReconnect && (
+          <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+        )}
         <ModalBody>
           {error && error.error && error.error.includes('claimInterface') ? (
             <div>
@@ -138,9 +130,6 @@ export const HardwareErrorModal = (error: {
                   )}
                 </ReactMarkdown>
               </div>
-              {/*<Button isDisabled={deviceBusy} onClick={retryPair}>*/}
-              {/*  {`${deviceBusy ? 'Retry (Device busy, please wait)' : 'Retry'}`}*/}
-              {/*</Button>*/}
             </div>
           )}
         </ModalBody>

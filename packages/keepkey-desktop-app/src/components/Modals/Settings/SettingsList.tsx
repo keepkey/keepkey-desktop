@@ -45,7 +45,7 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
   }, [appHistory, clickCount, setClickCount, settings])
 
   const { state, disconnect } = useWallet()
-  const { isConnected, isDemoWallet, walletInfo, type } = state
+  const { isConnected, walletInfo, type } = state
 
   return (
     <SlideTransition>
@@ -76,7 +76,7 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
             <TabPanel>
               <Menu>
                 <WalletConnected
-                  isConnected={isConnected || isDemoWallet}
+                  isConnected={isConnected}
                   walletInfo={walletInfo}
                   onDisconnect={disconnect}
                   type={type}
