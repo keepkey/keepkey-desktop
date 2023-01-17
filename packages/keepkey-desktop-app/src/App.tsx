@@ -199,7 +199,7 @@ export const App = () => {
           type: WalletActions.OPEN_KEEPKEY_PIN,
           payload: {
             pinRequestType,
-            showBackButton: true,
+            showBackButton: state.deviceState.disposition === 'initialized',
             deferred: out,
           },
         })
