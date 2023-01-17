@@ -1,9 +1,8 @@
-import * as Messages from '@keepkey/device-protocol/lib/messages_pb'
-import * as Types from '@keepkey/device-protocol/lib/types_pb'
 import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { isEqual } from 'lodash'
 
+import { FailureType, isKKFailureType } from '../util'
 import type { SdkClient } from './sdkClient'
 
 const horribleAccountsHack = new WeakMap<KeepKeyHDWallet, Record<string, BIP32Path>>()
@@ -43,19 +42,7 @@ export class ApiContext {
           ),
         )
       } catch (e) {
-        if (
-          !(
-            e &&
-            typeof e === 'object' &&
-            'message_enum' in e &&
-            e.message_enum === Messages.MessageType.MESSAGETYPE_FAILURE &&
-            'message' in e &&
-            e.message &&
-            typeof e.message === 'object' &&
-            'code' in e.message &&
-            e.message.code === Types.FailureType.FAILURE_NOTINITIALIZED
-          )
-        ) {
+        if (!isKKFailureType(e, FailureType.FAILURE_NOTINITIALIZED)) {
           console.warn('horribleAccountsHack failed', e)
         }
       }
