@@ -86,11 +86,9 @@ export interface InitialState {
   walletInfo: WalletInfo | null
   isConnected: boolean
   isUpdatingKeepkey: boolean
-  isDemoWallet: boolean
   provider: WalletConnectProvider | null
   isLocked: boolean
   modal: boolean
-  isLoadingLocalWallet: boolean
   deviceId: string
   showBackButton: boolean
   keepKeyPinRequestType: PinMatrixRequestType | null
@@ -110,11 +108,9 @@ const initialState: InitialState = {
   initialRoute: null,
   walletInfo: null,
   isConnected: false,
-  isDemoWallet: false,
   provider: null,
   isLocked: false,
   modal: false,
-  isLoadingLocalWallet: false,
   deviceId: '',
   showBackButton: true,
   keepKeyPinRequestType: null,
@@ -134,7 +130,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
     case WalletActions.SET_WALLET:
       return {
         ...state,
-        isDemoWallet: Boolean(action.payload.isDemoWallet),
         wallet: action.payload.wallet,
         walletInfo: {
           name: action?.payload?.name,
@@ -185,17 +180,17 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         },
       }
     }
-    case WalletActions.SET_WALLET_MODAL:
+    case WalletActions.SET_WALLET_MODAL: {
       const newState = { ...state, modal: action.payload }
       // If we're closing the modal, then we need to forget the route we were on
       // Otherwise the connect button for last wallet we clicked on won't work
       if (!action.payload && state.modal) {
         newState.initialRoute = '/'
-        newState.isLoadingLocalWallet = false
         newState.showBackButton = true
         newState.keepKeyPinRequestType = null
       }
       return newState
+    }
     case WalletActions.OPEN_KEEPKEY_PIN: {
       const { showBackButton, pinRequestType, deferred } = action.payload
       return {
@@ -228,7 +223,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         },
       }
     }
-    case WalletActions.OPEN_KEEPKEY_PASSPHRASE:
+    case WalletActions.OPEN_KEEPKEY_PASSPHRASE: {
       const { deferred } = action.payload
       return {
         ...state,
@@ -238,6 +233,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         initialRoute: KeepKeyRoutes.Passphrase,
         passphraseDeferred: deferred,
       }
+    }
     case WalletActions.OPEN_KEEPKEY_INITIALIZE:
       return {
         ...state,
@@ -289,13 +285,10 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         ...state,
         modal: false,
         initialRoute: '/',
-        isLoadingLocalWallet: false,
         showBackButton: true,
         keepKeyPinRequestType: null,
         keyring: new Keyring(),
       }
-    case WalletActions.SET_LOCAL_WALLET_LOADING:
-      return { ...state, isLoadingLocalWallet: action.payload }
     case WalletActions.RESET_STATE:
       const resetProperties = omit(initialState, ['adapters', 'modal', 'deviceId'])
       return { ...state, ...resetProperties }

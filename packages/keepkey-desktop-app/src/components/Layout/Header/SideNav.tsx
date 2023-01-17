@@ -1,14 +1,10 @@
 import { chakra, useColorModeValue } from '@chakra-ui/react'
-import { useWallet } from 'hooks/useWallet/useWallet'
 
 import { SideNavContent } from './SideNavContent'
 
 export const SideNav = () => {
   const borderColor = useColorModeValue('gray.100', 'gray.750')
-  const {
-    state: { isDemoWallet },
-  } = useWallet()
-  const top = isDemoWallet ? '7rem' : '4.5rem'
+
   return (
     <>
       <chakra.header
@@ -17,9 +13,9 @@ export const SideNav = () => {
         borderColor={borderColor}
         left='0'
         right='0'
-        height={`calc(100vh - ${top})`}
+        height={`calc(100vh - 4.5rem)`}
         position='sticky'
-        top={top}
+        top='4.5rem'
         maxWidth='xs'
         flex={{ base: 'inherit', '2xl': '1 1 0%' }}
         display={{ base: 'none', md: 'flex' }}

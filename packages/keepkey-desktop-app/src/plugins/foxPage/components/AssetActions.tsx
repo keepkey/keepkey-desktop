@@ -54,7 +54,7 @@ export const AssetActions: React.FC<FoxTabProps> = ({ assetId }) => {
   const accountId = accountIds?.[0]
 
   const {
-    state: { isConnected, isDemoWallet, wallet },
+    state: { isConnected, wallet },
     dispatch,
   } = useWallet()
   const { receive } = useModal()
@@ -67,23 +67,15 @@ export const AssetActions: React.FC<FoxTabProps> = ({ assetId }) => {
   )
   const handleReceiveClick = useCallback(
     () =>
-      !isDemoWallet && isConnected && walletSupportsETH
+      isConnected && walletSupportsETH
         ? receive.open({ asset, accountId })
         : handleWalletModalOpen(),
-    [
-      accountId,
-      asset,
-      handleWalletModalOpen,
-      isConnected,
-      isDemoWallet,
-      receive,
-      walletSupportsETH,
-    ],
+    [accountId, asset, handleWalletModalOpen, isConnected, receive, walletSupportsETH],
   )
 
   const receiveButtonTranslation = useMemo(
-    () => (!isDemoWallet && walletSupportsETH ? 'plugins.foxPage.receive' : 'common.connectWallet'),
-    [isDemoWallet, walletSupportsETH],
+    () => (walletSupportsETH ? 'plugins.foxPage.receive' : 'common.connectWallet'),
+    [walletSupportsETH],
   )
 
   const onGetAssetClick = useCallback(() => {

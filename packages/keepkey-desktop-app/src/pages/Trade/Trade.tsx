@@ -1,7 +1,6 @@
 import { Box, Center, Container, Heading, Stack, useColorModeValue } from '@chakra-ui/react'
 import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
-import { useWallet } from 'hooks/useWallet/useWallet'
 import { RecentTransactions } from 'pages/Dashboard/RecentTransactions'
 import { TradeCard } from 'pages/Dashboard/TradeCard'
 import { useTranslate } from 'react-polyglot'
@@ -16,10 +15,6 @@ const TradeHeader = () => {
 }
 
 export const Trade = () => {
-  const {
-    state: { isDemoWallet },
-  } = useWallet()
-  const top = isDemoWallet ? '7rem' : '4.5rem'
   const borderColor = useColorModeValue('gray.100', 'gray.750')
   return (
     <Main py={0} px={0} display='flex' flex={1} width='full' titleComponent={<TradeHeader />}>
@@ -69,7 +64,7 @@ export const Trade = () => {
           borderLeftWidth={{ base: 0, lg: 1 }}
           borderTopWidth={{ base: 1, lg: 0 }}
           borderColor={borderColor}
-          height={{ base: 'auto', lg: `calc(100vh - 115px - ${top})` }}
+          height={{ base: 'auto', lg: `calc(100vh - 115px - 4.5rem)` }}
           minHeight={0}
           overflowY='auto'
         >

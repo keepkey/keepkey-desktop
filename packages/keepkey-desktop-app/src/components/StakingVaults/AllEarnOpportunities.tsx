@@ -3,7 +3,6 @@ import { cosmosAssetId, fromAssetId, osmosisAssetId } from '@keepkey/caip'
 import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text'
 import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
-import { WalletActions } from 'context/WalletProvider/actions'
 import type { EarnOpportunityType } from 'features/defi/helpers/normalizeOpportunity'
 import { useNormalizeOpportunities } from 'features/defi/helpers/normalizeOpportunity'
 import { useSortedVaults } from 'hooks/useSortedVaults/useSortedVaults'
@@ -22,7 +21,7 @@ export const AllEarnOpportunities = () => {
   const history = useHistory()
   const location = useLocation()
   const {
-    state: { isConnected, isDemoWallet },
+    state: { isConnected },
     dispatch,
   } = useWallet()
 
@@ -58,10 +57,6 @@ export const AllEarnOpportunities = () => {
     (opportunity: EarnOpportunityType) => {
       const { provider, contractAddress, chainId, rewardAddress, assetId } = opportunity
       const { assetReference } = fromAssetId(assetId)
-      if (!isConnected && isDemoWallet) {
-        dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: true })
-        return
-      }
 
       history.push({
         pathname: `/defi/earn`,
