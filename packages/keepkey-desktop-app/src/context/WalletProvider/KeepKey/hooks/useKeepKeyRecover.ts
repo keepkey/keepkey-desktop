@@ -1,9 +1,7 @@
-import { useToast } from '@chakra-ui/react'
 import type { RecoverDevice } from '@shapeshiftoss/hdwallet-core'
 import { parseIntToEntropy } from 'context/WalletProvider/KeepKey/helpers'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
-import { useTranslate } from 'react-polyglot'
 const moduleLogger = logger.child({ namespace: ['useKeepKeyRecover'] })
 
 export const useKeepKeyRecover = () => {
@@ -14,8 +12,6 @@ export const useKeepKeyRecover = () => {
       wallet,
     },
   } = useWallet()
-  const toast = useToast()
-  const translate = useTranslate()
 
   const recoverKeepKey = async (label: string | undefined) => {
     setDeviceState({ awaitingDeviceInteraction: true })
@@ -27,7 +23,7 @@ export const useKeepKeyRecover = () => {
       autoLockDelayMs: 600000, // Ten minutes
     }
     await wallet?.recover(recoverParams).catch(e => {
-      moduleLogger.error(" Recover Failed! ",e)
+      moduleLogger.error(' Recover Failed! ', e)
     })
   }
 
