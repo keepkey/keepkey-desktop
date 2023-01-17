@@ -71,41 +71,23 @@ export type ActionTypes =
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_RECOVERY
-      payload: {
-        deviceId: string
-      }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_RECOVERY_SETTINGS
-      payload: {
-        deviceId: string
-      }
     }
   | {
       type: WalletActions.CLEAR_MODAL_CACHE
-      payload: {
-        deviceId: string
-      }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_RECOVERY_SYNTAX_FAILURE
-      payload: {
-        deviceId: string
-      }
     }
   | { type: WalletActions.RESET_STATE }
   | { type: WalletActions.RESET_LAST_DEVICE_INTERACTION_STATE }
   | {
       type: WalletActions.OPEN_KEEPKEY_INITIALIZE
-      payload: {
-        deviceId: string
-      }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_LABEL
-      payload: {
-        deviceId: string
-      }
     }
   | { type: WalletActions.SET_WALLET_CONNECT_APP; payload: WalletConnectApp | null }
   | { type: WalletActions.SET_KEEPKEY_SDK; payload: KeepKeySdk | null }

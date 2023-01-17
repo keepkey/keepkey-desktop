@@ -241,7 +241,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         showBackButton: false,
         disconnectOnCloseModal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.FactoryState,
       }
     case WalletActions.OPEN_KEEPKEY_LABEL:
@@ -251,7 +250,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         showBackButton: false,
         disconnectOnCloseModal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.NewLabel,
       }
     case WalletActions.OPEN_KEEPKEY_RECOVERY:
@@ -259,7 +257,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         ...state,
         modal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.NewRecoverySentence,
       }
     case WalletActions.OPEN_KEEPKEY_RECOVERY_SETTINGS:
@@ -269,7 +266,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         showBackButton: false,
         disconnectOnCloseModal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.RecoverySettings,
       }
     case WalletActions.OPEN_KEEPKEY_RECOVERY_SYNTAX_FAILURE:
@@ -277,7 +273,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         ...state,
         modal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.RecoverySentenceInvalid,
       }
     case WalletActions.CLEAR_MODAL_CACHE:
