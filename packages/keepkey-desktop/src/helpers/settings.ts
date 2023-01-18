@@ -45,6 +45,11 @@ export class SettingsInstance {
     return (async () => (await this.loaded, this.#allowBetaFirmware))()
   }
 
+  #autoScanQr = false
+  get autoScanQr() {
+    return (async () => (await this.loaded, this.#autoScanQr))()
+  }
+
   constructor() {
     if (SettingsInstance.#singletonInitialized) {
       throw new Error('SettingsInstance can only be initialized once')
@@ -66,7 +71,8 @@ export class SettingsInstance {
       doc.settings.shouldAutoUpdate === undefined ||
       doc.settings.bridgeApiPort === undefined ||
       doc.settings.allowPreRelease === undefined ||
-      doc.settings.allowBetaFirmware === undefined
+      doc.settings.allowBetaFirmware === undefined ||
+      doc.settings.autoScanQr === undefined
     ) {
       await this.syncSettingsWithDB()
     }
@@ -78,6 +84,7 @@ export class SettingsInstance {
     this.#bridgeApiPort = doc.settings.bridgeApiPort
     this.#allowPreRelease = doc.settings.allowPreRelease
     this.#allowBetaFirmware = doc.settings.allowBetaFirmware
+    this.#autoScanQr = doc.settings.autoScanQr
     console.log('Loaded settings: ', doc.settings)
 
     return this
@@ -96,6 +103,7 @@ export class SettingsInstance {
           bridgeApiPort: this.#bridgeApiPort,
           allowPreRelease: this.#allowPreRelease,
           allowBetaFirmware: this.#allowBetaFirmware,
+          autoScanQr: this.#autoScanQr,
         },
       },
       {
@@ -157,6 +165,12 @@ export class SettingsInstance {
     await this.syncSettingsWithDB()
   }
 
+  async setAutoScanQr(value: boolean) {
+    await this.loaded
+    this.#autoScanQr = value
+    await this.syncSettingsWithDB()
+  }
+
   async updateBulkSettings({
     shouldAutoLaunch,
     shouldAutoStartBridge,
@@ -165,6 +179,7 @@ export class SettingsInstance {
     bridgeApiPort,
     allowPreRelease,
     allowBetaFirmware,
+    autoScanQr,
   }: {
     shouldAutoLaunch?: boolean
     shouldAutoStartBridge?: boolean
@@ -173,6 +188,7 @@ export class SettingsInstance {
     bridgeApiPort?: number
     allowPreRelease?: boolean
     allowBetaFirmware?: boolean
+    autoScanQr?: boolean
   }) {
     await this.loaded
     log.info(
@@ -183,6 +199,7 @@ export class SettingsInstance {
       bridgeApiPort,
       allowPreRelease,
       allowBetaFirmware,
+      autoScanQr,
     )
     if (shouldAutoLaunch !== undefined) this.#shouldAutoLaunch = shouldAutoLaunch
     if (shouldAutoStartBridge !== undefined) this.#shouldAutoStartBridge = shouldAutoStartBridge
@@ -191,6 +208,7 @@ export class SettingsInstance {
     if (bridgeApiPort !== undefined) this.#bridgeApiPort = bridgeApiPort
     if (allowPreRelease !== undefined) this.#allowPreRelease = allowPreRelease
     if (allowBetaFirmware !== undefined) this.#allowBetaFirmware = allowBetaFirmware
+    if (autoScanQr !== undefined) this.#autoScanQr = autoScanQr
     await this.syncSettingsWithDB()
   }
 }

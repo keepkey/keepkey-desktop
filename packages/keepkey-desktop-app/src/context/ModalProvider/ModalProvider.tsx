@@ -1,4 +1,4 @@
-import { WipeModal } from 'components/Layout/Header/NavBar/KeepKey/Modals/Wipe'
+import { WipeModal } from 'components/Layout/Header/NavBar/KeepKey/Modals/WipeModal'
 import { AddAuthenticatorAccountModal } from 'components/Modals/AddAuthenticatorAccount/AddAuthenticatorAccount'
 import { AssetSearchModal } from 'components/Modals/AssetSearch/AssetSearch'
 import { ChainSelectorModal } from 'components/Modals/ChainSelector/ChainSelector'

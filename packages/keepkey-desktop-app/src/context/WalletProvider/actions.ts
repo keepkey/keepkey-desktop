@@ -32,6 +32,7 @@ export enum WalletActions {
   SET_WALLET_CONNECT_APP = 'SET_WALLET_CONNECT_APP',
   SET_KEEPKEY_SDK = 'SET_KEEPKEY_SDK',
   SET_BROWSER_URL = 'SET_BROWSER_URL',
+  OPEN_KEEPKEY_WIPE = 'OPEN_KEEPKEY_WIPE',
 }
 
 export type ActionTypes =
@@ -95,3 +96,4 @@ export type ActionTypes =
   | { type: WalletActions.SET_WALLET_CONNECT_APP; payload: WalletConnectApp | null }
   | { type: WalletActions.SET_KEEPKEY_SDK; payload: KeepKeySdk | null }
   | { type: WalletActions.SET_BROWSER_URL; payload: string | null }
+  | { type: WalletActions.OPEN_KEEPKEY_WIPE; payload: undefined }

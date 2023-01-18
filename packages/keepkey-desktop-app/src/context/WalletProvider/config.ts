@@ -6,6 +6,7 @@ import { ChangePassphrase } from 'components/Layout/Header/NavBar/KeepKey/Change
 import { ChangePin } from 'components/Layout/Header/NavBar/KeepKey/ChangePin'
 import { ChangeTimeout } from 'components/Layout/Header/NavBar/KeepKey/ChangeTimeout'
 import { KeepKeyMenu } from 'components/Layout/Header/NavBar/KeepKey/KeepKeyMenu'
+import { KeepKeyWipe } from 'components/Layout/Header/NavBar/KeepKey/Modals/KeepKeyWipe'
 import { UpdateKeepKey } from 'components/Modals/UpdateKeepKey/UpdateKeepKey'
 import type { RouteProps } from 'react-router-dom'
 
@@ -36,6 +37,7 @@ export const SUPPORTED_WALLETS: Record<KeyManager, SupportedWalletInfo> = {
     adapter: keepkeyRest.KkRestAdapter,
     routes: [
       { path: KeepKeyRoutes.Pin, component: KeepKeyPinModal },
+      { path: KeepKeyRoutes.Wipe, component: KeepKeyWipe },
       { path: KeepKeyRoutes.Passphrase, component: KeepKeyPassphrase },
       { path: KeepKeyRoutes.FactoryState, component: UpdateKeepKey },
       { path: KeepKeyRoutes.NewLabel, component: KeepKeyLabel },

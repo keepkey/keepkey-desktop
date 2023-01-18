@@ -6,6 +6,7 @@ import { getSdkError } from '@walletconnect/utils'
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
+import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { LegacyWCService } from 'kkdesktop/walletconnect'
 import { getWalletConnect, WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
@@ -51,6 +52,18 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     },
     [proposals],
   )
+
+  useEffect(() => {
+    if (!requests) return
+    if (requests.length <= 0) ipcListeners.setAlwaysOnTop(false)
+    else if (requests.length >= 1) ipcListeners.setAlwaysOnTop(true)
+  }, [requests])
+
+  useEffect(() => {
+    if (!proposals) return
+    if (proposals.length <= 0) ipcListeners.setAlwaysOnTop(false)
+    else if (proposals.length >= 1) ipcListeners.setAlwaysOnTop(true)
+  }, [proposals])
 
   const [, setTick] = useState(0)
   const rerender = useCallback(() => setTick(prev => prev + 1), [])
