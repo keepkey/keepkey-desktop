@@ -57,11 +57,12 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
       })
       const msg = `\x15initializeAuth:${acc.domain}:${acc.account}:${acc.secret}`
       console.log('addAcc msg: ', msg)
-      await wallet
+      const pong = await wallet
         .ping({
           msg,
         })
         .catch(console.error)
+      console.log('add acc resp', pong)
       close()
       setTimeout(fetchAccs, 2000)
     },
@@ -148,7 +149,7 @@ const AddManually: FC<{ addAcc: any }> = ({ addAcc }) => {
 const AddByScanning: FC<{ addAcc: any }> = ({ addAcc }) => {
   const { goBack } = useHistory()
 
-  const [scannedQr, setScannedQr] = useState('')
+  const [scannedQr, setScannedQr] = useState<string>()
   const [error, setError] = useState('')
 
   const scan = () => {
@@ -157,7 +158,7 @@ const AddByScanning: FC<{ addAcc: any }> = ({ addAcc }) => {
 
   useEffect(() => {
     setError('')
-    if (!scannedQr) return setError('Unable to scan QR')
+    if (!scannedQr) return
 
     if (!/^otpauth:/.test(scannedQr)) return setError('Invalid QR')
     const url = new URL(scannedQr.replace(/^otpauth:/, 'http:'))
