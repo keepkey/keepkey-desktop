@@ -17,7 +17,14 @@ import type {
   PairedAppProps,
   PairingProps as PairingProps2,
 } from '../../keepkey-desktop-app/src/pages/Pairings/types'
-import { bridgeLogger, db, isWalletBridgeRunning, kkStateController, settings } from './globalState'
+import {
+  bridgeLogger,
+  db,
+  isWalletBridgeRunning,
+  kkStateController,
+  settings,
+  windows,
+} from './globalState'
 import {
   downloadFirmware,
   getAllFirmwareData,
@@ -83,6 +90,7 @@ export const ipcListeners: IpcListeners = {
       bridgeApiPort: await settings.bridgeApiPort,
       allowPreRelease: await settings.allowPreRelease,
       allowBetaFirmware: await settings.allowBetaFirmware,
+      autoScanQr: await settings.autoScanQr,
     }
   },
 
@@ -273,8 +281,20 @@ export const ipcListeners: IpcListeners = {
     await browserSession.clearCache()
   },
 
+  async wipeKeepKey() {
+    if (!kkStateController.wallet) return
+    await kkStateController.wallet.cancel()
+    await kkStateController.wallet.wipe()
+  },
+
   async forceReconnect() {
     await kkStateController.forceReconnect()
+  },
+
+  async setAlwaysOnTop(value: boolean) {
+    if (!windows.mainWindow) return
+    if (value) windows.mainWindow.focus()
+    windows.mainWindow.setAlwaysOnTop(value)
   },
 
   // async appUpdate() {

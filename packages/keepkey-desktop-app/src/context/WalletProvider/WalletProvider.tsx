@@ -289,6 +289,13 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         keepKeyPinRequestType: null,
         keyring: new Keyring(),
       }
+    case WalletActions.OPEN_KEEPKEY_WIPE:
+      return {
+        ...state,
+        modal: true,
+        type: KeyManager.KeepKey,
+        initialRoute: KeepKeyRoutes.Wipe,
+      }
     case WalletActions.RESET_STATE:
       const resetProperties = omit(initialState, ['adapters', 'modal', 'deviceId'])
       return { ...state, ...resetProperties }

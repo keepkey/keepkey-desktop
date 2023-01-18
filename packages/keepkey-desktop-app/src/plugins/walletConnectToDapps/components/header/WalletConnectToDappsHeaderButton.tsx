@@ -5,9 +5,10 @@ import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
 import { RawText } from 'components/Text'
 import { ipcListeners } from 'electron-shim'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 
+import type { Settings } from '../../../../../../keepkey-desktop/src/helpers/types'
 import { ConnectModal } from '../modal/connectModal'
 import { DappAvatar } from './DappAvatar'
 import { DappHeaderMenuSummary } from './DappHeaderMenuSummary'
@@ -18,6 +19,10 @@ export const WalletConnectToDappsHeaderButton = () => {
   const walletConnect = useWalletConnect()
   const [scannedQr, setScannedQr] = useState<string>()
 
+  const [{ autoScanQr }, setAppSettings] = useState<Partial<Settings>>({
+    autoScanQr: false,
+  })
+
   const scanOrReadQrAndOpen = async () => {
     try {
       const clipboardData = await navigator.clipboard.read()
@@ -27,14 +32,20 @@ export const WalletConnectToDappsHeaderButton = () => {
         setScannedQr(clipboardUri)
       }
 
-      const readQr = await ipcListeners.appReadQr().catch(console.error)
-      if (readQr) setScannedQr(readQr)
+      if (autoScanQr) {
+        const readQr = await ipcListeners.appReadQr().catch(console.error)
+        if (readQr) setScannedQr(readQr)
+      }
     } catch (error) {
       console.error(error)
     }
 
     setOpen(true)
   }
+
+  useEffect(() => {
+    ipcListeners.appSettings().then(setAppSettings)
+  }, [])
 
   if (!walletConnect || !walletConnect.isConnected || !walletConnect.dapp) {
     return (

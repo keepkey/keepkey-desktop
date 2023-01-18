@@ -8,6 +8,7 @@ export type Settings = {
   shouldAutoUpdate: boolean
   allowPreRelease: boolean
   allowBetaFirmware: boolean
+  autoScanQr: boolean
 }
 
 export interface BridgeLog {

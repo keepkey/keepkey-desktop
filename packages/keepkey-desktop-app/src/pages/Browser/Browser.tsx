@@ -65,17 +65,13 @@ export const Browser = () => {
   const [webviewReady, setWebviewReady] = useState(false)
   useEffect(() => {
     const webview = getWebview()!
+    webview.setAttribute('autosize', 'on')
+    webview.allowpopups = true
     const listener = () => setWebviewReady(true)
     webview.addEventListener('dom-ready', listener)
     return () => {
       webview.removeEventListener('dom-ready', listener)
     }
-  }, [])
-
-  useEffect(() => {
-    const webview = getWebview()!
-    webview.setAttribute('autosize', 'on')
-    webview.setAttribute('allow-popups', 'true')
   }, [])
 
   useEffect(() => {

@@ -22,6 +22,7 @@ export const AppSettings: FC = () => {
     allowPreRelease: false,
     allowBetaFirmware: false,
     bridgeApiPort: 1646,
+    autoScanQr: false,
   })
 
   const [prevAppSettings, setPrevAppSettings] = useState<Settings>(appSettings)
@@ -34,7 +35,8 @@ export const AppSettings: FC = () => {
         appSettings.shouldAutoUpdate === prevAppSettings.shouldAutoUpdate &&
         appSettings.shouldMinimizeToTray === prevAppSettings.shouldMinimizeToTray &&
         appSettings.allowPreRelease === prevAppSettings.allowPreRelease &&
-        appSettings.allowBetaFirmware === prevAppSettings.allowBetaFirmware
+        appSettings.allowBetaFirmware === prevAppSettings.allowBetaFirmware &&
+        appSettings.autoScanQr === prevAppSettings.autoScanQr
       )
         return
       setPrevAppSettings(appSettings)
@@ -128,6 +130,20 @@ export const AppSettings: FC = () => {
         icon={<Icon as={TbRefreshAlert} color='gray.500' />}
       >
         <Switch isChecked={appSettings.allowBetaFirmware} pointerEvents='none' />
+      </SettingsListItem>
+      <SettingsListItem
+        label={'modals.settings.autoScanQr'}
+        onClick={() => {
+          setAppSettings(currentSettings => {
+            return {
+              ...currentSettings,
+              autoScanQr: !currentSettings.autoScanQr,
+            }
+          })
+        }}
+        icon={<Icon as={TbRefreshAlert} color='gray.500' />}
+      >
+        <Switch isChecked={appSettings.autoScanQr} pointerEvents='none' />
       </SettingsListItem>
     </Stack>
   )

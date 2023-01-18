@@ -21,7 +21,7 @@ export const ConnectWallet = () => {
   const translate = useTranslate()
   const query = useQuery<{ returnUrl: string }>()
 
-  const { onboardingSteps, languages } = useModal()
+  const { onboardingSteps, languages, keepKeyWipe } = useModal()
 
   const debugDevice = async function () {
     await ipcListeners.appRestart()
@@ -53,13 +53,13 @@ export const ConnectWallet = () => {
       window.localStorage.getItem('languageSelected') === 'true'
     )
       onboardingSteps.open({})
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     const languageSelected = window.localStorage.getItem('languageSelected')
     if (languageSelected !== 'true') languages.open({})
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -141,6 +141,14 @@ export const ConnectWallet = () => {
                 onClick={debugDevice}
               >
                 {translate('connectWalletPage.troubleshoot')}
+              </Button>
+              <Button
+                width='360px'
+                rightIcon={<ExternalLinkIcon />}
+                colorScheme='green'
+                onClick={() => keepKeyWipe.open({})}
+              >
+                Wipe keepkey
               </Button>
               <Button
                 as={Link}
