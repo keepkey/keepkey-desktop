@@ -278,7 +278,7 @@ export const ipcListeners: IpcListeners = {
     await kkStateController.wallet.cancel()
     await kkStateController.wallet.wipe()
   },
-  
+
   async forceReconnect() {
     await kkStateController.forceReconnect()
   },
