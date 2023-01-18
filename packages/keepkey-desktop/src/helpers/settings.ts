@@ -12,7 +12,7 @@ export class Settings {
   public shouldAutoStartBridge = true
   public bridgeApiPort = 1646
 
-  public shouldAutoLunch = true
+  public shouldAutoLunch = false
   public shouldMinimizeToTray = true
   public shouldAutoUpdate = true
   public allowPreRelease = false

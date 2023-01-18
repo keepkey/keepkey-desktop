@@ -3,6 +3,13 @@ import type { ethereum } from '@keepkey/chain-adapters'
 import { FeeDataKey } from '@keepkey/chain-adapters'
 import { KnownChainIds } from '@keepkey/types'
 import axios from 'axios'
+import { Card } from 'components/Card/Card'
+import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
+import { Text } from 'components/Text'
+import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import { bn, bnOrZero } from 'lib/bignumber/bignumber'
+import { fromBaseUnit } from 'lib/math'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { useCallback } from 'react'
 import { useMemo } from 'react'
@@ -11,13 +18,6 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form'
 import { FaGasPump, FaWrench } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'
 import Web3 from 'web3'
-import { Card } from 'components/Card/Card'
-import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
-import { Text } from 'components/Text'
-import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import { bn, bnOrZero } from 'lib/bignumber/bignumber'
-import { fromBaseUnit } from 'lib/math'
 
 import { AddressSummaryCard } from './AddressSummaryCard'
 import { ContractInteractionBreakdown } from './ContractInteractionBreakdown'
@@ -227,18 +227,13 @@ export const SendTransactionConfirmation = () => {
   ])
 
   if (!walletConnect.legacyBridge || !walletConnect.dapp) return null
-  if (!currentRequest) return null
-  if (!currentRequest?.params[0].data) return null
-  if (!currentRequest?.params[0].to) return null
-  // if (!currentRequest?.params[0].value) return null
-  console.log('currentRequest: ', currentRequest?.params[0].data)
 
   const txInput: TxData = {
     nonce: txInputNonce,
     gasLimit: txInputGas,
-    data: currentRequest.params[0].data,
-    to: currentRequest.params[0].to,
-    value: currentRequest.params[0].value || '0x0',
+    data: currentRequest?.params[0].data,
+    to: currentRequest?.params[0].to,
+    value: currentRequest?.params[0].value,
     maxFeePerGas: txMaxFeePerGas,
     maxPriorityFeePerGas: txMaxPriorityFeePerGas,
   }

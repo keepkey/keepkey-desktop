@@ -80,6 +80,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
   const setLegcyEvents = useCallback(
     (wc: LegacyWCService) => {
       wc.connector.on('call_request', (_e, payload) => {
+        console.log('call request', payload)
         addRequest(payload)
       })
 
