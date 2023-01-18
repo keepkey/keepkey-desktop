@@ -8,8 +8,10 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/toast'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { Text } from 'components/Text'
+import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
@@ -32,9 +34,9 @@ export const KeepKeyWipe: FC<KeepKeyWipeType> = ({ onClose }) => {
 
   const {
     state: {
+      wallet,
       deviceState: { awaitingDeviceInteraction },
     },
-    setDeviceState,
   } = useWallet()
   const toast = useToast()
   const [wipeConfirmationChecked, setWipeConfirmationChecked] = useState(false)
@@ -42,7 +44,10 @@ export const KeepKeyWipe: FC<KeepKeyWipeType> = ({ onClose }) => {
   const wipeDevice = async () => {
     moduleLogger.trace({ fn: 'wipeDevice' }, 'Wiping KeepKey...')
     try {
-      ipcListeners.wipeKeepKey()
+      if (onClose && wallet) {
+        await wallet.cancel()
+        await wallet.wipe()
+      } else ipcListeners.wipeKeepKey()
       disconnect()
       onClose && onClose()
     } catch (e) {
