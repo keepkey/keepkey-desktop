@@ -17,7 +17,14 @@ import type {
   PairedAppProps,
   PairingProps as PairingProps2,
 } from '../../keepkey-desktop-app/src/pages/Pairings/types'
-import { bridgeLogger, db, isWalletBridgeRunning, kkStateController, settings } from './globalState'
+import {
+  bridgeLogger,
+  db,
+  isWalletBridgeRunning,
+  kkStateController,
+  settings,
+  windows,
+} from './globalState'
 import {
   downloadFirmware,
   getAllFirmwareData,
@@ -281,6 +288,12 @@ export const ipcListeners: IpcListeners = {
 
   async forceReconnect() {
     await kkStateController.forceReconnect()
+  },
+
+  async setAlwaysOnTop(value: boolean) {
+    if (!windows.mainWindow) return
+    if (value) windows.mainWindow.focus()
+    windows.mainWindow.setAlwaysOnTop(value)
   },
 
   // async appUpdate() {
