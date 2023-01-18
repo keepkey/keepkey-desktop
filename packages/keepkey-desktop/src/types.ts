@@ -88,6 +88,7 @@ export type IpcListeners = {
 
   clearBrowserSession(): Promise<void>
   wipeKeepKey(): Promise<void>
+  forceReconnect(): Promise<void>
 
   // appUpdate(): Promise<UpdateCheckResult | { updateInfo: { version: string } } | undefined>
   // appDownloadUpdates(): Promise<void>

@@ -172,6 +172,7 @@ export const KeepKeyPin = ({
               setIsPinEmpty(!pinFieldRef.current?.value)
             }}
             {...buttonsProps}
+            disabled={loading}
           >
             <CircleIcon boxSize={4} />
           </Button>
@@ -191,8 +192,11 @@ export const KeepKeyPin = ({
         variant='filled'
         mb={3}
         autoComplete='one-time-code'
+        autoFocus={true}
         onKeyDown={handleKeyboardInput}
+        onSubmit={handleSubmit}
         onKeyUp={() => setIsPinEmpty(!pinFieldRef.current?.value)}
+        disabled={loading}
       />
       {error && (
         <Alert status='error' mb={3} mt={3}>

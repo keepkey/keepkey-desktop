@@ -19,8 +19,6 @@ export enum WalletActions {
   SET_WALLET_MODAL = 'SET_WALLET_MODAL',
   RESET_STATE = 'RESET_STATE',
   RESET_LAST_DEVICE_INTERACTION_STATE = 'RESET_LAST_DEVICE_INTERACTION_STATE',
-  SET_LOCAL_WALLET_LOADING = 'SET_LOCAL_WALLET_LOADING',
-  NATIVE_PASSWORD_OPEN = 'NATIVE_PASSWORD_OPEN',
   OPEN_KEEPKEY_PIN = 'OPEN_KEEPKEY_PIN',
   OPEN_KEEPKEY_PASSPHRASE = 'OPEN_KEEPKEY_PASSPHRASE',
   OPEN_KEEPKEY_INITIALIZE = 'OPEN_KEEPKEY_INITIALIZE',
@@ -41,7 +39,7 @@ export type ActionTypes =
   | { type: WalletActions.SET_ADAPTERS; payload: Adapters }
   | {
       type: WalletActions.SET_WALLET
-      payload: WalletInfo & { isDemoWallet?: boolean; wallet: HDWallet | null }
+      payload: WalletInfo & { wallet: HDWallet | null }
     }
   | { type: WalletActions.SET_IS_CONNECTED; payload: boolean }
   | { type: WalletActions.SET_PROVIDER; payload: InitialState['provider'] }
@@ -49,16 +47,8 @@ export type ActionTypes =
   | { type: WalletActions.SET_CONNECTOR_TYPE; payload: KeyManager }
   | { type: WalletActions.SET_INITIAL_ROUTE; payload: string }
   | { type: WalletActions.SET_WALLET_MODAL; payload: boolean }
-  | { type: WalletActions.SET_LOCAL_WALLET_LOADING; payload: boolean }
   | { type: WalletActions.SET_DEVICE_STATE; payload: Partial<DeviceState> }
   | { type: WalletActions.SET_PIN_REQUEST_TYPE; payload: PinMatrixRequestType }
-  | {
-      type: WalletActions.NATIVE_PASSWORD_OPEN
-      payload: {
-        modal: boolean
-        deviceId: string
-      }
-    }
   | {
       type: WalletActions.OPEN_KEEPKEY_CHARACTER_REQUEST
       payload: {
@@ -82,40 +72,25 @@ export type ActionTypes =
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_RECOVERY
-      payload: {
-        deviceId: string
-      }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_RECOVERY_SETTINGS
-      payload: {
-        deviceId: string
-      }
     }
   | {
       type: WalletActions.CLEAR_MODAL_CACHE
-      payload: {
-        deviceId: string
-      }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_RECOVERY_SYNTAX_FAILURE
-      payload: {
-        deviceId: string
-      }
     }
   | { type: WalletActions.RESET_STATE }
   | { type: WalletActions.RESET_LAST_DEVICE_INTERACTION_STATE }
   | {
       type: WalletActions.OPEN_KEEPKEY_INITIALIZE
-      payload: {
-        deviceId: string
-      }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_LABEL
       payload: {
-        deviceId: string
+        deferred: Deferred<string>
       }
     }
   | { type: WalletActions.SET_WALLET_CONNECT_APP; payload: WalletConnectApp | null }

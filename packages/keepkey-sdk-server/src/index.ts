@@ -1,5 +1,7 @@
 import * as Messages from '@keepkey/device-protocol/lib/messages_pb'
+import * as Types from '@keepkey/device-protocol/lib/types_pb'
 import type * as core from '@shapeshiftoss/hdwallet-core'
+import { ActionCancelled, HDWalletError } from '@shapeshiftoss/hdwallet-core'
 import { assume } from 'common-utils'
 import type * as express from 'express'
 import { ValidateError } from 'tsoa'
@@ -23,10 +25,17 @@ export function RegisterRoutes(app: express.Router) {
         details: err?.fields,
       })
     }
-    if (err instanceof Error) {
-      return res.status(500).json({
-        message: err.message,
-      })
+    if (err instanceof HDWalletError) {
+      if (err instanceof ActionCancelled) {
+        return res.status(500).json({
+          message: err.message,
+          name: err.name,
+          type: err.type,
+          failure_type: Types.FailureType.FAILURE_ACTIONCANCELLED,
+        })
+      } else {
+        return res.status(500).json({ message: err.message, name: err.name, type: err.type })
+      }
     } else if (err && typeof err === 'object' && 'from_wallet' in err) {
       assume<core.Event>(err)
       switch (err.message_enum) {
@@ -39,6 +48,8 @@ export function RegisterRoutes(app: express.Router) {
         default:
           return res.status(500).json({})
       }
+    } else if (err instanceof Error) {
+      return res.status(500).json({ message: err.message })
     } else {
       return res.status(500).json({})
     }

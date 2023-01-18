@@ -21,7 +21,7 @@ export const Assets = () => {
     <Main
       display='flex'
       flexDir='column'
-      height='calc(100vh - 72px)'
+      flexGrow='1'
       titleComponent={
         <Stack pb={4}>
           <Heading>

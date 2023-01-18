@@ -23,19 +23,22 @@ export const KeepKeyPassphrase = () => {
       </ModalHeader>
       <ModalBody>
         <Text color='gray.500' translation={'modals.keepKey.passphrase.body'} />
-        <Input
-          type='password'
-          ref={inputRef}
-          size='lg'
-          variant='filled'
-          mt={3}
-          mb={6}
-          autoFocus={true}
-          autoComplete='current-password'
-        />
-        <Button width='full' size='lg' colorScheme='blue' onClick={handleSubmit} disabled={loading}>
-          <Text translation={'modals.keepKey.passphrase.button'} />
-        </Button>
+        <form onSubmit={handleSubmit}>
+          <Input
+            type='password'
+            ref={inputRef}
+            size='lg'
+            variant='filled'
+            mt={3}
+            mb={6}
+            autoFocus={true}
+            autoComplete='current-password'
+            disabled={loading}
+          />
+          <Button width='full' size='lg' colorScheme='blue' type='submit' disabled={loading}>
+            <Text translation={'modals.keepKey.passphrase.button'} />
+          </Button>
+        </form>
         <AwaitKeepKey
           translation={'modals.keepKey.passphrase.bodyConfirm'}
           noCancel={true}

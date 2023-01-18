@@ -2,6 +2,7 @@ import type { ComponentWithAs, IconProps } from '@chakra-ui/react'
 import { KeepKeySdk } from '@keepkey/keepkey-sdk'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { Keyring } from '@shapeshiftoss/hdwallet-core'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-walletconnect'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
 import kkIconBlack from 'assets/kk-icon-black.png'
@@ -86,11 +87,9 @@ export interface InitialState {
   walletInfo: WalletInfo | null
   isConnected: boolean
   isUpdatingKeepkey: boolean
-  isDemoWallet: boolean
   provider: WalletConnectProvider | null
   isLocked: boolean
   modal: boolean
-  isLoadingLocalWallet: boolean
   deviceId: string
   showBackButton: boolean
   keepKeyPinRequestType: PinMatrixRequestType | null
@@ -100,6 +99,7 @@ export interface InitialState {
   browserUrl: string | null
   pinDeferred?: Deferred<string>
   passphraseDeferred?: Deferred<string>
+  labelDeferred?: Deferred<string>
 }
 
 const initialState: InitialState = {
@@ -110,11 +110,9 @@ const initialState: InitialState = {
   initialRoute: null,
   walletInfo: null,
   isConnected: false,
-  isDemoWallet: false,
   provider: null,
   isLocked: false,
   modal: false,
-  isLoadingLocalWallet: false,
   deviceId: '',
   showBackButton: true,
   keepKeyPinRequestType: null,
@@ -134,7 +132,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
     case WalletActions.SET_WALLET:
       return {
         ...state,
-        isDemoWallet: Boolean(action.payload.isDemoWallet),
         wallet: action.payload.wallet,
         walletInfo: {
           name: action?.payload?.name,
@@ -185,17 +182,17 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         },
       }
     }
-    case WalletActions.SET_WALLET_MODAL:
+    case WalletActions.SET_WALLET_MODAL: {
       const newState = { ...state, modal: action.payload }
       // If we're closing the modal, then we need to forget the route we were on
       // Otherwise the connect button for last wallet we clicked on won't work
       if (!action.payload && state.modal) {
         newState.initialRoute = '/'
-        newState.isLoadingLocalWallet = false
         newState.showBackButton = true
         newState.keepKeyPinRequestType = null
       }
       return newState
+    }
     case WalletActions.OPEN_KEEPKEY_PIN: {
       const { showBackButton, pinRequestType, deferred } = action.payload
       return {
@@ -228,7 +225,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         },
       }
     }
-    case WalletActions.OPEN_KEEPKEY_PASSPHRASE:
+    case WalletActions.OPEN_KEEPKEY_PASSPHRASE: {
       const { deferred } = action.payload
       return {
         ...state,
@@ -238,6 +235,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         initialRoute: KeepKeyRoutes.Passphrase,
         passphraseDeferred: deferred,
       }
+    }
     case WalletActions.OPEN_KEEPKEY_INITIALIZE:
       return {
         ...state,
@@ -245,25 +243,25 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         showBackButton: false,
         disconnectOnCloseModal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.FactoryState,
       }
-    case WalletActions.OPEN_KEEPKEY_LABEL:
+    case WalletActions.OPEN_KEEPKEY_LABEL: {
+      const { deferred } = action.payload
       return {
         ...state,
         modal: true,
         showBackButton: false,
         disconnectOnCloseModal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.NewLabel,
+        labelDeferred: deferred,
       }
+    }
     case WalletActions.OPEN_KEEPKEY_RECOVERY:
       return {
         ...state,
         modal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.NewRecoverySentence,
       }
     case WalletActions.OPEN_KEEPKEY_RECOVERY_SETTINGS:
@@ -273,7 +271,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         showBackButton: false,
         disconnectOnCloseModal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.RecoverySettings,
       }
     case WalletActions.OPEN_KEEPKEY_RECOVERY_SYNTAX_FAILURE:
@@ -281,7 +278,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         ...state,
         modal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.RecoverySentenceInvalid,
       }
     case WalletActions.CLEAR_MODAL_CACHE:
@@ -289,7 +285,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         ...state,
         modal: false,
         initialRoute: '/',
-        isLoadingLocalWallet: false,
         showBackButton: true,
         keepKeyPinRequestType: null,
         keyring: new Keyring(),
@@ -301,8 +296,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         type: KeyManager.KeepKey,
         initialRoute: KeepKeyRoutes.Wipe,
       }
-    case WalletActions.SET_LOCAL_WALLET_LOADING:
-      return { ...state, isLoadingLocalWallet: action.payload }
     case WalletActions.RESET_STATE:
       const resetProperties = omit(initialState, ['adapters', 'modal', 'deviceId'])
       return { ...state, ...resetProperties }
@@ -331,11 +324,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   // so we dont unintentionally show the keepkey error modal while updating
   const [isUpdatingKeepkey, setIsUpdatingKeepkey] = useState(false)
 
-  // is keepkey device currently being interacted with
-  const [deviceBusy] = useState(false)
-
-  const [desiredLabel, setDesiredLabel] = useState('')
-
   const disconnect = useCallback(async () => {
     /**
      * in case of KeepKey placeholder wallet,
@@ -356,7 +344,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       for (const walletName of Object.values(KeyManager)) {
         try {
           const adapter = SUPPORTED_WALLETS[walletName].adapter.useKeyring(state.keyring, options)
-          const wallet = await adapter.pairDevice(sdk)
+          const wallet: KeepKeyHDWallet = await adapter.pairDevice(sdk)
           adapters.set(walletName, adapter)
           dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
           const { name, icon } = KeepKeyConfig
@@ -367,7 +355,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
             type: WalletActions.SET_WALLET,
             payload: { wallet, name: label, icon, deviceId, meta: { label } },
           })
-          dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
+          if ((await wallet.getFeatures()).initialized) {
+            dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
+          }
           /**
            * The real deviceId of KeepKey wallet could be different from the
            * deviceId recieved from the wallet, so we need to keep
@@ -376,6 +366,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
           setLocalWalletTypeAndDeviceId(KeyManager.KeepKey, state.keyring.getAlias(deviceId))
         } catch (e) {
           moduleLogger.error(e, 'Error initializing HDWallet adapters')
+          disconnect()
         }
       }
     }, 2000),
@@ -444,21 +435,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       isUpdatingKeepkey,
       setIsUpdatingKeepkey,
       pairAndConnect,
-      deviceBusy,
-      desiredLabel,
-      setDesiredLabel,
     }),
-    [
-      state,
-      disconnect,
-      setDeviceState,
-      setIsUpdatingKeepkey,
-      isUpdatingKeepkey,
-      pairAndConnect,
-      deviceBusy,
-      desiredLabel,
-      setDesiredLabel,
-    ],
+    [state, disconnect, setDeviceState, setIsUpdatingKeepkey, isUpdatingKeepkey, pairAndConnect],
   )
 
   return (

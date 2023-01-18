@@ -8,13 +8,20 @@ import {
   Switch,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { deferred } from 'common-utils'
 import type { RadioOption } from 'components/Radio/Radio'
 import { Radio } from 'components/Radio/Radio'
 import { Text } from 'components/Text'
-import { KeepKeyRoutes } from 'context/WalletProvider/routes'
+import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { logger } from 'lib/logger'
 import { useState } from 'react'
 import { useTranslate } from 'react-polyglot'
+
+import { FailureType, isKKFailureType } from '../../../../util'
+import { useKeepKeyRecover } from '../hooks/useKeepKeyRecover'
+
+const moduleLogger = logger.child({ namespace: ['KeepKeyRecoverySettings'] })
 
 export const VALID_ENTROPY_NUMBERS = [128, 192, 256] as const
 export const VALID_ENTROPY = VALID_ENTROPY_NUMBERS.map(entropy => entropy.toString())
@@ -47,17 +54,39 @@ export const KeepKeyRecoverySettings = () => {
   const [sentenceLengthSelection, setSentenceLengthSelection] = useState<Entropy>(
     sentenceLength.TwelveWords,
   )
-  const { setDeviceState } = useWallet()
+  const [loading, setLoading] = useState(false)
+
+  const { dispatch } = useWallet()
+  const recoverKeepKey = useKeepKeyRecover()
 
   const grayTextColor = useColorModeValue('gray.900', 'gray.400')
   const grayBackgroundColor = useColorModeValue('gray.100', 'gray.700')
 
   const handleSubmit = async () => {
-    setDeviceState({
-      recoverWithPassphrase: useRecoveryPassphrase,
-      recoveryEntropy: sentenceLengthSelection,
-    })
-    history.push(KeepKeyRoutes.NewLabel)
+    try {
+      setLoading(true)
+      const labelDeferred = deferred<string>()
+      dispatch({ type: WalletActions.OPEN_KEEPKEY_LABEL, payload: { deferred: labelDeferred } })
+      const label = await labelDeferred
+      while (true) {
+        try {
+          await recoverKeepKey({
+            label,
+            recoverWithPassphrase: useRecoveryPassphrase,
+            recoveryEntropy: sentenceLengthSelection,
+          })
+        } catch (e) {
+          if (!isKKFailureType(e, FailureType.FAILURE_PINMISMATCH, FailureType.FAILURE_SYNTAXERROR))
+            throw e
+        }
+        break
+      }
+      dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
+    } catch (e) {
+      moduleLogger.error(e, 'handleSubmit failed')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handlePassphraseToggle = () => setUseRecoveryPassphrase(current => !current)
@@ -144,7 +173,14 @@ export const KeepKeyRecoverySettings = () => {
           translation={'modals.keepKey.recoverySettings.recoveryPassphraseDescription'}
           mb={6}
         />
-        <Button width='full' size='lg' colorScheme='blue' onClick={handleSubmit} mb={3}>
+        <Button
+          width='full'
+          size='lg'
+          colorScheme='blue'
+          onClick={handleSubmit}
+          isLoading={loading}
+          mb={3}
+        >
           <Text translation={'modals.keepKey.recoverySettings.button'} />
         </Button>
       </ModalBody>

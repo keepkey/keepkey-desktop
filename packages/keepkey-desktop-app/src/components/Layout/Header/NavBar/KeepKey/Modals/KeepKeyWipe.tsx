@@ -34,6 +34,7 @@ export const KeepKeyWipe: FC<KeepKeyWipeType> = ({ onClose }) => {
     state: {
       deviceState: { awaitingDeviceInteraction },
     },
+    setDeviceState,
   } = useWallet()
   const toast = useToast()
   const [wipeConfirmationChecked, setWipeConfirmationChecked] = useState(false)
