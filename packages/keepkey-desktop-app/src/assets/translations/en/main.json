@@ -967,6 +967,7 @@
       "autoUpdate": "Automatically install updates",
       "downloadPreRelease": "Download pre release builds",
       "allowBetaFirmware": "Download beta KeepKey Firmware",
+      "autoScanQr": "Should automatically scan Wallet Connect QRs",
       "currencies": {
         "CNY": "Chinese Yuan",
         "USD": "United States Dollar (default)",

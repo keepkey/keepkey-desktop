@@ -90,6 +90,7 @@ export const ipcListeners: IpcListeners = {
       bridgeApiPort: await settings.bridgeApiPort,
       allowPreRelease: await settings.allowPreRelease,
       allowBetaFirmware: await settings.allowBetaFirmware,
+      autoScanQr: await settings.autoScanQr,
     }
   },
 
