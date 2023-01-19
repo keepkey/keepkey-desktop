@@ -47,6 +47,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@commitlint/config-conventional", "npm:17.3.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
             ["eslint", "npm:8.28.0"],\
+            ["jsqr", "npm:1.4.0"],\
             ["prettier", "npm:2.8.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
             ["yaml-sort", "npm:1.2.1"]\
@@ -25551,6 +25552,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["jsqr", [\
+        ["npm:1.4.0", {\
+          "packageLocation": "./.yarn/cache/jsqr-npm-1.4.0-bd73c752f2-7c572971f9.zip/node_modules/jsqr/",\
+          "packageDependencies": [\
+            ["jsqr", "npm:1.4.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["jssha", [\
         ["npm:2.4.2", {\
           "packageLocation": "./.yarn/cache/jssha-npm-2.4.2-9a91eba44b-d723629cf7.zip/node_modules/jssha/",\
@@ -25955,6 +25965,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@commitlint/config-conventional", "npm:17.3.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
             ["eslint", "npm:8.28.0"],\
+            ["jsqr", "npm:1.4.0"],\
             ["prettier", "npm:2.8.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
             ["yaml-sort", "npm:1.2.1"]\

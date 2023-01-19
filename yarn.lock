@@ -19490,6 +19490,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsqr@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "jsqr@npm:1.4.0"
+  checksum: 7c572971f90c42772e30d152bde63b84edf1164bde80c53942e6b2068ea31caf00ad704aa46cacc9e71645f52dbeddebc6e84ba15e883c678ee93cde690de339
+  languageName: node
+  linkType: hard
+
 "jssha@npm:^2.4.2":
   version: 2.4.2
   resolution: "jssha@npm:2.4.2"
@@ -19885,6 +19892,7 @@ __metadata:
     "@commitlint/config-conventional": ^17.3.0
     "@yarnpkg/sdks": ^3.0.0-rc.31
     eslint: ^8.28.0
+    jsqr: ^1.4.0
     prettier: ^2.3.2
     typescript: ^4.7.0
     yaml-sort: ^1.2.1
