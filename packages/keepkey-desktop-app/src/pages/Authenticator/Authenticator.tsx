@@ -140,7 +140,7 @@ export const Authenticator = () => {
 
     assume<KeepKeyHDWallet>(wallet)
 
-    const msg = `\x19wipewipeAuthdata:`
+    const msg = `\x19wipeAuthdata:`
     console.log('removeAccount msg: ', msg)
 
     await wallet.ping({ msg }).catch(console.error)
