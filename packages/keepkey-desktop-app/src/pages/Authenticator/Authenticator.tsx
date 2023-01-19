@@ -99,12 +99,12 @@ export const Authenticator = () => {
       const msg = `\x18removeAccount:${acc.domain}:${acc.account}`
       console.log('removeAccount msg: ', msg)
 
-      await wallet.ping({ msg }).catch(console.error)
       toast({
         status: 'info',
-        title: 'Account deleted',
-        description: `Account ${acc.domain}:${acc.account} deleted`,
+        title: 'Confirm on KeepKey',
+        description: `Please confirm deleting account on your KeepKey`,
       })
+      await wallet.ping({ msg }).catch(console.error)
       setTimeout(fetchAccs, 2000)
     },
     [wallet, toast, fetchAccs, supportsFeature],
@@ -134,6 +134,23 @@ export const Authenticator = () => {
     },
     [wallet, toast, supportsFeature],
   )
+
+  const wipeData = useCallback(async () => {
+    if (!wallet || !supportsFeature) return
+
+    assume<KeepKeyHDWallet>(wallet)
+
+    const msg = `\x19wipewipeAuthdata:`
+    console.log('removeAccount msg: ', msg)
+
+    await wallet.ping({ msg }).catch(console.error)
+    toast({
+      status: 'info',
+      title: 'Data wiped',
+      description: `Authenticator data wiped`,
+    })
+    setTimeout(fetchAccs, 2000)
+  }, [wallet, toast, fetchAccs, supportsFeature])
 
   return (
     <Main
@@ -166,7 +183,10 @@ export const Authenticator = () => {
                 <Text translation={'authenticator.header'} />
               </Heading>
               <Flex w='full' flexDirection='row-reverse' gap={4}>
-                <Button size='sm' colorScheme='blue' disabled={loading} onClick={() => fetchAccs()}>
+                <Button size='sm' colorScheme='blue' disabled={loading} onClick={wipeData}>
+                  <Text translation={'authenticator.cta.wipeData'} />
+                </Button>
+                <Button size='sm' colorScheme='blue' disabled={loading} onClick={fetchAccs}>
                   <Text translation={'authenticator.cta.refresh'} />
                 </Button>
                 <Button
