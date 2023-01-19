@@ -28,34 +28,29 @@ export const KeepKeyLabel = () => {
       </ModalHeader>
       <ModalBody>
         <Text color='gray.500' translation={'modals.keepKey.label.body'} mb={4} />
-        <Input
-          type='text'
-          value={desiredLabel}
-          disabled={loading}
-          placeholder={translate('modals.keepKey.label.placeholder')}
-          onChange={e => setDesiredLabel(e.target.value)}
-          size='lg'
-          variant='filled'
-          mt={3}
-          mb={6}
-          autoFocus={true}
-        />
-        <Button
-          width='full'
-          size='lg'
-          colorScheme='blue'
-          onClick={handleSubmit}
-          disabled={loading}
-          mb={3}
-        >
-          <Text
-            translation={
-              desiredLabel
-                ? 'modals.keepKey.label.setLabelButton'
-                : 'modals.keepKey.label.skipLabelButton'
-            }
+        <form onSubmit={handleSubmit}>
+          <Input
+            type='text'
+            value={desiredLabel}
+            disabled={loading}
+            placeholder={translate('modals.keepKey.label.placeholder')}
+            onChange={e => setDesiredLabel(e.target.value)}
+            size='lg'
+            variant='filled'
+            mt={3}
+            mb={6}
+            autoFocus={true}
           />
-        </Button>
+          <Button width='full' size='lg' colorScheme='blue' type='submit' disabled={loading} mb={3}>
+            <Text
+              translation={
+                desiredLabel
+                  ? 'modals.keepKey.label.setLabelButton'
+                  : 'modals.keepKey.label.skipLabelButton'
+              }
+            />
+          </Button>
+        </form>
       </ModalBody>
     </>
   )
