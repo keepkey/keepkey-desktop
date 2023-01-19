@@ -153,7 +153,13 @@ const AddByScanning: FC<{ addAcc: any }> = ({ addAcc }) => {
   const [error, setError] = useState('')
 
   const scan = () => {
-    readQrCode().then(setScannedQr).catch(setError)
+    readQrCode()
+      .then(q => {
+        if (!q) return
+        const decoded = decodeURIComponent(q)
+        setScannedQr(decoded)
+      })
+      .catch(setError)
   }
 
   useEffect(() => {
