@@ -478,7 +478,8 @@
       "generateOtp": "Generate OTP",
       "deleteAcc": "Delete Account",
       "addAcc": "Add account",
-      "refresh": "Refresh accounts"
+      "refresh": "Refresh accounts",
+      "wipeData": "Wipe Data"
     },
     "modal": {
       "header": "Add account",
