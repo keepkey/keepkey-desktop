@@ -1,4 +1,4 @@
-import { app, desktopCapturer, ipcMain } from 'electron'
+import { app, ipcMain } from 'electron'
 import {
   bridgeLogger,
   db,
@@ -15,12 +15,10 @@ import {
   getLatestFirmwareData,
   loadFirmware,
 } from './helpers/kk-state-controller/firmwareUtils'
-import { queueIpcEvent } from './helpers/utils'
+import { queueIpcEvent, scanScreenForQR } from './helpers/utils'
 import log from 'electron-log'
 import { sleep } from 'wait-promise'
 import { UPDATE_FIRMWARE } from 'helpers/kk-state-controller'
-import QRCode from 'qrcode-reader'
-import Jimp from 'jimp'
 
 export const startIpcListeners = () => {
   ipcMain.on('@app/restart', () => {
@@ -259,28 +257,21 @@ export const startIpcListeners = () => {
     event.sender.send('@keepkey/update-skipped')
   })
 
-  ipcMain.on('@app/read-qr', (event, data) => {
+  ipcMain.on('@app/read-qr', async (event, data) => {
     if (!data.nonce) return
-    desktopCapturer
-      .getSources({ types: ['screen'], thumbnailSize: { width: 1280, height: 720 } })
-      .then(sources => {
-        const thumbnail = sources[0].thumbnail
-        const qr = new QRCode()
-        qr.callback = function (err: any, value: any) {
-          if (err) {
-            return event.sender.send(`@app/read-qr-${data.nonce}`, {
-              success: false,
-              reason: err,
-              nonce: data.nonce,
-            })
-          }
-          event.sender.send(`@app/read-qr-${data.nonce}`, {
-            success: true,
-            result: value.result,
-            nonce: data.nonce,
-          })
-        }
-        qr.decode({ ...thumbnail.getSize() }, thumbnail.getBitmap())
+
+    const scanned = await scanScreenForQR()
+    if (!scanned)
+      return event.sender.send(`@app/read-qr-${data.nonce}`, {
+        success: false,
+        reason: 'Unable to scan QR',
+        nonce: data.nonce,
       })
+
+    event.sender.send(`@app/read-qr-${data.nonce}`, {
+      success: true,
+      result: scanned,
+      nonce: data.nonce,
+    })
   })
 }
