@@ -6,7 +6,15 @@ export const FailureType = Types.FailureType
 export function isKKFailureType<T extends typeof FailureType[keyof typeof FailureType]>(
   e: unknown,
   ...args: T[]
-): boolean {
+): e is
+  | {
+      message_enum: typeof Messages.MessageType['MESSAGETYPE_FAILURE']
+      message: {
+        code: T
+        message: string
+      }
+    }
+  | { failure_type: T; message: string } {
   if (
     e &&
     typeof e === 'object' &&

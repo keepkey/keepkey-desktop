@@ -76,8 +76,13 @@ export const KeepKeyRecoverySettings = () => {
             recoveryEntropy: sentenceLengthSelection,
           })
         } catch (e) {
-          if (!isKKFailureType(e, FailureType.FAILURE_PINMISMATCH, FailureType.FAILURE_SYNTAXERROR))
+          if (isKKFailureType(e, FailureType.FAILURE_SYNTAXERROR)) {
+            dispatch({ type: WalletActions.OPEN_KEEPKEY_RECOVERY_SYNTAX_FAILURE })
+          } else if (isKKFailureType(e, FailureType.FAILURE_PINMISMATCH)) {
+            continue
+          } else {
             throw e
+          }
         }
         break
       }

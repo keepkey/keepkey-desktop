@@ -1,3 +1,4 @@
+// import * as Types from '@keepkey/device-protocol/lib/types_pb'
 import type * as core from '@shapeshiftoss/hdwallet-core'
 import AutoLaunch from 'auto-launch'
 import type { BrowserWindow } from 'electron'
@@ -100,42 +101,80 @@ export const kkStateController = new KKStateController(
             }),
       },
     })
-    if (e.message_type === 'PINMATRIXREQUEST') {
-      const pinRequestType: PinMatrixRequestType2 = e.message.type
-      const pin = await (await rendererIpc).modalPin(pinRequestType).catch(e => {
-        console.error('modalPin error:', e)
-        return undefined
-      })
-      await (await rendererIpc).modalCloseAll()
-      if (pin !== undefined) {
-        await this.wallet!.sendPin(pin)
-      } else {
-        await this.wallet!.cancel()
-      }
-    }
-    if (e.message_type === 'SUCCESS') {
-      if (e.message.message === 'PIN removed' || e.message.message === 'PIN changed') {
-        //restart app
-        console.log('restarting app')
-        app.relaunch()
-        app.exit()
-      }
-    } else if (e.message_type === 'PASSPHRASEREQUEST') {
-      const passphrase = await (await rendererIpc).modalPassphrase().catch(e => {
-        console.error('modalPassphrase error:', e)
-        return undefined
-      })
-      try {
-        if (passphrase !== undefined) {
-          const finished = this.nextButtonRequestFinished()
-          await this.wallet!.sendPassphrase(passphrase)
-          await finished
+    switch (e.message_type) {
+      case 'PINMATRIXREQUEST': {
+        const pinRequestType: PinMatrixRequestType2 = e.message.type
+        const pin = await (await rendererIpc).modalPin(pinRequestType).catch(e => {
+          console.error('modalPin error:', e)
+          return undefined
+        })
+        await (await rendererIpc).modalCloseAll()
+        if (pin !== undefined) {
+          await this.wallet!.sendPin(pin)
         } else {
           await this.wallet!.cancel()
         }
-      } finally {
-        await (await rendererIpc).modalCloseAll()
+        break
       }
+      case 'SUCCESS': {
+        if (e.message.message === 'PIN removed' || e.message.message === 'PIN changed') {
+          //restart app
+          console.log('restarting app')
+          app.relaunch()
+          app.exit()
+        }
+        break
+      }
+      case 'PASSPHRASEREQUEST': {
+        const passphrase = await (await rendererIpc).modalPassphrase().catch(async e => {
+          console.error('modalPassphrase error:', e)
+          await this.wallet!.cancel()
+          return undefined
+        })
+        try {
+          if (passphrase !== undefined) {
+            const finished = this.nextButtonRequestFinished()
+            await this.wallet!.sendPassphrase(passphrase)
+            await finished
+          } else {
+            await this.wallet!.cancel()
+          }
+        } finally {
+          await (await rendererIpc).modalCloseAll()
+        }
+        break
+      }
+      // case 'BUTTONREQUEST': {
+      //   if (e.message.code === Types.ButtonRequestType.BUTTONREQUEST_ADDRESS) break
+      // }
+      // case 'RECOVERYDEVICE': {
+      //   await (await rendererIpc).modalRecovery()
+      //   break
+      // }
+      case 'CHARACTERREQUEST': {
+        const char = await (await rendererIpc)
+          .modalRecovery(e.message.characterPos, e.message.wordPos)
+          .catch(async e => {
+            console.error('modalRecovery error:', e)
+            await this.wallet!.cancel()
+            return undefined
+          })
+        switch (char) {
+          case undefined:
+            break
+          case true:
+            await this.wallet!.sendCharacterDone()
+            break
+          case false:
+            await this.wallet!.sendCharacterDelete()
+            break
+          default:
+            await this.wallet!.sendCharacter(char)
+        }
+        break
+      }
+      default:
+      // no-op
     }
   },
 )

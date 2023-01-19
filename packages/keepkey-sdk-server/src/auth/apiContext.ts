@@ -2,7 +2,7 @@ import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { isEqual } from 'lodash'
 
-import { FailureType, isKKFailureType } from '../util'
+// import { FailureType, isKKFailureType } from '../util'
 import type { SdkClient } from './sdkClient'
 
 const horribleAccountsHack = new WeakMap<KeepKeyHDWallet, Record<string, BIP32Path>>()
@@ -21,31 +21,32 @@ export class ApiContext {
   static async create(sdkClient: SdkClient): Promise<ApiContext> {
     // TODO: something something database something
     if (!horribleAccountsHack.has(sdkClient.wallet)) {
-      try {
-        horribleAccountsHack.set(
-          sdkClient.wallet,
-          Object.fromEntries(
-            await Promise.all(
-              (
-                await sdkClient.wallet.ethGetAccountPaths({
-                  coin: 'Ethereum',
-                  accountIdx: 0,
-                })
-              ).map(async x => [
-                await sdkClient.wallet.ethGetAddress({
-                  addressNList: x.addressNList,
-                  showDisplay: false,
-                }),
-                x.addressNList,
-              ]),
-            ),
-          ),
-        )
-      } catch (e) {
-        if (!isKKFailureType(e, FailureType.FAILURE_NOTINITIALIZED)) {
-          console.warn('horribleAccountsHack failed', e)
-        }
-      }
+      horribleAccountsHack.set(sdkClient.wallet, {})
+      // try {
+      //   horribleAccountsHack.set(
+      //     sdkClient.wallet,
+      //     Object.fromEntries(
+      //       await Promise.all(
+      //         (
+      //           await sdkClient.wallet.ethGetAccountPaths({
+      //             coin: 'Ethereum',
+      //             accountIdx: 0,
+      //           })
+      //         ).map(async x => [
+      //           await sdkClient.wallet.ethGetAddress({
+      //             addressNList: x.addressNList,
+      //             showDisplay: false,
+      //           }),
+      //           x.addressNList,
+      //         ]),
+      //       ),
+      //     ),
+      //   )
+      // } catch (e) {
+      //   if (!isKKFailureType(e, FailureType.FAILURE_NOTINITIALIZED)) {
+      //     console.warn('horribleAccountsHack failed', e)
+      //   }
+      // }
     }
 
     return new ApiContext(sdkClient, horribleAccountsHack.get(sdkClient.wallet) ?? {})

@@ -54,6 +54,7 @@ export type ActionTypes =
       payload: {
         characterPos: number | undefined
         wordPos: number | undefined
+        deferred?: Deferred<string | boolean>
       }
     }
   | {
@@ -96,4 +97,9 @@ export type ActionTypes =
   | { type: WalletActions.SET_WALLET_CONNECT_APP; payload: WalletConnectApp | null }
   | { type: WalletActions.SET_KEEPKEY_SDK; payload: KeepKeySdk | null }
   | { type: WalletActions.SET_BROWSER_URL; payload: string | null }
-  | { type: WalletActions.OPEN_KEEPKEY_WIPE; payload: undefined }
+  | {
+      type: WalletActions.OPEN_KEEPKEY_WIPE
+      payload: {
+        preventClose?: boolean
+      }
+    }
