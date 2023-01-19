@@ -8,14 +8,11 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/toast'
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { Text } from 'components/Text'
-import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
-import type { FC } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 
@@ -23,20 +20,16 @@ const moduleLogger = logger.child({
   namespace: ['Layout', 'Header', 'NavBar', 'KeepKey', 'Modals', 'Wipe'],
 })
 
-export type KeepKeyWipeType = {
-  onClose?: any
-}
-
-export const KeepKeyWipe: FC<KeepKeyWipeType> = ({ onClose }) => {
+export const KeepKeyWipe = () => {
   const initRef = useRef<HTMLInputElement | null>(null)
   const { disconnect } = useWallet()
   const translate = useTranslate()
 
   const {
     state: {
-      wallet,
       deviceState: { awaitingDeviceInteraction },
     },
+    setDeviceState,
   } = useWallet()
   const toast = useToast()
   const [wipeConfirmationChecked, setWipeConfirmationChecked] = useState(false)
@@ -44,12 +37,13 @@ export const KeepKeyWipe: FC<KeepKeyWipeType> = ({ onClose }) => {
   const wipeDevice = async () => {
     moduleLogger.trace({ fn: 'wipeDevice' }, 'Wiping KeepKey...')
     try {
-      if (onClose && wallet) {
-        await wallet.cancel()
-        await wallet.wipe()
-      } else ipcListeners.wipeKeepKey()
+      setDeviceState({ awaitingDeviceInteraction: true })
+      try {
+        await ipcListeners.wipeKeepKey()
+      } finally {
+        setDeviceState({ awaitingDeviceInteraction: false })
+      }
       disconnect()
-      onClose && onClose()
     } catch (e) {
       moduleLogger.error(e, { fn: 'wipeDevice' }, 'KeepKey Wipe Failed')
       toast({

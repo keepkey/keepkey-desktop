@@ -4,6 +4,7 @@ import { Body, Middlewares, OperationId, Post, Response, Route, Security, Tags }
 import { ApiController } from '../../auth'
 import { extra } from '../../middlewares'
 import type * as types from '../../types'
+import { adaptFailureType } from '../../util'
 
 @Route('/system/initialize')
 @Tags('Initialize')
@@ -136,13 +137,15 @@ export class SystemInitializeController extends ApiController {
     if (body.language !== undefined) throw new Error('language not supported')
     if (body.no_backup) throw new Error('no_backup not supported')
 
-    await this.context.wallet.reset({
-      entropy: body.strength,
-      label: body.label ?? '',
-      passphrase: body.passphrase_protection ?? false,
-      pin: body.pin_protection ?? false,
-      autoLockDelayMs: body.auto_lock_delay_ms,
-      u2fCounter: body.u2f_counter,
-    })
+    await adaptFailureType(() =>
+      this.context.wallet.reset({
+        entropy: body.strength,
+        label: body.label ?? '',
+        passphrase: body.passphrase_protection ?? false,
+        pin: body.pin_protection ?? false,
+        autoLockDelayMs: body.auto_lock_delay_ms,
+        u2fCounter: body.u2f_counter,
+      }),
+    )
   }
 }

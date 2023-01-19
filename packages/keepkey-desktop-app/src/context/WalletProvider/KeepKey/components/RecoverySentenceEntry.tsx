@@ -12,7 +12,6 @@ import {
   Progress,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { RawText, Text } from 'components/Text'
 import { inputValuesReducer, isLetter, isValidInput } from 'context/WalletProvider/KeepKey/helpers'
@@ -31,11 +30,11 @@ const maxInputLength = 4
 export const KeepKeyRecoverySentenceEntry = () => {
   const {
     state: {
-      wallet,
       deviceState: {
         recoveryEntropy,
         recoveryWordIndex,
         recoveryCharacterIndex = 0,
+        recoveryDeferred,
         awaitingDeviceInteraction,
       },
     },
@@ -61,8 +60,6 @@ export const KeepKeyRecoverySentenceEntry = () => {
   const circleBorderColor = useColorModeValue('blackAlpha.100', 'whiteAlpha.100')
   const inputBackgroundColor = useColorModeValue('blackAlpha.50', 'blackAlpha.300')
   const progressBarBackgroundColor = useColorModeValue('blackAlpha.50', 'whiteAlpha.50')
-
-  const keepKeyWallet = wallet && isKeepKey(wallet) ? wallet : undefined
 
   useEffect(() => {
     setWordEntropy(() => {
@@ -115,19 +112,19 @@ export const KeepKeyRecoverySentenceEntry = () => {
     // If we've entered all words in our seed phrase, tell the KeepKey we're done
     if (isLastWord) {
       history.push(KeepKeyRoutes.RecoverySettingUp)
-      await keepKeyWallet?.sendCharacterDone()
+      recoveryDeferred?.resolve(true)
       // Else send a Space to let the KeepKey know we're ready to enter the next word
     } else {
       passphrase
         ? setPassphrase([...passphrase, characterInputValues])
         : setPassphrase([characterInputValues])
-      await keepKeyWallet?.sendCharacter(' ')
+      recoveryDeferred?.resolve(' ')
       resetInputs()
     }
   }, [
     recoveryWordIndex,
     history,
-    keepKeyWallet,
+    recoveryDeferred,
     resetInputs,
     wordEntropy,
     passphrase,
@@ -159,7 +156,7 @@ export const KeepKeyRecoverySentenceEntry = () => {
         // Handle a letter
         setCharacterInputValues(c => inputValuesReducer(c, e.key, recoveryCharacterIndex))
         setAwaitingKeepKeyResponse(true)
-        await keepKeyWallet?.sendCharacter(e.key)
+        recoveryDeferred?.resolve(e.key)
         return
       } else {
         // Handle a special character
@@ -167,7 +164,7 @@ export const KeepKeyRecoverySentenceEntry = () => {
           case ' ':
             resetInputs()
             setAwaitingKeepKeyResponse(true)
-            await keepKeyWallet?.sendCharacter(' ')
+            recoveryDeferred?.resolve(' ')
             break
           case 'Backspace':
             if (recoveryCharacterIndex === 0 && passphrase) {
@@ -176,14 +173,14 @@ export const KeepKeyRecoverySentenceEntry = () => {
               setCharacterInputValues(previousWord)
               inputFields[previousWord.length - 1].current?.focus()
               setAwaitingKeepKeyResponse(true)
-              await keepKeyWallet?.sendCharacterDelete()
+              recoveryDeferred?.resolve(false)
               break
             } else {
               setCharacterInputValues(c =>
                 inputValuesReducer(c, undefined, recoveryCharacterIndex - 1),
               )
               setAwaitingKeepKeyResponse(true)
-              await keepKeyWallet?.sendCharacterDelete()
+              recoveryDeferred?.resolve(false)
               break
             }
           case 'Enter':
@@ -200,7 +197,7 @@ export const KeepKeyRecoverySentenceEntry = () => {
       recoveryCharacterIndex,
       recoveryWordIndex,
       handleWordSubmit,
-      keepKeyWallet,
+      recoveryDeferred,
       resetInputs,
       wordEntropy,
       inputFields,

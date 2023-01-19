@@ -177,9 +177,32 @@ export class KeepKeyRestHDWallet
     })
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async recover(r: core.RecoverDevice): Promise<void> {
-    throw new Error('not implemented')
+  public async recover(msg: core.RecoverDevice): Promise<void> {
+    return await this.abortable(async signal => {
+      console.log('sending recoverDevice', msg)
+      await this.sdk.system.initialize.recoverDevice(
+        {
+          u2f_counter: msg.u2fCounter,
+          auto_lock_delay_ms: msg.autoLockDelayMs,
+          label: msg.label,
+          passphrase_protection: msg.passphrase,
+          pin_protection: msg.pin,
+          word_count: (() => {
+            switch (msg.entropy) {
+              case 128:
+                return 12
+              case 192:
+                return 18
+              case 256:
+                return 24
+              default:
+                throw new Error('unsupported entropy value')
+            }
+          })(),
+        },
+        { signal },
+      )
+    })
   }
 
   public async pressYes(): Promise<void> {
