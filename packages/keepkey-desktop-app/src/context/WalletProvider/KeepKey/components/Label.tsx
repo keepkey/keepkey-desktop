@@ -4,6 +4,12 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import { useCallback, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
 
+const sanitizeLabel = (desiredLabel: string) => {
+  // We prevent all special chars and any length > 12.
+  // eslint-disable-next-line no-control-regex
+  return desiredLabel.replace(/[^\x20-\x7E]+/g, '').substring(0, 12)
+}
+
 export const KeepKeyLabel = () => {
   const [loading, setLoading] = useState(false)
   const {
@@ -12,13 +18,14 @@ export const KeepKeyLabel = () => {
   const [desiredLabel, setDesiredLabel] = useState('')
   const translate = useTranslate()
 
+  const handleSetDesiredLabel = useCallback(
+    (x: string) => setDesiredLabel(sanitizeLabel(x)),
+    [setDesiredLabel],
+  )
+
   const handleSubmit = useCallback(async () => {
     setLoading(true)
-
-    //We prevent all special chars and any length > 12. We just yolo trim and send it (user can change later)
-    // eslint-disable-next-line no-control-regex
-    let sanitizedLabel = desiredLabel.replace(/[^\x20-\x7E]+/g, '').substring(0, 12)
-    labelDeferred?.resolve(sanitizedLabel ?? '')
+    labelDeferred?.resolve(desiredLabel)
   }, [desiredLabel, labelDeferred])
 
   return (
@@ -34,7 +41,7 @@ export const KeepKeyLabel = () => {
             value={desiredLabel}
             disabled={loading}
             placeholder={translate('modals.keepKey.label.placeholder')}
-            onChange={e => setDesiredLabel(e.target.value)}
+            onChange={e => handleSetDesiredLabel(e.target.value)}
             size='lg'
             variant='filled'
             mt={3}
