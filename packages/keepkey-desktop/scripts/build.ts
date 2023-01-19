@@ -20,12 +20,14 @@ const appSource = path.join(
 )
 const assetsSource = path.join(workspacePath, 'assets')
 const swaggerUiDistSource = pnpapi.resolveToUnqualified('swagger-ui-dist', workspacePath)!
+const firmwareSource = path.join(rootPath, 'firmware')
 
 const apiPath = path.join(buildPath, 'api')
 const appPath = path.join(buildPath, 'app')
 const assetsPath = path.join(buildPath, 'assets')
 const nativeModulesPath = path.join(buildPath, 'native_modules')
 const swaggerUiDistPath = path.join(buildPath, 'swagger-ui-dist')
+const firmwarePath = path.join(buildPath, 'firmware')
 
 const sanitizeBuildDir = async () => {
   await fs.promises.rm(buildPath, { recursive: true, force: true })
@@ -35,6 +37,7 @@ const sanitizeBuildDir = async () => {
   await fs.promises.mkdir(assetsPath, { recursive: true })
   await fs.promises.mkdir(nativeModulesPath, { recursive: true })
   await fs.promises.mkdir(swaggerUiDistPath, { recursive: true })
+  await fs.promises.mkdir(firmwarePath, { recursive: true })
 }
 
 const collectDefines = async () => {
@@ -66,6 +69,30 @@ const copySwaggerUiDist = async () => {
     dereference: true,
     recursive: true,
   })
+}
+
+const copyFirmware = async () => {
+  const releases = JSON.parse(
+    (await fs.promises.readFile(path.join(firmwareSource, 'releases.json'))).toString('utf8'),
+  )
+  const copyItem = async (item: string) => {
+    const src = path.join(firmwareSource, item)
+    const dst = path.join(firmwarePath, item)
+    await fs.promises.mkdir(path.dirname(dst), {
+      recursive: true,
+    })
+    await fs.promises.cp(src, dst, {
+      dereference: true,
+      recursive: true,
+    })
+  }
+  await Promise.all([
+    copyItem('releases.json'),
+    copyItem(releases.latest.firmware.url),
+    copyItem(releases.latest.bootloader.url),
+    copyItem(releases.beta.firmware.url),
+    copyItem(releases.beta.bootloader.url),
+  ])
 }
 
 const copyPrebuilds = async (packages: string[]) => {
@@ -196,6 +223,7 @@ export const build = async () => {
     copyAppDir(),
     copyAssetsDir(),
     copySwaggerUiDist(),
+    copyFirmware(),
     esbuild.then(async x => {
       if (isDev) {
         await fs.promises.writeFile(
