@@ -17,7 +17,7 @@ export const KeepKeyLabel = () => {
 
     //We prevent all special chars and any length > 12. We just yolo trim and send it (user can change later)
     // eslint-disable-next-line no-control-regex
-    let sanitizedLabel = desiredLabel.replace(/[^\x00-\x7F]+/g, '').substring(0, 12)
+    let sanitizedLabel = desiredLabel.replace(/[^\x20-\x7E]+/g, '').substring(0, 12)
     labelDeferred?.resolve(sanitizedLabel ?? '')
   }, [desiredLabel, labelDeferred])
 
