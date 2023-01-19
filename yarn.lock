@@ -19860,6 +19860,7 @@ __metadata:
     fswin: ^3.22.106
     hidefile: ^3.0.0
     jimp: ^0.16.2
+    jsqr: ^1.4.0
     keccak: ^3.0.2
     keepkey-desktop-app: "workspace:*"
     lodash: ^4.17.21
@@ -19892,7 +19893,6 @@ __metadata:
     "@commitlint/config-conventional": ^17.3.0
     "@yarnpkg/sdks": ^3.0.0-rc.31
     eslint: ^8.28.0
-    jsqr: ^1.4.0
     prettier: ^2.3.2
     typescript: ^4.7.0
     yaml-sort: ^1.2.1

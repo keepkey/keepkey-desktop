@@ -47,7 +47,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@commitlint/config-conventional", "npm:17.3.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
             ["eslint", "npm:8.28.0"],\
-            ["jsqr", "npm:1.4.0"],\
             ["prettier", "npm:2.8.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
             ["yaml-sort", "npm:1.2.1"]\
@@ -25680,6 +25679,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fswin", "patch:fswin@npm%3A3.22.106#./.yarn/patches/fswin-npm-3.22.106-41f613c183.patch::version=3.22.106&hash=36c8eb&locator=keepkey-monorepo%40workspace%3A."],\
             ["hidefile", "npm:3.0.0"],\
             ["jimp", "npm:0.16.2"],\
+            ["jsqr", "npm:1.4.0"],\
             ["keccak", "npm:3.0.2"],\
             ["keepkey-desktop-app", "workspace:packages/keepkey-desktop-app"],\
             ["lodash", "npm:4.17.21"],\
@@ -25965,7 +25965,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@commitlint/config-conventional", "npm:17.3.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
             ["eslint", "npm:8.28.0"],\
-            ["jsqr", "npm:1.4.0"],\
             ["prettier", "npm:2.8.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
             ["yaml-sort", "npm:1.2.1"]\

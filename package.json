@@ -66,8 +66,5 @@
     "usb@2.5.2": {
       "unplugged": true
     }
-  },
-  "dependencies": {
-    "jsqr": "^1.4.0"
   }
 }
