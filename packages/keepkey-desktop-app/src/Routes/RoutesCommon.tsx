@@ -26,7 +26,7 @@ import { TransactionHistory } from 'pages/TransactionHistory/TransactionHistory'
 
 import type { Route as NestedRoute } from './helpers'
 import { RouteCategory } from './helpers'
-import { Authenticator } from 'pages/Authenticator/Authenticator'
+// import { Authenticator } from 'pages/Authenticator/Authenticator'
 
 export const routes: NestedRoute[] = [
   {
@@ -88,13 +88,13 @@ export const routes: NestedRoute[] = [
       },
     ],
   },
-  {
-    path: '/authenticator',
-    label: 'navBar.authenticator',
-    icon: <FaLock />,
-    category: RouteCategory.Explore,
-    main: Authenticator,
-  },
+  // {
+  //   path: '/authenticator',
+  //   label: 'navBar.authenticator',
+  //   icon: <FaLock />,
+  //   category: RouteCategory.Explore,
+  //   main: Authenticator,
+  // },
   {
     path: '/assets',
     label: 'navBar.assets',
