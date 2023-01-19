@@ -19490,6 +19490,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsqr@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "jsqr@npm:1.4.0"
+  checksum: 7c572971f90c42772e30d152bde63b84edf1164bde80c53942e6b2068ea31caf00ad704aa46cacc9e71645f52dbeddebc6e84ba15e883c678ee93cde690de339
+  languageName: node
+  linkType: hard
+
 "jssha@npm:^2.4.2":
   version: 2.4.2
   resolution: "jssha@npm:2.4.2"
@@ -19853,6 +19860,7 @@ __metadata:
     fswin: ^3.22.106
     hidefile: ^3.0.0
     jimp: ^0.16.2
+    jsqr: ^1.4.0
     keccak: ^3.0.2
     keepkey-desktop-app: "workspace:*"
     lodash: ^4.17.21

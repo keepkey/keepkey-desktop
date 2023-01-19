@@ -102,6 +102,7 @@
         "fswin": "^3.22.106",
         "hidefile": "^3.0.0",
         "jimp": "^0.16.2",
+        "jsqr": "^1.4.0",
         "keccak": "^3.0.2",
         "keepkey-desktop-app": "workspace:*",
         "lodash": "^4.17.21",

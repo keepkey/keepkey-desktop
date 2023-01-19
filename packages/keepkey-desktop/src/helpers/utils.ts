@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain } from 'electron'
+import { BrowserWindow, desktopCapturer, ipcMain } from 'electron'
 import { startTcpBridge } from '../tcpBridge'
 import {
   deviceBusyRead,
@@ -13,6 +13,7 @@ import isDev from 'electron-is-dev'
 import { startWindowListeners } from '../windowListeners'
 import path from 'path'
 import log from 'electron-log'
+import jsQR from 'jsqr'
 
 export const openSignTxWindow = async (signArgs: any) => {
   log.info(' | openSignTxWindow | ')
@@ -146,4 +147,24 @@ export const watchForDeviceBusy = () => {
     lastDeviceBusyRead = deviceBusyRead
     lastDeviceBusyWrite = deviceBusyWrite
   }, 1000)
+}
+
+export const scanScreenForQR = async (): Promise<string | undefined> => {
+  const sources = await desktopCapturer.getSources({
+    types: ['screen'],
+    thumbnailSize: { width: 1920, height: 1080 },
+  })
+
+  for (let index = 0; index < sources.length; index++) {
+    const source = sources[index]
+    const thumbnail = source.thumbnail
+    const { height, width } = thumbnail.getSize()
+
+    const scanned = jsQR(new Uint8ClampedArray(thumbnail.getBitmap()), width, height)
+    if (!scanned) continue
+
+    return scanned.data
+  }
+
+  return
 }
