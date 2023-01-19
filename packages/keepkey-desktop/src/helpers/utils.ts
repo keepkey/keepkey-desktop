@@ -166,5 +166,5 @@ export const scanScreenForQR = async (): Promise<string | undefined> => {
     return scanned.data
   }
 
-  return undefined
+  return
 }
