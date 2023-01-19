@@ -1,5 +1,7 @@
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { promises as fs } from 'fs'
 import fetch from 'node-fetch'
+import path from 'path'
 
 import { settings } from '../../globalState'
 import type { AllFirmwareAndBootloaderData, FirmwareAndBootloaderData } from './types'
@@ -45,9 +47,14 @@ export const loadFirmware = async (wallet: KeepKeyHDWallet, firmware: Buffer) =>
 export const getAllFirmwareData = async (
   baseUrl: string,
 ): Promise<AllFirmwareAndBootloaderData> => {
-  return (await (
-    await fetch(new URL('releases.json', baseUrl).toString())
-  ).json()) as AllFirmwareAndBootloaderData
+  try {
+    return (await (
+      await fetch(new URL('releases.json', baseUrl).toString())
+    ).json()) as AllFirmwareAndBootloaderData
+  } catch (e) {
+    console.warn('getAllFirmwareData error, using backup built-in manifest')
+    return JSON.parse(await fs.readFile(path.join(__dirname, 'firmware/releases.json'), 'utf8'))
+  }
 }
 
 export const getLatestFirmwareData = async (
