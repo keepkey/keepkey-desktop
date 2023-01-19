@@ -65,6 +65,7 @@ export type DeviceState = {
   recoveryCharacterIndex: number | undefined
   recoveryWordIndex: number | undefined
   isDeviceLoading: boolean | undefined
+  recoveryDeferred?: Deferred<string | boolean>
 }
 
 const initialDeviceState: DeviceState = {
@@ -210,7 +211,11 @@ const reducer = (state: InitialState, action: ActionTypes) => {
       }
     }
     case WalletActions.OPEN_KEEPKEY_CHARACTER_REQUEST: {
-      const { characterPos: recoveryCharacterIndex, wordPos: recoveryWordIndex } = action.payload
+      const {
+        characterPos: recoveryCharacterIndex,
+        wordPos: recoveryWordIndex,
+        deferred: recoveryDeferred,
+      } = action.payload
       const { deviceState } = state
       return {
         ...state,
@@ -222,6 +227,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
           ...deviceState,
           recoveryCharacterIndex,
           recoveryWordIndex,
+          recoveryDeferred,
         },
       }
     }
@@ -289,13 +295,16 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         keepKeyPinRequestType: null,
         keyring: new Keyring(),
       }
-    case WalletActions.OPEN_KEEPKEY_WIPE:
+    case WalletActions.OPEN_KEEPKEY_WIPE: {
+      const { preventClose } = action.payload
       return {
         ...state,
         modal: true,
         type: KeyManager.KeepKey,
         initialRoute: KeepKeyRoutes.Wipe,
+        showBackButton: !preventClose,
       }
+    }
     case WalletActions.RESET_STATE:
       const resetProperties = omit(initialState, ['adapters', 'modal', 'deviceId'])
       return { ...state, ...resetProperties }

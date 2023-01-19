@@ -31,7 +31,7 @@ const mapPinRequestType = (pinRequestType: PinMatrixRequestType2) => {
 }
 
 export const App = () => {
-  const { dispatch, pairAndConnect } = useWallet()
+  const { dispatch, pairAndConnect, setDeviceState } = useWallet()
   const { setIsUpdatingKeepkey, state, disconnect } = useWallet()
   const { legacyBridge, isLegacy, isConnected } = useWalletConnect()
   const { updateFeatures } = useKeepKey()
@@ -215,6 +215,32 @@ export const App = () => {
           },
         })
         return await out
+      },
+
+      async modalRecovery(characterPos?: number, wordPos?: number): Promise<string | boolean> {
+        if (characterPos === undefined && wordPos === undefined) {
+          setDeviceState({ awaitingDeviceInteraction: true })
+          dispatch({
+            type: WalletActions.OPEN_KEEPKEY_CHARACTER_REQUEST,
+            payload: {
+              characterPos: undefined,
+              wordPos: undefined,
+            },
+          })
+          return false
+        } else {
+          setDeviceState({ awaitingDeviceInteraction: false })
+          const out = deferred<string | boolean>()
+          dispatch({
+            type: WalletActions.OPEN_KEEPKEY_CHARACTER_REQUEST,
+            payload: {
+              characterPos,
+              wordPos,
+              deferred: out,
+            },
+          })
+          return await out
+        }
       },
 
       async modalCloseAll(): Promise<void> {

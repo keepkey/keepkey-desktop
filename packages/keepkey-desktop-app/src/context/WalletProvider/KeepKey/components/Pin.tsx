@@ -1,5 +1,4 @@
 import type { ButtonProps, SimpleGridProps } from '@chakra-ui/react'
-import { Link } from '@chakra-ui/react'
 import { Alert, AlertDescription, AlertIcon, Button, Input, SimpleGrid } from '@chakra-ui/react'
 import { CircleIcon } from 'components/Icons/Circle'
 import { Text } from 'components/Text'
@@ -32,10 +31,7 @@ export const KeepKeyPin = ({
   const [isPinEmpty, setIsPinEmpty] = useState(true)
   const {
     setDeviceState,
-    state: {
-      deviceState: { disposition },
-      pinDeferred,
-    },
+    state: { pinDeferred, showBackButton },
     dispatch,
   } = useWallet()
 
@@ -67,23 +63,6 @@ export const KeepKeyPin = ({
         await pinDeferred?.resolve(pin)
         moduleLogger.debug('done sending pin')
         if (translationType === 'remove') return setLoading(false)
-        switch (disposition) {
-          case 'recovering':
-            setDeviceState({ awaitingDeviceInteraction: true })
-            dispatch({
-              type: WalletActions.OPEN_KEEPKEY_CHARACTER_REQUEST,
-              payload: {
-                characterPos: undefined,
-                wordPos: undefined,
-              },
-            })
-            break
-          default:
-            // @ts-ignore
-            moduleLogger.debug('disposition: ', disposition)
-            //
-            break
-        }
       } catch (e) {
         moduleLogger.error(e, 'KeepKey PIN Submit error: ')
         pinDeferred?.reject(e)
@@ -180,9 +159,14 @@ export const KeepKeyPin = ({
       </SimpleGrid>
       {translationType === 'pin' && (
         <Button
-          onClick={() => dispatch({ type: WalletActions.OPEN_KEEPKEY_WIPE, payload: undefined })}
+          onClick={() =>
+            dispatch({
+              type: WalletActions.OPEN_KEEPKEY_WIPE,
+              payload: { preventClose: !showBackButton },
+            })
+          }
         >
-          Forgot your pin? Wipe device
+          <Text translation={`walletProvider.keepKey.modals.headings.forgotPinWipeDevice`} />
         </Button>
       )}
       <Input

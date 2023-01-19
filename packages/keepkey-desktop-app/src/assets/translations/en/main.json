@@ -1121,7 +1121,8 @@
       },
       "modals": {
         "headings": {
-          "wipeKeepKey": "Wipe Your KeepKey"
+          "wipeKeepKey": "Wipe Your KeepKey",
+          "forgotPinWipeDevice": "Forgot your pin? Wipe device"
         },
         "descriptions": {
           "wipeKeepKey": "I understand that by wiping my KeepKey I will lose access to my funds if I don't have my recovery phrase."
