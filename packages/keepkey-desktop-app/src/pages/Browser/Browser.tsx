@@ -15,10 +15,12 @@ import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { v4 as uuidv4 } from 'uuid'
 
 export const Browser = () => {
   const [url, setUrl] = useState('')
   const [inputUrl, setInputUrl] = useState('')
+  const [partition, setPartition] = useState('')
   const [loading, setLoading] = useState(false)
   const [failedToLoad, setFailedToLoad] = useState(false)
   const [hasMounted, setHasMounted] = useState(false)
@@ -26,6 +28,10 @@ export const Browser = () => {
     dispatch,
     state: { browserUrl },
   } = useWallet()
+
+  useEffect(() => {
+    setPartition(uuidv4())
+  }, [])
 
   const formatAndSaveUrl = (url: string) => {
     if (url.startsWith('http') || url.startsWith('https')) return setInputUrl(url)
@@ -101,14 +107,14 @@ export const Browser = () => {
   return (
     <Main height='full'>
       <webview
-          id='webview'
-          src={url}
-          style={{
-            minHeight: url !== '' ? '60em' : '0px',
-          }}
-      ></webview>
+        partition={partition}
+        id='webview'
+        src={url}
+        style={{
+          minHeight: url !== '' ? '60em' : '0px',
+        }}
+      />
       <Stack direction={{ base: 'column', md: 'column' }} height='full'>
-
         <form onSubmit={loadUrl}>
           <HStack>
             <Input

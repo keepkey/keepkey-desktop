@@ -25551,6 +25551,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["jsqr", [\
+        ["npm:1.4.0", {\
+          "packageLocation": "./.yarn/cache/jsqr-npm-1.4.0-bd73c752f2-7c572971f9.zip/node_modules/jsqr/",\
+          "packageDependencies": [\
+            ["jsqr", "npm:1.4.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["jssha", [\
         ["npm:2.4.2", {\
           "packageLocation": "./.yarn/cache/jssha-npm-2.4.2-9a91eba44b-d723629cf7.zip/node_modules/jssha/",\
@@ -25670,6 +25679,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fswin", "patch:fswin@npm%3A3.22.106#./.yarn/patches/fswin-npm-3.22.106-41f613c183.patch::version=3.22.106&hash=36c8eb&locator=keepkey-monorepo%40workspace%3A."],\
             ["hidefile", "npm:3.0.0"],\
             ["jimp", "npm:0.16.2"],\
+            ["jsqr", "npm:1.4.0"],\
             ["keccak", "npm:3.0.2"],\
             ["keepkey-desktop-app", "workspace:packages/keepkey-desktop-app"],\
             ["lodash", "npm:4.17.21"],\
