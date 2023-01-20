@@ -22,6 +22,8 @@ export const NecessaryModal: FC<{ req?: any; isLegacy: boolean; removeReq: any }
   removeReq,
 }) => {
   if (!req) return <></>
+  console.log('req', req)
+  console.log('isLegacy', isLegacy)
   if (isLegacy) {
     if (req.method === 'personal_sign') return <SignMessageConfirmation />
     else return <SendTransactionConfirmation />

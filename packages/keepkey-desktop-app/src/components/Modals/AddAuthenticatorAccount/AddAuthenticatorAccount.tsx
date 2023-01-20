@@ -54,11 +54,12 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
       })
       const msg = `\x15initializeAuth:${acc.domain}:${acc.account}:${acc.secret}`
       console.log('addAcc msg: ', msg)
-      await wallet
+      const pong = await wallet
         .ping({
           msg,
         })
         .catch(console.error)
+      console.log('add acc resp', pong)
       close()
       setTimeout(fetchAccs, 2000)
     },
