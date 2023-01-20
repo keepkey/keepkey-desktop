@@ -28,7 +28,6 @@ export const KeepKeyPin = ({
 }: KeepKeyPinProps) => {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
-  const [enteredPin, setEnteredPin] = useState('')
   const [isPinEmpty, setIsPinEmpty] = useState(true)
   const {
     setDeviceState,
@@ -80,11 +79,7 @@ export const KeepKeyPin = ({
     // We can't allow tabbing between inputs or the focused element gets out of sync with the KeepKey
     if (e.key === 'Tab') e.preventDefault()
 
-    if (e.key === 'Backspace') {
-      console.log('Backspace pressed')
-      //@TODO remove last .splice(0,-1)
-      setEnteredPin(curr => curr.substring(0, curr.length - 1))
-    }
+    if (e.key === 'Backspace') return
 
     if (e.key === 'Enter') {
       handleSubmit()
@@ -125,11 +120,14 @@ export const KeepKeyPin = ({
   const [disablePin, setDisablePin] = useState(true)
 
   useEffect(() => {
-    pinFieldRef.current?.focus()
     setTimeout(() => {
       setDisablePin(false)
     }, 1)
   }, [disablePin])
+
+  useEffect(() => {
+    pinFieldRef.current?.focus()
+  }, [])
 
   return (
     <>
@@ -179,8 +177,6 @@ export const KeepKeyPin = ({
         mb={3}
         autoComplete='one-time-code'
         autoFocus={true}
-        value={enteredPin}
-        onChange={e => setEnteredPin(e.target.value)}
         onKeyDown={handleKeyboardInput}
         onSubmit={handleSubmit}
         onKeyUp={() => setIsPinEmpty(!pinFieldRef.current?.value)}
