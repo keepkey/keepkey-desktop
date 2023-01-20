@@ -5,6 +5,7 @@ export type NativePairingProps = {
   data: {
     imageUrl: string
     name: string
+    url?: string
   }
 }
 
