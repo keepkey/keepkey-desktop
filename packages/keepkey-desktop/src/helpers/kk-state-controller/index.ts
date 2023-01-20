@@ -100,11 +100,11 @@ export class KKStateController {
 
   public async skipUpdate() {
     if (this.data.state === KKState.UpdateFirmware && this.data.bootloaderMode) {
-      await this.updateState({ state: KKState.NeedsReconnect })
+      return await this.updateState({ state: KKState.NeedsReconnect })
     }
     if (this.wallet && !(await this.wallet.isInitialized()))
-      await this.updateState({ state: KKState.NeedsInitialize })
-    else await this.updateState({ state: KKState.Connected })
+      return await this.updateState({ state: KKState.NeedsInitialize })
+    else return await this.updateState({ state: KKState.Connected })
   }
 
   public async syncState() {
