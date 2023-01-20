@@ -10,7 +10,7 @@ export type PairingInfo = {
   /** @minLength 1 */
   name: string
   /** @format url */
-  url?: string
+  url: string
   /** @format url */
   imageUrl: string
 }

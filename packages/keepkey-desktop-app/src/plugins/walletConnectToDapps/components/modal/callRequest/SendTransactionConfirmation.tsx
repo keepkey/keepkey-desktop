@@ -114,7 +114,9 @@ export const SendTransactionConfirmation = () => {
     !!bnOrZero(inputGas).gt(0) ? inputGas : bnOrZero(requestGas).gt(0) ? requestGas : estimatedGas,
   )
   const walletConnect = useWalletConnect()
-  const address = walletConnect.legacyBridge?.connector.accounts[0]
+  const address = walletConnect.legacyBridge?.connector.accounts
+    ? walletConnect.legacyBridge?.connector.accounts[0]
+    : ''
 
   useEffect(() => {
     const adapterManager = getChainAdapterManager()
@@ -246,6 +248,8 @@ export const SendTransactionConfirmation = () => {
     !requestMaxPriorityFeePerGas
   )
     txInput['gasPrice'] = Web3.utils.toHex(web3GasFeeData)
+
+  if (!address) return <>No address</>
 
   return (
     <FormProvider {...form}>

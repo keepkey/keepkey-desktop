@@ -10,6 +10,7 @@ import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { useCallback, useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
 import { Routes } from 'Routes/Routes'
 
 import type { KKStateData } from '../../keepkey-desktop/src/helpers/kk-state-controller/types'
@@ -35,6 +36,7 @@ export const App = () => {
   const { setIsUpdatingKeepkey, state, disconnect } = useWallet()
   const { legacyBridge, isLegacy, isConnected } = useWalletConnect()
   const { updateFeatures } = useKeepKey()
+  const history = useHistory()
 
   const { pair, sign, hardwareError, updateKeepKey, requestBootloaderMode, loading } = useModal()
 
@@ -53,6 +55,11 @@ export const App = () => {
     sign.close()
   }, [hardwareError, loading, pair, requestBootloaderMode, sign, updateKeepKey])
 
+  const openDapp = (url: string) => {
+    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: url })
+    history.push('/browser')
+  }
+
   const [connected, setConnected] = useState(false)
 
   // open hardwareError modal on app start unless already connected
@@ -60,6 +67,11 @@ export const App = () => {
     if (connected !== null) {
       if (!hardwareError.isOpen && !connected) {
         hardwareError.open({})
+      }
+      if (connected) {
+        const defaultDapp = localStorage.getItem('@app/defaultDapp')
+        if (!defaultDapp) return
+        openDapp(defaultDapp)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -5,6 +5,7 @@ import {
   AlertIcon,
   Box,
   Button,
+  Checkbox,
   Image,
   Modal,
   ModalBody,
@@ -36,6 +37,7 @@ export const PairModal = ({
   const [error] = useState<string | null>(null)
   const [loading] = useState(false)
   const [isFound, setIsFound] = useState(false)
+  const [makeDefault, setMakeDefault] = useState(false)
   const { pair } = useModal()
   const { close, isOpen } = pair
 
@@ -72,6 +74,8 @@ export const PairModal = ({
   }, [input, input?.data, input?.type, onStart])
 
   const HandleSubmit = async () => {
+    if (makeDefault && input?.type === 'native' && input?.data.url)
+      localStorage.setItem('@app/defaultDapp', input?.data.url)
     console.log('Approving!')
     deferred?.resolve(true)
     close()
@@ -163,6 +167,9 @@ export const PairModal = ({
                   </AlertDescription>
                 </Alert>
               )}
+              <Checkbox onChange={e => setMakeDefault(e.target.checked)}>
+                <Text translation={'modals.pair.cta.makeDefault'} />
+              </Checkbox>
               <Button
                 width='full'
                 size='lg'
