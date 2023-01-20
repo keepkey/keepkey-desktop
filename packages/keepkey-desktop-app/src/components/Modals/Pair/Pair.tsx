@@ -36,7 +36,7 @@ export const PairModal = ({
 }) => {
   const [error] = useState<string | null>(null)
   const [loading] = useState(false)
-  const [isFound, setIsFound] = useState(false)
+  const [isFound, setIsFound] = useState(true)
   const [makeDefault, setMakeDefault] = useState(false)
   const { pair } = useModal()
   const { close, isOpen } = pair
@@ -60,7 +60,7 @@ export const PairModal = ({
           //send to device
         } else {
           //show Warning
-          setIsFound(false)
+          // setIsFound(false)
         }
       } catch (e) {
         console.error(e)
@@ -144,7 +144,9 @@ export const PairModal = ({
                   ) : (
                     <div>
                       <WarningTwoIcon boxSize={12} color='yellow.500' />
-                      <h4>This Dapp is not recognized, use at your own risk!</h4>
+                      <h4>
+                        <Text translation={'modals.pair.notFound'} />
+                      </h4>
                     </div>
                   )}
 
