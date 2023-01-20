@@ -49,7 +49,7 @@ export const HardwareErrorModal = (error: {
 
   return (
     <Modal
-      isOpen={isOpen && !isUpdatingKeepkey && window.localStorage.getItem('onboarded') === 'true'}
+      isOpen={isOpen && !isUpdatingKeepkey}
       onClose={() => {
         close()
       }}
