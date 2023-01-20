@@ -44,7 +44,7 @@ export const NecessaryModal: FC<{ req?: any; isLegacy: boolean; removeReq: any }
           topic: req.topic,
           response,
         })
-        removeReq(0)
+        removeReq(req.id)
         break
     }
   }
@@ -71,7 +71,7 @@ export const CallRequestModal = () => {
             response,
           })
         }
-        removeRequest(0)
+        removeRequest(currentRequest.id)
       }}
       variant='header-nav'
     >

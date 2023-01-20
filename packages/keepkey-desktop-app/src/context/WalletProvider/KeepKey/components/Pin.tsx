@@ -79,10 +79,7 @@ export const KeepKeyPin = ({
     // We can't allow tabbing between inputs or the focused element gets out of sync with the KeepKey
     if (e.key === 'Tab') e.preventDefault()
 
-    if (e.key === 'Backspace') {
-      console.log('Backspace pressed')
-      //@TODO remove last .splice(0,-1)
-    }
+    if (e.key === 'Backspace') return
 
     if (e.key === 'Enter') {
       handleSubmit()
@@ -123,11 +120,14 @@ export const KeepKeyPin = ({
   const [disablePin, setDisablePin] = useState(true)
 
   useEffect(() => {
-    pinFieldRef.current?.focus()
     setTimeout(() => {
       setDisablePin(false)
     }, 1)
   }, [disablePin])
+
+  useEffect(() => {
+    pinFieldRef.current?.focus()
+  }, [])
 
   return (
     <>
