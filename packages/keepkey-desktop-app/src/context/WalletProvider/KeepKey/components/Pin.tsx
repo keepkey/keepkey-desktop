@@ -1,5 +1,5 @@
 import type { ButtonProps, SimpleGridProps } from '@chakra-ui/react'
-import { Alert, AlertDescription, AlertIcon, Button, Input, SimpleGrid } from '@chakra-ui/react'
+import { Alert, AlertDescription, AlertIcon, Button, Input, SimpleGrid, Center } from '@chakra-ui/react'
 import { CircleIcon } from 'components/Icons/Circle'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
@@ -79,10 +79,7 @@ export const KeepKeyPin = ({
     // We can't allow tabbing between inputs or the focused element gets out of sync with the KeepKey
     if (e.key === 'Tab') e.preventDefault()
 
-    if (e.key === 'Backspace') {
-      console.log('Backspace pressed')
-      //@TODO remove last .splice(0,-1)
-    }
+    if (e.key === 'Backspace') return
 
     if (e.key === 'Enter') {
       handleSubmit()
@@ -123,11 +120,14 @@ export const KeepKeyPin = ({
   const [disablePin, setDisablePin] = useState(true)
 
   useEffect(() => {
-    pinFieldRef.current?.focus()
     setTimeout(() => {
       setDisablePin(false)
     }, 1)
   }, [disablePin])
+
+  useEffect(() => {
+    pinFieldRef.current?.focus()
+  }, [])
 
   return (
     <>
@@ -157,18 +157,6 @@ export const KeepKeyPin = ({
           </Button>
         ))}
       </SimpleGrid>
-      {translationType === 'pin' && (
-        <Button
-          onClick={() =>
-            dispatch({
-              type: WalletActions.OPEN_KEEPKEY_WIPE,
-              payload: { preventClose: !showBackButton },
-            })
-          }
-        >
-          <Text translation={`walletProvider.keepKey.modals.headings.forgotPinWipeDevice`} />
-        </Button>
-      )}
       <Input
         type='password'
         ref={pinFieldRef}
@@ -182,6 +170,21 @@ export const KeepKeyPin = ({
         onKeyUp={() => setIsPinEmpty(!pinFieldRef.current?.value)}
         disabled={loading}
       />
+      {translationType === 'pin' && (
+          <Center>
+          <small>
+            <Text
+              onClick={() =>
+                dispatch({
+                  type: WalletActions.OPEN_KEEPKEY_WIPE,
+                  payload: { preventClose: !showBackButton },
+                })
+              }
+              translation={`walletProvider.keepKey.modals.headings.forgotPinWipeDevice`}
+            />
+          </small>
+          </Center>
+      )}
       {error && (
         <Alert status='error' mb={3} mt={3}>
           <AlertIcon />
