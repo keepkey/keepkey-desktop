@@ -173,6 +173,7 @@ export const App = () => {
             break
           case KKState.NeedsReconnect:
             dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
+            setIsUpdatingKeepkey(false)
             loading.close()
             hardwareError.open({ needsReconnect: true })
             break
