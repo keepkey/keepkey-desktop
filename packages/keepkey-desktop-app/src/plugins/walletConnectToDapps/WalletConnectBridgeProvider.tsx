@@ -190,6 +190,8 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
 
   const dapp = pairingMeta
 
+  console.log(legacyBridge)
+
   return (
     <WalletConnectBridgeContext.Provider
       value={{
