@@ -74,6 +74,11 @@ export class LegacyWCService {
   }
 
   async _onSwitchChain(_: Error | null, payload: any) {
+    const address = await this.wallet.ethGetAddress({ addressNList, showDisplay: false })
+    if (!address)
+      return this.connector.rejectRequest({
+        id: payload.id,
+      })
     this.connector.approveRequest({
       id: payload.id,
       result: 'success',
@@ -81,7 +86,7 @@ export class LegacyWCService {
     const chainId = payload.params[0].chainId
     this.connector.updateSession({
       chainId,
-      accounts: payload.params[0].accounts,
+      accounts: [address],
     })
     const web3Stuff = await web3ByChainId(parseInt(payload.params[0].chainId, 16))
     if (!web3Stuff) throw new Error('no data for chainId')
