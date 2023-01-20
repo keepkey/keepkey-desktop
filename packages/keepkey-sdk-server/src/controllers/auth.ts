@@ -49,7 +49,6 @@ export class AuthController extends Controller {
     @Body()
     body: PairingInfo,
   ): Promise<{ apiKey: string }> {
-    console.log('pair body', body)
     const apiKey = await (await getSdkPairingHandler)(body)
     if (!apiKey) {
       this.setStatus(403)
