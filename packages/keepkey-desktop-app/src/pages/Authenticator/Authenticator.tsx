@@ -228,9 +228,9 @@ export const Authenticator = () => {
                       accounts.map(acc => (
                         <Tr>
                           <Td>
-                            <Code>
-                              {acc.domain}:{acc.account}
-                            </Code>
+                            <Code>{`${acc.domain.trim() ? `${acc.domain}:` : ''}${
+                              acc.account
+                            }`}</Code>
                           </Td>
                           <Td>
                             <Button
