@@ -153,7 +153,9 @@ const AddByScanning: FC<{ addAcc: any }> = ({ addAcc }) => {
     ipcListeners
       .appReadQr()
       .then(scanned => setScannedQr(scanned ?? ''))
-      .catch(setError)
+      .catch((e: unknown) => {
+        setError(String(e))
+      })
   }
 
   useEffect(() => {
