@@ -165,12 +165,12 @@ const AddByScanning: FC<{ addAcc: any }> = ({ addAcc }) => {
     if (url.hostname !== 'totp') return setError('Invalid QR')
     const parsed = /^\/(?<domain>[^/]*?):(?<account>[^/]*)$/.exec(url.pathname)?.groups
 
-    if (!parsed) return setError('Insuffecient data in QR')
+    if (!parsed) return setError('Insufficient data in QR')
 
     const domain = decodeURI(parsed.domain)
     const account = decodeURI(parsed.account)
     const secret = url.searchParams.get('secret')
-    if (!domain || !account || !secret) return setError('Insuffecient data in QR')
+    if (!domain || !account || !secret) return setError('Insufficient data in QR')
 
     addAcc({
       domain,
