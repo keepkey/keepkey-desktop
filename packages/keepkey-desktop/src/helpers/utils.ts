@@ -1,5 +1,4 @@
 import { BrowserWindow } from 'electron'
-import isDev from 'electron-is-dev'
 import log from 'electron-log'
 import { rendererIpc } from 'ipcListeners'
 import path from 'path'
@@ -77,9 +76,11 @@ export const createMainWindow = async () => {
   windows.mainWindow.webContents.addListener(
     'will-attach-webview',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    (_event, webPreferences, _params) => {
+    (_event, webPreferences, params) => {
       // Security check -- we don't use this and it would allow the app to break out of context isolation if compromised
       delete webPreferences.preload
+      // Security check -- we don't use this and it would allow the app to disable its CSP if compromised
+      delete params.disablewebsecurity
     },
   )
 

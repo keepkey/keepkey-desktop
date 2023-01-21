@@ -275,6 +275,33 @@ export const ipcListeners: IpcListeners = {
     })
   },
 
+  async webviewAttachOpenHandler(
+    webContentsId: number,
+    loadUrl: (url: string, options?: Electron.LoadURLOptions) => Promise<void>,
+  ): Promise<void> {
+    console.log(`webviewAttachOpenHandler: subscribing to ${webContentsId}`)
+
+    const contents = webContents.fromId(webContentsId)
+    contents.setWindowOpenHandler((details: Electron.HandlerDetails) => {
+      if (details.disposition === 'foreground-tab') {
+        loadUrl(details.url, {
+          httpReferrer: details.referrer,
+          postData: details.postBody?.data,
+        }).catch(e => console.error('webviewAttachOpenHandler: loadUrl error:', e))
+        return {
+          action: 'deny',
+        }
+      } else {
+        return {
+          action: 'allow',
+          overrideBrowserWindowOptions: {
+            autoHideMenuBar: true,
+          },
+        }
+      }
+    })
+  },
+
   async clearBrowserSession() {
     const browserSession = session.fromPartition('browser')
     await browserSession.clearStorageData()

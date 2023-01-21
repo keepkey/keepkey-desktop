@@ -1,3 +1,5 @@
+/// <reference types="electron" />
+
 import {
   ArrowForwardIcon,
   ArrowLeftIcon,
@@ -6,7 +8,9 @@ import {
   RepeatIcon,
 } from '@chakra-ui/icons'
 import { Alert, AlertIcon, HStack, IconButton, Input, Stack } from '@chakra-ui/react'
+import * as Comlink from 'comlink'
 import { Main } from 'components/Layout/Main'
+import { ipcListeners } from 'electron-shim'
 // import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -178,6 +182,17 @@ export const Browser = () => {
   //   connectIndirect = connect
   // }, [connect])
 
+  useEffect(() => {
+    if (!webviewReady) return
+
+    const webview = getWebview()!
+    const contentsId = webview.getWebContentsId()
+    const loadURL = webview.loadURL.bind(webview)
+    ipcListeners
+      .webviewAttachOpenHandler(contentsId, Comlink.proxy(loadURL))
+      .catch(e => console.error('webviewAttachOpenHandler error:', e))
+  }, [webviewReady])
+
   return (
     <Main
       height='full'
@@ -196,8 +211,8 @@ export const Browser = () => {
         style={{
           flexGrow: 1,
         }}
-        autosize={true}
-        allowpopups={true}
+        // @ts-expect-error
+        allowpopups='true'
       ></webview>
       <Stack direction={{ base: 'column', md: 'column' }} height='full' style={{ margin: '5px' }}>
         {webviewLoadFailure !== undefined && (
