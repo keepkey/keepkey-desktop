@@ -1,5 +1,13 @@
 import type { ButtonProps, SimpleGridProps } from '@chakra-ui/react'
-import { Alert, AlertDescription, AlertIcon, Button, Input, SimpleGrid, Center } from '@chakra-ui/react'
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Button,
+  Center,
+  Input,
+  SimpleGrid,
+} from '@chakra-ui/react'
 import { CircleIcon } from 'components/Icons/Circle'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
@@ -171,7 +179,7 @@ export const KeepKeyPin = ({
         disabled={loading}
       />
       {translationType === 'pin' && (
-          <Center>
+        <Center>
           <small>
             <Text
               onClick={() =>
@@ -183,7 +191,7 @@ export const KeepKeyPin = ({
               translation={`walletProvider.keepKey.modals.headings.forgotPinWipeDevice`}
             />
           </small>
-          </Center>
+        </Center>
       )}
       {error && (
         <Alert status='error' mb={3} mt={3}>
