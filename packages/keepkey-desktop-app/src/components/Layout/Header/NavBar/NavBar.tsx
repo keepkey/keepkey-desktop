@@ -1,8 +1,6 @@
 import { ChatIcon, SettingsIcon } from '@chakra-ui/icons'
 import type { StackProps } from '@chakra-ui/react'
-import { Flex } from '@chakra-ui/react'
-import { Divider, Link, Stack, useColorModeValue } from '@chakra-ui/react'
-import { Text } from 'components/Text'
+import { Flex, Link } from '@chakra-ui/react'
 import { usePlugins } from 'context/PluginProvider/PluginProvider'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
@@ -23,7 +21,6 @@ type NavBarProps = {
 export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
   const translate = useTranslate()
   const { routes: pluginRoutes } = usePlugins()
-  const groupColor = useColorModeValue('gray.300', 'gray.600')
   const { settings } = useModal()
 
   const {
@@ -65,7 +62,7 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
 
   return (
     <Flex width='full' flexDir='row' gap={6} {...rest}>
-      {navItemGroups.map((group, id) => {
+      {navItemGroups.map((group, _id) => {
         const [, values] = group
         return values.map((item: Route, id: number) => (
           <MainNavLink
