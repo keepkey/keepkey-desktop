@@ -146,33 +146,46 @@ const AddManually: FC<{ addAcc: any }> = ({ addAcc }) => {
 const AddByScanning: FC<{ addAcc: any }> = ({ addAcc }) => {
   const { goBack } = useHistory()
 
+  const [firstScanRun, setFirstScanRun] = useState(false)
   const [scannedQr, setScannedQr] = useState('')
   const [error, setError] = useState('')
 
-  const scan = () => {
+  const scan = useCallback(() => {
     ipcListeners
       .appReadQr()
       .then(scanned => setScannedQr(scanned ?? ''))
       .catch((e: unknown) => {
         setError(String(e))
       })
-  }
+  }, [])
+
+  useEffect(() => {
+    if (firstScanRun) return
+    setFirstScanRun(true)
+    scan()
+  }, [firstScanRun, scan])
 
   useEffect(() => {
     setError('')
-    if (!scannedQr) return setError('Unable to scan QR')
+    if (!scannedQr) return
 
-    if (!/^otpauth:/.test(scannedQr)) return setError('Invalid QR')
+    if (!/^otpauth:/.test(scannedQr)) {
+      return setError("Found a QR code, but it wasn't for setting up an authenticator")
+    }
     const url = new URL(scannedQr.replace(/^otpauth:/, 'http:'))
-    if (url.hostname !== 'totp') return setError('Invalid QR')
-    const parsed = /^\/(?:(?<domain>[^/]*?):)?(?<account>[^/]*)$/.exec(url.pathname)?.groups
+    if (url.hostname !== 'totp') {
+      return setError('Invalid QR code: Only TOTP authentication is supported')
+    }
+    const parsed = /^\/(?:(?<domain>[^/]*?)(?::|%3[Aa])(?: |%20)*)?(?<account>[^/]*)$/.exec(
+      url.pathname,
+    )?.groups
 
-    if (!parsed) return setError('Insufficient data in QR')
+    if (!parsed) return setError('Invalid QR code: no account name')
 
-    const domain = decodeURI(parsed.domain ?? '')
+    const domain = decodeURI(parsed.domain ?? '') || url.searchParams.get('issuer') || ' '
     const account = decodeURI(parsed.account)
     const secret = url.searchParams.get('secret')
-    if (!domain || !account || !secret) return setError('Insufficient data in QR')
+    if (!secret) return setError('Invalid QR code: missing secret field')
 
     addAcc({
       domain,
