@@ -121,16 +121,19 @@ export const Authenticator = () => {
       )}:${timeRemain}`
       console.log('generateOtp msg: ', msg)
 
-      await wallet
+      const finished = wallet
         .ping({
           msg,
         })
         .catch(console.error)
+
       toast({
         status: 'info',
         title: 'OTP generated',
         description: `Please check the OTP on your keepkey`,
       })
+
+      await finished
     },
     [wallet, toast, supportsFeature],
   )
