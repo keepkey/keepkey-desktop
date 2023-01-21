@@ -11,7 +11,6 @@ import { Main } from 'components/Layout/Main'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import React, { useCallback, useEffect, useState } from 'react'
 import { FaBug } from 'react-icons/fa'
-import { v4 as uuidv4 } from 'uuid'
 
 const getWebview = () => document.getElementById('webview') as Electron.WebviewTag | null
 
@@ -65,8 +64,6 @@ export const Browser = () => {
   const [webviewReady, setWebviewReady] = useState(false)
   useEffect(() => {
     const webview = getWebview()!
-    webview.setAttribute('autosize', 'on')
-    webview.allowpopups = true
     const listener = () => setWebviewReady(true)
     webview.addEventListener('dom-ready', listener)
     return () => {
@@ -199,6 +196,8 @@ export const Browser = () => {
         style={{
           flexGrow: 1,
         }}
+        autosize={true}
+        allowpopups={true}
       ></webview>
       <Stack direction={{ base: 'column', md: 'column' }} height='full' style={{ margin: '5px' }}>
         {webviewLoadFailure !== undefined && (

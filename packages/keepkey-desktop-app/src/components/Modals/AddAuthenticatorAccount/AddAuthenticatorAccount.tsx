@@ -14,7 +14,7 @@ import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { SlideTransition } from 'components/SlideTransition'
 import { RawText, Text } from 'components/Text'
 // import { SessionTypes } from '@walletconnect/types'
-import { ipcListeners, ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
 import { AnimatePresence } from 'framer-motion'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
@@ -70,10 +70,7 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
     <SlideTransition>
       <Modal
         isOpen={isOpen}
-        onClose={() => {
-          ipcRenderer.send('unlockWindow', {})
-          close()
-        }}
+        onClose={() => close()}
         isCentered
         closeOnOverlayClick={false}
         closeOnEsc={false}
