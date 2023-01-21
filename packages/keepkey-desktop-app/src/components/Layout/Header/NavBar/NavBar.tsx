@@ -10,6 +10,7 @@ import { useTranslate } from 'react-polyglot'
 import { Link as ReactRouterLink } from 'react-router-dom'
 import type { Route, RouteCategory } from 'Routes/helpers'
 import { routes } from 'Routes/RoutesCommon'
+import * as semver from 'semver'
 
 import { MainNavLink } from './MainNavLink'
 
@@ -42,8 +43,7 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
 
   useEffect(() => {
     wallet?.getFirmwareVersion().then(version => {
-      const [major, minor] = version.replace('v', '').split('.')
-      if (Number(major) >= 7 && Number(minor) >= 6) setSupportsAuthenticator(true)
+      setSupportsAuthenticator(semver.gte(version, '7.6.0'))
     })
   }, [wallet])
 
