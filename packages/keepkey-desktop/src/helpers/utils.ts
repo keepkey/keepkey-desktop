@@ -69,12 +69,19 @@ export const createMainWindow = async () => {
     backgroundColor: 'white',
     autoHideMenuBar: true,
     webPreferences: {
+      preload: path.join(__dirname, 'assets/preload.js'),
       webviewTag: true,
-      nodeIntegration: true,
-      contextIsolation: false,
       devTools: true,
     },
   })
+  windows.mainWindow.webContents.addListener(
+    'will-attach-webview',
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (_event, webPreferences, _params) => {
+      // Security check -- we don't use this and it would allow the app to break out of context isolation if compromised
+      delete webPreferences.preload
+    },
+  )
 
   windows.mainWindow.loadURL(`file://${path.join(__dirname, 'app/index.html')}`)
 
