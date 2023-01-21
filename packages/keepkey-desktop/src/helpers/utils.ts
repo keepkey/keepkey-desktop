@@ -63,7 +63,7 @@ export const createMainWindow = async () => {
 
   windows.mainWindow = new BrowserWindow({
     focusable: true,
-    width: isDev ? 1960 : 1148,
+    width: 1400,
     height: 920,
     show: false,
     backgroundColor: 'white',
