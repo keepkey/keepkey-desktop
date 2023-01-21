@@ -1,3 +1,5 @@
+/// <reference types="electron" />
+
 import {
   ArrowForwardIcon,
   ArrowLeftIcon,
@@ -6,12 +8,13 @@ import {
   RepeatIcon,
 } from '@chakra-ui/icons'
 import { Alert, AlertIcon, HStack, IconButton, Input, Stack } from '@chakra-ui/react'
+import * as Comlink from 'comlink'
 import { Main } from 'components/Layout/Main'
+import { ipcListeners } from 'electron-shim'
 // import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import React, { useCallback, useEffect, useState } from 'react'
 import { FaBug } from 'react-icons/fa'
-import { v4 as uuidv4 } from 'uuid'
 
 const getWebview = () => document.getElementById('webview') as Electron.WebviewTag | null
 
@@ -65,8 +68,6 @@ export const Browser = () => {
   const [webviewReady, setWebviewReady] = useState(false)
   useEffect(() => {
     const webview = getWebview()!
-    webview.setAttribute('autosize', 'on')
-    webview.allowpopups = true
     const listener = () => setWebviewReady(true)
     webview.addEventListener('dom-ready', listener)
     return () => {
@@ -181,6 +182,17 @@ export const Browser = () => {
   //   connectIndirect = connect
   // }, [connect])
 
+  useEffect(() => {
+    if (!webviewReady) return
+
+    const webview = getWebview()!
+    const contentsId = webview.getWebContentsId()
+    const loadURL = webview.loadURL.bind(webview)
+    ipcListeners
+      .webviewAttachOpenHandler(contentsId, Comlink.proxy(loadURL))
+      .catch(e => console.error('webviewAttachOpenHandler error:', e))
+  }, [webviewReady])
+
   return (
     <Main
       height='full'
@@ -199,6 +211,8 @@ export const Browser = () => {
         style={{
           flexGrow: 1,
         }}
+        // @ts-expect-error
+        allowpopups='true'
       ></webview>
       <Stack direction={{ base: 'column', md: 'column' }} height='full' style={{ margin: '5px' }}>
         {webviewLoadFailure !== undefined && (

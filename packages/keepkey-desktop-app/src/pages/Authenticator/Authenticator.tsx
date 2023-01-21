@@ -121,16 +121,19 @@ export const Authenticator = () => {
       )}:${timeRemain}`
       console.log('generateOtp msg: ', msg)
 
-      await wallet
+      const finished = wallet
         .ping({
           msg,
         })
         .catch(console.error)
+
       toast({
         status: 'info',
         title: 'OTP generated',
         description: `Please check the OTP on your keepkey`,
       })
+
+      await finished
     },
     [wallet, toast, supportsFeature],
   )
@@ -225,9 +228,9 @@ export const Authenticator = () => {
                       accounts.map(acc => (
                         <Tr>
                           <Td>
-                            <Code>
-                              {acc.domain}:{acc.account}
-                            </Code>
+                            <Code>{`${acc.domain.trim() ? `${acc.domain}:` : ''}${
+                              acc.account
+                            }`}</Code>
                           </Td>
                           <Td>
                             <Button

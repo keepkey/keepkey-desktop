@@ -152,7 +152,7 @@ export const ChainSelectorModal = () => {
                             as='button'
                             onClick={() => switchChain(chain)}
                           >
-                            {chain.name} <small>({chain.services[0].latency}ms)</small>
+                            {chain.name} <small>({chain.services[0]?.latency}ms)</small>
                           </Box>
                           <Box alignContent='left'>
                             <small>chainId: {chain.chainId}</small>

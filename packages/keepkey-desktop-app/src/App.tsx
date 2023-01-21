@@ -5,7 +5,7 @@ import type { PairingProps } from 'components/Modals/Pair/types'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
-import { ipcListeners, ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
@@ -301,7 +301,7 @@ export const App = () => {
     // inform the electron process we are ready to receive ipc messages
     const { port1, port2 } = new MessageChannel()
     Comlink.expose(rendererIpc, port1)
-    ipcRenderer.postMessage('@app/register-render-listeners', undefined, [port2])
+    window.postMessage({ type: '@app/register-render-listeners', payload: port2 }, '*', [port2])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
