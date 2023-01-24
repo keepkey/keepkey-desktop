@@ -20,7 +20,7 @@ export class SettingsInstance {
     return (async () => (await this.loaded, this.#bridgeApiPort))()
   }
 
-  #shouldAutoLaunch = true
+  #shouldAutoLaunch = false
   get shouldAutoLaunch() {
     return (async () => (await this.loaded, this.#shouldAutoLaunch))()
   }

@@ -1,13 +1,16 @@
-import { Divider, Stack } from '@chakra-ui/layout'
-import { Icon, Switch } from '@chakra-ui/react'
+import { Divider, HStack, Stack } from '@chakra-ui/layout'
+import { Avatar, Button, Icon, Switch } from '@chakra-ui/react'
+import { WalletActions } from 'context/WalletProvider/actions'
 import { ipcListeners } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
-import { FaRocket } from 'react-icons/fa'
+import { FaRocket, FaTrash } from 'react-icons/fa'
 import { HiRefresh } from 'react-icons/hi'
 import { IoFileTray } from 'react-icons/io5'
 import { TbRefreshAlert } from 'react-icons/tb'
+import { useHistory } from 'react-router'
 
 import type { Settings } from '../../../../../keepkey-desktop/src/helpers/types'
 import { SettingsListItem } from './SettingsListItem'
@@ -26,6 +29,16 @@ export const AppSettings: FC = () => {
   })
 
   const [prevAppSettings, setPrevAppSettings] = useState<Settings>(appSettings)
+
+  const [defaultDapp, setDefaultDapp] = useState<{ imageUrl: string; name: string; url?: string }>()
+  const history = useHistory()
+
+  const { dispatch } = useWallet()
+
+  const openDapp = (url: string) => {
+    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: url })
+    history.push('/browser')
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -52,6 +65,10 @@ export const AppSettings: FC = () => {
         setAppSettings(await ipcListeners.appSettings())
       }
     })().catch(e => console.error(e))
+    const rawapp = localStorage.getItem('@app/defaultDapp')
+    if (!rawapp || rawapp === '') return
+    const app = JSON.parse(rawapp)
+    setDefaultDapp(app)
   }, [settings.isOpen])
 
   return (
@@ -131,6 +148,7 @@ export const AppSettings: FC = () => {
       >
         <Switch isChecked={appSettings.allowBetaFirmware} pointerEvents='none' />
       </SettingsListItem>
+      <Divider my={1} />
       <SettingsListItem
         label={'modals.settings.autoScanQr'}
         onClick={() => {
@@ -145,6 +163,24 @@ export const AppSettings: FC = () => {
       >
         <Switch isChecked={appSettings.autoScanQr} pointerEvents='none' />
       </SettingsListItem>
+      {defaultDapp && <Divider my={1} />}
+      {defaultDapp && (
+        <SettingsListItem
+          label={'modals.settings.resetDefaultDapp'}
+          onClick={() => {
+            localStorage.removeItem('@app/defaultDapp')
+          }}
+          icon={<Icon as={FaTrash} color='gray.500' />}
+        >
+          <HStack gap={0}>
+            <Avatar src={defaultDapp.imageUrl} size='sm' />
+
+            <Button variant={'link'} onClick={() => openDapp(defaultDapp.url ?? 'about:blank')}>
+              {defaultDapp.name}
+            </Button>
+          </HStack>
+        </SettingsListItem>
+      )}
     </Stack>
   )
 }

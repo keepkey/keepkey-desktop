@@ -969,6 +969,7 @@
       "downloadPreRelease": "Download pre release builds",
       "allowBetaFirmware": "Download beta KeepKey Firmware",
       "autoScanQr": "Automatically scan QRs",
+      "resetDefaultDapp": "Reset default dapp",
       "currencies": {
         "CNY": "Chinese Yuan",
         "USD": "United States Dollar (default)",
