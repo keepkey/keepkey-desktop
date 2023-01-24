@@ -87,6 +87,11 @@ export type IpcListeners = {
     callback: (data: string) => Promise<void>,
   ): Promise<void>
 
+  webviewAttachOpenHandler(
+    webContentsId: number,
+    loadUrl: (url: string, options?: Electron.LoadURLOptions) => Promise<void>,
+  ): Promise<void>
+
   clearBrowserSession(): Promise<void>
   wipeKeepKey(): Promise<void>
   forceReconnect(): Promise<void>

@@ -1,6 +1,3 @@
-import { WalletConnectToDapps } from 'plugins/walletConnectToDapps/WalletConnectToDapps'
-import { FaFlag, FaGlobe, FaBuromobelexperte, FaPlug, FaLock } from 'react-icons/fa'
-// import { IoSwapVertical } from 'react-icons/io5'
 import { AccountsIcon } from 'components/Icons/Accounts'
 import { AssetsIcon } from 'components/Icons/Assets'
 import { DashboardIcon } from 'components/Icons/Dashboard'
@@ -14,20 +11,17 @@ import { Asset } from 'pages/Assets/Asset'
 import { Assets } from 'pages/Assets/Assets'
 import { AssetTxHistory } from 'pages/Assets/AssetTxHistory'
 import { KeepkeyAsset } from 'pages/Assets/KeepkeyAsset'
+import { Authenticator } from 'pages/Authenticator/Authenticator'
 import { Browser } from 'pages/Browser/Browser'
 import { Dashboard } from 'pages/Dashboard/Dashboard'
-// import { Overview } from 'pages/Defi/views/Overview'
-import { Flags } from 'pages/Flags/Flags'
-// import { Leaderboard } from 'pages/Leaderboard/Leaderboard'
 import { PairingDetails } from 'pages/Pairings/PairingDetails'
 import { Pairings } from 'pages/Pairings/Pairings'
-// import { Trade } from 'pages/Trade/Trade'
 import { TransactionHistory } from 'pages/TransactionHistory/TransactionHistory'
-import { IoSwapVertical } from 'react-icons/io5'
+import { WalletConnectToDapps } from 'plugins/walletConnectToDapps/WalletConnectToDapps'
+import { FaBuromobelexperte, FaGlobe, FaLock, FaPlug } from 'react-icons/fa'
 
 import type { Route as NestedRoute } from './helpers'
 import { RouteCategory } from './helpers'
-import { Authenticator } from 'pages/Authenticator/Authenticator'
 
 export const routes: NestedRoute[] = [
   {
@@ -44,14 +38,6 @@ export const routes: NestedRoute[] = [
     icon: <FaBuromobelexperte />,
     category: RouteCategory.Wallet,
   },
-  //@TODO move to flag
-  // {
-  //   path: '/leaderboard',
-  //   label: 'Leaderboard',
-  //   icon: <IoSwapVertical />,
-  //   main: Leaderboard,
-  //   category: RouteCategory.Wallet,
-  // },
   {
     path: '/transaction-history',
     label: 'navBar.transactionHistory',
@@ -66,13 +52,6 @@ export const routes: NestedRoute[] = [
     category: RouteCategory.Explore,
     main: Browser,
   },
-  // {
-  //   path: '/trade',
-  //   label: 'navBar.trade',
-  //   icon: <IoSwapVertical />,
-  //   main: Trade,
-  //   category: RouteCategory.Explore,
-  // },
   {
     path: '/pairings',
     label: 'navBar.pairings',

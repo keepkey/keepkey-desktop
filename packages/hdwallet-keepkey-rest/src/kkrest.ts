@@ -150,7 +150,7 @@ export class KeepKeyRestHDWallet
   public async ping(msg: core.Ping): Promise<core.Pong> {
     return await this.abortable(async signal => {
       const formattedMsg = {
-        ...msg,
+        message: msg.msg,
         passphrase_protection: msg.passphrase,
         pin_protection: msg.pin,
         button_protection: msg.button,

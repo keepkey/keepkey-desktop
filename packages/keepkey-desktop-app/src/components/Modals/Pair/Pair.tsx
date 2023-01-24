@@ -36,7 +36,7 @@ export const PairModal = ({
 }) => {
   const [error] = useState<string | null>(null)
   const [loading] = useState(false)
-  const [isFound, setIsFound] = useState(false)
+  const [isFound, setIsFound] = useState(true)
   const [makeDefault, setMakeDefault] = useState(false)
   const { pair } = useModal()
   const { close, isOpen } = pair
@@ -60,7 +60,7 @@ export const PairModal = ({
           //send to device
         } else {
           //show Warning
-          setIsFound(false)
+          // setIsFound(false)
         }
       } catch (e) {
         console.error(e)
@@ -129,7 +129,12 @@ export const PairModal = ({
                     pl='2'
                   />
                   {isFound ? (
-                    <div>
+                    <Box
+                      display='flex'
+                      flexDirection='row'
+                      justifyContent='center'
+                      alignItems='center'
+                    >
                       <Image
                         src={
                           input?.type === 'native'
@@ -137,14 +142,16 @@ export const PairModal = ({
                             : input?.data?.params[0]?.peerMeta?.icons[0]
                         }
                         borderRadius='full'
-                        height='10'
-                        width='10'
+                        height='60'
+                        width='60'
                       />
-                    </div>
+                    </Box>
                   ) : (
                     <div>
                       <WarningTwoIcon boxSize={12} color='yellow.500' />
-                      <h4>This Dapp is not recognized, use at your own risk!</h4>
+                      <h4>
+                        <Text translation={'modals.pair.notFound'} />
+                      </h4>
                     </div>
                   )}
 
@@ -170,22 +177,10 @@ export const PairModal = ({
               <Checkbox onChange={e => setMakeDefault(e.target.checked)}>
                 <Text translation={'modals.pair.cta.makeDefault'} />
               </Checkbox>
-              <Button
-                width='full'
-                size='lg'
-                colorScheme='blue'
-                onClick={HandleSubmit}
-                disabled={loading}
-              >
+              <Button colorScheme='blue' onClick={HandleSubmit} disabled={loading}>
                 <Text translation={'modals.pair.cta.pair'} />
               </Button>
-              <Button
-                width='full'
-                size='lg'
-                colorScheme='red'
-                onClick={HandleReject}
-                disabled={loading}
-              >
+              <Button colorScheme='red' onClick={HandleReject} disabled={loading}>
                 <Text translation={'modals.pair.cta.reject'} />
               </Button>
             </Stack>

@@ -478,7 +478,8 @@
       "generateOtp": "Generate OTP",
       "deleteAcc": "Delete Account",
       "addAcc": "Add account",
-      "refresh": "Refresh accounts"
+      "refresh": "Refresh accounts",
+      "wipeData": "Wipe Data"
     },
     "modal": {
       "header": "Add account",
@@ -607,7 +608,7 @@
       "dappsText2": "KeepKey makes it easy to interact with decentralized applications. You can use our in-app browser to easily access these dApps and use our wallet-connect integration. Our in-app browser leverages the power of communities to curate the best and most reputable dApps for you.",
       "dappsText3": "Join the ShapeShift community and use your FOX tokens to vote for the best DApps in the Pioneer DApp. Unlock exclusive benefits and rewards by being the first to track and develop dApps and assets!",
       "restoreTitle": "What is a Mnemonic?",
-      "restoreText1": "BIP39 is an implementation design that standardizes how wallets handle mnemonic phrases and seed phrases, which allow for account recovery in case you lose your device.",
+      "restoreText1": "BIP39 is an implementation that standardizes how wallets handle mnemonic phrases and seed phrases, which allow for account recovery in case you lose your device.",
       "restoreText2": "A BIP39 recovery phrase is universal, meaning it can be imported into any wallet in the cryptocurrency ecosystem.",
       "restoreText3": "Never share your recovery phrase with anyone. If you lose your recovery phrase, you will lose access to your funds.",
       "pinTitle": "What is a Pin Cipher?",
@@ -1011,6 +1012,7 @@
     },
     "pair": {
       "header": "Wallet Connect",
+      "notFound": "This Dapp is not recognized, use at your own risk!",
       "native": {
         "header": "App pairing request",
         "body": "%{serviceName} wants to pair with your KeepKey"
@@ -1354,7 +1356,7 @@
     },
     "downloadCSV": "Download CSV",
     "csv": {
-      "fileName": "ShapeShift Transactions History",
+      "fileName": "KeepKey Transactions History",
       "txid": "TX ID",
       "type": "TX type",
       "timestamp": "Timestamp",

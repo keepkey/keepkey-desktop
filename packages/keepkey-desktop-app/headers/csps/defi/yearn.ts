@@ -21,6 +21,8 @@ export const csp: Csp = {
     'https://meta.yearn.network/vaults/1/all',
     // @yfi/sdk@1.0.12: https://github.com/yearn/yearn-sdk/blob/0a85ae7be734ba594b8b7e4a290e631610a3b399/src/services/assets.ts#L13
     'https://api.github.com/repos/yearn/yearn-assets/',
+    // @yfi/sdk@1.0.12: https://github.com/yearn/yearn-sdk/blob/0a85ae7be734ba594b8b7e4a290e631610a3b399/src/services/vision.ts#L32
+    'https://d28fcsszptni1s.cloudfront.net/v1/chains/',
   ],
   'img-src': [
     'https://rawcdn.githack.com/yearn/yearn-assets/',

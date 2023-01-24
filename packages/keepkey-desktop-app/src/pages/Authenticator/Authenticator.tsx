@@ -99,12 +99,12 @@ export const Authenticator = () => {
       const msg = `\x18removeAccount:${acc.domain}:${acc.account}`
       console.log('removeAccount msg: ', msg)
 
-      await wallet.ping({ msg }).catch(console.error)
       toast({
         status: 'info',
-        title: 'Account deleted',
-        description: `Account ${acc.domain}:${acc.account} deleted`,
+        title: 'Confirm on KeepKey',
+        description: `Please confirm deleting account on your KeepKey`,
       })
+      await wallet.ping({ msg }).catch(console.error)
       setTimeout(fetchAccs, 2000)
     },
     [wallet, toast, fetchAccs, supportsFeature],
@@ -121,19 +121,39 @@ export const Authenticator = () => {
       )}:${timeRemain}`
       console.log('generateOtp msg: ', msg)
 
-      await wallet
+      const finished = wallet
         .ping({
           msg,
         })
         .catch(console.error)
+
       toast({
         status: 'info',
         title: 'OTP generated',
         description: `Please check the OTP on your keepkey`,
       })
+
+      await finished
     },
     [wallet, toast, supportsFeature],
   )
+
+  const wipeData = useCallback(async () => {
+    if (!wallet || !supportsFeature) return
+
+    assume<KeepKeyHDWallet>(wallet)
+
+    const msg = `\x19wipeAuthdata:`
+    console.log('removeAccount msg: ', msg)
+
+    await wallet.ping({ msg }).catch(console.error)
+    toast({
+      status: 'info',
+      title: 'Data wiped',
+      description: `Authenticator data wiped`,
+    })
+    setTimeout(fetchAccs, 2000)
+  }, [wallet, toast, fetchAccs, supportsFeature])
 
   return (
     <Main
@@ -166,7 +186,10 @@ export const Authenticator = () => {
                 <Text translation={'authenticator.header'} />
               </Heading>
               <Flex w='full' flexDirection='row-reverse' gap={4}>
-                <Button size='sm' colorScheme='blue' disabled={loading} onClick={() => fetchAccs()}>
+                <Button size='sm' colorScheme='blue' disabled={loading} onClick={wipeData}>
+                  <Text translation={'authenticator.cta.wipeData'} />
+                </Button>
+                <Button size='sm' colorScheme='blue' disabled={loading} onClick={fetchAccs}>
                   <Text translation={'authenticator.cta.refresh'} />
                 </Button>
                 <Button
@@ -205,9 +228,9 @@ export const Authenticator = () => {
                       accounts.map(acc => (
                         <Tr>
                           <Td>
-                            <Code>
-                              {acc.domain}:{acc.account}
-                            </Code>
+                            <Code>{`${acc.domain.trim() ? `${acc.domain}:` : ''}${
+                              acc.account
+                            }`}</Code>
                           </Td>
                           <Td>
                             <Button
