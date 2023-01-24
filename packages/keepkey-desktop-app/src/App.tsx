@@ -70,8 +70,14 @@ export const App = () => {
       }
       if (connected) {
         const defaultDapp = localStorage.getItem('@app/defaultDapp')
-        if (!defaultDapp) return
-        openDapp(defaultDapp)
+        if (!defaultDapp || defaultDapp === '') return
+        try {
+          const app = JSON.parse(defaultDapp)
+          if (!app.url) return
+          openDapp(app.url)
+        } catch (error) {
+          return
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

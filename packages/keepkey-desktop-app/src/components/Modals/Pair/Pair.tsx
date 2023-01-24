@@ -75,7 +75,7 @@ export const PairModal = ({
 
   const HandleSubmit = async () => {
     if (makeDefault && input?.type === 'native' && input?.data.url)
-      localStorage.setItem('@app/defaultDapp', input?.data.url)
+      localStorage.setItem('@app/defaultDapp', JSON.stringify(input?.data))
     console.log('Approving!')
     deferred?.resolve(true)
     close()
