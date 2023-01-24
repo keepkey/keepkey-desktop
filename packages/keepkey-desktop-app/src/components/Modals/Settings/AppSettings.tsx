@@ -1,6 +1,5 @@
-import { Divider, HStack, Link, Stack } from '@chakra-ui/layout'
-import { Avatar, Button, Icon, IconButton, Switch } from '@chakra-ui/react'
-import { RawText } from 'components/Text'
+import { Divider, HStack, Stack } from '@chakra-ui/layout'
+import { Avatar, Button, Icon, Switch } from '@chakra-ui/react'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { ipcListeners } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
