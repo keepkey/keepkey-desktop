@@ -1,7 +1,9 @@
-import { Box, Button, Center, Image, ModalBody, Stack } from '@chakra-ui/react'
-import cipher from 'assets/cipher.png'
-import pin from 'assets/KKpin.png'
-import { Text } from 'components/Text'
+import { Box, Button, Center, Flex, ModalBody, Stack, VStack } from '@chakra-ui/react'
+import { locales } from 'assets/translations/constants'
+import { RawText } from 'components/Text'
+import { useCallback } from 'react'
+import { preferences } from 'state/slices/preferencesSlice/preferencesSlice'
+import { useAppDispatch } from 'state/store'
 
 export const Step0 = ({
   doNextStep,
@@ -10,31 +12,33 @@ export const Step0 = ({
   doNextStep: () => any
   doPreviousStep: () => any
 }) => {
-  return (
-    <ModalBody p='20px'>
-      <Text p='20px' fontWeight='bold' size='xl' translation='modals.onboarding.pinTitle' />
-      <Box
-        p='1rem'
-        border='1px'
-        borderColor='gray.300'
-        display='flex'
-        justifyContent='space-between'
-      >
-        <Image src={cipher} style={{ width: '40%', height: '60%' }} />
-        <Box>
-          <p>
-            <Text p='20px' fontSize='2rem' translation='modals.onboarding.pinText1' />
-            <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.pinText2' />
-          </p>
-        </Box>
-        <Box>
-          <div>
-            <Image src={pin} />
-          </div>
-        </Box>
-      </Box>
+  const dispatch = useAppDispatch()
 
-      <Center>
+  const onLanguageSelect = useCallback(
+    (locale: any) => {
+      dispatch(preferences.actions.setSelectedLocale({ locale }))
+      window.localStorage.setItem('languageSelected', 'true')
+      doNextStep()
+    },
+    [dispatch, doNextStep],
+  )
+  return (
+    <ModalBody alignItems='center' justifyContent='center' textAlign='center'>
+      <Flex alignItems='center' justifyContent='center' flexDir='column'>
+        <Box boxSize='md'>
+          {locales.map((locale: any) => (
+            <Button
+              width='full'
+              justifyContent='center'
+              pl={12}
+              key={locale.key}
+              variant='ghost'
+              onClick={() => onLanguageSelect(locale.key)}
+            >
+              <RawText>{locale.label}</RawText>
+            </Button>
+          ))}
+        </Box>
         <Stack>
           <Button m='10px' p='10px' colorScheme='green' onClick={doPreviousStep}>
             Previous
@@ -43,7 +47,7 @@ export const Step0 = ({
             Next
           </Button>
         </Stack>
-      </Center>
+      </Flex>
     </ModalBody>
   )
 }

@@ -1,9 +1,8 @@
 import { Box, Button, Center, Image, ModalBody, Stack } from '@chakra-ui/react'
-import cipher from 'assets/cipher.png'
-import pin from 'assets/KKpin.png'
+import dapps from 'assets/dapps-banner.png'
 import { Text } from 'components/Text'
 
-export const Step2 = ({
+export const Step4 = ({
   doNextStep,
   doPreviousStep,
 }: {
@@ -12,7 +11,7 @@ export const Step2 = ({
 }) => {
   return (
     <ModalBody p='20px'>
-      <Text p='20px' fontWeight='bold' size='xl' translation='modals.onboarding.pinTitle' />
+      <Text p='20px' fontWeight='bold' size='xl' translation='modals.onboarding.dappsTitle' />
       <Box
         p='1rem'
         border='1px'
@@ -20,17 +19,11 @@ export const Step2 = ({
         display='flex'
         justifyContent='space-between'
       >
-        <Image src={cipher} style={{ width: '40%', height: '60%' }} />
+        <Image src={dapps} style={{ width: '60%', height: '1200%' }} />
         <Box>
-          <p>
-            <Text p='20px' fontSize='2rem' translation='modals.onboarding.pinText1' />
-            <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.pinText2' />
-          </p>
-        </Box>
-        <Box>
-          <div>
-            <Image src={pin} />
-          </div>
+          <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.dappsText1' />
+          <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.dappsText2' />
+          <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.dappsText3' />
         </Box>
       </Box>
 
