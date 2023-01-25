@@ -16,7 +16,7 @@ import type { Settings } from '../../../../../keepkey-desktop/src/helpers/types'
 import { SettingsListItem } from './SettingsListItem'
 
 export const AppSettings: FC = () => {
-  const { settings } = useModal()
+  const { settings, onboardingSteps } = useModal()
   const [appSettings, setAppSettings] = useState<Settings>({
     shouldAutoLaunch: true,
     shouldAutoStartBridge: true,
@@ -61,7 +61,7 @@ export const AppSettings: FC = () => {
 
   useEffect(() => {
     ;(async () => {
-      if (settings.isOpen) {
+      if (settings.isOpen || onboardingSteps.isOpen) {
         setAppSettings(await ipcListeners.appSettings())
       }
     })().catch(e => console.error(e))
@@ -69,7 +69,7 @@ export const AppSettings: FC = () => {
     if (!rawapp || rawapp === '') return
     const app = JSON.parse(rawapp)
     setDefaultDapp(app)
-  }, [settings.isOpen])
+  }, [settings.isOpen, onboardingSteps.isOpen])
 
   return (
     <Stack width='full' p={0}>

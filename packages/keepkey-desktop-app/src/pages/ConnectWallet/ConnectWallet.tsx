@@ -21,7 +21,7 @@ export const ConnectWallet = () => {
   const translate = useTranslate()
   const query = useQuery<{ returnUrl: string }>()
 
-  const { onboardingSteps, languages, keepKeyWipe } = useModal()
+  const { onboardingSteps, keepKeyWipe } = useModal()
 
   const debugDevice = async function () {
     await ipcListeners.appRestart()
@@ -48,17 +48,7 @@ export const ConnectWallet = () => {
   }, [history, hasWallet, query, state, dispatch])
 
   useEffect(() => {
-    if (
-      window.localStorage.getItem('onboarded') !== 'true' &&
-      window.localStorage.getItem('languageSelected') === 'true'
-    )
-      onboardingSteps.open({})
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    const languageSelected = window.localStorage.getItem('languageSelected')
-    if (languageSelected !== 'true') languages.open({})
+    if (window.localStorage.getItem('onboarded') !== 'true') onboardingSteps.open({})
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
