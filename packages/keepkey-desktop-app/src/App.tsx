@@ -112,8 +112,7 @@ export const App = () => {
       return onboardingSteps.close()
     if (!connected) onboardingSteps.open({})
     else {
-      if (!state.wallet) onboardingSteps.open({})
-      else checkWalletLockedAndOpen()
+      checkWalletLockedAndOpen()
     }
   }, [onboardingSteps, state.wallet, connected, checkWalletLockedAndOpen, listenersRegistered])
 
