@@ -38,15 +38,7 @@ export const App = () => {
   const { updateFeatures } = useKeepKey()
   const history = useHistory()
 
-  const {
-    pair,
-    sign,
-    hardwareError,
-    updateKeepKey,
-    requestBootloaderMode,
-    loading,
-    onboardingSteps,
-  } = useModal()
+  const { pair, sign, hardwareError, updateKeepKey, requestBootloaderMode, loading } = useModal()
 
   const openKeepKeyUpdater = (data: KKStateData) => {
     setIsUpdatingKeepkey(true)
@@ -69,7 +61,6 @@ export const App = () => {
   }
 
   const [connected, setConnected] = useState(false)
-  const [listenersRegistered, setListenersRegistered] = useState(false)
 
   // open hardwareError modal on app start unless already connected
   useEffect(() => {
@@ -102,19 +93,6 @@ export const App = () => {
       })
     }
   }, [hardwareError, connected, setConnected, setIsUpdatingKeepkey])
-
-  const checkWalletLockedAndOpen = useCallback(async () => {
-    if (state.wallet && !(await state.wallet.isLocked())) onboardingSteps.open({})
-  }, [onboardingSteps, state.wallet])
-
-  useEffect(() => {
-    if (!listenersRegistered || window.localStorage.getItem('onboarded') === 'true')
-      return onboardingSteps.close()
-    if (!connected) onboardingSteps.open({})
-    else {
-      checkWalletLockedAndOpen()
-    }
-  }, [onboardingSteps, state.wallet, connected, checkWalletLockedAndOpen, listenersRegistered])
 
   useEffect(() => {
     // This is necessary so when it re-opens the tcp connection everything is good
@@ -330,7 +308,6 @@ export const App = () => {
     const { port1, port2 } = new MessageChannel()
     Comlink.expose(rendererIpc, port1)
     window.postMessage({ type: '@app/register-render-listeners', payload: port2 }, '*', [port2])
-    setListenersRegistered(true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
