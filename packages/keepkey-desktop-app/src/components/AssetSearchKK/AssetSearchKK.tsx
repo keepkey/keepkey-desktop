@@ -35,11 +35,11 @@ export const mergeKKAssets = (webAssets: any, kkAssets: any) => {
 }
 
 export const AssetSearchKK = ({ onClick, filterBy }: AssetSearchProps) => {
-  const webAssets = useSelector(selectAssetsByMarketCap)
+  // const webAssets = useSelector(selectAssetsByMarketCap)
   const { getKeepkeyAssets } = useKeepKey()
-  const kkAssets = getKeepkeyAssets()
+  const assets = getKeepkeyAssets()
 
-  const assets = useMemo(() => mergeKKAssets(webAssets, kkAssets), [webAssets, kkAssets])
+  // const assets = useMemo(() => mergeKKAssets(webAssets, kkAssets), [webAssets, kkAssets])
 
   const currentAssets = useMemo(() => (filterBy ? filterBy(assets) : assets), [assets, filterBy])
   const [filteredAssets, setFilteredAssets] = useState<Asset[]>([])

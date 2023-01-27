@@ -26,7 +26,7 @@ export const AutoCompleteSearch = ({ filterBy }: AssetSearchProps) => {
   const { getKeepkeyAssets } = useKeepKey()
   const kkAssets = getKeepkeyAssets()
 
-  const assets = useMemo(() => mergeKKAssets(webAssets, kkAssets), [webAssets, kkAssets])
+  const assets = useMemo(() => mergeKKAssets([], kkAssets), [[], kkAssets])
 
   const currentAssets = useMemo(() => (filterBy ? filterBy(assets) : assets), [assets, filterBy])
   const [filteredAssets, setFilteredAssets] = useState<Asset[]>([])
