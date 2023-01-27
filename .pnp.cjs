@@ -26118,7 +26118,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["rimraf", "npm:3.0.2"],\
             ["scrypt-js", "npm:3.0.1"],\
             ["semver", "npm:7.3.8"],\
-            ["simple-git", "npm:3.15.0"],\
+            ["simple-git", "npm:3.16.0"],\
             ["simplex-noise", "npm:3.0.1"],\
             ["source-map-support", "npm:0.5.21"],\
             ["ssri", "npm:8.0.1"],\
@@ -34010,10 +34010,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["simple-git", [\
-        ["npm:3.15.0", {\
-          "packageLocation": "./.yarn/cache/simple-git-npm-3.15.0-f597788f2a-4733d1b769.zip/node_modules/simple-git/",\
+        ["npm:3.16.0", {\
+          "packageLocation": "./.yarn/cache/simple-git-npm-3.16.0-e71c1c74db-fd28eb43be.zip/node_modules/simple-git/",\
           "packageDependencies": [\
-            ["simple-git", "npm:3.15.0"],\
+            ["simple-git", "npm:3.16.0"],\
             ["@kwsites/file-exists", "npm:1.1.1"],\
             ["@kwsites/promise-deferred", "npm:1.1.1"],\
             ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"]\
