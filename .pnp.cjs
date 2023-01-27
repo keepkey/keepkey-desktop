@@ -9065,25 +9065,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["@kwsites/file-exists", [\
-        ["npm:1.1.1", {\
-          "packageLocation": "./.yarn/cache/@kwsites-file-exists-npm-1.1.1-8dde907e27-4ff945de72.zip/node_modules/@kwsites/file-exists/",\
-          "packageDependencies": [\
-            ["@kwsites/file-exists", "npm:1.1.1"],\
-            ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@kwsites/promise-deferred", [\
-        ["npm:1.1.1", {\
-          "packageLocation": "./.yarn/cache/@kwsites-promise-deferred-npm-1.1.1-82db04bcea-07455477a0.zip/node_modules/@kwsites/promise-deferred/",\
-          "packageDependencies": [\
-            ["@kwsites/promise-deferred", "npm:1.1.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["@malept/cross-spawn-promise", [\
         ["npm:1.1.1", {\
           "packageLocation": "./.yarn/cache/@malept-cross-spawn-promise-npm-1.1.1-f60cae05fd-1aa468f9ff.zip/node_modules/@malept/cross-spawn-promise/",\
@@ -25689,7 +25670,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["rimraf", "npm:3.0.2"],\
             ["scrypt-js", "npm:3.0.1"],\
             ["semver", "npm:7.3.8"],\
-            ["simple-git", "npm:3.15.0"],\
             ["simplex-noise", "npm:3.0.1"],\
             ["source-map-support", "npm:0.5.21"],\
             ["ssri", "npm:8.0.1"],\
@@ -33365,18 +33345,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["decompress-response", "npm:6.0.0"],\
             ["once", "npm:1.4.0"],\
             ["simple-concat", "npm:1.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["simple-git", [\
-        ["npm:3.15.0", {\
-          "packageLocation": "./.yarn/cache/simple-git-npm-3.15.0-f597788f2a-4733d1b769.zip/node_modules/simple-git/",\
-          "packageDependencies": [\
-            ["simple-git", "npm:3.15.0"],\
-            ["@kwsites/file-exists", "npm:1.1.1"],\
-            ["@kwsites/promise-deferred", "npm:1.1.1"],\
-            ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"]\
           ],\
           "linkType": "HARD"\
         }]\
