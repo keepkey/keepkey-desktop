@@ -1,0 +1,38 @@
+diff --git a/dist/market-service-manager.js b/dist/market-service-manager.js
+index 7627756ee59700fdc612ed386ddfcef0d155a255..43a5fcd2452a951ceb2b2f4bd6c758960d167a0b 100644
+--- a/dist/market-service-manager.js
++++ b/dist/market-service-manager.js
+@@ -1,32 +1,16 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.MarketServiceManager = void 0;
+-const providers_1 = require("@ethersproject/providers");
+-const sdk_1 = require("@yfi/sdk");
+ const coincap_1 = require("./coincap/coincap");
+ const coingecko_1 = require("./coingecko/coingecko");
+-const foxy_1 = require("./foxy/foxy");
+-const osmosis_1 = require("./osmosis/osmosis");
+-const yearn_tokens_1 = require("./yearn/yearn-tokens");
+-const yearn_vaults_1 = require("./yearn/yearn-vaults");
+ class MarketServiceManager {
+     constructor(args) {
+-        const { coinGeckoAPIKey = '', providerUrls, yearnChainReference } = args;
+-        const { jsonRpcProviderUrl } = providerUrls;
+-        // TODO(0xdef1cafe): after chain agnosticism, we need to dependency inject a chainReference here
+-        // YearnVaultMarketCapService deps
+-        const network = yearnChainReference !== null && yearnChainReference !== void 0 ? yearnChainReference : 1; // 1 for mainnet
+-        const provider = new providers_1.JsonRpcProvider(jsonRpcProviderUrl);
+-        const yearnSdk = new sdk_1.Yearn(network, { provider });
++        const { coinGeckoAPIKey = '' } = args;
+         this.marketProviders = [
+             // Order of this MarketProviders array constitutes the order of providers we will be checking first.
+             // More reliable providers should be listed first.
+             new coingecko_1.CoinGeckoMarketService({ coinGeckoAPIKey }),
+             new coincap_1.CoinCapMarketService(),
+-            new yearn_vaults_1.YearnVaultMarketCapService({ yearnSdk }),
+-            new yearn_tokens_1.YearnTokenMarketCapService({ yearnSdk }),
+-            new osmosis_1.OsmosisMarketService(),
+-            new foxy_1.FoxyMarketService({ coinGeckoAPIKey, providerUrls }),
+         ];
+     }
+     async findAll(args) {
