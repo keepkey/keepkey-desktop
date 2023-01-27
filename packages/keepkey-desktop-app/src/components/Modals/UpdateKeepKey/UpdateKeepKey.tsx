@@ -1,7 +1,6 @@
-import { Modal, ModalCloseButton, ModalContent, ModalOverlay } from '@chakra-ui/react'
+import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/react'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import { useModal } from 'hooks/useModal/useModal'
-import { useWallet } from 'hooks/useWallet/useWallet'
 import { useEffect } from 'react'
 
 import type { KKStateData } from '../../../../../keepkey-desktop/src/helpers/kk-state-controller/types'
@@ -12,11 +11,10 @@ import { UpdateFirmware } from './UpdateFirmware/UpdateFirmware'
 
 export const UpdateKeepKey = (params: Record<string, never> | KKStateData) => {
   const { updateKeepKey } = useModal()
-  const { close, isOpen } = updateKeepKey
+  const { isOpen } = updateKeepKey
   const { setStep, activeStep } = useSteps({
     initialStep: 0,
   })
-  const { disconnect } = useWallet()
 
   useEffect(() => {
     const state = params.state

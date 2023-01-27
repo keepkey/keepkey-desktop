@@ -12,16 +12,15 @@ const moduleLogger = logger.child({ namespace: ['KeepKeyRecoverySentenceInvalid'
 export const KeepKeyRecoverySentenceInvalid = () => {
   const [loading, setLoading] = useState(false)
   const {
-    state: { wallet },
+    state: { recoveryOptions },
   } = useWallet()
   const recoverKeepKey = useKeepKeyRecover()
 
   const handleRetryClick = async () => {
-    const label = await wallet?.getLabel()
     setLoading(true)
     // Due to security/firmware limitations, we are not able to pass in the previously collected PIN,
     // we are forced to start the whole recover process again.
-    await recoverKeepKey(label).catch(e => {
+    await recoverKeepKey(recoveryOptions!).catch(e => {
       moduleLogger.error(e, 'Recover Failed!')
     })
   }
@@ -34,7 +33,12 @@ export const KeepKeyRecoverySentenceInvalid = () => {
       <ModalBody textAlign='center'>
         <WarningTwoIcon color='yellow.500' boxSize={20} mb={6} />
         <Text color='gray.500' translation={'modals.keepKey.recoveryInvalid.body'} mb={4} />
-        <Button width='full' colorScheme='blue' disabled={loading} onClick={handleRetryClick}>
+        <Button
+          width='full'
+          colorScheme='blue'
+          disabled={loading || !recoveryOptions}
+          onClick={handleRetryClick}
+        >
           <Text translation={'modals.keepKey.recoveryInvalid.button'} />
         </Button>
       </ModalBody>

@@ -57,6 +57,7 @@ export const ChainMenu = (props: ChainMenuProps) => {
 
   const handleChainClick = async (chainId: ChainId) => {
     try {
+      // @ts-expect-error
       await (state.wallet as ETHWallet).ethSwitchChain?.(Number(chainId))
       setEthNetwork(chainId)
     } catch (e) {

@@ -1,13 +1,10 @@
 import type { AssetId } from '@keepkey/caip'
 import { CHAIN_NAMESPACE, fromChainId } from '@keepkey/caip'
-import type { RebaseHistory } from '@keepkey/investor-foxy'
 import type { HistoryData } from '@keepkey/types'
 import { HistoryTimeframe } from '@keepkey/types'
 import { TransferType, TxStatus } from '@keepkey/unchained-client'
 import type { BigNumber } from 'bignumber.js'
-import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
 import dayjs from 'dayjs'
-import { foxEthLpAssetId } from 'features/defi/providers/fox-eth-lp/constants'
 import { useFetchPriceHistories } from 'hooks/useFetchPriceHistories/useFetchPriceHistories'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
@@ -35,12 +32,10 @@ import {
   selectAssets,
   selectBalanceChartCryptoBalancesByAccountIdAboveThreshold,
   selectCryptoPriceHistoryTimeframe,
-  selectFeatureFlags,
   selectFiatPriceHistoriesLoadingByTimeframe,
   selectFiatPriceHistoryTimeframe,
   selectPortfolioAssets,
   selectPriceHistoriesLoadingByAssetTimeframe,
-  selectRebasesByFilter,
   selectTxHistoryStatus,
   selectTxsByFilter,
 } from 'state/slices/selectors'
@@ -66,7 +61,6 @@ export type Bucket = {
   end: dayjs.Dayjs
   balance: BucketBalance
   txs: Tx[]
-  rebases: RebaseHistory[]
 }
 
 type BucketMeta = {
@@ -118,12 +112,11 @@ export const makeBuckets: MakeBuckets = args => {
       const end = now.subtract(idx * duration, unit)
       const start = end.subtract(duration, unit).add(1, 'second')
       const txs: Tx[] = []
-      const rebases: RebaseHistory[] = []
       const balance = {
         crypto: assetBalances,
         fiat: zeroAssetBalances,
       }
-      const bucket = { start, end, txs, rebases, balance }
+      const bucket = { start, end, txs, balance }
       acc.push(bucket)
       return acc
     }
@@ -135,20 +128,13 @@ export const makeBuckets: MakeBuckets = args => {
   return { buckets, meta }
 }
 
-export const bucketEvents = (
-  txs: Tx[],
-  rebases: RebaseHistory[],
-  bucketsAndMeta: MakeBucketsReturn,
-): Bucket[] => {
+export const bucketEvents = (txs: Tx[], bucketsAndMeta: MakeBucketsReturn): Bucket[] => {
   const { buckets, meta } = bucketsAndMeta
   const start = head(buckets)!.start
   const end = last(buckets)!.end
 
-  // both txs and rebase events have the same blockTime property which is all we need
-  const txAndRebaseEvents = [...txs, ...rebases]
-
   // events are potentially a lot longer than buckets, iterate the long list once
-  return txAndRebaseEvents.reduce((acc, event) => {
+  return txs.reduce((acc, event) => {
     const eventDayJs = dayjs(event.blockTime * 1000) // unchained uses seconds
     const eventOutsideDomain = eventDayJs.isBefore(start) || eventDayJs.isAfter(end)
     if (eventOutsideDomain) return acc
@@ -162,9 +148,7 @@ export const bucketEvents = (
       return acc
     }
 
-    const isTx = (event: Tx | RebaseHistory): event is Tx => !!(event as Tx)?.txid
-    // add to the correct bucket
-    isTx(event) ? acc[bucketIndex].txs.push(event) : acc[bucketIndex].rebases.push(event)
+    acc[bucketIndex].txs.push(event)
 
     return acc
   }, buckets)
@@ -227,7 +211,7 @@ export const calculateBucketPrices: CalculateBucketPrices = args => {
   // we iterate from latest to oldest
   for (let i = buckets.length - 1; i >= 0; i--) {
     const bucket = buckets[i]
-    const { rebases, txs } = bucket
+    const { txs } = bucket
 
     // copy the balance back from the most recent bucket
     const currentBalance = buckets[i + 1]?.balance ?? startingBucket.balance
@@ -272,14 +256,6 @@ export const calculateBucketPrices: CalculateBucketPrices = args => {
           }
         }
       })
-    })
-
-    rebases.forEach(rebase => {
-      const { assetId, balanceDiff } = rebase
-      if (!assetIds.includes(assetId)) return
-      // UP ONLY - rebase events can only go up, we don't have to consider the case adjusting balances down
-      // we're going backwards, so a rebase means we had less before
-      bucket.balance.crypto[assetId] = bnOrZero(bucket.balance.crypto[assetId]).minus(balanceDiff)
     })
 
     bucket.balance.fiat = fiatBalanceAtBucket({
@@ -381,17 +357,11 @@ export const useBalanceChartData: UseBalanceChartData = args => {
   const {
     state: { walletInfo },
   } = useWallet()
-  const { lpTokenPrice, foxFarmingTotalBalanceInBaseUnit } = useFoxEth()
-  const featureFlags = useAppSelector(selectFeatureFlags)
 
   const txFilter = useMemo(() => ({ assetIds, accountIds }), [assetIds, accountIds])
 
   const txs = useAppSelector(state => selectTxsByFilter(state, txFilter))
   const txHistoryStatus = useSelector(selectTxHistoryStatus)
-
-  // rebasing token balances can be adjusted by rebase events rather than txs
-  // and we need to account for this in charts
-  const rebases = useAppSelector(state => selectRebasesByFilter(state, txFilter))
 
   // kick off requests for all the price histories we need
   useFetchPriceHistories({ assetIds, timeframe })
@@ -432,32 +402,17 @@ export const useBalanceChartData: UseBalanceChartData = args => {
     // create empty buckets based on the assets, current balances, and timeframe
     const emptyBuckets = makeBuckets({
       assetIds,
-      // TODO: this should be removed when defi opportunity abstractions were completed.
-      // fox farming balances are not in the Portfolio by default
-      // this hack will add the fox farming balances to the LP token balance
-      balances: {
-        ...balances,
-        [foxEthLpAssetId]: featureFlags.FoxFarming
-          ? bnOrZero(balances[foxEthLpAssetId])
-              .plus(bnOrZero(foxFarmingTotalBalanceInBaseUnit))
-              .toString()
-          : '0',
-      },
+      balances,
       timeframe,
     })
     // put each tx into a bucket for the chart
-    const buckets = bucketEvents(txs, rebases, emptyBuckets)
+    const buckets = bucketEvents(txs, emptyBuckets)
 
     // iterate each bucket, updating crypto balances and fiat prices per bucket
     const calculatedBuckets = calculateBucketPrices({
       assetIds,
       buckets,
-      cryptoPriceHistoryData: {
-        ...cryptoPriceHistoryData,
-        // TODO: this should be removed when defi opportunity abstractions were completed.
-        // this is an ugly hack to overcome missing lp token price for charts
-        [foxEthLpAssetId]: [{ price: bnOrZero(lpTokenPrice).toNumber(), date: 0 }],
-      },
+      cryptoPriceHistoryData,
       fiatPriceHistoryData,
       portfolioAssets,
     })
@@ -482,11 +437,7 @@ export const useBalanceChartData: UseBalanceChartData = args => {
     setBalanceChartData,
     portfolioAssets,
     walletInfo?.deviceId,
-    rebases,
     txHistoryStatus,
-    lpTokenPrice,
-    foxFarmingTotalBalanceInBaseUnit,
-    featureFlags.FoxFarming,
   ])
 
   return { balanceChartData, balanceChartDataLoading }

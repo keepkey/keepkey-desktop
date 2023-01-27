@@ -2,8 +2,6 @@
 import type { LoggerFunction, LoggerOptions } from '@keepkey/logger'
 import { Logger, LogLevel } from '@keepkey/logger'
 import { getConfig } from 'config'
-import { isMobile } from 'lib/globals'
-import * as util from 'util'
 
 type LogStyle = {
   title: string
@@ -59,24 +57,6 @@ const browserLoggerFn: LoggerFunction = (level, data) => {
 }
 
 /**
- * For use in the mobile app where colorized logging isn't supported
- */
-const simpleLoggerFn: LoggerFunction = (level, data) => {
-  const consoleFn = level === LogLevel.TRACE ? LogLevel.DEBUG : level
-
-  const msg = data.error
-    ? `Error [Kind: ${data.error.kind}] ${data.error.message} `
-    : data._messages?.join(' ') || data.message
-
-  // eslint-disable-next-line no-console
-  console[consoleFn](
-    `${logStyles[level].icon} ${level}: [${data.namespace}] ${msg}\n`,
-    // In the webview, objects are rendered as "[object Object]" so we'll format it
-    util.inspect(data),
-  )
-}
-
-/**
  * Get the current log level configuration from local storage or from the environment
  *
  * We can't get the log level from the logger instance because it's stored in a private
@@ -96,7 +76,7 @@ export const getLogLevel = () => {
 export const createLogger = (opts?: LoggerOptions) => {
   const options = {
     name: 'App',
-    logFn: isMobile ? simpleLoggerFn : browserLoggerFn,
+    logFn: browserLoggerFn,
     level: getLogLevel(),
     ...opts,
   }

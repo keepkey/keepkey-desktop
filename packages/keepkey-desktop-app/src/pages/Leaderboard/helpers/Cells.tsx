@@ -16,7 +16,6 @@ type AssetCellProps = {
   subText?: string
   postFix?: string
   showTeaser?: boolean
-  opportunityName?: string
 }
 
 const buildRowTitle = (asset: Asset, postFix?: string, showAssetSymbol?: boolean): string => {

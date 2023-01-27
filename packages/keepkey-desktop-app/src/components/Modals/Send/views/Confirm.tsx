@@ -47,19 +47,10 @@ export const Confirm = () => {
   } = useFormContext<SendInput>()
   const history = useHistory()
   const translate = useTranslate()
-  const {
-    accountId,
-    address,
-    asset,
-    cryptoAmount,
-    cryptoSymbol,
-    feeType,
-    fiatAmount,
-    memo,
-    vanityAddress,
-  } = useWatch({
-    control,
-  }) as Partial<SendInput>
+  const { accountId, address, asset, cryptoAmount, cryptoSymbol, feeType, fiatAmount, memo } =
+    useWatch({
+      control,
+    }) as Partial<SendInput>
   const { fees } = useSendFees()
   const isMultiAccountsEnabled = useFeatureFlag('MultiAccounts')
 
@@ -132,7 +123,7 @@ export const Confirm = () => {
               <Text translation={'modals.send.confirm.sendTo'} />
             </Row.Label>
             <Row.Value>
-              {vanityAddress ? vanityAddress : <MiddleEllipsis value={address} />}
+              <MiddleEllipsis value={address} />
             </Row.Value>
           </Row>
           {showMemoRow && (

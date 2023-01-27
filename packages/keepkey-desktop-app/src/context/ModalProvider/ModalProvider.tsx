@@ -3,7 +3,6 @@ import { AddAuthenticatorAccountModal } from 'components/Modals/AddAuthenticator
 import { AssetSearchModal } from 'components/Modals/AssetSearch/AssetSearch'
 import { ChainSelectorModal } from 'components/Modals/ChainSelector/ChainSelector'
 import { DappClickModal } from 'components/Modals/DappClick/DappClick'
-import { FiatRampsModal } from 'components/Modals/FiatRamps/FiatRamps'
 import { KKVote } from 'components/Modals/kkVote/KKVote'
 import { LoadingModal } from 'components/Modals/Loading/Loading'
 import { Languages } from 'components/Modals/OnboardingSteps/Languages'
@@ -32,7 +31,6 @@ const MODALS = {
   sign: SignModal,
   pair: PairModal,
   hardwareError: HardwareErrorModal,
-  fiatRamps: FiatRampsModal,
   settings: SettingsModal,
   keepKeyWipe: WipeModal,
   addAccount: AddAccountModal,

@@ -32,7 +32,6 @@ export type SendInput<T extends ChainId = ChainId> = {
   [SendFormFields.Input]: string
   [SendFormFields.Memo]?: string
   [SendFormFields.SendMax]: boolean
-  [SendFormFields.VanityAddress]: string
 }
 
 type SendFormProps = {
@@ -52,7 +51,6 @@ export const Form: React.FC<SendFormProps> = ({ asset: initialAsset, accountId }
     defaultValues: {
       accountId,
       address: '',
-      vanityAddress: '',
       asset: initialAsset,
       feeType: FeeDataKey.Average,
       cryptoAmount: '',

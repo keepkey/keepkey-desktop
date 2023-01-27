@@ -1,7 +1,6 @@
 import type { AssetId, ChainNamespace, ChainReference } from '@keepkey/caip'
 import { toChainId } from '@keepkey/caip'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { getFoxPageRouteAssetId } from 'plugins/foxPage/utils/getFoxPageRouteAssetId'
 import { useEffect, useState } from 'react'
 import { matchPath, useLocation } from 'react-router'
 
@@ -51,10 +50,9 @@ export const useRouteAssetId = () => {
 
   useEffect(() => {
     const routeAssetId = getRouteAssetId(location.pathname)
-    const foxPageRouteAssetId = getFoxPageRouteAssetId(location.pathname)
 
-    if (routeAssetId || foxPageRouteAssetId) {
-      setAssetId(routeAssetId ?? foxPageRouteAssetId ?? '')
+    if (routeAssetId) {
+      setAssetId(routeAssetId ?? '')
     }
   }, [location.pathname])
 

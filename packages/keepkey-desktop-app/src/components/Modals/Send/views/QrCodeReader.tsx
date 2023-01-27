@@ -5,7 +5,6 @@ import type {
   QrDimensions,
 } from 'html5-qrcode/esm/core'
 import React, { useEffect, useState } from 'react'
-import { isMobile } from 'react-device-detect'
 
 import type { DOMExceptionCallback } from './QrCodeScanner'
 
@@ -50,7 +49,7 @@ export const QrCodeReader: React.FC<QrCodeReaderProps> = ({
       }
 
       await qrScanner.start(
-        isMobile ? { facingMode: 'environment' } : cameraId,
+        cameraId,
         {
           fps,
           qrbox,

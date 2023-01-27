@@ -1,4 +1,4 @@
-import { cosmosChainId, fromAccountId, osmosisChainId } from '@keepkey/caip'
+import { fromAccountId } from '@keepkey/caip'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
@@ -11,7 +11,6 @@ import {
   selectPortfolioLoadingStatus,
 } from 'state/slices/selectors'
 import { txHistory } from 'state/slices/txHistorySlice/txHistorySlice'
-import { validatorDataApi } from 'state/slices/validatorDataSlice/validatorDataSlice'
 import { useAppDispatch } from 'state/store'
 
 import { usePlugins } from '../PluginProvider/PluginProvider'
@@ -76,12 +75,7 @@ export const TransactionsProvider: React.FC<TransactionsProviderProps> = ({ chil
               { wallet, accountType, bip44Params },
               msg => {
                 const { getAccount } = portfolioApi.endpoints
-                const { getValidatorData } = validatorDataApi.endpoints
                 const { onMessage } = txHistory.actions
-
-                // refetch validator data on new txs in case TVL or APR has changed
-                if ([cosmosChainId, osmosisChainId].includes(msg.chainId))
-                  dispatch(getValidatorData.initiate({ accountSpecifier, chainId }))
 
                 const accountSpecifierMap: AccountSpecifierMap = { [msg.chainId]: account }
                 // refetch account on new tx

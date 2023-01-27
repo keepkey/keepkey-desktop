@@ -160,31 +160,6 @@ export const selectTxStatusById = createCachedSelector(
   (tx): Tx['status'] | undefined => tx?.status,
 )((_state: ReduxState, txId: TxId) => txId ?? 'undefined')
 
-const selectRebasesById = (state: ReduxState) => state.txHistory.rebases.byId
-export const selectRebasesByAssetId = (state: ReduxState) => state.txHistory.rebases.byAssetId
-export const selectRebaseIdsByAccountId = (state: ReduxState) => state.txHistory.rebases.byAccountId
-
-export const selectRebaseIdsByFilter = createDeepEqualOutputSelector(
-  selectRebasesByAssetId,
-  selectRebaseIdsByAccountId,
-  selectAssetIdsParamFromFilter,
-  selectAccountIdsParamFromFilter,
-  (rebasesByAssetId, rebaseIdsByAccountId, assetIds, accountIds) => {
-    // all rebase ids by accountId, may include dupes
-    const rebaseIds = assetIds.map(assetId => rebasesByAssetId[assetId] ?? []).flat()
-    // if we're not filtering on account, return deduped rebase ids for given assets
-    if (!accountIds.length) return Array.from(new Set([...rebaseIds]))
-    const accountRebaseIds = accountIds.map(accountId => rebaseIdsByAccountId[accountId]).flat()
-    return intersection(accountRebaseIds, rebaseIds)
-  },
-)
-
-export const selectRebasesByFilter = createSelector(
-  selectRebasesById,
-  selectRebaseIdsByFilter,
-  (rebasesById, rebaseIds) => rebaseIds.map(rebaseId => rebasesById[rebaseId]),
-)
-
 /**
  * to be able to add an account for a chain, we want to ensure there is some tx history
  * on the current highest accountNumber accountIds

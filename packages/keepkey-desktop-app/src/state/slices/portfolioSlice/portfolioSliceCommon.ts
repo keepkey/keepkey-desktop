@@ -1,9 +1,6 @@
 import type { Asset } from '@keepkey/asset-service'
 import type { AccountId, AssetId } from '@keepkey/caip'
-import type { cosmossdk } from '@keepkey/chain-adapters'
 import type { BIP44Params, UtxoAccountType } from '@keepkey/types'
-
-import type { PubKey } from '../validatorDataSlice/validatorDataSlice'
 
 /*
  * we can't retrieve an xpub from an address, but we can derive
@@ -24,23 +21,10 @@ import type { PubKey } from '../validatorDataSlice/validatorDataSlice'
 // const ethAccountSpecifier: string = eip155:1:0xdef1...cafe
 // const btcAccountSpecifier: string = 'bip122:000000000019d6689c085ae165831e93:xpub...'
 export type AccountSpecifier = string
-export type Staking = {
-  delegations: cosmossdk.Delegation[]
-  redelegations: cosmossdk.Redelegation[]
-  undelegations: cosmossdk.UndelegationEntry[]
-  rewards: cosmossdk.Reward[]
-}
-
-type StakingDataParsedByAccountSpecifier = Record<AccountSpecifier, Staking>
-export type StakingDataByValidatorId = Record<PubKey, StakingDataParsedByAccountSpecifier>
 
 export type PortfolioAccount = {
   /** The asset ids belonging to an account */
   assetIds: AssetId[]
-  /** The list of validators this account is delegated to */
-  validatorIds?: PubKey[]
-  /** The staking data for per validator, so we can do a join from validatorDataSlice */
-  stakingDataByValidatorId?: StakingDataByValidatorId
 }
 
 export type PortfolioAccounts = {

@@ -6,7 +6,6 @@ import {
 } from '@chakra-ui/react'
 import { AppProvider } from 'context/AppProvider/AppContext'
 import { BrowserRouterProvider } from 'context/BrowserRouterProvider/BrowserRouterProvider'
-import { FoxEthProvider } from 'context/FoxEthProvider/FoxEthProvider'
 import { I18nProvider } from 'context/I18nProvider/I18nProvider'
 import { ModalProvider } from 'context/ModalProvider/ModalProvider'
 import { PluginProvider } from 'context/PluginProvider/PluginProvider'
@@ -14,7 +13,6 @@ import { TransactionsProvider } from 'context/TransactionsProvider/TransactionsP
 import { WagmiProvider } from 'context/WagmiProvider/WagmiProvider'
 import { KeepKeyProvider } from 'context/WalletProvider/KeepKeyProvider'
 import { WalletProvider } from 'context/WalletProvider/WalletProvider'
-import { DefiManagerProvider } from 'features/defi/contexts/DefiManagerProvider/DefiManagerProvider'
 import { SplashScreen } from 'pages/SplashScreen/SplashScreen'
 import { ContractABIProvider } from 'plugins/walletConnectToDapps/ContractABIContext'
 import { WalletConnectBridgeProvider } from 'plugins/walletConnectToDapps/WalletConnectBridgeProvider'
@@ -52,11 +50,7 @@ export function AppProviders({ children }: ProvidersProps) {
                           <KeepKeyProvider>
                             <ModalProvider>
                               <TransactionsProvider>
-                                <AppProvider>
-                                  <FoxEthProvider>
-                                    <DefiManagerProvider>{children}</DefiManagerProvider>
-                                  </FoxEthProvider>
-                                </AppProvider>
+                                <AppProvider>{children}</AppProvider>
                               </TransactionsProvider>
                             </ModalProvider>
                           </KeepKeyProvider>

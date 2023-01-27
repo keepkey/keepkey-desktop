@@ -9,8 +9,8 @@ import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { generatePath } from 'react-router-dom'
 import {
-  selectPortfolioAccountsCryptoHumanBalancesIncludingStaking,
-  selectPortfolioAccountsFiatBalancesIncludingStaking,
+  selectPortfolioAccountsCryptoHumanBalances,
+  selectPortfolioAccountsFiatBalances,
 } from 'state/slices/portfolioSlice/selectors'
 import { accountIdToLabel, isUtxoAccountId } from 'state/slices/portfolioSlice/utils'
 import { selectAccountNumberByAccountId, selectAssetById } from 'state/slices/selectors'
@@ -31,8 +31,8 @@ export const AccountEntryRow: React.FC<AccountEntryRowProps> = ({
   const filter = useMemo(() => ({ assetId, accountId }), [accountId, assetId])
   const accountNumber = useAppSelector(s => selectAccountNumberByAccountId(s, filter))
   const asset = useAppSelector(s => selectAssetById(s, assetId))
-  const cryptoBalances = useSelector(selectPortfolioAccountsCryptoHumanBalancesIncludingStaking)
-  const fiatBalances = useSelector(selectPortfolioAccountsFiatBalancesIncludingStaking)
+  const cryptoBalances = useSelector(selectPortfolioAccountsCryptoHumanBalances)
+  const fiatBalances = useSelector(selectPortfolioAccountsFiatBalances)
   const cryptoBalance = cryptoBalances?.[accountId]?.[assetId]
   const fiatBalance = fiatBalances?.[accountId]?.[assetId]
   const { icon, name, symbol } = asset

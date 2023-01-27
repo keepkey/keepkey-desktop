@@ -7,7 +7,6 @@ import {
   ethAssetId,
   ethChainId,
   foxAssetId,
-  foxyAssetId,
 } from '@keepkey/caip'
 import merge from 'lodash/merge'
 
@@ -74,19 +73,6 @@ export const fox: Asset = {
   name: 'Fox',
   precision: 18,
   symbol: 'FOX',
-}
-
-export const foxy: Asset = {
-  chainId: ethChainId,
-  assetId: foxyAssetId,
-  color: '#CE3885',
-  explorer: 'https://etherscan.io',
-  explorerAddressLink: 'https://etherscan.io/address/',
-  explorerTxLink: 'https://etherscan.io/tx/',
-  icon: 'https://raw.githubusercontent.com/shapeshift/lib/main/packages/asset-service/src/generateAssetData/ethereum/icons/foxy-icon.png',
-  name: 'FOX Yieldy',
-  precision: 18,
-  symbol: 'FOXy',
 }
 
 export const cosmos: Asset = {
