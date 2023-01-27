@@ -21,7 +21,7 @@ export const ConnectWallet = () => {
   const translate = useTranslate()
   const query = useQuery<{ returnUrl: string }>()
 
-  const { onboardingSteps, keepKeyWipe } = useModal()
+  const { keepKeyWipe } = useModal()
 
   const debugDevice = async function () {
     await ipcListeners.appRestart()
@@ -45,12 +45,7 @@ export const ConnectWallet = () => {
         })
       : query?.returnUrl
     hasWallet && history.push(path ?? '/dashboard')
-  }, [history, hasWallet, query, state, dispatch])
-
-  useEffect(() => {
-    if (window.localStorage.getItem('onboarded') !== 'true') onboardingSteps.open({})
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [history, hasWallet, query, dispatch])
 
   return (
     <Page>

@@ -28,6 +28,7 @@ export const PairingDetails = () => {
     const serviceKey: string = params.serviceKey
 
     ipcListeners.bridgeServiceDetails(serviceKey).then(data => {
+      console.log('data', data)
       if (data) {
         setApp(data.app)
         setLogs(data.logs)
