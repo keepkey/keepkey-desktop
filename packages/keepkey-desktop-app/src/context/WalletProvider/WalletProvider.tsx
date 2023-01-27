@@ -198,7 +198,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
       const { showBackButton, pinRequestType, deferred } = action.payload
       return {
         ...state,
-        modal: true,
+        modal: window.localStorage.getItem('onboarded') === 'true' ? true : false,
         type: KeyManager.KeepKey,
         showBackButton: showBackButton ?? false,
         keepKeyPinRequestType: pinRequestType ?? null,
