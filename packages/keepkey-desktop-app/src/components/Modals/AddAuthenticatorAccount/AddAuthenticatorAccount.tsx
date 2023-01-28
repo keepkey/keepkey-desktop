@@ -150,7 +150,14 @@ const AddByScanning: FC<{ addAcc: any }> = ({ addAcc }) => {
   const scan = useCallback(() => {
     ipcListeners
       .appReadQr()
-      .then(scanned => setScannedQr(scanned ?? ''))
+      .then(scanned => {
+        if (!scanned) {
+          setError('Unable to scan QR')
+          return setScannedQr('')
+        }
+        const decoded = decodeURIComponent(scanned)
+        setScannedQr(decoded)
+      })
       .catch((e: unknown) => {
         setError(String(e))
       })
