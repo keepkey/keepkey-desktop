@@ -13,6 +13,7 @@ import type { HistoryData, MarketCapResult, MarketData } from '@keepkey/types'
 import { HistoryTimeframe } from '@keepkey/types'
 import { createSlice } from '@reduxjs/toolkit'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
+import { untouchable } from 'common-utils'
 import { getConfig } from 'config'
 import { logger } from 'lib/logger'
 import { BASE_RTK_CREATE_API_CONFIG } from 'state/apis/const'
@@ -75,13 +76,9 @@ const getMarketServiceManager: GetMarketServiceManager = () => {
   if (!_marketServiceManager) {
     _marketServiceManager = new MarketServiceManager({
       coinGeckoAPIKey: config.REACT_APP_COINGECKO_API_KEY,
-      // TODO(0xdef1cafe): market service manager needs to accept this into each method dynamically at runtime
-      yearnChainReference: 1,
-      providerUrls: {
-        jsonRpcProviderUrl: config.REACT_APP_ETHEREUM_NODE_URL,
-        unchainedEthereumHttpUrl: config.REACT_APP_UNCHAINED_ETHEREUM_HTTP_URL,
-        unchainedEthereumWsUrl: config.REACT_APP_UNCHAINED_ETHEREUM_WS_URL,
-      },
+      // our patched version doesn't use these parameters
+      yearnChainReference: untouchable(),
+      providerUrls: untouchable(),
     })
   }
   return _marketServiceManager

@@ -1,0 +1,2173 @@
+diff --git a/dist/evm/ethereum/parser/abi/foxyStaking.d.ts b/dist/evm/ethereum/parser/abi/foxyStaking.d.ts
+deleted file mode 100644
+index 2306b44c34291ff12224d52d23df85ed20ee9a24..0000000000000000000000000000000000000000
+--- a/dist/evm/ethereum/parser/abi/foxyStaking.d.ts
++++ /dev/null
+@@ -1,3 +0,0 @@
+-import { JsonFragment } from '@ethersproject/abi/lib/fragments';
+-declare const foxyStaking: JsonFragment[];
+-export default foxyStaking;
+diff --git a/dist/evm/ethereum/parser/abi/foxyStaking.js b/dist/evm/ethereum/parser/abi/foxyStaking.js
+deleted file mode 100644
+index 88bd66d41094e1d23604804ba8cf079e22884841..0000000000000000000000000000000000000000
+--- a/dist/evm/ethereum/parser/abi/foxyStaking.js
++++ /dev/null
+@@ -1,720 +0,0 @@
+-"use strict";
+-Object.defineProperty(exports, "__esModule", { value: true });
+-const foxyStaking = [
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: '_stakingToken',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: '_rewardToken',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: '_tokeToken',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: '_tokePool',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: '_tokeManager',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: '_tokeReward',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: '_liquidityReserve',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: '_epochLength',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: '_firstEpochNumber',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: '_firstEpochBlock',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'constructor',
+-    },
+-    {
+-        anonymous: false,
+-        inputs: [
+-            {
+-                indexed: true,
+-                internalType: 'address',
+-                name: 'previousOwner',
+-                type: 'address',
+-            },
+-            {
+-                indexed: true,
+-                internalType: 'address',
+-                name: 'newOwner',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'OwnershipPulled',
+-        type: 'event',
+-    },
+-    {
+-        anonymous: false,
+-        inputs: [
+-            {
+-                indexed: true,
+-                internalType: 'address',
+-                name: 'previousOwner',
+-                type: 'address',
+-            },
+-            {
+-                indexed: true,
+-                internalType: 'address',
+-                name: 'newOwner',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'OwnershipPushed',
+-        type: 'event',
+-    },
+-    {
+-        inputs: [],
+-        name: 'COOL_DOWN_CONTRACT',
+-        outputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'LIQUIDITY_RESERVE',
+-        outputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'REWARD_TOKEN',
+-        outputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'STAKING_TOKEN',
+-        outputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'TOKE_MANAGER',
+-        outputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'TOKE_POOL',
+-        outputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'TOKE_REWARD',
+-        outputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'TOKE_TOKEN',
+-        outputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'WARM_UP_CONTRACT',
+-        outputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '_amount',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'bool',
+-                name: '_trigger',
+-                type: 'bool',
+-            },
+-        ],
+-        name: 'addRewardsForStakers',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: '_recipient',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'claim',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                components: [
+-                    {
+-                        internalType: 'uint256',
+-                        name: 'chainId',
+-                        type: 'uint256',
+-                    },
+-                    {
+-                        internalType: 'uint256',
+-                        name: 'cycle',
+-                        type: 'uint256',
+-                    },
+-                    {
+-                        internalType: 'address',
+-                        name: 'wallet',
+-                        type: 'address',
+-                    },
+-                    {
+-                        internalType: 'uint256',
+-                        name: 'amount',
+-                        type: 'uint256',
+-                    },
+-                ],
+-                internalType: 'struct Recipient',
+-                name: '_recipient',
+-                type: 'tuple',
+-            },
+-            {
+-                internalType: 'uint8',
+-                name: '_v',
+-                type: 'uint8',
+-            },
+-            {
+-                internalType: 'bytes32',
+-                name: '_r',
+-                type: 'bytes32',
+-            },
+-            {
+-                internalType: 'bytes32',
+-                name: '_s',
+-                type: 'bytes32',
+-            },
+-        ],
+-        name: 'claimFromTokemak',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: '_recipient',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'claimWithdraw',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'coolDownInfo',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: 'amount',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'gons',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'expiry',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'coolDownPeriod',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'epoch',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: 'length',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'number',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'endBlock',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'distribute',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'getNewOwner',
+-        outputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'getOwner',
+-        outputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'bool',
+-                name: '_trigger',
+-                type: 'bool',
+-            },
+-        ],
+-        name: 'instantUnstake',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'lastTokeCycleIndex',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'pauseStaking',
+-        outputs: [
+-            {
+-                internalType: 'bool',
+-                name: '',
+-                type: 'bool',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'pauseUnstaking',
+-        outputs: [
+-            {
+-                internalType: 'bool',
+-                name: '',
+-                type: 'bool',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'pullOwner',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: '_newOwner',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'pushOwner',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'rebase',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'requestWithdrawalAmount',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'sendWithdrawalRequests',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '_vestingPeriod',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'setCoolDownPeriod',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'uint256',
+-                name: 'length',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'setEpochLength',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '_timestamp',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'setTimeLeftToRequestWithdrawal',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '_vestingPeriod',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'setWarmUpPeriod',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'bool',
+-                name: '_shouldPause',
+-                type: 'bool',
+-            },
+-        ],
+-        name: 'shouldPauseStaking',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'bool',
+-                name: '_shouldPause',
+-                type: 'bool',
+-            },
+-        ],
+-        name: 'shouldPauseUnstaking',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '_amount',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'address',
+-                name: '_recipient',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'stake',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '_amount',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'stake',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'timeLeftToRequestWithdrawal',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: '_claimAddress',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'transferToke',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '_amount',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'bool',
+-                name: '_trigger',
+-                type: 'bool',
+-            },
+-        ],
+-        name: 'unstake',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'unstakeAllFromTokemak',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'warmUpInfo',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: 'amount',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'gons',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'expiry',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'warmUpPeriod',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'withdrawalAmount',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-];
+-exports.default = foxyStaking;
+diff --git a/dist/evm/ethereum/parser/abi/shapeShiftRouter.d.ts b/dist/evm/ethereum/parser/abi/shapeShiftRouter.d.ts
+deleted file mode 100644
+index 936b70f1896ddfdce48f35c75039136d74247f2d..0000000000000000000000000000000000000000
+--- a/dist/evm/ethereum/parser/abi/shapeShiftRouter.d.ts
++++ /dev/null
+@@ -1,3 +0,0 @@
+-import { JsonFragment } from '@ethersproject/abi/lib/fragments';
+-declare const shapeShiftRouter: JsonFragment[];
+-export default shapeShiftRouter;
+diff --git a/dist/evm/ethereum/parser/abi/shapeShiftRouter.js b/dist/evm/ethereum/parser/abi/shapeShiftRouter.js
+deleted file mode 100644
+index 2da9e3ae94a738c49a4c7b47c652e10ec6fffb6e..0000000000000000000000000000000000000000
+--- a/dist/evm/ethereum/parser/abi/shapeShiftRouter.js
++++ /dev/null
+@@ -1,494 +0,0 @@
+-"use strict";
+-Object.defineProperty(exports, "__esModule", { value: true });
+-const shapeShiftRouter = [
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'yearnRegistry',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'constructor',
+-    },
+-    {
+-        anonymous: false,
+-        inputs: [
+-            {
+-                indexed: true,
+-                internalType: 'address',
+-                name: 'previousOwner',
+-                type: 'address',
+-            },
+-            {
+-                indexed: true,
+-                internalType: 'address',
+-                name: 'newOwner',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'OwnershipTransferred',
+-        type: 'event',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: 'recipient',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'amount',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'vaultId',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'deposit',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: 'recipient',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'amount',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'deposit',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'latestVault',
+-        outputs: [
+-            {
+-                internalType: 'contract VaultAPI',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'amount',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'migrate',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'migrate',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'amount',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'firstVaultId',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'lastVaultId',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'migrate',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'numVaults',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'owner',
+-        outputs: [
+-            {
+-                internalType: 'address',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'registry',
+-        outputs: [
+-            {
+-                internalType: 'contract RegistryAPI',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [],
+-        name: 'renounceOwnership',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'yearnRegistry',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'setRegistry',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'firstVaultId',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'lastVaultId',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'totalAssets',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: 'assets',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'totalAssets',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: 'account',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'totalVaultBalance',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: 'account',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'firstVaultId',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'lastVaultId',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'totalVaultBalance',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: 'balance',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'newOwner',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'transferOwnership',
+-        outputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'deploymentId',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'vaults',
+-        outputs: [
+-            {
+-                internalType: 'contract VaultAPI',
+-                name: '',
+-                type: 'address',
+-            },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: 'recipient',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'amount',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'firstVaultId',
+-                type: 'uint256',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'lastVaultId',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'withdraw',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: 'recipient',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'uint256',
+-                name: 'amount',
+-                type: 'uint256',
+-            },
+-        ],
+-        name: 'withdraw',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        inputs: [
+-            {
+-                internalType: 'address',
+-                name: 'token',
+-                type: 'address',
+-            },
+-            {
+-                internalType: 'address',
+-                name: 'recipient',
+-                type: 'address',
+-            },
+-        ],
+-        name: 'withdraw',
+-        outputs: [
+-            {
+-                internalType: 'uint256',
+-                name: '',
+-                type: 'uint256',
+-            },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-];
+-exports.default = shapeShiftRouter;
+diff --git a/dist/evm/ethereum/parser/abi/yearnVault.d.ts b/dist/evm/ethereum/parser/abi/yearnVault.d.ts
+deleted file mode 100644
+index 0fb7ace580091a9c73ed4817d51a499d104bfde7..0000000000000000000000000000000000000000
+--- a/dist/evm/ethereum/parser/abi/yearnVault.d.ts
++++ /dev/null
+@@ -1,3 +0,0 @@
+-import { JsonFragment } from '@ethersproject/abi/lib/fragments';
+-declare const yearnVault: JsonFragment[];
+-export default yearnVault;
+diff --git a/dist/evm/ethereum/parser/abi/yearnVault.js b/dist/evm/ethereum/parser/abi/yearnVault.js
+deleted file mode 100644
+index 4fc4e3d6b02d63130c043235890a1db16406e9ea..0000000000000000000000000000000000000000
+--- a/dist/evm/ethereum/parser/abi/yearnVault.js
++++ /dev/null
+@@ -1,647 +0,0 @@
+-"use strict";
+-Object.defineProperty(exports, "__esModule", { value: true });
+-const yearnVault = [
+-    {
+-        name: 'Transfer',
+-        inputs: [
+-            { type: 'address', name: 'sender', indexed: true },
+-            { type: 'address', name: 'receiver', indexed: true },
+-            { type: 'uint256', name: 'value', indexed: false },
+-        ],
+-        anonymous: false,
+-        type: 'event',
+-    },
+-    {
+-        name: 'Approval',
+-        inputs: [
+-            { type: 'address', name: 'owner', indexed: true },
+-            { type: 'address', name: 'spender', indexed: true },
+-            { type: 'uint256', name: 'value', indexed: false },
+-        ],
+-        anonymous: false,
+-        type: 'event',
+-    },
+-    {
+-        name: 'StrategyAdded',
+-        inputs: [
+-            { type: 'address', name: 'strategy', indexed: true },
+-            { type: 'uint256', name: 'debtLimit', indexed: false },
+-            { type: 'uint256', name: 'rateLimit', indexed: false },
+-            { type: 'uint256', name: 'performanceFee', indexed: false },
+-        ],
+-        anonymous: false,
+-        type: 'event',
+-    },
+-    {
+-        name: 'StrategyReported',
+-        inputs: [
+-            { type: 'address', name: 'strategy', indexed: true },
+-            { type: 'uint256', name: 'gain', indexed: false },
+-            { type: 'uint256', name: 'loss', indexed: false },
+-            { type: 'uint256', name: 'totalGain', indexed: false },
+-            { type: 'uint256', name: 'totalLoss', indexed: false },
+-            { type: 'uint256', name: 'totalDebt', indexed: false },
+-            { type: 'uint256', name: 'debtAdded', indexed: false },
+-            { type: 'uint256', name: 'debtLimit', indexed: false },
+-        ],
+-        anonymous: false,
+-        type: 'event',
+-    },
+-    {
+-        outputs: [],
+-        inputs: [
+-            { type: 'address', name: '_token' },
+-            { type: 'address', name: '_governance' },
+-            { type: 'address', name: '_rewards' },
+-            { type: 'string', name: '_nameOverride' },
+-            { type: 'string', name: '_symbolOverride' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'constructor',
+-    },
+-    {
+-        name: 'apiVersion',
+-        outputs: [{ type: 'string', name: '' }],
+-        inputs: [],
+-        stateMutability: 'pure',
+-        type: 'function',
+-        gas: '4489',
+-    },
+-    {
+-        name: 'setName',
+-        outputs: [],
+-        inputs: [{ type: 'string', name: '_name' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '106987',
+-    },
+-    {
+-        name: 'setSymbol',
+-        outputs: [],
+-        inputs: [{ type: 'string', name: '_symbol' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '71837',
+-    },
+-    {
+-        name: 'setGovernance',
+-        outputs: [],
+-        inputs: [{ type: 'address', name: '_governance' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '36308',
+-    },
+-    {
+-        name: 'acceptGovernance',
+-        outputs: [],
+-        inputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '36234',
+-    },
+-    {
+-        name: 'setGuestList',
+-        outputs: [],
+-        inputs: [{ type: 'address', name: '_guestList' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '36368',
+-    },
+-    {
+-        name: 'setRewards',
+-        outputs: [],
+-        inputs: [{ type: 'address', name: '_rewards' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '36398',
+-    },
+-    {
+-        name: 'setDepositLimit',
+-        outputs: [],
+-        inputs: [{ type: 'uint256', name: '_limit' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '36328',
+-    },
+-    {
+-        name: 'setPerformanceFee',
+-        outputs: [],
+-        inputs: [{ type: 'uint256', name: '_fee' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '36358',
+-    },
+-    {
+-        name: 'setManagementFee',
+-        outputs: [],
+-        inputs: [{ type: 'uint256', name: '_fee' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '36388',
+-    },
+-    {
+-        name: 'setGuardian',
+-        outputs: [],
+-        inputs: [{ type: 'address', name: '_guardian' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '37745',
+-    },
+-    {
+-        name: 'setEmergencyShutdown',
+-        outputs: [],
+-        inputs: [{ type: 'bool', name: '_active' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '37775',
+-    },
+-    {
+-        name: 'setWithdrawalQueue',
+-        outputs: [],
+-        inputs: [{ type: 'address[20]', name: '_queue' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '750044',
+-    },
+-    {
+-        name: 'transfer',
+-        outputs: [{ type: 'bool', name: '' }],
+-        inputs: [
+-            { type: 'address', name: '_to' },
+-            { type: 'uint256', name: '_value' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '76619',
+-    },
+-    {
+-        name: 'transferFrom',
+-        outputs: [{ type: 'bool', name: '' }],
+-        inputs: [
+-            { type: 'address', name: '_from' },
+-            { type: 'address', name: '_to' },
+-            { type: 'uint256', name: '_value' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '114054',
+-    },
+-    {
+-        name: 'approve',
+-        outputs: [{ type: 'bool', name: '' }],
+-        inputs: [
+-            { type: 'address', name: '_spender' },
+-            { type: 'uint256', name: '_value' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '38184',
+-    },
+-    {
+-        name: 'increaseAllowance',
+-        outputs: [{ type: 'bool', name: '' }],
+-        inputs: [
+-            { type: 'address', name: '_spender' },
+-            { type: 'uint256', name: '_value' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '40225',
+-    },
+-    {
+-        name: 'decreaseAllowance',
+-        outputs: [{ type: 'bool', name: '' }],
+-        inputs: [
+-            { type: 'address', name: '_spender' },
+-            { type: 'uint256', name: '_value' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '40249',
+-    },
+-    {
+-        name: 'totalAssets',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '3943',
+-    },
+-    {
+-        name: 'balanceSheetOfStrategy',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [{ type: 'address', name: '_strategy' }],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '2448',
+-    },
+-    {
+-        name: 'totalBalanceSheet',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [{ type: 'address[40]', name: '_strategies' }],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '75836',
+-    },
+-    {
+-        name: 'deposit',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        name: 'deposit',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [{ type: 'uint256', name: '_amount' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        name: 'deposit',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [
+-            { type: 'uint256', name: '_amount' },
+-            { type: 'address', name: '_recipient' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        name: 'maxAvailableShares',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '356611',
+-    },
+-    {
+-        name: 'withdraw',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        name: 'withdraw',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [{ type: 'uint256', name: '_shares' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        name: 'withdraw',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [
+-            { type: 'uint256', name: '_shares' },
+-            { type: 'address', name: '_recipient' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        name: 'pricePerShare',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '11391',
+-    },
+-    {
+-        name: 'addStrategy',
+-        outputs: [],
+-        inputs: [
+-            { type: 'address', name: '_strategy' },
+-            { type: 'uint256', name: '_debtLimit' },
+-            { type: 'uint256', name: '_rateLimit' },
+-            { type: 'uint256', name: '_performanceFee' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '1445692',
+-    },
+-    {
+-        name: 'updateStrategyDebtLimit',
+-        outputs: [],
+-        inputs: [
+-            { type: 'address', name: '_strategy' },
+-            { type: 'uint256', name: '_debtLimit' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '111466',
+-    },
+-    {
+-        name: 'updateStrategyRateLimit',
+-        outputs: [],
+-        inputs: [
+-            { type: 'address', name: '_strategy' },
+-            { type: 'uint256', name: '_rateLimit' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '38518',
+-    },
+-    {
+-        name: 'updateStrategyPerformanceFee',
+-        outputs: [],
+-        inputs: [
+-            { type: 'address', name: '_strategy' },
+-            { type: 'uint256', name: '_performanceFee' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '38542',
+-    },
+-    {
+-        name: 'migrateStrategy',
+-        outputs: [],
+-        inputs: [
+-            { type: 'address', name: '_oldVersion' },
+-            { type: 'address', name: '_newVersion' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '1178388',
+-    },
+-    {
+-        name: 'revokeStrategy',
+-        outputs: [],
+-        inputs: [],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        name: 'revokeStrategy',
+-        outputs: [],
+-        inputs: [{ type: 'address', name: '_strategy' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        name: 'addStrategyToQueue',
+-        outputs: [],
+-        inputs: [{ type: 'address', name: '_strategy' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '1195542',
+-    },
+-    {
+-        name: 'removeStrategyFromQueue',
+-        outputs: [],
+-        inputs: [{ type: 'address', name: '_strategy' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '23067618',
+-    },
+-    {
+-        name: 'debtOutstanding',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        name: 'debtOutstanding',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [{ type: 'address', name: '_strategy' }],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        name: 'creditAvailable',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        name: 'creditAvailable',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [{ type: 'address', name: '_strategy' }],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        name: 'availableDepositLimit',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        name: 'expectedReturn',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        name: 'expectedReturn',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [{ type: 'address', name: '_strategy' }],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        name: 'report',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [
+-            { type: 'uint256', name: '_gain' },
+-            { type: 'uint256', name: '_loss' },
+-            { type: 'uint256', name: '_debtPayment' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-        gas: '920813',
+-    },
+-    {
+-        name: 'sweep',
+-        outputs: [],
+-        inputs: [{ type: 'address', name: '_token' }],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        name: 'sweep',
+-        outputs: [],
+-        inputs: [
+-            { type: 'address', name: '_token' },
+-            { type: 'uint256', name: '_value' },
+-        ],
+-        stateMutability: 'nonpayable',
+-        type: 'function',
+-    },
+-    {
+-        name: 'name',
+-        outputs: [{ type: 'string', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '9023',
+-    },
+-    {
+-        name: 'symbol',
+-        outputs: [{ type: 'string', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '8076',
+-    },
+-    {
+-        name: 'decimals',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '2681',
+-    },
+-    {
+-        name: 'balanceOf',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [{ type: 'address', name: 'arg0' }],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '2926',
+-    },
+-    {
+-        name: 'allowance',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [
+-            { type: 'address', name: 'arg0' },
+-            { type: 'address', name: 'arg1' },
+-        ],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '3171',
+-    },
+-    {
+-        name: 'totalSupply',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '2771',
+-    },
+-    {
+-        name: 'token',
+-        outputs: [{ type: 'address', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '2801',
+-    },
+-    {
+-        name: 'governance',
+-        outputs: [{ type: 'address', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '2831',
+-    },
+-    {
+-        name: 'guardian',
+-        outputs: [{ type: 'address', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '2861',
+-    },
+-    {
+-        name: 'guestList',
+-        outputs: [{ type: 'address', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '2891',
+-    },
+-    {
+-        name: 'strategies',
+-        outputs: [
+-            { type: 'uint256', name: 'performanceFee' },
+-            { type: 'uint256', name: 'activation' },
+-            { type: 'uint256', name: 'debtLimit' },
+-            { type: 'uint256', name: 'rateLimit' },
+-            { type: 'uint256', name: 'lastReport' },
+-            { type: 'uint256', name: 'totalDebt' },
+-            { type: 'uint256', name: 'totalGain' },
+-            { type: 'uint256', name: 'totalLoss' },
+-        ],
+-        inputs: [{ type: 'address', name: 'arg0' }],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '10262',
+-    },
+-    {
+-        name: 'withdrawalQueue',
+-        outputs: [{ type: 'address', name: '' }],
+-        inputs: [{ type: 'uint256', name: 'arg0' }],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '3060',
+-    },
+-    {
+-        name: 'emergencyShutdown',
+-        outputs: [{ type: 'bool', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '2981',
+-    },
+-    {
+-        name: 'depositLimit',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-    },
+-    {
+-        name: 'debtLimit',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '3041',
+-    },
+-    {
+-        name: 'totalDebt',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '3071',
+-    },
+-    {
+-        name: 'lastReport',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '3101',
+-    },
+-    {
+-        name: 'rewards',
+-        outputs: [{ type: 'address', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '3131',
+-    },
+-    {
+-        name: 'managementFee',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '3161',
+-    },
+-    {
+-        name: 'performanceFee',
+-        outputs: [{ type: 'uint256', name: '' }],
+-        inputs: [],
+-        stateMutability: 'view',
+-        type: 'function',
+-        gas: '3191',
+-    },
+-];
+-exports.default = yearnVault;
+diff --git a/dist/evm/ethereum/parser/foxy.d.ts b/dist/evm/ethereum/parser/foxy.d.ts
+deleted file mode 100644
+index dd935a9f52bcc68212d5c9ffed3a8ad01360497b..0000000000000000000000000000000000000000
+--- a/dist/evm/ethereum/parser/foxy.d.ts
++++ /dev/null
+@@ -1,17 +0,0 @@
+-import { ethers } from 'ethers';
+-import { Tx } from '../../../generated/ethereum';
+-import { BaseTxMetadata } from '../../../types';
+-import { SubParser, TxSpecific } from '../../parser';
+-export interface TxMetadata extends BaseTxMetadata {
+-    parser: 'foxy';
+-}
+-export declare class Parser implements SubParser<Tx> {
+-    readonly abiInterface: ethers.utils.Interface;
+-    readonly supportedFunctions: {
+-        stakeSigHash: string;
+-        unstakeSigHash: string;
+-        instantUnstakeSigHash: string;
+-        claimWithdrawSigHash: string;
+-    };
+-    parse(tx: Tx): Promise<TxSpecific | undefined>;
+-}
+diff --git a/dist/evm/ethereum/parser/foxy.js b/dist/evm/ethereum/parser/foxy.js
+deleted file mode 100644
+index fa383e59310218d611156c6c2d4b5922186e71d9..0000000000000000000000000000000000000000
+--- a/dist/evm/ethereum/parser/foxy.js
++++ /dev/null
+@@ -1,41 +0,0 @@
+-"use strict";
+-var __importDefault = (this && this.__importDefault) || function (mod) {
+-    return (mod && mod.__esModule) ? mod : { "default": mod };
+-};
+-Object.defineProperty(exports, "__esModule", { value: true });
+-exports.Parser = void 0;
+-const ethers_1 = require("ethers");
+-const parser_1 = require("../../parser");
+-const foxyStaking_1 = __importDefault(require("./abi/foxyStaking"));
+-const constants_1 = require("./constants");
+-class Parser {
+-    constructor() {
+-        this.abiInterface = new ethers_1.ethers.utils.Interface(foxyStaking_1.default);
+-        this.supportedFunctions = {
+-            stakeSigHash: this.abiInterface.getSighash('stake(uint256,address)'),
+-            unstakeSigHash: this.abiInterface.getSighash('unstake'),
+-            instantUnstakeSigHash: this.abiInterface.getSighash('instantUnstake'),
+-            claimWithdrawSigHash: this.abiInterface.getSighash('claimWithdraw'),
+-        };
+-    }
+-    async parse(tx) {
+-        if (!(0, parser_1.txInteractsWithContract)(tx, constants_1.FOXY_STAKING_CONTRACT))
+-            return;
+-        if (!tx.inputData)
+-            return;
+-        const txSigHash = (0, parser_1.getSigHash)(tx.inputData);
+-        if (!Object.values(this.supportedFunctions).some((hash) => hash === txSigHash))
+-            return;
+-        const decoded = this.abiInterface.parseTransaction({ data: tx.inputData });
+-        // failed to decode input data
+-        if (!decoded)
+-            return;
+-        return {
+-            data: {
+-                method: decoded.name,
+-                parser: 'foxy',
+-            },
+-        };
+-    }
+-}
+-exports.Parser = Parser;
+diff --git a/dist/evm/ethereum/parser/index.js b/dist/evm/ethereum/parser/index.js
+index b8904ca8e615623ed84a8e3d148fe668bb9007ce..60c4a1b7ebb8f5c910013792a6b6f20f17c2f014 100644
+--- a/dist/evm/ethereum/parser/index.js
++++ b/dist/evm/ethereum/parser/index.js
+@@ -28,11 +28,9 @@ const caip_1 = require("@keepkey/caip");
+ const parser_1 = require("../../parser");
+ const zrx = __importStar(require("../../parser/zrx"));
+ const cowswap = __importStar(require("./cowswap"));
+-const foxy = __importStar(require("./foxy"));
+ const thor = __importStar(require("./thor"));
+ const uniV2 = __importStar(require("./uniV2"));
+ const weth = __importStar(require("./weth"));
+-const yearn = __importStar(require("./yearn"));
+ class TransactionParser extends parser_1.BaseTransactionParser {
+     constructor(args) {
+         super(args);
+@@ -40,8 +38,6 @@ class TransactionParser extends parser_1.BaseTransactionParser {
+         // due to the current parser logic, order here matters (register most generic first to most specific last)
+         // weth and yearn have the same sigHash for deposit(), but the weth parser is stricter resulting in faster processing times
+         this.registerParsers([
+-            new yearn.Parser({ chainId: this.chainId, provider: this.provider }),
+-            new foxy.Parser(),
+             new weth.Parser({ chainId: this.chainId, provider: this.provider }),
+             new uniV2.Parser({ chainId: this.chainId, provider: this.provider }),
+             new thor.Parser({ chainId: this.chainId, rpcUrl: args.rpcUrl }),
+diff --git a/dist/evm/ethereum/parser/yearn.d.ts b/dist/evm/ethereum/parser/yearn.d.ts
+deleted file mode 100644
+index caddfe17339947e534f5da9181d3db169ecfa7a5..0000000000000000000000000000000000000000
+--- a/dist/evm/ethereum/parser/yearn.d.ts
++++ /dev/null
+@@ -1,37 +0,0 @@
+-import { ChainId } from '@keepkey/caip';
+-import { ChainId as YearnChainId, Yearn } from '@yfi/sdk';
+-import { ethers } from 'ethers';
+-import { Tx } from '../../../generated/ethereum';
+-import { BaseTxMetadata } from '../../../types';
+-import { SubParser, TxSpecific } from '../../parser';
+-export interface TxMetadata extends BaseTxMetadata {
+-    parser: 'yearn';
+-    assetId?: string;
+-    value?: string;
+-}
+-interface ParserArgs {
+-    chainId: ChainId;
+-    provider: ethers.providers.JsonRpcProvider;
+-}
+-export declare class Parser implements SubParser<Tx> {
+-    provider: ethers.providers.JsonRpcProvider;
+-    yearnSdk: Yearn<YearnChainId> | undefined;
+-    yearnTokenVaultAddresses: string[] | undefined;
+-    readonly chainId: ChainId;
+-    readonly shapeShiftInterface: ethers.utils.Interface;
+-    readonly yearnInterface: ethers.utils.Interface;
+-    readonly supportedYearnFunctions: {
+-        approveSigHash: string;
+-        depositSigHash: string;
+-        depositAmountSigHash: string;
+-        depositAmountAndRecipientSigHash: string;
+-        withdrawSigHash: string;
+-    };
+-    readonly supportedShapeShiftFunctions: {
+-        depositSigHash: string;
+-    };
+-    constructor(args: ParserArgs);
+-    parse(tx: Tx): Promise<TxSpecific | undefined>;
+-    getAbiInterface(txSigHash: string | undefined): ethers.utils.Interface | undefined;
+-}
+-export {};
+diff --git a/dist/evm/ethereum/parser/yearn.js b/dist/evm/ethereum/parser/yearn.js
+deleted file mode 100644
+index 6f3572879716410eb82cff26e5a7bfc37367a332..0000000000000000000000000000000000000000
+--- a/dist/evm/ethereum/parser/yearn.js
++++ /dev/null
+@@ -1,106 +0,0 @@
+-"use strict";
+-var __importDefault = (this && this.__importDefault) || function (mod) {
+-    return (mod && mod.__esModule) ? mod : { "default": mod };
+-};
+-Object.defineProperty(exports, "__esModule", { value: true });
+-exports.Parser = void 0;
+-const caip_1 = require("@keepkey/caip");
+-const sdk_1 = require("@yfi/sdk");
+-const ethers_1 = require("ethers");
+-const parser_1 = require("../../parser");
+-const shapeShiftRouter_1 = __importDefault(require("./abi/shapeShiftRouter"));
+-const yearnVault_1 = __importDefault(require("./abi/yearnVault"));
+-const constants_1 = require("./constants");
+-class Parser {
+-    constructor(args) {
+-        this.shapeShiftInterface = new ethers_1.ethers.utils.Interface(shapeShiftRouter_1.default);
+-        this.yearnInterface = new ethers_1.ethers.utils.Interface(yearnVault_1.default);
+-        this.supportedYearnFunctions = {
+-            approveSigHash: this.yearnInterface.getSighash('approve'),
+-            depositSigHash: this.yearnInterface.getSighash('deposit()'),
+-            depositAmountSigHash: this.yearnInterface.getSighash('deposit(uint256)'),
+-            depositAmountAndRecipientSigHash: this.yearnInterface.getSighash('deposit(uint256,address)'),
+-            withdrawSigHash: this.yearnInterface.getSighash('withdraw(uint256,address)'),
+-        };
+-        this.supportedShapeShiftFunctions = {
+-            depositSigHash: this.shapeShiftInterface.getSighash('deposit(address,address,uint256,uint256)'),
+-        };
+-        this.provider = args.provider;
+-        this.chainId = args.chainId;
+-        // The only Yearn-supported chain we currently support is mainnet
+-        if (args.chainId === 'eip155:1') {
+-            // 1 for EthMain (@yfi/sdk/dist/chain.d.ts)
+-            this.yearnSdk = new sdk_1.Yearn(1, { provider: this.provider });
+-        }
+-    }
+-    async parse(tx) {
+-        var _a, _b;
+-        if (!tx.inputData)
+-            return;
+-        const txSigHash = (0, parser_1.getSigHash)(tx.inputData);
+-        const supportedSigHashes = [
+-            ...Object.values(this.supportedShapeShiftFunctions),
+-            ...Object.values(this.supportedYearnFunctions),
+-        ];
+-        if (!supportedSigHashes.some((hash) => hash === txSigHash))
+-            return;
+-        const abiInterface = this.getAbiInterface(txSigHash);
+-        if (!abiInterface)
+-            return;
+-        if (!this.yearnTokenVaultAddresses) {
+-            try {
+-                const vaults = await ((_a = this.yearnSdk) === null || _a === void 0 ? void 0 : _a.vaults.get());
+-                this.yearnTokenVaultAddresses = vaults === null || vaults === void 0 ? void 0 : vaults.map((vault) => vault.address);
+-            }
+-            catch (e) {
+-                console.error('yearn tx parser unable to fetch vaults', e);
+-                return;
+-            }
+-        }
+-        const decoded = abiInterface.parseTransaction({ data: tx.inputData });
+-        // failed to decode input data
+-        if (!decoded)
+-            return;
+-        const data = {
+-            method: decoded.name,
+-            parser: 'yearn',
+-        };
+-        switch (txSigHash) {
+-            case this.supportedYearnFunctions.approveSigHash: {
+-                if (decoded.args._spender !== constants_1.SHAPE_SHIFT_ROUTER_CONTRACT)
+-                    return;
+-                const value = decoded.args._value;
+-                const assetId = (0, caip_1.toAssetId)({
+-                    chainId: this.chainId,
+-                    assetNamespace: 'erc20',
+-                    assetReference: tx.to,
+-                });
+-                if (value.isZero()) {
+-                    return { data: { ...data, assetId, method: 'revoke', value: value.toString() } };
+-                }
+-                return { data: { ...data, assetId, value: value.toString() } };
+-            }
+-            case this.supportedShapeShiftFunctions.depositSigHash:
+-                if (tx.to !== constants_1.SHAPE_SHIFT_ROUTER_CONTRACT)
+-                    return;
+-                return { data };
+-            case this.supportedYearnFunctions.depositAmountAndRecipientSigHash:
+-                if (tx.to && !((_b = this.yearnTokenVaultAddresses) === null || _b === void 0 ? void 0 : _b.includes(tx.to)))
+-                    return;
+-                return { data };
+-            case this.supportedYearnFunctions.withdrawSigHash:
+-            case this.supportedYearnFunctions.depositSigHash:
+-            case this.supportedYearnFunctions.depositAmountSigHash:
+-            default:
+-                return { data };
+-        }
+-    }
+-    getAbiInterface(txSigHash) {
+-        if (Object.values(this.supportedYearnFunctions).some((abi) => abi === txSigHash))
+-            return this.yearnInterface;
+-        if (Object.values(this.supportedShapeShiftFunctions).some((abi) => abi === txSigHash))
+-            return this.shapeShiftInterface;
+-        return undefined;
+-    }
+-}
+-exports.Parser = Parser;
+diff --git a/dist/evm/parser/types.d.ts b/dist/evm/parser/types.d.ts
+index 86ac59c0d030e7956efbea2e53a5b9c067811beb..50cb164d7865c31028d0dd3f3c036af7dd1e7091 100644
+--- a/dist/evm/parser/types.d.ts
++++ b/dist/evm/parser/types.d.ts
+@@ -5,11 +5,10 @@ import * as foxy from '../ethereum/parser/foxy';
+ import * as thor from '../ethereum/parser/thor';
+ import * as uniV2 from '../ethereum/parser/uniV2';
+ import * as weth from '../ethereum/parser/weth';
+-import * as yearn from '../ethereum/parser/yearn';
+ import * as erc20 from '../parser/erc20';
+ import * as zrx from '../parser/zrx';
+ export declare type Tx = evm.Tx;
+-export declare type TxMetadata = cowswap.TxMetadata | erc20.TxMetadata | foxy.TxMetadata | thor.TxMetadata | uniV2.TxMetadata | weth.TxMetadata | yearn.TxMetadata | zrx.TxMetadata;
++export declare type TxMetadata = cowswap.TxMetadata | erc20.TxMetadata | foxy.TxMetadata | thor.TxMetadata | uniV2.TxMetadata | weth.TxMetadata | zrx.TxMetadata;
+ export interface ParsedTx extends StandardTx {
+     data?: TxMetadata;
+ }

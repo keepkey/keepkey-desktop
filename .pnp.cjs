@@ -8745,7 +8745,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@keepkey/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
             ["@keepkey/logger", "npm:1.1.3"],\
             ["@keepkey/types", "npm:8.3.2"],\
-            ["@keepkey/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.3.0"],\
+            ["@keepkey/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@keepkey/unchained-client@npm%3A10.3.0#./.yarn/patches/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa.patch::version=10.3.0&hash=35c5c8&locator=keepkey-monorepo%40workspace%3A."],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
             ["@shapeshiftoss/hdwallet-native", "npm:1.41.0"],\
             ["@types/bs58check", null],\
@@ -8964,17 +8964,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@keepkey/market-service", [\
-        ["npm:7.1.3", {\
-          "packageLocation": "./.yarn/cache/@keepkey-market-service-npm-7.1.3-c0e10646cd-58e0839e1f.zip/node_modules/@keepkey/market-service/",\
+        ["patch:@keepkey/market-service@npm%3A7.1.3#./.yarn/patches/@keepkey-market-service-npm-7.1.3-c0e10646cd.patch::version=7.1.3&hash=766950&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/cache/@keepkey-market-service-patch-de048389f6-9c86ca5b4f.zip/node_modules/@keepkey/market-service/",\
           "packageDependencies": [\
-            ["@keepkey/market-service", "npm:7.1.3"]\
+            ["@keepkey/market-service", "patch:@keepkey/market-service@npm%3A7.1.3#./.yarn/patches/@keepkey-market-service-npm-7.1.3-c0e10646cd.patch::version=7.1.3&hash=766950&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.1.3", {\
-          "packageLocation": "./.yarn/__virtual__/@keepkey-market-service-virtual-b4b48f23a4/0/cache/@keepkey-market-service-npm-7.1.3-c0e10646cd-58e0839e1f.zip/node_modules/@keepkey/market-service/",\
+        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@keepkey/market-service@npm%3A7.1.3#./.yarn/patches/@keepkey-market-service-npm-7.1.3-c0e10646cd.patch::version=7.1.3&hash=766950&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/__virtual__/@keepkey-market-service-virtual-231c4b5916/0/cache/@keepkey-market-service-patch-de048389f6-9c86ca5b4f.zip/node_modules/@keepkey/market-service/",\
           "packageDependencies": [\
-            ["@keepkey/market-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.1.3"],\
+            ["@keepkey/market-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@keepkey/market-service@npm%3A7.1.3#./.yarn/patches/@keepkey-market-service-npm-7.1.3-c0e10646cd.patch::version=7.1.3&hash=766950&locator=keepkey-monorepo%40workspace%3A."],\
             ["@ethersproject/abi", "npm:5.7.0"],\
             ["@ethersproject/address", "npm:5.7.0"],\
             ["@ethersproject/bignumber", "npm:5.7.0"],\
@@ -8986,15 +8986,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@keepkey/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.0.2"],\
             ["@keepkey/logger", "npm:1.1.3"],\
             ["@keepkey/types", "npm:8.3.2"],\
-            ["@keepkey/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.3.0"],\
+            ["@keepkey/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@keepkey/unchained-client@npm%3A10.3.0#./.yarn/patches/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa.patch::version=10.3.0&hash=35c5c8&locator=keepkey-monorepo%40workspace%3A."],\
             ["@types/keepkey__caip", null],\
             ["@types/keepkey__chain-adapters", null],\
             ["@types/keepkey__investor-foxy", null],\
             ["@types/keepkey__types", null],\
             ["@types/keepkey__unchained-client", null],\
-            ["@yfi/sdk", "virtual:b4b48f23a4634d7e933bfe841b54c23274d5166acccea1a433195d37c7dd998606d80e3286e49028210a9fbd2e2b701ff522d3ad429ea46901f33c4cd9a08771#npm:1.2.0"],\
+            ["@yfi/sdk", "virtual:231c4b5916fa98cd7c4c5f8d1bbaa218af7301fb51706d4c916803b74110dd06709964089d1455cca8e91dbfa7e4c9ed2f9165b88a74dec05fb323827a113246#npm:1.2.0"],\
             ["axios", "npm:0.26.1"],\
-            ["axios-rate-limit", "virtual:b4b48f23a4634d7e933bfe841b54c23274d5166acccea1a433195d37c7dd998606d80e3286e49028210a9fbd2e2b701ff522d3ad429ea46901f33c4cd9a08771#npm:1.3.0"],\
+            ["axios-rate-limit", "virtual:231c4b5916fa98cd7c4c5f8d1bbaa218af7301fb51706d4c916803b74110dd06709964089d1455cca8e91dbfa7e4c9ed2f9165b88a74dec05fb323827a113246#npm:1.3.0"],\
             ["bignumber.js", "npm:9.1.0"],\
             ["dayjs", "npm:1.11.6"],\
             ["lodash", "npm:4.17.21"],\
@@ -9025,17 +9025,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@keepkey/unchained-client", [\
-        ["npm:10.3.0", {\
-          "packageLocation": "./.yarn/cache/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa-988f078da8.zip/node_modules/@keepkey/unchained-client/",\
+        ["patch:@keepkey/unchained-client@npm%3A10.3.0#./.yarn/patches/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa.patch::version=10.3.0&hash=35c5c8&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/cache/@keepkey-unchained-client-patch-340bc9db03-d92aa2a598.zip/node_modules/@keepkey/unchained-client/",\
           "packageDependencies": [\
-            ["@keepkey/unchained-client", "npm:10.3.0"]\
+            ["@keepkey/unchained-client", "patch:@keepkey/unchained-client@npm%3A10.3.0#./.yarn/patches/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa.patch::version=10.3.0&hash=35c5c8&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.3.0", {\
-          "packageLocation": "./.yarn/__virtual__/@keepkey-unchained-client-virtual-629537da7c/0/cache/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa-988f078da8.zip/node_modules/@keepkey/unchained-client/",\
+        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@keepkey/unchained-client@npm%3A10.3.0#./.yarn/patches/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa.patch::version=10.3.0&hash=35c5c8&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/__virtual__/@keepkey-unchained-client-virtual-96a7e2463f/0/cache/@keepkey-unchained-client-patch-340bc9db03-d92aa2a598.zip/node_modules/@keepkey/unchained-client/",\
           "packageDependencies": [\
-            ["@keepkey/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.3.0"],\
+            ["@keepkey/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@keepkey/unchained-client@npm%3A10.3.0#./.yarn/patches/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa.patch::version=10.3.0&hash=35c5c8&locator=keepkey-monorepo%40workspace%3A."],\
             ["@ethersproject/abi", "npm:5.7.0"],\
             ["@ethersproject/address", "npm:5.7.0"],\
             ["@ethersproject/bignumber", "npm:5.7.0"],\
@@ -9048,11 +9048,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/keepkey__caip", null],\
             ["@types/keepkey__logger", null],\
             ["@types/keepkey__types", null],\
-            ["@yfi/sdk", "virtual:b4b48f23a4634d7e933bfe841b54c23274d5166acccea1a433195d37c7dd998606d80e3286e49028210a9fbd2e2b701ff522d3ad429ea46901f33c4cd9a08771#npm:1.2.0"],\
+            ["@yfi/sdk", "virtual:231c4b5916fa98cd7c4c5f8d1bbaa218af7301fb51706d4c916803b74110dd06709964089d1455cca8e91dbfa7e4c9ed2f9165b88a74dec05fb323827a113246#npm:1.2.0"],\
             ["bignumber.js", "npm:9.1.0"],\
             ["ethers", "npm:5.7.2"],\
-            ["isomorphic-ws", "virtual:629537da7c0af6568b20421e11001828a87a6d51d90d0c240c3a6df988b1be74bd641251f49bf408ea9390a1df3e1852f39fcd94dbc08d6920456a72163c355d#npm:4.0.1"],\
-            ["ws", "virtual:629537da7c0af6568b20421e11001828a87a6d51d90d0c240c3a6df988b1be74bd641251f49bf408ea9390a1df3e1852f39fcd94dbc08d6920456a72163c355d#npm:8.11.0"]\
+            ["isomorphic-ws", "virtual:96a7e2463fb9f4da1c3c1a4fed238c567e600fa1c165ee8dcc00f72c002b486cec9b07339c140bd075a8ba4f7a72e0a061006a694c2d1039b2aa485d9333ed6e#npm:4.0.1"],\
+            ["ws", "virtual:96a7e2463fb9f4da1c3c1a4fed238c567e600fa1c165ee8dcc00f72c002b486cec9b07339c140bd075a8ba4f7a72e0a061006a694c2d1039b2aa485d9333ed6e#npm:8.11.0"]\
           ],\
           "packagePeers": [\
             "@keepkey/caip",\
@@ -13931,10 +13931,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:b4b48f23a4634d7e933bfe841b54c23274d5166acccea1a433195d37c7dd998606d80e3286e49028210a9fbd2e2b701ff522d3ad429ea46901f33c4cd9a08771#npm:1.2.0", {\
-          "packageLocation": "./.yarn/__virtual__/@yfi-sdk-virtual-2323038558/0/cache/@yfi-sdk-npm-1.2.0-25a6a1a047-96027dea1a.zip/node_modules/@yfi/sdk/",\
+        ["virtual:231c4b5916fa98cd7c4c5f8d1bbaa218af7301fb51706d4c916803b74110dd06709964089d1455cca8e91dbfa7e4c9ed2f9165b88a74dec05fb323827a113246#npm:1.2.0", {\
+          "packageLocation": "./.yarn/__virtual__/@yfi-sdk-virtual-3bb3c5d036/0/cache/@yfi-sdk-npm-1.2.0-25a6a1a047-96027dea1a.zip/node_modules/@yfi/sdk/",\
           "packageDependencies": [\
-            ["@yfi/sdk", "virtual:b4b48f23a4634d7e933bfe841b54c23274d5166acccea1a433195d37c7dd998606d80e3286e49028210a9fbd2e2b701ff522d3ad429ea46901f33c4cd9a08771#npm:1.2.0"],\
+            ["@yfi/sdk", "virtual:231c4b5916fa98cd7c4c5f8d1bbaa218af7301fb51706d4c916803b74110dd06709964089d1455cca8e91dbfa7e4c9ed2f9165b88a74dec05fb323827a113246#npm:1.2.0"],\
             ["@ethersproject/abi", "npm:5.7.0"],\
             ["@ethersproject/address", "npm:5.7.0"],\
             ["@ethersproject/bignumber", "npm:5.7.0"],\
@@ -15038,10 +15038,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:b4b48f23a4634d7e933bfe841b54c23274d5166acccea1a433195d37c7dd998606d80e3286e49028210a9fbd2e2b701ff522d3ad429ea46901f33c4cd9a08771#npm:1.3.0", {\
-          "packageLocation": "./.yarn/__virtual__/axios-rate-limit-virtual-1b27fb0d91/0/cache/axios-rate-limit-npm-1.3.0-b7ef75d4f7-19e9637322.zip/node_modules/axios-rate-limit/",\
+        ["virtual:231c4b5916fa98cd7c4c5f8d1bbaa218af7301fb51706d4c916803b74110dd06709964089d1455cca8e91dbfa7e4c9ed2f9165b88a74dec05fb323827a113246#npm:1.3.0", {\
+          "packageLocation": "./.yarn/__virtual__/axios-rate-limit-virtual-e4a4404039/0/cache/axios-rate-limit-npm-1.3.0-b7ef75d4f7-19e9637322.zip/node_modules/axios-rate-limit/",\
           "packageDependencies": [\
-            ["axios-rate-limit", "virtual:b4b48f23a4634d7e933bfe841b54c23274d5166acccea1a433195d37c7dd998606d80e3286e49028210a9fbd2e2b701ff522d3ad429ea46901f33c4cd9a08771#npm:1.3.0"],\
+            ["axios-rate-limit", "virtual:231c4b5916fa98cd7c4c5f8d1bbaa218af7301fb51706d4c916803b74110dd06709964089d1455cca8e91dbfa7e4c9ed2f9165b88a74dec05fb323827a113246#npm:1.3.0"],\
             ["@types/axios", null],\
             ["axios", "npm:0.26.1"]\
           ],\
@@ -23996,12 +23996,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:629537da7c0af6568b20421e11001828a87a6d51d90d0c240c3a6df988b1be74bd641251f49bf408ea9390a1df3e1852f39fcd94dbc08d6920456a72163c355d#npm:4.0.1", {\
-          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-877e0c0756/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",\
+        ["virtual:96a7e2463fb9f4da1c3c1a4fed238c567e600fa1c165ee8dcc00f72c002b486cec9b07339c140bd075a8ba4f7a72e0a061006a694c2d1039b2aa485d9333ed6e#npm:4.0.1", {\
+          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-6def6807f7/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",\
           "packageDependencies": [\
-            ["isomorphic-ws", "virtual:629537da7c0af6568b20421e11001828a87a6d51d90d0c240c3a6df988b1be74bd641251f49bf408ea9390a1df3e1852f39fcd94dbc08d6920456a72163c355d#npm:4.0.1"],\
+            ["isomorphic-ws", "virtual:96a7e2463fb9f4da1c3c1a4fed238c567e600fa1c165ee8dcc00f72c002b486cec9b07339c140bd075a8ba4f7a72e0a061006a694c2d1039b2aa485d9333ed6e#npm:4.0.1"],\
             ["@types/ws", null],\
-            ["ws", "virtual:629537da7c0af6568b20421e11001828a87a6d51d90d0c240c3a6df988b1be74bd641251f49bf408ea9390a1df3e1852f39fcd94dbc08d6920456a72163c355d#npm:8.11.0"]\
+            ["ws", "virtual:96a7e2463fb9f4da1c3c1a4fed238c567e600fa1c165ee8dcc00f72c002b486cec9b07339c140bd075a8ba4f7a72e0a061006a694c2d1039b2aa485d9333ed6e#npm:8.11.0"]\
           ],\
           "packagePeers": [\
             "@types/ws",\
@@ -25063,7 +25063,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["whatwg-encoding", "npm:2.0.0"],\
             ["whatwg-mimetype", "npm:3.0.0"],\
             ["whatwg-url", "npm:11.0.0"],\
-            ["ws", "virtual:629537da7c0af6568b20421e11001828a87a6d51d90d0c240c3a6df988b1be74bd641251f49bf408ea9390a1df3e1852f39fcd94dbc08d6920456a72163c355d#npm:8.11.0"],\
+            ["ws", "virtual:96a7e2463fb9f4da1c3c1a4fed238c567e600fa1c165ee8dcc00f72c002b486cec9b07339c140bd075a8ba4f7a72e0a061006a694c2d1039b2aa485d9333ed6e#npm:8.11.0"],\
             ["xml-name-validator", "npm:4.0.0"]\
           ],\
           "packagePeers": [\
@@ -25486,9 +25486,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@keepkey/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.0.2"],\
             ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
             ["@keepkey/logger", "npm:1.1.3"],\
-            ["@keepkey/market-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.1.3"],\
+            ["@keepkey/market-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@keepkey/market-service@npm%3A7.1.3#./.yarn/patches/@keepkey-market-service-npm-7.1.3-c0e10646cd.patch::version=7.1.3&hash=766950&locator=keepkey-monorepo%40workspace%3A."],\
             ["@keepkey/types", "npm:8.3.2"],\
-            ["@keepkey/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.3.0"],\
+            ["@keepkey/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@keepkey/unchained-client@npm%3A10.3.0#./.yarn/patches/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa.patch::version=10.3.0&hash=35c5c8&locator=keepkey-monorepo%40workspace%3A."],\
             ["@peculiar/webcrypto", "npm:1.4.1"],\
             ["@pioneer-platform/pioneer-client", "npm:8.1.29"],\
             ["@react-spring/web", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:9.5.5"],\
@@ -37094,23 +37094,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:629537da7c0af6568b20421e11001828a87a6d51d90d0c240c3a6df988b1be74bd641251f49bf408ea9390a1df3e1852f39fcd94dbc08d6920456a72163c355d#npm:8.11.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-5ad3d9e671/0/cache/ws-npm-8.11.0-ab72116a01-316b33aba3.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:629537da7c0af6568b20421e11001828a87a6d51d90d0c240c3a6df988b1be74bd641251f49bf408ea9390a1df3e1852f39fcd94dbc08d6920456a72163c355d#npm:8.11.0"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["virtual:6b5485bae0e4733e19169c4f15801b9b169a1b0b0612adff01902081de9cac7b169aa0211327d2a022e5a1057620b4c2b1cd569ae8233883b020ba78794768ff#npm:8.11.0", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-796f96ca27/0/cache/ws-npm-8.11.0-ab72116a01-316b33aba3.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -37132,6 +37115,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-e1e964a4e5/0/cache/ws-npm-7.4.6-9c9a725604-3a990b32ed.zip/node_modules/ws/",\
           "packageDependencies": [\
             ["ws", "virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:96a7e2463fb9f4da1c3c1a4fed238c567e600fa1c165ee8dcc00f72c002b486cec9b07339c140bd075a8ba4f7a72e0a061006a694c2d1039b2aa485d9333ed6e#npm:8.11.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-1e52456f03/0/cache/ws-npm-8.11.0-ab72116a01-316b33aba3.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:96a7e2463fb9f4da1c3c1a4fed238c567e600fa1c165ee8dcc00f72c002b486cec9b07339c140bd075a8ba4f7a72e0a061006a694c2d1039b2aa485d9333ed6e#npm:8.11.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\

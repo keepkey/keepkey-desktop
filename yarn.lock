@@ -5591,7 +5591,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keepkey/market-service@npm:^7.1.1":
+"@keepkey/market-service@npm:7.1.3":
   version: 7.1.3
   resolution: "@keepkey/market-service@npm:7.1.3"
   dependencies:
@@ -5612,6 +5612,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@keepkey/market-service@patch:@keepkey/market-service@npm%3A7.1.3#./.yarn/patches/@keepkey-market-service-npm-7.1.3-c0e10646cd.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 7.1.3
+  resolution: "@keepkey/market-service@patch:@keepkey/market-service@npm%3A7.1.3#./.yarn/patches/@keepkey-market-service-npm-7.1.3-c0e10646cd.patch::version=7.1.3&hash=766950&locator=keepkey-monorepo%40workspace%3A."
+  dependencies:
+    "@ethersproject/providers": ^5.5.3
+    "@yfi/sdk": ^1.2.0
+    axios: ^0.26.1
+    axios-rate-limit: ^1.3.0
+    bignumber.js: ^9.0.2
+    dayjs: ^1.10.6
+    p-ratelimit: ^1.0.1
+  peerDependencies:
+    "@keepkey/caip": ^8.0.0
+    "@keepkey/chain-adapters": ^10.0.0
+    "@keepkey/investor-foxy": ^7.0.0
+    "@keepkey/types": ^8.1.0
+    "@keepkey/unchained-client": ^10.0.1
+  checksum: 9c86ca5b4f06ef3bb9909e740c4a7dfb9057c3796857557ce9b9a1315070e85f825769ccd9265872e6f08129c7d37c089ca1f62a86b8903440b72049aa78ef3f
+  languageName: node
+  linkType: hard
+
 "@keepkey/types@npm:^8.3.1":
   version: 8.3.2
   resolution: "@keepkey/types@npm:8.3.2"
@@ -5619,7 +5640,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keepkey/unchained-client@npm:^10.1.2":
+"@keepkey/unchained-client@npm:10.3.0":
   version: 10.3.0
   resolution: "@keepkey/unchained-client@npm:10.3.0"
   dependencies:
@@ -5633,6 +5654,23 @@ __metadata:
     "@keepkey/logger": ^1.1.2
     "@keepkey/types": ^8.1.0
   checksum: 988f078da830834fed3060cfbdf869a1279ee8eee3b41318e5db07820669697f4eb02c43f8e4cd027431b6ade4248f4e02c950390729893b8073e9d142de742d
+  languageName: node
+  linkType: hard
+
+"@keepkey/unchained-client@patch:@keepkey/unchained-client@npm%3A10.3.0#./.yarn/patches/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 10.3.0
+  resolution: "@keepkey/unchained-client@patch:@keepkey/unchained-client@npm%3A10.3.0#./.yarn/patches/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa.patch::version=10.3.0&hash=35c5c8&locator=keepkey-monorepo%40workspace%3A."
+  dependencies:
+    "@yfi/sdk": ^1.2.0
+    bignumber.js: ^9.0.2
+    ethers: ^5.5.3
+    isomorphic-ws: ^4.0.1
+    ws: ^8.3.0
+  peerDependencies:
+    "@keepkey/caip": ^8.0.0
+    "@keepkey/logger": ^1.1.2
+    "@keepkey/types": ^8.1.0
+  checksum: d92aa2a598fda727747a267e8234b2e0524b9bc07c0049f769e20dbcb4e74eb1dec19a8f659d525a0f07ecf337fdf1ca1eebb2de4a61a4d46d917a20584ed0f0
   languageName: node
   linkType: hard
 
