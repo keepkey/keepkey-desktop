@@ -25434,8 +25434,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["usb", "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A."],\
             ["utf-8-validate", "npm:5.0.10"],\
             ["uuid", "npm:9.0.0"],\
-            ["wait-promise", "npm:0.4.1"],\
-            ["web3", "npm:1.8.1"]\
+            ["wait-promise", "npm:0.4.1"]\
           ],\
           "linkType": "SOFT"\
         }]\
