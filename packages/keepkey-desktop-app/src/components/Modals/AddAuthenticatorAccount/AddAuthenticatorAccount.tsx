@@ -13,6 +13,7 @@ import {
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { SlideTransition } from 'components/SlideTransition'
 import { RawText, Text } from 'components/Text'
+import { WalletActions } from 'context/WalletProvider/actions'
 // import { SessionTypes } from '@walletconnect/types'
 import { ipcListeners } from 'electron-shim'
 import { AnimatePresence } from 'framer-motion'
@@ -36,8 +37,10 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
   const { addAuthenticatorAccount } = useModal()
   const { close, isOpen } = addAuthenticatorAccount
 
+  const [attemptedAdd, setAttemptedAdd] = useState(false)
   const {
-    state: { wallet },
+    state: { wallet, authenticatorError },
+    dispatch,
   } = useWallet()
   const toast = useToast()
 
@@ -46,25 +49,33 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
       if (!wallet) return
 
       assume<KeepKeyHDWallet>(wallet)
+      setAttemptedAdd(false)
+      dispatch({ type: WalletActions.SET_AUTHENTICATOR_ERROR, payload: null })
+      setTimeout(() => setAttemptedAdd(true), 1000)
 
-      toast({
-        status: 'info',
-        title: 'Account initialized',
-        description: `Please complete the process on your KeepKey`,
-      })
       const msg = `\x15initializeAuth:${acc.domain}:${acc.account}:${acc.secret}`
-      console.log('addAcc msg: ', msg)
+
       const pong = await wallet
         .ping({
           msg,
         })
         .catch(console.error)
       console.log('add acc resp', pong)
-      close()
-      setTimeout(fetchAccs, 2000)
     },
-    [wallet, toast, close, fetchAccs],
+    [wallet, dispatch],
   )
+
+  useEffect(() => {
+    if (!attemptedAdd || authenticatorError) return
+    setAttemptedAdd(false)
+    toast({
+      status: 'info',
+      title: 'Account initialized',
+      description: `Please complete the process on your KeepKey`,
+    })
+    close()
+    fetchAccs()
+  }, [attemptedAdd, authenticatorError, close, fetchAccs, toast])
 
   return (
     <SlideTransition>
@@ -82,6 +93,11 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
             <Text translation={'authenticator.modal.header'} />
           </ModalHeader>
           <ModalBody>
+            {authenticatorError && (
+              <RawText pb={2} textColor='red.400'>
+                {authenticatorError}
+              </RawText>
+            )}
             <AnimatePresence exitBeforeEnter>
               <MemoryRouter>
                 <Switch>

@@ -101,6 +101,7 @@ export interface InitialState {
   pinDeferred?: Deferred<string>
   passphraseDeferred?: Deferred<string>
   labelDeferred?: Deferred<string>
+  authenticatorError: string | null
 }
 
 const initialState: InitialState = {
@@ -122,6 +123,7 @@ const initialState: InitialState = {
   keepkeySdk: null,
   browserUrl: null,
   isUpdatingKeepkey: false,
+  authenticatorError: null,
 }
 
 export const isKeyManagerWithProvider = (keyManager: KeyManager | null) => Boolean(keyManager)
@@ -160,6 +162,8 @@ const reducer = (state: InitialState, action: ActionTypes) => {
       return { ...state, keepKeyPinRequestType: action.payload }
     case WalletActions.SET_KEEPKEY_SDK:
       return { ...state, keepkeySdk: action.payload }
+    case WalletActions.SET_AUTHENTICATOR_ERROR:
+      return { ...state, authenticatorError: action.payload }
     case WalletActions.SET_DEVICE_STATE: {
       const { deviceState } = state
       const {
