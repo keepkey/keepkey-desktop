@@ -5583,7 +5583,7 @@ __metadata:
     "@ethereumjs/common": ^2.4.0
     "@ethereumjs/tx": ^3.3.0
     "@keepkey/device-protocol": ^7.10.2
-    "@keepkey/keepkey-sdk": "workspace:*"
+    "@keepkey/keepkey-sdk": ^0.2.14
     "@shapeshiftoss/bitcoinjs-lib": 5.2.0-shapeshift.2
     "@shapeshiftoss/hdwallet-core": 1.41.0
     "@shapeshiftoss/proto-tx-builder": ^0.4.0
@@ -5687,7 +5687,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
+"@keepkey/keepkey-sdk@^0.2.14, @keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
   version: 0.0.0-use.local
   resolution: "@keepkey/keepkey-sdk@workspace:packages/keepkey-sdk"
   dependencies:
