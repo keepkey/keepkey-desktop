@@ -23,7 +23,7 @@ import React, {
 } from 'react'
 import { useTranslate } from 'react-polyglot'
 import Web3 from 'web3'
-
+import { getPioneerClient } from 'lib/getPioneerCleint'
 import { useKeepKeyVersions } from './KeepKey/hooks/useKeepKeyVersions'
 
 export enum DeviceTimeout {
@@ -152,28 +152,32 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
   const [kkErc20Contract, setkkErc20Contract] = useState<any>()
 
   const loadKeepkeyAssets = useCallback(async () => {
-    const { data } = await axios.get(
-      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false',
-    )
+    const pioneer = await getPioneerClient()
+    const { data } = await pioneer.SearchAssetsList({ limit: 1000, skip: 0 })
 
-    const kkAssets = data.map((geckoAsset: any) => {
-      const symbol = geckoAsset?.symbol ?? ''
-      const kkAsset: KKAsset = {
-        assetId: `keepkey_${symbol.toUpperCase()}`,
-        chainId: `keepkey_${symbol.toUpperCase()}`,
+    // const { data } = await axios.get(
+    //   'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false',
+    // )
+
+    const kkAssets = data.map((asset: any) => {
+      const kkAsset: any = {
+        assetId: `keepkey_${asset.symbol.toUpperCase()}`,
+        chainId: `keepkey_${asset.symbol.toUpperCase()}`,
+        // assetId: asset.caip,
+        // chainId: asset.caip.split(':')[1],
         color: '',
-        explorer: '',
-        explorerAddressLink: '',
-        explorerTxLink: '',
-        icon: geckoAsset.image,
-        name: overrideGeckoName(geckoAsset.name),
-        precision: 1, // This is wrong but needs to exist (find out why)
-        symbol: geckoAsset.symbol.toUpperCase(),
+        explorer: asset.explorer,
+        explorerAddressLink: asset.explorerAddressLink,
+        explorerTxLink: asset.explorerTxLink,
+        icon: asset.image,
+        name: asset.name,
+        precision: asset.decimals, // This is wrong but needs to exist (find out why)
+        symbol: asset.symbol.toUpperCase(),
         // kk specific
-        rank: geckoAsset.market_cap_rank,
-        marketCap: geckoAsset.market_cap,
-        geckoId: geckoAsset.id,
-        link: `https://www.coingecko.com/en/coins/${geckoAsset.id}`,
+        rank: '',
+        marketCap: '',
+        geckoId: asset.name,
+        link: asset.explorer,
       }
       return kkAsset
     })
