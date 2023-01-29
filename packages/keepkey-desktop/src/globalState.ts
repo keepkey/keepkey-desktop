@@ -73,6 +73,16 @@ export const kkAutoLauncher = new AutoLaunch({
   name: 'KeepKey Desktop',
 })
 
+export const authenticatorErrors = [
+  // 'Account not found',
+  // 'Slot request out of range',
+  "Authenticator secret can't be decoded",
+  'Authenticator secret storage full',
+  'Auth secret unknown error',
+  'Account name missing or too long, or seed/message string missing',
+  'Authenticator secret seed too large',
+]
+
 const redacted = Symbol.for('redacted')
 export const kkStateController = new KKStateController(
   async function (this: KKStateController, data: KKStateData) {
@@ -122,6 +132,12 @@ export const kkStateController = new KKStateController(
           console.log('restarting app')
           app.relaunch()
           app.exit()
+        }
+        break
+      }
+      case 'FAILURE': {
+        if (authenticatorErrors.includes(e.message.message)) {
+          await (await rendererIpc).setAuthenticatorError(e.message.message)
         }
         break
       }

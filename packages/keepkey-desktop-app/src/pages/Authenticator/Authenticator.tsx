@@ -24,6 +24,7 @@ import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
 import { Text } from 'components/Text'
+import { WalletActions } from 'context/WalletProvider/actions'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { useCallback, useEffect, useState } from 'react'
@@ -34,7 +35,8 @@ export type AuthenticatorAccount = { slotIdx: number; domain: string; account: s
 
 export const Authenticator = () => {
   const {
-    state: { wallet },
+    state: { wallet, authenticatorError },
+    dispatch,
   } = useWallet()
 
   const [accounts, setAccounts] = useState<AuthenticatorAccount[]>([])
@@ -67,7 +69,7 @@ export const Authenticator = () => {
     setLoading(true)
     setAccounts([])
 
-    for (let slotIdx = 0; slotIdx < 11; slotIdx++) {
+    for (let slotIdx = 0; slotIdx < 20; slotIdx++) {
       const msg = `\x17getAccount:${slotIdx}`
       console.log('getAccount msg: ', msg)
 
@@ -90,6 +92,12 @@ export const Authenticator = () => {
     fetchAccs()
   }, [fetchAccs])
 
+  useEffect(() => {
+    if (!authenticatorError) return
+    dispatch({ type: WalletActions.SET_AUTHENTICATOR_ERROR, payload: null })
+    toast({ status: 'error', title: 'Authenticator Error', description: authenticatorError })
+  }, [authenticatorError, dispatch, toast])
+
   const deleteAcc = useCallback(
     async (acc: AuthenticatorAccount) => {
       if (!wallet || !supportsFeature) return
@@ -105,7 +113,7 @@ export const Authenticator = () => {
         description: `Please confirm deleting account on your KeepKey`,
       })
       await wallet.ping({ msg }).catch(console.error)
-      setTimeout(fetchAccs, 2000)
+      fetchAccs()
     },
     [wallet, toast, fetchAccs, supportsFeature],
   )
@@ -143,7 +151,7 @@ export const Authenticator = () => {
 
     assume<KeepKeyHDWallet>(wallet)
 
-    const msg = `\x19wipeAuthdata:`
+    const msg = `\x19wipeAuthdata`
     console.log('removeAccount msg: ', msg)
 
     await wallet.ping({ msg }).catch(console.error)
@@ -152,7 +160,7 @@ export const Authenticator = () => {
       title: 'Data wiped',
       description: `Authenticator data wiped`,
     })
-    setTimeout(fetchAccs, 2000)
+    fetchAccs()
   }, [wallet, toast, fetchAccs, supportsFeature])
 
   return (

@@ -188,6 +188,10 @@ export const App = () => {
         }
       },
 
+      async setAuthenticatorError(error: string | undefined) {
+        dispatch({ type: WalletActions.SET_AUTHENTICATOR_ERROR, payload: error })
+      },
+
       async appClosing() {
         loading.open({ closing: true })
         if (isLegacy && isConnected && legacyBridge) legacyBridge.disconnect()
