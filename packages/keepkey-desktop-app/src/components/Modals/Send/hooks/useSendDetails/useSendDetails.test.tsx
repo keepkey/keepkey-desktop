@@ -1,5 +1,5 @@
-import { FeeDataKey } from '@keepkey/chain-adapters'
-import { KnownChainIds } from '@keepkey/types'
+import { FeeDataKey } from '@shapeshiftoss/chain-adapters'
+import { KnownChainIds } from '@shapeshiftoss/types'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useWallet } from 'hooks/useWallet/useWallet'
@@ -21,7 +21,7 @@ import { TestProviders } from 'test/TestProviders'
 
 import { useSendDetails } from './useSendDetails'
 
-jest.mock('@keepkey/market-service', () => ({
+jest.mock('@shapeshiftoss/market-service', () => ({
   findAll: jest.fn,
   findByAssetId: () => ({
     price: 3500,

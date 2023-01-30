@@ -8,8 +8,8 @@ import {
   useColorModeValue,
   useMediaQuery,
 } from '@chakra-ui/react'
-import type { AssetId } from '@keepkey/caip'
-import { fromAssetId } from '@keepkey/caip'
+import type { AssetId } from '@shapeshiftoss/caip'
+import { fromAssetId } from '@shapeshiftoss/caip'
 import { Allocations } from 'components/AccountRow/Allocations'
 import { Amount } from 'components/Amount/Amount'
 import { AssetIcon } from 'components/AssetIcon'

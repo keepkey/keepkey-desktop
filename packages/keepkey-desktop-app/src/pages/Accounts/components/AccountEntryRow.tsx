@@ -1,6 +1,6 @@
 import type { ButtonProps } from '@chakra-ui/react'
 import { Avatar, Button, Flex, ListItem, Stack } from '@chakra-ui/react'
-import type { AccountId, AssetId } from '@keepkey/caip'
+import type { AccountId, AssetId } from '@shapeshiftoss/caip'
 import { Amount } from 'components/Amount/Amount'
 import { RawText } from 'components/Text'
 import { useMemo } from 'react'

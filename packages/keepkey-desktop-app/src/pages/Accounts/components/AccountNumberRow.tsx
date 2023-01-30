@@ -10,8 +10,8 @@ import {
   Stack,
   useDisclosure,
 } from '@chakra-ui/react'
-import type { AccountId, ChainId } from '@keepkey/caip'
-import { fromAccountId } from '@keepkey/caip'
+import type { AccountId, ChainId } from '@shapeshiftoss/caip'
+import { fromAccountId } from '@shapeshiftoss/caip'
 import { Amount } from 'components/Amount/Amount'
 import { NestedList } from 'components/NestedList'
 import { RawText } from 'components/Text'

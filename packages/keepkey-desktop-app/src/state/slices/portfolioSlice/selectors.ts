@@ -1,5 +1,5 @@
-import type { Asset } from '@keepkey/asset-service'
-import type { AccountId, AssetId, ChainId } from '@keepkey/caip'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import type { AccountId, AssetId, ChainId } from '@shapeshiftoss/caip'
 import {
   avalancheAssetId,
   bchAssetId,
@@ -12,8 +12,8 @@ import {
   ltcAssetId,
   osmosisAssetId,
   thorchainAssetId,
-} from '@keepkey/caip'
-import type { BIP44Params, UtxoAccountType } from '@keepkey/types'
+} from '@shapeshiftoss/caip'
+import type { BIP44Params, UtxoAccountType } from '@shapeshiftoss/types'
 import { createSelector } from '@reduxjs/toolkit'
 import type { BigNumber } from 'lib/bignumber/bignumber'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'

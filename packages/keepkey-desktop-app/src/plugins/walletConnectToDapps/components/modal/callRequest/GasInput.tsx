@@ -9,10 +9,10 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react'
-import type { GasFeeDataEstimate } from '@keepkey/chain-adapters'
-import type { ethereum } from '@keepkey/chain-adapters'
-import { FeeDataKey } from '@keepkey/chain-adapters'
-import { KnownChainIds } from '@keepkey/types'
+import type { GasFeeDataEstimate } from '@shapeshiftoss/chain-adapters'
+import type { ethereum } from '@shapeshiftoss/chain-adapters'
+import { FeeDataKey } from '@shapeshiftoss/chain-adapters'
+import { KnownChainIds } from '@shapeshiftoss/types'
 import { HelperTooltip } from 'components/HelperTooltip/HelperTooltip'
 import { getFeeTranslation } from 'components/Modals/Send/TxFeeRadioGroup'
 import { RawText, Text } from 'components/Text'

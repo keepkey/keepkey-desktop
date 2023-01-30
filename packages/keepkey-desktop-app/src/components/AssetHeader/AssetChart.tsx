@@ -9,8 +9,8 @@ import {
   StatGroup,
   StatNumber,
 } from '@chakra-ui/react'
-import type { AssetId } from '@keepkey/caip'
-import type { HistoryTimeframe } from '@keepkey/types'
+import type { AssetId } from '@shapeshiftoss/caip'
+import type { HistoryTimeframe } from '@shapeshiftoss/types'
 import { BalanceChart } from 'components/BalanceChart/BalanceChart'
 import { Card } from 'components/Card/Card'
 import { TimeControls } from 'components/Graph/TimeControls'

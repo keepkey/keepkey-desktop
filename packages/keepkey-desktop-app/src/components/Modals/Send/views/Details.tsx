@@ -15,9 +15,9 @@ import {
   Stack,
   Tooltip,
 } from '@chakra-ui/react'
-import type { AccountId } from '@keepkey/caip'
-import { fromAssetId } from '@keepkey/caip'
-import { CHAIN_NAMESPACE } from '@keepkey/caip/dist/constants'
+import type { AccountId } from '@shapeshiftoss/caip'
+import { fromAssetId } from '@shapeshiftoss/caip'
+import { CHAIN_NAMESPACE } from '@shapeshiftoss/caip/dist/constants'
 import { AccountCard } from 'components/AccountCard'
 import { AccountDropdown } from 'components/AccountDropdown/AccountDropdown'
 import { Amount } from 'components/Amount/Amount'

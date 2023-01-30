@@ -1,5 +1,5 @@
-import { UtxoAccountType } from '@keepkey/types'
-import { TxStatus } from '@keepkey/unchained-client'
+import { UtxoAccountType } from '@shapeshiftoss/types'
+import { TxStatus } from '@shapeshiftoss/unchained-client'
 import { map, reverse } from 'lodash'
 import { store } from 'state/store'
 import { mockStore } from 'test/mocks/store'

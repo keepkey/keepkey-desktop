@@ -5395,54 +5395,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keepkey/asset-service@npm:^8.1.2":
-  version: 8.1.6
-  resolution: "@keepkey/asset-service@npm:8.1.6"
-  dependencies:
-    axios: ^0.26.1
-    identicon.js: ^2.3.3
-    js-pixel-fonts: ^1.5.0
-    lodash: ^4.17.21
-    node-polyglot: ^2.4.2
-  peerDependencies:
-    "@keepkey/caip": ^8.0.0
-    "@keepkey/types": ^8.1.0
-  checksum: 878bd9cc04c5006e2a3e01a5a7b08d7c4b51c02ba8cf8b1df6e02b5e8842e6104d13d1db882ef4aad55a9a3602900a7697508ac4547a49334c4cb993dc328a00
-  languageName: node
-  linkType: hard
-
-"@keepkey/caip@npm:^8.4.2":
-  version: 8.4.4
-  resolution: "@keepkey/caip@npm:8.4.4"
-  peerDependencies:
-    "@keepkey/types": ^8.3.2
-  checksum: b03dfe7cb230f7be81a0305b14611c5c81c02c3968d4fb6b07645a9f6c12f13393cf1ac3ba075d0e01280b58cc80ae9c1c310d8f520ba73737e909ba14cc9153
-  languageName: node
-  linkType: hard
-
-"@keepkey/chain-adapters@npm:^10.1.0":
-  version: 10.2.1
-  resolution: "@keepkey/chain-adapters@npm:10.2.1"
-  dependencies:
-    axios: ^0.26.1
-    bech32: ^2.0.0
-    bignumber.js: ^9.0.2
-    bitcoinjs-lib: ^5.2.0
-    coinselect: ^3.1.13
-    ethers: ^5.4.7
-    multicoin-address-validator: ^0.5.2
-    web3-utils: 1.7.4
-  peerDependencies:
-    "@keepkey/caip": ^8.0.0
-    "@keepkey/types": ^8.1.0
-    "@keepkey/unchained-client": ^10.0.1
-    "@shapeshiftoss/hdwallet-core": ^1.36.0
-    "@shapeshiftoss/hdwallet-native": ^1.36.0
-    bs58check: ^2.0.2
-  checksum: 161f734b9fed5bc1dbe254d9a3925bd8cc583be6b78fb7a622d25b686661398ff1fbe9516183ab460fbaffcbb54c7ddf965dd6782a0d9eafe8d9bdf155c2a24c
-  languageName: node
-  linkType: hard
-
 "@keepkey/common-esbuild-bits@workspace:*, @keepkey/common-esbuild-bits@workspace:packages/common-esbuild-bits":
   version: 0.0.0-use.local
   resolution: "@keepkey/common-esbuild-bits@workspace:packages/common-esbuild-bits"
@@ -5475,23 +5427,6 @@ __metadata:
     google-protobuf: ^3.7.0-rc.2
     pbjs: ^0.0.5
   checksum: 375cb8ab9dad2b3d90b59266fed515229b700ec8347a6ac8b138a7a04abd24d9ff30995e0d66f0d7829b573312ed7e76acbe00dc9d1508312ae98fd5388bd5d8
-  languageName: node
-  linkType: hard
-
-"@keepkey/errors@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "@keepkey/errors@npm:1.1.3"
-  dependencies:
-    lodash.clonedeep: ^4.5.0
-    lodash.snakecase: ^4.1.1
-  checksum: bb1e57ae094244d604599cd07b4a546b33def182c8da4d4205df349d115cc5f5e924cddbf3cd7e7968c888c85b2881506dceb70d8076162d918c19ddc5ddbf10
-  languageName: node
-  linkType: hard
-
-"@keepkey/eslint-plugin-logger@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@keepkey/eslint-plugin-logger@npm:1.1.0"
-  checksum: 1424f17a0f5a02b2ddf2165cd92855680ce75e9d9454932c632b82e839839511b60bd8747ff2f3e3185be17923290b95a056313c7cb93a66835b4a1a0ab5870d
   languageName: node
   linkType: hard
 
@@ -5541,26 +5476,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@keepkey/investor-foxy@npm:^7.0.1":
-  version: 7.0.2
-  resolution: "@keepkey/investor-foxy@npm:7.0.2"
-  dependencies:
-    "@ethersproject/providers": ^5.5.3
-    axios: ^0.26.1
-    bignumber.js: ^9.0.2
-    lodash: ^4.17.21
-    web3: 1.7.4
-    web3-core: 1.7.4
-    web3-utils: 1.7.4
-  peerDependencies:
-    "@keepkey/caip": ^8.0.0
-    "@keepkey/chain-adapters": ^10.0.0
-    "@keepkey/types": ^8.1.0
-    "@shapeshiftoss/hdwallet-core": ^1.36.0
-  checksum: fe29b53eaab8d21d83208cfff3dff3ed9b28d2de1968462438f83da2905539f6e5a627ccf4327fcb3cf7e4b43c6f08160021437e394cbf4ae4f47e4e4de8eccd
-  languageName: node
-  linkType: hard
-
 "@keepkey/keepkey-sdk@^0.2.14, @keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
   version: 0.0.0-use.local
   resolution: "@keepkey/keepkey-sdk@workspace:packages/keepkey-sdk"
@@ -5583,96 +5498,6 @@ __metadata:
     typescript: ^4.8.4
   languageName: unknown
   linkType: soft
-
-"@keepkey/logger@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "@keepkey/logger@npm:1.1.3"
-  checksum: 024c22101aae76854e233173e6dea2481af36c9a783b430561748c6102913259ebed07158a4a8f5a68d192cc4a6aeb33ff2c7631497a7fcd539b021ed4ae32ef
-  languageName: node
-  linkType: hard
-
-"@keepkey/market-service@npm:7.1.3":
-  version: 7.1.3
-  resolution: "@keepkey/market-service@npm:7.1.3"
-  dependencies:
-    "@ethersproject/providers": ^5.5.3
-    "@yfi/sdk": ^1.2.0
-    axios: ^0.26.1
-    axios-rate-limit: ^1.3.0
-    bignumber.js: ^9.0.2
-    dayjs: ^1.10.6
-    p-ratelimit: ^1.0.1
-  peerDependencies:
-    "@keepkey/caip": ^8.0.0
-    "@keepkey/chain-adapters": ^10.0.0
-    "@keepkey/investor-foxy": ^7.0.0
-    "@keepkey/types": ^8.1.0
-    "@keepkey/unchained-client": ^10.0.1
-  checksum: 58e0839e1fdffd4b382b3730f064d9d138eb3503d9ce1af3c9c2ca595ef62599f3d7399f77a3b8b3a2dc55fb2084ba3e60218e9d1318d4e9d5b3850ac1322d29
-  languageName: node
-  linkType: hard
-
-"@keepkey/market-service@patch:@keepkey/market-service@npm%3A7.1.3#./.yarn/patches/@keepkey-market-service-npm-7.1.3-c0e10646cd.patch::locator=keepkey-monorepo%40workspace%3A.":
-  version: 7.1.3
-  resolution: "@keepkey/market-service@patch:@keepkey/market-service@npm%3A7.1.3#./.yarn/patches/@keepkey-market-service-npm-7.1.3-c0e10646cd.patch::version=7.1.3&hash=766950&locator=keepkey-monorepo%40workspace%3A."
-  dependencies:
-    "@ethersproject/providers": ^5.5.3
-    "@yfi/sdk": ^1.2.0
-    axios: ^0.26.1
-    axios-rate-limit: ^1.3.0
-    bignumber.js: ^9.0.2
-    dayjs: ^1.10.6
-    p-ratelimit: ^1.0.1
-  peerDependencies:
-    "@keepkey/caip": ^8.0.0
-    "@keepkey/chain-adapters": ^10.0.0
-    "@keepkey/investor-foxy": ^7.0.0
-    "@keepkey/types": ^8.1.0
-    "@keepkey/unchained-client": ^10.0.1
-  checksum: 9c86ca5b4f06ef3bb9909e740c4a7dfb9057c3796857557ce9b9a1315070e85f825769ccd9265872e6f08129c7d37c089ca1f62a86b8903440b72049aa78ef3f
-  languageName: node
-  linkType: hard
-
-"@keepkey/types@npm:^8.3.1":
-  version: 8.3.2
-  resolution: "@keepkey/types@npm:8.3.2"
-  checksum: 13e7485704d623c0ec7c7542ccc69e51e5aa02dac61ab3b0579df903b2cbe2fdbb17ab890e135dadc4d7848446ae4afe78b8887ef923d7d06cf34c21a1cddb5d
-  languageName: node
-  linkType: hard
-
-"@keepkey/unchained-client@npm:10.3.0":
-  version: 10.3.0
-  resolution: "@keepkey/unchained-client@npm:10.3.0"
-  dependencies:
-    "@yfi/sdk": ^1.2.0
-    bignumber.js: ^9.0.2
-    ethers: ^5.5.3
-    isomorphic-ws: ^4.0.1
-    ws: ^8.3.0
-  peerDependencies:
-    "@keepkey/caip": ^8.0.0
-    "@keepkey/logger": ^1.1.2
-    "@keepkey/types": ^8.1.0
-  checksum: 988f078da830834fed3060cfbdf869a1279ee8eee3b41318e5db07820669697f4eb02c43f8e4cd027431b6ade4248f4e02c950390729893b8073e9d142de742d
-  languageName: node
-  linkType: hard
-
-"@keepkey/unchained-client@patch:@keepkey/unchained-client@npm%3A10.3.0#./.yarn/patches/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa.patch::locator=keepkey-monorepo%40workspace%3A.":
-  version: 10.3.0
-  resolution: "@keepkey/unchained-client@patch:@keepkey/unchained-client@npm%3A10.3.0#./.yarn/patches/@keepkey-unchained-client-npm-10.3.0-9139b4bdfa.patch::version=10.3.0&hash=35c5c8&locator=keepkey-monorepo%40workspace%3A."
-  dependencies:
-    "@yfi/sdk": ^1.2.0
-    bignumber.js: ^9.0.2
-    ethers: ^5.5.3
-    isomorphic-ws: ^4.0.1
-    ws: ^8.3.0
-  peerDependencies:
-    "@keepkey/caip": ^8.0.0
-    "@keepkey/logger": ^1.1.2
-    "@keepkey/types": ^8.1.0
-  checksum: d92aa2a598fda727747a267e8234b2e0524b9bc07c0049f769e20dbcb4e74eb1dec19a8f659d525a0f07ecf337fdf1ca1eebb2de4a61a4d46d917a20584ed0f0
-  languageName: node
-  linkType: hard
 
 "@malept/cross-spawn-promise@npm:^1.1.0":
   version: 1.1.1
@@ -6526,6 +6351,38 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@shapeshiftoss/asset-service@npm:8.1.5":
+  version: 8.1.5
+  resolution: "@shapeshiftoss/asset-service@npm:8.1.5"
+  dependencies:
+    axios: ^0.26.1
+    identicon.js: ^2.3.3
+    js-pixel-fonts: ^1.5.0
+    lodash: ^4.17.21
+    node-polyglot: ^2.4.2
+  peerDependencies:
+    "@shapeshiftoss/caip": ^8.0.0
+    "@shapeshiftoss/types": ^8.1.0
+  checksum: 1efd5c4f3a21736507cb145ed5c2b2e6c53813bb5e48c8cda48ebff55141b4ae4d889d343e24ec95b836fe99002844d68f193db4e92c7421c61184e9f3412ae2
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/asset-service@patch:@shapeshiftoss/asset-service@npm%3A8.1.5#./.yarn/patches/@shapeshiftoss-asset-service-npm-8.1.5-86b922f116.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 8.1.5
+  resolution: "@shapeshiftoss/asset-service@patch:@shapeshiftoss/asset-service@npm%3A8.1.5#./.yarn/patches/@shapeshiftoss-asset-service-npm-8.1.5-86b922f116.patch::version=8.1.5&hash=536e97&locator=keepkey-monorepo%40workspace%3A."
+  dependencies:
+    axios: ^0.26.1
+    identicon.js: ^2.3.3
+    js-pixel-fonts: ^1.5.0
+    lodash: ^4.17.21
+    node-polyglot: ^2.4.2
+  peerDependencies:
+    "@shapeshiftoss/caip": ^8.0.0
+    "@shapeshiftoss/types": ^8.1.0
+  checksum: 15c68cd0cca448942f187cd1b4ebb1d915a29d74091b929e99d3741626f1a89b4e05e77e4a7f8c97b94c62a1158dca4ee0d4e4c216a357c1731aaf183dbfe01b
+  languageName: node
+  linkType: hard
+
 "@shapeshiftoss/bitcoinjs-lib@npm:5.2.0-shapeshift.2":
   version: 5.2.0-shapeshift.2
   resolution: "@shapeshiftoss/bitcoinjs-lib@npm:5.2.0-shapeshift.2"
@@ -6547,6 +6404,55 @@ __metadata:
     varuint-bitcoin: ^1.0.4
     wif: ^2.0.1
   checksum: 77228f39a3fc4620ad25c12923954a570914323ead7d9aecb9e7488b32a031882a46d8a7cba1ba32936c035f5605278cfcd72e485188e402d13e44df568a6ec2
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/caip@npm:^8.4.2":
+  version: 8.4.4
+  resolution: "@shapeshiftoss/caip@npm:8.4.4"
+  peerDependencies:
+    "@shapeshiftoss/types": ^8.1.0
+  checksum: 2af104446662793f51a77908c1467119c2481a5375d39e3d7e36cfaaefa326abf9e63a36b4454f870622c54d3c1fb7cd026cd6ce22b657c1e24c8e9ffae15f3f
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/chain-adapters@npm:^10.1.0":
+  version: 10.2.1
+  resolution: "@shapeshiftoss/chain-adapters@npm:10.2.1"
+  dependencies:
+    axios: ^0.26.1
+    bech32: ^2.0.0
+    bignumber.js: ^9.0.2
+    bitcoinjs-lib: ^5.2.0
+    coinselect: ^3.1.13
+    ethers: ^5.4.7
+    multicoin-address-validator: ^0.5.2
+    web3-utils: 1.7.4
+  peerDependencies:
+    "@shapeshiftoss/caip": ^8.0.0
+    "@shapeshiftoss/hdwallet-core": ^1.36.0
+    "@shapeshiftoss/hdwallet-native": ^1.36.0
+    "@shapeshiftoss/types": ^8.1.0
+    "@shapeshiftoss/unchained-client": ^10.0.1
+    bs58check: ^2.0.2
+  checksum: 3fe69b93daf66c58c6138e89d6360c486f65051e960bda2b8ff488d4f0da828ada61af58c80edc286672ec016c340307bdbb9f5925f1721a2fdee4036acf04ae
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/errors@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@shapeshiftoss/errors@npm:1.1.3"
+  dependencies:
+    lodash.clonedeep: ^4.5.0
+    lodash.snakecase: ^4.1.1
+  checksum: c597223107935ea2dae22aff19acc86d82fe54a7d1712307470e51d4fc6beca71c9ac67306f55a6363c1e7c924dc877db19ba66377d97cae02014409594b0b4e
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/eslint-plugin-logger@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@shapeshiftoss/eslint-plugin-logger@npm:1.1.0"
+  checksum: 6807a08edf3406f6fd32589e2c4c41be4f165b02627382aaf3698e633ed9e070e519a7d1e89ca2e8c2458488ed7bc49a73e6b1936c69a817d0a84f7aa8e28fc0
   languageName: node
   linkType: hard
 
@@ -6781,6 +6687,75 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@shapeshiftoss/investor-foxy@npm:^7.0.1":
+  version: 7.0.2
+  resolution: "@shapeshiftoss/investor-foxy@npm:7.0.2"
+  dependencies:
+    "@ethersproject/providers": ^5.5.3
+    axios: ^0.26.1
+    bignumber.js: ^9.0.2
+    lodash: ^4.17.21
+    web3: 1.7.4
+    web3-core: 1.7.4
+    web3-utils: 1.7.4
+  peerDependencies:
+    "@shapeshiftoss/caip": ^8.0.0
+    "@shapeshiftoss/chain-adapters": ^10.0.0
+    "@shapeshiftoss/hdwallet-core": ^1.36.0
+    "@shapeshiftoss/types": ^8.1.0
+  checksum: 33bfdc441810a5eedd31363115e3fd4c76668e0b10a94b44590adc047cbb091d547563b911890b2047cc93376c9e64940593ffe37ee8945fd6bf984ccf6bf714
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/logger@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@shapeshiftoss/logger@npm:1.1.3"
+  checksum: e0523fe08bc20f25c1da57bc5f1506ca99efcefbb0851026f2ffb3256ca313966f4429ff1411fd144ea70fb84522c273b41134905d5f5ab453daf97eb0bbe48c
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/market-service@npm:7.1.3":
+  version: 7.1.3
+  resolution: "@shapeshiftoss/market-service@npm:7.1.3"
+  dependencies:
+    "@ethersproject/providers": ^5.5.3
+    "@yfi/sdk": ^1.2.0
+    axios: ^0.26.1
+    axios-rate-limit: ^1.3.0
+    bignumber.js: ^9.0.2
+    dayjs: ^1.10.6
+    p-ratelimit: ^1.0.1
+  peerDependencies:
+    "@shapeshiftoss/caip": ^8.0.0
+    "@shapeshiftoss/chain-adapters": ^10.0.0
+    "@shapeshiftoss/investor-foxy": ^7.0.0
+    "@shapeshiftoss/types": ^8.1.0
+    "@shapeshiftoss/unchained-client": ^10.0.1
+  checksum: 58fcfa671cea7e650764f298e4dd8e9a92c6b2e7d50f325ddfdc1e37b3588c77d58c0303ab0ffed90473c67a88bb8338764b76e4b1b9a407f304ae239753b224
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/market-service@patch:@shapeshiftoss/market-service@npm%3A7.1.3#./.yarn/patches/@shapeshiftoss-market-service-npm-7.1.3-17db6beeed.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 7.1.3
+  resolution: "@shapeshiftoss/market-service@patch:@shapeshiftoss/market-service@npm%3A7.1.3#./.yarn/patches/@shapeshiftoss-market-service-npm-7.1.3-17db6beeed.patch::version=7.1.3&hash=645b69&locator=keepkey-monorepo%40workspace%3A."
+  dependencies:
+    "@ethersproject/providers": ^5.5.3
+    "@yfi/sdk": ^1.2.0
+    axios: ^0.26.1
+    axios-rate-limit: ^1.3.0
+    bignumber.js: ^9.0.2
+    dayjs: ^1.10.6
+    p-ratelimit: ^1.0.1
+  peerDependencies:
+    "@shapeshiftoss/caip": ^8.0.0
+    "@shapeshiftoss/chain-adapters": ^10.0.0
+    "@shapeshiftoss/investor-foxy": ^7.0.0
+    "@shapeshiftoss/types": ^8.1.0
+    "@shapeshiftoss/unchained-client": ^10.0.1
+  checksum: ded4feef715359b40e3f308df39b528c33ef17a5836e76cc7e20497790a4d9df5e746f69efaccf826b6760b9fad21fb91013cd2461ee2636901528ef1664b5d7
+  languageName: node
+  linkType: hard
+
 "@shapeshiftoss/proto-tx-builder@npm:^0.4.0":
   version: 0.4.0
   resolution: "@shapeshiftoss/proto-tx-builder@npm:0.4.0"
@@ -6793,6 +6768,47 @@ __metadata:
     google-protobuf: ^3.17.0
     long: ^4.0.0
   checksum: dcfced115275666aee988bed1e90c862f9cdab4bc285839684398c5deb60c5c509cc1c438486355f5378d6a4eef3e2bfee8803523d43ee5871d92abaffd3f8c4
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/types@npm:^8.3.1":
+  version: 8.3.2
+  resolution: "@shapeshiftoss/types@npm:8.3.2"
+  checksum: a8d01b9007ade32415fb6ffd4ab040d0a16b98d99df9fbf2f9fce6abc94625fc01ae9f809bb2ae735fa284e0e78de3bdb8e854122d3018f03b0e0e8a2d34ed96
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/unchained-client@npm:10.3.0":
+  version: 10.3.0
+  resolution: "@shapeshiftoss/unchained-client@npm:10.3.0"
+  dependencies:
+    "@yfi/sdk": ^1.2.0
+    bignumber.js: ^9.0.2
+    ethers: ^5.5.3
+    isomorphic-ws: ^4.0.1
+    ws: ^8.3.0
+  peerDependencies:
+    "@shapeshiftoss/caip": ^8.0.0
+    "@shapeshiftoss/logger": ^1.1.2
+    "@shapeshiftoss/types": ^8.1.0
+  checksum: 3d83c35b7d1ede36d67f840ae437d1db999d27d1935d3e7cdc71572d9ee42cebda75e573b527f4726130558c29247cac972b014d3edeeea5024137d794910662
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/unchained-client@patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 10.3.0
+  resolution: "@shapeshiftoss/unchained-client@patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch::version=10.3.0&hash=fab71a&locator=keepkey-monorepo%40workspace%3A."
+  dependencies:
+    "@yfi/sdk": ^1.2.0
+    bignumber.js: ^9.0.2
+    ethers: ^5.5.3
+    isomorphic-ws: ^4.0.1
+    ws: ^8.3.0
+  peerDependencies:
+    "@shapeshiftoss/caip": ^8.0.0
+    "@shapeshiftoss/logger": ^1.1.2
+    "@shapeshiftoss/types": ^8.1.0
+  checksum: 6b407072f8a612d0a1237f7e1bed5642cbd35178874628f3ff34dc39fd4556bf1459c05186ca672ac1c61999617d85c3589a7f710f6b4e98e78087dc7b568102
   languageName: node
   linkType: hard
 
@@ -19480,24 +19496,19 @@ __metadata:
     "@formatjs/intl-numberformat": ^8.0.2
     "@formatjs/intl-pluralrules": ^5.0.2
     "@json-rpc-tools/utils": ^1.7.6
-    "@keepkey/asset-service": ^8.1.2
-    "@keepkey/caip": ^8.4.2
-    "@keepkey/chain-adapters": ^10.1.0
     "@keepkey/common-esbuild-bits": "workspace:*"
     "@keepkey/device-protocol": ^7.10.2
-    "@keepkey/errors": ^1.1.3
-    "@keepkey/eslint-plugin-logger": ^1.1.0
     "@keepkey/hdwallet-keepkey-rest": "workspace:*"
-    "@keepkey/investor-foxy": ^7.0.1
     "@keepkey/keepkey-sdk": "workspace:*"
-    "@keepkey/logger": ^1.1.3
-    "@keepkey/market-service": ^7.1.1
-    "@keepkey/types": ^8.3.1
-    "@keepkey/unchained-client": ^10.1.2
     "@peculiar/webcrypto": ^1.3.3
     "@pioneer-platform/pioneer-client": ^8.1.29
     "@react-spring/web": ^9.5.2
     "@reduxjs/toolkit": ^1.8.2
+    "@shapeshiftoss/asset-service": ^8.1.2
+    "@shapeshiftoss/caip": ^8.4.2
+    "@shapeshiftoss/chain-adapters": ^10.1.0
+    "@shapeshiftoss/errors": ^1.1.3
+    "@shapeshiftoss/eslint-plugin-logger": ^1.1.0
     "@shapeshiftoss/hdwallet-core": ^1.41.0
     "@shapeshiftoss/hdwallet-keepkey": ^1.41.0
     "@shapeshiftoss/hdwallet-keepkey-nodewebusb": ^1.41.0
@@ -19505,6 +19516,11 @@ __metadata:
     "@shapeshiftoss/hdwallet-keepkey-webusb": ^1.41.0
     "@shapeshiftoss/hdwallet-native": ^1.41.0
     "@shapeshiftoss/hdwallet-walletconnect": ^1.41.0
+    "@shapeshiftoss/investor-foxy": ^7.0.1
+    "@shapeshiftoss/logger": ^1.1.3
+    "@shapeshiftoss/market-service": ^7.1.1
+    "@shapeshiftoss/types": ^8.3.1
+    "@shapeshiftoss/unchained-client": ^10.1.2
     "@swc/cli": ^0.1.57
     "@swc/core": ^1.3.19
     "@swc/jest": ^0.2.23
@@ -19704,14 +19720,14 @@ __metadata:
   dependencies:
     "@keepkey/common-esbuild-bits": "workspace:*"
     "@keepkey/device-protocol": ^7.10.2
-    "@keepkey/errors": ^1.1.3
-    "@keepkey/eslint-plugin-logger": ^1.1.0
-    "@keepkey/logger": ^1.1.3
     "@sentry/electron": ^4.1.0
+    "@shapeshiftoss/errors": ^1.1.3
+    "@shapeshiftoss/eslint-plugin-logger": ^1.1.0
     "@shapeshiftoss/hdwallet-core": ^1.41.0
     "@shapeshiftoss/hdwallet-keepkey": ^1.41.0
     "@shapeshiftoss/hdwallet-keepkey-nodehid": ^1.41.0
     "@shapeshiftoss/hdwallet-keepkey-nodewebusb": ^1.41.0
+    "@shapeshiftoss/logger": ^1.1.3
     "@swc/cli": ^0.1.57
     "@swc/core": ^1.3.19
     "@tsoa/cli": ^4.1.3

@@ -8,7 +8,7 @@ import {
   StatNumber,
   Switch,
 } from '@chakra-ui/react'
-import type { HistoryTimeframe } from '@keepkey/types'
+import type { HistoryTimeframe } from '@shapeshiftoss/types'
 import { Amount } from 'components/Amount/Amount'
 import { BalanceChart } from 'components/BalanceChart/BalanceChart'
 import { Card } from 'components/Card/Card'

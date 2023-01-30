@@ -1,4 +1,4 @@
-import { TransferType } from '@keepkey/unchained-client'
+import { TransferType } from '@shapeshiftoss/unchained-client'
 import { ContractMethod, Direction } from 'hooks/useTxDetails/useTxDetails'
 import { bn } from 'lib/bignumber/bignumber'
 import { useMemo } from 'react'

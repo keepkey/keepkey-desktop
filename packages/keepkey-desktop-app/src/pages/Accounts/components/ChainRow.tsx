@@ -1,6 +1,6 @@
 import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import { Circle, Collapse, IconButton, ListItem, Stack, useDisclosure } from '@chakra-ui/react'
-import type { ChainId } from '@keepkey/caip'
+import type { ChainId } from '@shapeshiftoss/caip'
 import { Amount } from 'components/Amount/Amount'
 import { Card } from 'components/Card/Card'
 import { NestedList } from 'components/NestedList'

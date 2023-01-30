@@ -1,11 +1,11 @@
-import type { Asset } from '@keepkey/asset-service'
+import type { Asset } from '@shapeshiftoss/asset-service'
 import type {
   AssetId,
   AssetReference,
   ChainId,
   ChainNamespace,
   ChainReference,
-} from '@keepkey/caip'
+} from '@shapeshiftoss/caip'
 import {
   ASSET_REFERENCE,
   CHAIN_NAMESPACE,
@@ -13,7 +13,7 @@ import {
   fromAssetId,
   fromChainId,
   toAssetId,
-} from '@keepkey/caip'
+} from '@shapeshiftoss/caip'
 import { createSelector } from '@reduxjs/toolkit'
 import cloneDeep from 'lodash/cloneDeep'
 import sortBy from 'lodash/sortBy'

@@ -1,5 +1,5 @@
-import type { Asset } from '@keepkey/asset-service'
-import { btcAssetId, btcChainId, ethAssetId, ethChainId, foxAssetId } from '@keepkey/caip'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import { btcAssetId, btcChainId, ethAssetId, ethChainId, foxAssetId } from '@shapeshiftoss/caip'
 
 export const BTC: Asset = {
   chainId: btcChainId,

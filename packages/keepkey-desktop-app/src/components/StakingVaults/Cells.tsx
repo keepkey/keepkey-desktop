@@ -9,8 +9,8 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
-import type { AssetId } from '@keepkey/caip'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import type { AssetId } from '@shapeshiftoss/caip'
 import { AssetIcon } from 'components/AssetIcon'
 import { RawText } from 'components/Text'
 import { debounce } from 'lodash'

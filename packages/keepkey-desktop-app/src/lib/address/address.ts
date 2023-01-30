@@ -1,5 +1,5 @@
-import type { ChainId } from '@keepkey/caip'
-import { ethChainId } from '@keepkey/caip'
+import type { ChainId } from '@shapeshiftoss/caip'
+import { ethChainId } from '@shapeshiftoss/caip'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { parse } from 'eth-url-parser'
 import { logger } from 'lib/logger'

@@ -1,4 +1,4 @@
-import type { AssetId } from '@keepkey/caip'
+import type { AssetId } from '@shapeshiftoss/caip'
 import { AssetAccountDetails } from 'components/AssetAccountDetails'
 import toLower from 'lodash/toLower'
 import { useSelector } from 'react-redux'

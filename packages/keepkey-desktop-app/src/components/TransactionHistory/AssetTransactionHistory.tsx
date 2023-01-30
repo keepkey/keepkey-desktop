@@ -1,4 +1,4 @@
-import type { AssetId } from '@keepkey/caip'
+import type { AssetId } from '@shapeshiftoss/caip'
 import { Card } from 'components/Card/Card'
 import { TransactionHistoryList } from 'components/TransactionHistory/TransactionHistoryList'
 import { useWallet } from 'hooks/useWallet/useWallet'

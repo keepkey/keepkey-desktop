@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react'
-import type { AccountId } from '@keepkey/caip'
-import { fromAccountId } from '@keepkey/caip'
+import type { AccountId } from '@shapeshiftoss/caip'
+import { fromAccountId } from '@shapeshiftoss/caip'
 import { DEFAULT_HISTORY_TIMEFRAME } from 'constants/Config'
 import { usePlugins } from 'context/PluginProvider/PluginProvider'
 import { useRouteAssetId } from 'hooks/useRouteAssetId/useRouteAssetId'

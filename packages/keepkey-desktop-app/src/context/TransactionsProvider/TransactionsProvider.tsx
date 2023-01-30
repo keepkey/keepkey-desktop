@@ -1,4 +1,4 @@
-import { fromAccountId } from '@keepkey/caip'
+import { fromAccountId } from '@shapeshiftoss/caip'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'

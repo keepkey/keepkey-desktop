@@ -1,5 +1,5 @@
 import { Stack } from '@chakra-ui/react'
-import type { AccountId, AssetId } from '@keepkey/caip'
+import type { AccountId, AssetId } from '@shapeshiftoss/caip'
 import { AccountAssets } from 'components/AccountAssets/AccountAssets'
 import { AssetAccounts } from 'components/AssetAccounts/AssetAccounts'
 import { AssetHeader } from 'components/AssetHeader/AssetHeader'

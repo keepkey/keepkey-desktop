@@ -1,4 +1,4 @@
-import { btcAssetId, ethAssetId, foxAssetId } from '@keepkey/caip'
+import { btcAssetId, ethAssetId, foxAssetId } from '@shapeshiftoss/caip'
 import { BtcSend, EthReceive, EthSend, FOXSend } from 'test/mocks/txs'
 
 import { addToIndex, getRelatedAssetIds } from './utils'

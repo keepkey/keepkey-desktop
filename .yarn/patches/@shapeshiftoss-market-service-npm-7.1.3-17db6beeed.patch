@@ -1,10 +1,10 @@
 diff --git a/dist/foxy/foxy.d.ts b/dist/foxy/foxy.d.ts
 deleted file mode 100644
-index 8df0096e6802ef604646c52333c0b290caae599b..0000000000000000000000000000000000000000
+index 5562f9805209047a721520d1bbdef44fc0e0b31c..0000000000000000000000000000000000000000
 --- a/dist/foxy/foxy.d.ts
 +++ /dev/null
 @@ -1,15 +0,0 @@
--import { HistoryData, MarketCapResult, MarketData, MarketDataArgs, PriceHistoryArgs } from '@keepkey/types';
+-import { HistoryData, MarketCapResult, MarketData, MarketDataArgs, PriceHistoryArgs } from '@shapeshiftoss/types';
 -import { MarketService } from '../api';
 -import { CoinGeckoMarketService } from '../coingecko/coingecko';
 -import { ProviderUrls } from '../market-service-manager';
@@ -21,7 +21,7 @@ index 8df0096e6802ef604646c52333c0b290caae599b..00000000000000000000000000000000
 -}
 diff --git a/dist/foxy/foxy.js b/dist/foxy/foxy.js
 deleted file mode 100644
-index f60b8ea753299a5a7bb757b8c95afcc46af2ff00..0000000000000000000000000000000000000000
+index 4bf0a47d71042d2054c2bf325ef20f1a764516c9..0000000000000000000000000000000000000000
 --- a/dist/foxy/foxy.js
 +++ /dev/null
 @@ -1,111 +0,0 @@
@@ -51,9 +51,9 @@ index f60b8ea753299a5a7bb757b8c95afcc46af2ff00..00000000000000000000000000000000
 -};
 -Object.defineProperty(exports, "__esModule", { value: true });
 -exports.FoxyMarketService = exports.FOXY_ASSET_ID = void 0;
--const chain_adapters_1 = require("@keepkey/chain-adapters");
--const investor_foxy_1 = require("@keepkey/investor-foxy");
--const unchained = __importStar(require("@keepkey/unchained-client"));
+-const chain_adapters_1 = require("@shapeshiftoss/chain-adapters");
+-const investor_foxy_1 = require("@shapeshiftoss/investor-foxy");
+-const unchained = __importStar(require("@shapeshiftoss/unchained-client"));
 -const coingecko_1 = require("../coingecko/coingecko");
 -exports.FOXY_ASSET_ID = 'eip155:1/erc20:0xDc49108ce5C57bc3408c3A5E95F3d864eC386Ed3';
 -const FOX_ASSET_ID = 'eip155:1/erc20:0xc770eefad204b5180df6a14ee197d99d808ee52d';
@@ -237,15 +237,15 @@ index cb0ff5c3b541f646105198ee23ac0fc3d805023e..00000000000000000000000000000000
 -export {};
 diff --git a/dist/marketDataCLI.js b/dist/marketDataCLI.js
 deleted file mode 100644
-index 510b6e0d0453423cb7dfef06436aa6e7c9b9ae8b..0000000000000000000000000000000000000000
+index f7bb7213bf7f6502cfe300c479d9796be5aefd70..0000000000000000000000000000000000000000
 --- a/dist/marketDataCLI.js
 +++ /dev/null
 @@ -1,50 +0,0 @@
 -"use strict";
 -Object.defineProperty(exports, "__esModule", { value: true });
 -// import { JsonRpcProvider } from '@ethersproject/providers'
--const types_1 = require("@keepkey/types");
--// import { HistoryTimeframe } from '@keepkey/types'
+-const types_1 = require("@shapeshiftoss/types");
+-// import { HistoryTimeframe } from '@shapeshiftoss/types'
 -// import { Yearn } from '@yfi/sdk'
 -// import { CoinGeckoMarketService } from './coingecko/coingecko'
 -// import { YearnVaultMarketCapService } from './yearn/yearn-vaults'
@@ -326,11 +326,11 @@ index c8ad2e549bdc6801e0d1c80b0308d4b9bd4985ce..00000000000000000000000000000000
 -Object.defineProperty(exports, "__esModule", { value: true });
 diff --git a/dist/osmosis/osmosis.d.ts b/dist/osmosis/osmosis.d.ts
 deleted file mode 100644
-index 92be2832700ff47316273dfc0fb5c86acc30859c..0000000000000000000000000000000000000000
+index f8df9600fbc2ab7884485f5ffca4d2494c5a32af..0000000000000000000000000000000000000000
 --- a/dist/osmosis/osmosis.d.ts
 +++ /dev/null
 @@ -1,8 +0,0 @@
--import { HistoryData, MarketCapResult, MarketData, MarketDataArgs, PriceHistoryArgs } from '@keepkey/types';
+-import { HistoryData, MarketCapResult, MarketData, MarketDataArgs, PriceHistoryArgs } from '@shapeshiftoss/types';
 -import { MarketService } from '../api';
 -export declare class OsmosisMarketService implements MarketService {
 -    baseUrl: string;
@@ -340,7 +340,7 @@ index 92be2832700ff47316273dfc0fb5c86acc30859c..00000000000000000000000000000000
 -}
 diff --git a/dist/osmosis/osmosis.js b/dist/osmosis/osmosis.js
 deleted file mode 100644
-index df7770e8557e0aa2e846a23d0ef1e5c3fa86d1ff..0000000000000000000000000000000000000000
+index 5686085456cf586f87966a550e4f07091f396b5c..0000000000000000000000000000000000000000
 --- a/dist/osmosis/osmosis.js
 +++ /dev/null
 @@ -1,137 +0,0 @@
@@ -350,8 +350,8 @@ index df7770e8557e0aa2e846a23d0ef1e5c3fa86d1ff..00000000000000000000000000000000
 -};
 -Object.defineProperty(exports, "__esModule", { value: true });
 -exports.OsmosisMarketService = void 0;
--const caip_1 = require("@keepkey/caip");
--const types_1 = require("@keepkey/types");
+-const caip_1 = require("@shapeshiftoss/caip");
+-const types_1 = require("@shapeshiftoss/types");
 -const axios_1 = __importDefault(require("axios"));
 -const bignumber_1 = require("../utils/bignumber");
 -const isValidDate_1 = require("../utils/isValidDate");
@@ -483,11 +483,11 @@ index df7770e8557e0aa2e846a23d0ef1e5c3fa86d1ff..00000000000000000000000000000000
 -exports.OsmosisMarketService = OsmosisMarketService;
 diff --git a/dist/osmosis/osmosisMockData.d.ts b/dist/osmosis/osmosisMockData.d.ts
 deleted file mode 100644
-index 52abfefc214a55966df4305892ebc043a1c31f2c..0000000000000000000000000000000000000000
+index cdf5090f502249c04109db2672cf40c5f21b0998..0000000000000000000000000000000000000000
 --- a/dist/osmosis/osmosisMockData.d.ts
 +++ /dev/null
 @@ -1,24 +0,0 @@
--import { MarketData } from '@keepkey/types';
+-import { MarketData } from '@shapeshiftoss/types';
 -import { OsmosisMarketCap } from './osmosis-types';
 -export declare const secretNetwork: OsmosisMarketCap;
 -export declare const ion: OsmosisMarketCap;
@@ -658,11 +658,11 @@ index a839834ba7dd07073c499b1cde6f61510d11fd05..00000000000000000000000000000000
 -`;
 diff --git a/dist/yearn/yearn-tokens.d.ts b/dist/yearn/yearn-tokens.d.ts
 deleted file mode 100644
-index 3368bdfbf7a1a2279418fce04fa80763a1e5f22b..0000000000000000000000000000000000000000
+index 2289b792bc9c66fa092429090987da264e0fe623..0000000000000000000000000000000000000000
 --- a/dist/yearn/yearn-tokens.d.ts
 +++ /dev/null
 @@ -1,16 +0,0 @@
--import { FindAllMarketArgs, HistoryData, MarketCapResult, MarketData, MarketDataArgs } from '@keepkey/types';
+-import { FindAllMarketArgs, HistoryData, MarketCapResult, MarketData, MarketDataArgs } from '@shapeshiftoss/types';
 -import { ChainId, Yearn } from '@yfi/sdk';
 -import { MarketService } from '../api';
 -declare type YearnTokenMarketCapServiceArgs = {
@@ -680,7 +680,7 @@ index 3368bdfbf7a1a2279418fce04fa80763a1e5f22b..00000000000000000000000000000000
 -export {};
 diff --git a/dist/yearn/yearn-tokens.js b/dist/yearn/yearn-tokens.js
 deleted file mode 100644
-index 1be516804656ae47313bbb54316b41cfb55b36c9..0000000000000000000000000000000000000000
+index fc3b224e74e1877df0a5866c896d2701cfc11498..0000000000000000000000000000000000000000
 --- a/dist/yearn/yearn-tokens.js
 +++ /dev/null
 @@ -1,99 +0,0 @@
@@ -690,7 +690,7 @@ index 1be516804656ae47313bbb54316b41cfb55b36c9..00000000000000000000000000000000
 -};
 -Object.defineProperty(exports, "__esModule", { value: true });
 -exports.YearnTokenMarketCapService = void 0;
--const caip_1 = require("@keepkey/caip");
+-const caip_1 = require("@shapeshiftoss/caip");
 -const uniqBy_1 = __importDefault(require("lodash/uniqBy"));
 -const config_1 = require("../config");
 -const bignumber_1 = require("../utils/bignumber");
@@ -817,11 +817,11 @@ index c8ad2e549bdc6801e0d1c80b0308d4b9bd4985ce..00000000000000000000000000000000
 -Object.defineProperty(exports, "__esModule", { value: true });
 diff --git a/dist/yearn/yearn-vaults.d.ts b/dist/yearn/yearn-vaults.d.ts
 deleted file mode 100644
-index 9a0f8bf6c92863ce25b1c8ce165e28c487437980..0000000000000000000000000000000000000000
+index 4ad2c3a88b689f45020d29027ac4f035dee64d52..0000000000000000000000000000000000000000
 --- a/dist/yearn/yearn-vaults.d.ts
 +++ /dev/null
 @@ -1,17 +0,0 @@
--import { FindAllMarketArgs, HistoryData, MarketCapResult, MarketData, MarketDataArgs, PriceHistoryArgs } from '@keepkey/types';
+-import { FindAllMarketArgs, HistoryData, MarketCapResult, MarketData, MarketDataArgs, PriceHistoryArgs } from '@shapeshiftoss/types';
 -import { ChainId, Yearn } from '@yfi/sdk';
 -import { MarketService } from '../api';
 -declare type YearnVaultMarketCapServiceArgs = {
@@ -840,7 +840,7 @@ index 9a0f8bf6c92863ce25b1c8ce165e28c487437980..00000000000000000000000000000000
 -export {};
 diff --git a/dist/yearn/yearn-vaults.js b/dist/yearn/yearn-vaults.js
 deleted file mode 100644
-index c798cefd5fbcf6cf3ad7dc2aebd9c1c9f54ec2f7..0000000000000000000000000000000000000000
+index a29e4f0b62deb3d4344a30848a9714e617c932f8..0000000000000000000000000000000000000000
 --- a/dist/yearn/yearn-vaults.js
 +++ /dev/null
 @@ -1,228 +0,0 @@
@@ -850,8 +850,8 @@ index c798cefd5fbcf6cf3ad7dc2aebd9c1c9f54ec2f7..00000000000000000000000000000000
 -};
 -Object.defineProperty(exports, "__esModule", { value: true });
 -exports.YearnVaultMarketCapService = void 0;
--const caip_1 = require("@keepkey/caip");
--const types_1 = require("@keepkey/types");
+-const caip_1 = require("@shapeshiftoss/caip");
+-const types_1 = require("@shapeshiftoss/types");
 -const head_1 = __importDefault(require("lodash/head"));
 -const config_1 = require("../config");
 -const bignumber_1 = require("../utils/bignumber");
@@ -1456,7 +1456,7 @@ index de8b15da3a21b1483912b71721bb96da9133fcbf..00000000000000000000000000000000
 -    },
 -];
 diff --git a/package.json b/package.json
-index 718893b0332a66da88ba9cd571ffdd6d19253c7e..6c0d12936876017f8bf88e3b003c5ab9f85aaec5 100644
+index 87f95fc4ad3ecb067714df80022e557ca99f6d9d..941f190fdba5fd4bb5c0b0ce84b79aad13a8c2f1 100644
 --- a/package.json
 +++ b/package.json
 @@ -23,12 +23,9 @@
@@ -1476,19 +1476,19 @@ index 718893b0332a66da88ba9cd571ffdd6d19253c7e..6c0d12936876017f8bf88e3b003c5ab9
 @@ -37,17 +34,11 @@
    },
    "peerDependencies": {
-     "@keepkey/caip": "^8.0.0",
--    "@keepkey/chain-adapters": "^10.0.0",
--    "@keepkey/investor-foxy": "^7.0.0",
--    "@keepkey/types": "^8.1.0",
--    "@keepkey/unchained-client": "^10.0.1"
-+    "@keepkey/types": "^8.1.0"
+     "@shapeshiftoss/caip": "^8.0.0",
+-    "@shapeshiftoss/chain-adapters": "^10.0.0",
+-    "@shapeshiftoss/investor-foxy": "^7.0.0",
+-    "@shapeshiftoss/types": "^8.1.0",
+-    "@shapeshiftoss/unchained-client": "^10.0.1"
++    "@shapeshiftoss/types": "^8.1.0"
    },
    "devDependencies": {
-     "@keepkey/caip": "^8.0.0",
--    "@keepkey/chain-adapters": "^10.0.0",
--    "@keepkey/investor-foxy": "^7.0.0",
-     "@keepkey/types": "^8.1.0",
--    "@keepkey/unchained-client": "^10.0.1",
+     "@shapeshiftoss/caip": "^8.0.0",
+-    "@shapeshiftoss/chain-adapters": "^10.0.0",
+-    "@shapeshiftoss/investor-foxy": "^7.0.0",
+     "@shapeshiftoss/types": "^8.1.0",
+-    "@shapeshiftoss/unchained-client": "^10.0.1",
      "limiter": "^2.1.0"
    }
  }

@@ -1,6 +1,6 @@
-import type { Asset } from '@keepkey/asset-service'
-import type { AccountId, AssetId } from '@keepkey/caip'
-import type { BIP44Params, UtxoAccountType } from '@keepkey/types'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import type { AccountId, AssetId } from '@shapeshiftoss/caip'
+import type { BIP44Params, UtxoAccountType } from '@shapeshiftoss/types'
 
 /*
  * we can't retrieve an xpub from an address, but we can derive

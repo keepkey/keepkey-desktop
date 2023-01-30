@@ -1,4 +1,4 @@
-import type { SupportedFiatCurrencies } from '@keepkey/market-service'
+import type { SupportedFiatCurrencies } from '@shapeshiftoss/market-service'
 import { createSlice } from '@reduxjs/toolkit'
 import { getConfig } from 'config'
 import dayjs from 'dayjs'

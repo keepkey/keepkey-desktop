@@ -1,5 +1,5 @@
 import { Box, Icon } from '@chakra-ui/react'
-import type { AssetId } from '@keepkey/caip'
+import type { AssetId } from '@shapeshiftoss/caip'
 import { AssetIcon } from 'components/AssetIcon'
 import { IconCircle } from 'components/IconCircle'
 import { bn } from 'lib/bignumber/bignumber'

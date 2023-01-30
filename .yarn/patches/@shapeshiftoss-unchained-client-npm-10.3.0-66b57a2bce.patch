@@ -1975,10 +1975,10 @@ index fa383e59310218d611156c6c2d4b5922186e71d9..00000000000000000000000000000000
 -}
 -exports.Parser = Parser;
 diff --git a/dist/evm/ethereum/parser/index.js b/dist/evm/ethereum/parser/index.js
-index b8904ca8e615623ed84a8e3d148fe668bb9007ce..60c4a1b7ebb8f5c910013792a6b6f20f17c2f014 100644
+index 813c1d5e6b4459b6f8ed40c939b5ef8c64400feb..87e0aa2f0a45f399d71675b2857fbc6abcd0437c 100644
 --- a/dist/evm/ethereum/parser/index.js
 +++ b/dist/evm/ethereum/parser/index.js
-@@ -28,11 +28,9 @@ const caip_1 = require("@keepkey/caip");
+@@ -28,11 +28,9 @@ const caip_1 = require("@shapeshiftoss/caip");
  const parser_1 = require("../../parser");
  const zrx = __importStar(require("../../parser/zrx"));
  const cowswap = __importStar(require("./cowswap"));
@@ -2001,11 +2001,11 @@ index b8904ca8e615623ed84a8e3d148fe668bb9007ce..60c4a1b7ebb8f5c910013792a6b6f20f
              new thor.Parser({ chainId: this.chainId, rpcUrl: args.rpcUrl }),
 diff --git a/dist/evm/ethereum/parser/yearn.d.ts b/dist/evm/ethereum/parser/yearn.d.ts
 deleted file mode 100644
-index caddfe17339947e534f5da9181d3db169ecfa7a5..0000000000000000000000000000000000000000
+index 000d9b7bd186869460485c4433357f0382343e29..0000000000000000000000000000000000000000
 --- a/dist/evm/ethereum/parser/yearn.d.ts
 +++ /dev/null
 @@ -1,37 +0,0 @@
--import { ChainId } from '@keepkey/caip';
+-import { ChainId } from '@shapeshiftoss/caip';
 -import { ChainId as YearnChainId, Yearn } from '@yfi/sdk';
 -import { ethers } from 'ethers';
 -import { Tx } from '../../../generated/ethereum';
@@ -2044,7 +2044,7 @@ index caddfe17339947e534f5da9181d3db169ecfa7a5..00000000000000000000000000000000
 -export {};
 diff --git a/dist/evm/ethereum/parser/yearn.js b/dist/evm/ethereum/parser/yearn.js
 deleted file mode 100644
-index 6f3572879716410eb82cff26e5a7bfc37367a332..0000000000000000000000000000000000000000
+index 75758dd57bcfa7abad2efde3ec6d6cd4d0a5d5fb..0000000000000000000000000000000000000000
 --- a/dist/evm/ethereum/parser/yearn.js
 +++ /dev/null
 @@ -1,106 +0,0 @@
@@ -2054,7 +2054,7 @@ index 6f3572879716410eb82cff26e5a7bfc37367a332..00000000000000000000000000000000
 -};
 -Object.defineProperty(exports, "__esModule", { value: true });
 -exports.Parser = void 0;
--const caip_1 = require("@keepkey/caip");
+-const caip_1 = require("@shapeshiftoss/caip");
 -const sdk_1 = require("@yfi/sdk");
 -const ethers_1 = require("ethers");
 -const parser_1 = require("../../parser");

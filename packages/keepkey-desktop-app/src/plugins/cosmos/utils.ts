@@ -1,11 +1,11 @@
-import type { Asset } from '@keepkey/asset-service'
-import { fromAssetId } from '@keepkey/caip'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import { fromAssetId } from '@shapeshiftoss/caip'
 import type {
   cosmossdk,
   CosmosSdkBaseAdapter,
   CosmosSdkChainId,
   FeeDataKey,
-} from '@keepkey/chain-adapters'
+} from '@shapeshiftoss/chain-adapters'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 

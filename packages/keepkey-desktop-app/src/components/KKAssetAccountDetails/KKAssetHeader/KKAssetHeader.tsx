@@ -1,5 +1,5 @@
 import { Box, Flex, Heading, Link } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
+import type { Asset } from '@shapeshiftoss/asset-service'
 import { assume } from 'common-utils'
 
 import { AssetIcon } from './AssetIcon'

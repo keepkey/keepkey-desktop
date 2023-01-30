@@ -7,9 +7,9 @@ import {
   ethAssetId,
   ethChainId,
   foxAssetId,
-} from '@keepkey/caip'
-import { type Account } from '@keepkey/chain-adapters'
-import { KnownChainIds } from '@keepkey/types'
+} from '@shapeshiftoss/caip'
+import { type Account } from '@shapeshiftoss/chain-adapters'
+import { KnownChainIds } from '@shapeshiftoss/types'
 import merge from 'lodash/merge'
 import toLower from 'lodash/toLower'
 
