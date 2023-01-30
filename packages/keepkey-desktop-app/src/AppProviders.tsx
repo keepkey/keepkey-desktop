@@ -10,7 +10,6 @@ import { I18nProvider } from 'context/I18nProvider/I18nProvider'
 import { ModalProvider } from 'context/ModalProvider/ModalProvider'
 import { PluginProvider } from 'context/PluginProvider/PluginProvider'
 import { TransactionsProvider } from 'context/TransactionsProvider/TransactionsProvider'
-import { WagmiProvider } from 'context/WagmiProvider/WagmiProvider'
 import { KeepKeyProvider } from 'context/WalletProvider/KeepKeyProvider'
 import { WalletProvider } from 'context/WalletProvider/WalletProvider'
 import { SplashScreen } from 'pages/SplashScreen/SplashScreen'
@@ -34,36 +33,34 @@ export function AppProviders({ children }: ProvidersProps) {
   const { ToastContainer } = createStandaloneToast()
   return (
     <ReduxProvider store={store}>
-      <WagmiProvider>
-        <PluginProvider>
-          <ColorModeScript storageKey='ss-theme' />
-          <ChakraProvider theme={theme} colorModeManager={manager} cssVarsRoot='body'>
-            <ToastContainer />
-            <PersistGate loading={<SplashScreen />} persistor={persistor}>
-              <HashRouter basename='/'>
-                <ScrollToTop />
-                <BrowserRouterProvider>
-                  <I18nProvider>
-                    <WalletProvider>
-                      <ContractABIProvider>
-                        <WalletConnectBridgeProvider>
-                          <KeepKeyProvider>
-                            <ModalProvider>
-                              <TransactionsProvider>
-                                <AppProvider>{children}</AppProvider>
-                              </TransactionsProvider>
-                            </ModalProvider>
-                          </KeepKeyProvider>
-                        </WalletConnectBridgeProvider>
-                      </ContractABIProvider>
-                    </WalletProvider>
-                  </I18nProvider>
-                </BrowserRouterProvider>
-              </HashRouter>
-            </PersistGate>
-          </ChakraProvider>
-        </PluginProvider>
-      </WagmiProvider>
+      <PluginProvider>
+        <ColorModeScript storageKey='ss-theme' />
+        <ChakraProvider theme={theme} colorModeManager={manager} cssVarsRoot='body'>
+          <ToastContainer />
+          <PersistGate loading={<SplashScreen />} persistor={persistor}>
+            <HashRouter basename='/'>
+              <ScrollToTop />
+              <BrowserRouterProvider>
+                <I18nProvider>
+                  <WalletProvider>
+                    <ContractABIProvider>
+                      <WalletConnectBridgeProvider>
+                        <KeepKeyProvider>
+                          <ModalProvider>
+                            <TransactionsProvider>
+                              <AppProvider>{children}</AppProvider>
+                            </TransactionsProvider>
+                          </ModalProvider>
+                        </KeepKeyProvider>
+                      </WalletConnectBridgeProvider>
+                    </ContractABIProvider>
+                  </WalletProvider>
+                </I18nProvider>
+              </BrowserRouterProvider>
+            </HashRouter>
+          </PersistGate>
+        </ChakraProvider>
+      </PluginProvider>
     </ReduxProvider>
   )
 }

@@ -1,5 +1,4 @@
 import type { Asset } from '@shapeshiftoss/asset-service'
-import { ethChainId } from '@shapeshiftoss/caip'
 import type { TxTransfer } from '@shapeshiftoss/chain-adapters'
 import type { MarketData } from '@shapeshiftoss/types'
 import { TradeType, TransferType } from '@shapeshiftoss/unchained-client'
@@ -12,7 +11,6 @@ import {
 } from 'state/slices/selectors'
 import type { Tx } from 'state/slices/txHistorySlice/txHistorySlice'
 import { useAppSelector } from 'state/store'
-import { useEnsName } from 'wagmi'
 
 // Adding a new supported method? Also update transactionRow.parser translations accordingly
 export enum ContractMethod {
@@ -45,9 +43,7 @@ export interface TxDetails {
   sellAsset?: Asset
   value?: string
   to: string
-  ensTo?: string
   from: string
-  ensFrom?: string
   type: TradeType | TransferType | ''
   symbol: string
   precision: number
@@ -136,20 +132,6 @@ export const useTxDetails = (txId: string, activeAsset?: Asset): TxDetails => {
   const to = standardTx?.to ?? tradeTx?.to ?? ''
   const from = standardTx?.from ?? tradeTx?.from ?? ''
 
-  const { data: ensFrom = '' } = useEnsName({
-    address: from,
-    cacheTime: Infinity, // Cache a given ENS reverse resolution response infinitely for the lifetime of a tab / until app reload
-    staleTime: Infinity, // Cache a given ENS reverse resolution query infinitely for the lifetime of a tab / until app reload
-    enabled: tx.chainId === ethChainId,
-  })
-
-  const { data: ensTo = '' } = useEnsName({
-    address: to,
-    cacheTime: Infinity, // Cache a given ENS reverse resolution response infinitely for the lifetime of a tab / until app reload
-    staleTime: Infinity, // Cache a given ENS reverse resolution query infinitely for the lifetime of a tab / until app reload
-    enabled: tx.chainId === ethChainId,
-  })
-
   const tradeType =
     buyTransfer && sellTransfer && isTradeContract(buyTransfer, sellTransfer)
       ? TradeType.Trade
@@ -182,9 +164,7 @@ export const useTxDetails = (txId: string, activeAsset?: Asset): TxDetails => {
     sellAsset,
     value,
     to,
-    ensTo: ensTo!,
     from,
-    ensFrom: ensFrom!,
     type,
     symbol,
     precision,
