@@ -44,6 +44,7 @@ export const KeepKeyWipe = () => {
         setDeviceState({ awaitingDeviceInteraction: false })
       }
       disconnect()
+      await ipcListeners.appRestart()
     } catch (e) {
       moduleLogger.error(e, { fn: 'wipeDevice' }, 'KeepKey Wipe Failed')
       toast({
