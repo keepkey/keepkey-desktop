@@ -9598,7 +9598,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],\
       ["@shapeshiftoss/hdwallet-keepkey", [\
         ["patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@npm%253A1.41.0%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%3A%3Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch::version=1.41.0&hash=196f5c&locator=keepkey-monorepo%40workspace%3A.", {\
-          "packageLocation": "./.yarn/unplugged/@shapeshiftoss-hdwallet-keepkey-patch-585e8b93cf/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-patch-585e8b93cf-8626d5d5fe.zip/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
           "packageDependencies": [\
             ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@npm%253A1.41.0%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%3A%3Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch::version=1.41.0&hash=196f5c&locator=keepkey-monorepo%40workspace%3A."],\
             ["@ethereumjs/common", "npm:2.6.5"],\

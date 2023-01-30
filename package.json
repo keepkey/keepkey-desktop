@@ -52,9 +52,6 @@
     "@openapitools/openapi-generator-cli@2.5.2": {
       "unplugged": true
     },
-    "@shapeshiftoss/hdwallet-keepkey@1.41.0": {
-      "unplugged": true
-    },
     "app-builder-lib@24.0.0-alpha.5": {
       "unplugged": true
     },
