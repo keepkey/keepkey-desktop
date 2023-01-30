@@ -14,7 +14,7 @@
     "private": true,
     "scripts": {
         "build": "ts-node --skipProject --swc ./scripts/build.ts",
-        "release": "yarn run -T build && electron-builder",
+        "release": "yarn run -T build && rm -f build/metafile.json build/app/metafile.json && electron-builder",
         "dev": "ts-node --skipProject --swc ./scripts/dev.ts",
         "clean": "rimraf build dist",
         "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
