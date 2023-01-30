@@ -25,17 +25,17 @@ import { RouteCategory } from './helpers'
 
 export const routes: NestedRoute[] = [
   {
-    path: '/dashboard',
-    label: 'navBar.dashboard',
-    icon: <DashboardIcon />,
-    main: Dashboard,
-    category: RouteCategory.Wallet,
-  },
-  {
     path: '/dapps',
     label: 'navBar.dApps',
     main: WalletConnectToDapps,
     icon: <FaBuromobelexperte />,
+    category: RouteCategory.Wallet,
+  },
+  {
+    path: '/dashboard',
+    label: 'navBar.dashboard',
+    icon: <DashboardIcon />,
+    main: Dashboard,
     category: RouteCategory.Wallet,
   },
   {

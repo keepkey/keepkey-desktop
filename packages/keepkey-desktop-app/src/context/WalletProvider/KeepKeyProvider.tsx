@@ -4,7 +4,6 @@ import type { Asset } from '@keepkey/asset-service'
 import type { Features } from '@keepkey/device-protocol/lib/messages_pb'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
-import axios from 'axios'
 import { assertNever } from 'common-utils'
 import type { RadioOption } from 'components/Radio/Radio'
 import { getConfig } from 'config'
@@ -124,12 +123,6 @@ const reducer = (state: InitialState, action: KeepKeyActionTypes) => {
   }
 }
 
-const overrideGeckoName = (name: string) => {
-  if (name.toUpperCase() === 'XRP') return 'Ripple'
-  if (name.toUpperCase() === 'BNB') return 'Binance'
-  else return name
-}
-
 export type KKAsset = Asset & { rank: number; marketCap: number; link: string; geckoId: string }
 
 const KeepKeyContext = createContext<IKeepKeyContext | null>(null)
@@ -153,11 +146,7 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
 
   const loadKeepkeyAssets = useCallback(async () => {
     const pioneer = await getPioneerClient()
-    const { data } = await pioneer.SearchAssetsList({ limit: 1000, skip: 0 })
-
-    // const { data } = await axios.get(
-    //   'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false',
-    // )
+    const { data } = await pioneer.SearchAssetsList({ limit: 20000, skip: 0 })
 
     const kkAssets = data.map((asset: any) => {
       const kkAsset: any = {

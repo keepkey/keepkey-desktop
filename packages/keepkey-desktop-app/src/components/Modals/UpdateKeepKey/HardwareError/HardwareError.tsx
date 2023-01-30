@@ -72,7 +72,7 @@ export const HardwareErrorModal = (error: {
                   </Heading>
                 </CardHeader>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <WarningTwoIcon boxSize={48} color='red.500' />
+                  <WarningTwoIcon boxSize={24} color='yellow.500' />
                 </div>
                 <CardBody>
                   <Stack divider={<StackDivider />} spacing='4'>
@@ -90,6 +90,9 @@ export const HardwareErrorModal = (error: {
                       </Heading>
                       <Heading size='xs' textTransform='uppercase'>
                         2. {translate('modals.keepKey.hardware.claimInterface3')}
+                      </Heading>
+                      <Heading size='xs' textTransform='uppercase'>
+                        3. {translate('modals.keepKey.hardware.claimInterface4')}
                       </Heading>
                     </Box>
                   </Stack>
