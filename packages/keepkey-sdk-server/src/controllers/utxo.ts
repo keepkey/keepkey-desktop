@@ -1,4 +1,13 @@
-import { Body, Middlewares, OperationId, Post, Response, Route, Security, Tags } from 'tsoa'
+import {
+  Body,
+  Middlewares,
+  OperationId,
+  Post,
+  Response,
+  Route,
+  Security,
+  Tags,
+} from '@tsoa/runtime'
 
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'

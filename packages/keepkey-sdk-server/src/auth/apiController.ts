@@ -1,4 +1,4 @@
-import { Controller } from 'tsoa'
+import { Controller } from '@tsoa/runtime'
 
 import type { ApiContext } from './apiContext'
 
