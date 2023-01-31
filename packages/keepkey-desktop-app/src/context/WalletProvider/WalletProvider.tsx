@@ -309,6 +309,13 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         showBackButton: !preventClose,
       }
     }
+    case WalletActions.SET_SHOW_BACK_BUTTON: {
+      const showBackButton = action.payload
+      return {
+        ...state,
+        showBackButton,
+      }
+    }
     case WalletActions.RESET_STATE:
       const resetProperties = omit(initialState, ['adapters', 'modal', 'deviceId'])
       return { ...state, ...resetProperties }

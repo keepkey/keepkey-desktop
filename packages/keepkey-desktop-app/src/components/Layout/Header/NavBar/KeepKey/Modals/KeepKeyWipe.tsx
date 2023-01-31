@@ -10,6 +10,7 @@ import {
 import { useToast } from '@chakra-ui/toast'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { Text } from 'components/Text'
+import { WalletActions } from 'context/WalletProvider/actions'
 import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
@@ -30,6 +31,7 @@ export const KeepKeyWipe = () => {
       deviceState: { awaitingDeviceInteraction },
       showBackButton,
     },
+    dispatch,
     setDeviceState,
   } = useWallet()
   const toast = useToast()
@@ -37,6 +39,7 @@ export const KeepKeyWipe = () => {
 
   const wipeDevice = async () => {
     moduleLogger.trace({ fn: 'wipeDevice' }, 'Wiping KeepKey...')
+    dispatch({ type: WalletActions.SET_SHOW_BACK_BUTTON, payload: false })
     try {
       setDeviceState({ awaitingDeviceInteraction: true })
       try {
