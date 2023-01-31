@@ -73,6 +73,7 @@ export const KeepKeyWipe = () => {
           />
           <Checkbox
             isChecked={wipeConfirmationChecked}
+            disabled={awaitingDeviceInteraction}
             onChange={e => setWipeConfirmationChecked(e.target.checked)}
             mb={6}
             spacing={3}
@@ -87,7 +88,7 @@ export const KeepKeyWipe = () => {
             width='full'
             mb={6}
             isLoading={awaitingDeviceInteraction}
-            disabled={!wipeConfirmationChecked}
+            disabled={!wipeConfirmationChecked || awaitingDeviceInteraction}
           >
             {translate('walletProvider.keepKey.modals.actions.wipeDevice')}
           </Button>
