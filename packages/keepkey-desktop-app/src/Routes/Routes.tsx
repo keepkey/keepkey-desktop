@@ -6,8 +6,6 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import { Authenticator } from 'pages/Authenticator/Authenticator'
 import { ConnectWallet } from 'pages/ConnectWallet/ConnectWallet'
 import { Flags } from 'pages/Flags/Flags'
-import { PrivacyPolicy } from 'pages/Legal/PrivacyPolicy'
-import { TermsOfService } from 'pages/Legal/TermsOfService'
 import { NotFound } from 'pages/NotFound/NotFound'
 import { Pairings } from 'pages/Pairings/Pairings'
 import { useEffect, useMemo } from 'react'
@@ -63,16 +61,6 @@ export const Routes = () => {
       {privateRoutesList}
       <Route path='/connect-wallet'>
         <ConnectWallet />
-      </Route>
-      <Route path={'/legal/terms-of-service'}>
-        <Layout>
-          <TermsOfService />
-        </Layout>
-      </Route>
-      <Route path={'/legal/privacy-policy'}>
-        <Layout>
-          <PrivacyPolicy />
-        </Layout>
       </Route>
       <Route path='/flags'>
         <Layout>

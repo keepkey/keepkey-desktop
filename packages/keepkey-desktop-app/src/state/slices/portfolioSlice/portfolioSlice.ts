@@ -1,5 +1,5 @@
-import type { ChainId } from '@keepkey/caip'
-import { toAccountId } from '@keepkey/caip'
+import type { ChainId } from '@shapeshiftoss/caip'
+import { toAccountId } from '@shapeshiftoss/caip'
 import { createSlice } from '@reduxjs/toolkit'
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'

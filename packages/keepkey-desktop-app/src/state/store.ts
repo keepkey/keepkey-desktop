@@ -4,10 +4,7 @@ import type { TypedUseSelectorHook } from 'react-redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { PERSIST, persistReducer, persistStore } from 'redux-persist'
 import { getStateWith, registerSelectors } from 'reselect-tools'
-import { swapperApi } from 'state/apis/swapper/swapperApi'
 
-import { fiatRampApi } from './apis/fiatRamps/fiatRamps'
-import { foxyApi } from './apis/foxy/foxyApi'
 import type { ReduxState } from './reducer'
 import { apiSlices, reducer, slices } from './reducer'
 import { assetApi } from './slices/assetsSlice/assetsSlice'
@@ -15,7 +12,6 @@ import { marketApi, marketData } from './slices/marketDataSlice/marketDataSlice'
 import { portfolioApi } from './slices/portfolioSlice/portfolioSlice'
 import * as selectors from './slices/selectors'
 import { txHistoryApi } from './slices/txHistorySlice/txHistorySlice'
-import { validatorDataApi } from './slices/validatorDataSlice/validatorDataSlice'
 
 const persistConfig = {
   key: 'root',
@@ -28,10 +24,6 @@ const apiMiddleware = [
   marketApi.middleware,
   assetApi.middleware,
   txHistoryApi.middleware,
-  validatorDataApi.middleware,
-  foxyApi.middleware,
-  swapperApi.middleware,
-  fiatRampApi.middleware,
 ]
 
 const persistedReducer = persistReducer(persistConfig, reducer)
@@ -40,7 +32,6 @@ export const clearState = () => {
   store.dispatch(slices.assets.actions.clear())
   store.dispatch(slices.marketData.actions.clear())
   store.dispatch(slices.txHistory.actions.clear())
-  store.dispatch(slices.validatorData.actions.clear())
   store.dispatch(slices.portfolio.actions.clear())
   store.dispatch(slices.accountSpecifiers.actions.clear())
 
@@ -48,7 +39,6 @@ export const clearState = () => {
   store.dispatch(apiSlices.marketApi.util.resetApiState())
   store.dispatch(apiSlices.portfolioApi.util.resetApiState())
   store.dispatch(apiSlices.txHistoryApi.util.resetApiState())
-  store.dispatch(apiSlices.validatorDataApi.util.resetApiState())
 }
 
 /**

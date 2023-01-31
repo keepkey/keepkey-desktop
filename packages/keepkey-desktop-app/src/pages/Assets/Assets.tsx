@@ -1,5 +1,5 @@
 import { Heading, Stack } from '@chakra-ui/layout'
-import type { Asset } from '@keepkey/asset-service'
+import type { Asset } from '@shapeshiftoss/asset-service'
 import { AssetSearchKK } from 'components/AssetSearchKK/AssetSearchKK'
 import { Main } from 'components/Layout/Main'
 import { Text } from 'components/Text'

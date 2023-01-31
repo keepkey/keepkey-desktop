@@ -1,4 +1,3 @@
-import type * as express from 'express'
 import {
   Body,
   Controller,
@@ -11,7 +10,8 @@ import {
   Route,
   Security,
   Tags,
-} from 'tsoa'
+} from '@tsoa/runtime'
+import type * as express from 'express'
 
 import type { PairingInfo } from '../auth/sdkClient'
 import { getSdkPairingHandler } from '../auth/sdkClient'

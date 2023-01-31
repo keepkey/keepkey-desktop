@@ -9,8 +9,8 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
-import type { AssetId } from '@keepkey/caip'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import type { AssetId } from '@shapeshiftoss/caip'
 import { AssetIcon } from 'components/AssetIcon'
 import { RawText } from 'components/Text'
 import { debounce } from 'lodash'
@@ -28,7 +28,6 @@ type AssetCellProps = {
   showTeaser?: boolean
   showAssetSymbol?: boolean
   icons?: string[]
-  opportunityName?: string
 }
 
 const buildRowTitle = (asset: Asset, postFix?: string, showAssetSymbol?: boolean): string => {
@@ -54,7 +53,6 @@ export const AssetCell = ({
   showAssetSymbol,
   postFix,
   icons,
-  opportunityName,
 }: AssetCellProps) => {
   const [showPopover, setShowPopover] = useState(false)
   const linkColor = useColorModeValue('black', 'white')
@@ -64,7 +62,7 @@ export const AssetCell = ({
 
   if (!asset) return null
 
-  const rowTitle = opportunityName ?? buildRowTitle(asset, postFix, showAssetSymbol)
+  const rowTitle = buildRowTitle(asset, postFix, showAssetSymbol)
 
   return (
     <HStack width='full' data-test='defi-earn-asset-row'>

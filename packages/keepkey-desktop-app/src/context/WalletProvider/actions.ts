@@ -2,6 +2,7 @@ import type { KeepKeySdk } from '@keepkey/keepkey-sdk'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import type { Deferred } from 'common-utils'
 
+import type { Entropy } from './KeepKey/components/RecoverySettings'
 import type { PinMatrixRequestType } from './KeepKey/KeepKeyTypes'
 import type { KeyManager } from './KeyManager'
 import type { Adapters, InitialState, WalletConnectApp, WalletInfo } from './WalletProvider'
@@ -83,6 +84,11 @@ export type ActionTypes =
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_RECOVERY_SYNTAX_FAILURE
+      payload?: {
+        label: string
+        recoverWithPassphrase: boolean
+        recoveryEntropy: Entropy
+      }
     }
   | { type: WalletActions.RESET_STATE }
   | { type: WalletActions.RESET_LAST_DEVICE_INTERACTION_STATE }

@@ -22,8 +22,8 @@ import {
   Stack,
   useToast,
 } from '@chakra-ui/react'
-import type { ChainId } from '@keepkey/caip'
-import { fromAccountId } from '@keepkey/caip'
+import type { ChainId } from '@shapeshiftoss/caip'
+import { fromAccountId } from '@shapeshiftoss/caip'
 import { RawText } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useModal } from 'hooks/useModal/useModal'

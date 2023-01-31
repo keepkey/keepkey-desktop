@@ -67,17 +67,20 @@ export const KeepKeyRecoverySettings = () => {
       setLoading(true)
       const labelDeferred = deferred<string>()
       dispatch({ type: WalletActions.OPEN_KEEPKEY_LABEL, payload: { deferred: labelDeferred } })
-      const label = await labelDeferred
+      const recoveryOptions = {
+        label: await labelDeferred,
+        recoverWithPassphrase: useRecoveryPassphrase,
+        recoveryEntropy: sentenceLengthSelection,
+      }
       while (true) {
         try {
-          await recoverKeepKey({
-            label,
-            recoverWithPassphrase: useRecoveryPassphrase,
-            recoveryEntropy: sentenceLengthSelection,
-          })
+          await recoverKeepKey(recoveryOptions)
         } catch (e) {
           if (isKKFailureType(e, FailureType.FAILURE_SYNTAXERROR)) {
-            dispatch({ type: WalletActions.OPEN_KEEPKEY_RECOVERY_SYNTAX_FAILURE })
+            dispatch({
+              type: WalletActions.OPEN_KEEPKEY_RECOVERY_SYNTAX_FAILURE,
+              payload: recoveryOptions,
+            })
           } else if (isKKFailureType(e, FailureType.FAILURE_PINMISMATCH)) {
             continue
           } else {

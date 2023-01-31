@@ -152,34 +152,6 @@ export const ConnectWallet = () => {
                 <Text translation={'common.getSupport'} />
               </Button>
             </Flex>
-            <Flex
-              direction={'column'}
-              gap={4}
-              width='full'
-              position={{ base: 'static', md: 'fixed' }}
-              zIndex={3}
-              py={3}
-              px={4}
-              bottom={0}
-              alignItems={'center'}
-            >
-              <Flex width='full' alignItems='center' justifyContent='center' gap={8}>
-                <Link
-                  href='/#/legal/terms-of-service'
-                  color='whiteAlpha.500'
-                  _hover={{ color: 'white' }}
-                >
-                  <Text translation='common.terms' />
-                </Link>
-                <Link
-                  href='/#/legal/privacy-policy'
-                  color='whiteAlpha.500'
-                  _hover={{ color: 'white' }}
-                >
-                  <Text translation='common.privacy' />
-                </Link>
-              </Flex>
-            </Flex>
           </Flex>
         </Flex>
       </DarkMode>

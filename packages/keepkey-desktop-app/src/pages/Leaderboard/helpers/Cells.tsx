@@ -6,7 +6,7 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
+import type { Asset } from '@shapeshiftoss/asset-service'
 import { AssetIcon } from 'components/AssetSearchKK/AssetIcon'
 import { RawText } from 'components/Text'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
@@ -16,7 +16,6 @@ type AssetCellProps = {
   subText?: string
   postFix?: string
   showTeaser?: boolean
-  opportunityName?: string
 }
 
 const buildRowTitle = (asset: Asset, postFix?: string, showAssetSymbol?: boolean): string => {

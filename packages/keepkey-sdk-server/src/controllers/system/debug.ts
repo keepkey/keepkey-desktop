@@ -1,5 +1,4 @@
 // import type * as express from 'express'
-import type { Readable } from 'stream'
 import {
   Body,
   Deprecated,
@@ -11,7 +10,8 @@ import {
   Route,
   Security,
   Tags,
-} from 'tsoa'
+} from '@tsoa/runtime'
+import type { Readable } from 'stream'
 
 import { ApiController } from '../../auth'
 import { extra } from '../../middlewares'

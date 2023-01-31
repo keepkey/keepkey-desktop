@@ -20,7 +20,7 @@ import { WalletActions } from 'context/WalletProvider/actions'
 import type { KKAsset } from 'context/WalletProvider/KeepKeyProvider'
 import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { getPioneerClient } from 'lib/getPioneerCleint'
+import { getPioneerClient } from 'lib/getPioneerClient'
 import { PageInput } from 'plugins/walletConnectToDapps/components/PageInput'
 import type { FC } from 'react'
 import { useCallback } from 'react'
@@ -39,6 +39,9 @@ export type Dapp = {
     assetId: string
     symbol: string
   }
+  description: string
+  score: number
+  developer: string
 }
 
 const PAGE_SIZE = 20
@@ -48,7 +51,7 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
     mode: 'onChange',
     defaultValues: { search: '', page: 0 },
   })
-  const [dapps, setDapps] = useState([])
+  const [dapps, setDapps] = useState<Dapp[]>([])
   const search = useWatch({ control, name: 'search' })
   const page = useWatch({ control, name: 'page' })
   useEffect(() => setValue('page', 0), [search, setValue])
@@ -87,7 +90,7 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
   )
 
   //onstart get data
-  let findDapps = async function () {
+  let findDapps = useCallback(async () => {
     try {
       const pioneer = await getPioneerClient()
       let version = await ipcListeners.appVersion()
@@ -105,10 +108,11 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
     } catch (e) {
       console.error(' e: ', e)
     }
-  }
+  }, [asset.name])
+
   useEffect(() => {
     findDapps()
-  }, [])
+  }, [findDapps])
 
   return (
     <Box>
@@ -169,7 +173,7 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
                     Description: {dapp?.description}
                   </PlainText>
                   <PlainText color='gray.500' display='inline-flex' fontSize='sm'>
-                    score: {dapp?.score}
+                    Score: {dapp?.score}
                   </PlainText>
                   <PlainText color='gray.500' display='inline-flex' fontSize='sm'>
                     {' ('}

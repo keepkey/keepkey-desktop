@@ -1,4 +1,3 @@
-import { assume } from 'common-utils'
 import {
   Body,
   Middlewares,
@@ -9,7 +8,8 @@ import {
   Security,
   SuccessResponse,
   Tags,
-} from 'tsoa'
+} from '@tsoa/runtime'
+import { assume } from 'common-utils'
 
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'

@@ -1,6 +1,6 @@
 import { SearchIcon } from '@chakra-ui/icons'
 import { Box, Input, InputGroup, InputLeftElement, SlideFade } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
+import type { Asset } from '@shapeshiftoss/asset-service'
 import { filterAssetsBySearchTerm } from 'components/AssetSearch/helpers/filterAssetsBySearchTerm/filterAssetsBySearchTerm'
 import { AssetList } from 'components/AssetSearchKK/AssetList'
 import { mergeKKAssets } from 'components/AssetSearchKK/AssetSearchKK'
