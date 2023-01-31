@@ -7,12 +7,6 @@
     <meta http-equiv="Content-Security-Policy" content="<%= cspMeta %>" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no,viewport-fit=cover" />
     <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="<%= publicUrl %>/manifest.json" integrity="%REACT_APP_SRI_MANIFEST_JSON%" crossorigin="anonymous" />
-    <link rel="prefetch" href="<%= publicUrl %>/env.json" as="fetch" crossorigin="anonymous" />
-    <!--
       Notice the use of <%= publicUrl %> in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.

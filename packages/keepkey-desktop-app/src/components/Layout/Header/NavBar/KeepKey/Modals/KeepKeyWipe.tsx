@@ -28,6 +28,7 @@ export const KeepKeyWipe = () => {
   const {
     state: {
       deviceState: { awaitingDeviceInteraction },
+      showBackButton,
     },
     setDeviceState,
   } = useWallet()
@@ -44,6 +45,7 @@ export const KeepKeyWipe = () => {
         setDeviceState({ awaitingDeviceInteraction: false })
       }
       disconnect()
+      await ipcListeners.appRestart()
     } catch (e) {
       moduleLogger.error(e, { fn: 'wipeDevice' }, 'KeepKey Wipe Failed')
       toast({
@@ -62,7 +64,7 @@ export const KeepKeyWipe = () => {
         <ModalHeader>
           <Text translation={'walletProvider.keepKey.modals.headings.wipeKeepKey'} />
         </ModalHeader>
-        <ModalCloseButton />
+        {showBackButton && <ModalCloseButton />}
         <ModalBody>
           <Text
             color='gray.500'
@@ -94,6 +96,7 @@ export const KeepKeyWipe = () => {
           translation={'walletProvider.keepKey.modals.confirmations.wipeKeepKey'}
           pl={6}
           pr={6}
+          noCancel={!showBackButton}
         />
       </ModalContent>
     </>
