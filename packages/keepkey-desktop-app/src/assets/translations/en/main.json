@@ -638,6 +638,7 @@
         "claimInterface": "Other software is currently using the KeepKey.",
         "claimInterface2": "close other software and try again.",
         "claimInterface3": "Check all browser tabs. and close app.ShapeShift.com if it is open!.",
+        "claimInterface4": "Disconnect, and reconnect your KeepKey to continue.",
         "headerError": "Hardware Error!",
         "headerReconnect": "Please reconnect your keepkey",
         "headerConnect": "Welcome To KeepKey Desktop!",
@@ -969,6 +970,7 @@
       "downloadPreRelease": "Download pre release builds",
       "allowBetaFirmware": "Download beta KeepKey Firmware",
       "autoScanQr": "Automatically scan QRs",
+      "resetDefaultDapp": "Reset default dapp",
       "currencies": {
         "CNY": "Chinese Yuan",
         "USD": "United States Dollar (default)",

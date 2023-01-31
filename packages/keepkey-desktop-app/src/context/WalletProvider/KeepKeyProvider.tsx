@@ -4,7 +4,6 @@ import type { Asset } from '@keepkey/asset-service'
 import type { Features } from '@keepkey/device-protocol/lib/messages_pb'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
-import axios from 'axios'
 import { assertNever } from 'common-utils'
 import type { RadioOption } from 'components/Radio/Radio'
 import { getConfig } from 'config'
@@ -23,7 +22,7 @@ import React, {
 } from 'react'
 import { useTranslate } from 'react-polyglot'
 import Web3 from 'web3'
-
+import { getPioneerClient } from 'lib/getPioneerCleint'
 import { useKeepKeyVersions } from './KeepKey/hooks/useKeepKeyVersions'
 
 export enum DeviceTimeout {
@@ -124,12 +123,6 @@ const reducer = (state: InitialState, action: KeepKeyActionTypes) => {
   }
 }
 
-const overrideGeckoName = (name: string) => {
-  if (name.toUpperCase() === 'XRP') return 'Ripple'
-  if (name.toUpperCase() === 'BNB') return 'Binance'
-  else return name
-}
-
 export type KKAsset = Asset & { rank: number; marketCap: number; link: string; geckoId: string }
 
 const KeepKeyContext = createContext<IKeepKeyContext | null>(null)
@@ -152,28 +145,28 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
   const [kkErc20Contract, setkkErc20Contract] = useState<any>()
 
   const loadKeepkeyAssets = useCallback(async () => {
-    const { data } = await axios.get(
-      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false',
-    )
+    const pioneer = await getPioneerClient()
+    const { data } = await pioneer.SearchAssetsList({ limit: 20000, skip: 0 })
 
-    const kkAssets = data.map((geckoAsset: any) => {
-      const symbol = geckoAsset?.symbol ?? ''
-      const kkAsset: KKAsset = {
-        assetId: `keepkey_${symbol.toUpperCase()}`,
-        chainId: `keepkey_${symbol.toUpperCase()}`,
+    const kkAssets = data.map((asset: any) => {
+      const kkAsset: any = {
+        assetId: `keepkey_${asset.symbol.toUpperCase()}`,
+        chainId: `keepkey_${asset.symbol.toUpperCase()}`,
+        // assetId: asset.caip,
+        // chainId: asset.caip.split(':')[1],
         color: '',
-        explorer: '',
-        explorerAddressLink: '',
-        explorerTxLink: '',
-        icon: geckoAsset.image,
-        name: overrideGeckoName(geckoAsset.name),
-        precision: 1, // This is wrong but needs to exist (find out why)
-        symbol: geckoAsset.symbol.toUpperCase(),
+        explorer: asset.explorer,
+        explorerAddressLink: asset.explorerAddressLink,
+        explorerTxLink: asset.explorerTxLink,
+        icon: asset.image,
+        name: asset.name,
+        precision: asset.decimals, // This is wrong but needs to exist (find out why)
+        symbol: asset.symbol.toUpperCase(),
         // kk specific
-        rank: geckoAsset.market_cap_rank,
-        marketCap: geckoAsset.market_cap,
-        geckoId: geckoAsset.id,
-        link: `https://www.coingecko.com/en/coins/${geckoAsset.id}`,
+        rank: '',
+        marketCap: '',
+        geckoId: asset.name,
+        link: asset.explorer,
       }
       return kkAsset
     })

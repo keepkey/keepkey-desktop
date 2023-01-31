@@ -1,9 +1,10 @@
 import { Box, Button, Center, Image, ModalBody, Stack } from '@chakra-ui/react'
-import cipher from 'assets/cipher.png'
-import pin from 'assets/KKpin.png'
-import { Text } from 'components/Text'
+import recovery from 'assets/kk-recovery.png'
+import recoveryCipher from 'assets/kk-recovery-cipher.png'
 
-export const Step2 = ({
+import { Text } from '../../../Text'
+
+export const Step3 = ({
   doNextStep,
   doPreviousStep,
 }: {
@@ -12,7 +13,7 @@ export const Step2 = ({
 }) => {
   return (
     <ModalBody p='20px'>
-      <Text p='20px' fontWeight='bold' size='xl' translation='modals.onboarding.pinTitle' />
+      <Text p='20px' fontWeight='bold' size='xl' translation='modals.onboarding.restoreTitle' />
       <Box
         p='1rem'
         border='1px'
@@ -20,17 +21,14 @@ export const Step2 = ({
         display='flex'
         justifyContent='space-between'
       >
-        <Image src={cipher} style={{ width: '40%', height: '60%' }} />
+        <Image src={recovery} style={{ width: '20%', height: '30%' }} />
         <Box>
-          <p>
-            <Text p='20px' fontSize='2rem' translation='modals.onboarding.pinText1' />
-            <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.pinText2' />
-          </p>
+          <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.restoreText1' />
+          <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.restoreText2' />
+          <Text p='20px' fontSize='1.4rem' translation='modals.onboarding.restoreText3' />
         </Box>
         <Box>
-          <div>
-            <Image src={pin} />
-          </div>
+          <Image src={recoveryCipher} />
         </Box>
       </Box>
 
