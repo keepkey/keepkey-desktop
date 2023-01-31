@@ -19,7 +19,7 @@ export type RendererIpc = {
   modalPassphrase(signal: AbortSignal): Promise<string>
   modalPin(pinRequestType: PinMatrixRequestType2): Promise<string>
   modalPassphrase(): Promise<string>
-  setAuthenticatorError(error: string | undefined): Promise<void>
+  setAuthenticatorError(error: string | null): Promise<void>
   modalRecovery(characterPos?: number, wordPos?: number): Promise<string | boolean>
   modalCloseAll(): Promise<void>
   updateFeatures(): Promise<void>
