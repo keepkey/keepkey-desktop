@@ -11,14 +11,16 @@ export class ApiContext {
   readonly sdkClient: SdkClient
   readonly wallet: KeepKeyHDWallet
   readonly accounts: Record<string, BIP32Path>
+  readonly path: string
 
-  protected constructor(sdkClient: SdkClient, accounts: Record<string, BIP32Path>) {
+  protected constructor(sdkClient: SdkClient, accounts: Record<string, BIP32Path>, path: string) {
     this.sdkClient = sdkClient
     this.wallet = sdkClient.wallet
     this.accounts = accounts
+    this.path = path
   }
 
-  static async create(sdkClient: SdkClient): Promise<ApiContext> {
+  static async create(sdkClient: SdkClient, path: string): Promise<ApiContext> {
     // TODO: something something database something
     if (!horribleAccountsHack.has(sdkClient.wallet)) {
       horribleAccountsHack.set(sdkClient.wallet, {})
@@ -49,7 +51,7 @@ export class ApiContext {
       // }
     }
 
-    return new ApiContext(sdkClient, horribleAccountsHack.get(sdkClient.wallet) ?? {})
+    return new ApiContext(sdkClient, horribleAccountsHack.get(sdkClient.wallet) ?? {}, path)
   }
 
   async getAccount(address: string): Promise<{

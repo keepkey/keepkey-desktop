@@ -23,7 +23,7 @@ export const iocContainer: IocContainerFactory = function (request: express.Requ
           if (!reqCompleted) sdkClient.wallet.cancel()
         })
 
-        const context = await ApiContext.create(sdkClient)
+        const context = await ApiContext.create(sdkClient, request.path)
 
         return new (x as new (context: ApiContext) => T)(context)
       } else {
