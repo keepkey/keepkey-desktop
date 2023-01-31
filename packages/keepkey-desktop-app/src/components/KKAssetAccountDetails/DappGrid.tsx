@@ -91,10 +91,12 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
     try {
       const pioneer = await getPioneerClient()
       let version = await ipcListeners.appVersion()
+      console.log('asset: ', asset)
       console.log('asset: ', asset.name)
 
       let dapps = await pioneer.ListAppsByVersionAndAsset({
         asset: asset.name,
+        symbol: asset.chainId,
         minVersion: version,
         limit: 1000,
         skip: 0,
