@@ -8,6 +8,7 @@ import { assertNever } from 'common-utils'
 import type { RadioOption } from 'components/Radio/Radio'
 import { getConfig } from 'config'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { getPioneerClient } from 'lib/getPioneerCleint'
 import { erc20Abi } from 'pages/Leaderboard/helpers/erc20Abi'
 import { nftAbi } from 'pages/Leaderboard/helpers/nftAbi'
 import React, {
@@ -22,7 +23,7 @@ import React, {
 } from 'react'
 import { useTranslate } from 'react-polyglot'
 import Web3 from 'web3'
-import { getPioneerClient } from 'lib/getPioneerCleint'
+
 import { useKeepKeyVersions } from './KeepKey/hooks/useKeepKeyVersions'
 
 export enum DeviceTimeout {

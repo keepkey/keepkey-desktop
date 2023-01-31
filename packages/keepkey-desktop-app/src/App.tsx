@@ -85,7 +85,7 @@ export const App = () => {
 
   // get whether or not bridge is connected for hardwareError modal
   useEffect(() => {
-    ipcListeners.clearBrowserSession()
+    // ipcListeners.clearBrowserSession()
     if (connected === null) {
       ipcListeners.bridgeConnected().then(x => {
         setConnected(x)
@@ -188,7 +188,7 @@ export const App = () => {
         }
       },
 
-      async setAuthenticatorError(error: string | undefined) {
+      async setAuthenticatorError(error: string | null) {
         dispatch({ type: WalletActions.SET_AUTHENTICATOR_ERROR, payload: error })
       },
 
