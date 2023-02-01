@@ -1,12 +1,12 @@
-import type { ChainId } from '@keepkey/caip'
-import { CHAIN_NAMESPACE, fromAccountId, fromAssetId } from '@keepkey/caip'
+import type { ChainId } from '@shapeshiftoss/caip'
+import { CHAIN_NAMESPACE, fromAccountId, fromAssetId } from '@shapeshiftoss/caip'
 import type {
   EvmBaseAdapter,
   EvmChainId,
   FeeDataEstimate,
   UtxoBaseAdapter,
   UtxoChainId,
-} from '@keepkey/chain-adapters'
+} from '@shapeshiftoss/chain-adapters'
 import type { EstimateFeesInput } from 'components/Modals/Send/utils'
 import { estimateFees } from 'components/Modals/Send/utils'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'

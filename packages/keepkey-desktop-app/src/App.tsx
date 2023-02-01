@@ -38,7 +38,8 @@ export const App = () => {
   const { updateFeatures } = useKeepKey()
   const history = useHistory()
 
-  const { pair, sign, hardwareError, updateKeepKey, requestBootloaderMode, loading } = useModal()
+  const modals = useModal()
+  const { pair, sign, hardwareError, updateKeepKey, requestBootloaderMode, loading } = modals
 
   const openKeepKeyUpdater = (data: KKStateData) => {
     setIsUpdatingKeepkey(true)
@@ -47,13 +48,10 @@ export const App = () => {
   }
 
   const closeAllModals = useCallback(() => {
-    updateKeepKey.close()
-    loading.close()
-    requestBootloaderMode.close()
-    hardwareError.close()
-    pair.close()
-    sign.close()
-  }, [hardwareError, loading, pair, requestBootloaderMode, sign, updateKeepKey])
+    for (const modal of Object.values(modals)) {
+      modal.close()
+    }
+  }, [modals])
 
   const openDapp = (url: string) => {
     dispatch({ type: WalletActions.SET_BROWSER_URL, payload: url })
@@ -85,7 +83,7 @@ export const App = () => {
 
   // get whether or not bridge is connected for hardwareError modal
   useEffect(() => {
-    ipcListeners.clearBrowserSession()
+    // ipcListeners.clearBrowserSession()
     if (connected === null) {
       ipcListeners.bridgeConnected().then(x => {
         setConnected(x)
@@ -125,7 +123,7 @@ export const App = () => {
             hardwareError.close()
             break
           case KKState.Disconnected:
-            hardwareError.close()
+            closeAllModals()
             hardwareError.open({})
             dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: false })
             disconnect()
@@ -188,7 +186,7 @@ export const App = () => {
         }
       },
 
-      async setAuthenticatorError(error: string | undefined) {
+      async setAuthenticatorError(error: string | null) {
         dispatch({ type: WalletActions.SET_AUTHENTICATOR_ERROR, payload: error })
       },
 

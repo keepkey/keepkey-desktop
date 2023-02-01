@@ -1,5 +1,5 @@
+import type { Controller, IocContainer, IocContainerFactory } from '@tsoa/runtime'
 import type * as express from 'express'
-import type { Controller, IocContainer, IocContainerFactory } from 'tsoa'
 
 import { ApiContext } from './apiContext'
 import { ApiController } from './apiController'

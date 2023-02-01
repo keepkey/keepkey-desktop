@@ -1,5 +1,5 @@
-import type { AssetId } from '@keepkey/caip'
-import type { HistoryData, HistoryTimeframe, MarketCapResult, MarketData } from '@keepkey/types'
+import type { AssetId } from '@shapeshiftoss/caip'
+import type { HistoryData, HistoryTimeframe, MarketCapResult, MarketData } from '@shapeshiftoss/types'
 import { createSelector } from '@reduxjs/toolkit'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import { priceAtDate } from 'lib/charts'

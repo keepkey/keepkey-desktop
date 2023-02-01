@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, ModalBody, Stack, VStack } from '@chakra-ui/react'
+import { Box, Button, Flex, ModalBody, Stack } from '@chakra-ui/react'
 import { locales } from 'assets/translations/constants'
 import { RawText } from 'components/Text'
 import { useCallback } from 'react'

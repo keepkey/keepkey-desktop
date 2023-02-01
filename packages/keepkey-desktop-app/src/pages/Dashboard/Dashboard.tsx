@@ -1,11 +1,8 @@
 import { Heading, Stack } from '@chakra-ui/react'
-// import { FiatRamps } from 'components/Layout/Header/NavBar/FiatRamps'
 import { Main } from 'components/Layout/Main'
-import { DashboardSidebar } from './DashboardSidebar'
-
-// import { DashboardSidebar } from './DashboardSidebar'
-import { Portfolio } from './Portfolio'
 import { Text } from 'components/Text'
+
+import { Portfolio } from './Portfolio'
 
 export const Dashboard = () => {
   return (
@@ -27,9 +24,6 @@ export const Dashboard = () => {
         <Stack spacing={4} flex='1 1 0%' width='full'>
           <Portfolio />
         </Stack>
-        {/* <Stack flex='1 1 0%' width='full' maxWidth={{ base: 'full', xl: 'sm' }} spacing={4}>
-          <DashboardSidebar />
-        </Stack> */}
       </Stack>
     </Main>
   )

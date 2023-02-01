@@ -27,7 +27,7 @@ import { Route } from 'react-router'
 import { useHistory } from 'react-router'
 import { Switch } from 'react-router'
 
-function assume<T>(x: unknown): asserts x is T {}
+function assume<T>(_x: unknown): asserts _x is T {}
 
 export type ModalProps = {
   fetchAccs: () => void

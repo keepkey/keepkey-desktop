@@ -8,26 +8,22 @@ import {
   StatNumber,
   Switch,
 } from '@chakra-ui/react'
-import type { HistoryTimeframe } from '@keepkey/types'
+import type { HistoryTimeframe } from '@shapeshiftoss/types'
 import { Amount } from 'components/Amount/Amount'
 import { BalanceChart } from 'components/BalanceChart/BalanceChart'
 import { Card } from 'components/Card/Card'
 import { TimeControls } from 'components/Graph/TimeControls'
 import { Text } from 'components/Text'
 import { DEFAULT_HISTORY_TIMEFRAME } from 'constants/Config'
-import { useFoxEth } from 'context/FoxEthProvider/FoxEthProvider'
-import { bnOrZero } from 'lib/bignumber/bignumber'
-import { ExplorationBanner } from 'plugins/walletConnectToDapps/components/ExplorationBanner'
 import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
   selectPortfolioAssetIds,
   selectPortfolioLoading,
-  selectPortfolioTotalFiatBalanceWithStakingData,
+  selectPortfolioTotalFiatBalance,
 } from 'state/slices/selectors'
 
 import { AccountTable } from './components/AccountList/AccountTable'
-import { PortfolioBreakdown } from './PortfolioBreakdown'
 import { RecentlyUsedDapps } from './RecentlyUsedDapps'
 
 export const Portfolio = () => {
@@ -36,11 +32,7 @@ export const Portfolio = () => {
 
   const assetIds = useSelector(selectPortfolioAssetIds)
 
-  const totalBalance = useSelector(selectPortfolioTotalFiatBalanceWithStakingData)
-  const { totalBalance: lpHoldingsBalance } = useFoxEth()
-  const totalBalancePlusLpHoldings = bnOrZero(totalBalance)
-    .plus(bnOrZero(lpHoldingsBalance))
-    .toFixed(2)
+  const totalBalance = useSelector(selectPortfolioTotalFiatBalance)
 
   const loading = useSelector(selectPortfolioLoading)
   const isLoaded = !loading
@@ -76,7 +68,7 @@ export const Portfolio = () => {
           </Card.Heading>
           <Card.Heading as='h2' fontSize='4xl' lineHeight='1'>
             <Skeleton isLoaded={isLoaded}>
-              <Amount.Fiat value={totalBalancePlusLpHoldings} />
+              <Amount.Fiat value={totalBalance} />
             </Skeleton>
           </Card.Heading>
           {isFinite(percentChange) && (
@@ -112,7 +104,6 @@ export const Portfolio = () => {
         </Skeleton>
       </Card>
       <RecentlyUsedDapps />
-      <PortfolioBreakdown />
       <Card>
         <Card.Header>
           <Card.Heading>

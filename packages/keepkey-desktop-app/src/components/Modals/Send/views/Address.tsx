@@ -40,7 +40,6 @@ export const Address = () => {
 
   if (!asset) return null
   const { chainId } = asset
-  // const isYatSupportedChain = chainId === ethChainId // yat only supports eth mainnet
   const handleNext = () => history.push(SendRoutes.Details)
   const addressError = get(errors, `${SendFormFields.Input}.message`, null)
 
@@ -80,25 +79,18 @@ export const Address = () => {
                   const value = rawInput.trim() // trim leading/trailing spaces
                   // clear previous values
                   setValue(SendFormFields.Address, '')
-                  setValue(SendFormFields.VanityAddress, '')
                   setIsValidating(true)
                   // this does not throw, everything inside is handled
-                  const { address, vanityAddress } = await parseAddressInput({ chainId, value })
+                  const { address } = await parseAddressInput({ chainId, value })
                   setIsValidating(false)
                   // set returned values
                   setValue(SendFormFields.Address, address)
-                  setValue(SendFormFields.VanityAddress, vanityAddress)
-                  // const invalidMessage =
-                  //   isYatFeatureEnabled && isYatSupportedChain
-                  //     ? 'common.invalidAddressOrYat'
-                  //     : 'common.invalidAddress'
                   return address ? true : false
                 },
               },
             }}
           />
         </FormControl>
-        {/* {isYatFeatureEnabled && isYatSupportedChain && <YatBanner mt={6} />} */}
       </ModalBody>
       <ModalFooter>
         <Stack flex={1}>

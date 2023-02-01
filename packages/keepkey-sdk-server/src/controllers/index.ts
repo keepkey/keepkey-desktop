@@ -1,5 +1,5 @@
+import { Body, Consumes, Post, Produces, Response, Route, Security, Tags } from '@tsoa/runtime'
 import { Readable } from 'stream'
-import { Body, Consumes, Post, Produces, Response, Route, Security, Tags } from 'tsoa'
 
 import { ApiController } from '../auth'
 

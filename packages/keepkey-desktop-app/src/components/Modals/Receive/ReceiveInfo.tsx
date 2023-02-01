@@ -19,10 +19,9 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
-import type { AccountId } from '@keepkey/caip'
-import { CHAIN_NAMESPACE, fromChainId } from '@keepkey/caip'
-import { KnownChainIds } from '@keepkey/types'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import type { AccountId } from '@shapeshiftoss/caip'
+import { CHAIN_NAMESPACE, fromChainId } from '@shapeshiftoss/caip'
 import { AccountDropdown } from 'components/AccountDropdown/AccountDropdown'
 import { Card } from 'components/Card/Card'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
@@ -37,7 +36,6 @@ import type { RouteComponentProps } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import { selectPortfolioAccountMetadataByAccountId } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
-import { useEnsName } from 'wagmi'
 
 import { ReceiveRoutes } from './ReceiveCommon'
 
@@ -66,13 +64,6 @@ export const ReceiveInfo = ({ asset, accountId }: ReceivePropsType) => {
   )
   const accountType = accountMetadata?.accountType
   const bip44Params = accountMetadata?.bip44Params
-
-  const { data: ensName, isSuccess: isEnsNameLoaded } = useEnsName({
-    address: receiveAddress,
-    enabled: asset.chainId === KnownChainIds.EthereumMainnet,
-    cacheTime: Infinity, // Cache a given ENS reverse resolution response infinitely for the lifetime of a tab / until app reload
-    staleTime: Infinity, // Cache a given ENS reverse resolution query infinitely for the lifetime of a tab / until app reload
-  })
 
   const dontShowXPub = ['eth', 'atom', 'rune']
 
@@ -104,12 +95,6 @@ export const ReceiveInfo = ({ asset, accountId }: ReceivePropsType) => {
     chainAdapter,
     bip44Params,
   ])
-
-  useEffect(() => {
-    if (isEnsNameLoaded && ensName) {
-      setEnsReceiveAddress(ensName)
-    }
-  }, [ensName, isEnsNameLoaded])
 
   const handleVerify = async () => {
     if (!(wallet && chainAdapter && receiveAddress)) return

@@ -206,7 +206,7 @@ export const Browser = () => {
     >
       <webview
         id='webview'
-        partition='browser'
+        // partition='browser'
         src='about:blank'
         style={{
           flexGrow: 1,

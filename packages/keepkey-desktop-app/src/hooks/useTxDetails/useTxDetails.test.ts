@@ -1,17 +1,15 @@
-import type { Asset } from '@keepkey/asset-service'
-import type { TxTransfer } from '@keepkey/chain-adapters'
-import { TransferType } from '@keepkey/unchained-client'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import type { TxTransfer } from '@shapeshiftoss/chain-adapters'
+import { TransferType } from '@shapeshiftoss/unchained-client'
 import {
   getBuyTransfer,
   getSellTransfer,
   getStandardTx,
   getTransferByAsset,
   getTransferByType,
-  isSupportedContract,
   isTradeContract,
 } from 'hooks/useTxDetails/useTxDetails'
-import type { Tx } from 'state/slices/txHistorySlice/txHistorySlice'
-import { BtcSend, createMockEthTxs, EthReceive, EthSend, TradeTx } from 'test/mocks/txs'
+import { BtcSend, EthReceive, EthSend, TradeTx } from 'test/mocks/txs'
 
 describe('getStandardTx', () => {
   it('returns the expected values', () => {
@@ -120,24 +118,5 @@ describe('getTransferByAsset', () => {
     } as Asset
     const result = getTransferByAsset(EthSend, asset)
     expect(result).toBeUndefined()
-  })
-})
-
-describe('isSupportedContract', () => {
-  it('returns true for being supported', () => {
-    createMockEthTxs('0xcafe').forEach(tx => expect(isSupportedContract(tx)).toBe(true))
-  })
-
-  it('returns false when unsupported', () => {
-    createMockEthTxs('0xface').forEach((tx, idx) => {
-      expect(tx.data).toHaveProperty('method')
-      if (tx.data?.method) tx.data.method += `-fail-${idx}`
-      expect(isSupportedContract(tx)).toBe(false)
-    })
-  })
-
-  it('returns false for undefined', () => {
-    const tx = { data: { method: undefined } } as Tx
-    expect(isSupportedContract(tx)).toBe(false)
   })
 })

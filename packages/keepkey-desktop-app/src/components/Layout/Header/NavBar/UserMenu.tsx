@@ -11,7 +11,6 @@ import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { FaWallet } from 'react-icons/fa'
 import { MemoryRouter, Route, Switch } from 'react-router-dom'
-import { useEnsName } from 'wagmi'
 
 import { WalletConnectedMenu } from './WalletConnectedMenu'
 
@@ -48,37 +47,21 @@ const WalletButton: FC<WalletButtonProps> = ({ isConnected, walletInfo, onConnec
   const [shouldShorten, setShouldShorten] = useState(true)
   const bgColor = useColorModeValue('gray.300', 'gray.800')
 
-  const {
-    data: ensName,
-    isSuccess: isEnsNameLoaded,
-    isLoading: isEnsNameLoading,
-  } = useEnsName({
-    address: walletInfo?.meta?.address,
-    cacheTime: Infinity, // Cache a given ENS reverse resolution response infinitely for the lifetime of a tab / until app reload
-    staleTime: Infinity, // Cache a given ENS reverse resolution query infinitely for the lifetime of a tab / until app reload
-  })
-
   useEffect(() => {
     ;(async () => {
       setWalletLabel('')
       setShouldShorten(true)
-      if (!walletInfo || !walletInfo.meta || isEnsNameLoading) return setWalletLabel('')
+      if (!walletInfo || !walletInfo.meta) return setWalletLabel('')
       // Wallet has a native label, we don't care about ENS name here
       if (!walletInfo?.meta?.address && walletInfo.meta.label) {
         setShouldShorten(false)
         return setWalletLabel(walletInfo.meta.label)
       }
 
-      // ENS successfully fetched. Set ENS name as label
-      if (isEnsNameLoaded && ensName) {
-        setShouldShorten(false)
-        return setWalletLabel(ensName!)
-      }
-
       // No label or ENS name, set regular wallet address as label
       return setWalletLabel(walletInfo?.meta?.address ?? '')
     })()
-  }, [ensName, isEnsNameLoading, isEnsNameLoaded, walletInfo])
+  }, [walletInfo])
 
   return Boolean(walletInfo?.deviceId) ? (
     <Button

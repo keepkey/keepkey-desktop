@@ -22,7 +22,7 @@ import { Text } from 'components/Text'
 // import { WalletActions } from 'context/WalletProvider/actions'
 // import { SessionTypes } from '@walletconnect/types'
 import { useModal } from 'hooks/useModal/useModal'
-import { getPioneerClient } from 'lib/getPioneerCleint'
+import { getPioneerClient } from 'lib/getPioneerClient'
 import { useCallback, useEffect, useState } from 'react'
 
 import type { PairingProps } from './types'
@@ -36,7 +36,8 @@ export const PairModal = ({
 }) => {
   const [error] = useState<string | null>(null)
   const [loading] = useState(false)
-  const [isFound, setIsFound] = useState(true)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isFound, _setIsFound] = useState(true)
   const [makeDefault, setMakeDefault] = useState(false)
   const { pair } = useModal()
   const { close, isOpen } = pair

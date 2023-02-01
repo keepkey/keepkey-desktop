@@ -1,7 +1,7 @@
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Link, Text, useToast } from '@chakra-ui/react'
-import { CHAIN_NAMESPACE, fromAssetId, fromChainId } from '@keepkey/caip'
-import type { CosmosSdkChainId } from '@keepkey/chain-adapters'
+import { CHAIN_NAMESPACE, fromAssetId, fromChainId } from '@shapeshiftoss/caip'
+import type { CosmosSdkChainId } from '@shapeshiftoss/chain-adapters'
 import {
   type ChainAdapter,
   type EvmBaseAdapter,
@@ -10,8 +10,8 @@ import {
   type UtxoBaseAdapter,
   type UtxoChainId,
   utxoChainIds,
-} from '@keepkey/chain-adapters'
-import type { KnownChainIds } from '@keepkey/types'
+} from '@shapeshiftoss/chain-adapters'
+import type { KnownChainIds } from '@shapeshiftoss/types'
 import { supportsETH } from '@shapeshiftoss/hdwallet-core'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useEvm } from 'hooks/useEvm/useEvm'

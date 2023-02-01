@@ -9,7 +9,6 @@ import kkIconBlack from 'assets/kk-icon-black.png'
 import type { Deferred } from 'common-utils'
 import type { Entropy } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import { VALID_ENTROPY } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
-import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
 import { KeepKeyRoutes } from 'context/WalletProvider/routes'
 import { randomUUID } from 'crypto'
 import { ipcListeners } from 'electron-shim'
@@ -102,6 +101,11 @@ export interface InitialState {
   passphraseDeferred?: Deferred<string>
   labelDeferred?: Deferred<string>
   authenticatorError: string | null
+  recoveryOptions?: {
+    label: string
+    recoverWithPassphrase: boolean
+    recoveryEntropy: string
+  }
 }
 
 const initialState: InitialState = {
@@ -305,6 +309,13 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         showBackButton: !preventClose,
       }
     }
+    case WalletActions.SET_SHOW_BACK_BUTTON: {
+      const showBackButton = action.payload
+      return {
+        ...state,
+        showBackButton,
+      }
+    }
     case WalletActions.RESET_STATE:
       const resetProperties = omit(initialState, ['adapters', 'modal', 'deviceId'])
       return { ...state, ...resetProperties }
@@ -433,7 +444,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   }, [])
 
   useKeyringEventHandler(state)
-  useKeepKeyEventHandler(state, dispatch, disconnect, setDeviceState)
 
   const value: IWalletContext = useMemo(
     () => ({

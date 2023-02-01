@@ -1,5 +1,4 @@
 import type { BTCInputScriptType } from '@shapeshiftoss/hdwallet-core'
-import { Readable } from 'stream'
 import {
   Body,
   Middlewares,
@@ -10,7 +9,8 @@ import {
   Route,
   Security,
   Tags,
-} from 'tsoa'
+} from '@tsoa/runtime'
+import { Readable } from 'stream'
 
 import { ApiController } from '../../auth'
 import { extra } from '../../middlewares'

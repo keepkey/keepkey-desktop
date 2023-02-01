@@ -1,6 +1,6 @@
 import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import { Circle, Collapse, IconButton, ListItem, Stack, useDisclosure } from '@chakra-ui/react'
-import type { ChainId } from '@keepkey/caip'
+import type { ChainId } from '@shapeshiftoss/caip'
 import { Amount } from 'components/Amount/Amount'
 import { Card } from 'components/Card/Card'
 import { NestedList } from 'components/NestedList'
@@ -11,7 +11,7 @@ import { isUtxoAccountId } from 'state/slices/portfolioSlice/utils'
 import {
   selectFeeAssetByChainId,
   selectPortfolioAccountsGroupedByNumberByChainId,
-  selectPortfolioTotalBalanceByChainIdIncludeStaking,
+  selectPortfolioTotalBalanceByChainId,
 } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 
@@ -26,9 +26,7 @@ export const ChainRow: React.FC<ChainRowProps> = ({ chainId }) => {
   const history = useHistory()
   const asset = useAppSelector(s => selectFeeAssetByChainId(s, chainId))
   const filter = useMemo(() => ({ chainId }), [chainId])
-  const chainFiatBalance = useAppSelector(s =>
-    selectPortfolioTotalBalanceByChainIdIncludeStaking(s, filter),
-  )
+  const chainFiatBalance = useAppSelector(s => selectPortfolioTotalBalanceByChainId(s, filter))
   const accountIdsByAccountNumber = useAppSelector(s =>
     selectPortfolioAccountsGroupedByNumberByChainId(s, filter),
   )

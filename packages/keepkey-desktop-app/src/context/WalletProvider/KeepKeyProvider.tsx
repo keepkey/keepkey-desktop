@@ -1,13 +1,14 @@
 import type { ToastId } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
 import type { Features } from '@keepkey/device-protocol/lib/messages_pb'
+import type { Asset } from '@shapeshiftoss/asset-service'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
 import { assertNever } from 'common-utils'
 import type { RadioOption } from 'components/Radio/Radio'
 import { getConfig } from 'config'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { getPioneerClient } from 'lib/getPioneerClient'
 import { erc20Abi } from 'pages/Leaderboard/helpers/erc20Abi'
 import { nftAbi } from 'pages/Leaderboard/helpers/nftAbi'
 import React, {
@@ -22,7 +23,7 @@ import React, {
 } from 'react'
 import { useTranslate } from 'react-polyglot'
 import Web3 from 'web3'
-import { getPioneerClient } from 'lib/getPioneerCleint'
+
 import { useKeepKeyVersions } from './KeepKey/hooks/useKeepKeyVersions'
 
 export enum DeviceTimeout {

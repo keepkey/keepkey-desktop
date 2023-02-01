@@ -1,4 +1,4 @@
-import type { ChainId } from '@keepkey/caip'
+import type { ChainId } from '@shapeshiftoss/caip'
 import { getWeb3ProviderByChainId } from 'lib/web3-provider'
 import Web3 from 'web3'
 

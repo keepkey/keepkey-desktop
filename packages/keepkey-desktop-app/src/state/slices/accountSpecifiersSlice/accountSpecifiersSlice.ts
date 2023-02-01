@@ -1,4 +1,4 @@
-import type { ChainId } from '@keepkey/caip'
+import type { ChainId } from '@shapeshiftoss/caip'
 import { createSlice } from '@reduxjs/toolkit'
 import { logger } from 'lib/logger'
 import isEqual from 'lodash/isEqual'

@@ -7,7 +7,7 @@ import {
   ModalOverlay,
   useMediaQuery,
 } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
+import type { Asset } from '@shapeshiftoss/asset-service'
 import { AssetSearch } from 'components/AssetSearch/AssetSearch'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWindowSize } from 'hooks/useWindowSize/useWindowSize'

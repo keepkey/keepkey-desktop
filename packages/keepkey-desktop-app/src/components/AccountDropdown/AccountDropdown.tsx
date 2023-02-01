@@ -21,8 +21,8 @@ import {
   fromAssetId,
   fromChainId,
   ltcChainId,
-} from '@keepkey/caip'
-import { UtxoAccountType } from '@keepkey/types'
+} from '@shapeshiftoss/caip'
+import { UtxoAccountType } from '@shapeshiftoss/types'
 import { useFeatureFlag } from 'hooks/useFeatureFlag/useFeatureFlag'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import { fromBaseUnit } from 'lib/math'

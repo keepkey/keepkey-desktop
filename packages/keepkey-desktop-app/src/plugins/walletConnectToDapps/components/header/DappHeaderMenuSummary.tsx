@@ -1,11 +1,9 @@
-import { CloseIcon, InfoIcon } from '@chakra-ui/icons'
+import { CloseIcon } from '@chakra-ui/icons'
 import { MenuGroup } from '@chakra-ui/menu'
 import { Box, Button, HStack, MenuDivider, MenuItem, VStack } from '@chakra-ui/react'
-import { getSdkError } from '@walletconnect/utils'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { RawText, Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
-import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import type { FC } from 'react'
 import { useEffect } from 'react'
@@ -24,11 +22,11 @@ export const DappHeaderMenuSummary: FC = () => {
   const [chainName, setChainName] = useState<string>()
 
   useEffect(() => {
-    console.log(walletConnect.dapp.icons)
-    console.log(walletConnect.dapp.icons.toString())
+    console.log(walletConnect.dapp?.icons)
+    console.log(walletConnect.dapp?.icons.toString())
     if (!walletConnect.legacyWeb3) return
     if (walletConnect.legacyWeb3.service) setChainName(walletConnect.legacyWeb3.service.name)
-  }, [walletConnect.legacyWeb3])
+  }, [walletConnect.dapp?.icons, walletConnect.legacyWeb3])
 
   if (!walletConnect || !walletConnect.dapp) return null
 
