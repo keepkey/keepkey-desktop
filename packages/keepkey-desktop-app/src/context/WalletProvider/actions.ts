@@ -34,6 +34,7 @@ export enum WalletActions {
   SET_KEEPKEY_SDK = 'SET_KEEPKEY_SDK',
   SET_BROWSER_URL = 'SET_BROWSER_URL',
   OPEN_KEEPKEY_WIPE = 'OPEN_KEEPKEY_WIPE',
+  SET_SHOW_BACK_BUTTON = 'SET_SHOW_BACK_BUTTON',
   SET_AUTHENTICATOR_ERROR = 'SET_AUTHENTICATOR_ERROR',
 }
 
@@ -111,3 +112,4 @@ export type ActionTypes =
         preventClose?: boolean
       }
     }
+  | { type: WalletActions.SET_SHOW_BACK_BUTTON; payload: boolean }
