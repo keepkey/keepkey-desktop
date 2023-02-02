@@ -10,8 +10,8 @@ import {
   Stack,
   useDisclosure,
 } from '@chakra-ui/react'
-import type { AccountId, ChainId } from '@keepkey/caip'
-import { fromAccountId } from '@keepkey/caip'
+import type { AccountId, ChainId } from '@shapeshiftoss/caip'
+import { fromAccountId } from '@shapeshiftoss/caip'
 import { Amount } from 'components/Amount/Amount'
 import { NestedList } from 'components/NestedList'
 import { RawText } from 'components/Text'
@@ -28,7 +28,7 @@ import {
   selectAssets,
   selectFeeAssetByChainId,
   selectPortfolioAccountBalanceByAccountNumberAndChainId,
-  selectPortfolioAccountsFiatBalancesIncludingStaking,
+  selectPortfolioAccountsFiatBalances,
 } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 
@@ -67,9 +67,7 @@ type AccountBasedChainEntriesProps = {
   accountId: AccountId
 }
 const AccountBasedChainEntries: React.FC<AccountBasedChainEntriesProps> = ({ accountId }) => {
-  const accountAssetBalancesSortedFiat = useSelector(
-    selectPortfolioAccountsFiatBalancesIncludingStaking,
-  )
+  const accountAssetBalancesSortedFiat = useSelector(selectPortfolioAccountsFiatBalances)
   const assetIds = useMemo(
     () => Object.keys(accountAssetBalancesSortedFiat[accountId]),
     [accountAssetBalancesSortedFiat, accountId],

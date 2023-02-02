@@ -1,7 +1,6 @@
 import { Flex, Stack } from '@chakra-ui/react'
-import type { AssetId } from '@keepkey/caip'
+import type { AssetId } from '@shapeshiftoss/caip'
 import { AssetTransactionHistory } from 'components/TransactionHistory/AssetTransactionHistory'
-import { TradeCard } from 'pages/Dashboard/TradeCard'
 import { useMemo } from 'react'
 import type { Route } from 'Routes/helpers'
 import type { AccountSpecifier } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
@@ -17,8 +16,6 @@ import { AssetHeader } from './AssetHeader/AssetHeader'
 import { AssetMarketData } from './AssetHeader/AssetMarketData'
 import { Main } from './Layout/Main'
 import { MaybeChartUnavailable } from './MaybeChartUnavailable'
-import { EarnOpportunities } from './StakingVaults/EarnOpportunities'
-import { UnderlyingToken } from './UnderlyingToken'
 
 type AssetDetailsProps = {
   assetId: AssetId
@@ -43,8 +40,6 @@ export const AssetAccountDetails = ({ assetId, accountId }: AssetDetailsProps) =
           {accountId && <AccountAssets assetId={assetId} accountId={accountId} />}
           <AssetAccounts assetId={assetId} accountId={accountId} />
           <AssetAccountNft assetId={assetId} />
-          {/*<EarnOpportunities assetId={assetId} accountId={accountId} />*/}
-          <UnderlyingToken assetId={assetId} accountId={accountId} />
           <AssetTransactionHistory limit={3} assetId={assetId} accountId={accountId} />
         </Stack>
         <Flex
@@ -54,7 +49,6 @@ export const AssetAccountDetails = ({ assetId, accountId }: AssetDetailsProps) =
           maxWidth={{ base: 'full', xl: 'sm' }}
           gap={4}
         >
-          {/*<TradeCard defaultBuyAssetId={assetId} display={{ base: 'none', md: 'block' }} />*/}
           {marketData && <AssetMarketData assetId={assetId} />}
           <AssetDescription assetId={assetId} />
         </Flex>

@@ -69,7 +69,10 @@ export const WalletConnectToDappsHeaderButton = () => {
         leftIcon={
           <DappAvatar
             name={walletConnect.dapp.name}
-            image={walletConnect.dapp.icons[0]}
+            image={
+              walletConnect.dapp.icons[0] ||
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM8U_ylSIt18n6kEAa0oM2_Ta5o02gBtrMNZdpHAYjmJF7hLyH7IpBZ0WoTRPQcK0QQdk&usqp=CAU'
+            }
             connected={walletConnect.isConnected}
             size={6}
             connectedDotSize={2}

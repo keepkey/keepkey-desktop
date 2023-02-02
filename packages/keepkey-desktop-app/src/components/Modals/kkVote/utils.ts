@@ -1,5 +1,5 @@
-import type { ChainAdapter } from '@keepkey/chain-adapters'
-import { KnownChainIds } from '@keepkey/types'
+import type { ChainAdapter } from '@shapeshiftoss/chain-adapters'
+import { KnownChainIds } from '@shapeshiftoss/types'
 import type { ETHSignTx, HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { bip32ToAddressNList } from '@shapeshiftoss/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'

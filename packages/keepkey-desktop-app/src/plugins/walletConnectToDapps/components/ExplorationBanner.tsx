@@ -13,7 +13,7 @@ import { WalletConnectCurrentColorIcon } from 'components/Icons/WalletConnectIco
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { getPioneerClient } from 'lib/getPioneerCleint'
+import { getPioneerClient } from 'lib/getPioneerClient'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'

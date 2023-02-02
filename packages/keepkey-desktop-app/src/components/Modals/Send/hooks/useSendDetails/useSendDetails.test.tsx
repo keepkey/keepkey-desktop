@@ -1,10 +1,9 @@
-import { FeeDataKey } from '@keepkey/chain-adapters'
-import { KnownChainIds } from '@keepkey/types'
+import { FeeDataKey } from '@shapeshiftoss/chain-adapters'
+import { KnownChainIds } from '@shapeshiftoss/types'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { mocked } from 'jest-mock'
-import { ensLookup } from 'lib/address/ens'
 import { fromBaseUnit } from 'lib/math'
 import type { PropsWithChildren } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
@@ -35,7 +34,6 @@ jest.mock('react-router-dom', () => ({ useHistory: jest.fn() }))
 jest.mock('hooks/useWallet/useWallet')
 jest.mock('context/PluginProvider/PluginProvider')
 jest.mock('context/PluginProvider/chainAdapterSingleton')
-jest.mock('lib/address/ens', () => ({ ensLookup: jest.fn() }))
 
 jest.mock('state/slices/selectors', () => ({
   ...jest.requireActual('state/slices/selectors'),
@@ -142,10 +140,6 @@ describe('useSendDetails', () => {
           [KnownChainIds.EthereumMainnet, mockAdapter],
         ]),
     )
-    ;(ensLookup as unknown as jest.Mock<unknown>).mockImplementation(async () => ({
-      address: '0x05A1ff0a32bc24265BCB39499d0c5D9A6cb2011c',
-      error: false,
-    }))
   })
 
   afterEach(() => {

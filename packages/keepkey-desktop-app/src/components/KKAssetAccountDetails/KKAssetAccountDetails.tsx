@@ -1,5 +1,4 @@
-import { Flex, Link, Stack } from '@chakra-ui/react'
-import { RawText } from 'components/Text'
+import { Stack } from '@chakra-ui/react'
 import type { KKAsset } from 'context/WalletProvider/KeepKeyProvider'
 import { useModal } from 'hooks/useModal/useModal'
 import { useCallback } from 'react'

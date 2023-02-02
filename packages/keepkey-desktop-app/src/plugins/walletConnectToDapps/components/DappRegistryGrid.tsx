@@ -21,7 +21,7 @@ import { WalletActions } from 'context/WalletProvider/actions'
 import { ipcListeners } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { getPioneerClient } from 'lib/getPioneerCleint'
+import { getPioneerClient } from 'lib/getPioneerClient'
 import type { FC } from 'react'
 import { useCallback } from 'react'
 import { useEffect, useMemo, useState } from 'react'
@@ -106,7 +106,7 @@ export const DappRegistryGrid: FC = () => {
 
   const openDapp = useCallback(
     (app: RegistryItem) => {
-      dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.app })
+      dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.homepage })
       history.push('/browser')
     },
     [dispatch, history],

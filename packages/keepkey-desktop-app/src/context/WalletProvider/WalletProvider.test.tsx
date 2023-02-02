@@ -13,16 +13,6 @@ jest.mock('@shapeshiftoss/hdwallet-keepkey-webusb', () => ({
   },
 }))
 
-jest.mock('friendly-challenge', () => ({
-  WidgetInstance: {},
-}))
-
-// This mock fixes an issue with rendering the OptInModal in WalletViewsSwitch
-// when the Pendo plugin is disabled
-jest.mock('./WalletViewsRouter', () => ({
-  WalletViewsRouter: () => null,
-}))
-
 const setup = async () => {
   // @ts-ignore
   WebUSBKeepKeyAdapter.useKeyring.mockImplementation(() => ({

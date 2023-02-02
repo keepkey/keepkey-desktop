@@ -1,5 +1,5 @@
+import type { Controller, IocContainer, IocContainerFactory } from '@tsoa/runtime'
 import type * as express from 'express'
-import type { Controller, IocContainer, IocContainerFactory } from 'tsoa'
 
 import { ApiContext } from './apiContext'
 import { ApiController } from './apiController'
@@ -23,7 +23,7 @@ export const iocContainer: IocContainerFactory = function (request: express.Requ
           if (!reqCompleted) sdkClient.wallet.cancel()
         })
 
-        const context = await ApiContext.create(sdkClient)
+        const context = await ApiContext.create(sdkClient, request.path)
 
         return new (x as new (context: ApiContext) => T)(context)
       } else {

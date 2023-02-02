@@ -1,4 +1,3 @@
-import { assume } from 'common-utils'
 import {
   Body,
   Middlewares,
@@ -9,7 +8,8 @@ import {
   Security,
   SuccessResponse,
   Tags,
-} from 'tsoa'
+} from '@tsoa/runtime'
+import { assume } from 'common-utils'
 
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'
@@ -65,7 +65,7 @@ export class EthereumController extends ApiController {
 
     const account = await this.context.getAccount(body.from)
 
-    return await this.context.wallet.ethSignTx({
+    const msg = {
       addressNList: account.addressNList,
       chainId: body.chainId,
       nonce: body.nonce,
@@ -88,7 +88,12 @@ export class EthereumController extends ApiController {
         : {
             gasPrice: body.gasPrice!,
           }),
-    })
+    }
+
+    // test logging statement
+    this.log(msg)
+
+    return await this.context.wallet.ethSignTx(msg)
   }
 
   /**

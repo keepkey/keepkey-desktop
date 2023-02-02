@@ -1,7 +1,7 @@
 import type { MergedServiceType } from 'components/Modals/ChainSelector/mergeServices'
 import { mergeServices } from 'components/Modals/ChainSelector/mergeServices'
 import { getConfig } from 'config'
-import { getPioneerClient } from 'lib/getPioneerCleint'
+import { getPioneerClient } from 'lib/getPioneerClient'
 import Web3 from 'web3'
 
 export type EthChainData = {

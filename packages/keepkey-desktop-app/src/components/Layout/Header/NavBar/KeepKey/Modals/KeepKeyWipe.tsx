@@ -10,6 +10,7 @@ import {
 import { useToast } from '@chakra-ui/toast'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { Text } from 'components/Text'
+import { WalletActions } from 'context/WalletProvider/actions'
 import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
@@ -28,7 +29,9 @@ export const KeepKeyWipe = () => {
   const {
     state: {
       deviceState: { awaitingDeviceInteraction },
+      showBackButton,
     },
+    dispatch,
     setDeviceState,
   } = useWallet()
   const toast = useToast()
@@ -36,6 +39,7 @@ export const KeepKeyWipe = () => {
 
   const wipeDevice = async () => {
     moduleLogger.trace({ fn: 'wipeDevice' }, 'Wiping KeepKey...')
+    dispatch({ type: WalletActions.SET_SHOW_BACK_BUTTON, payload: false })
     try {
       setDeviceState({ awaitingDeviceInteraction: true })
       try {
@@ -44,6 +48,7 @@ export const KeepKeyWipe = () => {
         setDeviceState({ awaitingDeviceInteraction: false })
       }
       disconnect()
+      await ipcListeners.appRestart()
     } catch (e) {
       moduleLogger.error(e, { fn: 'wipeDevice' }, 'KeepKey Wipe Failed')
       toast({
@@ -62,7 +67,7 @@ export const KeepKeyWipe = () => {
         <ModalHeader>
           <Text translation={'walletProvider.keepKey.modals.headings.wipeKeepKey'} />
         </ModalHeader>
-        <ModalCloseButton />
+        {showBackButton && <ModalCloseButton />}
         <ModalBody>
           <Text
             color='gray.500'
@@ -71,6 +76,7 @@ export const KeepKeyWipe = () => {
           />
           <Checkbox
             isChecked={wipeConfirmationChecked}
+            disabled={awaitingDeviceInteraction}
             onChange={e => setWipeConfirmationChecked(e.target.checked)}
             mb={6}
             spacing={3}
@@ -85,7 +91,7 @@ export const KeepKeyWipe = () => {
             width='full'
             mb={6}
             isLoading={awaitingDeviceInteraction}
-            disabled={!wipeConfirmationChecked}
+            disabled={!wipeConfirmationChecked || awaitingDeviceInteraction}
           >
             {translate('walletProvider.keepKey.modals.actions.wipeDevice')}
           </Button>
@@ -94,6 +100,7 @@ export const KeepKeyWipe = () => {
           translation={'walletProvider.keepKey.modals.confirmations.wipeKeepKey'}
           pl={6}
           pr={6}
+          noCancel={!showBackButton}
         />
       </ModalContent>
     </>

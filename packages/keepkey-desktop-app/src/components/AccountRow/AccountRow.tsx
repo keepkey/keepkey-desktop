@@ -1,5 +1,5 @@
 import { Flex, SimpleGrid, useColorModeValue } from '@chakra-ui/react'
-import type { AssetId } from '@keepkey/caip'
+import type { AssetId } from '@shapeshiftoss/caip'
 import { Amount } from 'components/Amount/Amount'
 import { AssetIcon } from 'components/AssetIcon'
 import { RawText } from 'components/Text'

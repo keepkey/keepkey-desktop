@@ -1,4 +1,4 @@
-import type { FeeDataKey } from '@keepkey/chain-adapters'
+import type { FeeDataKey } from '@shapeshiftoss/chain-adapters'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { useEffect, useState } from 'react'
