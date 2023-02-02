@@ -1506,6 +1506,7 @@
             "raw" : "Raw"
           },
           "insight": {
+            "title": "TX Insight information (powered by harpie.io)",
             "isDangerousOperation": "Is this contract action dangerous?",
             "isMaliciousAddress": "Is this contract Malicious?",
             "isTrustedAddress": "Is this contract trusted?",
