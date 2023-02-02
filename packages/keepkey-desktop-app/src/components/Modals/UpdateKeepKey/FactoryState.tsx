@@ -36,6 +36,8 @@ export const KeepKeyFactoryState = () => {
         deferred: labelDeferred,
       },
     })
+    updateKeepKey.close()
+
     const label = await labelDeferred
 
     const resetMessage: ResetDevice = { label, pin: true }
@@ -64,7 +66,6 @@ export const KeepKeyFactoryState = () => {
         setDeviceState({ awaitingDeviceInteraction: false, disposition: 'initializing' })
       }
       dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
-      updateKeepKey.close()
     } catch (e: any) {
       setLoading(false)
       moduleLogger.error(e, 'reset failed')
