@@ -32,12 +32,7 @@ const mapPinRequestType = (pinRequestType: PinMatrixRequestType2) => {
 }
 
 export const App = () => {
-  const {
-    dispatch,
-    pairAndConnect,
-    setDeviceState,
-    state: { deviceState },
-  } = useWallet()
+  const { dispatch, pairAndConnect, setDeviceState } = useWallet()
   const { setIsUpdatingKeepkey, state, disconnect } = useWallet()
   const { legacyBridge, isLegacy, isConnected } = useWalletConnect()
   const { updateFeatures } = useKeepKey()
@@ -64,8 +59,6 @@ export const App = () => {
   }
 
   const [connected, setConnected] = useState(false)
-
-  console.log('devicceState', deviceState)
 
   // open hardwareError modal on app start unless already connected
   useEffect(() => {
