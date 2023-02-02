@@ -1,4 +1,17 @@
-import { Box, Button, HStack, Image, useColorModeValue, useToast, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  HStack,
+  Image,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  useColorModeValue,
+  useToast,
+  VStack,
+} from '@chakra-ui/react'
 import type { ethereum } from '@shapeshiftoss/chain-adapters'
 import { FeeDataKey } from '@shapeshiftoss/chain-adapters'
 import { KnownChainIds } from '@shapeshiftoss/types'
@@ -21,6 +34,7 @@ import Web3 from 'web3'
 
 import { AddressSummaryCard } from './AddressSummaryCard'
 import { ContractInteractionBreakdown } from './ContractInteractionBreakdown'
+import { TransactionInsight } from './TransactionInsight'
 import { GasFeeEstimateLabel } from './GasFeeEstimateLabel'
 import { GasInput } from './GasInput'
 import { ModalSection } from './ModalSection'
@@ -292,9 +306,37 @@ export const SendTransactionConfirmation = () => {
             translation='plugins.walletConnectToDapps.modal.sendTransaction.contractInteraction.title'
             mb={4}
           />
-          <Card bg={cardBg} borderRadius='md' px={4} py={2}>
-            <ContractInteractionBreakdown request={currentRequest} />
-          </Card>
+          <Tabs>
+            <TabList>
+              <Tab>
+                <Text
+                  fontWeight='medium'
+                  translation='plugins.walletConnectToDapps.modal.sendTransaction.contractInteraction.insight'
+                  mb={4}
+                />
+              </Tab>
+              <Tab>
+                <Text
+                  fontWeight='medium'
+                  translation='plugins.walletConnectToDapps.modal.sendTransaction.contractInteraction.raw'
+                  mb={4}
+                />
+              </Tab>
+            </TabList>
+
+            <TabPanels>
+              <TabPanel>
+                <Card bg={cardBg} borderRadius='md' px={4} py={2}>
+                  <TransactionInsight request={currentRequest} />
+                </Card>
+              </TabPanel>
+              <TabPanel>
+                <Card bg={cardBg} borderRadius='md' px={4} py={2}>
+                  <ContractInteractionBreakdown request={currentRequest} />
+                </Card>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </Box>
 
         {shouldShowGas && (

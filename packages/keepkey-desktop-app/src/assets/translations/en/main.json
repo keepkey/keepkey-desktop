@@ -1501,7 +1501,21 @@
             "title": "Contract Interaction",
             "sendingEth": "Sending ETH",
             "amount": "Amount",
-            "data": "Data"
+            "data": "Data",
+            "insight": "Insight",
+            "raw" : "Raw"
+          },
+          "insight": {
+            "isDangerousOperation": "Is this contract action dangerous?",
+            "isMaliciousAddress": "Is this contract Malicious?",
+            "isTrustedAddress": "Is this contract trusted?",
+            "recommendedAction": "We recommend you to",
+            "THEFT": "has this contract been reported in thefts?",
+            "CYBERCRIME" : "Is this contract related to cybercrimes?",
+            "SANCTIONED" : "Is this contract sanctioned?",
+            "BOT" : "Is this contract owned by a bot?",
+            "WASH_TRADER" : "Is this contract owned by a wash trader?",
+            "MIXER" : "Is this contract owned by a mixer?"
           },
           "advancedParameters": {
             "title": "Advanced Parameters",
