@@ -81,6 +81,7 @@
     }
   },
   "dependencies": {
+    "@pioneer-platform/harpie-client": "8.1.17",
     "@walletconnect/client": "^1.8.0",
     "crypto": "^1.0.1"
   }

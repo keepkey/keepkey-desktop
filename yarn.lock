@@ -5688,6 +5688,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pioneer-platform/harpie-client@npm:8.1.17":
+  version: 8.1.17
+  resolution: "@pioneer-platform/harpie-client@npm:8.1.17"
+  dependencies:
+    "@pioneer-platform/loggerdog": ^8.1.17
+    axios: ^0.21.1
+    dotenv: ^8.2.0
+  checksum: 4ee161006a1fab8989f668f74dd48a75d646f54ef26ca29cf505be31d8480ed8edddc07cdce5625f9068fdd2da3cf52bd3a5b003927e6bfdf53b57604c74311f
+  languageName: node
+  linkType: hard
+
 "@pioneer-platform/loggerdog@npm:^8.0.1, @pioneer-platform/loggerdog@npm:^8.1.17":
   version: 8.1.17
   resolution: "@pioneer-platform/loggerdog@npm:8.1.17"
@@ -18198,6 +18209,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^17.3.0
     "@commitlint/config-conventional": ^17.3.0
+    "@pioneer-platform/harpie-client": 8.1.17
     "@walletconnect/client": ^1.8.0
     "@yarnpkg/sdks": ^3.0.0-rc.31
     crypto: ^1.0.1

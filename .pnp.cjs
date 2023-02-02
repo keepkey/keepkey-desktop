@@ -57,6 +57,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@commitlint/cli", "npm:17.3.0"],\
             ["@commitlint/config-conventional", "npm:17.3.0"],\
+            ["@pioneer-platform/harpie-client", "npm:8.1.17"],\
             ["@walletconnect/client", "npm:1.8.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
             ["crypto", "npm:1.0.1"],\
@@ -8963,6 +8964,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@pioneer-platform/harpie-client", [\
+        ["npm:8.1.17", {\
+          "packageLocation": "./.yarn/cache/@pioneer-platform-harpie-client-npm-8.1.17-2b1bbe90b0-4ee161006a.zip/node_modules/@pioneer-platform/harpie-client/",\
+          "packageDependencies": [\
+            ["@pioneer-platform/harpie-client", "npm:8.1.17"],\
+            ["@pioneer-platform/loggerdog", "npm:8.1.17"],\
+            ["axios", "npm:0.21.4"],\
+            ["dotenv", "npm:8.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@pioneer-platform/loggerdog", [\
         ["npm:8.1.17", {\
           "packageLocation": "./.yarn/cache/@pioneer-platform-loggerdog-npm-8.1.17-d22e3e0dd9-be06e2ad57.zip/node_modules/@pioneer-platform/loggerdog/",\
@@ -8974,7 +8987,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["os", "npm:0.1.2"],\
             ["request", "npm:2.88.2"],\
             ["request-promise", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:4.2.6"],\
-            ["ts-node", "virtual:ff9728af92353809647d9ed70e5ddb9ac4d712973b39c6f70437ed59e7f0019f7975257b83bf464a736a677de9b345b482b86076d557eaecd01c4884fad520b0#npm:8.10.2"],\
+            ["ts-node", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:8.10.2"],\
             ["typescript", "patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"]\
           ],\
           "linkType": "HARD"\
@@ -8990,7 +9003,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["js-yaml", "npm:3.14.1"],\
             ["openapi-client-axios", "virtual:ff9728af92353809647d9ed70e5ddb9ac4d712973b39c6f70437ed59e7f0019f7975257b83bf464a736a677de9b345b482b86076d557eaecd01c4884fad520b0#npm:3.14.1"],\
             ["request", "npm:2.88.2"],\
-            ["ts-node", "virtual:ff9728af92353809647d9ed70e5ddb9ac4d712973b39c6f70437ed59e7f0019f7975257b83bf464a736a677de9b345b482b86076d557eaecd01c4884fad520b0#npm:8.10.2"],\
+            ["ts-node", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:8.10.2"],\
             ["typescript", "patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"]\
           ],\
           "linkType": "HARD"\
@@ -23765,6 +23778,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["keepkey-monorepo", "workspace:."],\
             ["@commitlint/cli", "npm:17.3.0"],\
             ["@commitlint/config-conventional", "npm:17.3.0"],\
+            ["@pioneer-platform/harpie-client", "npm:8.1.17"],\
             ["@walletconnect/client", "npm:1.8.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
             ["crypto", "npm:1.0.1"],\
@@ -31838,6 +31852,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:8.10.2", {\
+          "packageLocation": "./.yarn/__virtual__/ts-node-virtual-a38aa08529/0/cache/ts-node-npm-8.10.2-b4fe5a56b0-480adb076f.zip/node_modules/ts-node/",\
+          "packageDependencies": [\
+            ["ts-node", "virtual:d22e3e0dd9904f9108ce579ff04cb827d97e3176937594e005b83c38d1a7098053ee13a41264ee34247222ff5b0ee7dfdf05cc7bbf7ab91af7a2f19f642e37aa#npm:8.10.2"],\
+            ["@types/typescript", null],\
+            ["arg", "npm:4.1.3"],\
+            ["diff", "npm:4.0.2"],\
+            ["make-error", "npm:1.3.6"],\
+            ["source-map-support", "npm:0.5.21"],\
+            ["typescript", "patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"],\
+            ["yn", "npm:3.1.1"]\
+          ],\
+          "packagePeers": [\
+            "@types/typescript",\
+            "typescript"\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["virtual:ea9598466b05f88130ddea63047a73d1d3920e02ec841c0a3aa5aa7e106cc081e3992947a54ec81e4e42c3822b0366da55afe2db9d1160eb0ae5b34d31b33ac3#npm:10.9.1", {\
           "packageLocation": "./.yarn/__virtual__/ts-node-virtual-4cc0801823/0/cache/ts-node-npm-10.9.1-6c268be7f4-090adff130.zip/node_modules/ts-node/",\
           "packageDependencies": [\
@@ -31869,24 +31901,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/node",\
             "@types/swc__core",\
             "@types/swc__wasm",\
-            "@types/typescript",\
-            "typescript"\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["virtual:ff9728af92353809647d9ed70e5ddb9ac4d712973b39c6f70437ed59e7f0019f7975257b83bf464a736a677de9b345b482b86076d557eaecd01c4884fad520b0#npm:8.10.2", {\
-          "packageLocation": "./.yarn/__virtual__/ts-node-virtual-2e1b574403/0/cache/ts-node-npm-8.10.2-b4fe5a56b0-480adb076f.zip/node_modules/ts-node/",\
-          "packageDependencies": [\
-            ["ts-node", "virtual:ff9728af92353809647d9ed70e5ddb9ac4d712973b39c6f70437ed59e7f0019f7975257b83bf464a736a677de9b345b482b86076d557eaecd01c4884fad520b0#npm:8.10.2"],\
-            ["@types/typescript", null],\
-            ["arg", "npm:4.1.3"],\
-            ["diff", "npm:4.0.2"],\
-            ["make-error", "npm:1.3.6"],\
-            ["source-map-support", "npm:0.5.21"],\
-            ["typescript", "patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"],\
-            ["yn", "npm:3.1.1"]\
-          ],\
-          "packagePeers": [\
             "@types/typescript",\
             "typescript"\
           ],\
