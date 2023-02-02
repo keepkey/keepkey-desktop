@@ -7,6 +7,7 @@
     "build": "yarn clean && ts-node --skipProject --swc scripts/getSpec.ts && openapi-generator-cli generate && yarn lint:fix && tsc",
     "dev": "yarn build",
     "clean": "rimraf dist src/generated",
+    "publish": "yarn npm publish --access public --tolerate-republish",
     "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
     "lint:fix": "yarn lint --fix"
   },
