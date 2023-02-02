@@ -130,7 +130,8 @@ export const kkStateController = new KKStateController(
         if (
           e.message.message === 'PIN removed' ||
           e.message.message === 'PIN changed' ||
-          e.message.message === 'Device reset'
+          e.message.message === 'Device reset' ||
+          e.message.message === 'Device recovered'
         ) {
           //restart app
           console.log('restarting app')
