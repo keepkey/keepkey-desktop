@@ -42,7 +42,6 @@ export const KeepKeyPin = ({
     state: { pinDeferred, showBackButton },
     dispatch,
   } = useWallet()
-
   const pinFieldRef = useRef<HTMLInputElement | null>(null)
 
   const pinNumbers = [7, 8, 9, 4, 5, 6, 1, 2, 3]
