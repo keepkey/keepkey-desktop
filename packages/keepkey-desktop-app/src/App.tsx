@@ -48,7 +48,8 @@ export const App = () => {
   }
 
   const closeAllModals = useCallback(() => {
-    for (const modal of Object.values(modals)) {
+    for (const [name, modal] of Object.entries(modals)) {
+      if (['onboardingSteps'].includes(name)) continue
       modal.close()
     }
   }, [modals])
