@@ -45,6 +45,8 @@ jobs:
           name: app-build-dir-${{ runner.os }}
           path: packages/keepkey-desktop/build/
           if-no-files-found: error
+      - name: Publish packages
+        run: yarn publish
       - name: Mac - Prepare For App Notarization
         if: startsWith(matrix.os, 'macos')
         # Import Apple API key for app notarization on macOS

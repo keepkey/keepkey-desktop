@@ -13,6 +13,7 @@
     "build:docs": "typedoc --out docs src",
     "dev": "yarn build",
     "clean": "rimraf dist docs tsconfig.tsbuildinfo",
+    "publish": "yarn npm publish --tolerate-republish",
     "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
     "lint:fix": "yarn lint --fix",
     "prepublishOnly": "yarn clean && yarn build"
