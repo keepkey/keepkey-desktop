@@ -724,7 +724,10 @@
         "versionAlert1": "Your KeepKey is currently version ",
         "versionAlert2": ", version ",
         "versionAlert3": " is now available",
-        "restart": "Restart device holding down button",
+        "requestUpdaterMode": "To continue, you must place your KeepKey into Firmware Update Mode.",
+        "restart": "1. unplug your device",
+        "restart1": "2. hold down the button",
+        "restart2": "3. while continuing to hold down button, plug device back in",
         "skipUpdate": {
           "text": "Don't feel like updating yet?",
           "cta": "Skip Update"

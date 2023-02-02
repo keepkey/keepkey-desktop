@@ -18,7 +18,7 @@ import { SettingsListItem } from './SettingsListItem'
 export const AppSettings: FC = () => {
   const { settings, onboardingSteps } = useModal()
   const [appSettings, setAppSettings] = useState<Settings>({
-    shouldAutoLaunch: true,
+    shouldAutoLaunch: false,
     shouldAutoStartBridge: true,
     shouldMinimizeToTray: true,
     shouldAutoUpdate: true,
