@@ -19,6 +19,7 @@ export type SdkClient = {
   apiKey: string
   wallet: KeepKeyHDWallet
   info: PairingInfo
+  logger: (...args: unknown[]) => void
 }
 
 export type SdkClientFactory = (apiKey: string) => Promise<SdkClient | undefined>

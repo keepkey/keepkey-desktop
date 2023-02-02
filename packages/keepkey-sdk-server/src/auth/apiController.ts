@@ -8,4 +8,7 @@ export abstract class ApiController extends Controller {
     super()
     this.context = context
   }
+  log(...args: unknown[]) {
+    this.context.sdkClient.logger(this.context.path, ...args)
+  }
 }
