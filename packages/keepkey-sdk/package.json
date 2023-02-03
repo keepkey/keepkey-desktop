@@ -1,6 +1,12 @@
 {
   "name": "@keepkey/keepkey-sdk",
   "version": "0.2.15",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keepkey/keepkey-desktop",
+    "directory": "packages/keepkey-sdk"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -11,10 +17,8 @@
     "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
     "lint:fix": "yarn lint --fix"
   },
-  "dependencies": {
-    "@openapitools/openapi-generator-cli": "^2.5.2"
-  },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.2",
     "@swc/cli": "^0.1.57",
     "@swc/core": "^1.3.23",
     "@types/node": "^18",
