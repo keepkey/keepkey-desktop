@@ -17,7 +17,7 @@ export const Layout: React.FC<ContainerProps> = ({ children, ...rest }) => {
   const [hideHeader, setHideHeader] = useState(false)
 
   useEffect(() => {
-    if (location.pathname !== '/browser' || !browserUrl) return
+    if (location.pathname !== '/browser' || !browserUrl) return setHideHeader(false)
     const bUrl = new URL(browserUrl)
     ipcListeners.bridgeCheckAppPaired(bUrl.origin).then(setHideHeader)
   }, [browserUrl, location])
