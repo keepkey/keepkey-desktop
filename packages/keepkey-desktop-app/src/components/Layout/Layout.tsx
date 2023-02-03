@@ -20,7 +20,8 @@ export const Layout: React.FC<ContainerProps> = ({ children, ...rest }) => {
     if (location.pathname !== '/browser' || !browserUrl) return
     const bUrl = new URL(browserUrl)
     ipcListeners.bridgeCheckAppPaired(bUrl.origin).then(setHideHeader)
-  }, [browserUrl, location.pathname])
+  }, [browserUrl, location])
+
   return (
     <div
       style={{

@@ -29,6 +29,7 @@ export const Pairings = () => {
 
   useEffect(() => {
     ipcListeners.bridgePairedApps().then((data: PairedAppProps[]) => {
+      console.log('bridgePairedApps', data)
       setApps(data)
     })
     ipcListeners.appPairings().then((data: PairingProps[]) => {

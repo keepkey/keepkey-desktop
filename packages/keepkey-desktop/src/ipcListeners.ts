@@ -158,8 +158,10 @@ export const ipcListeners: IpcListeners = {
   },
 
   async bridgeCheckAppPaired(url: string): Promise<boolean> {
-    const doc = await db.findOne<PairedAppProps>({ type: 'sdk-pairing', info: { url } })
-    if (!doc) return false
+    const apps = await db.find<PairedAppProps>({ type: 'sdk-pairing' })
+    if (!apps) return false
+    const paired = apps.find(app => app.info.url === url)
+    if (!paired) return false
     return true
   },
 
