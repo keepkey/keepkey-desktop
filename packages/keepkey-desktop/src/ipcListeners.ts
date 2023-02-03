@@ -157,6 +157,12 @@ export const ipcListeners: IpcListeners = {
     return await db.find<PairedAppProps>({ type: 'sdk-pairing' })
   },
 
+  async bridgeCheckAppPaired(url: string): Promise<boolean> {
+    const doc = await db.findOne<PairedAppProps>({ type: 'sdk-pairing', info: { url } })
+    if (!doc) return false
+    return true
+  },
+
   // used only for implicitly pairing the KeepKey web app
   async bridgeAddService(data: {
     serviceKey: string
