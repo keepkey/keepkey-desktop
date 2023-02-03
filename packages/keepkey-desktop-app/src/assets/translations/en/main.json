@@ -724,7 +724,10 @@
         "versionAlert1": "Your KeepKey is currently version ",
         "versionAlert2": ", version ",
         "versionAlert3": " is now available",
-        "restart": "Restart device holding down button",
+        "requestUpdaterMode": "To continue, you must place your KeepKey into Firmware Update Mode.",
+        "restart": "1. unplug your device",
+        "restart1": "2. hold down the button",
+        "restart2": "3. while continuing to hold down button, plug device back in",
         "skipUpdate": {
           "text": "Don't feel like updating yet?",
           "cta": "Skip Update"
@@ -1501,7 +1504,22 @@
             "title": "Contract Interaction",
             "sendingEth": "Sending ETH",
             "amount": "Amount",
-            "data": "Data"
+            "data": "Data",
+            "insight": "Insight",
+            "raw" : "Raw"
+          },
+          "insight": {
+            "title": "TX Insight information (powered by harpie.io)",
+            "isDangerousOperation": "Is this contract action dangerous?",
+            "isMaliciousAddress": "Is this contract Malicious?",
+            "isTrustedAddress": "Is this contract trusted?",
+            "recommendedAction": "We recommend you to",
+            "THEFT": "has this contract been reported in thefts?",
+            "CYBERCRIME" : "Is this contract related to cybercrimes?",
+            "SANCTIONED" : "Is this contract sanctioned?",
+            "BOT" : "Is this contract owned by a bot?",
+            "WASH_TRADER" : "Is this contract owned by a wash trader?",
+            "MIXER" : "Is this contract owned by a mixer?"
           },
           "advancedParameters": {
             "title": "Advanced Parameters",

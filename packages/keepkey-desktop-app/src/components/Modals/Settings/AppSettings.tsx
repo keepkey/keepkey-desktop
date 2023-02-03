@@ -18,7 +18,7 @@ import { SettingsListItem } from './SettingsListItem'
 export const AppSettings: FC = () => {
   const { settings, onboardingSteps } = useModal()
   const [appSettings, setAppSettings] = useState<Settings>({
-    shouldAutoLaunch: true,
+    shouldAutoLaunch: false,
     shouldAutoStartBridge: true,
     shouldMinimizeToTray: true,
     shouldAutoUpdate: true,
@@ -134,20 +134,20 @@ export const AppSettings: FC = () => {
         <Switch isChecked={appSettings.allowPreRelease} pointerEvents='none' />
       </SettingsListItem>
       <Divider my={1} />
-      <SettingsListItem
-        label={'modals.settings.allowBetaFirmware'}
-        onClick={() => {
-          setAppSettings(currentSettings => {
-            return {
-              ...currentSettings,
-              allowBetaFirmware: !currentSettings.allowBetaFirmware,
-            }
-          })
-        }}
-        icon={<Icon as={TbRefreshAlert} color='gray.500' />}
-      >
-        <Switch isChecked={appSettings.allowBetaFirmware} pointerEvents='none' />
-      </SettingsListItem>
+      {/*<SettingsListItem*/}
+      {/*  label={'modals.settings.allowBetaFirmware'}*/}
+      {/*  onClick={() => {*/}
+      {/*    setAppSettings(currentSettings => {*/}
+      {/*      return {*/}
+      {/*        ...currentSettings,*/}
+      {/*        allowBetaFirmware: !currentSettings.allowBetaFirmware,*/}
+      {/*      }*/}
+      {/*    })*/}
+      {/*  }}*/}
+      {/*  icon={<Icon as={TbRefreshAlert} color='gray.500' />}*/}
+      {/*>*/}
+      {/*  <Switch isChecked={appSettings.allowBetaFirmware} pointerEvents='none' />*/}
+      {/*</SettingsListItem>*/}
       <Divider my={1} />
       <SettingsListItem
         label={'modals.settings.autoScanQr'}

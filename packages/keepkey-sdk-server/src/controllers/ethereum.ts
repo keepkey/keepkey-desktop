@@ -65,7 +65,7 @@ export class EthereumController extends ApiController {
 
     const account = await this.context.getAccount(body.from)
 
-    const msg = {
+    return await this.context.wallet.ethSignTx({
       addressNList: account.addressNList,
       chainId: body.chainId,
       nonce: body.nonce,
@@ -88,12 +88,7 @@ export class EthereumController extends ApiController {
         : {
             gasPrice: body.gasPrice!,
           }),
-    }
-
-    // test logging statement
-    this.log(msg)
-
-    return await this.context.wallet.ethSignTx(msg)
+    })
   }
 
   /**

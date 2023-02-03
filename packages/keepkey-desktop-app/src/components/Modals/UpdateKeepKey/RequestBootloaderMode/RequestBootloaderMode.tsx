@@ -1,6 +1,7 @@
 import {
   Alert,
   AlertIcon,
+  Box,
   Button,
   Code,
   HStack,
@@ -13,6 +14,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useColorMode,
+  VStack,
 } from '@chakra-ui/react'
 import HoldAndConnect from 'assets/hold-and-connect.svg'
 import type { Deferred } from 'common-utils'
@@ -75,7 +77,20 @@ export const RequestBootloaderMode: FC<RequestBootloaderModeProps> = ({
               filter={colorMode === 'light' ? 'invert(100%);' : ''}
               alt='reconnect Device!'
             />
-            <Text align='center' translation={'modals.keepKey.requestBootloaderMode.restart'} />
+            <VStack p={6} spacing={6} alignItems='stretch'>
+              <small>
+                <Text
+                  align='left'
+                  translation={'modals.keepKey.requestBootloaderMode.requestUpdaterMode'}
+                />
+              </small>
+              <br />
+              <Box pt={2}>
+                <Text align='left' translation={'modals.keepKey.requestBootloaderMode.restart'} />
+                <Text align='left' translation={'modals.keepKey.requestBootloaderMode.restart1'} />
+                <Text align='left' translation={'modals.keepKey.requestBootloaderMode.restart2'} />
+              </Box>
+            </VStack>
           </ModalBody>
           {!bootloaderUpdateNeeded && (
             <ModalFooter textAlign='center'>
