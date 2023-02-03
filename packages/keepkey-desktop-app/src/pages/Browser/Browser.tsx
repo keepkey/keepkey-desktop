@@ -52,6 +52,19 @@ const formatUrl = (inputUrl: string) => {
   return undefined
 }
 
+const clearClipBoardIfWCString = async () => {
+  try {
+    const clipboardData = await navigator.clipboard.read()
+    const link = await clipboardData[0].getType('text/plain')
+    const clipboardUri = await link.text()
+    if (clipboardUri.startsWith('wc:')) {
+      await navigator.clipboard.writeText('')
+    }
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 export const Browser = () => {
   const [url, setUrl] = useState('about:blank')
   const [inputUrl, setInputUrl] = useState(url)
@@ -67,6 +80,7 @@ export const Browser = () => {
 
   const [webviewReady, setWebviewReady] = useState(false)
   useEffect(() => {
+    clearClipBoardIfWCString()
     const webview = getWebview()!
     const listener = () => setWebviewReady(true)
     webview.addEventListener('dom-ready', listener)
