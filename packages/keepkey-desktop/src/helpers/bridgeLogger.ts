@@ -36,7 +36,9 @@ export class BridgeLogger {
   }
 
   fetchLogs(serviceKey: string) {
-    const logs = this.logs.filter(log => log.serviceKey === serviceKey)
+    const logs = this.logs.filter(
+      log => log.serviceKey === serviceKey || log.serviceKey === `Bearer ${serviceKey}`,
+    )
     return logs
   }
 }

@@ -1506,7 +1506,18 @@
             "amount": "Amount",
             "data": "Data",
             "insight": "Insight",
-            "raw" : "Raw"
+            "simulation": "simulation",
+            "raw" : "Raw",
+            "contract" : "Contract ABI"
+          },
+          "raw": {
+            "raw": "Raw Transaction",
+            "to": "Contract Interaction",
+            "from": "Sending ETH",
+            "data": "Hex Data"
+          },
+          "simulation": {
+            "title": "TX simulation information (powered by blocknative.com)"
           },
           "insight": {
             "title": "TX Insight information (powered by harpie.io)",

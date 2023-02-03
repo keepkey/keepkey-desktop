@@ -1,9 +1,12 @@
 export type PairedAppProps = {
-  addedOn: number
-  serviceName: string
-  serviceImageUrl: string
-  serviceKey: string
-  isKeepKeyDesktop?: boolean
+  apiKey: string
+  info: {
+    name: string
+    url?: string
+    imageUrl: string
+    addedOn: number
+    isKeepKeyDesktop: boolean
+  }
 }
 
 export type PairingProps = {
