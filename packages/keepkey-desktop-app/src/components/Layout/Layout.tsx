@@ -3,7 +3,7 @@ import { Container } from '@chakra-ui/react'
 import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router'
+import { useLocation } from 'react-router'
 
 import { BottomNav } from './Header/BottomNav'
 import { Header } from './Header/Header'
@@ -12,15 +12,15 @@ export const Layout: React.FC<ContainerProps> = ({ children, ...rest }) => {
   const {
     state: { browserUrl },
   } = useWallet()
-  const history = useHistory()
 
+  const location = useLocation()
   const [hideHeader, setHideHeader] = useState(false)
 
   useEffect(() => {
-    if (history.location.pathname !== '/browser' || !browserUrl) return
+    if (location.pathname !== '/browser' || !browserUrl) return
     const bUrl = new URL(browserUrl)
     ipcListeners.bridgeCheckAppPaired(bUrl.origin).then(setHideHeader)
-  }, [history.location, browserUrl])
+  }, [browserUrl, location.pathname])
   return (
     <div
       style={{
@@ -41,7 +41,7 @@ export const Layout: React.FC<ContainerProps> = ({ children, ...rest }) => {
           flex: '1 1 0%',
         }}
       >
-        {hideHeader && <Header />}
+        {!hideHeader && <Header />}
 
         <Container
           as='main'
