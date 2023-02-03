@@ -43,8 +43,8 @@ export const PairingDetails = () => {
     <Main
       titleComponent={
         <Stack pb={4} direction='row'>
-          <Image src={app?.serviceImageUrl} borderRadius='full' height='50' width='50' />
-          <Heading>{app?.serviceName}</Heading>
+          <Image src={app?.info.imageUrl} borderRadius='full' height='50' width='50' />
+          <Heading>{app?.info.name}</Heading>
         </Stack>
       }
     >
@@ -56,7 +56,7 @@ export const PairingDetails = () => {
                 <Text translation={'pairingDetails.header'} />
               </Heading>
               <Text
-                translation={['pairingDetails.body', { name: app?.serviceName }]}
+                translation={['pairingDetails.body', { name: app?.info.name }]}
                 color='gray.500'
               />
             </Stack>
