@@ -37,7 +37,7 @@ export const Pairings = () => {
   }, [])
 
   const unpair = async (app: PairedAppProps) => {
-    if (app.isKeepKeyDesktop) return
+    if (app.info.isKeepKeyDesktop) return
     await ipcListeners.bridgeRemoveService(app)
     setApps(await ipcListeners.bridgePairedApps())
   }
@@ -68,22 +68,22 @@ export const Pairings = () => {
                     flexDirection='row'
                     alignItems='center'
                     gap='10px'
-                    key={app.serviceKey}
+                    key={app.apiKey}
                   >
-                    <Image src={app.serviceImageUrl} borderRadius='full' height='10' width='10' />
+                    <Image src={app.info.imageUrl} borderRadius='full' height='10' width='10' />
                     <Box display='flex' flexDirection='row' flexGrow={1} alignItems='center'>
-                      <p>{app.serviceName}</p>
+                      <p>{app.info.name}</p>
                     </Box>
                     <Box>
                       <RawText color='gray.500' fontSize='xs'>
-                        {dayjs(app.addedOn).format('DD/MM/YYYY - HH:mm')}
+                        {dayjs(app.info.addedOn).format('DD/MM/YYYY - HH:mm')}
                       </RawText>
                     </Box>
                     <Box>
                       <Button
                         colorScheme='blue'
                         onClick={() => {
-                          history.push(`/pairings/${app.serviceKey}`)
+                          history.push(`/pairings/${app.apiKey}`)
                         }}
                       >
                         <Text translation={'pairedApps.cta.openLogs'} />
@@ -95,7 +95,7 @@ export const Pairings = () => {
                         onClick={() => {
                           unpair(app)
                         }}
-                        disabled={app.isKeepKeyDesktop}
+                        disabled={app.info.isKeepKeyDesktop}
                       >
                         <Text translation={'pairedApps.cta.unpair'} />
                       </Button>

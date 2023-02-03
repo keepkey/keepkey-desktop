@@ -125,14 +125,14 @@ export const ipcListeners: IpcListeners = {
   },
 
   async bridgeServiceDetails(
-    serviceKey: string,
+    apiKey: string,
   ): Promise<undefined | { app: PairedAppProps; logs: BridgeLog[] }> {
     const doc = await db.findOne<PairedAppProps>({
-      type: 'service',
-      serviceKey,
+      type: 'sdk-pairing',
+      apiKey,
     })
     if (!doc) return undefined
-    const logs = bridgeLogger.fetchLogs(serviceKey)
+    const logs = bridgeLogger.fetchLogs(apiKey)
     return {
       app: doc,
       logs,
@@ -143,17 +143,18 @@ export const ipcListeners: IpcListeners = {
     return isWalletBridgeRunning()
   },
 
-  async bridgeServiceName(serviceKey: string): Promise<string | undefined> {
-    const doc = await db.findOne<{ serviceName: string }>({
-      type: 'service',
-      serviceKey,
+  async bridgeServiceName(apiKey: string): Promise<string | undefined> {
+    const doc = await db.findOne<PairedAppProps>({
+      type: 'sdk-pairing',
+      apiKey,
     })
-    return doc?.serviceName
+    if (!doc) return 'Unable to fetch name'
+    return doc.info.name
   },
 
   // send paired apps when requested
   async bridgePairedApps(): Promise<PairedAppProps[]> {
-    return await db.find<PairedAppProps>({ type: 'service' })
+    return await db.find<PairedAppProps>({ type: 'sdk-pairing' })
   },
 
   // used only for implicitly pairing the KeepKey web app
@@ -175,6 +176,8 @@ export const ipcListeners: IpcListeners = {
           name: data.serviceName,
           url: data.serviceHomePage,
           imageUrl: data.serviceImageUrl,
+          addedOn: Date.now(),
+          isKeepKeyDesktop: true,
         },
       },
       { upsert: true },
