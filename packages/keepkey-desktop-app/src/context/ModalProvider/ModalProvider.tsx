@@ -86,9 +86,8 @@ type ModalSetup<S extends ModalSetup<S>> = {
   [k in keyof S]: ModalState<S>[k]['Component']
 }
 
-export function createInitialState<S>(modalSetup: S): ModalState<S> {
+export function createInitialState<S extends {}>(modalSetup: S): ModalState<S> {
   const modalMethods = { isOpen: false, open: noop, close: noop }
-  // @ts-ignore
   const modalNames = Object.keys(modalSetup) as (keyof S)[]
   const result = modalNames.reduce(
     (acc, modalName) => ({
@@ -107,7 +106,7 @@ export function createInitialState<S>(modalSetup: S): ModalState<S> {
 const initialState = createInitialState(MODALS)
 
 // reducer
-export function modalReducer<S>(state: S, action: ModalActions<S>): S {
+export function modalReducer<S extends ModalState<any>>(state: S, action: ModalActions<S>): S {
   switch (action.type) {
     case OPEN_MODAL:
       return {
@@ -132,7 +131,7 @@ type CreateModalProviderProps<M> = {
 }
 export type ModalStateType = typeof initialState
 // provider
-export function createModalProvider<M>({
+export function createModalProvider<M extends ModalState<any>>({
   instanceInitialState,
   instanceReducer,
   InstanceModalContext,
@@ -152,7 +151,6 @@ export function createModalProvider<M>({
     )
 
     const value = useMemo(() => {
-      // @ts-ignore
       const modalKeys = Object.keys(instanceInitialState) as (keyof M)[]
       const fns = modalKeys.reduce((acc, cur) => {
         const open = openFactory(cur)
@@ -163,18 +161,12 @@ export function createModalProvider<M>({
       return result
     }, [state, openFactory, closeFactory])
 
-    // @ts-ignore
     return (
-      // @ts-ignore
       <InstanceModalContext.Provider value={value}>
         {children}
-        {
-          // @ts-ignore
-          Object.values(value).map((Modal, key) => (
-            // @ts-ignore
-            <Modal.Component key={key} {...Modal.props} />
-          ))
-        }
+        {Object.values(value).map((Modal, key) => (
+          <Modal.Component key={key} {...Modal.props} />
+        ))}
       </InstanceModalContext.Provider>
     )
   }
