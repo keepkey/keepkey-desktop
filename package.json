@@ -8,8 +8,9 @@
   "scripts": {
     "prerec-mac": "brew install git-lfs && git lfs fetch && git lfs install",
     "postinstall": "yaml-sort -i .yarnrc.yml",
-    "clean": "yarn workspaces foreach -p run clean",
+    "clean": "yarn workspaces foreach -p run clean && git clean -fdx",
     "build": "yarn workspaces foreach -pRi --topological-dev --from 'keepkey-desktop' run build",
+    "publish": "yarn workspaces foreach -p run publish",
     "release": "yarn run build && yarn workspace keepkey-desktop run release",
     "dev": "yarn workspaces foreach -pRi --topological-dev --from 'keepkey-desktop' run dev",
     "lint": "yarn workspaces foreach -pi run lint",
