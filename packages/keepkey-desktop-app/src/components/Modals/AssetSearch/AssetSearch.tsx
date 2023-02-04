@@ -39,14 +39,16 @@ export const AssetSearchModal = ({ onClick, filterBy }: AssetSearchModalProps) =
     : 80
   return (
     <Modal isOpen={isOpen} onClose={close} isCentered={isLargerThanMd} trapFocus={false}>
-      <ModalOverlay />
-      <ModalContent height={`${modalHeight}vh`}>
-        <ModalHeader>{translate('common.selectAsset')}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody p={2} display='flex' flexDir='column'>
-          <AssetSearch onClick={handleClick} filterBy={filterBy} />
-        </ModalBody>
-      </ModalContent>
+      <div style={{ '--chakra-zIndices-modal': assetSearch.zIndex }}>
+        <ModalOverlay />
+        <ModalContent height={`${modalHeight}vh`}>
+          <ModalHeader>{translate('common.selectAsset')}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody p={2} display='flex' flexDir='column'>
+            <AssetSearch onClick={handleClick} filterBy={filterBy} />
+          </ModalBody>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

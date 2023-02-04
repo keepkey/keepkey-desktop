@@ -21,19 +21,21 @@ const Receive = ({ asset, accountId }: ReceivePropsType) => {
 
   return (
     <Modal isOpen={isOpen} onClose={close} isCentered>
-      <ModalOverlay />
-      <ModalContent>
-        <MemoryRouter initialEntries={entries}>
-          <Switch>
-            <Route
-              path='/'
-              component={(props: RouteComponentProps) => (
-                <ReceiveRouter asset={asset} accountId={accountId} {...props} />
-              )}
-            />
-          </Switch>
-        </MemoryRouter>
-      </ModalContent>
+      <div style={{ '--chakra-zIndices-modal': receive.zIndex }}>
+        <ModalOverlay />
+        <ModalContent>
+          <MemoryRouter initialEntries={entries}>
+            <Switch>
+              <Route
+                path='/'
+                component={(props: RouteComponentProps) => (
+                  <ReceiveRouter asset={asset} accountId={accountId} {...props} />
+                )}
+              />
+            </Switch>
+          </MemoryRouter>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

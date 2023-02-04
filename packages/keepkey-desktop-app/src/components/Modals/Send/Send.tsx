@@ -29,19 +29,21 @@ export const SendModal = ({ asset, accountId }: SendModalProps) => {
 
   return (
     <Modal isOpen={isOpen} onClose={close} isCentered initialFocusRef={initialRef}>
-      <ModalOverlay />
-      <ModalContent maxW='500px'>
-        <MemoryRouter initialEntries={entries}>
-          <Switch>
-            <Route
-              path='/'
-              component={(props: RouteComponentProps) => (
-                <Form asset={asset} accountId={accountId} {...props} />
-              )}
-            />
-          </Switch>
-        </MemoryRouter>
-      </ModalContent>
+      <div style={{ '--chakra-zIndices-modal': send.zIndex }}>
+        <ModalOverlay />
+        <ModalContent maxW='500px'>
+          <MemoryRouter initialEntries={entries}>
+            <Switch>
+              <Route
+                path='/'
+                component={(props: RouteComponentProps) => (
+                  <Form asset={asset} accountId={accountId} {...props} />
+                )}
+              />
+            </Switch>
+          </MemoryRouter>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

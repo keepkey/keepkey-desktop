@@ -150,89 +150,91 @@ export const KKVote = ({ geckoId }: { geckoId: string }) => {
       closeOnOverlayClick={false}
       closeOnEsc={false}
     >
-      <ModalOverlay />
-      <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
-        <ModalCloseButton ml='auto' borderRadius='full' position='static' />
-        <ModalHeader>
-          <Text translation={`Burn tokens to vote on ${projectName}`} />
-        </ModalHeader>
-        <ModalBody>
-          <RawText fontWeight='bold' color='gray.500' mb={4}>
-            With KODI you can prioritize our development roadmap by signalling support for this
-            asset. To continue you must have KODI tokens in your wallet.
-            <br />
-            <br />
-            <Link color='blue.500' onClick={goToTrade}>
-              Get KODI tokens here
-            </Link>
-            <br />
-            Please note (THESE TOKENS WILL BE BURNED)
-            <br /> To prevent gaming our voting Protocol requires votes be burned. Burning KODI
-            tokens supports and funds our continued development
-          </RawText>
-          <RawText fontWeight='bold' color='gray.500'>
-            Token Balance {`${approvedAndBalances?.kkBalance}`}
-          </RawText>
-          <RawText fontWeight='bold' color='gray.500'>
-            Eth Balance {`${approvedAndBalances?.ethBalance}`}
-          </RawText>
-          {needsApproval ? (
-            <RawText fontWeight='bold' color='gray.500'>
-              Eth Fee {`${feeData?.approvalEth}`}
+      <div style={{ '--chakra-zIndices-modal': kkVote.zIndex }}>
+        <ModalOverlay />
+        <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
+          <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+          <ModalHeader>
+            <Text translation={`Burn tokens to vote on ${projectName}`} />
+          </ModalHeader>
+          <ModalBody>
+            <RawText fontWeight='bold' color='gray.500' mb={4}>
+              With KODI you can prioritize our development roadmap by signalling support for this
+              asset. To continue you must have KODI tokens in your wallet.
+              <br />
+              <br />
+              <Link color='blue.500' onClick={goToTrade}>
+                Get KODI tokens here
+              </Link>
+              <br />
+              Please note (THESE TOKENS WILL BE BURNED)
+              <br /> To prevent gaming our voting Protocol requires votes be burned. Burning KODI
+              tokens supports and funds our continued development
             </RawText>
-          ) : (
             <RawText fontWeight='bold' color='gray.500'>
-              Eth Fee {`${feeData?.voteEth}`}
+              Token Balance {`${approvedAndBalances?.kkBalance}`}
             </RawText>
-          )}
-          {!voteClicked && (
-            <Input
-              my='10px'
-              isDisabled={needsApproval}
-              placeholder={needsApproval ? 'Please Approve' : 'Token Amount'}
-              onChange={(input: any) => setBurnAmount(input.target.value)}
-            />
-          )}
-          {needsApproval ? (
-            <Button
-              isDisabled={!approvalValidationPassed}
-              isLoading={approveClicked}
-              onClick={onApproveClick}
-            >
-              Approve
-            </Button>
-          ) : (
-            !voteConfirmed && (
+            <RawText fontWeight='bold' color='gray.500'>
+              Eth Balance {`${approvedAndBalances?.ethBalance}`}
+            </RawText>
+            {needsApproval ? (
+              <RawText fontWeight='bold' color='gray.500'>
+                Eth Fee {`${feeData?.approvalEth}`}
+              </RawText>
+            ) : (
+              <RawText fontWeight='bold' color='gray.500'>
+                Eth Fee {`${feeData?.voteEth}`}
+              </RawText>
+            )}
+            {!voteClicked && (
+              <Input
+                my='10px'
+                isDisabled={needsApproval}
+                placeholder={needsApproval ? 'Please Approve' : 'Token Amount'}
+                onChange={(input: any) => setBurnAmount(input.target.value)}
+              />
+            )}
+            {needsApproval ? (
               <Button
-                isDisabled={!voteValidationPassed}
-                isLoading={voteClicked}
-                onClick={onVoteClick}
+                isDisabled={!approvalValidationPassed}
+                isLoading={approveClicked}
+                onClick={onApproveClick}
               >
-                Vote
+                Approve
               </Button>
-            )
-          )}
-          {!!approveTxid && (
-            <Link
-              color='blue.400'
-              isExternal
-              href={`https://goerli.etherscan.io/tx/${approveTxid}`}
-            >
-              View approval on etherscan
-            </Link>
-          )}
-          {voteTxid && (
-            <Link
-              color='blue.400'
-              isExternal
-              href={`https://goerli.etherscan.io/tx/${voteTxid}`}
-            >{`View vote on etherscan`}</Link>
-          )}
-          <RawText mt={2} color='red.500'>
-            {errorMessage}
-          </RawText>
-        </ModalBody>
-      </ModalContent>
+            ) : (
+              !voteConfirmed && (
+                <Button
+                  isDisabled={!voteValidationPassed}
+                  isLoading={voteClicked}
+                  onClick={onVoteClick}
+                >
+                  Vote
+                </Button>
+              )
+            )}
+            {!!approveTxid && (
+              <Link
+                color='blue.400'
+                isExternal
+                href={`https://goerli.etherscan.io/tx/${approveTxid}`}
+              >
+                View approval on etherscan
+              </Link>
+            )}
+            {voteTxid && (
+              <Link
+                color='blue.400'
+                isExternal
+                href={`https://goerli.etherscan.io/tx/${voteTxid}`}
+              >{`View vote on etherscan`}</Link>
+            )}
+            <RawText mt={2} color='red.500'>
+              {errorMessage}
+            </RawText>
+          </ModalBody>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

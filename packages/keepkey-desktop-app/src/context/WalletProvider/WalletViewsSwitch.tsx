@@ -80,19 +80,23 @@ export const WalletViewsSwitch = () => {
         trapFocus={false}
         closeOnOverlayClick={false}
       >
-        <ModalOverlay />
-        <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
-          <Flex justifyContent='space-between' alignItems='center' position='relative'>
-            {showBackButton && <ModalCloseButton ml='auto' borderRadius='full' position='static' />}
-          </Flex>
-          <AnimatePresence exitBeforeEnter initial={false}>
-            <SlideTransition key={location.key}>
-              <Switch key={location.pathname} location={location}>
-                {walletRoutesList}
-              </Switch>
-            </SlideTransition>
-          </AnimatePresence>
-        </ModalContent>
+        <div style={{ '--chakra-zIndices-modal': 9500 }}>
+          <ModalOverlay />
+          <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
+            <Flex justifyContent='space-between' alignItems='center' position='relative'>
+              {showBackButton && (
+                <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+              )}
+            </Flex>
+            <AnimatePresence exitBeforeEnter initial={false}>
+              <SlideTransition key={location.key}>
+                <Switch key={location.pathname} location={location}>
+                  {walletRoutesList}
+                </Switch>
+              </SlideTransition>
+            </AnimatePresence>
+          </ModalContent>
+        </div>
       </Modal>
     </>
   )

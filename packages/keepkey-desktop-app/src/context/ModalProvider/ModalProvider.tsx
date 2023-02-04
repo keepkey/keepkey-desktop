@@ -22,6 +22,12 @@ import React, { useMemo, useReducer } from 'react'
 
 import { ModalContext } from './ModalContext'
 
+declare module 'csstype' {
+  interface Properties {
+    '--chakra-zIndices-modal'?: number
+  }
+}
+
 // to add new modals, add a new key: value pair below
 // the key is the name returned by the hook and the
 // component is the modal to be rendered
@@ -30,7 +36,6 @@ const MODALS = {
   send: SendModal,
   sign: SignModal,
   pair: PairModal,
-  hardwareError: HardwareErrorModal,
   settings: SettingsModal,
   keepKeyWipe: WipeModal,
   addAccount: AddAccountModal,
@@ -42,9 +47,15 @@ const MODALS = {
   loading: LoadingModal,
   chainSelector: ChainSelectorModal,
   dappClick: DappClickModal,
-  onboardingSteps: OnboardingSteps,
   languages: Languages,
+  hardwareError: HardwareErrorModal,
+  onboardingSteps: OnboardingSteps,
 }
+
+// Extra z-index to apply to various modals -- used to make things appear on top of WalletProvider modals, which show up at 9500.
+const extraSpecialModals: Record<string, number> = {
+  onboardingSteps: 500,
+} satisfies Partial<Record<keyof typeof MODALS, number>>
 
 // state
 export type ModalState<M> = {
@@ -54,6 +65,7 @@ export type ModalState<M> = {
     open: (props: ModalProps<M>[K]) => void
     close: () => void
     isOpen: boolean
+    zIndex: number
   }
 }
 
@@ -90,11 +102,12 @@ export function createInitialState<S extends {}>(modalSetup: S): ModalState<S> {
   const modalMethods = { isOpen: false, open: noop, close: noop }
   const modalNames = Object.keys(modalSetup) as (keyof S)[]
   const result = modalNames.reduce(
-    (acc, modalName) => ({
+    (acc, modalName, i) => ({
       ...acc,
       [modalName]: {
         ...modalMethods,
         Component: modalSetup[modalName],
+        zIndex: 9000 + i + (extraSpecialModals[String(modalName)] ?? 0),
       },
     }),
     {} as ModalState<S>,
@@ -164,7 +177,7 @@ export function createModalProvider<M extends ModalState<any>>({
     return (
       <InstanceModalContext.Provider value={value}>
         {children}
-        {Object.values(value).map((Modal, key) => (
+        {Object.entries(value).map(([key, Modal]) => (
           <Modal.Component key={key} {...Modal.props} />
         ))}
       </InstanceModalContext.Provider>
