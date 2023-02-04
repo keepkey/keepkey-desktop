@@ -14,7 +14,8 @@ export const Assets = () => {
 
     // AssetId has a `/` separator so the router will have to parse 2 variables
     // e.g., /assets/:chainId/:assetSubId
-    const url = `/assets/keepkey/${routeAssetId}`
+    const url = `/assets/keepkey/${routeAssetId}/${routeAssetId}`
+    // const url = `/assets/keepkey/${routeAssetId}`
     history.push({ pathname: url })
   }
   return (

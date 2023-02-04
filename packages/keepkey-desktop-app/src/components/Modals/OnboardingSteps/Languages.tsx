@@ -24,26 +24,28 @@ export const Languages = () => {
   )
   return (
     <Modal isOpen={isOpen} onClose={close} isCentered>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader textAlign='center'>{translate('modals.settings.language')}</ModalHeader>
-        <>
-          <ModalBody alignItems='center' justifyContent='center' textAlign='center'>
-            {locales.map((locale: any) => (
-              <Button
-                width='full'
-                justifyContent='flexStart'
-                pl={12}
-                key={locale.key}
-                variant='ghost'
-                onClick={() => onLanguageSelect(locale.key)}
-              >
-                <RawText>{locale.label}</RawText>
-              </Button>
-            ))}
-          </ModalBody>
-        </>
-      </ModalContent>
+      <div style={{ '--chakra-zIndices-modal': languages.zIndex }}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader textAlign='center'>{translate('modals.settings.language')}</ModalHeader>
+          <>
+            <ModalBody alignItems='center' justifyContent='center' textAlign='center'>
+              {locales.map((locale: any) => (
+                <Button
+                  width='full'
+                  justifyContent='flexStart'
+                  pl={12}
+                  key={locale.key}
+                  variant='ghost'
+                  onClick={() => onLanguageSelect(locale.key)}
+                >
+                  <RawText>{locale.label}</RawText>
+                </Button>
+              ))}
+            </ModalBody>
+          </>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

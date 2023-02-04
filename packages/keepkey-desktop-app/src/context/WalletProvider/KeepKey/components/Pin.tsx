@@ -140,6 +140,7 @@ export const KeepKeyPin = ({
         autoFocus={true}
         onKeyDown={handleKeyboardInput}
         onSubmit={handleSubmit}
+        onChange={() => {}}
         disabled={loading}
       />
       {translationType === 'pin' && (

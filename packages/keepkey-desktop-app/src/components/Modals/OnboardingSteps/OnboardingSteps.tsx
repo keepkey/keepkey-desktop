@@ -64,16 +64,18 @@ export const OnboardingSteps = () => {
       closeOnOverlayClick={false}
       closeOnEsc={false}
     >
-      <ModalOverlay />
-      <ModalContent p={3}>
-        <Steps activeStep={activeStep}>
-          {steps.map(({ label, content }: any) => (
-            <Step label={<h1>{label}</h1>} key={label}>
-              {content}
-            </Step>
-          ))}
-        </Steps>
-      </ModalContent>
+      <div style={{ '--chakra-zIndices-modal': onboardingSteps.zIndex }}>
+        <ModalOverlay />
+        <ModalContent p={3}>
+          <Steps activeStep={activeStep}>
+            {steps.map(({ label, content }: any) => (
+              <Step label={<h1>{label}</h1>} key={label}>
+                {content}
+              </Step>
+            ))}
+          </Steps>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }
