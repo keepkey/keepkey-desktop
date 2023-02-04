@@ -67,7 +67,7 @@ const clearClipBoardIfWCString = async () => {
 
 export const Browser = () => {
   const [url, setUrl] = useState(
-    'https://web-theta-one.vercel.app/#/connect-wallet?returnUrl=/dashboard',
+    'about:blank'
   )
   const [inputUrl, setInputUrl] = useState(url)
   const [loading, setLoading] = useState(false)
@@ -223,7 +223,7 @@ export const Browser = () => {
       <webview
         id='webview'
         // partition='browser'
-        src='about:blank'
+        src='https://web-theta-one.vercel.app/#/connect-wallet?returnUrl=/dashboard'
         style={{
           flexGrow: 1,
         }}
