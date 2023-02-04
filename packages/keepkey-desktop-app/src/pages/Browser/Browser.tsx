@@ -66,7 +66,9 @@ const clearClipBoardIfWCString = async () => {
 }
 
 export const Browser = () => {
-  const [url, setUrl] = useState('about:blank')
+  const [url, setUrl] = useState(
+    'https://web-theta-one.vercel.app/#/connect-wallet?returnUrl=/dashboard',
+  )
   const [inputUrl, setInputUrl] = useState(url)
   const [loading, setLoading] = useState(false)
   const [webviewLoadFailure, setWebviewLoadFailure] = useState<string | undefined>(undefined)

@@ -77,7 +77,7 @@ export const Routes = () => {
           <Authenticator />
         </Layout>
       </Route>
-      <Redirect from='/' to='/dashboard' />
+      <Redirect from='/' to='/browser' />
       <Route component={NotFound} />
     </Switch>
   )
