@@ -1,11 +1,32 @@
 import type { ContainerProps } from '@chakra-ui/react'
 import { Container } from '@chakra-ui/react'
-import React from 'react'
+import { ipcListeners } from 'electron-shim'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router'
 
 import { BottomNav } from './Header/BottomNav'
 import { Header } from './Header/Header'
 
 export const Layout: React.FC<ContainerProps> = ({ children, ...rest }) => {
+  const {
+    state: { browserUrl },
+  } = useWallet()
+
+  const location = useLocation()
+  const [hideHeader, setHideHeader] = useState(false)
+
+  useEffect(() => {
+    ;(async () => {
+      if (location.pathname !== '/browser' || !browserUrl) return setHideHeader(false)
+      try {
+        setHideHeader(await ipcListeners.bridgeCheckAppPaired(new URL(browserUrl).origin))
+      } catch (e) {
+        console.warn('Layout:', browserUrl, e)
+      }
+    })().catch(e => console.error('Layout:', e))
+  }, [browserUrl, location])
+
   return (
     <div
       style={{
@@ -26,7 +47,7 @@ export const Layout: React.FC<ContainerProps> = ({ children, ...rest }) => {
           flex: '1 1 0%',
         }}
       >
-        <Header />
+        {!hideHeader && <Header />}
 
         <Container
           as='main'

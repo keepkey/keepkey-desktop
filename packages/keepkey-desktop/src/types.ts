@@ -62,6 +62,7 @@ export type IpcListeners = {
   bridgeConnected(): Promise<boolean>
   bridgeServiceName(serviceKey: string): Promise<string | undefined>
   bridgePairedApps(): Promise<PairedAppProps[]>
+  bridgeCheckAppPaired(url: string): Promise<boolean>
   bridgeAddService(data: {
     serviceKey: string
     serviceName: string

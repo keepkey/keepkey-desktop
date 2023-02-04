@@ -13,6 +13,7 @@ export type PairingInfo = {
   url: string
   /** @format url */
   imageUrl: string
+  addedOn?: number
 }
 
 export type SdkClient = {

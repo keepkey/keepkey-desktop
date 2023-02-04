@@ -62,6 +62,7 @@ export const startTcpBridge = async (port?: number) => {
     console.log('PAIR RESULT: ', result)
     if (result) {
       console.log('USER APPROVED!')
+      info.addedOn = Date.now()
       await db.insertOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
         type: 'sdk-pairing',
         apiKey,
@@ -86,7 +87,7 @@ export const startTcpBridge = async (port?: number) => {
       apiKey: doc.apiKey,
       wallet,
       info: doc.info,
-      log: console.log.bind(console),
+      logger: console.log.bind(console),
     }
   })
   RegisterRoutes(appExpress)
