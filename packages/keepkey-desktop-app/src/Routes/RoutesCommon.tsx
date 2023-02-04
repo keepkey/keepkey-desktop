@@ -31,19 +31,26 @@ export const routes: NestedRoute[] = [
     icon: <FaBuromobelexperte />,
     category: RouteCategory.Wallet,
   },
+  // {
+  //   path: '/dashboard',
+  //   label: 'navBar.dashboard',
+  //   icon: <DashboardIcon />,
+  //   main: Dashboard,
+  //   category: RouteCategory.Wallet,
+  // },
+  // {
+  //   path: '/transaction-history',
+  //   label: 'navBar.transactionHistory',
+  //   icon: <TxHistoryIcon />,
+  //   main: TransactionHistory,
+  //   category: RouteCategory.Explore,
+  // },
   {
-    path: '/dashboard',
-    label: 'navBar.dashboard',
-    icon: <DashboardIcon />,
-    main: Dashboard,
-    category: RouteCategory.Wallet,
-  },
-  {
-    path: '/transaction-history',
-    label: 'navBar.transactionHistory',
-    icon: <TxHistoryIcon />,
-    main: TransactionHistory,
+    path: '/authenticator',
+    label: 'navBar.authenticator',
+    icon: <FaLock />,
     category: RouteCategory.Explore,
+    main: Authenticator,
   },
   {
     path: '/browser',
@@ -67,13 +74,6 @@ export const routes: NestedRoute[] = [
         hide: true,
       },
     ],
-  },
-  {
-    path: '/authenticator',
-    label: 'navBar.authenticator',
-    icon: <FaLock />,
-    category: RouteCategory.Explore,
-    main: Authenticator,
   },
   {
     path: '/assets',
@@ -117,51 +117,51 @@ export const routes: NestedRoute[] = [
       },
     ],
   },
-  {
-    path: '/accounts',
-    label: 'navBar.accounts',
-    main: Accounts,
-    icon: <AccountsIcon />,
-    category: RouteCategory.Explore,
-    routes: [
-      {
-        path: '/:accountId',
-        label: 'Account Details',
-        main: null,
-        hide: true,
-        routes: [
-          {
-            path: '/',
-            label: 'navBar.overview',
-            main: Account,
-          },
-          {
-            path: '/transactions',
-            label: 'navBar.transactions',
-            main: AccountTxHistory,
-          },
-          {
-            path: '/:assetId',
-            label: 'navBar.overview',
-            main: null,
-            hide: true,
-            routes: [
-              {
-                path: '/',
-                main: AccountToken,
-                label: 'navBar.overview',
-              },
-              {
-                path: '/transactions',
-                main: AccountTokenTxHistory,
-                label: 'navBar.transactions',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   path: '/accounts',
+  //   label: 'navBar.accounts',
+  //   main: Accounts,
+  //   icon: <AccountsIcon />,
+  //   category: RouteCategory.Explore,
+  //   routes: [
+  //     {
+  //       path: '/:accountId',
+  //       label: 'Account Details',
+  //       main: null,
+  //       hide: true,
+  //       routes: [
+  //         {
+  //           path: '/',
+  //           label: 'navBar.overview',
+  //           main: Account,
+  //         },
+  //         {
+  //           path: '/transactions',
+  //           label: 'navBar.transactions',
+  //           main: AccountTxHistory,
+  //         },
+  //         {
+  //           path: '/:assetId',
+  //           label: 'navBar.overview',
+  //           main: null,
+  //           hide: true,
+  //           routes: [
+  //             {
+  //               path: '/',
+  //               main: AccountToken,
+  //               label: 'navBar.overview',
+  //             },
+  //             {
+  //               path: '/transactions',
+  //               main: AccountTokenTxHistory,
+  //               label: 'navBar.transactions',
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   // {
   //   path: '/flags',
   //   label: 'navBar.featureFlags',
