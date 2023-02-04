@@ -87,7 +87,7 @@ export const startTcpBridge = async (port?: number) => {
       apiKey: doc.apiKey,
       wallet,
       info: doc.info,
-      log: console.log.bind(console),
+      logger: console.log.bind(console),
     }
   })
   RegisterRoutes(appExpress)
