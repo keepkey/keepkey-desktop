@@ -36,26 +36,28 @@ export const DappClickModal = ({ onContinue }: { onContinue: any }) => {
       closeOnOverlayClick={false}
       closeOnEsc={false}
     >
-      <ModalOverlay />
-      <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
-        <ModalCloseButton ml='auto' borderRadius='full' position='static' />
-        <ModalBody>
-          <div>
-            <ModalHeader>
-              <Text translation={'modals.clickDapp.header'} />
-            </ModalHeader>
-            <Text m='20px' translation={'modals.clickDapp.content'} />
-            <Center>
-              <Button m='20px' onClick={verifyClicked}>
-                <Text translation={'modals.clickDapp.verify'} />
-              </Button>
-              <Button m='20px' onClick={continueClicked}>
-                <Text translation={'modals.clickDapp.continue'} />
-              </Button>
-            </Center>
-          </div>
-        </ModalBody>
-      </ModalContent>
+      <div style={{ '--chakra-zIndices-modal': dappClick.zIndex }}>
+        <ModalOverlay />
+        <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
+          <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+          <ModalBody>
+            <div>
+              <ModalHeader>
+                <Text translation={'modals.clickDapp.header'} />
+              </ModalHeader>
+              <Text m='20px' translation={'modals.clickDapp.content'} />
+              <Center>
+                <Button m='20px' onClick={verifyClicked}>
+                  <Text translation={'modals.clickDapp.verify'} />
+                </Button>
+                <Button m='20px' onClick={continueClicked}>
+                  <Text translation={'modals.clickDapp.continue'} />
+                </Button>
+              </Center>
+            </div>
+          </ModalBody>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

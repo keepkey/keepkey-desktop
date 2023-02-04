@@ -208,229 +208,231 @@ export const SignModal = (input: {
       closeOnOverlayClick={false}
       closeOnEsc={false}
     >
-      <ModalOverlay />
-      <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
-        <ModalCloseButton ml='auto' borderRadius='full' position='static' />
-        <ModalHeader>
-          <Text translation={'modals.sign.header'} />
-        </ModalHeader>
-        <ModalBody>
-          {isApproved ? (
-            <div>
-              <Image src={HoldAndRelease} alt='Approve Transaction On Device!' />
-            </div>
-          ) : (
-            <div>
-              <Row>
-                <Row.Label>
-                  <Text translation={'modals.sign.network'} />
-                </Row.Label>
-                <Row.Value>{input?.unsignedTx?.invocation?.unsignedTx?.network}</Row.Value>
-              </Row>
-              <Row>
-                <Row.Label>
-                  <Text translation={'modals.sign.summary'} />
-                </Row.Label>
-                <Row.Value>{input?.unsignedTx?.invocation?.unsignedTx?.verbal}</Row.Value>
-              </Row>
-              <Box w='100%' p={4} color='white'>
-                <div>
-                  {/*<Text translation={'modals.sign.extendedValidation'}/>: <Badge>FAIL</Badge>*/}
-                </div>
-              </Box>
+      <div style={{ '--chakra-zIndices-modal': sign.zIndex }}>
+        <ModalOverlay />
+        <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
+          <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+          <ModalHeader>
+            <Text translation={'modals.sign.header'} />
+          </ModalHeader>
+          <ModalBody>
+            {isApproved ? (
+              <div>
+                <Image src={HoldAndRelease} alt='Approve Transaction On Device!' />
+              </div>
+            ) : (
+              <div>
+                <Row>
+                  <Row.Label>
+                    <Text translation={'modals.sign.network'} />
+                  </Row.Label>
+                  <Row.Value>{input?.unsignedTx?.invocation?.unsignedTx?.network}</Row.Value>
+                </Row>
+                <Row>
+                  <Row.Label>
+                    <Text translation={'modals.sign.summary'} />
+                  </Row.Label>
+                  <Row.Value>{input?.unsignedTx?.invocation?.unsignedTx?.verbal}</Row.Value>
+                </Row>
+                <Box w='100%' p={4} color='white'>
+                  <div>
+                    {/*<Text translation={'modals.sign.extendedValidation'}/>: <Badge>FAIL</Badge>*/}
+                  </div>
+                </Box>
 
-              <Row>
-                <Row.Label>
-                  <Text translation={'modals.sign.from'} />
-                </Row.Label>
-                <Row.Value>
-                  <MiddleEllipsis
-                    rounded='lg'
-                    fontSize='sm'
-                    p='1'
-                    pl='2'
-                    pr='2'
-                    bgColor='gray.800'
-                    value={
-                      input?.unsignedTx?.invocation?.unsignedTx?.transaction?.addressFrom ?? ''
-                    }
-                  />
-                </Row.Value>
-              </Row>
+                <Row>
+                  <Row.Label>
+                    <Text translation={'modals.sign.from'} />
+                  </Row.Label>
+                  <Row.Value>
+                    <MiddleEllipsis
+                      rounded='lg'
+                      fontSize='sm'
+                      p='1'
+                      pl='2'
+                      pr='2'
+                      bgColor='gray.800'
+                      value={
+                        input?.unsignedTx?.invocation?.unsignedTx?.transaction?.addressFrom ?? ''
+                      }
+                    />
+                  </Row.Value>
+                </Row>
 
-              {isSwap ? (
-                <div>
-                  {/*<Row>*/}
-                  {/*  <Row.Label>*/}
-                  {/*    <Text translation={'modals.sign.protocol'} />*/}
-                  {/*  </Row.Label>*/}
-                  {/*  <Row.Value>*/}
-                  {/*    {input?.unsignedTx?.invocation?.unsignedTx?.transaction?.protocol}*/}
-                  {/*  </Row.Value>*/}
-                  {/*</Row>*/}
-                  {/*<Row>*/}
-                  {/*  <Row.Label>*/}
-                  {/*    <Text translation={'modals.sign.router'} />*/}
-                  {/*  </Row.Label>*/}
-                  {/*  <Row.Value>*/}
-                  {/*    {input?.unsignedTx?.invocation?.unsignedTx?.transaction?.router}*/}
-                  {/*    <Badge>VALID</Badge>*/}
-                  {/*  </Row.Value>*/}
-                  {/*</Row>*/}
-                  {/*<Row>*/}
-                  {/*  <Row.Label>*/}
-                  {/*    <Text translation={'modals.sign.memo'} />*/}
-                  {/*  </Row.Label>*/}
-                  {/*  <Row.Value>*/}
-                  {/*    <small>{input?.unsignedTx?.invocation?.unsignedTx?.transaction?.memo}</small>*/}
-                  {/*  </Row.Value>*/}
-                  {/*</Row>*/}
-                </div>
-              ) : (
-                <div></div>
-              )}
+                {isSwap ? (
+                  <div>
+                    {/*<Row>*/}
+                    {/*  <Row.Label>*/}
+                    {/*    <Text translation={'modals.sign.protocol'} />*/}
+                    {/*  </Row.Label>*/}
+                    {/*  <Row.Value>*/}
+                    {/*    {input?.unsignedTx?.invocation?.unsignedTx?.transaction?.protocol}*/}
+                    {/*  </Row.Value>*/}
+                    {/*</Row>*/}
+                    {/*<Row>*/}
+                    {/*  <Row.Label>*/}
+                    {/*    <Text translation={'modals.sign.router'} />*/}
+                    {/*  </Row.Label>*/}
+                    {/*  <Row.Value>*/}
+                    {/*    {input?.unsignedTx?.invocation?.unsignedTx?.transaction?.router}*/}
+                    {/*    <Badge>VALID</Badge>*/}
+                    {/*  </Row.Value>*/}
+                    {/*</Row>*/}
+                    {/*<Row>*/}
+                    {/*  <Row.Label>*/}
+                    {/*    <Text translation={'modals.sign.memo'} />*/}
+                    {/*  </Row.Label>*/}
+                    {/*  <Row.Value>*/}
+                    {/*    <small>{input?.unsignedTx?.invocation?.unsignedTx?.transaction?.memo}</small>*/}
+                    {/*  </Row.Value>*/}
+                    {/*</Row>*/}
+                  </div>
+                ) : (
+                  <div></div>
+                )}
 
-              {isSwap ? (
-                <div></div>
-              ) : (
-                <div>
+                {isSwap ? (
+                  <div></div>
+                ) : (
+                  <div>
+                    <Row>
+                      <Row.Label>
+                        <Text translation={'modals.sign.to'} />
+                      </Row.Label>
+                      <Row.Value>
+                        {/*<MiddleEllipsis*/}
+                        {/*  rounded='lg'*/}
+                        {/*  fontSize='sm'*/}
+                        {/*  p='1'*/}
+                        {/*  pl='2'*/}
+                        {/*  pr='2'*/}
+                        {/*  bgColor='gray.800'*/}
+                        {/*  value={*/}
+                        {/*    input?.unsignedTx?.invocation?.unsignedTx?.transaction?.recipient ?? ''*/}
+                        {/*  }*/}
+                        {/*/>*/}
+                      </Row.Value>
+                    </Row>
+                  </div>
+                )}
+
+                <Row>
+                  <Row.Label>
+                    <Text translation={'modals.sign.amount'} />
+                  </Row.Label>
+                  <Row.Value>
+                    <small>
+                      {/*{bnOrZero(input?.unsignedTx?.invocation?.unsignedTx?.transaction?.amount)*/}
+                      {/*  .shiftedBy(-18)*/}
+                      {/*  .toString()}{' '}*/}
+                      {/*({input?.unsignedTx?.invocation?.unsignedTx?.transaction?.asset})*/}
+                    </small>
+                  </Row.Value>
+                </Row>
+
+                {nonce && (
                   <Row>
                     <Row.Label>
-                      <Text translation={'modals.sign.to'} />
+                      <Text translation={'modals.sign.nonce'} />
                     </Row.Label>
-                    <Row.Value>
-                      {/*<MiddleEllipsis*/}
-                      {/*  rounded='lg'*/}
-                      {/*  fontSize='sm'*/}
-                      {/*  p='1'*/}
-                      {/*  pl='2'*/}
-                      {/*  pr='2'*/}
-                      {/*  bgColor='gray.800'*/}
-                      {/*  value={*/}
-                      {/*    input?.unsignedTx?.invocation?.unsignedTx?.transaction?.recipient ?? ''*/}
-                      {/*  }*/}
-                      {/*/>*/}
-                    </Row.Value>
+                    <Input
+                      size='xs'
+                      width='25%'
+                      textAlign='right'
+                      value={parseInt(nonce, 16)}
+                      onChange={e => {
+                        if (!e.target.value) setNonce((0).toString(16))
+                        setNonce(`0x${Number(e.target.value).toString(16)}`)
+                      }}
+                    />
                   </Row>
-                </div>
-              )}
-
-              <Row>
-                <Row.Label>
-                  <Text translation={'modals.sign.amount'} />
-                </Row.Label>
-                <Row.Value>
-                  <small>
-                    {/*{bnOrZero(input?.unsignedTx?.invocation?.unsignedTx?.transaction?.amount)*/}
-                    {/*  .shiftedBy(-18)*/}
-                    {/*  .toString()}{' '}*/}
-                    {/*({input?.unsignedTx?.invocation?.unsignedTx?.transaction?.asset})*/}
-                  </small>
-                </Row.Value>
-              </Row>
-
-              {nonce && (
-                <Row>
-                  <Row.Label>
-                    <Text translation={'modals.sign.nonce'} />
-                  </Row.Label>
-                  <Input
-                    size='xs'
-                    width='25%'
-                    textAlign='right'
-                    value={parseInt(nonce, 16)}
-                    onChange={e => {
-                      if (!e.target.value) setNonce((0).toString(16))
-                      setNonce(`0x${Number(e.target.value).toString(16)}`)
-                    }}
-                  />
-                </Row>
-              )}
-
-              {gasPrice && (
-                <Row>
-                  <Row.Label>
-                    <Text translation={'modals.sign.gasPrice'} />
-                  </Row.Label>
-                  <Input
-                    size='xs'
-                    width='25%'
-                    textAlign='right'
-                    value={parseInt(gasPrice, 16)}
-                    onChange={e => {
-                      if (!e.target.value) setGasPrice((0).toString(16))
-                      setGasPrice(`0x${Number(e.target.value).toString(16)}`)
-                    }}
-                  />
-                </Row>
-              )}
-
-              {gasLimit && (
-                <Row>
-                  <Row.Label>
-                    <Text translation={'modals.sign.gasLimit'} />
-                  </Row.Label>
-                  <Input
-                    size='xs'
-                    width='25%'
-                    textAlign='right'
-                    value={parseInt(gasLimit, 16)}
-                    onChange={e => {
-                      if (!e.target.value) setGasLimit((0).toString(16))
-                      setGasLimit(`0x${Number(e.target.value).toString(16)}`)
-                    }}
-                  />
-                </Row>
-              )}
-
-              {/*<Row>*/}
-              {/*  <Row.Label>*/}
-              {/*    <Text translation={'modals.sign.fee'} />*/}
-              {/*  </Row.Label>*/}
-              {/*  <Row.Value isTruncated>*/}
-              {/*    <small>{input?.invocation?.unsignedTx?.transaction?.fee}</small>*/}
-              {/*  </Row.Value>*/}
-              {/*</Row>*/}
-
-              <Collapse in={show}>
-                <div>
-                  HDwalletPayload:
-                  <Textarea
-                    value={JSON.stringify(HDwalletPayload, undefined, 4)}
-                    size='md'
-                    resize='vertical'
-                  />
-                </div>
-              </Collapse>
-              <Row>
-                <Button size='sm' onClick={handleToggle} mt='1rem'>
-                  {show ? 'hide' : 'Show Advanced Tx info'}
-                </Button>
-              </Row>
-              <br />
-              <Row>
-                {error && (
-                  <Alert status='error'>
-                    <AlertIcon />
-                    <AlertDescription>
-                      <Text translation={error} />
-                    </AlertDescription>
-                  </Alert>
                 )}
-                <Button size='lg' colorScheme='blue' onClick={HandleSubmit} disabled={loading}>
-                  <Text translation={'modals.sign.sign'} />
-                </Button>
-              </Row>
-              <br />
-              <Row>
-                <Button size='sm' colorScheme='red' onClick={HandleReject}>
-                  <Text translation={'modals.sign.reject'} />
-                </Button>
-              </Row>
-            </div>
-          )}
-        </ModalBody>
-      </ModalContent>
+
+                {gasPrice && (
+                  <Row>
+                    <Row.Label>
+                      <Text translation={'modals.sign.gasPrice'} />
+                    </Row.Label>
+                    <Input
+                      size='xs'
+                      width='25%'
+                      textAlign='right'
+                      value={parseInt(gasPrice, 16)}
+                      onChange={e => {
+                        if (!e.target.value) setGasPrice((0).toString(16))
+                        setGasPrice(`0x${Number(e.target.value).toString(16)}`)
+                      }}
+                    />
+                  </Row>
+                )}
+
+                {gasLimit && (
+                  <Row>
+                    <Row.Label>
+                      <Text translation={'modals.sign.gasLimit'} />
+                    </Row.Label>
+                    <Input
+                      size='xs'
+                      width='25%'
+                      textAlign='right'
+                      value={parseInt(gasLimit, 16)}
+                      onChange={e => {
+                        if (!e.target.value) setGasLimit((0).toString(16))
+                        setGasLimit(`0x${Number(e.target.value).toString(16)}`)
+                      }}
+                    />
+                  </Row>
+                )}
+
+                {/*<Row>*/}
+                {/*  <Row.Label>*/}
+                {/*    <Text translation={'modals.sign.fee'} />*/}
+                {/*  </Row.Label>*/}
+                {/*  <Row.Value isTruncated>*/}
+                {/*    <small>{input?.invocation?.unsignedTx?.transaction?.fee}</small>*/}
+                {/*  </Row.Value>*/}
+                {/*</Row>*/}
+
+                <Collapse in={show}>
+                  <div>
+                    HDwalletPayload:
+                    <Textarea
+                      value={JSON.stringify(HDwalletPayload, undefined, 4)}
+                      size='md'
+                      resize='vertical'
+                    />
+                  </div>
+                </Collapse>
+                <Row>
+                  <Button size='sm' onClick={handleToggle} mt='1rem'>
+                    {show ? 'hide' : 'Show Advanced Tx info'}
+                  </Button>
+                </Row>
+                <br />
+                <Row>
+                  {error && (
+                    <Alert status='error'>
+                      <AlertIcon />
+                      <AlertDescription>
+                        <Text translation={error} />
+                      </AlertDescription>
+                    </Alert>
+                  )}
+                  <Button size='lg' colorScheme='blue' onClick={HandleSubmit} disabled={loading}>
+                    <Text translation={'modals.sign.sign'} />
+                  </Button>
+                </Row>
+                <br />
+                <Row>
+                  <Button size='sm' colorScheme='red' onClick={HandleReject}>
+                    <Text translation={'modals.sign.reject'} />
+                  </Button>
+                </Row>
+              </div>
+            )}
+          </ModalBody>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

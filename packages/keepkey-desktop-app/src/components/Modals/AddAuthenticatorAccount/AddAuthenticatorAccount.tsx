@@ -86,35 +86,37 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
         closeOnOverlayClick={false}
         closeOnEsc={false}
       >
-        <ModalOverlay />
-        <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
-          <ModalCloseButton ml='auto' borderRadius='full' position='static' />
-          <ModalHeader>
-            <Text translation={'authenticator.modal.header'} />
-          </ModalHeader>
-          <ModalBody>
-            {authenticatorError && (
-              <RawText pb={2} textColor='red.400'>
-                {authenticatorError}
-              </RawText>
-            )}
-            <AnimatePresence exitBeforeEnter>
-              <MemoryRouter>
-                <Switch>
-                  <Route exact path='/'>
-                    <ChooseMethod />
-                  </Route>
-                  <Route exact path='/manual'>
-                    <AddManually addAcc={addAcc} />
-                  </Route>
-                  <Route exact path='/scan'>
-                    <AddByScanning addAcc={addAcc} />
-                  </Route>
-                </Switch>
-              </MemoryRouter>
-            </AnimatePresence>
-          </ModalBody>
-        </ModalContent>
+        <div style={{ '--chakra-zIndices-modal': addAuthenticatorAccount.zIndex }}>
+          <ModalOverlay />
+          <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
+            <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+            <ModalHeader>
+              <Text translation={'authenticator.modal.header'} />
+            </ModalHeader>
+            <ModalBody>
+              {authenticatorError && (
+                <RawText pb={2} textColor='red.400'>
+                  {authenticatorError}
+                </RawText>
+              )}
+              <AnimatePresence exitBeforeEnter>
+                <MemoryRouter>
+                  <Switch>
+                    <Route exact path='/'>
+                      <ChooseMethod />
+                    </Route>
+                    <Route exact path='/manual'>
+                      <AddManually addAcc={addAcc} />
+                    </Route>
+                    <Route exact path='/scan'>
+                      <AddByScanning addAcc={addAcc} />
+                    </Route>
+                  </Switch>
+                </MemoryRouter>
+              </AnimatePresence>
+            </ModalBody>
+          </ModalContent>
+        </div>
       </Modal>
     </SlideTransition>
   )

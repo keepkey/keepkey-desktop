@@ -10,9 +10,7 @@ import { debounce } from 'lodash'
 import type { FormEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
-import { selectAssetsByMarketCap } from 'state/slices/selectors'
 
 type AssetSearchProps = {
   filterBy?: (asset: Asset[]) => Asset[]
@@ -22,11 +20,10 @@ export const AutoCompleteSearch = ({ filterBy }: AssetSearchProps) => {
   const [isFocused, setIsFocused] = useState(false)
   const history = useHistory()
 
-  const webAssets = useSelector(selectAssetsByMarketCap)
   const { getKeepkeyAssets } = useKeepKey()
   const kkAssets = getKeepkeyAssets()
 
-  const assets = useMemo(() => mergeKKAssets([], kkAssets), [[], kkAssets])
+  const assets = useMemo(() => mergeKKAssets([], kkAssets), [kkAssets])
 
   const currentAssets = useMemo(() => (filterBy ? filterBy(assets) : assets), [assets, filterBy])
   const [filteredAssets, setFilteredAssets] = useState<Asset[]>([])

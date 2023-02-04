@@ -23,16 +23,18 @@ const Settings = () => {
 
   return (
     <Modal isOpen={isOpen} onClose={close} isCentered>
-      <ModalOverlay />
-      <ModalContent>
-        <MemoryRouter initialEntries={entries}>
-          <Switch>
-            <Route path='/'>
-              <SettingsRouter appHistory={appHistory} />
-            </Route>
-          </Switch>
-        </MemoryRouter>
-      </ModalContent>
+      <div style={{ '--chakra-zIndices-modal': settings.zIndex }}>
+        <ModalOverlay />
+        <ModalContent>
+          <MemoryRouter initialEntries={entries}>
+            <Switch>
+              <Route path='/'>
+                <SettingsRouter appHistory={appHistory} />
+              </Route>
+            </Switch>
+          </MemoryRouter>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

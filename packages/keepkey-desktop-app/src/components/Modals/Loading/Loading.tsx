@@ -39,17 +39,19 @@ export const LoadingModal = ({ closing = false }: { closing: boolean }) => {
       closeOnOverlayClick={false}
       closeOnEsc={false}
     >
-      <ModalOverlay />
-      <ModalContent justifyContent='center' p={20}>
-        <Center>
-          <Stack alignContent='center'>
-            <Spinner size='xl' alignSelf='center' />
-            <RawText fontSize='xl' fontWeight='bold' color='gray.500' alignContent='center'>
-              {closing ? 'Shutting Down...' : 'Connecting to KeepKey'}
-            </RawText>
-          </Stack>
-        </Center>
-      </ModalContent>
+      <div style={{ '--chakra-zIndices-modal': loading.zIndex }}>
+        <ModalOverlay />
+        <ModalContent justifyContent='center' p={20}>
+          <Center>
+            <Stack alignContent='center'>
+              <Spinner size='xl' alignSelf='center' />
+              <RawText fontSize='xl' fontWeight='bold' color='gray.500' alignContent='center'>
+                {closing ? 'Shutting Down...' : 'Connecting to KeepKey'}
+              </RawText>
+            </Stack>
+          </Center>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

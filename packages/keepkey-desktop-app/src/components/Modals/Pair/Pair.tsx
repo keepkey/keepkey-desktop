@@ -101,92 +101,94 @@ export const PairModal = ({
         closeOnOverlayClick={false}
         closeOnEsc={false}
       >
-        <ModalOverlay />
-        <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
-          <ModalCloseButton ml='auto' borderRadius='full' position='static' />
-          <ModalHeader>
-            <Text
-              translation={
-                input?.type === 'native'
-                  ? 'modals.pair.native.header'
-                  : 'modals.pair.walletconnect.header'
-              }
-            />
-          </ModalHeader>
-          <ModalBody>
-            <Stack spacing={4} mb={4}>
-              <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center'>
-                <Box display='flex' flexDirection='column'>
-                  <Text
-                    translation={[
-                      'modals.pair.native.body',
-                      {
-                        serviceName:
-                          input?.type === 'native'
-                            ? input?.data.name
-                            : input?.data.params[0]?.peerMeta.name,
-                      },
-                    ]}
-                    pl='2'
-                  />
-                  {isFound ? (
-                    <Box
-                      display='flex'
-                      flexDirection='row'
-                      justifyContent='center'
-                      alignItems='center'
-                    >
-                      <Image
-                        src={
-                          input?.type === 'native'
-                            ? input?.data?.imageUrl
-                            : input?.data?.params[0]?.peerMeta?.icons[0]
-                        }
-                        borderRadius='full'
-                        height='60'
-                        width='60'
-                      />
-                    </Box>
-                  ) : (
-                    <div>
-                      <WarningTwoIcon boxSize={12} color='yellow.500' />
-                      <h4>
-                        <Text translation={'modals.pair.notFound'} />
-                      </h4>
-                    </div>
-                  )}
+        <div style={{ '--chakra-zIndices-modal': pair.zIndex }}>
+          <ModalOverlay />
+          <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
+            <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+            <ModalHeader>
+              <Text
+                translation={
+                  input?.type === 'native'
+                    ? 'modals.pair.native.header'
+                    : 'modals.pair.walletconnect.header'
+                }
+              />
+            </ModalHeader>
+            <ModalBody>
+              <Stack spacing={4} mb={4}>
+                <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center'>
+                  <Box display='flex' flexDirection='column'>
+                    <Text
+                      translation={[
+                        'modals.pair.native.body',
+                        {
+                          serviceName:
+                            input?.type === 'native'
+                              ? input?.data.name
+                              : input?.data.params[0]?.peerMeta.name,
+                        },
+                      ]}
+                      pl='2'
+                    />
+                    {isFound ? (
+                      <Box
+                        display='flex'
+                        flexDirection='row'
+                        justifyContent='center'
+                        alignItems='center'
+                      >
+                        <Image
+                          src={
+                            input?.type === 'native'
+                              ? input?.data?.imageUrl
+                              : input?.data?.params[0]?.peerMeta?.icons[0]
+                          }
+                          borderRadius='full'
+                          height='60'
+                          width='60'
+                        />
+                      </Box>
+                    ) : (
+                      <div>
+                        <WarningTwoIcon boxSize={12} color='yellow.500' />
+                        <h4>
+                          <Text translation={'modals.pair.notFound'} />
+                        </h4>
+                      </div>
+                    )}
 
-                  {/*{input.data?.type === 'walletconnect' ? (*/}
-                  {/*  <ChakraText pl={2} color='gray.500' fontSize='sm'>*/}
-                  {/*    {input?.data?.data.params[0]?.peerMeta.description}*/}
-                  {/*  </ChakraText>*/}
-                  {/*) : null}*/}
+                    {/*{input.data?.type === 'walletconnect' ? (*/}
+                    {/*  <ChakraText pl={2} color='gray.500' fontSize='sm'>*/}
+                    {/*    {input?.data?.data.params[0]?.peerMeta.description}*/}
+                    {/*  </ChakraText>*/}
+                    {/*) : null}*/}
+                  </Box>
                 </Box>
-              </Box>
-              {/*{input.data?.type === 'walletconnect' && (*/}
-              {/*  <Box display='flex' flexDirection='column' gap={1}>*/}
-              {/*  </Box>*/}
-              {/*)}*/}
-              {error && (
-                <Alert status='error'>
-                  <AlertIcon />
-                  <AlertDescription>
-                    <Text translation={error} />
-                  </AlertDescription>
-                </Alert>
-              )}
-              <Checkbox onChange={e => setMakeDefault(e.target.checked)}>
-                <Text translation={'modals.pair.cta.makeDefault'} />
-              </Checkbox>
-              <Button colorScheme='blue' onClick={HandleSubmit} disabled={loading}>
-                <Text translation={'modals.pair.cta.pair'} />
-              </Button>
-              <Button colorScheme='red' onClick={HandleReject} disabled={loading}>
-                <Text translation={'modals.pair.cta.reject'} />
-              </Button>
-            </Stack>
-          </ModalBody>
-        </ModalContent>
+                {/*{input.data?.type === 'walletconnect' && (*/}
+                {/*  <Box display='flex' flexDirection='column' gap={1}>*/}
+                {/*  </Box>*/}
+                {/*)}*/}
+                {error && (
+                  <Alert status='error'>
+                    <AlertIcon />
+                    <AlertDescription>
+                      <Text translation={error} />
+                    </AlertDescription>
+                  </Alert>
+                )}
+                <Checkbox onChange={e => setMakeDefault(e.target.checked)}>
+                  <Text translation={'modals.pair.cta.makeDefault'} />
+                </Checkbox>
+                <Button colorScheme='blue' onClick={HandleSubmit} disabled={loading}>
+                  <Text translation={'modals.pair.cta.pair'} />
+                </Button>
+                <Button colorScheme='red' onClick={HandleReject} disabled={loading}>
+                  <Text translation={'modals.pair.cta.reject'} />
+                </Button>
+              </Stack>
+            </ModalBody>
+          </ModalContent>
+        </div>
       </Modal>
     </SlideTransition>
   )
