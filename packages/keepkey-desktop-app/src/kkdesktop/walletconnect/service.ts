@@ -20,7 +20,24 @@ export class LegacyWCService {
     private readonly wallet: core.ETHWallet,
     public readonly connector: LegacyWalletConnect,
     private readonly options?: WCServiceOptions,
-  ) {}
+  ) {
+    // (hooking into private stuff here)
+    const eventManager: unknown = (this.connector as any)._eventManager
+    if (
+      eventManager &&
+      typeof eventManager === 'object' &&
+      'trigger' in eventManager &&
+      typeof eventManager.trigger === 'function'
+    ) {
+      const trigger = eventManager.trigger.bind(eventManager)
+      eventManager.trigger = (...args: unknown[]) => {
+        console.log('LegacyWcService:connector:_eventManager:trigger', ...args)
+        return trigger(...args)
+      }
+    } else {
+      console.warn('LegacyWcService:connector', "couldn't hook _eventManager.trigger")
+    }
+  }
 
   async connect() {
     console.log('attempting connection')
@@ -42,10 +59,17 @@ export class LegacyWCService {
   }
 
   private subscribeToEvents() {
-    this.connector.on('session_request', this._onSessionRequest.bind(this))
-    this.connector.on('connect', this._onConnect.bind(this))
-    this.connector.on('call_request', this._onCallRequest.bind(this))
-    this.connector.on('wallet_switchEthereumChain', this._onSwitchChain.bind(this))
+    for (const [x, y] of [
+      ['session_request', '_onSessionRequest'],
+      ['connect', '_onConnect'],
+      ['call_request', '_onCallRequest'],
+      ['wallet_switchEthereumChain', '_onSwitchChain'],
+    ] as const) {
+      this.connector.on(x, async (...args) => {
+        console.log(`LegacyWCService:${x}`, ...args)
+        return this[y](...args).catch(e => console.error(`LegacyWCService:${x}`, e))
+      })
+    }
   }
 
   async _onSessionRequest(_: Error | null, payload: any) {
@@ -58,7 +82,7 @@ export class LegacyWCService {
     }
   }
 
-  async _onConnect() {
+  async _onConnect(_: Error | null, _payload: unknown) {
     if (this.connector.connected && this.connector.peerMeta) {
       console.log('On connect wc')
       await ipcListeners.walletconnectPairing({
@@ -113,6 +137,8 @@ export class LegacyWCService {
   }
 
   public async approve(request: any, txData: TxData, web3: EthChainData) {
+    console.log(`LegacyWCService:approve`, ...arguments)
+
     if (request.method === 'personal_sign' || request.method === 'eth_sign') {
       let message
       const strip0x = (inputHexString: string) =>
