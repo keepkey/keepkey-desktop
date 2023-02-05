@@ -214,6 +214,17 @@ export const App = () => {
 
       async modalPin(pinRequestType2: PinMatrixRequestType2): Promise<string> {
         const pinRequestType: PinMatrixRequestType = mapPinRequestType(pinRequestType2)
+        if (window.localStorage.getItem('onboarded') !== 'true') {
+          await new Promise(resolve => {
+            const interval = setInterval(() => {
+              if (window.localStorage.getItem('onboarded') === 'true') {
+                resolve(true)
+                clearInterval(interval)
+              }
+            }, 500)
+          })
+          hardwareError.close()
+        }
         const out = deferred<string>()
         dispatch({
           type: WalletActions.OPEN_KEEPKEY_PIN,
