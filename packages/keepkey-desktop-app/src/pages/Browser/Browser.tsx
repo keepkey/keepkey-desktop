@@ -66,9 +66,7 @@ const clearClipBoardIfWCString = async () => {
 }
 
 export const Browser = () => {
-  const [url, setUrl] = useState(
-    'about:blank'
-  )
+  const [url, setUrl] = useState('about:blank')
   const [inputUrl, setInputUrl] = useState(url)
   const [loading, setLoading] = useState(false)
   const [webviewLoadFailure, setWebviewLoadFailure] = useState<string | undefined>(undefined)
