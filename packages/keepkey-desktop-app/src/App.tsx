@@ -72,19 +72,21 @@ export const App = () => {
         if (!defaultDapp || defaultDapp === '') {
           const defaultDappShapeShift = {
             imageUrl: 'https://assets.coincap.io/assets/icons/fox@2x.png',
-            url: 'https://web-theta-one.vercel.app',
+            url: 'https://web-theta-one.vercel.app/',
             name: 'ShapeShift',
           }
-          defaultDapp = JSON.stringify(defaultDappShapeShift)
+
           //set SS as default dapp
-          localStorage.setItem('@app/defaultDapp', JSON.stringify(defaultDapp))
-        }
-        try {
-          const app = JSON.parse(defaultDapp)
-          if (!app.url) return
-          openDapp(app.url)
-        } catch (error) {
-          return
+          localStorage.setItem('@app/defaultDapp', JSON.stringify(defaultDappShapeShift))
+          openDapp(defaultDappShapeShift.url)
+        } else {
+          try {
+            const app = JSON.parse(defaultDapp)
+            if (!app.url) return
+            openDapp(app.url)
+          } catch (error) {
+            return
+          }
         }
       }
     }
