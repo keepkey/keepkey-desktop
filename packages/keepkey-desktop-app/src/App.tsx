@@ -68,8 +68,17 @@ export const App = () => {
         hardwareError.open({})
       }
       if (connected) {
-        const defaultDapp = localStorage.getItem('@app/defaultDapp')
-        if (!defaultDapp || defaultDapp === '') return
+        let defaultDapp = localStorage.getItem('@app/defaultDapp')
+        if (!defaultDapp || defaultDapp === '') {
+          const defaultDappShapeShift = {
+            imageUrl: 'https://assets.coincap.io/assets/icons/fox@2x.png',
+            url: 'https://web-theta-one.vercel.app',
+            name: 'ShapeShift',
+          }
+          defaultDapp = JSON.stringify(defaultDappShapeShift)
+          //set SS as default dapp
+          localStorage.setItem('@app/defaultDapp', JSON.stringify(defaultDapp))
+        }
         try {
           const app = JSON.parse(defaultDapp)
           if (!app.url) return

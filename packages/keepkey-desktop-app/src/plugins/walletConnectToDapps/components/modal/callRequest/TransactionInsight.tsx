@@ -53,9 +53,7 @@ export const TransactionInsight = ({ request }: { request: any }) => {
     <ModalSection
       title={
         transaction?.name ??
-        translate(
-          'plugins.walletConnectToDapps.modal.sendTransaction.contractInteraction.sendingEth',
-        )
+        translate('plugins.walletConnectToDapps.modal.sendTransaction.insight.title')
       }
       icon={<FaCode />}
     >
@@ -165,7 +163,7 @@ export const TransactionInsight = ({ request }: { request: any }) => {
             </Box>
             <Box p={2} display='flex' alignItems='center' justifyContent='space-between'>
               <Text translation='plugins.walletConnectToDapps.modal.sendTransaction.insight.recommendedAction'></Text>
-              <h2>{insight.recommendedAction}</h2>
+              <h4>{insight.recommendedAction}</h4>
             </Box>
           </div>
         ) : (

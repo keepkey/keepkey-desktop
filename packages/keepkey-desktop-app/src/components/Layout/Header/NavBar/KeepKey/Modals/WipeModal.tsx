@@ -8,7 +8,7 @@ export const WipeModal = () => {
   const initRef = useRef<HTMLInputElement | null>(null)
   const finalRef = useRef<HTMLDivElement | null>(null)
   const {
-    keepKeyWipe: { close, isOpen },
+    keepKeyWipe: { close, isOpen, zIndex },
   } = useModal()
 
   return (
@@ -21,7 +21,9 @@ export const WipeModal = () => {
       isOpen={isOpen}
       onClose={close}
     >
-      <KeepKeyWipe />
+      <div style={{ '--chakra-zIndices-modal': zIndex }}>
+        <KeepKeyWipe />
+      </div>
     </Modal>
   )
 }

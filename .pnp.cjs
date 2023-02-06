@@ -8501,6 +8501,44 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@keepkey/hdwallet-keepkey-rest", [\
+        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#workspace:packages/hdwallet-keepkey-rest", {\
+          "packageLocation": "./.yarn/__virtual__/@keepkey-hdwallet-keepkey-rest-virtual-d23a793a91/1/packages/hdwallet-keepkey-rest/",\
+          "packageDependencies": [\
+            ["@keepkey/hdwallet-keepkey-rest", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#workspace:packages/hdwallet-keepkey-rest"],\
+            ["@cosmjs/amino", "npm:0.28.13"],\
+            ["@cosmjs/proto-signing", "npm:0.28.13"],\
+            ["@cosmjs/stargate", "npm:0.28.13"],\
+            ["@keepkey/device-protocol", "npm:7.10.2"],\
+            ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
+            ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
+            ["@types/create-hash", "npm:1.2.2"],\
+            ["@types/crypto-js", "npm:4.1.1"],\
+            ["@types/google-protobuf", "npm:3.15.6"],\
+            ["@types/icepick", "npm:2.3.0"],\
+            ["@types/lodash", "npm:4.14.191"],\
+            ["@types/semver", "npm:6.2.3"],\
+            ["@types/shapeshiftoss__hdwallet-core", null],\
+            ["@types/tiny-secp256k1", "npm:1.0.0"],\
+            ["@typescript-eslint/eslint-plugin", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
+            ["@typescript-eslint/parser", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
+            ["eslint", "npm:8.28.0"],\
+            ["eslint-config-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:8.5.0"],\
+            ["eslint-plugin-import", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:2.26.0"],\
+            ["eslint-plugin-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:4.2.1"],\
+            ["eslint-plugin-simple-import-sort", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:7.0.0"],\
+            ["lodash", "npm:4.17.21"],\
+            ["prettier", "npm:2.8.0"],\
+            ["rimraf", "npm:3.0.2"],\
+            ["semver", "npm:6.3.0"],\
+            ["typedoc", "virtual:d3d78c5137958b04ba9090133f53e2686e3fb7618ea75d47482e50fc7ddcb1551efb9998584526180f75b9fd112b2cf7c20d7f8805d0270db50dd538117ca71a#npm:0.23.21"],\
+            ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"]\
+          ],\
+          "packagePeers": [\
+            "@shapeshiftoss/hdwallet-core",\
+            "@types/shapeshiftoss__hdwallet-core"\
+          ],\
+          "linkType": "SOFT"\
+        }],\
         ["workspace:packages/hdwallet-keepkey-rest", {\
           "packageLocation": "./packages/hdwallet-keepkey-rest/",\
           "packageDependencies": [\
@@ -8508,13 +8546,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@cosmjs/amino", "npm:0.28.13"],\
             ["@cosmjs/proto-signing", "npm:0.28.13"],\
             ["@cosmjs/stargate", "npm:0.28.13"],\
-            ["@ethereumjs/common", "npm:2.6.5"],\
-            ["@ethereumjs/tx", "npm:3.5.2"],\
             ["@keepkey/device-protocol", "npm:7.10.2"],\
             ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
-            ["@shapeshiftoss/bitcoinjs-lib", "npm:5.2.0-shapeshift.2"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
-            ["@shapeshiftoss/proto-tx-builder", "npm:0.4.0"],\
             ["@types/create-hash", "npm:1.2.2"],\
             ["@types/crypto-js", "npm:4.1.1"],\
             ["@types/google-protobuf", "npm:3.15.6"],\
@@ -8524,24 +8558,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/tiny-secp256k1", "npm:1.0.0"],\
             ["@typescript-eslint/eslint-plugin", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
             ["@typescript-eslint/parser", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:5.45.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
-            ["bnb-javascript-sdk-nobroadcast", "npm:2.16.15"],\
-            ["crypto-js", "npm:4.1.1"],\
-            ["eip-712", "npm:1.0.0"],\
-            ["eip55", "npm:2.1.0"],\
             ["eslint", "npm:8.28.0"],\
             ["eslint-config-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:8.5.0"],\
             ["eslint-plugin-import", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:2.26.0"],\
             ["eslint-plugin-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:4.2.1"],\
             ["eslint-plugin-simple-import-sort", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:7.0.0"],\
-            ["google-protobuf", "npm:3.21.2"],\
-            ["icepick", "npm:2.4.0"],\
             ["lodash", "npm:4.17.21"],\
-            ["p-lazy", "npm:3.1.0"],\
             ["prettier", "npm:2.8.0"],\
             ["rimraf", "npm:3.0.2"],\
             ["semver", "npm:6.3.0"],\
-            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
             ["typedoc", "virtual:d3d78c5137958b04ba9090133f53e2686e3fb7618ea75d47482e50fc7ddcb1551efb9998584526180f75b9fd112b2cf7c20d7f8805d0270db50dd538117ca71a#npm:0.23.21"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"]\
           ],\
@@ -23556,7 +23581,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@json-rpc-tools/utils", "npm:1.7.6"],\
             ["@keepkey/common-esbuild-bits", "workspace:packages/common-esbuild-bits"],\
             ["@keepkey/device-protocol", "npm:7.10.2"],\
-            ["@keepkey/hdwallet-keepkey-rest", "workspace:packages/hdwallet-keepkey-rest"],\
+            ["@keepkey/hdwallet-keepkey-rest", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#workspace:packages/hdwallet-keepkey-rest"],\
             ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
             ["@peculiar/webcrypto", "npm:1.4.1"],\
             ["@pioneer-platform/pioneer-client", "npm:8.1.29"],\

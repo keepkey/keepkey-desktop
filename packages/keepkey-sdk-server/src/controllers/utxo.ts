@@ -46,8 +46,14 @@ export class UtxoController extends ApiController {
     }
     if (body.vaultAddress) input.vaultAddress = body.vaultAddress
     if (body.opReturnData) input.opReturnData = body.opReturnData
-
-    console.log('*** input: ', JSON.stringify(input))
+    if (input.coin === 'BitcoinCash') {
+      for (let i = 0; i < input.outputs.length; i++) {
+        let output = input.outputs[i]
+        if (output.address && !output.address.startsWith('bitcoincash:')) {
+          output.address = 'bitcoincash:' + output.address
+        }
+      }
+    }
 
     return await this.context.wallet.btcSignTx(input)
   }

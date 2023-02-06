@@ -147,59 +147,63 @@ export const AddAccountModal = () => {
 
   return (
     <Modal isOpen={isOpen} onClose={close} isCentered>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader textAlign='center'>{translate('accounts.addAccount')}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody alignItems='center' justifyContent='center'>
-          <Stack>
-            <Stack spacing={0}>
-              <RawText fontWeight='semibold'>{translate('accounts.accountChain')}</RawText>
-              <RawText mt={-4} fontSize='sm' color='gray.500'>
-                {translate('accounts.selectChain')}
-              </RawText>
+      <div style={{ '--chakra-zIndices-modal': addAccount.zIndex }}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader textAlign='center'>{translate('accounts.addAccount')}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody alignItems='center' justifyContent='center'>
+            <Stack>
+              <Stack spacing={0}>
+                <RawText fontWeight='semibold'>{translate('accounts.accountChain')}</RawText>
+                <RawText mt={-4} fontSize='sm' color='gray.500'>
+                  {translate('accounts.selectChain')}
+                </RawText>
+              </Stack>
+              <Box pt={4} width='full'>
+                <Menu matchWidth>
+                  <MenuButton
+                    mb={4}
+                    as={Button}
+                    width='full'
+                    variant='outline'
+                    iconSpacing={0}
+                    rightIcon={<ChevronDownIcon />}
+                  >
+                    <Stack spacing={0} direction='row' alignItems='center'>
+                      <Avatar size='xs' src={icon} mr={3} />
+                      <RawText fontWeight='bold'>{name}</RawText>
+                    </Stack>
+                  </MenuButton>
+                  <MenuList>
+                    <MenuOptionGroup defaultValue='asc' type='radio'>
+                      {menuOptions}
+                    </MenuOptionGroup>
+                  </MenuList>
+                </Menu>
+              </Box>
+              {!isAbleToAddAccount && (
+                <Alert size='sm'>
+                  <AlertIcon as={FaInfoCircle} />
+                  <AlertDescription>
+                    {translate('accounts.requiresPriorTxHistory')}
+                  </AlertDescription>
+                </Alert>
+              )}
             </Stack>
-            <Box pt={4} width='full'>
-              <Menu matchWidth>
-                <MenuButton
-                  mb={4}
-                  as={Button}
-                  width='full'
-                  variant='outline'
-                  iconSpacing={0}
-                  rightIcon={<ChevronDownIcon />}
-                >
-                  <Stack spacing={0} direction='row' alignItems='center'>
-                    <Avatar size='xs' src={icon} mr={3} />
-                    <RawText fontWeight='bold'>{name}</RawText>
-                  </Stack>
-                </MenuButton>
-                <MenuList>
-                  <MenuOptionGroup defaultValue='asc' type='radio'>
-                    {menuOptions}
-                  </MenuOptionGroup>
-                </MenuList>
-              </Menu>
-            </Box>
-            {!isAbleToAddAccount && (
-              <Alert size='sm'>
-                <AlertIcon as={FaInfoCircle} />
-                <AlertDescription>{translate('accounts.requiresPriorTxHistory')}</AlertDescription>
-              </Alert>
-            )}
-          </Stack>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            colorScheme='blue'
-            width='full'
-            disabled={!isAbleToAddAccount}
-            onClick={handleAddAccount}
-          >
-            {translate('accounts.addAccount')}
-          </Button>
-        </ModalFooter>
-      </ModalContent>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              colorScheme='blue'
+              width='full'
+              disabled={!isAbleToAddAccount}
+              onClick={handleAddAccount}
+            >
+              {translate('accounts.addAccount')}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

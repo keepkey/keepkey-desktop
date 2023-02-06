@@ -34,11 +34,13 @@ import Web3 from 'web3'
 
 import { AddressSummaryCard } from './AddressSummaryCard'
 import { ContractInteractionBreakdown } from './ContractInteractionBreakdown'
-import { TransactionInsight } from './TransactionInsight'
 import { GasFeeEstimateLabel } from './GasFeeEstimateLabel'
 import { GasInput } from './GasInput'
 import { ModalSection } from './ModalSection'
 import { TransactionAdvancedParameters } from './TransactionAdvancedParameters'
+import { TransactionInsight } from './TransactionInsight'
+import { TransactionRaw } from './TransactionRaw'
+// import { TransactionSimulation } from './TransactionSimulation'
 
 export type TxData = {
   nonce: string
@@ -315,6 +317,20 @@ export const SendTransactionConfirmation = () => {
                   mb={4}
                 />
               </Tab>
+              {/*<Tab>*/}
+              {/*  <Text*/}
+              {/*    fontWeight='medium'*/}
+              {/*    translation='plugins.walletConnectToDapps.modal.sendTransaction.contractInteraction.simulation'*/}
+              {/*    mb={4}*/}
+              {/*  />*/}
+              {/*</Tab>*/}
+              <Tab>
+                <Text
+                  fontWeight='medium'
+                  translation='plugins.walletConnectToDapps.modal.sendTransaction.contractInteraction.contract'
+                  mb={4}
+                />
+              </Tab>
               <Tab>
                 <Text
                   fontWeight='medium'
@@ -330,9 +346,19 @@ export const SendTransactionConfirmation = () => {
                   <TransactionInsight request={currentRequest} />
                 </Card>
               </TabPanel>
+              {/*<TabPanel>*/}
+              {/*  <Card bg={cardBg} borderRadius='md' px={4} py={2}>*/}
+              {/*    <TransactionSimulation request={currentRequest} />*/}
+              {/*  </Card>*/}
+              {/*</TabPanel>*/}
               <TabPanel>
                 <Card bg={cardBg} borderRadius='md' px={4} py={2}>
                   <ContractInteractionBreakdown request={currentRequest} />
+                </Card>
+              </TabPanel>
+              <TabPanel>
+                <Card bg={cardBg} borderRadius='md' px={4} py={2}>
+                  <TransactionRaw request={currentRequest} />
                 </Card>
               </TabPanel>
             </TabPanels>

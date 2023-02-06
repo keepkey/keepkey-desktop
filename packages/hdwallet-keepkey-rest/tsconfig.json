@@ -4,9 +4,6 @@
     "module": "commonjs",
     "lib": ["es2020", "dom", "es5"],
     "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "composite": true,
     "isolatedModules": true,
     "outDir": "dist",
 

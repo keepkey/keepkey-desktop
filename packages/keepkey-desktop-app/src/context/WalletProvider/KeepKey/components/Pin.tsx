@@ -36,94 +36,60 @@ export const KeepKeyPin = ({
 }: KeepKeyPinProps) => {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
-  const [isPinEmpty, setIsPinEmpty] = useState(true)
   const {
     setDeviceState,
     state: { pinDeferred, showBackButton },
     dispatch,
   } = useWallet()
+  const [pin, setPin] = useState<string>('')
   const pinFieldRef = useRef<HTMLInputElement | null>(null)
 
   const pinNumbers = [7, 8, 9, 4, 5, 6, 1, 2, 3]
 
   const handlePinPress = useCallback(
     (value: number) => {
-      if (pinFieldRef?.current) {
-        pinFieldRef.current.value += value.toString()
-      }
+      if (pin.length < 9) setPin(`${pin}${value}`)
     },
-    [pinFieldRef],
+    [pin],
   )
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     setError(null)
-    if (translationType !== 'remove')
+    if (pin.length === 0) return
+
+    // TODO: do we still need this?
+    if (translationType !== 'remove') {
       setDeviceState({
         isDeviceLoading: true,
       })
-    setLoading(true)
-    const pin = pinFieldRef.current?.value
-    if (pin && pin.length > 0) {
-      try {
-        // The event handler will pick up the response to the sendPin request
-        moduleLogger.debug('About to send pin')
-        await pinDeferred?.resolve(pin)
-        moduleLogger.debug('done sending pin')
-        if (translationType === 'remove') return setLoading(false)
-      } catch (e) {
-        moduleLogger.error(e, 'KeepKey PIN Submit error: ')
-        pinDeferred?.reject(e)
-      } finally {
-        if (pinFieldRef?.current) {
-          pinFieldRef.current.value = ''
-        }
-        setLoading(false)
-      }
     }
-  }
+
+    try {
+      setLoading(true)
+      moduleLogger.debug('About to send PIN')
+      await pinDeferred?.resolve(pin)
+      moduleLogger.debug('Done sending PIN')
+    } catch (e) {
+      moduleLogger.error(e, 'KeepKey PIN Submit error: ')
+      pinDeferred?.reject(e)
+    } finally {
+      setPin('')
+      setLoading(false)
+    }
+  }, [pinDeferred, pin, setDeviceState, translationType])
 
   const handleKeyboardInput = (e: KeyboardEvent) => {
-    // We can't allow tabbing between inputs or the focused element gets out of sync with the KeepKey
-    if (e.key === 'Tab') e.preventDefault()
+    e.preventDefault()
 
-    if (e.key === 'Backspace') return
-
-    if (e.key === 'Enter') {
+    if (e.key === 'Backspace') {
+      setPin(pin.slice(0, -1))
+    } else if (e.key === 'Enter') {
       handleSubmit()
-      return
-    }
-
-    if (!pinNumbers.includes(Number(e.key))) {
-      e.preventDefault()
-      return
-    } else {
-      e.preventDefault()
+    } else if (pinNumbers.includes(Number(e.key))) {
       handlePinPress(Number(e.key))
-      return
     }
   }
 
-  // useEffect(() => {
-  //   switch (pinError) {
-  //     case undefined:
-  //       setError(null)
-  //       break
-  //     // Device has a programmed PIN
-  //     case FailureType.PININVALID:
-  //       setError(`walletProvider.keepKey.errors.pinInvalid`)
-  //       break
-  //     // A "cancel" command was sent while showing the PIN screen on the KK
-  //     case FailureType.PINCANCELLED:
-  //       setError(`walletProvider.keepKey.errors.pinCancelled`)
-  //       break
-  //     // Creating a NEW PIN, the user didn't enter the same PIN in steps 1 and 2
-  //     case FailureType.PINMISMATCH:
-  //       setError(`walletProvider.keepKey.errors.pinMismatch`)
-  //       break
-  //     default:
-  //       setError('walletProvider.keepKey.errors.unknown')
-  //   }
-  // }, [pinError])
   const [disablePin, setDisablePin] = useState(true)
 
   useEffect(() => {
@@ -155,10 +121,9 @@ export const KeepKeyPin = ({
             p={8}
             onClick={() => {
               handlePinPress(number)
-              setIsPinEmpty(!pinFieldRef.current?.value)
             }}
             {...buttonsProps}
-            disabled={loading}
+            disabled={loading || pin.length >= 9}
           >
             <CircleIcon boxSize={4} />
           </Button>
@@ -171,10 +136,11 @@ export const KeepKeyPin = ({
         variant='filled'
         mb={3}
         autoComplete='one-time-code'
+        value={pin}
         autoFocus={true}
         onKeyDown={handleKeyboardInput}
         onSubmit={handleSubmit}
-        onKeyUp={() => setIsPinEmpty(!pinFieldRef.current?.value)}
+        onChange={() => {}}
         disabled={loading}
       />
       {translationType === 'pin' && (
@@ -206,7 +172,7 @@ export const KeepKeyPin = ({
         size={confirmButtonSize ?? 'lg'}
         colorScheme='blue'
         onClick={handleSubmit}
-        disabled={loading || isPinEmpty}
+        disabled={loading || pin.length === 0}
       >
         <Text translation={`walletProvider.keepKey.${translationType}.button`} />
       </Button>

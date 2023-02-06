@@ -57,65 +57,66 @@ export const HardwareErrorModal = (error: {
       closeOnOverlayClick={false}
       closeOnEsc={false}
     >
-      <ModalOverlay />
-      <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
-        {!error.needsReconnect && (
-          <ModalCloseButton ml='auto' borderRadius='full' position='static' />
-        )}
-        <ModalBody>
-          {error && error.error && error.error.includes('claimInterface') ? (
-            <div>
-              <Card>
-                <CardHeader>
-                  <Heading size='md'>
-                    <Text translation='modals.keepKey.hardware.claimTitle' />
-                  </Heading>
-                </CardHeader>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <WarningTwoIcon boxSize={24} color='yellow.500' />
-                </div>
-                <CardBody>
-                  <Stack divider={<StackDivider />} spacing='4'>
-                    <Box>
-                      <Heading size='xs' textTransform='uppercase'>
-                        Summary
-                      </Heading>
-                      <ReactMarkdown>
-                        {translate('modals.keepKey.hardware.claimInterface')}
-                      </ReactMarkdown>
-                    </Box>
-                    <Box>
-                      <Heading size='xs' textTransform='uppercase'>
-                        1. {translate('modals.keepKey.hardware.claimInterface2')}
-                      </Heading>
-                      <Heading size='xs' textTransform='uppercase'>
-                        2. {translate('modals.keepKey.hardware.claimInterface3')}
-                      </Heading>
-                      <Heading size='xs' textTransform='uppercase'>
-                        3. {translate('modals.keepKey.hardware.claimInterface4')}
-                      </Heading>
-                    </Box>
-                  </Stack>
-                </CardBody>
-              </Card>
-            </div>
-          ) : (
-            <div>
-              <ModalHeader>
-                <Text
-                  translation={
-                    error.needsReconnect
-                      ? 'modals.keepKey.hardware.headerReconnect'
-                      : 'modals.keepKey.hardware.headerConnect'
-                  }
+      <div style={{ '--chakra-zIndices-modal': hardwareError.zIndex }}>
+        <ModalOverlay />
+        <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
+          {!error.needsReconnect && (
+            <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+          )}
+          <ModalBody>
+            {error && error.error && error.error.includes('claimInterface') ? (
+              <div>
+                <Card>
+                  <CardHeader>
+                    <Heading size='md'>
+                      <Text translation='modals.keepKey.hardware.claimTitle' />
+                    </Heading>
+                  </CardHeader>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <WarningTwoIcon boxSize={24} color='yellow.500' />
+                  </div>
+                  <CardBody>
+                    <Stack divider={<StackDivider />} spacing='4'>
+                      <Box>
+                        <Heading size='xs' textTransform='uppercase'>
+                          Summary
+                        </Heading>
+                        <ReactMarkdown>
+                          {translate('modals.keepKey.hardware.claimInterface')}
+                        </ReactMarkdown>
+                      </Box>
+                      <Box>
+                        <Heading size='xs' textTransform='uppercase'>
+                          1. {translate('modals.keepKey.hardware.claimInterface2')}
+                        </Heading>
+                        <Heading size='xs' textTransform='uppercase'>
+                          2. {translate('modals.keepKey.hardware.claimInterface3')}
+                        </Heading>
+                        <Heading size='xs' textTransform='uppercase'>
+                          3. {translate('modals.keepKey.hardware.claimInterface4')}
+                        </Heading>
+                      </Box>
+                    </Stack>
+                  </CardBody>
+                </Card>
+              </div>
+            ) : (
+              <div>
+                <ModalHeader>
+                  <Text
+                    translation={
+                      error.needsReconnect
+                        ? 'modals.keepKey.hardware.headerReconnect'
+                        : 'modals.keepKey.hardware.headerConnect'
+                    }
+                  />
+                </ModalHeader>
+                <Image
+                  filter={colorMode === 'light' ? 'invert(100%);' : ''}
+                  src={KeepKeyConnect}
+                  alt='Reconnect Device!'
                 />
-              </ModalHeader>
-              <Image
-                filter={colorMode === 'light' ? 'invert(100%);' : ''}
-                src={KeepKeyConnect}
-                alt='Reconnect Device!'
-              />
-              <style type='text/css'>{`
+                <style type='text/css'>{`
                 .hardwareErrorIntroText * {
                   margin: 0.5em 0;
                 }
@@ -124,19 +125,20 @@ export const HardwareErrorModal = (error: {
                   text-align: center;
                 }
               `}</style>
-              <div className='hardwareErrorIntroText'>
-                <ReactMarkdown>
-                  {translate(
-                    error.needsReconnect
-                      ? 'modals.keepKey.hardware.reconnect'
-                      : 'modals.keepKey.hardware.connect',
-                  )}
-                </ReactMarkdown>
+                <div className='hardwareErrorIntroText'>
+                  <ReactMarkdown>
+                    {translate(
+                      error.needsReconnect
+                        ? 'modals.keepKey.hardware.reconnect'
+                        : 'modals.keepKey.hardware.connect',
+                    )}
+                  </ReactMarkdown>
+                </div>
               </div>
-            </div>
-          )}
-        </ModalBody>
-      </ModalContent>
+            )}
+          </ModalBody>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

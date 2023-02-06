@@ -53,17 +53,19 @@ export const UpdateKeepKey = (params: Record<string, never> | KKStateData) => {
       closeOnOverlayClick={false}
       closeOnEsc={false}
     >
-      <ModalOverlay />
-      <ModalContent justifyContent='center' p={3}>
-        {/*<ModalCloseButton ml='auto' borderRadius='full' position='static' />*/}
-        <Steps activeStep={activeStep}>
-          {steps.map(({ label, content }: any) => (
-            <Step label={label} key={label}>
-              {content}
-            </Step>
-          ))}
-        </Steps>
-      </ModalContent>
+      <div style={{ '--chakra-zIndices-modal': updateKeepKey.zIndex }}>
+        <ModalOverlay />
+        <ModalContent justifyContent='center' p={3}>
+          {/*<ModalCloseButton ml='auto' borderRadius='full' position='static' />*/}
+          <Steps activeStep={activeStep}>
+            {steps.map(({ label, content }: any) => (
+              <Step label={label} key={label}>
+                {content}
+              </Step>
+            ))}
+          </Steps>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }
