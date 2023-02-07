@@ -10,6 +10,7 @@ import {
 import { Alert, AlertIcon, HStack, IconButton, Input, Stack } from '@chakra-ui/react'
 import * as Comlink from 'comlink'
 import { Main } from 'components/Layout/Main'
+import { getConfig } from 'config'
 import { ipcListeners } from 'electron-shim'
 // import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
@@ -62,6 +63,31 @@ const clearClipBoardIfWCString = async () => {
     }
   } catch (e) {
     console.error(e)
+  }
+}
+
+const checkIfSSDApp = (currentUrl: string) => {
+  const url = new URL(currentUrl)
+  if (url.origin === getConfig().REACT_APP_SHAPESHIFT_DAPP_URL) {
+    const webview = getWebview()
+    if (!webview) return
+
+    webview.executeJavaScript('localStorage.getItem("@app/serviceKey");', true).then(apiKey => {
+      if (!apiKey) {
+        const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
+        const localWalletType = localStorage.getItem('localWalletType')
+        const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
+        if (!kkDesktopApiKey) return
+        webview
+          .executeJavaScript(
+            `localStorage.setItem("@app/serviceKey", "${kkDesktopApiKey}"); localStorage.setItem("localWalletType", "${localWalletType}"); localStorage.setItem("localWalletDeviceId", "${localWalletDeviceId}");`,
+            true,
+          )
+          .then(() => {
+            webview.reload()
+          })
+      }
+    })
   }
 }
 
@@ -168,6 +194,7 @@ export const Browser = () => {
       console.log('browserUrl', browserUrl)
       setInputUrl(newUrl)
       setUrl(newUrl)
+      checkIfSSDApp(newUrl)
     } else {
       console.error('invalid browserUrl', browserUrl)
     }
