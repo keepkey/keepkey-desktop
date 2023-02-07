@@ -247,7 +247,7 @@ export const Browser = () => {
     >
       <webview
         id='webview'
-        // partition='browser'
+        partition='browser'
         src='https://web-theta-one.vercel.app/#/connect-wallet?returnUrl=/dashboard'
         style={{
           flexGrow: 1,
