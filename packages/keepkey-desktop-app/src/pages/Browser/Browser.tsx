@@ -96,7 +96,7 @@ const checkIfSSDApp = (currentUrl: string) => {
 }
 
 export const Browser = () => {
-  const [url, setUrl] = useState('about:blank')
+  const [url, setUrl] = useState('https://web-theta-one.vercel.app/')
   const [inputUrl, setInputUrl] = useState(url)
   const [loading, setLoading] = useState(false)
   const [webviewLoadFailure, setWebviewLoadFailure] = useState<string | undefined>(undefined)
@@ -164,7 +164,7 @@ export const Browser = () => {
     const listener = () => {
       const url = webview.getURL()
       if (url === 'about:blank') return
-      dispatch({ type: WalletActions.SET_BROWSER_URL, payload: url })
+      //dispatch({ type: WalletActions.SET_BROWSER_URL, payload: url })
       checkIfSSDApp(url)
     }
     webview.addEventListener('did-finish-load', listener)
