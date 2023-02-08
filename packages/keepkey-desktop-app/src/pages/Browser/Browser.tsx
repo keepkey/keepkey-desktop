@@ -11,6 +11,7 @@ import { Alert, AlertIcon, HStack, IconButton, Input, Stack } from '@chakra-ui/r
 import * as Comlink from 'comlink'
 import { Main } from 'components/Layout/Main'
 import { getConfig } from 'config'
+import { WalletActions } from 'context/WalletProvider/actions'
 import { ipcListeners } from 'electron-shim'
 // import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
@@ -69,25 +70,33 @@ const clearClipBoardIfWCString = async () => {
 const checkIfSSDApp = (currentUrl: string) => {
   const url = new URL(currentUrl)
   if (url.origin === getConfig().REACT_APP_SHAPESHIFT_DAPP_URL) {
+    console.log('SS DAPP DETECTED', 1)
     const webview = getWebview()
     if (!webview) return
+    console.log('SS DAPP DETECTED', 2)
 
-    webview.executeJavaScript('localStorage.getItem("@app/serviceKey");', true).then(apiKey => {
-      if (!apiKey) {
-        const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
-        const localWalletType = localStorage.getItem('localWalletType')
-        const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
-        if (!kkDesktopApiKey) return
-        webview
-          .executeJavaScript(
-            `localStorage.setItem("@app/serviceKey", "${kkDesktopApiKey}"); localStorage.setItem("localWalletType", "${localWalletType}"); localStorage.setItem("localWalletDeviceId", "${localWalletDeviceId}");`,
-            true,
-          )
-          .then(() => {
-            webview.reload()
-          })
-      }
-    })
+    webview
+      .executeJavaScript('localStorage.getItem("@app/serviceKey");', true)
+      .then(apiKey => {
+        console.log('SS DAPP DETECTED', 3)
+        if (!apiKey) {
+          console.log('SS DAPP DETECTED', 4)
+          const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
+          const localWalletType = localStorage.getItem('localWalletType')
+          const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
+          if (!kkDesktopApiKey) return
+          console.log('SS DAPP DETECTED', 5)
+          webview
+            .executeJavaScript(
+              `localStorage.setItem("@app/serviceKey", "${kkDesktopApiKey}"); localStorage.setItem("localWalletType", "${localWalletType}"); localStorage.setItem("localWalletDeviceId", "${localWalletDeviceId}");`,
+              true,
+            )
+            .then(() => {
+              webview.reload()
+            })
+        }
+      })
+      .catch(console.error)
   }
 }
 
@@ -158,7 +167,10 @@ export const Browser = () => {
   useEffect(() => {
     const webview = getWebview()!
     const listener = () => {
-      // dispatch({ type: WalletActions.SET_BROWSER_URL, payload: webview.getURL() })
+      const url = webview.getURL()
+      if (url === 'about:blank') return
+      dispatch({ type: WalletActions.SET_BROWSER_URL, payload: url })
+      checkIfSSDApp(url)
     }
     webview.addEventListener('did-finish-load', listener)
     return () => {
@@ -194,7 +206,6 @@ export const Browser = () => {
       console.log('browserUrl', browserUrl)
       setInputUrl(newUrl)
       setUrl(newUrl)
-      checkIfSSDApp(newUrl)
     } else {
       console.error('invalid browserUrl', browserUrl)
     }
@@ -248,7 +259,7 @@ export const Browser = () => {
       <webview
         id='webview'
         partition='browser'
-        src='https://web-theta-one.vercel.app/#/connect-wallet?returnUrl=/dashboard'
+        src='about:blank'
         style={{
           flexGrow: 1,
         }}
