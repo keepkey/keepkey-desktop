@@ -164,7 +164,7 @@ export const Browser = () => {
     const listener = () => {
       const url = webview.getURL()
       if (url === 'about:blank') return
-      dispatch({ type: WalletActions.SET_BROWSER_URL, payload: url })
+      // dispatch({ type: WalletActions.SET_BROWSER_URL, payload: url })
       checkIfSSDApp(url)
     }
     webview.addEventListener('did-finish-load', listener)
