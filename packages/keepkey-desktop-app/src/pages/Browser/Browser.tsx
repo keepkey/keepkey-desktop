@@ -70,22 +70,17 @@ const clearClipBoardIfWCString = async () => {
 const checkIfSSDApp = (currentUrl: string) => {
   const url = new URL(currentUrl)
   if (url.origin === getConfig().REACT_APP_SHAPESHIFT_DAPP_URL) {
-    console.log('SS DAPP DETECTED', 1)
     const webview = getWebview()
     if (!webview) return
-    console.log('SS DAPP DETECTED', 2)
 
     webview
       .executeJavaScript('localStorage.getItem("@app/serviceKey");', true)
       .then(apiKey => {
-        console.log('SS DAPP DETECTED', 3)
         if (!apiKey) {
-          console.log('SS DAPP DETECTED', 4)
           const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
           const localWalletType = localStorage.getItem('localWalletType')
           const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
           if (!kkDesktopApiKey) return
-          console.log('SS DAPP DETECTED', 5)
           webview
             .executeJavaScript(
               `localStorage.setItem("@app/serviceKey", "${kkDesktopApiKey}"); localStorage.setItem("localWalletType", "${localWalletType}"); localStorage.setItem("localWalletDeviceId", "${localWalletDeviceId}");`,
