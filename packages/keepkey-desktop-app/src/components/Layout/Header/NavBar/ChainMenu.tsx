@@ -2,17 +2,17 @@ import { WarningIcon } from '@chakra-ui/icons'
 import { Menu, MenuButton, MenuGroup, MenuItem, MenuList } from '@chakra-ui/menu'
 import type { BoxProps } from '@chakra-ui/react'
 import { Box, Button, Flex, Text, Tooltip, useColorModeValue } from '@chakra-ui/react'
-import type { ChainId } from '@keepkey/caip'
-import { fromChainId } from '@keepkey/caip'
+import type { ChainId } from '@shapeshiftoss/caip'
+import { fromChainId } from '@shapeshiftoss/caip'
 import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
 import { supportsEthSwitchChain } from '@shapeshiftoss/hdwallet-core'
-import { useMemo } from 'react'
-import { useTranslate } from 'react-polyglot'
 import { AssetIcon } from 'components/AssetIcon'
 import { CircleIcon } from 'components/Icons/Circle'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useEvm } from 'hooks/useEvm/useEvm'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useMemo } from 'react'
+import { useTranslate } from 'react-polyglot'
 import { selectAssetById } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 
@@ -57,6 +57,7 @@ export const ChainMenu = (props: ChainMenuProps) => {
 
   const handleChainClick = async (chainId: ChainId) => {
     try {
+      // @ts-expect-error
       await (state.wallet as ETHWallet).ethSwitchChain?.(Number(chainId))
       setEthNetwork(chainId)
     } catch (e) {

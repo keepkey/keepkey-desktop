@@ -9,12 +9,12 @@ import {
   RadioGroup,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { Text } from 'components/Text'
 import type { ReactChild } from 'react'
 import { Fragment, useState } from 'react'
 import type { Control } from 'react-hook-form'
 import { useController } from 'react-hook-form'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
-import { Text } from 'components/Text'
 
 type Option = [string, string, ReactChild?]
 

@@ -1,12 +1,12 @@
-import { UtxoAccountType } from '@keepkey/types'
-import { TxStatus } from '@keepkey/unchained-client'
+import { UtxoAccountType } from '@shapeshiftoss/types'
+import { TxStatus } from '@shapeshiftoss/unchained-client'
 import { map, reverse } from 'lodash'
+import { store } from 'state/store'
 import { mockStore } from 'test/mocks/store'
 import { BtcSend, ethereumTransactions, EthReceive, EthSend } from 'test/mocks/txs'
-import { store } from 'state/store'
 
 import { selectLastNTxIds } from './selectors'
-import type { RebasesState, TxHistory, TxsState } from './txHistorySlice'
+import type { TxHistory, TxsState } from './txHistorySlice'
 import { txHistory } from './txHistorySlice'
 import { serializeTxIndex } from './utils'
 
@@ -25,12 +25,6 @@ describe('txHistorySlice', () => {
         byAccountId: {},
         ids: [],
         status: 'loading',
-      },
-      rebases: {
-        byAssetId: {},
-        byAccountId: {},
-        ids: [],
-        byId: {},
       },
     })
   })
@@ -231,14 +225,8 @@ describe('txHistorySlice', () => {
         ids: ['a', 'b'],
         status: 'loading',
       }
-      const rebases: RebasesState = {
-        byAssetId: {},
-        byAccountId: {},
-        ids: [],
-        byId: {},
-      }
 
-      const txHistory: TxHistory = { txs, rebases }
+      const txHistory: TxHistory = { txs }
 
       const state = {
         ...mockStore,
@@ -252,7 +240,6 @@ describe('txHistorySlice', () => {
           // this array will always change on every new tx
           ids: ['a', 'b', 'c'],
         },
-        rebases,
       }
 
       // redux will replace the array on update

@@ -9,17 +9,17 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react'
-import { useCallback, useState } from 'react'
-import { useTranslate } from 'react-polyglot'
-import type { RouteComponentProps } from 'react-router-dom'
+import { WalletConnected } from 'components/Layout/Header/NavBar/UserMenu'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
-
-import { GeneralSettings } from './GeneralSettings'
-import { AppSettings } from './AppSettings'
-import { WalletConnected } from 'components/Layout/Header/NavBar/UserMenu'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useCallback, useState } from 'react'
+import { useTranslate } from 'react-polyglot'
+import type { RouteComponentProps } from 'react-router-dom'
+
+import { AppSettings } from './AppSettings'
+import { GeneralSettings } from './GeneralSettings'
 
 export type SettingsListProps = {
   appHistory: RouteComponentProps['history']
@@ -45,7 +45,7 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
   }, [appHistory, clickCount, setClickCount, settings])
 
   const { state, disconnect } = useWallet()
-  const { isConnected, isDemoWallet, walletInfo, type } = state
+  const { isConnected, walletInfo, type } = state
 
   return (
     <SlideTransition>
@@ -76,7 +76,7 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
             <TabPanel>
               <Menu>
                 <WalletConnected
-                  isConnected={isConnected || isDemoWallet}
+                  isConnected={isConnected}
                   walletInfo={walletInfo}
                   onDisconnect={disconnect}
                   type={type}

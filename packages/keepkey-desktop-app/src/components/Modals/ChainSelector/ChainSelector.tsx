@@ -1,3 +1,4 @@
+import { SearchIcon } from '@chakra-ui/icons'
 import {
   Accordion,
   AccordionButton,
@@ -8,6 +9,7 @@ import {
   Divider,
   Flex,
   HStack,
+  Image,
   Input,
   InputGroup,
   InputLeftElement,
@@ -19,23 +21,21 @@ import {
   ModalOverlay,
   Spinner,
   Stack,
-  Image,
 } from '@chakra-ui/react'
-// import { SessionTypes } from '@walletconnect/types'
-import { ipcRenderer } from 'electron-shim'
-import { useCallback, useEffect, useState } from 'react'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
+import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
+// import { SessionTypes } from '@walletconnect/types'
+import { useDebounce } from 'hooks/useDebounce/useDebounce'
 import { useModal } from 'hooks/useModal/useModal'
+import { getPioneerClient } from 'lib/getPioneerClient'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
-import { SearchIcon } from '@chakra-ui/icons'
-import { getPioneerClient } from 'lib/getPioneerCleint'
+
 import type { MergedServiceType } from './mergeServices'
 import { mergeServices } from './mergeServices'
 import { pingAndMergeServices } from './mergeServices'
-import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { useDebounce } from 'hooks/useDebounce/useDebounce'
-import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
 
 export const ChainSelectorModal = () => {
   const [loading, setLoading] = useState(false)
@@ -103,83 +103,89 @@ export const ChainSelectorModal = () => {
     <SlideTransition>
       <Modal
         isOpen={isOpen}
-        onClose={() => {
-          ipcRenderer.send('unlockWindow', {})
+        onClose={async () => {
           close()
         }}
         isCentered
         closeOnOverlayClick={false}
         closeOnEsc={false}
       >
-        <ModalOverlay />
-        <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
-          <ModalCloseButton ml='auto' borderRadius='full' position='static' />
-          <ModalHeader>
-            <Text translation={'Select chain'} />
-          </ModalHeader>
-          <ModalBody>
-            <Stack spacing={4} mb={4}>
-              <Box>
-                <InputGroup>
-                  <InputLeftElement pointerEvents='none'>
-                    <SearchIcon color='gray.700' />
-                  </InputLeftElement>
-                  <Input
-                    {...register('search')}
-                    autoComplete='off'
-                    type='text'
-                    placeholder='Search'
-                    pl={10}
-                    variant='filled'
-                  />
-                </InputGroup>
-              </Box>
-              {loading && (
-                <Flex alignContent='right' w='full' h='full' justifyItems='center'>
-                  <Spinner />
-                </Flex>
-              )}
-              <Accordion allowMultiple>
-                {!loading &&
-                  chains &&
-                  chains.map(chain => {
-                    return (
-                      <AccordionItem w='full'>
-                        <HStack gap={4}>
-                          <Image src={chain.image} boxSize='24px' />
-                          <Box
-                            alignContent='right'
-                            w='full'
-                            as='button'
-                            onClick={() => switchChain(chain)}
-                          >
-                            {chain.name} <small>({chain.services[0].latency}ms)</small>
-                          </Box>
-                          <Box alignContent='left'>
-                            <small>chainId: {chain.chainId}</small>
-                          </Box>
-                          <AccordionButton w='fit-content'>
-                            <AccordionIcon />
-                          </AccordionButton>
-                        </HStack>
-                        <AccordionPanel>
-                          {chain.services.map((service, idx) => (
-                            <Box fontSize='sm' as='button' onClick={() => switchChain(chain, idx)}>
-                              {service.url.length > 20
-                                ? service.url.substring(0, 20).concat('...')
-                                : service.url}{' '}
-                              ({service.latency}ms)
-                              <Divider />
+        <div style={{ '--chakra-zIndices-modal': chainSelector.zIndex }}>
+          <ModalOverlay />
+          <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
+            <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+            <ModalHeader>
+              <Text translation={'Select chain'} />
+            </ModalHeader>
+            <ModalBody>
+              <Stack spacing={4} mb={4}>
+                <Box>
+                  <InputGroup>
+                    <InputLeftElement pointerEvents='none'>
+                      <SearchIcon color='gray.700' />
+                    </InputLeftElement>
+                    <Input
+                      {...register('search')}
+                      autoComplete='off'
+                      type='text'
+                      placeholder='Search'
+                      pl={10}
+                      variant='filled'
+                    />
+                  </InputGroup>
+                </Box>
+                {loading && (
+                  <Flex alignContent='right' w='full' h='full' justifyItems='center'>
+                    <Spinner />
+                  </Flex>
+                )}
+                <Accordion allowMultiple>
+                  {!loading &&
+                    chains &&
+                    chains.map(chain => {
+                      return (
+                        <AccordionItem w='full' key={chain._id}>
+                          <HStack gap={4}>
+                            <Image src={chain.image} boxSize='24px' />
+                            <Box
+                              alignContent='right'
+                              w='full'
+                              as='button'
+                              onClick={() => switchChain(chain)}
+                            >
+                              {chain.name} <small>({chain.services[0]?.latency}ms)</small>
                             </Box>
-                          ))}
-                        </AccordionPanel>
-                      </AccordionItem>
-                    )
-                  })}
-              </Accordion>
-            </Stack>
-          </ModalBody>
-        </ModalContent>
+                            <Box alignContent='left'>
+                              <small>chainId: {chain.chainId}</small>
+                            </Box>
+                            <AccordionButton w='fit-content'>
+                              <AccordionIcon />
+                            </AccordionButton>
+                          </HStack>
+                          <AccordionPanel>
+                            {chain.services.map((service, idx) => (
+                              <Box
+                                fontSize='sm'
+                                as='button'
+                                onClick={() => switchChain(chain, idx)}
+                                key={service.url}
+                              >
+                                {service.url.length > 20
+                                  ? service.url.substring(0, 20).concat('...')
+                                  : service.url}{' '}
+                                ({service.latency}ms)
+                                <Divider />
+                              </Box>
+                            ))}
+                          </AccordionPanel>
+                        </AccordionItem>
+                      )
+                    })}
+                </Accordion>
+              </Stack>
+            </ModalBody>
+          </ModalContent>
+        </div>
       </Modal>
     </SlideTransition>
   )

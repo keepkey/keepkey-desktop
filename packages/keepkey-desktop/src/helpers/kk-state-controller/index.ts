@@ -1,127 +1,188 @@
-import { Keyring } from '@shapeshiftoss/hdwallet-core'
-import type { Device } from '@shapeshiftoss/hdwallet-keepkey-nodewebusb'
-import type { KeepKeyHDWallet, TransportDelegate } from '@shapeshiftoss/hdwallet-keepkey'
-import { getBetaFirmwareData, getLatestFirmwareData } from './firmwareUtils'
-import { initializeWallet } from './walletUtils'
-import { usb } from 'usb'
+import * as Messages from '@keepkey/device-protocol/lib/messages_pb'
+import * as core from '@shapeshiftoss/hdwallet-core'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { assume } from 'common-utils'
 import log from 'electron-log'
-import { settings } from 'globalState'
+import { usb } from 'usb'
 
-// possible states
-export const UPDATE_BOOTLOADER = 'updateBootloader'
-export const UPDATE_FIRMWARE = 'updateFirmware'
-export const NEEDS_INITIALIZE = 'needsInitialize'
-export const CONNECTED = 'connected'
-export const HARDWARE_ERROR = 'hardwareError'
-export const DISCONNECTED = 'disconnected'
-export const PLUGIN = 'plugin'
-export const NEEDS_RECONNECT = 'needsReconnect'
+import { getAllFirmwareData, getFirmwareBaseUrl, getLatestFirmwareData } from './firmwareUtils'
+import type {
+  KeyringEventHandler,
+  KKStateData,
+  StateChangeHandler,
+  TransportEventHandler,
+} from './types'
+import { KKState } from './types'
+import { initializeWallet } from './walletUtils'
+
+const semver = require('semver')
 
 /**
  * Keeps track of the last known state of the keepkey
  * sends ipc events to the web renderer on state change
  */
+
+export type OnStateChange = (
+  this: KKStateController,
+  ...args: Parameters<StateChangeHandler>
+) => ReturnType<StateChangeHandler>
+export type OnKeyringEvent = (
+  this: KKStateController,
+  ...args: Parameters<KeyringEventHandler>
+) => ReturnType<KeyringEventHandler>
+export type OnTransportEvent = (
+  this: KKStateController,
+  ...args: Parameters<TransportEventHandler>
+) => ReturnType<TransportEventHandler>
+
 export class KKStateController {
-  public keyring: Keyring
-  public device?: Device
-  public wallet?: KeepKeyHDWallet
-  public transport?: TransportDelegate
+  public readonly keyring = new core.Keyring()
 
-  public lastState?: string
-  public lastData?: any
+  #wallet: KeepKeyHDWallet | undefined = undefined
+  get wallet() {
+    return this.#wallet
+  }
+  set wallet(value: KeepKeyHDWallet | undefined) {
+    if (this.#wallet) {
+      this.#wallet.transport.offAny(this.#onTransportEvent)
+    }
+    if (value) {
+      value.transport.onAny(this.#onTransportEvent)
+    }
+    this.#wallet = value
+  }
 
-  public onStateChange: any
+  public data: KKStateData = { state: KKState.Disconnected }
 
-  constructor(onStateChange: any) {
+  public readonly onStateChange: StateChangeHandler
+  public readonly onKeyringEvent: KeyringEventHandler
+  public readonly onTransportEvent: TransportEventHandler
+  readonly #onTransportEvent = (_: unknown, e: core.Event) => {
+    this.onTransportEvent(e)
+  }
+
+  constructor(
+    onStateChange: OnStateChange,
+    onKeyringEvent: OnKeyringEvent,
+    onTransportEvent: OnTransportEvent,
+  ) {
     log.info('KKStateController constructor')
-    this.keyring = new Keyring()
-    this.onStateChange = onStateChange
+    this.onStateChange = onStateChange.bind(this)
+    this.onKeyringEvent = onKeyringEvent.bind(this)
+    this.onTransportEvent = onTransportEvent.bind(this)
+
+    this.keyring.onAny(async (e: unknown) => {
+      assume<[vendor: string, deviceId: string, event: string]>(e)
+      await onKeyringEvent.call(this, e[0], e[1], e[2])
+    })
 
     usb.on('attach', async e => {
       log.info('KKStateController attach')
       if (e.deviceDescriptor.idVendor !== 11044) return
-      this.updateState(PLUGIN, {})
+      await this.updateState({ state: KKState.Plugin })
       await this.syncState()
     })
     usb.on('detach', async e => {
       log.info('KKStateController detach')
       if (e.deviceDescriptor.idVendor !== 11044) return
-      this.updateState(DISCONNECTED, {})
+      await this.updateState({ state: KKState.Disconnected })
     })
   }
 
-  private updateState = async (newState: string, newData: any) => {
-    // TODO event is a bad name, change it to data everywhere its used
-    this.onStateChange(newState, { event: newData })
-    this.lastState = newState
-    this.lastData = newData
+  private async updateState(data: KKStateData) {
+    this.onStateChange(data)
+    this.data = data
   }
 
-  public skipUpdate = async () => {
-    if (this.lastState === UPDATE_FIRMWARE && this.lastData.bootloaderMode) {
-      return await this.updateState(NEEDS_RECONNECT, { ready: false })
+  public async forceReconnect() {
+    await this.updateState({ state: KKState.NeedsReconnect })
+  }
+
+  public async skipUpdate() {
+    console.log('skip update data', this.data)
+    if (this.data.state === KKState.UpdateFirmware && this.data.bootloaderMode) {
+      return await this.updateState({ state: KKState.NeedsReconnect })
     }
-    await this.updateState(CONNECTED, {
-      ready: true,
-    })
+    if (this.data.state === KKState.NeedsReconnect)
+      return await this.updateState({ state: KKState.NeedsReconnect })
+    if (this.wallet && !(await this.wallet.isInitialized()))
+      await this.updateState({ state: KKState.NeedsInitialize })
+    else await this.updateState({ state: KKState.Connected })
   }
 
-  public isOlderVersion = function(currentVersion:string, latestVersion:string) {
-    let parsedCurrentVersion = currentVersion.split('.');
-    let parsedLatestVersion = latestVersion.split('.');
-
-    for (let i = 0; i < parsedCurrentVersion.length; i++) {
-      if (parseInt(parsedCurrentVersion[i]) < parseInt(parsedLatestVersion[i])) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public syncState = async () => {
+  public async syncState() {
     log.info('KKStateController syncState')
-    const latestFirmware = settings.allowBetaFirmware
-      ? await getBetaFirmwareData()
-      : await getLatestFirmwareData()
-    const resultInit = await initializeWallet(this)
+    const firmwareData = await getAllFirmwareData(await getFirmwareBaseUrl())
+    const latestFirmware = await getLatestFirmwareData(firmwareData)
+    console.log('latestFirmware', latestFirmware)
+    const bootloaderHashes = firmwareData.hashes.bootloader
+    console.log('bootloaderHashes', bootloaderHashes)
+
+    const resultInit = await initializeWallet(this.keyring, bootloaderHashes).catch(async err => {
+      log.warn('KKStateController HARDWARE_ERROR', err)
+      await this.updateState({
+        state: KKState.HardwareError,
+        error: String(err),
+      })
+      return undefined
+    })
+    this.wallet = resultInit?.wallet
+    if (!resultInit) return
+
     log.info('KKStateController resultInit: ', resultInit)
-    if (resultInit.unplugged) {
+    if (!resultInit.firmwareVersion) resultInit.firmwareVersion = '0.0.0'
+
+    if (!resultInit.wallet) {
       log.info('KKStateController resultInit.unplugged')
-      this.updateState(DISCONNECTED, {})
-    } else if (!resultInit || !resultInit.success || resultInit.error) {
-      log.info('KKStateController HARDWARE_ERROR')
-      this.updateState(HARDWARE_ERROR, { error: resultInit?.error })
-    } else if (resultInit.bootloaderVersion !== latestFirmware.bootloader.version) {
+      await this.updateState({ state: KKState.Disconnected })
+    } else if (
+      resultInit.bootloaderVersion !== latestFirmware.bootloader.version &&
+      semver.lt(resultInit.bootloaderVersion, latestFirmware.bootloader.version)
+    ) {
       log.info('KKStateController UPDATE_BOOTLOADER')
-      this.updateState(UPDATE_BOOTLOADER, {
-        bootloaderUpdateNeeded: true,
-        firmware: resultInit.firmwareVersion,
-        bootloader: resultInit.bootloaderVersion,
+      await this.updateState({
+        state: KKState.UpdateBootloader,
+        firmware: resultInit.firmwareVersion ?? '',
+        bootloader: resultInit.bootloaderVersion ?? '',
         recommendedBootloader: latestFirmware.bootloader.version,
         recommendedFirmware: latestFirmware.firmware.version,
-        bootloaderMode: resultInit.bootloaderMode,
+        bootloaderMode: !!resultInit.bootloaderMode,
       })
-    } else if (resultInit.firmwareVersion !== latestFirmware.firmware.version && !this.isOlderVersion(resultInit.firmwareVersion, latestFirmware.firmware.version)) {
+    } else if (
+      resultInit.firmwareVersion !== latestFirmware.firmware.version &&
+      semver.lt(resultInit.firmwareVersion, latestFirmware.firmware.version)
+    ) {
       log.info('KKStateController UPDATE_FIRMWARE')
       log.info('KKStateController UPDATE_FIRMWARE resultInit: ', resultInit)
-      this.updateState(UPDATE_FIRMWARE, {
-        firmwareUpdateNeededNotBootloader: true,
+      await this.updateState({
+        state: KKState.UpdateFirmware,
         firmware: !!resultInit.firmwareVersion ? resultInit.firmwareVersion : 'unknown',
         bootloader: resultInit.bootloaderVersion,
         recommendedBootloader: latestFirmware.bootloader.version,
         recommendedFirmware: latestFirmware.firmware.version,
-        bootloaderMode: resultInit.bootloaderMode,
+        bootloaderMode: !!resultInit.bootloaderMode,
       })
-    } else if (!resultInit?.features?.initialized) {
+    } else if (!resultInit.features.initialized) {
       log.info('KKStateController NEEDS_INITIALIZE')
-      this.updateState(NEEDS_INITIALIZE, {
-        needsInitialize: true,
-      })
+      await this.updateState({ state: KKState.NeedsInitialize })
     } else {
       log.info('KKStateController CONNECTED')
-      this.updateState(CONNECTED, {
-        ready: true,
-      })
+      await this.updateState({ state: KKState.Connected })
     }
+  }
+
+  async nextButtonRequestFinished() {
+    if (!this.wallet) return
+    const transport = this.wallet!.transport
+
+    return await new Promise<void>(resolve => {
+      transport.once(String(Messages.MessageType.MESSAGETYPE_BUTTONACK), () => {
+        const listener = () => {
+          resolve()
+          transport.offAny(listener)
+        }
+        transport.onAny(listener)
+      })
+    })
   }
 }

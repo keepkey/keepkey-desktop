@@ -1,6 +1,8 @@
-import type { KeepKeySDK } from '@keepkey/keepkey-sdk'
+import type { KeepKeySdk } from '@keepkey/keepkey-sdk'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import type { Deferred } from 'common-utils'
 
+import type { Entropy } from './KeepKey/components/RecoverySettings'
 import type { PinMatrixRequestType } from './KeepKey/KeepKeyTypes'
 import type { KeyManager } from './KeyManager'
 import type { Adapters, InitialState, WalletConnectApp, WalletInfo } from './WalletProvider'
@@ -18,8 +20,6 @@ export enum WalletActions {
   SET_WALLET_MODAL = 'SET_WALLET_MODAL',
   RESET_STATE = 'RESET_STATE',
   RESET_LAST_DEVICE_INTERACTION_STATE = 'RESET_LAST_DEVICE_INTERACTION_STATE',
-  SET_LOCAL_WALLET_LOADING = 'SET_LOCAL_WALLET_LOADING',
-  NATIVE_PASSWORD_OPEN = 'NATIVE_PASSWORD_OPEN',
   OPEN_KEEPKEY_PIN = 'OPEN_KEEPKEY_PIN',
   OPEN_KEEPKEY_PASSPHRASE = 'OPEN_KEEPKEY_PASSPHRASE',
   OPEN_KEEPKEY_INITIALIZE = 'OPEN_KEEPKEY_INITIALIZE',
@@ -33,13 +33,16 @@ export enum WalletActions {
   SET_WALLET_CONNECT_APP = 'SET_WALLET_CONNECT_APP',
   SET_KEEPKEY_SDK = 'SET_KEEPKEY_SDK',
   SET_BROWSER_URL = 'SET_BROWSER_URL',
+  OPEN_KEEPKEY_WIPE = 'OPEN_KEEPKEY_WIPE',
+  SET_SHOW_BACK_BUTTON = 'SET_SHOW_BACK_BUTTON',
+  SET_AUTHENTICATOR_ERROR = 'SET_AUTHENTICATOR_ERROR',
 }
 
 export type ActionTypes =
   | { type: WalletActions.SET_ADAPTERS; payload: Adapters }
   | {
       type: WalletActions.SET_WALLET
-      payload: WalletInfo & { isDemoWallet?: boolean; wallet: HDWallet | null }
+      payload: WalletInfo & { wallet: HDWallet | null }
     }
   | { type: WalletActions.SET_IS_CONNECTED; payload: boolean }
   | { type: WalletActions.SET_PROVIDER; payload: InitialState['provider'] }
@@ -47,75 +50,66 @@ export type ActionTypes =
   | { type: WalletActions.SET_CONNECTOR_TYPE; payload: KeyManager }
   | { type: WalletActions.SET_INITIAL_ROUTE; payload: string }
   | { type: WalletActions.SET_WALLET_MODAL; payload: boolean }
-  | { type: WalletActions.SET_LOCAL_WALLET_LOADING; payload: boolean }
   | { type: WalletActions.SET_DEVICE_STATE; payload: Partial<DeviceState> }
   | { type: WalletActions.SET_PIN_REQUEST_TYPE; payload: PinMatrixRequestType }
-  | {
-      type: WalletActions.NATIVE_PASSWORD_OPEN
-      payload: {
-        modal: boolean
-        deviceId: string
-      }
-    }
   | {
       type: WalletActions.OPEN_KEEPKEY_CHARACTER_REQUEST
       payload: {
         characterPos: number | undefined
         wordPos: number | undefined
+        deferred?: Deferred<string | boolean>
       }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_PIN
       payload: {
-        deviceId: string
-        pinRequestType?: PinMatrixRequestType
+        pinRequestType: PinMatrixRequestType
         showBackButton?: boolean
+        deferred: Deferred<string>
       }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_PASSPHRASE
       payload: {
-        deviceId: string
+        deferred: Deferred<string>
       }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_RECOVERY
-      payload: {
-        deviceId: string
-      }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_RECOVERY_SETTINGS
-      payload: {
-        deviceId: string
-      }
     }
   | {
       type: WalletActions.CLEAR_MODAL_CACHE
-      payload: {
-        deviceId: string
-      }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_RECOVERY_SYNTAX_FAILURE
-      payload: {
-        deviceId: string
+      payload?: {
+        label: string
+        recoverWithPassphrase: boolean
+        recoveryEntropy: Entropy
       }
     }
   | { type: WalletActions.RESET_STATE }
   | { type: WalletActions.RESET_LAST_DEVICE_INTERACTION_STATE }
   | {
       type: WalletActions.OPEN_KEEPKEY_INITIALIZE
-      payload: {
-        deviceId: string
-      }
     }
   | {
       type: WalletActions.OPEN_KEEPKEY_LABEL
       payload: {
-        deviceId: string
+        deferred: Deferred<string>
       }
     }
   | { type: WalletActions.SET_WALLET_CONNECT_APP; payload: WalletConnectApp | null }
-  | { type: WalletActions.SET_KEEPKEY_SDK; payload: KeepKeySDK | null }
+  | { type: WalletActions.SET_KEEPKEY_SDK; payload: KeepKeySdk | null }
   | { type: WalletActions.SET_BROWSER_URL; payload: string | null }
+  | { type: WalletActions.SET_AUTHENTICATOR_ERROR; payload: string | null }
+  | {
+      type: WalletActions.OPEN_KEEPKEY_WIPE
+      payload: {
+        preventClose?: boolean
+      }
+    }
+  | { type: WalletActions.SET_SHOW_BACK_BUTTON; payload: boolean }

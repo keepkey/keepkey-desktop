@@ -1,23 +1,22 @@
-import path from 'path'
-import nedb from 'nedb'
-import fs from 'fs'
-import type { Server } from 'http'
-import type { BrowserWindow, IpcMainEvent } from 'electron'
-import * as hidefile from 'hidefile'
-import type { UserType } from './helpers/types'
-import {
-  CONNECTED,
-  DISCONNECTED,
-  HARDWARE_ERROR,
-  KKStateController,
-  NEEDS_INITIALIZE,
-} from './helpers/kk-state-controller'
-import { Settings } from './helpers/settings'
+// import * as Types from '@keepkey/device-protocol/lib/types_pb'
+import type * as core from '@shapeshiftoss/hdwallet-core'
 import AutoLaunch from 'auto-launch'
-import { startTcpBridge, stopTcpBridge } from './tcpBridge'
-import { queueIpcEvent } from './helpers/utils'
+import type { BrowserWindow } from 'electron'
+import { app } from 'electron'
+import fs from 'fs'
+import * as hidefile from 'hidefile'
+import type { Server } from 'http'
+import NedbPromises from 'nedb-promises'
+import path from 'path'
+import type { PinMatrixRequestType2 } from 'types'
+
 import { BridgeLogger } from './helpers/bridgeLogger'
-import log from 'electron-log'
+import { KKStateController } from './helpers/kk-state-controller'
+import type { KKStateData } from './helpers/kk-state-controller/types'
+import { KKState } from './helpers/kk-state-controller/types'
+import { SettingsInstance } from './helpers/settings'
+import { rendererIpc } from './ipcListeners'
+import { createAndUpdateTray } from './tray'
 
 export const assetsDirectory = path.join(__dirname, 'assets')
 export const isMac = process.platform === 'darwin'
@@ -34,25 +33,8 @@ if (!fs.existsSync(dbDirPath)) {
 }
 hidefile.hideSync(dbDirPath)
 
-export const db = new nedb({ filename: dbPath, autoload: true })
+export const db = NedbPromises.create({ filename: dbPath, autoload: true })
 
-export const shared: {
-  USER: UserType
-  eventIPC: IpcMainEvent | null
-  KEEPKEY_FEATURES: Record<string, unknown>
-} = {
-  USER: {
-    online: false,
-    accounts: [],
-    balances: [],
-  },
-  eventIPC: null,
-  KEEPKEY_FEATURES: {},
-}
-
-db.findOne({ type: 'user' }, (_err, doc) => {
-  if (doc) shared.USER = doc.user
-})
 export let server: Server
 export let setServer = (value: Server) => (server = value)
 
@@ -81,30 +63,139 @@ export const windows: {
   splash: undefined,
 }
 
-export const ipcQueue = new Array<{ eventName: string; args: any }>()
-
 export const isWalletBridgeRunning = () =>
-  kkStateController?.lastState === CONNECTED && tcpBridgeRunning
+  kkStateController.data.state === KKState.Connected && tcpBridgeRunning
 
-export const settings = new Settings()
+export const settings = new SettingsInstance()
 export const bridgeLogger = new BridgeLogger()
 
 export const kkAutoLauncher = new AutoLaunch({
   name: 'KeepKey Desktop',
 })
 
-export const kkStateController = new KKStateController(async (eventName: string, args: any) => {
-  console.log('KK STATE', eventName)
-  if (eventName === CONNECTED || eventName === NEEDS_INITIALIZE) {
-    await startTcpBridge()
-  } else if (eventName === DISCONNECTED || eventName === HARDWARE_ERROR) {
-    await stopTcpBridge()
-  }
-  log.info('keepkey state changed: ', eventName, args)
-  return queueIpcEvent(eventName, args)
-})
+export const authenticatorErrors = [
+  // 'Account not found',
+  // 'Slot request out of range',
+  "Authenticator secret can't be decoded",
+  'Authenticator secret storage full',
+  'Auth secret unknown error',
+  'Account name missing or too long, or seed/message string missing',
+  'Authenticator secret seed too large',
+]
 
-export let deviceBusyRead = false
-export let setDeviceBusyRead = (value: boolean) => (deviceBusyRead = value)
-export let deviceBusyWrite = false
-export let setDeviceBusyWrite = (value: boolean) => (deviceBusyWrite = value)
+const redacted = Symbol.for('redacted')
+export const kkStateController = new KKStateController(
+  async function (this: KKStateController, data: KKStateData) {
+    console.log('KK STATE', data)
+    createAndUpdateTray()
+    await (await rendererIpc).updateState(data)
+    if (data.state === 'disconnected') {
+      await (await rendererIpc).modalCloseAll()
+    }
+  },
+  async function (this: KKStateController, vendor: string, deviceId: string, e: string) {
+    console.log('KEYRING EVENT', vendor, deviceId, e)
+  },
+  async function (this: KKStateController, e: core.Event) {
+    console.log('TRANSPORT EVENT', {
+      ...{
+        ...e,
+        date: undefined,
+        ...(e.message_type !== 'PASSPHRASEACK'
+          ? {
+              proto: e.proto?.toObject(),
+            }
+          : {
+              message: redacted,
+              proto: redacted,
+            }),
+      },
+    })
+    switch (e.message_type) {
+      case 'PINMATRIXREQUEST': {
+        const pinRequestType: PinMatrixRequestType2 = e.message.type
+        const pin = await (await rendererIpc).modalPin(pinRequestType).catch(e => {
+          console.error('modalPin error:', e)
+          return undefined
+        })
+        await (await rendererIpc).modalCloseAll()
+        if (pin !== undefined) {
+          await this.wallet!.sendPin(pin)
+        } else {
+          await this.wallet!.cancel()
+        }
+        break
+      }
+      case 'SUCCESS': {
+        if (
+          e.message.message === 'PIN removed' ||
+          e.message.message === 'PIN changed' ||
+          e.message.message === 'Device reset' ||
+          e.message.message === 'Device recovered'
+        ) {
+          //restart app
+          console.log('restarting app')
+          app.relaunch()
+          app.exit()
+        }
+        break
+      }
+      case 'FAILURE': {
+        if (authenticatorErrors.includes(e.message.message)) {
+          await (await rendererIpc).setAuthenticatorError(e.message.message)
+        }
+        break
+      }
+      case 'PASSPHRASEREQUEST': {
+        const passphrase = await (await rendererIpc).modalPassphrase().catch(async e => {
+          console.error('modalPassphrase error:', e)
+          await this.wallet!.cancel()
+          return undefined
+        })
+        try {
+          if (passphrase !== undefined) {
+            const finished = this.nextButtonRequestFinished()
+            await this.wallet!.sendPassphrase(passphrase)
+            await finished
+          } else {
+            await this.wallet!.cancel()
+          }
+        } finally {
+          await (await rendererIpc).modalCloseAll()
+        }
+        break
+      }
+      // case 'BUTTONREQUEST': {
+      //   if (e.message.code === Types.ButtonRequestType.BUTTONREQUEST_ADDRESS) break
+      // }
+      // case 'RECOVERYDEVICE': {
+      //   await (await rendererIpc).modalRecovery()
+      //   break
+      // }
+      case 'CHARACTERREQUEST': {
+        const char = await (await rendererIpc)
+          .modalRecovery(e.message.characterPos, e.message.wordPos)
+          .catch(async e => {
+            console.error('modalRecovery error:', e)
+            await this.wallet!.cancel()
+            return undefined
+          })
+        switch (char) {
+          case undefined:
+            break
+          case true:
+            await this.wallet!.sendCharacterDone()
+            break
+          case false:
+            await this.wallet!.sendCharacterDelete()
+            break
+          default:
+            await this.wallet!.sendCharacter(char)
+        }
+        break
+      }
+      default:
+      // no-op
+    }
+  },
+)

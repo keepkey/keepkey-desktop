@@ -1,20 +1,22 @@
 import { useToast } from '@chakra-ui/react'
 import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
-import { LegacyWCService } from 'kkdesktop/walletconnect'
-import type { FC, PropsWithChildren } from 'react'
-import { useCallback, useEffect, useState } from 'react'
-import { useWallet } from 'hooks/useWallet/useWallet'
-
-import { CallRequestModal } from './components/modal/callRequest/CallRequestModal'
-import { WalletConnectBridgeContext } from './WalletConnectBridgeContext'
-import { getWalletConnect, WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
-import type { CoreTypes, SignClientTypes } from '@walletconnect/types'
-import { SessionProposalModal } from './components/modal/callRequest/SessionProposalModal'
-import { WalletConnectLogic } from 'WalletConnectLogic'
 import LegacyWalletConnect from '@walletconnect/client'
+import type { CoreTypes, SignClientTypes } from '@walletconnect/types'
+import { getSdkError } from '@walletconnect/utils'
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
+import { ipcListeners } from 'electron-shim'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import { LegacyWCService } from 'kkdesktop/walletconnect'
+import { getWalletConnect, WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import type { FC, PropsWithChildren } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { WalletConnectLogic } from 'WalletConnectLogic'
+
+import { CallRequestModal } from './components/modal/callRequest/CallRequestModal'
+import { SessionProposalModal } from './components/modal/callRequest/SessionProposalModal'
+import { WalletConnectBridgeContext } from './WalletConnectBridgeContext'
 
 export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children }) => {
   const wallet = useWallet().state.wallet
@@ -51,20 +53,40 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     [proposals],
   )
 
+  useEffect(() => {
+    if (!requests) return
+    if (requests.length <= 0) ipcListeners.setAlwaysOnTop(false)
+    else if (requests.length >= 1) ipcListeners.setAlwaysOnTop(true)
+  }, [requests])
+
+  useEffect(() => {
+    if (!proposals) return
+    if (proposals.length <= 0) ipcListeners.setAlwaysOnTop(false)
+    else if (proposals.length >= 1) ipcListeners.setAlwaysOnTop(true)
+  }, [proposals])
+
   const [, setTick] = useState(0)
   const rerender = useCallback(() => setTick(prev => prev + 1), [])
 
   const toast = useToast()
 
-  const onDisconnect = useCallback(() => {
-    if (isLegacy && legacyBridge) {
-      legacyBridge.connector.killSession()
+  const onDisconnect = useCallback(async () => {
+    if (isLegacy) {
+      if (legacyBridge) await legacyBridge.disconnect()
+    } else {
+      WalletConnectSignClient.disconnect({
+        topic: currentSessionTopic ?? '',
+        reason: getSdkError('USER_DISCONNECTED'),
+      })
     }
     setIsConnected(false)
+    setIsLegacy(false)
+    setLegacyBridge(undefined)
     setCurrentSessionTopic(undefined)
     setPairingMeta(undefined)
     setLegacyWeb3(undefined)
-  }, [isLegacy, legacyBridge])
+    rerender()
+  }, [currentSessionTopic, isLegacy, legacyBridge, rerender])
 
   useEffect(() => {
     if (!WalletConnectSignClient) return
@@ -77,7 +99,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [WalletConnectSignClient])
 
-  const setLegcyEvents = useCallback(
+  const setLegacyEvents = useCallback(
     (wc: LegacyWCService) => {
       wc.connector.on('call_request', (_e, payload) => {
         console.log('call request', payload)
@@ -111,7 +133,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         })
         web3ByChainId(chainId).then(web3 => {
           if (!web3) return
-          if (legacyWeb3 === undefined) return setLegacyWeb3(web3)
+          if (legacyWeb3 === undefined || legacyWeb3.chainId !== chainId) return setLegacyWeb3(web3)
           if (legacyWeb3.chainId === chainId && web3.service)
             return setLegacyWeb3(web3ByServiceType(web3.service))
         })
@@ -129,7 +151,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         const wc = await getWalletConnect(wallet as ETHWallet, uri)
         if (wc instanceof LegacyWCService) {
           setIsLegacy(true)
-          setLegcyEvents(wc)
+          setLegacyEvents(wc)
           await wc.connect()
           setLegacyBridge(wc)
         } else {
@@ -145,7 +167,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
           new LegacyWalletConnect({ session }),
         )
         setIsLegacy(true)
-        setLegcyEvents(bridgeFromSession)
+        setLegacyEvents(bridgeFromSession)
         await bridgeFromSession.connect()
         setIsConnected(bridgeFromSession.connector.connected)
         web3ByChainId(Number(bridgeFromSession.connector.chainId)).then(setLegacyWeb3)
@@ -153,9 +175,12 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
           setPairingMeta(bridgeFromSession.connector.peerMeta)
 
         setLegacyBridge(bridgeFromSession)
+
+        // onDisconnect()
+        // localStorage.removeItem('walletconnect')
       }
     },
-    [isConnected, isLegacy, legacyBridge, setLegcyEvents, wallet],
+    [isConnected, isLegacy, legacyBridge, setLegacyEvents, wallet],
   )
 
   useEffect(() => {
@@ -165,6 +190,8 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
   }, [wallet])
 
   const dapp = pairingMeta
+
+  console.log(legacyBridge)
 
   return (
     <WalletConnectBridgeContext.Provider

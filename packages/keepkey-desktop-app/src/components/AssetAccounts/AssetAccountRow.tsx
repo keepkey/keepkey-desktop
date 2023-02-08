@@ -8,20 +8,20 @@ import {
   useColorModeValue,
   useMediaQuery,
 } from '@chakra-ui/react'
-import type { AssetId } from '@keepkey/caip'
-import { fromAssetId } from '@keepkey/caip'
-import { useMemo } from 'react'
-import { generatePath, Link } from 'react-router-dom'
+import type { AssetId } from '@shapeshiftoss/caip'
+import { fromAssetId } from '@shapeshiftoss/caip'
 import { Allocations } from 'components/AccountRow/Allocations'
 import { Amount } from 'components/Amount/Amount'
 import { AssetIcon } from 'components/AssetIcon'
 import { RawText } from 'components/Text'
+import { useMemo } from 'react'
+import { generatePath, Link } from 'react-router-dom'
 import type { AccountSpecifier } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
 import { accountIdToFeeAssetId, accountIdToLabel } from 'state/slices/portfolioSlice/utils'
 import {
   selectAssetById,
-  selectCryptoHumanBalanceIncludingStakingByFilter,
-  selectFiatBalanceIncludingStakingByFilter,
+  selectCryptoHumanBalanceByFilter,
+  selectFiatBalanceByFilter,
   selectPortfolioAllocationPercentByFilter,
 } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
@@ -55,10 +55,8 @@ export const AssetAccountRow = ({
 
   const filter = useMemo(() => ({ assetId: rowAssetId, accountId }), [rowAssetId, accountId])
 
-  const fiatBalance = useAppSelector(s => selectFiatBalanceIncludingStakingByFilter(s, filter))
-  const cryptoHumanBalance = useAppSelector(s =>
-    selectCryptoHumanBalanceIncludingStakingByFilter(s, filter),
-  )
+  const fiatBalance = useAppSelector(s => selectFiatBalanceByFilter(s, filter))
+  const cryptoHumanBalance = useAppSelector(s => selectCryptoHumanBalanceByFilter(s, filter))
   const allocation = useAppSelector(state =>
     selectPortfolioAllocationPercentByFilter(state, { accountId, assetId: rowAssetId }),
   )

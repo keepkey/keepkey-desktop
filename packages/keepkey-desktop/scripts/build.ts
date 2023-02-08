@@ -2,12 +2,11 @@
 
 import 'dotenv/config'
 
+import { dirnamePlugin, workspacePlugin } from '@keepkey/common-esbuild-bits'
+import * as esbuild from 'esbuild'
 import * as fs from 'fs'
 import * as path from 'path'
-import * as esbuild from 'esbuild'
 import * as pnpapi from 'pnpapi'
-import { generateSpecAndRoutes } from '@tsoa/cli'
-import { dirnamePlugin, workspacePlugin } from '@keepkey/common-esbuild-bits'
 
 process.env.NODE_ENV ??= 'production'
 const isDev = process.env.NODE_ENV === 'production'
@@ -20,23 +19,25 @@ const appSource = path.join(
   'build',
 )
 const assetsSource = path.join(workspacePath, 'assets')
+const swaggerUiDistSource = pnpapi.resolveToUnqualified('swagger-ui-dist', workspacePath)!
+const firmwareSource = path.join(rootPath, 'firmware')
 
-const tsoaPath = path.join(buildPath, 'api')
+const apiPath = path.join(buildPath, 'api')
 const appPath = path.join(buildPath, 'app')
 const assetsPath = path.join(buildPath, 'assets')
 const nativeModulesPath = path.join(buildPath, 'native_modules')
+const swaggerUiDistPath = path.join(buildPath, 'swagger-ui-dist')
+const firmwarePath = path.join(buildPath, 'firmware')
 
 const sanitizeBuildDir = async () => {
   await fs.promises.rm(buildPath, { recursive: true, force: true })
   await fs.promises.mkdir(buildPath, { recursive: true })
-  await fs.promises.mkdir(tsoaPath, { recursive: true })
+  await fs.promises.mkdir(apiPath, { recursive: true })
   await fs.promises.mkdir(appPath, { recursive: true })
   await fs.promises.mkdir(assetsPath, { recursive: true })
   await fs.promises.mkdir(nativeModulesPath, { recursive: true })
-}
-
-const buildApi = async () => {
-  await generateSpecAndRoutes({ json: true })
+  await fs.promises.mkdir(swaggerUiDistPath, { recursive: true })
+  await fs.promises.mkdir(firmwarePath, { recursive: true })
 }
 
 const collectDefines = async () => {
@@ -61,6 +62,37 @@ const copyAssetsDir = async () => {
     dereference: true,
     recursive: true,
   })
+}
+
+const copySwaggerUiDist = async () => {
+  await fs.promises.cp(swaggerUiDistSource, swaggerUiDistPath, {
+    dereference: true,
+    recursive: true,
+  })
+}
+
+const copyFirmware = async () => {
+  const releases = JSON.parse(
+    (await fs.promises.readFile(path.join(firmwareSource, 'releases.json'))).toString('utf8'),
+  )
+  const copyItem = async (item: string) => {
+    const src = path.join(firmwareSource, item)
+    const dst = path.join(firmwarePath, item)
+    await fs.promises.mkdir(path.dirname(dst), {
+      recursive: true,
+    })
+    await fs.promises.cp(src, dst, {
+      dereference: true,
+      recursive: true,
+    })
+  }
+  await Promise.all([
+    copyItem('releases.json'),
+    copyItem(releases.latest.firmware.url),
+    copyItem(releases.latest.bootloader.url),
+    copyItem(releases.beta.firmware.url),
+    copyItem(releases.beta.bootloader.url),
+  ])
 }
 
 const copyPrebuilds = async (packages: string[]) => {
@@ -112,7 +144,10 @@ const runEsbuild = async (
       '.wav': 'file',
     },
     entryPoints: [path.join(workspacePath, '/src/main.ts')],
-    plugins: await Promise.all([dirnamePlugin(dirnameRules), workspacePlugin(rootPath)]),
+    plugins: await Promise.all([
+      dirnamePlugin(dirnameRules),
+      workspacePlugin(rootPath, workspacePath),
+    ]),
     sourcemap: isDev ? 'linked' : undefined,
     legalComments: isDev ? 'linked' : undefined,
     minify: !isDev,
@@ -131,7 +166,11 @@ const runEsbuild = async (
 export const build = async () => {
   await sanitizeBuildDir()
 
-  await buildApi()
+  const specPath = path.join(
+    pnpapi.resolveToUnqualified('keepkey-sdk-server', workspacePath)!,
+    'dist/swagger.json',
+  )
+  await fs.promises.copyFile(specPath, path.join(apiPath, 'swagger.json'))
 
   const esbuild = collectDefines().then(defines =>
     runEsbuild(
@@ -154,6 +193,7 @@ export const build = async () => {
         ['node_modules/tiny-secp256k1/native.js', 'native_modules/tiny-secp256k1'],
         ['node_modules/fsevents/fsevents.js', 'native_modules/fsevents'],
         ['node_modules/fswin/index.js', 'native_modules/fswin'],
+        ['node_modules/swagger-ui-dist/absolute-path.js', 'swagger-ui-dist'],
       ],
     ),
   )
@@ -182,6 +222,8 @@ export const build = async () => {
     ]),
     copyAppDir(),
     copyAssetsDir(),
+    copySwaggerUiDist(),
+    copyFirmware(),
     esbuild.then(async x => {
       if (isDev) {
         await fs.promises.writeFile(

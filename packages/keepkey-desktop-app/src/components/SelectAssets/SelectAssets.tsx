@@ -1,9 +1,9 @@
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { IconButton, ModalBody, ModalCloseButton, ModalHeader, Stack } from '@chakra-ui/react'
-import { useTranslate } from 'react-polyglot'
-import type { RouteComponentProps } from 'react-router-dom'
 import { AssetSearch } from 'components/AssetSearch/AssetSearch'
 import { SlideTransition } from 'components/SlideTransition'
+import { useTranslate } from 'react-polyglot'
+import type { RouteComponentProps } from 'react-router-dom'
 
 export type Asset = {}
 

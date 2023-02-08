@@ -1,8 +1,8 @@
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { Center } from '@chakra-ui/layout'
 import { Flex, IconButton, Stack, Text, useColorModeValue } from '@chakra-ui/react'
-import { upperFirst } from 'lodash'
 import { useMenuRoutes } from 'components/Layout/Header/NavBar/hooks/useMenuRoutes'
+import { upperFirst } from 'lodash'
 
 type ExpandedMenuItemProps = {
   title?: string

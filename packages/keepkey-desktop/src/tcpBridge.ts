@@ -1,4 +1,23 @@
+import bodyParser from 'body-parser'
+import cors from 'cors'
+import log from 'electron-log'
+import express from 'express'
+import type { PairingProps } from 'keepkey-desktop-app/src/components/Modals/Pair/types'
 import {
+  addMiddleware,
+  RegisterRoutes,
+  setSdkClientFactory,
+  setSdkPairingHandler,
+} from 'keepkey-sdk-server'
+import type { PairingInfo } from 'keepkey-sdk-server/dist/auth/sdkClient'
+import path from 'path'
+import swaggerUi from 'swagger-ui-express'
+import * as util from 'util'
+import * as uuid from 'uuid'
+
+import {
+  db,
+  kkStateController,
   server,
   setServer,
   setTcpBridgeClosing,
@@ -8,15 +27,9 @@ import {
   tcpBridgeRunning,
   tcpBridgeStarting,
 } from './globalState'
-import { RegisterRoutes } from './helpers/routes/routes'
-import swaggerUi from 'swagger-ui-express'
-import express from 'express'
-import bodyParser from 'body-parser'
-import cors from 'cors'
-import path from 'path'
-import log from 'electron-log'
+import { logger } from './helpers/middlewares/logger'
+import { rendererIpc } from './ipcListeners'
 import { createAndUpdateTray } from './tray'
-import { promisify } from 'util'
 
 export const startTcpBridge = async (port?: number) => {
   if (tcpBridgeRunning || tcpBridgeStarting) return
@@ -36,6 +49,47 @@ export const startTcpBridge = async (port?: number) => {
   //swagger.json
   appExpress.use('/spec', express.static(path.join(__dirname, 'api')))
 
+  addMiddleware(logger)
+  setSdkPairingHandler(async (info: PairingInfo) => {
+    const apiKey = uuid.v4()
+    console.log('approving pairing request', info, apiKey)
+    // await promptUser(){}
+    let input = {
+      type: 'native',
+      data: info,
+    } satisfies PairingProps
+    let result = await (await rendererIpc).modalPair(input)
+    console.log('PAIR RESULT: ', result)
+    if (result) {
+      console.log('USER APPROVED!')
+      info.addedOn = Date.now()
+      await db.insertOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
+        type: 'sdk-pairing',
+        apiKey,
+        info,
+      })
+      return apiKey
+    } else {
+      return 'rejected'
+    }
+  })
+  setSdkClientFactory(async (apiKey: string) => {
+    const doc = await db.findOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
+      type: 'sdk-pairing',
+      apiKey,
+    })
+    if (!doc) return undefined
+
+    const wallet = kkStateController.wallet
+    if (!wallet) throw new Error('wallet not set')
+
+    return {
+      apiKey: doc.apiKey,
+      wallet,
+      info: doc.info,
+      logger: console.log.bind(console),
+    }
+  })
   RegisterRoutes(appExpress)
 
   await new Promise(resolve => setServer(appExpress.listen(API_PORT, () => resolve(true))))
@@ -54,8 +108,12 @@ export const stopTcpBridge = async () => {
 
   if (server) {
     log.info('Stopping TCP bridge...')
-    await promisify(server.close)()
-    log.info('TCP bridge stopped.')
+    try {
+      await util.promisify(server.close.bind(server))()
+      log.info('TCP bridge stopped.')
+    } catch (e) {
+      log.warn('Error stopping TCP bridge:', e)
+    }
   }
 
   setTcpBridgeRunning(false)

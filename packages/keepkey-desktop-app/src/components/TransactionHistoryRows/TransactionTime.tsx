@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
 import { RawText } from 'components/Text'
+import dayjs from 'dayjs'
 import { selectSelectedLocale } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 

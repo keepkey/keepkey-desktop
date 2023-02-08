@@ -1,27 +1,28 @@
-import type { Asset } from '@keepkey/asset-service'
-import { useHistory } from 'react-router-dom'
+import { Heading, Stack } from '@chakra-ui/layout'
+import type { Asset } from '@shapeshiftoss/asset-service'
 import { AssetSearchKK } from 'components/AssetSearchKK/AssetSearchKK'
 import { Main } from 'components/Layout/Main'
-import { Stack, Heading } from '@chakra-ui/layout'
 import { Text } from 'components/Text'
+import { useHistory } from 'react-router-dom'
 
 export const Assets = () => {
   const history = useHistory()
   const onClick = (asset: Asset) => {
-    const isKeepkeyAsset = asset.assetId.startsWith('keepkey')
+    // const isKeepkeyAsset = asset.assetId.startsWith('keepkey')
 
-    const routeAssetId = isKeepkeyAsset ? `${asset.chainId}/${asset.assetId}` : asset.assetId
+    const routeAssetId = asset.assetId
 
     // AssetId has a `/` separator so the router will have to parse 2 variables
     // e.g., /assets/:chainId/:assetSubId
-    const url = !isKeepkeyAsset ? `/assets/${routeAssetId}` : `/assets/keepkey/${routeAssetId}`
+    const url = `/assets/keepkey/${routeAssetId}/${routeAssetId}`
+    // const url = `/assets/keepkey/${routeAssetId}`
     history.push({ pathname: url })
   }
   return (
     <Main
       display='flex'
       flexDir='column'
-      height='calc(100vh - 72px)'
+      flexGrow='1'
       titleComponent={
         <Stack pb={4}>
           <Heading>

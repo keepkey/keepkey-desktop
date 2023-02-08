@@ -19,15 +19,9 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
-import type { AccountId } from '@keepkey/caip'
-import { CHAIN_NAMESPACE, fromChainId } from '@keepkey/caip'
-import { KnownChainIds } from '@keepkey/types'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslate } from 'react-polyglot'
-import type { RouteComponentProps } from 'react-router-dom'
-import { useHistory } from 'react-router-dom'
-import { useEnsName } from 'wagmi'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import type { AccountId } from '@shapeshiftoss/caip'
+import { CHAIN_NAMESPACE, fromChainId } from '@shapeshiftoss/caip'
 import { AccountDropdown } from 'components/AccountDropdown/AccountDropdown'
 import { Card } from 'components/Card/Card'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
@@ -36,6 +30,10 @@ import { Text } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { getPubFromAccountID } from 'lib/utils'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useTranslate } from 'react-polyglot'
+import type { RouteComponentProps } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { selectPortfolioAccountMetadataByAccountId } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 
@@ -67,13 +65,6 @@ export const ReceiveInfo = ({ asset, accountId }: ReceivePropsType) => {
   const accountType = accountMetadata?.accountType
   const bip44Params = accountMetadata?.bip44Params
 
-  const { data: ensName, isSuccess: isEnsNameLoaded } = useEnsName({
-    address: receiveAddress,
-    enabled: asset.chainId === KnownChainIds.EthereumMainnet,
-    cacheTime: Infinity, // Cache a given ENS reverse resolution response infinitely for the lifetime of a tab / until app reload
-    staleTime: Infinity, // Cache a given ENS reverse resolution query infinitely for the lifetime of a tab / until app reload
-  })
-
   const dontShowXPub = ['eth', 'atom', 'rune']
 
   useEffect(() => {
@@ -104,12 +95,6 @@ export const ReceiveInfo = ({ asset, accountId }: ReceivePropsType) => {
     chainAdapter,
     bip44Params,
   ])
-
-  useEffect(() => {
-    if (isEnsNameLoaded && ensName) {
-      setEnsReceiveAddress(ensName)
-    }
-  }, [ensName, isEnsNameLoaded])
 
   const handleVerify = async () => {
     if (!(wallet && chainAdapter && receiveAddress)) return
@@ -275,31 +260,24 @@ export const ReceiveInfo = ({ asset, accountId }: ReceivePropsType) => {
                 </Circle>
                 <Text translation='modals.receive.copy' />
               </Button>
-              {!(wallet.getVendor() === 'Native') ? (
-                <Button
-                  color={verified ? 'green.500' : verified === false ? 'red.500' : 'gray.500'}
-                  flexDir='column'
-                  role='group'
-                  variant='link'
-                  isDisabled={!(shouldUseXpub ? xpub : receiveAddress)}
-                  _hover={{ textDecoration: 'none', color: hoverColor }}
-                  onClick={handleVerify}
-                >
-                  <Circle
-                    bg={bg}
-                    mb={2}
-                    size='40px'
-                    _groupHover={{ bg: 'blue.500', color: 'white' }}
-                  >
-                    {verified ? <CheckIcon /> : <ViewIcon />}
-                  </Circle>
-                  <Text
-                    translation={`modals.receive.${
-                      verified ? 'verified' : verified === false ? 'notVerified' : 'verify'
-                    }`}
-                  />
-                </Button>
-              ) : undefined}
+              <Button
+                color={verified ? 'green.500' : verified === false ? 'red.500' : 'gray.500'}
+                flexDir='column'
+                role='group'
+                variant='link'
+                isDisabled={!(shouldUseXpub ? xpub : receiveAddress)}
+                _hover={{ textDecoration: 'none', color: hoverColor }}
+                onClick={handleVerify}
+              >
+                <Circle bg={bg} mb={2} size='40px' _groupHover={{ bg: 'blue.500', color: 'white' }}>
+                  {verified ? <CheckIcon /> : <ViewIcon />}
+                </Circle>
+                <Text
+                  translation={`modals.receive.${
+                    verified ? 'verified' : verified === false ? 'notVerified' : 'verify'
+                  }`}
+                />
+              </Button>
               <Button
                 as={Link}
                 href={`${asset?.explorerAddressLink}${receiveAddress}`}

@@ -1,39 +1,20 @@
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  Button,
-  Input,
-  ModalBody,
-  ModalHeader,
-} from '@chakra-ui/react'
-import { useRef, useState } from 'react'
+import { Button, Input, ModalBody, ModalHeader } from '@chakra-ui/react'
+import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { Text } from 'components/Text'
-import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useCallback, useRef, useState } from 'react'
 
-export const KeepKeyPassphrase = ({ deviceId }: { deviceId: string }) => {
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
-  const { state, dispatch } = useWallet()
-  const wallet = state.keyring.get(deviceId)
-
+export const KeepKeyPassphrase = () => {
+  const {
+    state: { passphraseDeferred: deferred },
+  } = useWallet()
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(() => {
     setLoading(true)
-    const passphrase = inputRef.current?.value
-    try {
-      // The event handler will pick up the response to the sendPin request
-      await wallet?.sendPassphrase(passphrase ?? '')
-      setError(null)
-      dispatch({ type: WalletActions.SET_WALLET_MODAL, payload: false })
-    } catch (e) {
-      setError('modals.keepKey.passphrase.error')
-    } finally {
-      setLoading(false)
-    }
-  }
+    deferred?.resolve(inputRef.current?.value ?? '')
+  }, [inputRef, deferred])
 
   return (
     <>
@@ -42,27 +23,27 @@ export const KeepKeyPassphrase = ({ deviceId }: { deviceId: string }) => {
       </ModalHeader>
       <ModalBody>
         <Text color='gray.500' translation={'modals.keepKey.passphrase.body'} />
-        <Input
-          type='password'
-          ref={inputRef}
-          size='lg'
-          variant='filled'
-          mt={3}
-          mb={6}
-          autoFocus={true}
-          autoComplete='current-password'
+        <form onSubmit={handleSubmit}>
+          <Input
+            type='password'
+            ref={inputRef}
+            size='lg'
+            variant='filled'
+            mt={3}
+            mb={6}
+            autoFocus={true}
+            autoComplete='current-password'
+            disabled={loading}
+          />
+          <Button width='full' size='lg' colorScheme='blue' type='submit' disabled={loading}>
+            <Text translation={'modals.keepKey.passphrase.button'} />
+          </Button>
+        </form>
+        <AwaitKeepKey
+          translation={'modals.keepKey.passphrase.bodyConfirm'}
+          noCancel={true}
+          awaitingDeviceInteraction={loading}
         />
-        {error && (
-          <Alert status='error'>
-            <AlertIcon />
-            <AlertDescription>
-              <Text translation={error} />
-            </AlertDescription>
-          </Alert>
-        )}
-        <Button width='full' size='lg' colorScheme='blue' onClick={handleSubmit} disabled={loading}>
-          <Text translation={'modals.keepKey.passphrase.button'} />
-        </Button>
       </ModalBody>
     </>
   )

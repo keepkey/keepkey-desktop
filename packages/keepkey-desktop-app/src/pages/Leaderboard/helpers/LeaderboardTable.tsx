@@ -1,11 +1,11 @@
 import { Skeleton } from '@chakra-ui/react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import type { Column, Row } from 'react-table'
 import { ReactTable } from 'components/ReactTable/ReactTable'
 import { RawText } from 'components/Text'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import type { Column, Row } from 'react-table'
 
 import { AssetCell } from './Cells'
 type RowProps = Row<any>

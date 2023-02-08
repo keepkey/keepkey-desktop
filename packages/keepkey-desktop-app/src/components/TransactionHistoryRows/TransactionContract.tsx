@@ -1,8 +1,8 @@
-import { TransferType } from '@keepkey/unchained-client'
-import { useMemo } from 'react'
-import { useTranslate } from 'react-polyglot'
+import { TransferType } from '@shapeshiftoss/unchained-client'
 import { ContractMethod, Direction } from 'hooks/useTxDetails/useTxDetails'
 import { bn } from 'lib/bignumber/bignumber'
+import { useMemo } from 'react'
+import { useTranslate } from 'react-polyglot'
 import { selectAssetById } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 

@@ -1,22 +1,22 @@
-/* eslint-disable @keepkey/logger/no-native-console */
 import type { ComponentWithAs, IconProps } from '@chakra-ui/react'
-import type { KeepKeySDK } from '@keepkey/keepkey-sdk'
-import { getKeepKeySDK } from '@keepkey/keepkey-sdk'
+import { KeepKeySdk } from '@keepkey/keepkey-sdk'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { Keyring } from '@shapeshiftoss/hdwallet-core'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import type { WalletConnectProviderConfig } from '@shapeshiftoss/hdwallet-walletconnect'
 import type WalletConnectProvider from '@walletconnect/web3-provider'
-import * as uuid from 'uuid'
-import { ipcRenderer } from 'electron-shim'
-import type { providers } from 'ethers'
+import kkIconBlack from 'assets/kk-icon-black.png'
+import type { Deferred } from 'common-utils'
+import type { Entropy } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
+import { VALID_ENTROPY } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
+import { KeepKeyRoutes } from 'context/WalletProvider/routes'
+import { randomUUID } from 'crypto'
+import { ipcListeners } from 'electron-shim'
+import { logger } from 'lib/logger'
 import debounce from 'lodash/debounce'
 import omit from 'lodash/omit'
 import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react'
-import type { Entropy } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
-import { VALID_ENTROPY } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
-import { useKeepKeyEventHandler } from 'context/WalletProvider/KeepKey/hooks/useKeepKeyEventHandler'
-import { KeepKeyRoutes } from 'context/WalletProvider/routes'
-import { logger } from 'lib/logger'
+import * as uuid from 'uuid'
 
 import type { ActionTypes } from './actions'
 import { WalletActions } from './actions'
@@ -63,8 +63,8 @@ export type DeviceState = {
   recoveryEntropy: Entropy
   recoveryCharacterIndex: number | undefined
   recoveryWordIndex: number | undefined
-  isUpdatingPin: boolean | undefined
   isDeviceLoading: boolean | undefined
+  recoveryDeferred?: Deferred<string | boolean>
 }
 
 const initialDeviceState: DeviceState = {
@@ -75,10 +75,8 @@ const initialDeviceState: DeviceState = {
   recoveryEntropy: VALID_ENTROPY[0],
   recoveryCharacterIndex: undefined,
   recoveryWordIndex: undefined,
-  isUpdatingPin: false,
   isDeviceLoading: false,
 }
-export type MetaMaskLikeProvider = providers.Web3Provider & { isTally?: boolean }
 
 export interface InitialState {
   keyring: Keyring
@@ -89,18 +87,25 @@ export interface InitialState {
   walletInfo: WalletInfo | null
   isConnected: boolean
   isUpdatingKeepkey: boolean
-  isDemoWallet: boolean
-  provider: MetaMaskLikeProvider | WalletConnectProvider | null
+  provider: WalletConnectProvider | null
   isLocked: boolean
   modal: boolean
-  isLoadingLocalWallet: boolean
   deviceId: string
   showBackButton: boolean
   keepKeyPinRequestType: PinMatrixRequestType | null
   deviceState: DeviceState
   disconnectOnCloseModal: boolean
-  keepkeySdk: KeepKeySDK | null
+  keepkeySdk: KeepKeySdk | null
   browserUrl: string | null
+  pinDeferred?: Deferred<string>
+  passphraseDeferred?: Deferred<string>
+  labelDeferred?: Deferred<string>
+  authenticatorError: string | null
+  recoveryOptions?: {
+    label: string
+    recoverWithPassphrase: boolean
+    recoveryEntropy: string
+  }
 }
 
 const initialState: InitialState = {
@@ -111,11 +116,9 @@ const initialState: InitialState = {
   initialRoute: null,
   walletInfo: null,
   isConnected: false,
-  isDemoWallet: false,
   provider: null,
   isLocked: false,
   modal: false,
-  isLoadingLocalWallet: false,
   deviceId: '',
   showBackButton: true,
   keepKeyPinRequestType: null,
@@ -124,6 +127,7 @@ const initialState: InitialState = {
   keepkeySdk: null,
   browserUrl: null,
   isUpdatingKeepkey: false,
+  authenticatorError: null,
 }
 
 export const isKeyManagerWithProvider = (keyManager: KeyManager | null) => Boolean(keyManager)
@@ -135,7 +139,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
     case WalletActions.SET_WALLET:
       return {
         ...state,
-        isDemoWallet: Boolean(action.payload.isDemoWallet),
         wallet: action.payload.wallet,
         walletInfo: {
           name: action?.payload?.name,
@@ -163,6 +166,8 @@ const reducer = (state: InitialState, action: ActionTypes) => {
       return { ...state, keepKeyPinRequestType: action.payload }
     case WalletActions.SET_KEEPKEY_SDK:
       return { ...state, keepkeySdk: action.payload }
+    case WalletActions.SET_AUTHENTICATOR_ERROR:
+      return { ...state, authenticatorError: action.payload }
     case WalletActions.SET_DEVICE_STATE: {
       const { deviceState } = state
       const {
@@ -171,7 +176,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         disposition = deviceState.disposition,
         recoverWithPassphrase = deviceState.recoverWithPassphrase,
         recoveryEntropy = deviceState.recoveryEntropy,
-        isUpdatingPin = deviceState.isUpdatingPin,
         isDeviceLoading = deviceState.isDeviceLoading,
       } = action.payload
       return {
@@ -183,36 +187,39 @@ const reducer = (state: InitialState, action: ActionTypes) => {
           disposition,
           recoverWithPassphrase,
           recoveryEntropy,
-          isUpdatingPin,
           isDeviceLoading,
         },
       }
     }
-    case WalletActions.SET_WALLET_MODAL:
+    case WalletActions.SET_WALLET_MODAL: {
       const newState = { ...state, modal: action.payload }
       // If we're closing the modal, then we need to forget the route we were on
       // Otherwise the connect button for last wallet we clicked on won't work
       if (!action.payload && state.modal) {
         newState.initialRoute = '/'
-        newState.isLoadingLocalWallet = false
         newState.showBackButton = true
         newState.keepKeyPinRequestType = null
       }
       return newState
+    }
     case WalletActions.OPEN_KEEPKEY_PIN: {
-      const { showBackButton, deviceId, pinRequestType } = action.payload
+      const { showBackButton, pinRequestType, deferred } = action.payload
       return {
         ...state,
         modal: true,
         type: KeyManager.KeepKey,
         showBackButton: showBackButton ?? false,
-        deviceId,
         keepKeyPinRequestType: pinRequestType ?? null,
         initialRoute: KeepKeyRoutes.Pin,
+        pinDeferred: deferred,
       }
     }
     case WalletActions.OPEN_KEEPKEY_CHARACTER_REQUEST: {
-      const { characterPos: recoveryCharacterIndex, wordPos: recoveryWordIndex } = action.payload
+      const {
+        characterPos: recoveryCharacterIndex,
+        wordPos: recoveryWordIndex,
+        deferred: recoveryDeferred,
+      } = action.payload
       const { deviceState } = state
       return {
         ...state,
@@ -224,18 +231,21 @@ const reducer = (state: InitialState, action: ActionTypes) => {
           ...deviceState,
           recoveryCharacterIndex,
           recoveryWordIndex,
+          recoveryDeferred,
         },
       }
     }
-    case WalletActions.OPEN_KEEPKEY_PASSPHRASE:
+    case WalletActions.OPEN_KEEPKEY_PASSPHRASE: {
+      const { deferred } = action.payload
       return {
         ...state,
         modal: true,
         type: KeyManager.KeepKey,
         showBackButton: false,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.Passphrase,
+        passphraseDeferred: deferred,
       }
+    }
     case WalletActions.OPEN_KEEPKEY_INITIALIZE:
       return {
         ...state,
@@ -243,25 +253,25 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         showBackButton: false,
         disconnectOnCloseModal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.FactoryState,
       }
-    case WalletActions.OPEN_KEEPKEY_LABEL:
+    case WalletActions.OPEN_KEEPKEY_LABEL: {
+      const { deferred } = action.payload
       return {
         ...state,
         modal: true,
         showBackButton: false,
         disconnectOnCloseModal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.NewLabel,
+        labelDeferred: deferred,
       }
+    }
     case WalletActions.OPEN_KEEPKEY_RECOVERY:
       return {
         ...state,
         modal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.NewRecoverySentence,
       }
     case WalletActions.OPEN_KEEPKEY_RECOVERY_SETTINGS:
@@ -271,7 +281,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         showBackButton: false,
         disconnectOnCloseModal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.RecoverySettings,
       }
     case WalletActions.OPEN_KEEPKEY_RECOVERY_SYNTAX_FAILURE:
@@ -279,7 +288,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         ...state,
         modal: true,
         type: KeyManager.KeepKey,
-        deviceId: action.payload.deviceId,
         initialRoute: KeepKeyRoutes.RecoverySentenceInvalid,
       }
     case WalletActions.CLEAR_MODAL_CACHE:
@@ -287,13 +295,27 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         ...state,
         modal: false,
         initialRoute: '/',
-        isLoadingLocalWallet: false,
         showBackButton: true,
         keepKeyPinRequestType: null,
         keyring: new Keyring(),
       }
-    case WalletActions.SET_LOCAL_WALLET_LOADING:
-      return { ...state, isLoadingLocalWallet: action.payload }
+    case WalletActions.OPEN_KEEPKEY_WIPE: {
+      const { preventClose } = action.payload
+      return {
+        ...state,
+        modal: true,
+        type: KeyManager.KeepKey,
+        initialRoute: KeepKeyRoutes.Wipe,
+        showBackButton: !preventClose,
+      }
+    }
+    case WalletActions.SET_SHOW_BACK_BUTTON: {
+      const showBackButton = action.payload
+      return {
+        ...state,
+        showBackButton,
+      }
+    }
     case WalletActions.RESET_STATE:
       const resetProperties = omit(initialState, ['adapters', 'modal', 'deviceId'])
       return { ...state, ...resetProperties }
@@ -313,26 +335,6 @@ const reducer = (state: InitialState, action: ActionTypes) => {
   }
 }
 
-function playSound(type: any) {
-  if (type === 'send') {
-    const audio = new Audio(require('../../assets/sounds/send.mp3'))
-    audio.play()
-  }
-  if (type === 'receive') {
-    const audio = new Audio(require('../../assets/sounds/chaching.mp3'))
-    audio.play()
-  }
-  if (type === 'success') {
-    const audio = new Audio(require('../../assets/sounds/success.wav'))
-    audio.play()
-  }
-  if (type === 'fail') {
-    //eww nerf
-    // const audio = new Audio(require('../../assets/sounds/fail.mp3'))
-    // audio.play()
-  }
-}
-
 export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   // External, exposed state to be consumed with useWallet()
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -341,11 +343,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   // to know we are in the process of updating bootloader or firmware
   // so we dont unintentionally show the keepkey error modal while updating
   const [isUpdatingKeepkey, setIsUpdatingKeepkey] = useState(false)
-
-  // is keepkey device currently being interacted with
-  const [deviceBusy, setDeviceBusy] = useState(false)
-
-  const [desiredLabel, setDesiredLabel] = useState('')
 
   const disconnect = useCallback(async () => {
     /**
@@ -360,24 +357,27 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
 
   const pairAndConnect = useRef(
     debounce(async () => {
+      console.log('pairAndConnect')
+      const sdk = await getsdk()
       const adapters: Adapters = new Map()
-      let options: undefined | { portisAppId: string } | WalletConnectProviderConfig
+      let options: undefined | WalletConnectProviderConfig
       for (const walletName of Object.values(KeyManager)) {
         try {
           const adapter = SUPPORTED_WALLETS[walletName].adapter.useKeyring(state.keyring, options)
-          const wallet = await adapter.pairDevice('http://localhost:1646')
+          const wallet: KeepKeyHDWallet = await adapter.pairDevice(sdk)
           adapters.set(walletName, adapter)
           dispatch({ type: WalletActions.SET_ADAPTERS, payload: adapters })
           const { name, icon } = KeepKeyConfig
           const deviceId = await wallet.getDeviceID()
           // Show the label from the wallet instead of a generic name
           const label = (await wallet.getLabel()) || name
-          await wallet.initialize()
           dispatch({
             type: WalletActions.SET_WALLET,
             payload: { wallet, name: label, icon, deviceId, meta: { label } },
           })
-          dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
+          if ((await wallet.getFeatures()).initialized) {
+            dispatch({ type: WalletActions.SET_IS_CONNECTED, payload: true })
+          }
           /**
            * The real deviceId of KeepKey wallet could be different from the
            * deviceId recieved from the wallet, so we need to keep
@@ -386,104 +386,52 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
           setLocalWalletTypeAndDeviceId(KeyManager.KeepKey, state.keyring.getAlias(deviceId))
         } catch (e) {
           moduleLogger.error(e, 'Error initializing HDWallet adapters')
+          disconnect()
         }
       }
     }, 2000),
   )
 
-  const startBridgeListeners = useCallback(() => {
-    ipcRenderer.on('@walletconnect/paired', (_event, data) => {
-      dispatch({ type: WalletActions.SET_WALLET_CONNECT_APP, payload: data })
-    })
-
-    //listen to events on main
-    ipcRenderer.on('hardware', (_event, data) => {
-      switch (data.event.event) {
-        case 'connect':
-          playSound('success')
-          break
-        case 'disconnect':
-          playSound('fail')
-          break
-        default:
-      }
-    })
-
-    ipcRenderer.on('needsInitialize', () => {
-      // if needs initialize we do the normal pair process and then web detects that it needs initialize
-      pairAndConnect.current()
-    })
-
-    //HDwallet API
-    //TODO moveme into own file
-    ipcRenderer.on('@hdwallet/osmosisGetAddress', async (_event, data) => {
-      let payload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.osmosisGetAddress(payload)
-        ipcRenderer.send('@hdwallet/response/osmosisGetAddress', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/cosmosSignTx', async (_event, data) => {
-      let HDwalletPayload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.thorchainSignTx(HDwalletPayload)
-        ipcRenderer.send('@hdwallet/cosmosSignTx', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('@hdwallet/osmosisSignTx', async (_event, data) => {
-      let HDwalletPayload = data.payload
-      if (state.wallet) {
-        console.info('state.wallet: ', state.wallet)
-        // @ts-ignore
-        let pubkeys = await state.wallet.osmosisSignTx(HDwalletPayload)
-        ipcRenderer.send('@hdwallet/response/osmosisSignTx', pubkeys)
-      }
-    })
-
-    ipcRenderer.on('connected', async (_event, _data) => {
-      pairAndConnect.current()
-    })
-
-    ipcRenderer.on('deviceBusy', async (_event, _data) => {
-      setDeviceBusy(true)
-    })
-    ipcRenderer.on('deviceNotBusy', async (_event, _data) => {
-      setDeviceBusy(false)
-    })
-
-    //END HDwallet API
-  }, [state.wallet])
-
-  const setupKeepKeySDK = () => {
+  const getsdk = async () => {
+    console.log('setup kk sdk called')
     let serviceKey = window.localStorage.getItem('@app/serviceKey')
     let config = {
       serviceName: 'KeepKey Desktop',
-      serviceImageUrl:
-        'https://github.com/BitHighlander/keepkey-desktop/raw/master/electron/icon.png',
+      serviceImageUrl: kkIconBlack,
+      serviceKey: serviceKey ? serviceKey : randomUUID(),
+    }
+    if (!serviceKey) {
+      window.localStorage.setItem('@app/serviceKey', config.serviceKey)
+    }
+    await ipcListeners.bridgeAddService(config)
+    return await KeepKeySdk.create({
+      apiKey: config.serviceKey,
+    })
+  }
+
+  const setupKeepKeySDK = async () => {
+    let serviceKey = window.localStorage.getItem('@app/serviceKey')
+    let config = {
+      serviceName: 'KeepKey Desktop',
+      serviceImageUrl: kkIconBlack,
       serviceKey: serviceKey ? serviceKey : uuid.v4(),
     }
     if (!serviceKey) {
       window.localStorage.setItem('@app/serviceKey', config.serviceKey)
-      ipcRenderer.send('@bridge/add-service', config)
     }
-    getKeepKeySDK(config)
-      .then(sdk => {
-        dispatch({ type: WalletActions.SET_KEEPKEY_SDK, payload: sdk })
+    await ipcListeners.bridgeAddService(config)
+    try {
+      const sdk = await KeepKeySdk.create({
+        apiKey: config.serviceKey,
       })
-      .catch(e => {
-        console.error('GET KEEPKEYSDK ERROR', e)
-      })
+      dispatch({ type: WalletActions.SET_KEEPKEY_SDK, payload: sdk })
+    } catch (e) {
+      console.error('GET KEEPKEYSDK ERROR', e)
+    }
   }
 
   useEffect(() => {
     disconnect()
-    startBridgeListeners()
     setupKeepKeySDK()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -496,7 +444,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
   }, [])
 
   useKeyringEventHandler(state)
-  useKeepKeyEventHandler(state, dispatch, disconnect, setDeviceState)
 
   const value: IWalletContext = useMemo(
     () => ({
@@ -507,21 +454,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }): JSX
       isUpdatingKeepkey,
       setIsUpdatingKeepkey,
       pairAndConnect,
-      deviceBusy,
-      desiredLabel,
-      setDesiredLabel,
     }),
-    [
-      state,
-      disconnect,
-      setDeviceState,
-      setIsUpdatingKeepkey,
-      isUpdatingKeepkey,
-      pairAndConnect,
-      deviceBusy,
-      desiredLabel,
-      setDesiredLabel,
-    ],
+    [state, disconnect, setDeviceState, setIsUpdatingKeepkey, isUpdatingKeepkey, pairAndConnect],
   )
 
   return (

@@ -1,5 +1,5 @@
-import type { Asset } from '@keepkey/asset-service'
-import type { AccountId, AssetId, ChainId } from '@keepkey/caip'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import type { AccountId, AssetId, ChainId } from '@shapeshiftoss/caip'
 import {
   avalancheAssetId,
   bchAssetId,
@@ -12,45 +12,27 @@ import {
   ltcAssetId,
   osmosisAssetId,
   thorchainAssetId,
-} from '@keepkey/caip'
-import type { cosmossdk } from '@keepkey/chain-adapters'
-import type { BIP44Params, UtxoAccountType } from '@keepkey/types'
+} from '@shapeshiftoss/caip'
+import type { BIP44Params, UtxoAccountType } from '@shapeshiftoss/types'
 import { createSelector } from '@reduxjs/toolkit'
-import { uniq } from 'lodash'
+import type { BigNumber } from 'lib/bignumber/bignumber'
+import { bn, bnOrZero } from 'lib/bignumber/bignumber'
+import { fromBaseUnit } from 'lib/math'
 import cloneDeep from 'lodash/cloneDeep'
 import entries from 'lodash/entries'
 import keys from 'lodash/keys'
 import maxBy from 'lodash/maxBy'
-import reduce from 'lodash/reduce'
-import size from 'lodash/size'
 import sum from 'lodash/sum'
 import toNumber from 'lodash/toNumber'
 import values from 'lodash/values'
 import { createCachedSelector } from 're-reselect'
-import type { BridgeAsset } from 'components/Bridge/types'
-import type { BigNumber, BN } from 'lib/bignumber/bignumber'
-import { bn, bnOrZero } from 'lib/bignumber/bignumber'
-import { fromBaseUnit } from 'lib/math'
 import type { ReduxState } from 'state/reducer'
 import { createDeepEqualOutputSelector } from 'state/selector-utils'
 import { selectAssets } from 'state/slices/assetsSlice/selectors'
 import { selectMarketData } from 'state/slices/marketDataSlice/selectors'
-import {
-  accountIdToFeeAssetId,
-  genericBalanceIncludingStakingByFilter,
-} from 'state/slices/portfolioSlice/utils'
+import { genericBalanceByFilter } from 'state/slices/portfolioSlice/utils'
 import { selectBalanceThreshold } from 'state/slices/preferencesSlice/selectors'
 
-import {
-  SHAPESHIFT_COSMOS_VALIDATOR_ADDRESS,
-  SHAPESHIFT_OSMOSIS_VALIDATOR_ADDRESS,
-} from '../validatorDataSlice/constants'
-import { selectValidators } from '../validatorDataSlice/selectors'
-import {
-  getDefaultValidatorAddressFromAccountId,
-  getDefaultValidatorAddressFromAssetId,
-} from '../validatorDataSlice/utils'
-import type { PubKey } from '../validatorDataSlice/validatorDataSlice'
 import type {
   AccountMetadata,
   AccountMetadataById,
@@ -60,7 +42,6 @@ import type {
   PortfolioAssetBalances,
   PortfolioAssets,
   PortfolioBalancesById,
-  StakingDataByValidatorId,
 } from './portfolioSliceCommon'
 import {
   findAccountsByAssetId,
@@ -73,12 +54,10 @@ type ParamFilter = {
   accountId: AccountId
   accountNumber: number
   chainId: ChainId
-  validatorAddress: PubKey
 }
 type OptionalParamFilter = {
   assetId?: AssetId
   accountId?: AccountId
-  validatorAddress?: PubKey
 }
 type ParamFilterKey = keyof ParamFilter
 type OptionalParamFilterKey = keyof OptionalParamFilter
@@ -109,7 +88,6 @@ const selectAssetIdParamFromFilter = selectParamFromFilter('assetId')
 export const selectChainIdParamFromFilter = selectParamFromFilter('chainId')
 const selectAccountIdParamFromFilter = selectParamFromFilter('accountId')
 const selectAccountNumberParamFromFilter = selectParamFromFilter('accountNumber')
-const selectValidatorAddressParamFromFilter = selectParamFromFilter('validatorAddress')
 
 const selectAccountIdParamFromFilterOptional = selectParamFromFilterOptional('accountId')
 const selectAssetIdParamFromFilterOptional = selectParamFromFilterOptional('assetId')
@@ -242,112 +220,6 @@ export const selectPortfolioTotalFiatBalance = createSelector(
       .toFixed(2),
 )
 
-export const selectAllStakingDelegationCrypto = createDeepEqualOutputSelector(
-  selectPortfolioAccounts,
-  portfolioAccounts => {
-    const allStakingData = Object.entries(portfolioAccounts)
-    const allStakingDelegationCrypto = reduce(
-      allStakingData,
-      (acc, [accountSpecifier, portfolioData]) => {
-        if (!portfolioData.stakingDataByValidatorId) return acc
-        const delegations = Object.values(portfolioData.stakingDataByValidatorId)
-          .flatMap(stakingDataByValidator => Object.values(stakingDataByValidator))
-          .flatMap(({ delegations }) => delegations)
-        const delegationSum = reduce(
-          delegations,
-          (acc, delegation) => acc.plus(bnOrZero(delegation.amount)),
-          bn(0),
-        )
-        return { ...acc, [accountSpecifier]: delegationSum }
-      },
-      {},
-    )
-
-    return allStakingDelegationCrypto
-  },
-)
-
-export const selectAllStakingUndelegationCrypto = createDeepEqualOutputSelector(
-  selectPortfolioAccounts,
-  portfolioAccounts => {
-    const allStakingData = Object.entries(portfolioAccounts)
-    const allStakingDelegationCrypto = reduce(
-      allStakingData,
-      (acc, [accountSpecifier, portfolioData]) => {
-        if (!portfolioData.stakingDataByValidatorId) return acc
-        const undelegations = Object.values(portfolioData.stakingDataByValidatorId)
-          .flatMap(stakingDataByValidator => Object.values(stakingDataByValidator))
-          .flatMap(({ undelegations }) => undelegations)
-        const delegationSum = reduce(
-          undelegations,
-          (acc, undelegation) => acc.plus(bnOrZero(undelegation.amount)),
-          bn(0),
-        )
-        return { ...acc, [accountSpecifier]: delegationSum }
-      },
-      {},
-    )
-
-    return allStakingDelegationCrypto
-  },
-)
-
-export const selectTotalStakingDelegationFiat = createDeepEqualOutputSelector(
-  selectAllStakingDelegationCrypto,
-  selectMarketData,
-  (state: ReduxState) => state.assets.byId,
-  (allStaked: { [k: string]: string }, marketData, assetsById) => {
-    const allStakingData = Object.entries(allStaked)
-
-    const totalStakingDelegationFiat = reduce(
-      allStakingData,
-      (acc, [accountSpecifier, baseUnitAmount]) => {
-        const assetId = accountIdToFeeAssetId(accountSpecifier)
-        const price = marketData[assetId]?.price ?? 0
-        const amount = fromBaseUnit(baseUnitAmount, assetsById[assetId].precision ?? 0)
-        return bnOrZero(amount).times(price).plus(acc)
-      },
-      bn(0),
-    )
-
-    return totalStakingDelegationFiat
-  },
-)
-
-export const selectTotalStakingUndelegationFiat = createDeepEqualOutputSelector(
-  selectAllStakingUndelegationCrypto,
-  selectMarketData,
-  (state: ReduxState) => state.assets.byId,
-  (allStaked: { [k: string]: string }, marketData, assetsById) => {
-    const allStakingData = Object.entries(allStaked)
-
-    const totalStakingDelegationFiat = reduce(
-      allStakingData,
-      (acc, [accountSpecifier, baseUnitAmount]) => {
-        const assetId = accountIdToFeeAssetId(accountSpecifier)
-        const price = marketData[assetId]?.price ?? 0
-        const amount = fromBaseUnit(baseUnitAmount, assetsById[assetId].precision ?? 0)
-        return bnOrZero(amount).times(price).plus(acc)
-      },
-      bn(0),
-    )
-
-    return totalStakingDelegationFiat
-  },
-)
-
-export const selectPortfolioTotalFiatBalanceWithStakingData = createSelector(
-  selectPortfolioTotalFiatBalance,
-  selectTotalStakingDelegationFiat,
-  selectTotalStakingUndelegationFiat,
-  (portfolioFiatBalance, delegationFiatBalance, undelegationFiatBalance): string => {
-    return bnOrZero(portfolioFiatBalance)
-      .plus(delegationFiatBalance)
-      .plus(undelegationFiatBalance)
-      .toString()
-  },
-)
-
 export const selectPortfolioFiatBalanceByAssetId = createSelector(
   selectPortfolioFiatBalances,
   selectAssetIdParamFromFilter,
@@ -421,20 +293,6 @@ export const selectPortfolioAccountIdsByAssetId = createCachedSelector(
   },
 )((_accountIds, paramFilter) => paramFilter?.assetId ?? 'undefined')
 
-// If an AccountId is passed, selects data by AccountId
-// Else, aggregates the data for all AccountIds for said asset
-// Always returns an array, either of one or many - needs to be unwrapped
-export const selectStakingDataByFilter = createSelector(
-  selectPortfolioAccounts,
-  selectAccountIdParamFromFilterOptional,
-  selectPortfolioAccountIdsByAssetId,
-  (portfolioAccounts, maybeAccountId, accountIds): (StakingDataByValidatorId | null)[] => {
-    return (maybeAccountId ? [maybeAccountId] : accountIds).map(
-      accountId => portfolioAccounts?.[accountId]?.stakingDataByValidatorId || null,
-    )
-  },
-)
-
 /**
  * this selector is very specific; we need to consider
  * - raw account balances, that are
@@ -451,7 +309,6 @@ export const selectBalanceChartCryptoBalancesByAccountIdAboveThreshold =
     selectPortfolioAssetBalances,
     selectMarketData,
     selectBalanceThreshold,
-    selectPortfolioAccounts,
     (_state: ReduxState, accountId?: string) => accountId,
     (
       assetsById,
@@ -459,38 +316,12 @@ export const selectBalanceChartCryptoBalancesByAccountIdAboveThreshold =
       assetBalances,
       marketData,
       balanceThreshold,
-      portfolioAccounts,
       accountId,
     ): PortfolioBalancesById => {
       const rawBalances = (accountId ? accountBalances[accountId] : assetBalances) ?? {}
-      // includes delegation, redelegation, and undelegation balances
-      const totalBalancesIncludingAllDelegationStates: PortfolioBalancesById = Object.values(
-        portfolioAccounts,
-      ).reduce((acc, account) => {
-        Object.values(account?.stakingDataByValidatorId ?? {}).forEach(
-          stakingDataByAccountSpecifier => {
-            Object.entries(stakingDataByAccountSpecifier).forEach(
-              ([stakingAccountId, stakingData]) => {
-                // if passed an accountId filter, only aggregate for the given accountId
-                if (accountId && stakingAccountId !== accountId) return
-                const { delegations, redelegations, undelegations } = stakingData
-                const redelegationEntries = redelegations.flatMap(
-                  redelegation => redelegation.entries,
-                )
-                const combined = [...delegations, ...redelegationEntries, ...undelegations]
-                combined.forEach(entry => {
-                  const { assetId, amount } = entry
-                  acc[assetId] = bnOrZero(acc[assetId]).plus(amount).toString()
-                })
-              },
-            )
-          },
-        )
-        return acc
-      }, cloneDeep(rawBalances))
-      const aboveThresholdBalances = Object.entries(
-        totalBalancesIncludingAllDelegationStates,
-      ).reduce<PortfolioAssetBalances['byId']>((acc, [assetId, baseUnitBalance]) => {
+      const aboveThresholdBalances = Object.entries(rawBalances).reduce<
+        PortfolioAssetBalances['byId']
+      >((acc, [assetId, baseUnitBalance]) => {
         const precision = assetsById[assetId]?.precision
         const price = marketData[assetId]?.price
         const cryptoValue = fromBaseUnit(baseUnitBalance, precision)
@@ -679,105 +510,39 @@ export const selectPortfolioAccountIdsSortedFiat = createDeepEqualOutputSelector
 )
 
 /**
- * shape of PortfolioAccountBalancesById, but just delegation/undelegation/redelagation
- * amounts in base units
- */
-export const selectPortfolioStakingCryptoBalances = createDeepEqualOutputSelector(
-  selectPortfolioAccounts,
-  (accounts): PortfolioAccountBalancesById => {
-    return Object.entries(accounts).reduce<PortfolioAccountBalancesById>(
-      (acc, [accountId, account]) => {
-        Object.values(account?.stakingDataByValidatorId ?? {}).forEach(stakingDataByAssetId => {
-          Object.values(stakingDataByAssetId).forEach(stakingData => {
-            const { delegations, redelegations, undelegations } = stakingData
-            const redelegationEntries = redelegations.flatMap(redelegation => redelegation.entries)
-            const combined = [...delegations, ...redelegationEntries, ...undelegations]
-            combined.forEach(({ assetId, amount }) => {
-              if (!acc[accountId]) acc[accountId] = {}
-              acc[accountId][assetId] = bnOrZero(acc[accountId][assetId]).plus(amount).toString()
-            })
-          })
-        })
-        return acc
-      },
-      {},
-    )
-  },
-)
-
-/**
- * returns crypto human staking amount by assetId and accountId filter
- */
-export const selectPortfolioStakingCryptoHumanBalanceByFilter = createSelector(
-  selectAssets,
-  selectPortfolioStakingCryptoBalances,
-  selectAssetIdParamFromFilterOptional,
-  selectAccountIdParamFromFilterOptional,
-  (assets, stakingBalances, assetIdFilter, accountIdFilter): string => {
-    return Object.entries(stakingBalances)
-      .filter(([accountId]) => (accountIdFilter ? accountId === accountIdFilter : true))
-      .reduce<BigNumber>((acc, [, account]) => {
-        Object.entries(account)
-          .filter(([assetId]) => (assetIdFilter ? assetId === assetIdFilter : true))
-          .forEach(([assetId, balance]) => {
-            acc = acc.plus(bnOrZero(fromBaseUnit(bnOrZero(balance), assets[assetId].precision)))
-          })
-
-        return acc
-      }, bn(0))
-      .toString()
-  },
-)
-
-/**
  * selects all accounts in PortfolioAccountBalancesById form, including all
  * delegation, undelegation, and redelegation balances, with base unit crypto balances
  */
-export const selectPortfolioAccountsCryptoBalancesIncludingStaking = createDeepEqualOutputSelector(
+export const selectPortfolioAccountsCryptoBalances = createDeepEqualOutputSelector(
   selectPortfolioAccountBalances,
-  selectPortfolioStakingCryptoBalances,
-  (accountBalances, stakingBalances): PortfolioAccountBalancesById => {
-    return Object.entries(accountBalances).reduce<PortfolioAccountBalancesById>(
-      (acc, [accountId, account]) => {
-        if (!acc[accountId]) acc[accountId] = {}
-        Object.entries(account).forEach(([assetId, balance]) => {
-          acc[accountId][assetId] = bnOrZero(balance)
-            .plus(bnOrZero(stakingBalances[accountId]?.[assetId]))
-            .toString()
-        })
-        return acc
-      },
-      {},
-    )
-  },
+  (accountBalances): PortfolioAccountBalancesById => accountBalances,
 )
 
 /**
  * same PortfolioAccountBalancesById shape, but human crypto balances
  */
-export const selectPortfolioAccountsCryptoHumanBalancesIncludingStaking =
-  createDeepEqualOutputSelector(
-    selectAssets,
-    selectPortfolioAccountsCryptoBalancesIncludingStaking,
-    (assets, portfolioAccountsCryptoBalances): PortfolioAccountBalancesById => {
-      return Object.entries(portfolioAccountsCryptoBalances).reduce((acc, [accountId, account]) => {
-        acc[accountId] = Object.entries(account).reduce((innerAcc, [assetId, cryptoBalance]) => {
-          innerAcc[assetId] = fromBaseUnit(cryptoBalance, assets[assetId].precision)
-          return innerAcc
-        }, cloneDeep(account))
-        return acc
-      }, cloneDeep(portfolioAccountsCryptoBalances))
-    },
-  )
+export const selectPortfolioAccountsCryptoHumanBalances = createDeepEqualOutputSelector(
+  selectAssets,
+  selectPortfolioAccountsCryptoBalances,
+  (assets, portfolioAccountsCryptoBalances): PortfolioAccountBalancesById => {
+    return Object.entries(portfolioAccountsCryptoBalances).reduce((acc, [accountId, account]) => {
+      acc[accountId] = Object.entries(account).reduce((innerAcc, [assetId, cryptoBalance]) => {
+        innerAcc[assetId] = fromBaseUnit(cryptoBalance, assets[assetId].precision)
+        return innerAcc
+      }, cloneDeep(account))
+      return acc
+    }, cloneDeep(portfolioAccountsCryptoBalances))
+  },
+)
 
 /**
  * this returns the same shape as the input selector selectPortfolioAccountsCryptoBalancesIncludingStaking
  * but with values converted into fiat, and sorted by fiat at all levels
  */
-export const selectPortfolioAccountsFiatBalancesIncludingStaking = createDeepEqualOutputSelector(
+export const selectPortfolioAccountsFiatBalances = createDeepEqualOutputSelector(
   selectAssets,
   selectMarketData,
-  selectPortfolioAccountsCryptoBalancesIncludingStaking,
+  selectPortfolioAccountsCryptoBalances,
   (assets, marketData, portfolioAccountsCryptoBalances): PortfolioAccountBalancesById => {
     const fiatAccountEntries = Object.entries(portfolioAccountsCryptoBalances).reduce<{
       [k: AccountId]: { [k: AssetId]: string }
@@ -817,30 +582,30 @@ export const selectPortfolioAccountsFiatBalancesIncludingStaking = createDeepEqu
   },
 )
 
-export const selectFiatBalanceIncludingStakingByFilter = createSelector(
-  selectPortfolioAccountsFiatBalancesIncludingStaking,
+export const selectFiatBalanceByFilter = createSelector(
+  selectPortfolioAccountsFiatBalances,
   selectAssetIdParamFromFilterOptional,
   selectAccountIdParamFromFilterOptional,
-  genericBalanceIncludingStakingByFilter,
+  genericBalanceByFilter,
 )
 
-export const selectCryptoHumanBalanceIncludingStakingByFilter = createSelector(
-  selectPortfolioAccountsCryptoHumanBalancesIncludingStaking,
+export const selectCryptoHumanBalanceByFilter = createSelector(
+  selectPortfolioAccountsCryptoHumanBalances,
   selectAssetIdParamFromFilterOptional,
   selectAccountIdParamFromFilterOptional,
-  genericBalanceIncludingStakingByFilter,
+  genericBalanceByFilter,
 )
 
 export const selectPortfolioChainIdsSortedFiat = createDeepEqualOutputSelector(
-  selectPortfolioAccountsFiatBalancesIncludingStaking,
+  selectPortfolioAccountsFiatBalances,
   (fiatAccountBalances): ChainId[] =>
     Array.from(
       new Set(Object.keys(fiatAccountBalances).map(accountId => fromAccountId(accountId).chainId)),
     ),
 )
 
-export const selectPortfolioTotalBalanceByChainIdIncludeStaking = createSelector(
-  selectPortfolioAccountsFiatBalancesIncludingStaking,
+export const selectPortfolioTotalBalanceByChainId = createSelector(
+  selectPortfolioAccountsFiatBalances,
   selectChainIdParamFromFilter,
   (fiatAccountBalances, chainId): string => {
     return Object.entries(fiatAccountBalances)
@@ -857,7 +622,7 @@ export const selectPortfolioTotalBalanceByChainIdIncludeStaking = createSelector
 )
 
 export const selectPortfolioAccountBalanceByAccountNumberAndChainId = createSelector(
-  selectPortfolioAccountsFiatBalancesIncludingStaking,
+  selectPortfolioAccountsFiatBalances,
   selectPortfolioAccountMetadata,
   selectAccountNumberParamFromFilter,
   selectChainIdParamFromFilter,
@@ -883,7 +648,7 @@ export const selectPortfolioAccountBalanceByAccountNumberAndChainId = createSele
 export type PortfolioAccountsGroupedByNumber = { [accountNumber: number]: AccountId[] }
 
 export const selectPortfolioAccountsGroupedByNumberByChainId = createDeepEqualOutputSelector(
-  selectPortfolioAccountsFiatBalancesIncludingStaking,
+  selectPortfolioAccountsFiatBalances,
   selectPortfolioAccountMetadata,
   selectChainIdParamFromFilter,
   (accountBalances, accountMetadata, chainId): PortfolioAccountsGroupedByNumber => {
@@ -1041,213 +806,4 @@ export const selectPortfolioAccountRows = createDeepEqualOutputSelector(
     )
     return assetRows
   },
-)
-
-export const selectPortfolioBridgeAssets = createSelector(
-  selectPortfolioAccountRows,
-  (portfolioAssets): BridgeAsset[] => {
-    return Object.entries(portfolioAssets).map(([_, v]) => {
-      const implementations = undefined // TODO: implement here
-      return {
-        assetId: v.assetId,
-        symbol: v.symbol,
-        icon: v.icon,
-        name: v.name,
-        cryptoAmount: v.cryptoAmount,
-        fiatAmount: v.fiatAmount,
-        implementations,
-      }
-    })
-  },
-)
-
-export type ActiveStakingOpportunity = {
-  address: PubKey
-  moniker: string
-  apr: string
-  tokens?: string
-  cryptoAmount?: string
-  rewards?: string
-}
-
-export const selectDelegationCryptoAmountByAssetIdAndValidator = createSelector(
-  selectStakingDataByFilter,
-  selectValidatorAddressParamFromFilter,
-  selectAssetIdParamFromFilter,
-  (stakingData, validatorAddress, assetId): string => {
-    return stakingData
-      .reduce((acc, currentStakingData) => {
-        if (!currentStakingData) return acc
-
-        acc = acc.plus(
-          currentStakingData[validatorAddress]?.[assetId]?.delegations[0]?.amount ?? '0',
-        )
-
-        return acc
-      }, bn(0))
-      .toString()
-  },
-)
-
-export const selectUnbondingEntriesByAccountSpecifier = createDeepEqualOutputSelector(
-  selectStakingDataByFilter,
-  selectValidatorAddressParamFromFilter,
-  selectAssetIdParamFromFilter,
-  (stakingDataByValidator, validatorAddress, assetId): cosmossdk.UndelegationEntry[] => {
-    // Since we pass an accountSpecifier (AccountId) in, stakingDataByValidator is guaranteed to be 0-length
-    // Thus, we can simply unwrap it by accessing the 0th item
-    const unwrappedStakingDataByValidator = stakingDataByValidator[0]
-    const validatorStakingData = unwrappedStakingDataByValidator?.[validatorAddress]?.[assetId]
-
-    if (!validatorStakingData?.undelegations?.length) return []
-
-    return validatorStakingData.undelegations
-  },
-)
-
-export const selectUnbondingCryptoAmountByAssetIdAndValidator = createDeepEqualOutputSelector(
-  selectUnbondingEntriesByAccountSpecifier,
-  (unbondingEntries): string => {
-    if (!unbondingEntries.length) return '0'
-
-    const unbondingCryptoAmountByAssetIdAndValidator = unbondingEntries
-      .reduce((acc, current) => {
-        return acc.plus(bnOrZero(current.amount))
-      }, bn(0))
-      .toString()
-
-    return unbondingCryptoAmountByAssetIdAndValidator
-  },
-)
-
-export const selectTotalBondingsBalanceByAssetId = createSelector(
-  selectUnbondingCryptoAmountByAssetIdAndValidator,
-  selectDelegationCryptoAmountByAssetIdAndValidator,
-  (unbondingCryptoBalance, delegationCryptoBalance): string => {
-    return bnOrZero(unbondingCryptoBalance).plus(bnOrZero(delegationCryptoBalance)).toString()
-  },
-)
-
-// New array object reference every time we return this expression: [SHAPESHIFT_VALIDATOR_ADDRESS]
-// We need to explicitly deep output compare, since ([SHAPESHIFT_VALIDATOR_ADDRESS] === [SHAPESHIFT_VALIDATOR_ADDRESS]) === false
-export const selectValidatorIdsByFilter = createDeepEqualOutputSelector(
-  selectPortfolioAccounts,
-  selectAccountIdParamFromFilterOptional,
-  (portfolioAccounts, accountId): PubKey[] => {
-    if (!accountId)
-      return uniq(
-        values(portfolioAccounts).flatMap(portfolioAccount => portfolioAccount.validatorIds ?? []),
-      )
-    const portfolioAccount = portfolioAccounts?.[accountId]
-    if (!portfolioAccount) return []
-    if (!portfolioAccount?.validatorIds?.length)
-      return [getDefaultValidatorAddressFromAccountId(accountId)]
-
-    return portfolioAccount.validatorIds
-  },
-)
-
-const selectDefaultStakingDataByValidatorId = createSelector(
-  selectAssetIdParamFromFilter,
-  selectValidators,
-  (assetId, stakingDataByValidator) => {
-    if (!assetId) return
-    return stakingDataByValidator[getDefaultValidatorAddressFromAssetId(assetId)]
-  },
-)
-
-export type OpportunitiesDataFull = {
-  totalDelegations: string
-  rewards: string
-  isLoaded: boolean
-  address: string
-  moniker: string
-  tokens?: string
-  apr: string
-  commission: string
-}
-
-export const selectStakingOpportunitiesDataFullByFilter = createDeepEqualOutputSelector(
-  selectValidatorIdsByFilter,
-  selectValidators,
-  selectStakingDataByFilter,
-  selectAssetIdParamFromFilter,
-  selectDefaultStakingDataByValidatorId,
-  (
-    portfolioValidatorIds,
-    validatorsData,
-    stakingDataByValidator,
-    assetId,
-    defaultStakingData,
-  ): OpportunitiesDataFull[] => {
-    if (defaultStakingData && !portfolioValidatorIds.length)
-      return [
-        {
-          isLoaded: true,
-          rewards: '0',
-          totalDelegations: '0',
-          ...defaultStakingData,
-        },
-      ]
-    return portfolioValidatorIds.map(validatorId => {
-      const delegatedAmount = stakingDataByValidator
-        .reduce((acc, currentStakingDataByValidator) => {
-          acc = acc.plus(
-            currentStakingDataByValidator?.[validatorId]?.[assetId]?.delegations?.[0]?.amount ??
-              '0',
-          )
-
-          return acc
-        }, bn(0))
-        .toString()
-
-      const undelegatedEntries: cosmossdk.UndelegationEntry[] = stakingDataByValidator.reduce(
-        (acc, currentStakingDataByValidator) => {
-          if (currentStakingDataByValidator?.[validatorId]?.[assetId]?.undelegations) {
-            acc = [...acc, ...currentStakingDataByValidator[validatorId]?.[assetId].undelegations]
-          }
-
-          return acc
-        },
-        [] as cosmossdk.UndelegationEntry[],
-      )
-
-      const totalDelegations = bnOrZero(delegatedAmount)
-        .plus(
-          undelegatedEntries.reduce<BN>(
-            (acc, current) => acc.plus(bnOrZero(current.amount)),
-            bn(0),
-          ),
-        )
-        .toString()
-      return {
-        ...validatorsData[validatorId],
-        // Delegated/Redelegated + Undelegation
-        totalDelegations,
-        // Rewards at 0 index: since we normalize staking data, we are guaranteed to have only one entry for the validatorId + assetId combination
-        rewards: stakingDataByValidator
-          .reduce((acc, currentStakingDataByValidator) => {
-            acc = acc.plus(
-              currentStakingDataByValidator?.[validatorId]?.[assetId]?.rewards?.[0]?.amount ?? '0',
-            )
-
-            return acc
-          }, bn(0))
-          .toString(),
-        isLoaded: Boolean(validatorsData[validatorId]),
-      }
-    })
-  },
-)
-
-export const selectHasActiveStakingOpportunity = createSelector(
-  selectStakingOpportunitiesDataFullByFilter,
-  stakingOpportunitiesData =>
-    // More than one opportunity data means we have more than the default opportunity
-    size(stakingOpportunitiesData) > 1 ||
-    // If there's only one staking but it isn't the default opportunity, then it's an active staking
-    (stakingOpportunitiesData[0]?.address !== SHAPESHIFT_COSMOS_VALIDATOR_ADDRESS &&
-      stakingOpportunitiesData[0]?.address !== SHAPESHIFT_OSMOSIS_VALIDATOR_ADDRESS) ||
-    bnOrZero(stakingOpportunitiesData[0]?.rewards).gt(0) ||
-    bnOrZero(stakingOpportunitiesData[0]?.totalDelegations).gt(0),
 )

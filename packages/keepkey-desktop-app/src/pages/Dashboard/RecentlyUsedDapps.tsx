@@ -1,13 +1,13 @@
+import { Box, Grid, Image, Link, Stack } from '@chakra-ui/react'
+import { Card } from 'components/Card/Card'
 import { RawText, Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import type { PairingProps } from 'pages/Pairings/Pairings'
+import type { PairingProps } from 'pages/Pairings/types'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
-import { Image, Box, Link, Stack, Grid } from '@chakra-ui/react'
-import { Card } from 'components/Card/Card'
 
 export const RecentlyUsedDapps: FC = () => {
   const [pairings, setPairings] = useState<PairingProps[]>([])
@@ -15,8 +15,7 @@ export const RecentlyUsedDapps: FC = () => {
   const history = useHistory()
 
   useEffect(() => {
-    ipcRenderer.send('@app/pairings')
-    ipcRenderer.on('@app/pairings', (_event: any, data: PairingProps[]) => {
+    ipcListeners.appPairings().then((data: PairingProps[]) => {
       setPairings(
         data
           .filter(p => p.pairingType === 'walletconnect')
@@ -24,7 +23,7 @@ export const RecentlyUsedDapps: FC = () => {
           .slice(0, 5),
       )
     })
-  }, [])
+  }, [setPairings])
 
   const openDapp = (app: PairingProps) => {
     if (!app.serviceHomePage) return

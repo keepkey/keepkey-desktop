@@ -1,11 +1,11 @@
 import { MaxUint256 } from '@ethersproject/constants'
-import type { Asset } from '@keepkey/asset-service'
-import type { TxMetadata } from '@keepkey/chain-adapters'
-import type { MarketData } from '@keepkey/types'
-import { memoize } from 'lodash'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import type { TxMetadata } from '@shapeshiftoss/chain-adapters'
+import type { MarketData } from '@shapeshiftoss/types'
 import type { TxDetails } from 'hooks/useTxDetails/useTxDetails'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { priceAtDate } from 'lib/charts'
+import { memoize } from 'lodash'
 import type { PriceHistoryData } from 'state/slices/marketDataSlice/marketDataSlice'
 
 export enum AssetTypes {

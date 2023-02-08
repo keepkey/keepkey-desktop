@@ -1,10 +1,16 @@
 import type { ToastId } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
 import type { Features } from '@keepkey/device-protocol/lib/messages_pb'
+import type { Asset } from '@shapeshiftoss/asset-service'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { isKeepKey } from '@shapeshiftoss/hdwallet-keepkey'
-import axios from 'axios'
+import { assertNever } from 'common-utils'
+import type { RadioOption } from 'components/Radio/Radio'
+import { getConfig } from 'config'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import { getPioneerClient } from 'lib/getPioneerClient'
+import { erc20Abi } from 'pages/Leaderboard/helpers/erc20Abi'
+import { nftAbi } from 'pages/Leaderboard/helpers/nftAbi'
 import React, {
   createContext,
   useCallback,
@@ -17,10 +23,6 @@ import React, {
 } from 'react'
 import { useTranslate } from 'react-polyglot'
 import Web3 from 'web3'
-import type { RadioOption } from 'components/Radio/Radio'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import { erc20Abi } from 'pages/Leaderboard/helpers/erc20Abi'
-import { nftAbi } from 'pages/Leaderboard/helpers/nftAbi'
 
 import { useKeepKeyVersions } from './KeepKey/hooks/useKeepKeyVersions'
 
@@ -87,6 +89,7 @@ export interface IKeepKeyContext {
   keepKeyWallet: KeepKeyHDWallet | undefined
   getKeepkeyAssets: () => KKAsset[]
   getKeepkeyAsset: (geckoId: string) => KKAsset | undefined
+  updateFeatures: () => void
   kkWeb3: Web3 | undefined
   kkNftContract: any
   kkErc20Contract: any
@@ -103,20 +106,22 @@ const reducer = (state: InitialState, action: KeepKeyActionTypes) => {
     case KeepKeyActions.SET_HAS_PASSPHRASE:
       return { ...state, hasPassphrase: action.payload }
     case KeepKeyActions.SET_FEATURES:
-      return { ...state, features: action.payload }
+      const deviceTimeout = Object.values(timeoutOptions).find(
+        t => Number(t.value) === action.payload?.autoLockDelayMs,
+      )
+      return {
+        ...state,
+        features: action.payload,
+        hasPassphrase: !!action.payload?.passphraseProtection,
+        deviceTimeout,
+      }
     case KeepKeyActions.SET_DEVICE_TIMEOUT:
       return { ...state, deviceTimeout: action.payload }
     case KeepKeyActions.RESET_STATE:
       return initialState
     default:
-      return state
+      assertNever(action)
   }
-}
-
-const overrideGeckoName = (name: string) => {
-  if (name.toUpperCase() === 'XRP') return 'Ripple'
-  if (name.toUpperCase() === 'BNB') return 'Binance'
-  else return name
 }
 
 export type KKAsset = Asset & { rank: number; marketCap: number; link: string; geckoId: string }
@@ -141,28 +146,28 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
   const [kkErc20Contract, setkkErc20Contract] = useState<any>()
 
   const loadKeepkeyAssets = useCallback(async () => {
-    const { data } = await axios.get(
-      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false',
-    )
+    const pioneer = await getPioneerClient()
+    const { data } = await pioneer.SearchAssetsList({ limit: 20000, skip: 0 })
 
-    const kkAssets = data.map((geckoAsset: any) => {
-      const symbol = geckoAsset?.symbol ?? ''
-      const kkAsset: KKAsset = {
-        assetId: `keepkey_${symbol.toUpperCase()}`,
-        chainId: `keepkey_${symbol.toUpperCase()}`,
+    const kkAssets = data.map((asset: any) => {
+      const kkAsset: any = {
+        assetId: `keepkey_${asset.symbol.toUpperCase()}`,
+        chainId: `keepkey_${asset.symbol.toUpperCase()}`,
+        // assetId: asset.caip,
+        // chainId: asset.caip.split(':')[1],
         color: '',
-        explorer: '',
-        explorerAddressLink: '',
-        explorerTxLink: '',
-        icon: geckoAsset.image,
-        name: overrideGeckoName(geckoAsset.name),
-        precision: 1, // This is wrong but needs to exist (find out why)
-        symbol: geckoAsset.symbol.toUpperCase(),
+        explorer: asset.explorer,
+        explorerAddressLink: asset.explorerAddressLink,
+        explorerTxLink: asset.explorerTxLink,
+        icon: asset.image,
+        name: asset.name,
+        precision: asset.decimals, // This is wrong but needs to exist (find out why)
+        symbol: asset.symbol.toUpperCase(),
         // kk specific
-        rank: geckoAsset.market_cap_rank,
-        marketCap: geckoAsset.market_cap,
-        geckoId: geckoAsset.id,
-        link: `https://www.coingecko.com/en/coins/${geckoAsset.id}`,
+        rank: '',
+        marketCap: '',
+        geckoId: asset.name,
+        link: asset.explorer,
       }
       return kkAsset
     })
@@ -174,11 +179,8 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
   }, [loadKeepkeyAssets])
 
   const loadWeb3 = useCallback(() => {
-    const network = 'goerli'
     const web3 = new Web3(
-      new Web3.providers.HttpProvider(
-        `https://${network}.infura.io/v3/fb05c87983c4431baafd4600fd33de7e`,
-      ),
+      new Web3.providers.HttpProvider(getConfig().REACT_APP_ETHEREUM_INFURA_URL2),
     )
 
     const erc20Address = '0xcc5a5975E8f6dF4dDD9Ff4Eb57471a3Ff32526a3'
@@ -217,24 +219,17 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
     })
   }, [])
 
-  const setDeviceTimeout = useCallback((payload: RadioOption<DeviceTimeout> | undefined) => {
-    dispatch({
-      type: KeepKeyActions.SET_DEVICE_TIMEOUT,
-      payload,
-    })
-  }, [])
+  const updateFeatures = useCallback(() => {
+    if (!keepKeyWallet) return
+    keepKeyWallet
+      .getFeatures(false)
+      .then(payload => dispatch({ type: KeepKeyActions.SET_FEATURES, payload }))
+      .catch(e => console.error('updateFeatures error:', e))
+  }, [keepKeyWallet])
 
   useEffect(() => {
-    if (!keepKeyWallet) return
-    ;(async () => {
-      const features = await keepKeyWallet.getFeatures()
-      dispatch({ type: KeepKeyActions.SET_FEATURES, payload: features })
-      setHasPassphrase(features?.passphraseProtection)
-      setDeviceTimeout(
-        Object.values(timeoutOptions).find(t => Number(t.value) === features?.autoLockDelayMs),
-      )
-    })()
-  }, [keepKeyWallet, keepKeyWallet?.features, setDeviceTimeout, setHasPassphrase])
+    updateFeatures()
+  }, [updateFeatures])
 
   useEffect(() => {
     if (!keepKeyWallet) return
@@ -259,6 +254,7 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
       setHasPassphrase,
       getKeepkeyAssets,
       getKeepkeyAsset,
+      updateFeatures,
       kkWeb3,
       kkNftContract,
       kkErc20Contract,
@@ -269,6 +265,7 @@ export const KeepKeyProvider = ({ children }: { children: React.ReactNode }): JS
       setHasPassphrase,
       getKeepkeyAssets,
       getKeepkeyAsset,
+      updateFeatures,
       kkWeb3,
       kkNftContract,
       kkErc20Contract,

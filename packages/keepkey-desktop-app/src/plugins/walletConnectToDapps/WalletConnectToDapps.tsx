@@ -1,23 +1,21 @@
 import { Alert, AlertIcon, Container, Stack } from '@chakra-ui/react'
-import type { FC } from 'react'
-import { getConfig } from 'config'
-import { DappRegistryGrid } from './components/DappRegistryGrid'
-import { ExplorationBanner } from './components/ExplorationBanner'
-import { WalletActions } from 'context/WalletProvider/actions'
-
-// @ts-ignore
+// @ts-expect-error
 import Client from '@pioneer-platform/pioneer-client'
+import { getConfig } from 'config'
+import type { FC } from 'react'
+// import { WalletActions } from 'context/WalletProvider/actions'
+// import { ExplorationBanner } from './components/ExplorationBanner'
 import { useEffect, useState } from 'react'
-import type { RegistryItem } from './types'
-import { useWallet } from '../../hooks/useWallet/useWallet'
-import { useHistory } from 'react-router'
+
+// import { useWallet } from '../../hooks/useWallet/useWallet'
+import { DappRegistryGrid } from './components/DappRegistryGrid'
+// import { useHistory } from 'react-router'
+// import type { RegistryItem } from './types'
 
 export const WalletConnectToDapps: FC = () => {
   const [motd, setSetMotd] = useState('')
-
-  const { dispatch } = useWallet()
-  const history = useHistory()
-
+  // const { dispatch } = useWallet()
+  // const history = useHistory()
   //get MOTD
   let updateMotd = async function () {
     try {
@@ -35,11 +33,6 @@ export const WalletConnectToDapps: FC = () => {
   useEffect(() => {
     updateMotd()
   }, [])
-
-  const openDapp = (app: RegistryItem) => {
-    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.app })
-    history.push('/browser')
-  }
 
   return (
     <Container p={4} maxW='container.lg'>

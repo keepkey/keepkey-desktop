@@ -8,9 +8,13 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Link,
   ModalCloseButton,
   VStack,
 } from '@chakra-ui/react'
+import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
+import { Text } from 'components/Text'
+import { ipcListeners } from 'electron-shim'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import type { FC } from 'react'
 import { useEffect } from 'react'
@@ -18,20 +22,18 @@ import { useCallback } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { FaQrcode } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'
-import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
-import { Text } from 'components/Text'
-import { readQrCode } from 'lib/readQrCode'
 
 type Props = {
   isOpen: boolean
   onClose(): void
+  scannedQr?: string
 }
 
 type FormValues = {
   uri: string
 }
 
-export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
+export const ConnectModal: FC<Props> = ({ isOpen, onClose, scannedQr }) => {
   const translate = useTranslate()
 
   const { register, handleSubmit, control, formState, setValue, getValues } = useForm<FormValues>({
@@ -40,7 +42,7 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
   })
   const canConnect = !!useWatch({ control, name: 'uri' })
 
-  const { connect } = useWalletConnect()
+  const { connect, isConnected } = useWalletConnect()
   const handleConnect = useCallback(
     async (values: FormValues) => {
       if (!values) values = getValues()
@@ -51,27 +53,31 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
   )
 
   useEffect(() => {
-    if (!isOpen) return
-    // @ts-ignore
-    navigator.clipboard.read().then(async data => {
-      const link = await data[0].getType('text/plain')
-      link.text().then(uri => {
-        if (uri.startsWith('wc:')) setValue('uri', uri)
-      })
-    })
-  }, [isOpen, setValue])
+    if (isConnected) onClose()
+  }, [isConnected, onClose])
 
   const scan = () => {
-    readQrCode()
+    ipcListeners
+      .appReadQr()
       .then(value => {
         console.log(value)
-        if (value.startsWith('wc:')) {
+        if (value?.startsWith('wc:')) {
           setValue('uri', value)
           handleSubmit(handleConnect)
         }
       })
       .catch(console.error)
   }
+
+  useEffect(() => {
+    console.log('scanned qr', scannedQr)
+    if (!scannedQr) return
+    if (scannedQr.startsWith('wc:')) {
+      setValue('uri', scannedQr)
+      connect(scannedQr)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scannedQr])
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} variant='header-nav'>
@@ -93,10 +99,15 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose }) => {
             <Heading flex={1} fontSize='xl'>
               <Text translation='plugins.walletConnectToDapps.modal.connect.title' />
             </Heading>
-            {/* TODO: Make youtube video and link it here
-            <Button colorScheme='blue' as={Link} variant='link' href="" isExternal>
+            <Button
+              colorScheme='blue'
+              as={Link}
+              variant='link'
+              href='https://www.keepkey.com/dapps'
+              isExternal
+            >
               {translate('plugins.walletConnectToDapps.modal.connect.howTo')}
-            </Button> */}
+            </Button>
             <FormControl isInvalid={Boolean(formState.errors.uri)} mb={6}>
               <InputGroup size='lg'>
                 <Input

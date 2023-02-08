@@ -1,25 +1,19 @@
-import { ChatIcon, CloseIcon, SettingsIcon } from '@chakra-ui/icons'
+import { CloseIcon } from '@chakra-ui/icons'
 import type { FlexProps } from '@chakra-ui/react'
-import { Box, Flex, IconButton, Link, Stack, useMediaQuery } from '@chakra-ui/react'
-import { useTranslate } from 'react-polyglot'
-import { useModal } from 'hooks/useModal/useModal'
+import { Box, Flex, IconButton, useMediaQuery } from '@chakra-ui/react'
 import { breakpoints } from 'theme/theme'
 
 import { AutoCompleteSearch } from './AutoCompleteSearch/AutoCompleteSearch'
 import { ChainMenu } from './NavBar/ChainMenu'
-import { MainNavLink } from './NavBar/MainNavLink'
 import { NavBar } from './NavBar/NavBar'
-import { UserMenu } from './NavBar/UserMenu'
 
 type HeaderContentProps = {
   isCompact?: boolean
   onClose?: () => void
 } & FlexProps
 
-export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
-  const translate = useTranslate()
+export const SideNavContent = ({ onClose }: HeaderContentProps) => {
   const [isLargerThanMd] = useMediaQuery(`(min-width: ${breakpoints['md']})`, { ssr: false })
-  const { settings } = useModal()
 
   const handleClick = (onClick?: () => void) => {
     onClose && onClose()
@@ -34,10 +28,11 @@ export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
       alignItems='flex-start'
       justifyContent='flex-start'
       data-test='full-width-header'
-      flexDir='column'
+      flexDir='row'
       overflowY='auto'
-      paddingTop={`calc(1.5rem + env(safe-area-inset-top))`}
       p={4}
+      maxWidth='1000px'
+      margin='auto'
     >
       {!isLargerThanMd && (
         <Flex direction='column' rowGap={2} columnGap={2} width='full'>
@@ -49,9 +44,6 @@ export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
             onClick={() => handleClick()}
           />
           <Flex gap={2}>
-            <Flex width='full'>
-              <UserMenu onClick={() => handleClick()} />
-            </Flex>
             <ChainMenu />
           </Flex>
           <Box width='full'>
@@ -60,27 +52,7 @@ export const SideNavContent = ({ isCompact, onClose }: HeaderContentProps) => {
         </Flex>
       )}
 
-      <NavBar isCompact={isCompact} mt={6} onClick={() => handleClick()} />
-      <Stack width='full' mt={6} spacing={0}>
-        <MainNavLink
-          isCompact={isCompact}
-          size='sm'
-          onClick={() => handleClick(() => settings.open({}))}
-          label={translate('common.settings')}
-          leftIcon={<SettingsIcon />}
-          data-test='navigation-settings-button'
-        />
-        <MainNavLink
-          isCompact={isCompact}
-          as={Link}
-          isExternal
-          size='sm'
-          href='https://discord.gg/stfRnW3Jys'
-          label={translate('common.joinDiscord')}
-          leftIcon={<ChatIcon />}
-          data-test='navigation-join-discord-button'
-        />
-      </Stack>
+      <NavBar isCompact={true} onClick={() => handleClick()} />
     </Flex>
   )
 }

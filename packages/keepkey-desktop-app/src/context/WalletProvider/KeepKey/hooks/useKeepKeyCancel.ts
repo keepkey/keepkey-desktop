@@ -1,9 +1,9 @@
 import { useToast } from '@chakra-ui/react'
-import { useCallback } from 'react'
-import { useTranslate } from 'react-polyglot'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import { useCallback } from 'react'
+import { useTranslate } from 'react-polyglot'
 const moduleLogger = logger.child({ namespace: ['useKeepKeyCancel'] })
 
 export const useKeepKeyCancel = () => {

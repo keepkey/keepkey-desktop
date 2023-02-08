@@ -11,25 +11,23 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { SlideTransition } from 'components/SlideTransition'
+import { RawText, Text } from 'components/Text'
+import { WalletActions } from 'context/WalletProvider/actions'
 // import { SessionTypes } from '@walletconnect/types'
-import { ipcRenderer } from 'electron-shim'
+import { ipcListeners } from 'electron-shim'
+import { AnimatePresence } from 'framer-motion'
+import { useModal } from 'hooks/useModal/useModal'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import type { FC } from 'react'
 import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
-import { SlideTransition } from 'components/SlideTransition'
-import { RawText, Text } from 'components/Text'
-import { useModal } from 'hooks/useModal/useModal'
-import { useWallet } from 'hooks/useWallet/useWallet'
 import { MemoryRouter } from 'react-router'
 import { Route } from 'react-router'
 import { useHistory } from 'react-router'
 import { Switch } from 'react-router'
-import { AnimatePresence } from 'framer-motion'
-import { readQrCode } from 'lib/readQrCode'
-// import screenshot from 'screenshot-desktop'
-// import QrScanner from 'qr-scanner'
 
-function assume<T>(x: unknown): asserts x is T {}
+function assume<T>(_x: unknown): asserts _x is T {}
 
 export type ModalProps = {
   fetchAccs: () => void
@@ -39,8 +37,10 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
   const { addAuthenticatorAccount } = useModal()
   const { close, isOpen } = addAuthenticatorAccount
 
+  const [attemptedAdd, setAttemptedAdd] = useState(false)
   const {
-    state: { wallet },
+    state: { wallet, authenticatorError },
+    dispatch,
   } = useWallet()
   const toast = useToast()
 
@@ -49,62 +49,74 @@ export const AddAuthenticatorAccountModal = ({ fetchAccs }: ModalProps) => {
       if (!wallet) return
 
       assume<KeepKeyHDWallet>(wallet)
+      setAttemptedAdd(false)
+      dispatch({ type: WalletActions.SET_AUTHENTICATOR_ERROR, payload: null })
+      setTimeout(() => setAttemptedAdd(true), 1000)
 
-      toast({
-        status: 'info',
-        title: 'Account initialized',
-        description: `Please complete the process on your KeepKey`,
-      })
       const msg = `\x15initializeAuth:${acc.domain}:${acc.account}:${acc.secret}`
-      console.log('addAcc msg: ', msg)
+
       const pong = await wallet
         .ping({
           msg,
         })
         .catch(console.error)
       console.log('add acc resp', pong)
-      close()
-      setTimeout(fetchAccs, 2000)
     },
-    [wallet, toast, close, fetchAccs],
+    [wallet, dispatch],
   )
+
+  useEffect(() => {
+    if (!attemptedAdd || authenticatorError) return
+    setAttemptedAdd(false)
+    toast({
+      status: 'info',
+      title: 'Account initialized',
+      description: `Please complete the process on your KeepKey`,
+    })
+    close()
+    fetchAccs()
+  }, [attemptedAdd, authenticatorError, close, fetchAccs, toast])
 
   return (
     <SlideTransition>
       <Modal
         isOpen={isOpen}
-        onClose={() => {
-          ipcRenderer.send('unlockWindow', {})
-          close()
-        }}
+        onClose={() => close()}
         isCentered
         closeOnOverlayClick={false}
         closeOnEsc={false}
       >
-        <ModalOverlay />
-        <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
-          <ModalCloseButton ml='auto' borderRadius='full' position='static' />
-          <ModalHeader>
-            <Text translation={'authenticator.modal.header'} />
-          </ModalHeader>
-          <ModalBody>
-            <AnimatePresence exitBeforeEnter>
-              <MemoryRouter>
-                <Switch>
-                  <Route exact path='/'>
-                    <ChooseMethod />
-                  </Route>
-                  <Route exact path='/manual'>
-                    <AddManually addAcc={addAcc} />
-                  </Route>
-                  <Route exact path='/scan'>
-                    <AddByScanning addAcc={addAcc} />
-                  </Route>
-                </Switch>
-              </MemoryRouter>
-            </AnimatePresence>
-          </ModalBody>
-        </ModalContent>
+        <div style={{ '--chakra-zIndices-modal': addAuthenticatorAccount.zIndex }}>
+          <ModalOverlay />
+          <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
+            <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+            <ModalHeader>
+              <Text translation={'authenticator.modal.header'} />
+            </ModalHeader>
+            <ModalBody>
+              {authenticatorError && (
+                <RawText pb={2} textColor='red.400'>
+                  {authenticatorError}
+                </RawText>
+              )}
+              <AnimatePresence exitBeforeEnter>
+                <MemoryRouter>
+                  <Switch>
+                    <Route exact path='/'>
+                      <ChooseMethod />
+                    </Route>
+                    <Route exact path='/manual'>
+                      <AddManually addAcc={addAcc} />
+                    </Route>
+                    <Route exact path='/scan'>
+                      <AddByScanning addAcc={addAcc} />
+                    </Route>
+                  </Switch>
+                </MemoryRouter>
+              </AnimatePresence>
+            </ModalBody>
+          </ModalContent>
+        </div>
       </Modal>
     </SlideTransition>
   )
@@ -149,34 +161,53 @@ const AddManually: FC<{ addAcc: any }> = ({ addAcc }) => {
 const AddByScanning: FC<{ addAcc: any }> = ({ addAcc }) => {
   const { goBack } = useHistory()
 
-  const [scannedQr, setScannedQr] = useState<string>()
+  const [firstScanRun, setFirstScanRun] = useState(false)
+  const [scannedQr, setScannedQr] = useState('')
   const [error, setError] = useState('')
 
-  const scan = () => {
-    readQrCode()
-      .then(q => {
-        if (!q) return
-        const decoded = decodeURIComponent(q)
+  const scan = useCallback(() => {
+    ipcListeners
+      .appReadQr()
+      .then(scanned => {
+        if (!scanned) {
+          setError('Unable to scan QR')
+          return setScannedQr('')
+        }
+        const decoded = decodeURIComponent(scanned)
         setScannedQr(decoded)
       })
-      .catch(setError)
-  }
+      .catch((e: unknown) => {
+        setError(String(e))
+      })
+  }, [])
+
+  useEffect(() => {
+    if (firstScanRun) return
+    setFirstScanRun(true)
+    scan()
+  }, [firstScanRun, scan])
 
   useEffect(() => {
     setError('')
     if (!scannedQr) return
 
-    if (!/^otpauth:/.test(scannedQr)) return setError('Invalid QR')
+    if (!/^otpauth:/.test(scannedQr)) {
+      return setError("Found a QR code, but it wasn't for setting up an authenticator")
+    }
     const url = new URL(scannedQr.replace(/^otpauth:/, 'http:'))
-    if (url.hostname !== 'totp') return setError('Invalid QR')
-    const parsed = /^\/(?<domain>[^/]*?):(?<account>[^/]*)$/.exec(url.pathname)?.groups
+    if (url.hostname !== 'totp') {
+      return setError('Invalid QR code: Only TOTP authentication is supported')
+    }
+    const parsed = /^\/(?:(?<domain>[^/]*?)(?::|%3[Aa])(?: |%20)*)?(?<account>[^/]*)$/.exec(
+      url.pathname,
+    )?.groups
 
-    if (!parsed) return setError('Insuffecient data in QR')
+    if (!parsed) return setError('Invalid QR code: no account name')
 
-    const domain = decodeURI(parsed.domain)
+    const domain = decodeURI(parsed.domain ?? '') || url.searchParams.get('issuer') || ' '
     const account = decodeURI(parsed.account)
     const secret = url.searchParams.get('secret')
-    if (!domain || !account || !secret) return setError('Insuffecient data in QR')
+    if (!secret) return setError('Invalid QR code: missing secret field')
 
     addAcc({
       domain,

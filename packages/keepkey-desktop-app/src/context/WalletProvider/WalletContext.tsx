@@ -1,3 +1,4 @@
+import type { DebouncedFunc } from 'lodash'
 import type React from 'react'
 import { createContext } from 'react'
 
@@ -10,12 +11,8 @@ export interface IWalletContext {
   disconnect: () => void
   setDeviceState: (deviceState: Partial<DeviceState>) => void
   isUpdatingKeepkey: boolean
-  setIsUpdatingKeepkey: any
-  pairAndConnect: any
-  deviceBusy: boolean
-  desiredLabel: string
-  setDesiredLabel: (arg0: string) => any
-
+  setIsUpdatingKeepkey: (x: boolean) => void
+  pairAndConnect: React.MutableRefObject<DebouncedFunc<() => Promise<void>>>
 }
 
 export const WalletContext = createContext<IWalletContext | null>(null)

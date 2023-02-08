@@ -1,13 +1,11 @@
 import { SearchIcon } from '@chakra-ui/icons'
 import { Box, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
+import { logger } from 'lib/logger'
 import type { FormEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
-import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
-import { logger } from 'lib/logger'
-import { selectAssetsByMarketCap } from 'state/slices/selectors'
 
 import { AssetList } from './AssetList'
 import { filterAssetsBySearchTerm } from './helpers/filterAssetsBySearchTerm/filterAssetsBySearchTerm'
@@ -35,11 +33,11 @@ export const mergeKKAssets = (webAssets: any, kkAssets: any) => {
 }
 
 export const AssetSearchKK = ({ onClick, filterBy }: AssetSearchProps) => {
-  const webAssets = useSelector(selectAssetsByMarketCap)
+  // const webAssets = useSelector(selectAssetsByMarketCap)
   const { getKeepkeyAssets } = useKeepKey()
-  const kkAssets = getKeepkeyAssets()
+  const assets = getKeepkeyAssets()
 
-  const assets = useMemo(() => mergeKKAssets(webAssets, kkAssets), [webAssets, kkAssets])
+  // const assets = useMemo(() => mergeKKAssets(webAssets, kkAssets), [webAssets, kkAssets])
 
   const currentAssets = useMemo(() => (filterBy ? filterBy(assets) : assets), [assets, filterBy])
   const [filteredAssets, setFilteredAssets] = useState<Asset[]>([])

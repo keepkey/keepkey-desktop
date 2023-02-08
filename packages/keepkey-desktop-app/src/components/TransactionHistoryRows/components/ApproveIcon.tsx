@@ -1,9 +1,9 @@
 import { Box, Icon } from '@chakra-ui/react'
-import type { AssetId } from '@keepkey/caip'
-import { FaBan, FaCheck } from 'react-icons/fa'
+import type { AssetId } from '@shapeshiftoss/caip'
 import { AssetIcon } from 'components/AssetIcon'
 import { IconCircle } from 'components/IconCircle'
 import { bn } from 'lib/bignumber/bignumber'
+import { FaBan, FaCheck } from 'react-icons/fa'
 import { selectAssetById } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 

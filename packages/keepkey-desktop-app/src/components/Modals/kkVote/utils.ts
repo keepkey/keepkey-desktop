@@ -1,12 +1,12 @@
-import type { ChainAdapter } from '@keepkey/chain-adapters'
-import { KnownChainIds } from '@keepkey/types'
+import type { ChainAdapter } from '@shapeshiftoss/chain-adapters'
+import { KnownChainIds } from '@shapeshiftoss/types'
 import type { ETHSignTx, HDWallet } from '@shapeshiftoss/hdwallet-core'
 import { bip32ToAddressNList } from '@shapeshiftoss/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
-import Web3 from 'web3'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import { fromBaseUnit } from 'lib/math'
+import Web3 from 'web3'
 
 // slightly over-estimated gas limits
 const APPROVAL_GAS = '0x15F90' // 90k

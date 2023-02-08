@@ -1,20 +1,20 @@
 import { ModalContent } from '@chakra-ui/modal'
 import { HStack, Modal, ModalCloseButton, ModalHeader, ModalOverlay } from '@chakra-ui/react'
-import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
 import { Text } from 'components/Text'
-
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import { EIP155_SIGNING_METHODS } from 'plugins/walletConnectToDapps/data/EIP115Data'
 import {
   rejectEIP155Request,
   rejectRequestAsUnsupported,
 } from 'plugins/walletConnectToDapps/utils/utils'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
+import type { FC } from 'react'
+
+import { EIP155SendTransactionConfirmation } from './EIP155SendTransactionConfirmation'
+import { EIP155SignMessageConfirmation } from './EIP155SignMessageConfirmation'
 import { SendTransactionConfirmation } from './SendTransactionConfirmation'
 import { SignMessageConfirmation } from './SignMessageConfirmation'
-import type { FC } from 'react'
-import { EIP155SignMessageConfirmation } from './EIP155SignMessageConfirmation'
-import { EIP155_SIGNING_METHODS } from 'plugins/walletConnectToDapps/data/EIP115Data'
-import { EIP155SendTransactionConfirmation } from './EIP155SendTransactionConfirmation'
 
 export const NecessaryModal: FC<{ req?: any; isLegacy: boolean; removeReq: any }> = ({
   req,
@@ -28,6 +28,8 @@ export const NecessaryModal: FC<{ req?: any; isLegacy: boolean; removeReq: any }
     if (req.method === 'personal_sign') return <SignMessageConfirmation />
     else return <SendTransactionConfirmation />
   } else {
+    if (!req.params.request) return <></>
+    if (!req.params.request.method) return <></>
     switch (req.params.request.method) {
       case EIP155_SIGNING_METHODS.ETH_SIGN_TYPED_DATA_V4:
       case EIP155_SIGNING_METHODS.PERSONAL_SIGN:
@@ -44,7 +46,7 @@ export const NecessaryModal: FC<{ req?: any; isLegacy: boolean; removeReq: any }
           topic: req.topic,
           response,
         })
-        removeReq(0)
+        removeReq(req.id)
         break
     }
   }
@@ -71,7 +73,7 @@ export const CallRequestModal = () => {
             response,
           })
         }
-        removeRequest(0)
+        removeRequest(currentRequest.id)
       }}
       variant='header-nav'
     >

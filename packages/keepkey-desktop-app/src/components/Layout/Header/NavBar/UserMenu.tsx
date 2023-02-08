@@ -1,36 +1,20 @@
-import { ChevronDownIcon, WarningTwoIcon } from '@chakra-ui/icons'
-import { MenuGroup, MenuItem } from '@chakra-ui/menu'
+import { WarningTwoIcon } from '@chakra-ui/icons'
 import { Button, ButtonGroup, Flex, HStack, useColorModeValue } from '@chakra-ui/react'
-import type { FC } from 'react'
-import { useEffect, useState } from 'react'
-import { FaWallet } from 'react-icons/fa'
-import { useTranslate } from 'react-polyglot'
-import { MemoryRouter, Route, Switch } from 'react-router-dom'
-import { useEnsName } from 'wagmi'
 import { WalletConnectedRoutes } from 'components/Layout/Header/NavBar/hooks/useMenuRoutes'
-// import { WalletConnectedMenu } from 'components/Layout/Header/NavBar/WalletConnectedMenu'
 import { WalletImage } from 'components/Layout/Header/NavBar/WalletImage'
 import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import { RawText, Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
 import type { InitialState } from 'context/WalletProvider/WalletProvider'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import type { FC } from 'react'
+import { useEffect, useState } from 'react'
+import { FaWallet } from 'react-icons/fa'
+import { MemoryRouter, Route, Switch } from 'react-router-dom'
 
 import { WalletConnectedMenu } from './WalletConnectedMenu'
 
 export const entries = [WalletConnectedRoutes.Connected]
-
-const NoWallet = ({ onClick }: { onClick: () => void }) => {
-  const translate = useTranslate()
-  return (
-    <MenuGroup title={translate('common.noWallet')} ml={3} color='gray.500'>
-      <MenuItem onClick={onClick} alignItems='center' justifyContent='space-between'>
-        {translate('common.connectWallet')}
-        <ChevronDownIcon />
-      </MenuItem>
-    </MenuGroup>
-  )
-}
 
 export type WalletConnectedProps = {
   onDisconnect: () => void
@@ -55,67 +39,38 @@ export const WalletConnected = (props: WalletConnectedProps) => {
 
 type WalletButtonProps = {
   isConnected: boolean
-  isDemoWallet: boolean
-  isLoadingLocalWallet: boolean
   onConnect: () => void
-  deviceBusy: boolean
 } & Pick<InitialState, 'walletInfo'>
 
-const WalletButton: FC<WalletButtonProps> = ({
-  isConnected,
-  isDemoWallet,
-  walletInfo,
-  onConnect,
-  isLoadingLocalWallet,
-  deviceBusy,
-}) => {
+const WalletButton: FC<WalletButtonProps> = ({ isConnected, walletInfo, onConnect }) => {
   const [walletLabel, setWalletLabel] = useState('')
   const [shouldShorten, setShouldShorten] = useState(true)
   const bgColor = useColorModeValue('gray.300', 'gray.800')
-
-  const {
-    data: ensName,
-    isSuccess: isEnsNameLoaded,
-    isLoading: isEnsNameLoading,
-  } = useEnsName({
-    address: walletInfo?.meta?.address,
-    cacheTime: Infinity, // Cache a given ENS reverse resolution response infinitely for the lifetime of a tab / until app reload
-    staleTime: Infinity, // Cache a given ENS reverse resolution query infinitely for the lifetime of a tab / until app reload
-  })
 
   useEffect(() => {
     ;(async () => {
       setWalletLabel('')
       setShouldShorten(true)
-      if (!walletInfo || !walletInfo.meta || isEnsNameLoading) return setWalletLabel('')
+      if (!walletInfo || !walletInfo.meta) return setWalletLabel('')
       // Wallet has a native label, we don't care about ENS name here
       if (!walletInfo?.meta?.address && walletInfo.meta.label) {
         setShouldShorten(false)
         return setWalletLabel(walletInfo.meta.label)
       }
 
-      // ENS successfully fetched. Set ENS name as label
-      if (isEnsNameLoaded && ensName) {
-        setShouldShorten(false)
-        return setWalletLabel(ensName!)
-      }
-
       // No label or ENS name, set regular wallet address as label
       return setWalletLabel(walletInfo?.meta?.address ?? '')
     })()
-  }, [ensName, isEnsNameLoading, isEnsNameLoaded, walletInfo])
+  }, [walletInfo])
 
-  return Boolean(walletInfo?.deviceId) || isLoadingLocalWallet ? (
+  return Boolean(walletInfo?.deviceId) ? (
     <Button
       width={{ base: '100%', lg: 'auto' }}
       justifyContent='flex-start'
       variant='outline'
-      isLoading={isLoadingLocalWallet}
       leftIcon={
         <HStack>
-          {!(isConnected || isDemoWallet) && (
-            <WarningTwoIcon ml={2} w={3} h={3} color='yellow.500' />
-          )}
+          {!isConnected && <WarningTwoIcon ml={2} w={3} h={3} color='yellow.500' />}
           <WalletImage walletInfo={walletInfo} />
         </HStack>
       }
@@ -130,13 +85,10 @@ const WalletButton: FC<WalletButtonProps> = ({
             pr='2'
             shouldShorten={shouldShorten}
             bgColor={bgColor}
-            value={`${walletLabel} ${deviceBusy ? '- Busy' : ''}`}
+            value={walletLabel}
           />
         ) : (
-          <RawText>
-            sadfsdfasdfasdfsadfasdffdsa
-            {walletInfo?.name}
-          </RawText>
+          <RawText>{walletInfo?.name}</RawText>
         )}
       </Flex>
     </Button>
@@ -148,8 +100,8 @@ const WalletButton: FC<WalletButtonProps> = ({
 }
 
 export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
-  const { state, dispatch, disconnect, deviceBusy } = useWallet()
-  const { isConnected, isDemoWallet, walletInfo, isLocked } = state
+  const { state, dispatch, disconnect } = useWallet()
+  const { isConnected, walletInfo, isLocked } = state
 
   if (isLocked) disconnect()
   const handleConnect = () => {
@@ -158,14 +110,7 @@ export const UserMenu: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   }
   return (
     <ButtonGroup width='full'>
-      <WalletButton
-        deviceBusy={deviceBusy}
-        onConnect={handleConnect}
-        walletInfo={walletInfo}
-        isConnected={isConnected}
-        isDemoWallet={isDemoWallet}
-        isLoadingLocalWallet={state.isLoadingLocalWallet}
-      />
+      <WalletButton onConnect={handleConnect} walletInfo={walletInfo} isConnected={isConnected} />
     </ButtonGroup>
   )
 }

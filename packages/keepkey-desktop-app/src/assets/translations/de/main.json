@@ -971,82 +971,6 @@
         }
       }
     },
-    "keplr": {
-      "errors": {
-        "connectFailure": "Keplr-Wallet kann nicht verbunden werden",
-        "unknown": "Bei der Kommunikation mit Keplr ist ein unerwarteter Fehler aufgetreten",
-        "noProvider": "Keplr-Wallet-Erweiterung nicht gefunden"
-      },
-      "connect": {
-        "header": "Keplr koppeln",
-        "body": "Klicken Sie auf Koppeln und wählen Sie dann Keplr aus dem Popup-Fenster",
-        "button": "Koppeln"
-      },
-      "failure": {
-        "header": "Fehler",
-        "body": "Keplr Wallet kann nicht verbunden werden"
-      }
-    },
-    "metaMask": {
-      "errors": {
-        "unknown": "Bei der Kommunikation mit MetaMask ist ein unerwarteter Fehler aufgetreten",
-        "connectFailure": "MetaMask Wallet kann nicht verbunden werden",
-        "multipleWallets": "Erkannter Ethereum-Anbieter ist nicht MetaMask. Hast du mehrere Wallets installiert?",
-        "tallyInstalledAndSetToDefault": "Wir haben festgestellt, dass Sie Tally Ho installiert und auf Standard gesetzt haben. Wenn Sie stattdessen lieber MetaMask verwenden möchten, ändern Sie bitte die Einstellungen in Tally Ho und aktualisieren Sie die Seite."
-      },
-      "connect": {
-        "header": "mit MetaMask verbinden",
-        "body": "Klicken Sie im Popup-Fenster auf Koppeln und melden Sie sich bei MetaMask an",
-        "button": "Paar"
-      },
-      "failure": {
-        "header": "Fehler",
-        "body": "MetaMask Wallet kann nicht verbunden werden"
-      },
-      "redirect": {
-        "header": "In der MetaMask Applikation \n öffnen",
-        "body": "Klicken Sie hier, um das ShapeShift Dashboard in MetaMask zu öffnen",
-        "button": "Öffnen"
-      }
-    },
-    "tallyHo": {
-      "errors": {
-        "unknown": "Bei der Kommunikation mit Tally Ho ist ein unerwarteter Fehler aufgetreten",
-        "connectFailure": "Tally Ho Wallet kann nicht verbunden werden",
-        "network": "Tally Ho ist nicht auf Ethereum Mainnet eingestellt",
-        "multipleWallets": "Erkannter Ethereum-Anbieter ist nicht Tally Ho. Hast du mehrere Wallets installiert?",
-        "tallyNotInstalledOrSetToDefault": "Wir haben festgestellt, dass Tally Ho entweder nicht installiert oder nicht auf Standard eingestellt ist. Wenn Sie Tally Ho verwenden möchten, installieren Sie es bitte oder legen Sie es als Ihre Standard-Wallet fest und aktualisieren Sie die Seite."
-      },
-      "connect": {
-        "header": "Tally koppeln",
-        "body": "Klicken Sie im Popup-Fenster auf Koppeln und melden Sie sich bei Tally Ho an",
-        "button": "Koppeln"
-      },
-      "failure": {
-        "header": "Fehler",
-        "body": "Tally Ho Wallet kann nicht verbunden werden"
-      },
-      "redirect": {
-        "header": "In der Tally Ho-App öffnen",
-        "body": "Klicken Sie hier, um das ShapeShift-Dashboard in Tally Ho zu öffnen",
-        "button": "Öffnen"
-      }
-    },
-    "portis": {
-      "errors": {
-        "unknown": "Bei der Kommunikation mit Portis ist ein unerwarteter Fehler aufgetreten",
-        "connectFailure": "Portis Wallet kann nicht verbunden werden"
-      },
-      "connect": {
-        "header": "Portis Koppeln",
-        "body": "Klicken Sie auf Koppeln und wählen Sie dann Portis aus dem Popup-Fenster aus",
-        "button": "Koppeln"
-      },
-      "failure": {
-        "header": "Fehler",
-        "body": "Portis Wallet kann nicht verbunden werden"
-      }
-    },
     "walletConnect": {
       "errors": {
         "unknown": "Bei der Kommunikation mit WalletConnect ist ein unerwarteter Fehler aufgetreten",
@@ -1060,27 +984,6 @@
       "failure": {
         "header": "Fehler",
         "body": "WalletConnect Wallet kann nicht verbunden werden"
-      }
-    },
-    "xdefi": {
-      "errors": {
-        "unknown": "Bei der Kommunikation mit XDEFI ist ein unerwarteter Fehler aufgetreten",
-        "connectFailure": "XDEFI Wallet kann nicht verbunden werden",
-        "multipleWallets": "Erkannter Ethereum-Anbieter ist nicht XDEFI. Hast du mehrere Wallets installiert?"
-      },
-      "connect": {
-        "header": "XDEFI koppeln",
-        "body": "Klicken Sie im Popup-Fenster auf Koppeln und melden Sie sich bei XDEFI an",
-        "button": "Koppeln"
-      },
-      "failure": {
-        "header": "Fehler",
-        "body": "XDEFI Wallet kann nicht verbunden werden"
-      },
-      "redirect": {
-        "header": "In der XDEFI-App öffnen",
-        "body": "Klicken Sie hier, um das ShapeShift-Dashboard in XDEFI zu öffnen",
-        "button": "Öffnen"
       }
     },
     "shapeShift": {
@@ -1167,33 +1070,6 @@
         "body": "Geben Sie den neuen Spitznamen Ihrer Wallet und Ihr Passwort ein, um Ihre Wallet zu entschlüsseln.",
         "button": "Weiter",
         "confirmDelete": "Möchten Sie den Spitznamen dieser Wallet wirklich löschen?"
-      },
-      "legacy": {
-        "deprecatedWarning": "Die ShapeShift Anmeldung ist veraltet",
-        "learnMore": "Erfahren Sie mehr",
-        "alreadySavedConfirm": "Ich bestätige, dass meine geheime Wiederherstellungsphrase bereits gesichert habe.",
-        "mobileWalletTitle": "ShapeShift Mobile Wallet",
-        "importInformations": "Um Ihr ShapeShift Mobile Wallet weiterhin verwenden zu können, müssen Sie es importieren.",
-        "importWallet": "Wallet importieren",
-        "haveMobileWallet": "Haben Sie eine ShapeShift Mobile Wallet?",
-        "loginWithAccount": "Melden Sie sich mit dem ShapeShift-Konto an",
-        "loginInformations": "Geben Sie Ihre E-Mail Adresse und Ihr Passwort ein, mit denen Sie sich bei Ihrer ShapeShift Mobile App anmelden.",
-        "loginSuccess": "Erfolgreich eingeloggt",
-        "emailAddress": "Email Adresse",
-        "password": "Passwort",
-        "emailRequired": "E-Mail Adresse ist erforderlich",
-        "invalidEmail": "E-Mail Adresse ist ungültig",
-        "invalidCaptcha": "Captcha ist ungültig",
-        "captchaRequired": "Captcha ist erforderlich",
-        "tooManyAttempts": "Zu viele Versuche. Bitte später erneut versuchen.",
-        "invalidLogin": "Ungültiger Login",
-        "noWallet": "Es konnte kein ShapeShift Native Wallet für Ihre Anmeldung gefunden werden. Wenn Sie der Meinung sind, dass diese Nachricht falsch ist, wenden Sie sich bitte an den ShapeShift-Support.",
-        "decryptionError": "Beim Entschlüsseln Ihrer Wallet ist etwas schief gelaufen.",
-        "twoFactorAuthentication": "Zwei-Faktor-Authentifizierung",
-        "twoFactorPlaceholder": "6-stelliger Code",
-        "twoFactorRequired": "2FA ist erforderlich",
-        "invalidTwoFactor": "6-stelliger Code ist ungültig",
-        "twoFactorDescription": "Die Zwei-Faktor-Authentifizierung ist für Ihr Konto aktiviert. Bitte geben Sie den Code aus Ihrer Authentifizierungs-App ein."
       }
     },
     "selectModal": {

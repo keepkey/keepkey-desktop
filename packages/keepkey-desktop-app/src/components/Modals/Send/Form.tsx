@@ -1,13 +1,13 @@
-import type { Asset } from '@keepkey/asset-service'
-import type { AccountId, ChainId } from '@keepkey/caip'
-import type { FeeDataEstimate } from '@keepkey/chain-adapters'
-import { FeeDataKey } from '@keepkey/chain-adapters'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import type { AccountId, ChainId } from '@shapeshiftoss/caip'
+import type { FeeDataEstimate } from '@shapeshiftoss/chain-adapters'
+import { FeeDataKey } from '@shapeshiftoss/chain-adapters'
+import { SelectAssetRouter } from 'components/SelectAssets/SelectAssetRouter'
 import { AnimatePresence } from 'framer-motion'
 import { useCallback } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { RouteComponentProps } from 'react-router-dom'
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom'
-import { SelectAssetRouter } from 'components/SelectAssets/SelectAssetRouter'
 import { selectMarketDataById, selectSelectedCurrency } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 
@@ -32,7 +32,6 @@ export type SendInput<T extends ChainId = ChainId> = {
   [SendFormFields.Input]: string
   [SendFormFields.Memo]?: string
   [SendFormFields.SendMax]: boolean
-  [SendFormFields.VanityAddress]: string
 }
 
 type SendFormProps = {
@@ -52,7 +51,6 @@ export const Form: React.FC<SendFormProps> = ({ asset: initialAsset, accountId }
     defaultValues: {
       accountId,
       address: '',
-      vanityAddress: '',
       asset: initialAsset,
       feeType: FeeDataKey.Average,
       cryptoAmount: '',

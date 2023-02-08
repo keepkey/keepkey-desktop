@@ -1,30 +1,39 @@
-import { Modal, ModalCloseButton, ModalContent, ModalOverlay } from '@chakra-ui/react'
+import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/react'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
-import { useEffect } from 'react'
 import { useModal } from 'hooks/useModal/useModal'
-import { useWallet } from 'hooks/useWallet/useWallet'
+import { useEffect } from 'react'
 
+import type { KKStateData } from '../../../../../keepkey-desktop/src/helpers/kk-state-controller/types'
+import { KKState } from '../../../../../keepkey-desktop/src/helpers/kk-state-controller/types'
 import { KeepKeyFactoryState } from './FactoryState'
 import { UpdateBootloader } from './UpdateBootloader/UpdateBootloader'
 import { UpdateFirmware } from './UpdateFirmware/UpdateFirmware'
 
-export const UpdateKeepKey = (params: any) => {
+export const UpdateKeepKey = (params: Record<string, never> | KKStateData) => {
   const { updateKeepKey } = useModal()
-  const { close, isOpen } = updateKeepKey
+  const { isOpen } = updateKeepKey
   const { setStep, activeStep } = useSteps({
     initialStep: 0,
   })
-  const { disconnect } = useWallet()
 
   useEffect(() => {
-    if (params?.event?.bootloaderUpdateNeeded) {
-      setStep(0)
-    } else if (params?.event?.firmwareUpdateNeededNotBootloader) {
-      setStep(1)
-    } else {
-      setStep(2)
+    const state = params.state
+    switch (state) {
+      case undefined:
+        break
+      case KKState.UpdateBootloader:
+        setStep(0)
+        break
+      case KKState.UpdateFirmware:
+        setStep(1)
+        break
+      case KKState.NeedsInitialize:
+        setStep(2)
+        break
+      default:
+        console.error(`UpdateKeepKey called with unexpected state '${state}'`)
     }
-  }, [params?.event, setStep])
+  }, [params.state, setStep])
 
   const steps = [
     { label: 'Bootloader', content: <UpdateBootloader {...params} /> },
@@ -44,17 +53,19 @@ export const UpdateKeepKey = (params: any) => {
       closeOnOverlayClick={false}
       closeOnEsc={false}
     >
-      <ModalOverlay />
-      <ModalContent justifyContent='center' p={3}>
-        {/*<ModalCloseButton ml='auto' borderRadius='full' position='static' />*/}
-        <Steps activeStep={activeStep}>
-          {steps.map(({ label, content }: any) => (
-            <Step label={label} key={label}>
-              {content}
-            </Step>
-          ))}
-        </Steps>
-      </ModalContent>
+      <div style={{ '--chakra-zIndices-modal': updateKeepKey.zIndex }}>
+        <ModalOverlay />
+        <ModalContent justifyContent='center' p={3}>
+          {/*<ModalCloseButton ml='auto' borderRadius='full' position='static' />*/}
+          <Steps activeStep={activeStep}>
+            {steps.map(({ label, content }: any) => (
+              <Step label={label} key={label}>
+                {content}
+              </Step>
+            ))}
+          </Steps>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

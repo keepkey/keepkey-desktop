@@ -12,12 +12,12 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { Buffer } from 'buffer'
-import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { useCallback, useEffect, useState } from 'react'
-import { useTranslate } from 'react-polyglot'
 import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { RawText, Text } from 'components/Text'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
+import { useCallback, useEffect, useState } from 'react'
+import { useTranslate } from 'react-polyglot'
 
 import { AddressSummaryCard } from './AddressSummaryCard'
 
@@ -102,7 +102,14 @@ export const SignMessageConfirmation = () => {
         />
         <Card bg={cardBg} borderRadius='md'>
           <HStack align='center' pl={4}>
-            <Image borderRadius='full' boxSize='24px' src={walletConnect.dapp.icons[0]} />
+            <Image
+              borderRadius='full'
+              boxSize='24px'
+              src={
+                walletConnect.dapp.icons[0] ||
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM8U_ylSIt18n6kEAa0oM2_Ta5o02gBtrMNZdpHAYjmJF7hLyH7IpBZ0WoTRPQcK0QQdk&usqp=CAU'
+              }
+            />
             <RawText fontWeight='semibold' flex={1}>
               {walletConnect.dapp.name}
             </RawText>

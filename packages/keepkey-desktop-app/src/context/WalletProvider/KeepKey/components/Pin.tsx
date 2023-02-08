@@ -1,16 +1,22 @@
 import type { ButtonProps, SimpleGridProps } from '@chakra-ui/react'
-import { Alert, AlertDescription, AlertIcon, Button, Input, SimpleGrid } from '@chakra-ui/react'
-import type { Event, ResetDevice } from '@shapeshiftoss/hdwallet-core'
-import { ipcRenderer } from 'electron-shim'
-import type { KeyboardEvent } from 'react'
-import { useCallback } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Button,
+  Center,
+  Input,
+  SimpleGrid,
+} from '@chakra-ui/react'
 import { CircleIcon } from 'components/Icons/Circle'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
-import { FailureType, MessageType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
+// import { FailureType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { logger } from 'lib/logger'
+import type { KeyboardEvent } from 'react'
+import { useCallback } from 'react'
+import { useEffect, useRef, useState } from 'react'
 const moduleLogger = logger.child({ namespace: ['Pin'] })
 
 type KeepKeyPinProps = {
@@ -30,134 +36,71 @@ export const KeepKeyPin = ({
 }: KeepKeyPinProps) => {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
-  const [isPinEmpty, setIsPinEmpty] = useState(true)
   const {
     setDeviceState,
-    state: {
-      keyring,
-      deviceId,
-      deviceState: { disposition },
-    },
+    state: { pinDeferred, showBackButton },
     dispatch,
-    desiredLabel,
   } = useWallet()
-  const wallet = keyring.get(deviceId)
-
+  const [pin, setPin] = useState<string>('')
   const pinFieldRef = useRef<HTMLInputElement | null>(null)
 
   const pinNumbers = [7, 8, 9, 4, 5, 6, 1, 2, 3]
 
   const handlePinPress = useCallback(
     (value: number) => {
-      if (pinFieldRef?.current) {
-        pinFieldRef.current.value += value.toString()
-      }
+      if (pin.length < 9) setPin(`${pin}${value}`)
     },
-    [pinFieldRef],
+    [pin],
   )
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     setError(null)
-    if (translationType !== 'remove')
+    if (pin.length === 0) return
+
+    // TODO: do we still need this?
+    if (translationType !== 'remove') {
       setDeviceState({
         isDeviceLoading: true,
       })
-    setLoading(true)
-    const pin = pinFieldRef.current?.value
-    if (pin && pin.length > 0) {
-      try {
-        // The event handler will pick up the response to the sendPin request
-        moduleLogger.debug('About to send pin')
-        await wallet?.sendPin(pin)
-        moduleLogger.debug('done sending pin')
-        if (translationType === 'remove') return setLoading(false)
-        switch (disposition) {
-          case 'recovering':
-            setDeviceState({ awaitingDeviceInteraction: true })
-            dispatch({
-              type: WalletActions.OPEN_KEEPKEY_CHARACTER_REQUEST,
-              payload: {
-                characterPos: undefined,
-                wordPos: undefined,
-              },
-            })
-            break
-          default:
-            break
-        }
-      } catch (e) {
-        moduleLogger.error(e, 'KeepKey PIN Submit error: ')
-      } finally {
-        if (pinFieldRef?.current) {
-          pinFieldRef.current.value = ''
-        }
-        ipcRenderer.send('@modal/pin-close')
-        setLoading(false)
-      }
     }
-  }
+
+    try {
+      setLoading(true)
+      moduleLogger.debug('About to send PIN')
+      await pinDeferred?.resolve(pin)
+      moduleLogger.debug('Done sending PIN')
+    } catch (e) {
+      moduleLogger.error(e, 'KeepKey PIN Submit error: ')
+      pinDeferred?.reject(e)
+    } finally {
+      setPin('')
+      setLoading(false)
+    }
+  }, [pinDeferred, pin, setDeviceState, translationType])
 
   const handleKeyboardInput = (e: KeyboardEvent) => {
-    // We can't allow tabbing between inputs or the focused element gets out of sync with the KeepKey
-    if (e.key === 'Tab') e.preventDefault()
+    e.preventDefault()
 
-    if (e.key === 'Backspace') return
-
-    if (e.key === 'Enter') {
+    if (e.key === 'Backspace') {
+      setPin(pin.slice(0, -1))
+    } else if (e.key === 'Enter') {
       handleSubmit()
-      return
-    }
-
-    if (!pinNumbers.includes(Number(e.key))) {
-      e.preventDefault()
-      return
-    } else {
-      e.preventDefault()
+    } else if (pinNumbers.includes(Number(e.key))) {
       handlePinPress(Number(e.key))
-      return
     }
   }
-
-  useEffect(() => {
-    /**
-     * Handle errors reported by the KeepKey
-     * Specifically look for PIN errors that are relevant to this modal
-     */
-    const handleError = (events: Event[]) => {
-      const e = events[1]
-      if (e.message_enum === MessageType.FAILURE) {
-        switch (e.message?.code as FailureType) {
-          // Device has a programmed PIN
-          case FailureType.PININVALID:
-            setError(`walletProvider.keepKey.errors.pinInvalid`)
-            setTimeout(() => {
-              const sanitizedLabel = desiredLabel.replace(/[^\x00-\x7F]+/g, '').substring(0, 12)
-              const resetMessage: ResetDevice = { label: sanitizedLabel ?? '', pin: true }
-              setDeviceState({ awaitingDeviceInteraction: true, disposition })
-              wallet?.reset(resetMessage)
-            }, 3000)
-            break
-          default:
-        }
-      }
-    }
-
-    keyring.on(['KeepKey', deviceId, String(MessageType.FAILURE)], handleError)
-
-    return () => {
-      keyring.off(['KeepKey', deviceId, String(MessageType.FAILURE)], handleError)
-    }
-  }, [desiredLabel, deviceId, disposition, keyring, setDeviceState, wallet])
 
   const [disablePin, setDisablePin] = useState(true)
 
   useEffect(() => {
-    pinFieldRef.current?.focus()
-
     setTimeout(() => {
       setDisablePin(false)
     }, 1)
   }, [disablePin])
+
+  useEffect(() => {
+    pinFieldRef.current?.focus()
+  }, [])
 
   return (
     <>
@@ -173,15 +116,14 @@ export const KeepKeyPin = ({
       >
         {pinNumbers.map(number => (
           <Button
-            disabled={disablePin}
             key={number}
             size={'lg'}
             p={8}
             onClick={() => {
               handlePinPress(number)
-              setIsPinEmpty(!pinFieldRef.current?.value)
             }}
             {...buttonsProps}
+            disabled={loading || pin.length >= 9}
           >
             <CircleIcon boxSize={4} />
           </Button>
@@ -192,13 +134,32 @@ export const KeepKeyPin = ({
         ref={pinFieldRef}
         size='lg'
         variant='filled'
-        mb={6}
+        mb={3}
         autoComplete='one-time-code'
+        value={pin}
+        autoFocus={true}
         onKeyDown={handleKeyboardInput}
-        onKeyUp={() => setIsPinEmpty(!pinFieldRef.current?.value)}
+        onSubmit={handleSubmit}
+        onChange={() => {}}
+        disabled={loading}
       />
+      {translationType === 'pin' && (
+        <Center>
+          <small>
+            <Text
+              onClick={() =>
+                dispatch({
+                  type: WalletActions.OPEN_KEEPKEY_WIPE,
+                  payload: { preventClose: !showBackButton },
+                })
+              }
+              translation={`walletProvider.keepKey.modals.headings.forgotPinWipeDevice`}
+            />
+          </small>
+        </Center>
+      )}
       {error && (
-        <Alert status='error'>
+        <Alert status='error' mb={3} mt={3}>
           <AlertIcon />
           <AlertDescription>
             <Text translation={error} />
@@ -206,11 +167,12 @@ export const KeepKeyPin = ({
         </Alert>
       )}
       <Button
+        mt={3}
         width='full'
         size={confirmButtonSize ?? 'lg'}
         colorScheme='blue'
         onClick={handleSubmit}
-        disabled={loading || isPinEmpty}
+        disabled={loading || pin.length === 0}
       >
         <Text translation={`walletProvider.keepKey.${translationType}.button`} />
       </Button>

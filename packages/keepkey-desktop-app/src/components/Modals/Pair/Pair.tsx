@@ -1,9 +1,11 @@
+import { WarningTwoIcon } from '@chakra-ui/icons'
 import {
   Alert,
   AlertDescription,
   AlertIcon,
   Box,
   Button,
+  Checkbox,
   Image,
   Modal,
   ModalBody,
@@ -12,71 +14,78 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  Text as ChakraText,
 } from '@chakra-ui/react'
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
-// import { SessionTypes } from '@walletconnect/types'
-import { ipcRenderer } from 'electron-shim'
-import { useEffect, useState } from 'react'
+// import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import type { Deferred } from 'common-utils'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
-import { WalletActions } from 'context/WalletProvider/actions'
+// import { WalletActions } from 'context/WalletProvider/actions'
+// import { SessionTypes } from '@walletconnect/types'
 import { useModal } from 'hooks/useModal/useModal'
-import { useWallet } from 'hooks/useWallet/useWallet'
+import { getPioneerClient } from 'lib/getPioneerClient'
+import { useCallback, useEffect, useState } from 'react'
 
-export type PairingProps = NativePairingProps | WalletConnectPairingProps
+import type { PairingProps } from './types'
 
-export type NativePairingProps = {
-  type: 'native'
-  data: {
-    serviceName: string
-    serviceImageUrl: string
-  }
-  nonce: string
-}
-
-export type WalletConnectPairingProps = {
-  type: 'walletconnect'
-  data: any
-  nonce: string
-}
-
-export const PairModal = (input: PairingProps) => {
+export const PairModal = ({
+  deferred,
+  input,
+}: {
+  deferred?: Deferred<boolean>
+  input?: PairingProps
+}) => {
   const [error] = useState<string | null>(null)
   const [loading] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isFound, _setIsFound] = useState(true)
+  const [makeDefault, setMakeDefault] = useState(false)
   const { pair } = useModal()
   const { close, isOpen } = pair
-  const [accounts, setAccounts] = useState<string[]>([])
 
-  const { state, dispatch } = useWallet()
+  let onStart = useCallback(
+    async function () {
+      try {
+        const pioneer = await getPioneerClient()
+
+        let globals = await pioneer.Globals()
+        console.log('globals: ', globals)
+        console.log('input.data: ', input?.data)
+        console.log('input.data: ', input?.data.name)
+
+        //find EVP by name
+        let evpData = await pioneer.ListAppsByName({ name: input?.data.name })
+        console.log('evpData: ', evpData)
+        //if found EVP, send to device
+
+        if (evpData[0]) {
+          //send to device
+        } else {
+          //show Warning
+          // setIsFound(false)
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    [input?.data],
+  )
 
   useEffect(() => {
-    if (input.type === 'walletconnect') {
-      ;(state.wallet as KeepKeyHDWallet)
-        .ethGetAddress({
-          addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
-          showDisplay: false,
-        })
-        .then(address => {
-          setAccounts([address])
-        })
-    }
-  }, [state.wallet, input.type])
+    onStart()
+  }, [input, input?.data, input?.type, onStart])
 
   const HandleSubmit = async () => {
-    if (input.type === 'native') ipcRenderer.send(`@bridge/approve-service-${input.nonce}`, input)
-    if (input.type === 'walletconnect') {
-      ipcRenderer.send(`@walletconnect/approve-${input.nonce}`, { proposal: input.data, accounts })
-      dispatch({
-        type: WalletActions.SET_WALLET_CONNECT_APP,
-        payload: input.data?.params[0]?.peerMeta,
-      })
-    }
+    if (makeDefault && input?.type === 'native' && input?.data.url)
+      localStorage.setItem('@app/defaultDapp', JSON.stringify(input?.data))
+    console.log('Approving!')
+    deferred?.resolve(true)
     close()
   }
 
   const HandleReject = async () => {
-    if (input.type === 'native') ipcRenderer.send(`@bridge/reject-service-${input.nonce}`, input)
+    console.log('Rejecting!')
+    console.log('input: !', input)
+    deferred?.resolve(false)
     close()
   }
 
@@ -84,107 +93,102 @@ export const PairModal = (input: PairingProps) => {
     <SlideTransition>
       <Modal
         isOpen={isOpen}
-        onClose={() => {
-          ipcRenderer.send('unlockWindow', {})
+        onClose={async () => {
           close()
+          // input.deferred?.reject()
         }}
         isCentered
         closeOnOverlayClick={false}
         closeOnEsc={false}
       >
-        <ModalOverlay />
-        <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
-          <ModalCloseButton ml='auto' borderRadius='full' position='static' />
-          <ModalHeader>
-            <Text
-              translation={
-                input.type === 'native'
-                  ? 'modals.pair.native.header'
-                  : 'modals.pair.walletconnect.header'
-              }
-            />
-          </ModalHeader>
-          <ModalBody>
-            <Stack spacing={4} mb={4}>
-              <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center'>
-                <Image
-                  src={
-                    input.type === 'native'
-                      ? input.data.serviceImageUrl
-                      : input?.data?.params[0]?.peerMeta?.icons[0]
-                  }
-                  borderRadius='full'
-                  height='10'
-                  width='10'
-                />
+        <div style={{ '--chakra-zIndices-modal': pair.zIndex }}>
+          <ModalOverlay />
+          <ModalContent justifyContent='center' px={3} pt={3} pb={6}>
+            <ModalCloseButton ml='auto' borderRadius='full' position='static' />
+            <ModalHeader>
+              <Text
+                translation={
+                  input?.type === 'native'
+                    ? 'modals.pair.native.header'
+                    : 'modals.pair.walletconnect.header'
+                }
+              />
+            </ModalHeader>
+            <ModalBody>
+              <Stack spacing={4} mb={4}>
+                <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center'>
+                  <Box display='flex' flexDirection='column'>
+                    <Text
+                      translation={[
+                        'modals.pair.native.body',
+                        {
+                          serviceName:
+                            input?.type === 'native'
+                              ? input?.data.name
+                              : input?.data.params[0]?.peerMeta.name,
+                        },
+                      ]}
+                      pl='2'
+                    />
+                    {isFound ? (
+                      <Box
+                        display='flex'
+                        flexDirection='row'
+                        justifyContent='center'
+                        alignItems='center'
+                      >
+                        <Image
+                          src={
+                            input?.type === 'native'
+                              ? input?.data?.imageUrl
+                              : input?.data?.params[0]?.peerMeta?.icons[0]
+                          }
+                          borderRadius='full'
+                          height='60'
+                          width='60'
+                        />
+                      </Box>
+                    ) : (
+                      <div>
+                        <WarningTwoIcon boxSize={12} color='yellow.500' />
+                        <h4>
+                          <Text translation={'modals.pair.notFound'} />
+                        </h4>
+                      </div>
+                    )}
 
-                <Box display='flex' flexDirection='column'>
-                  <Text
-                    translation={[
-                      'modals.pair.native.body',
-                      {
-                        serviceName:
-                          input.type === 'native'
-                            ? input.data.serviceName
-                            : input?.data?.params[0]?.peerMeta.name,
-                      },
-                    ]}
-                    pl='2'
-                  />
-                  {input.type === 'walletconnect' ? (
-                    <ChakraText pl={2} color='gray.500' fontSize='sm'>
-                      {input?.data?.params[0]?.peerMeta.description}
-                    </ChakraText>
-                  ) : null}
+                    {/*{input.data?.type === 'walletconnect' ? (*/}
+                    {/*  <ChakraText pl={2} color='gray.500' fontSize='sm'>*/}
+                    {/*    {input?.data?.data.params[0]?.peerMeta.description}*/}
+                    {/*  </ChakraText>*/}
+                    {/*) : null}*/}
+                  </Box>
                 </Box>
-              </Box>
-              {input.type === 'walletconnect' && (
-                <Box display='flex' flexDirection='column' gap={1}>
-                  {/*<Text translation={'modals.pair.walletconnect.chain'} />*/}
-                  {/*{input.data.permissions.blockchain.chains &&*/}
-                  {/*  input.data.permissions.blockchain.chains.map(chain => (*/}
-                  {/*    <ChakraText color='gray.500'>{chain}</ChakraText>*/}
-                  {/*  ))}*/}
-                  {/*<Text translation={'modals.pair.walletconnect.relay'} />*/}
-                  {/*<ChakraText color='gray.500'>{input.data.relay.protocol}</ChakraText>*/}
-                  {/*<Text translation={'modals.pair.walletconnect.methods'} />*/}
-                  {/*<ChakraText color='gray.500'>*/}
-                  {/*  {input.data.permissions.jsonrpc.methods.join(', ')}*/}
-                  {/*</ChakraText>*/}
-                  {/*<Text translation={'accounts.accounts'} />*/}
-                  {/*{accounts &&*/}
-                  {/*  accounts.map(address => <ChakraText color='gray.500'>{address}</ChakraText>)}*/}
-                </Box>
-              )}
-              {error && (
-                <Alert status='error'>
-                  <AlertIcon />
-                  <AlertDescription>
-                    <Text translation={error} />
-                  </AlertDescription>
-                </Alert>
-              )}
-              <Button
-                width='full'
-                size='lg'
-                colorScheme='blue'
-                onClick={HandleSubmit}
-                disabled={loading}
-              >
-                <Text translation={'modals.pair.cta.pair'} />
-              </Button>
-              <Button
-                width='full'
-                size='lg'
-                colorScheme='red'
-                onClick={HandleReject}
-                disabled={loading}
-              >
-                <Text translation={'modals.pair.cta.reject'} />
-              </Button>
-            </Stack>
-          </ModalBody>
-        </ModalContent>
+                {/*{input.data?.type === 'walletconnect' && (*/}
+                {/*  <Box display='flex' flexDirection='column' gap={1}>*/}
+                {/*  </Box>*/}
+                {/*)}*/}
+                {error && (
+                  <Alert status='error'>
+                    <AlertIcon />
+                    <AlertDescription>
+                      <Text translation={error} />
+                    </AlertDescription>
+                  </Alert>
+                )}
+                <Checkbox onChange={e => setMakeDefault(e.target.checked)}>
+                  <Text translation={'modals.pair.cta.makeDefault'} />
+                </Checkbox>
+                <Button colorScheme='blue' onClick={HandleSubmit} disabled={loading}>
+                  <Text translation={'modals.pair.cta.pair'} />
+                </Button>
+                <Button colorScheme='red' onClick={HandleReject} disabled={loading}>
+                  <Text translation={'modals.pair.cta.reject'} />
+                </Button>
+              </Stack>
+            </ModalBody>
+          </ModalContent>
+        </div>
       </Modal>
     </SlideTransition>
   )

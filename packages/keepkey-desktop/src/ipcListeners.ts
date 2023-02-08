@@ -1,277 +1,354 @@
-import { app, ipcMain } from 'electron'
+import * as Comlink from 'comlink'
+import { electronEndpoint } from 'comlink-electron-endpoint/main'
+import { deferred } from 'common-utils'
+import type { IpcMainEvent } from 'electron'
+import { session } from 'electron'
+import { webContents } from 'electron'
+import { app, desktopCapturer, ipcMain } from 'electron'
+import { autoUpdater } from 'electron-updater'
+import jsQR from 'jsqr'
+import * as _ from 'lodash'
+import fetch from 'node-fetch'
+// import isDev from 'electron-is-dev'
+// import { autoUpdater } from 'electron-updater'
+import { sleep } from 'wait-promise'
+
+import type {
+  PairedAppProps,
+  PairingProps as PairingProps2,
+} from '../../keepkey-desktop-app/src/pages/Pairings/types'
 import {
   bridgeLogger,
   db,
-  ipcQueue,
   isWalletBridgeRunning,
   kkStateController,
-  setRenderListenersReady,
   settings,
   windows,
 } from './globalState'
 import {
   downloadFirmware,
-  getBetaFirmwareData,
+  getAllFirmwareData,
+  getFirmwareBaseUrl,
   getLatestFirmwareData,
   loadFirmware,
 } from './helpers/kk-state-controller/firmwareUtils'
-import { queueIpcEvent, scanScreenForQR } from './helpers/utils'
-import log from 'electron-log'
-import { sleep } from 'wait-promise'
-import { UPDATE_FIRMWARE } from 'helpers/kk-state-controller'
+import type { BridgeLog, Settings } from './helpers/types'
+import type { IpcListeners, RendererIpc } from './types'
 
-export const startIpcListeners = () => {
-  ipcMain.on('@app/restart', () => {
+export let rendererIpc = deferred<RendererIpc>()
+
+ipcMain.on('@app/register-render-listeners', (event: IpcMainEvent) => {
+  if (rendererIpc.settled) rendererIpc = deferred<RendererIpc>()
+  rendererIpc.resolve(Comlink.wrap<RendererIpc>(electronEndpoint(event.ports[0])))
+})
+
+ipcMain.on('@app/get-ipc-listeners', (event: IpcMainEvent) => {
+  Comlink.expose(ipcListeners, electronEndpoint(event.ports[0]))
+})
+
+export const ipcListeners: IpcListeners = {
+  async appRestart() {
     app.relaunch()
     app.exit()
-  })
+  },
 
-  ipcMain.on('@app/exit', () => {
+  async appExit() {
     app.exit()
-  })
+  },
 
-  ipcMain.on('@app/version', event => {
-    event.sender.send('@app/version', app.getVersion())
-  })
+  async appVersion() {
+    return app.getVersion()
+  },
 
-  ipcMain.on('@app/pairings', () => {
-    db.find({ type: 'pairing' }, (_err, docs) => {
-      if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-        windows.mainWindow.webContents.send('@app/pairings', docs)
-    })
-  })
+  async appPreRelease() {
+    if (!autoUpdater.allowPrerelease) return false
+    const currentVersion = app.getVersion()
 
-  ipcMain.on('@walletconnect/pairing', (_event, data) => {
-    db.findOne(
+    try {
+      const r = await fetch(
+        `https://api.github.com/repos/keepkey/keepkey-desktop/releases/tags/v${currentVersion}`,
+      )
+      const resp: any = await r.json()
+      if (!resp) return false
+      return resp.prerelease
+    } catch (error) {
+      console.error(error)
+      return false
+    }
+  },
+
+  async appUpdateSettings(data: Partial<Settings>) {
+    await settings.updateBulkSettings(data)
+  },
+
+  async appSettings(): Promise<Settings> {
+    return {
+      shouldAutoLaunch: await settings.shouldAutoLaunch,
+      shouldAutoStartBridge: await settings.shouldAutoStartBridge,
+      shouldMinimizeToTray: await settings.shouldMinimizeToTray,
+      shouldAutoUpdate: await settings.shouldAutoUpdate,
+      bridgeApiPort: await settings.bridgeApiPort,
+      allowPreRelease: await settings.allowPreRelease,
+      allowBetaFirmware: await settings.allowBetaFirmware,
+      autoScanQr: await settings.autoScanQr,
+    }
+  },
+
+  async appPairings(): Promise<PairingProps2[]> {
+    return await db.find<PairingProps2>({ type: 'pairing' })
+  },
+
+  async walletconnectPairing(data: {
+    serviceName: string
+    serviceHomePage: string
+    serviceImageUrl: string
+  }) {
+    await db.update(
       {
         type: 'pairing',
         serviceName: data.serviceName,
         serviceHomePage: data.serviceHomePage,
         pairingType: 'walletconnect',
       },
-      (_err, doc) => {
-        if (doc) {
-          db.update(
-            {
-              type: 'pairing',
-              serviceName: data.serviceName,
-              serviceHomePage: data.serviceHomePage,
-              pairingType: 'walletconnect',
-            },
-            {
-              type: 'pairing',
-              addedOn: Date.now(),
-              serviceName: data.serviceName,
-              serviceImageUrl: data.serviceImageUrl,
-              serviceHomePage: data.serviceHomePage,
-              pairingType: 'walletconnect',
-            },
-          )
-        } else {
-          db.insert({
-            type: 'pairing',
-            addedOn: Date.now(),
-            serviceName: data.serviceName,
-            serviceImageUrl: data.serviceImageUrl,
-            serviceHomePage: data.serviceHomePage,
-            pairingType: 'walletconnect',
-          })
-        }
-      },
-    )
-  })
-
-  ipcMain.on('@bridge/service-details', (_event, serviceKey) => {
-    db.findOne(
       {
-        type: 'service',
-        serviceKey,
+        type: 'pairing',
+        addedOn: Date.now(),
+        serviceName: data.serviceName,
+        serviceImageUrl: data.serviceImageUrl,
+        serviceHomePage: data.serviceHomePage,
+        pairingType: 'walletconnect',
       },
-      (_err, doc) => {
-        if (!doc) return
-        const logs = bridgeLogger.fetchLogs(serviceKey)
-        if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-          windows.mainWindow.webContents.send('@bridge/service-details', {
-            app: doc,
-            logs,
-          })
-      },
-    )
-  })
-
-  ipcMain.on('@bridge/connected', () => {
-    if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-      windows.mainWindow.webContents.send('@bridge/connected', isWalletBridgeRunning())
-  })
-
-  ipcMain.on('@bridge/service-name', (_event, serviceKey) => {
-    db.findOne(
       {
-        type: 'service',
-        serviceKey,
-      },
-      (_err, doc) => {
-        if (!doc) return
-        if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-          windows.mainWindow.webContents.send('@bridge/service-name', doc.serviceName)
+        upsert: true,
       },
     )
-  })
+  },
 
-  // web render thread has indicated it is ready to receive ipc messages
-  // send any that have queued since then
-  ipcMain.on('renderListenersReady', async () => {
-    log.info('renderListenersReady')
-    setRenderListenersReady(true)
-    ipcQueue.forEach(item => {
-      log.info('ipc event called from queue', item)
-      if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-        windows.mainWindow.webContents.send(item.eventName, item.args)
+  async bridgeServiceDetails(
+    apiKey: string,
+  ): Promise<undefined | { app: PairedAppProps; logs: BridgeLog[] }> {
+    const doc = await db.findOne<PairedAppProps>({
+      type: 'sdk-pairing',
+      apiKey,
     })
-    ipcQueue.length = 0
-  })
+    if (!doc) return undefined
+    const logs = bridgeLogger.fetchLogs(apiKey)
+    return {
+      app: doc,
+      logs,
+    }
+  },
+
+  async bridgeConnected() {
+    return isWalletBridgeRunning()
+  },
+
+  async bridgeServiceName(apiKey: string): Promise<string | undefined> {
+    const doc = await db.findOne<PairedAppProps>({
+      type: 'sdk-pairing',
+      apiKey,
+    })
+    if (!doc) return 'Unable to fetch name'
+    return doc.info.name
+  },
 
   // send paired apps when requested
-  ipcMain.on('@bridge/paired-apps', () => {
-    db.find({ type: 'service' }, (_err, docs) => {
-      queueIpcEvent('@bridge/paired-apps', docs)
-    })
-  })
+  async bridgePairedApps(): Promise<PairedAppProps[]> {
+    return await db.find<PairedAppProps>({ type: 'sdk-pairing' })
+  },
+
+  async bridgeCheckAppPaired(url: string): Promise<boolean> {
+    const apps = await db.find<PairedAppProps>({ type: 'sdk-pairing' })
+    if (!apps) return false
+    const paired = apps.find(app => app.info.url === url)
+    if (!paired) return false
+    return true
+  },
 
   // used only for implicitly pairing the KeepKey web app
-  ipcMain.on(`@bridge/add-service`, (_event, data) => {
-    db.insert({
-      type: 'service',
-      isKeepKeyDesktop: true,
-      addedOn: Date.now(),
-      serviceName: data.serviceName,
-      serviceImageUrl: data.serviceImageUrl,
-      serviceHomePage: data.serviceHomePage,
-      pairingType: 'walletconnect',
-    })
-  })
-
-  ipcMain.on('@bridge/service-details', (_event, serviceKey) => {
-    db.findOne(
+  async bridgeAddService(data: {
+    serviceKey: string
+    serviceName: string
+    serviceImageUrl: string
+    serviceHomePage?: string
+  }) {
+    await db.updateOne(
       {
-        type: 'service',
-        serviceKey,
+        type: 'sdk-pairing',
+        apiKey: data.serviceKey,
       },
-      (_err, doc) => {
-        if (!doc) return
-        const logs = bridgeLogger.fetchLogs(serviceKey)
-        if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-          windows.mainWindow.webContents.send('@bridge/service-details', {
-            app: doc,
-            logs,
-          })
-      },
-    )
-  })
-
-  ipcMain.on('@bridge/connected', () => {
-    if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-      windows.mainWindow.webContents.send('@bridge/connected', isWalletBridgeRunning())
-  })
-
-  ipcMain.on('@bridge/service-name', (_event, serviceKey) => {
-    db.findOne(
       {
-        type: 'service',
-        serviceKey,
+        type: 'sdk-pairing',
+        apiKey: data.serviceKey,
+        info: {
+          name: data.serviceName,
+          url: data.serviceHomePage,
+          imageUrl: data.serviceImageUrl,
+          addedOn: Date.now(),
+          isKeepKeyDesktop: true,
+        },
       },
-      (_err, doc) => {
-        if (!doc) return
-        if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-          windows.mainWindow.webContents.send('@bridge/service-name', doc.serviceName)
-      },
+      { upsert: true },
     )
-  })
-
-  // web render thread has indicated it is ready to receive ipc messages
-  // send any that have queued since then
-  ipcMain.on('renderListenersReady', async () => {
-    log.info('renderListenersReady')
-    setRenderListenersReady(true)
-    ipcQueue.forEach(item => {
-      log.info('ipc event called from queue', item)
-      if (windows.mainWindow && !windows.mainWindow.isDestroyed())
-        windows.mainWindow.webContents.send(item.eventName, item.args)
-    })
-    ipcQueue.length = 0
-  })
-
-  // send paired apps when requested
-  ipcMain.on('@bridge/paired-apps', () => {
-    db.find({ type: 'service' }, (_err, docs) => {
-      queueIpcEvent('@bridge/paired-apps', docs)
-    })
-  })
-
-  // used only for implicitly pairing the KeepKey web app
-  ipcMain.on(`@bridge/add-service`, (_event, data) => {
-    db.insert({
-      type: 'service',
-      isKeepKeyDesktop: true,
-      addedOn: Date.now(),
-      ...data,
-    })
-  })
+  },
 
   // used for unpairing apps
-  ipcMain.on(`@bridge/remove-service`, (_event, data) => {
-    db.remove({ ...data })
-  })
+  async bridgeRemoveService(data: PairedAppProps) {
+    await db.remove(data, {})
+  },
 
-  ipcMain.on('@keepkey/update-firmware', async event => {
-    let result = settings.allowBetaFirmware
-      ? await getBetaFirmwareData()
-      : await getLatestFirmwareData()
-    let firmware = await downloadFirmware(result.firmware.url)
-    if (!firmware) throw Error('Failed to load firmware from url!')
-    await loadFirmware(kkStateController.wallet, firmware)
-    event.sender.send('onCompleteFirmwareUpload', {
-      bootloader: true,
-      success: true,
+  async keepkeyUpdateFirmware() {
+    const baseUrl = await getFirmwareBaseUrl()
+    const firmwareData = await getAllFirmwareData(baseUrl)
+    const url = (await getLatestFirmwareData(firmwareData)).firmware.url
+    const firmware = await downloadFirmware(baseUrl, url)
+    if (!firmware) throw new Error(`Failed to load firmware from url '${url}'`)
+    const wallet = kkStateController.wallet
+    if (!wallet) throw new Error('No HDWallet instance found')
+    await loadFirmware(wallet, firmware)
+    setTimeout(async () => {
+      app.relaunch()
+      app.quit()
+      await sleep(250)
+      app.exit()
+    }, 0)
+  },
+
+  async keepkeyUpdateBootloader() {
+    const baseUrl = await getFirmwareBaseUrl()
+    const firmwareData = await getAllFirmwareData(baseUrl)
+    const url = (await getLatestFirmwareData(firmwareData)).bootloader.url
+    const firmware = await downloadFirmware(baseUrl, url)
+    if (!firmware) throw new Error(`Failed to load bootloader from url '${url}'`)
+    const wallet = kkStateController.wallet
+    if (!wallet) throw new Error('No HDWallet instance found')
+    await loadFirmware(wallet, firmware)
+  },
+
+  async keepkeySkipUpdate() {
+    await kkStateController.skipUpdate()
+  },
+
+  async appReadQr(): Promise<string> {
+    const sources = await desktopCapturer.getSources({
+      types: ['screen'],
+      thumbnailSize: { width: 1920, height: 1080 },
     })
-    app.relaunch()
-    app.quit()
-    await sleep(250)
-    app.exit()
-  })
 
-  ipcMain.on('@keepkey/update-bootloader', async event => {
-    let result = settings.allowBetaFirmware
-      ? await getBetaFirmwareData()
-      : await getLatestFirmwareData()
-    let firmware = await downloadFirmware(result.bootloader.url)
-    await loadFirmware(kkStateController.wallet, firmware)
-    event.sender.send('onCompleteBootloaderUpload', {
-      bootloader: true,
-      success: true,
+    for (let index = 0; index < sources.length; index++) {
+      const source = sources[index]
+      const thumbnail = source.thumbnail
+      const { height, width } = thumbnail.getSize()
+
+      const scanned = jsQR(new Uint8ClampedArray(thumbnail.getBitmap()), width, height)
+      if (!scanned) continue
+
+      return scanned.data
+    }
+
+    throw new Error('Unable to scan QR')
+  },
+
+  async appMonitorWebContentsForQr(
+    webContentsId: number,
+    signal: AbortSignal,
+    callback: (data: string) => Promise<void>,
+  ): Promise<void> {
+    console.log(`appMonitorWebContentsForQr: subscribing to ${webContentsId}`)
+
+    let lastScannedValue: string | undefined = undefined
+
+    const contents = webContents.fromId(webContentsId)
+    const handler = _.debounce(
+      () => {
+        ;(async () => {
+          const image = await contents.capturePage()
+          const { width, height } = image.getSize()
+          const scanned = jsQR(new Uint8ClampedArray(image.getBitmap()), width, height)?.data
+          if (scanned && scanned !== lastScannedValue) {
+            lastScannedValue = scanned
+            console.log('appMonitorWebContentsForQr: scanned', scanned)
+            callback(scanned).catch(e =>
+              console.error('appMonitorWebContentsForQr callback error:', e),
+            )
+          }
+        })().catch(e => console.error('appMonitorWebContentsForQr:debouncedHandler error:', e))
+      },
+      1000,
+      { leading: false, trailing: true },
+    )
+    contents.on('input-event', handler)
+    signal.addEventListener('abort', () => {
+      console.log(`appMonitorWebContentsForQr: unsubscribing from ${webContentsId}`)
+      try {
+        contents.off('input-event', handler)
+      } catch {} // the contents object might have already been destroyed, and that's ok
     })
-  })
+  },
 
-  ipcMain.on('@keepkey/skip-update', async event => {
-    kkStateController.skipUpdate()
-    event.sender.send('@keepkey/update-skipped')
-  })
+  async webviewAttachOpenHandler(
+    webContentsId: number,
+    loadUrl: (url: string, options?: Electron.LoadURLOptions) => Promise<void>,
+  ): Promise<void> {
+    console.log(`webviewAttachOpenHandler: subscribing to ${webContentsId}`)
 
-  ipcMain.on('@app/read-qr', async (event, data) => {
-    if (!data.nonce) return
-
-    const scanned = await scanScreenForQR()
-    if (!scanned)
-      return event.sender.send(`@app/read-qr-${data.nonce}`, {
-        success: false,
-        reason: 'Unable to scan QR',
-        nonce: data.nonce,
-      })
-
-    event.sender.send(`@app/read-qr-${data.nonce}`, {
-      success: true,
-      result: scanned,
-      nonce: data.nonce,
+    const contents = webContents.fromId(webContentsId)
+    contents.setWindowOpenHandler((details: Electron.HandlerDetails) => {
+      if (details.disposition === 'foreground-tab') {
+        loadUrl(details.url, {
+          httpReferrer: details.referrer,
+          postData: details.postBody?.data,
+        }).catch(e => console.error('webviewAttachOpenHandler: loadUrl error:', e))
+        return {
+          action: 'deny',
+        }
+      } else {
+        return {
+          action: 'allow',
+          overrideBrowserWindowOptions: {
+            autoHideMenuBar: true,
+          },
+        }
+      }
     })
-  })
+  },
+
+  async clearBrowserSession() {
+    const browserSession = session.fromPartition('browser')
+    await browserSession.clearStorageData()
+    await browserSession.clearCache()
+  },
+
+  async wipeKeepKey() {
+    if (!kkStateController.wallet) return
+    await kkStateController.wallet.cancel()
+    await kkStateController.wallet.wipe()
+  },
+
+  async forceReconnect() {
+    await kkStateController.forceReconnect()
+  },
+
+  async setAlwaysOnTop(value: boolean) {
+    if (!windows.mainWindow) return
+    if (value) windows.mainWindow.focus()
+    windows.mainWindow.setAlwaysOnTop(value)
+  },
+
+  // async appUpdate() {
+  //   if (isDev) {
+  //     return { updateInfo: { version: app.getVersion() } }
+  //   }
+  //   const update = await autoUpdater.checkForUpdates()
+  //   autoUpdater.autoDownload = await settings.shouldAutoUpdate
+  //   return update ?? undefined
+  // },
+
+  // async appDownloadUpdates() {
+  //   await autoUpdater.downloadUpdate()
+  // },
+
+  // async appInstallUpdates() {
+  //   autoUpdater.quitAndInstall()
+  // },
 }

@@ -1,6 +1,6 @@
 import { Box, Image, useColorModeValue } from '@chakra-ui/react'
-import type { FC } from 'react'
 import { CircleIcon } from 'components/Icons/Circle'
+import type { FC } from 'react'
 
 type Props = {
   image: string

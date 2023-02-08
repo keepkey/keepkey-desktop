@@ -1,11 +1,11 @@
 import * as core from '@shapeshiftoss/hdwallet-core'
 import type LegacyWalletConnect from '@walletconnect/client'
 import { Buffer } from 'buffer'
-import { ipcRenderer } from 'electron-shim'
-import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
+import { ipcListeners } from 'electron-shim'
 import { logger } from 'lib/logger'
+import type { TxData } from 'plugins/walletConnectToDapps/components/modal/callRequest/SendTransactionConfirmation'
 
 const moduleLogger = logger.child({ namespace: ['WalletConnect', 'Service'] })
 
@@ -23,13 +23,17 @@ export class LegacyWCService {
   ) {}
 
   async connect() {
+    console.log('attempting connection')
     if (!this.connector.connected) {
+      console.log('creating session')
       await this.connector.createSession()
     }
     this.subscribeToEvents()
   }
 
   disconnect = async () => {
+    console.log(this.connector.connected)
+    console.log(this.connector.session)
     await this.connector.killSession()
     this.connector.off('session_request')
     this.connector.off('connect')
@@ -56,7 +60,8 @@ export class LegacyWCService {
 
   async _onConnect() {
     if (this.connector.connected && this.connector.peerMeta) {
-      ipcRenderer.send('@walletconnect/pairing', {
+      console.log('On connect wc')
+      await ipcListeners.walletconnectPairing({
         serviceName: this.connector.peerMeta.name,
         serviceImageUrl: this.connector.peerMeta.icons[0],
         serviceHomePage: this.connector.peerMeta.url,
@@ -69,20 +74,26 @@ export class LegacyWCService {
   }
 
   async _onSwitchChain(_: Error | null, payload: any) {
+    const address = await this.wallet.ethGetAddress({ addressNList, showDisplay: false })
+    if (!address)
+      return this.connector.rejectRequest({
+        id: payload.id,
+      })
     this.connector.approveRequest({
       id: payload.id,
       result: 'success',
     })
+    const chainId = payload.params[0].chainId
     this.connector.updateSession({
-      chainId: payload.params[0].chainId,
-      accounts: payload.params[0].accounts,
+      chainId,
+      accounts: [address],
     })
     const web3Stuff = await web3ByChainId(parseInt(payload.params[0].chainId, 16))
     if (!web3Stuff) throw new Error('no data for chainId')
     this.connector.updateChain({
-      chainId: payload.params[0].chainId,
-      networkId: payload.params[0].chainId,
-      rpcUrl: '',
+      chainId,
+      networkId: chainId,
+      rpcUrl: web3Stuff.providerUrl,
       nativeCurrency: { name: web3Stuff.name, symbol: web3Stuff.symbol },
     })
   }
@@ -102,7 +113,7 @@ export class LegacyWCService {
   }
 
   public async approve(request: any, txData: TxData, web3: EthChainData) {
-    if (request.method === 'personal_sign') {
+    if (request.method === 'personal_sign' || request.method === 'eth_sign') {
       let message
       const strip0x = (inputHexString: string) =>
         inputHexString.startsWith('0x')
@@ -158,6 +169,14 @@ export class LegacyWCService {
         nonce: txData.nonce,
         to: txData.to,
         value: txData.value,
+        ...(txData.maxFeePerGas
+          ? {
+              maxFeePerGas: txData.maxFeePerGas,
+              maxPriorityFeePerGas: txData.maxPriorityFeePerGas,
+            }
+          : {
+              gasPrice: txData.gasPrice,
+            }),
       })
       const result = response?.serialized
       this.connector.approveRequest({ id: request.id, result })
@@ -183,14 +202,6 @@ export class LegacyWCService {
       console.error('Method Not Supported! e: ', request.method)
       const message = 'JSON RPC method not supported'
       this.connector.rejectRequest({ id: request.id, error: { message } })
-    }
-  }
-
-  private convertHexToUtf8IfPossible(hex: string) {
-    try {
-      return Buffer.from(hex, 'hex').toString('utf8')
-    } catch (e) {
-      return hex
     }
   }
 }

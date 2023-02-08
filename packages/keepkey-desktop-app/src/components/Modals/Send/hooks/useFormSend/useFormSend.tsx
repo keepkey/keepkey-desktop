@@ -1,7 +1,7 @@
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Link, Text, useToast } from '@chakra-ui/react'
-import { CHAIN_NAMESPACE, fromAssetId, fromChainId } from '@keepkey/caip'
-import type { CosmosSdkChainId } from '@keepkey/chain-adapters'
+import { CHAIN_NAMESPACE, fromAssetId, fromChainId } from '@shapeshiftoss/caip'
+import type { CosmosSdkChainId } from '@shapeshiftoss/chain-adapters'
 import {
   type ChainAdapter,
   type EvmBaseAdapter,
@@ -10,13 +10,9 @@ import {
   type UtxoBaseAdapter,
   type UtxoChainId,
   utxoChainIds,
-} from '@keepkey/chain-adapters'
-import type { KnownChainIds } from '@keepkey/types'
+} from '@shapeshiftoss/chain-adapters'
+import type { KnownChainIds } from '@shapeshiftoss/types'
 import { supportsETH } from '@shapeshiftoss/hdwallet-core'
-import { useTranslate } from 'react-polyglot'
-import { useSelector } from 'react-redux'
-import { sleep } from 'wait-promise'
-
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useEvm } from 'hooks/useEvm/useEvm'
 import { useModal } from 'hooks/useModal/useModal'
@@ -24,7 +20,10 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
 import { tokenOrUndefined } from 'lib/utils'
+import { useTranslate } from 'react-polyglot'
+import { useSelector } from 'react-redux'
 import { selectPortfolioAccountMetadata } from 'state/slices/selectors'
+import { sleep } from 'wait-promise'
 
 import type { SendInput } from '../../Form'
 

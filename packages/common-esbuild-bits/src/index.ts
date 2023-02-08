@@ -36,7 +36,10 @@ export async function getWorkspaces(rootPath: string): Promise<{ name: string; p
   ).flat()
 }
 
-export async function workspacePlugin(rootPath: string): Promise<esbuild.Plugin> {
+export async function workspacePlugin(
+  rootPath: string,
+  issuerPath: string,
+): Promise<esbuild.Plugin> {
   return {
     name: 'workspace-plugin',
     setup: async build => {
@@ -48,7 +51,7 @@ export async function workspacePlugin(rootPath: string): Promise<esbuild.Plugin>
           { filter: new RegExp(`^${escapeStringRegexp(name)}(\/.*)?`) },
           async args => {
             if (args.namespace !== 'file') return
-            const path = pnpapi.resolveRequest(args.path, rootPath)!
+            const path = pnpapi.resolveRequest(args.path, issuerPath)!
             // console.log(`resolving ${args.path} to ${path}`)
             return {
               path,

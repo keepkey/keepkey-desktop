@@ -1,7 +1,6 @@
-import { ChevronDownIcon, CopyIcon } from '@chakra-ui/icons'
+import { ChevronDownIcon } from '@chakra-ui/icons'
 import {
   Button,
-  IconButton,
   Menu,
   MenuButton,
   MenuItemOption,
@@ -10,36 +9,16 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
 import { Card } from 'components/Card/Card'
 import { Row } from 'components/Row/Row'
-import { RawText } from 'components/Text'
 import { getLogLevel, saveLogLevel } from 'lib/logger'
 import { logger } from 'lib/logger'
+import { useEffect, useState } from 'react'
 
 const moduleLogger = logger.child({ namespace: ['FeatureFlags'] })
 
 export const Debugging = () => {
   const [logLevel, setLogLevel] = useState(getLogLevel())
-  const [visitorId, setVisitorId] = useState<string | null>(null)
-
-  const handleCopyClick = async () => {
-    try {
-      if (!visitorId) throw new Error()
-      await navigator.clipboard.writeText(visitorId)
-      alert('Visitor ID copied!')
-    } catch (e) {
-      alert('Something went wrong')
-    }
-  }
-
-  useEffect(() => {
-    const pendoData = window.localStorage.getItem('visitorData')
-    if (pendoData) {
-      const value = JSON.parse(pendoData)
-      setVisitorId(value.visitorId.id)
-    }
-  }, [])
 
   type BuildMetadata = {
     headShortCommitHash: string
@@ -108,18 +87,6 @@ export const Debugging = () => {
                   </MenuOptionGroup>
                 </MenuList>
               </Menu>
-            </Row.Value>
-          </Row>
-          <Row alignItems='center'>
-            <Row.Label>Pendo visitor ID</Row.Label>
-            <Row.Value display='flex' gap={4} alignItems='center'>
-              <RawText>{visitorId}</RawText>
-              <IconButton
-                aria-label='Copy'
-                size='sm'
-                icon={<CopyIcon />}
-                onClick={handleCopyClick}
-              />
             </Row.Value>
           </Row>
         </Card.Body>

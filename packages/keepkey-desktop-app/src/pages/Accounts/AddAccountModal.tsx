@@ -22,17 +22,17 @@ import {
   Stack,
   useToast,
 } from '@chakra-ui/react'
-import type { ChainId } from '@keepkey/caip'
-import { fromAccountId } from '@keepkey/caip'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { FaInfoCircle } from 'react-icons/fa'
-import { useTranslate } from 'react-polyglot'
-import { useDispatch, useSelector } from 'react-redux'
+import type { ChainId } from '@shapeshiftoss/caip'
+import { fromAccountId } from '@shapeshiftoss/caip'
 import { RawText } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { deriveAccountIdsAndMetadata } from 'lib/account/account'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { FaInfoCircle } from 'react-icons/fa'
+import { useTranslate } from 'react-polyglot'
+import { useDispatch, useSelector } from 'react-redux'
 import { accountSpecifiers } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
 import { portfolio } from 'state/slices/portfolioSlice/portfolioSlice'
 import {
@@ -147,59 +147,63 @@ export const AddAccountModal = () => {
 
   return (
     <Modal isOpen={isOpen} onClose={close} isCentered>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader textAlign='center'>{translate('accounts.addAccount')}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody alignItems='center' justifyContent='center'>
-          <Stack>
-            <Stack spacing={0}>
-              <RawText fontWeight='semibold'>{translate('accounts.accountChain')}</RawText>
-              <RawText mt={-4} fontSize='sm' color='gray.500'>
-                {translate('accounts.selectChain')}
-              </RawText>
+      <div style={{ '--chakra-zIndices-modal': addAccount.zIndex }}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader textAlign='center'>{translate('accounts.addAccount')}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody alignItems='center' justifyContent='center'>
+            <Stack>
+              <Stack spacing={0}>
+                <RawText fontWeight='semibold'>{translate('accounts.accountChain')}</RawText>
+                <RawText mt={-4} fontSize='sm' color='gray.500'>
+                  {translate('accounts.selectChain')}
+                </RawText>
+              </Stack>
+              <Box pt={4} width='full'>
+                <Menu matchWidth>
+                  <MenuButton
+                    mb={4}
+                    as={Button}
+                    width='full'
+                    variant='outline'
+                    iconSpacing={0}
+                    rightIcon={<ChevronDownIcon />}
+                  >
+                    <Stack spacing={0} direction='row' alignItems='center'>
+                      <Avatar size='xs' src={icon} mr={3} />
+                      <RawText fontWeight='bold'>{name}</RawText>
+                    </Stack>
+                  </MenuButton>
+                  <MenuList>
+                    <MenuOptionGroup defaultValue='asc' type='radio'>
+                      {menuOptions}
+                    </MenuOptionGroup>
+                  </MenuList>
+                </Menu>
+              </Box>
+              {!isAbleToAddAccount && (
+                <Alert size='sm'>
+                  <AlertIcon as={FaInfoCircle} />
+                  <AlertDescription>
+                    {translate('accounts.requiresPriorTxHistory')}
+                  </AlertDescription>
+                </Alert>
+              )}
             </Stack>
-            <Box pt={4} width='full'>
-              <Menu matchWidth>
-                <MenuButton
-                  mb={4}
-                  as={Button}
-                  width='full'
-                  variant='outline'
-                  iconSpacing={0}
-                  rightIcon={<ChevronDownIcon />}
-                >
-                  <Stack spacing={0} direction='row' alignItems='center'>
-                    <Avatar size='xs' src={icon} mr={3} />
-                    <RawText fontWeight='bold'>{name}</RawText>
-                  </Stack>
-                </MenuButton>
-                <MenuList>
-                  <MenuOptionGroup defaultValue='asc' type='radio'>
-                    {menuOptions}
-                  </MenuOptionGroup>
-                </MenuList>
-              </Menu>
-            </Box>
-            {!isAbleToAddAccount && (
-              <Alert size='sm'>
-                <AlertIcon as={FaInfoCircle} />
-                <AlertDescription>{translate('accounts.requiresPriorTxHistory')}</AlertDescription>
-              </Alert>
-            )}
-          </Stack>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            colorScheme='blue'
-            width='full'
-            disabled={!isAbleToAddAccount}
-            onClick={handleAddAccount}
-          >
-            {translate('accounts.addAccount')}
-          </Button>
-        </ModalFooter>
-      </ModalContent>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              colorScheme='blue'
+              width='full'
+              disabled={!isAbleToAddAccount}
+              onClick={handleAddAccount}
+            >
+              {translate('accounts.addAccount')}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

@@ -1,6 +1,6 @@
-import { Box, Flex, Heading } from '@chakra-ui/react'
-// import { Button } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
+import { Box, Flex, Heading, Link } from '@chakra-ui/react'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import { assume } from 'common-utils'
 
 import { AssetIcon } from './AssetIcon'
 
@@ -15,6 +15,7 @@ export const KKAssetHeader: React.FC<AssetHeaderProps> = ({ asset }) => {
 
   if (!chainId) return null
 
+  assume<{ rank: unknown; link: string }>(asset)
   return (
     <Flex alignItems='center' flexDir={{ base: 'column', lg: 'row' }} flex={1} py={4}>
       <Flex alignItems='left' flexDir={{ base: 'row', lg: 'column' }}>
@@ -24,9 +25,12 @@ export const KKAssetHeader: React.FC<AssetHeaderProps> = ({ asset }) => {
             <Heading fontSize='2xl' lineHeight='shorter'>
               {name} {`(${symbol})`}
             </Heading>
+            <br />
+            <Link pb={6} fontWeight='bold' color='blue.500' isExternal href={asset?.link}>
+              explore
+            </Link>
           </Box>
         </Flex>
-        {/*<Button mt={2} onClick={onVoteClick}>VOTE</Button>*/}
       </Flex>
     </Flex>
   )

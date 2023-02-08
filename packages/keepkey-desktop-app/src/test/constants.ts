@@ -1,8 +1,5 @@
-import type { Asset } from '@keepkey/asset-service'
-import { btcAssetId, btcChainId, ethAssetId, ethChainId, foxAssetId } from '@keepkey/caip'
-import type { KnownChainIds } from '@keepkey/types'
-
-import type { DisplayFeeData } from '../components/Trade/types'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import { btcAssetId, btcChainId, ethAssetId, ethChainId, foxAssetId } from '@shapeshiftoss/caip'
 
 export const BTC: Asset = {
   chainId: btcChainId,
@@ -92,17 +89,4 @@ export const ETHCHAIN_QUOTE = {
       proportion: '1',
     },
   ],
-}
-
-export const ETHCHAIN_QUOTE_FEES: DisplayFeeData<KnownChainIds.EthereumMainnet> = {
-  chainSpecific: {
-    approvalFee: '0',
-    estimatedGas: '424500',
-    gasPrice: '361000000000',
-    totalFee: '0.1532445',
-  },
-  tradeFeeSource: '0x',
-  networkFeeCryptoHuman: '0.1532445',
-  buyAssetTradeFeeUsd: '0',
-  sellAssetTradeFeeUsd: '0',
 }

@@ -1,7 +1,7 @@
-import type { Asset } from '@keepkey/asset-service'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import { filterAssetsBySearchTerm } from 'components/AssetSearch/helpers/filterAssetsBySearchTerm/filterAssetsBySearchTerm'
 import debounce from 'lodash/debounce'
 import { useCallback, useState } from 'react'
-import { filterAssetsBySearchTerm } from 'components/AssetSearch/helpers/filterAssetsBySearchTerm/filterAssetsBySearchTerm'
 import { selectAssetsByMarketCap } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 

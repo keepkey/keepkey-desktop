@@ -1,30 +1,16 @@
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Box, Button, Heading, HStack, Image, Stack, StackDivider } from '@chakra-ui/react'
-import dayjs from 'dayjs'
-import { ipcRenderer } from 'electron-shim'
-import { useCallback, useEffect, useState } from 'react'
-import { useHistory } from 'react-router'
 import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
 import { RawText, Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
+import dayjs from 'dayjs'
+import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { useCallback, useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
 
-export type PairedAppProps = {
-  addedOn: number
-  serviceName: string
-  serviceImageUrl: string
-  serviceKey: string
-  isKeepKeyDesktop?: boolean
-}
-
-export type PairingProps = {
-  addedOn: number
-  serviceName: string
-  serviceImageUrl: string
-  serviceHomePage?: string
-  pairingType: 'walletconnect' | 'sdk'
-}
+import type { PairedAppProps, PairingProps } from './types'
 
 const PairingsHeader = () => {
   return (
@@ -42,25 +28,24 @@ export const Pairings = () => {
   const history = useHistory()
 
   useEffect(() => {
-    ipcRenderer.send('@bridge/paired-apps')
-    ipcRenderer.send('@app/pairings')
-    ipcRenderer.on('@bridge/paired-apps', (_event, data: PairedAppProps[]) => {
+    ipcListeners.bridgePairedApps().then((data: PairedAppProps[]) => {
+      console.log('bridgePairedApps', data)
       setApps(data)
     })
-    ipcRenderer.on('@app/pairings', (_event, data: PairingProps[]) => {
+    ipcListeners.appPairings().then((data: PairingProps[]) => {
       setPairings(data)
     })
   }, [])
 
-  const unpair = (app: PairedAppProps) => {
-    if (app.isKeepKeyDesktop) return
-    ipcRenderer.send('@bridge/remove-service', app)
-    ipcRenderer.send('@bridge/paired-apps')
+  const unpair = async (app: PairedAppProps) => {
+    if (app.info.isKeepKeyDesktop) return
+    await ipcListeners.bridgeRemoveService(app)
+    setApps(await ipcListeners.bridgePairedApps())
   }
 
-  const unpairAll = useCallback(() => {
+  const unpairAll = useCallback(async () => {
     if (!apps) return
-    apps.forEach(unpair)
+    await Promise.all(apps.map(unpair))
   }, [apps])
 
   return (
@@ -78,22 +63,28 @@ export const Pairings = () => {
           <Card.Body>
             <Stack divider={<StackDivider />}>
               {apps &&
-                apps.map((app, idx) => (
-                  <Box display='flex' flexDirection='row' alignItems='center' gap='10px' key={idx}>
-                    <Image src={app.serviceImageUrl} borderRadius='full' height='10' width='10' />
+                apps.map(app => (
+                  <Box
+                    display='flex'
+                    flexDirection='row'
+                    alignItems='center'
+                    gap='10px'
+                    key={app.apiKey}
+                  >
+                    <Image src={app.info.imageUrl} borderRadius='full' height='10' width='10' />
                     <Box display='flex' flexDirection='row' flexGrow={1} alignItems='center'>
-                      <p>{app.serviceName}</p>
+                      <p>{app.info.name}</p>
                     </Box>
                     <Box>
                       <RawText color='gray.500' fontSize='xs'>
-                        {dayjs(app.addedOn).format('DD/MM/YYYY - HH:mm')}
+                        {dayjs(app.info.addedOn).format('DD/MM/YYYY - HH:mm')}
                       </RawText>
                     </Box>
                     <Box>
                       <Button
                         colorScheme='blue'
                         onClick={() => {
-                          history.push(`/pairings/${app.serviceKey}`)
+                          history.push(`/pairings/${app.apiKey}`)
                         }}
                       >
                         <Text translation={'pairedApps.cta.openLogs'} />
@@ -105,7 +96,7 @@ export const Pairings = () => {
                         onClick={() => {
                           unpair(app)
                         }}
-                        disabled={app.isKeepKeyDesktop}
+                        disabled={app.info.isKeepKeyDesktop}
                       >
                         <Text translation={'pairedApps.cta.unpair'} />
                       </Button>
@@ -140,13 +131,13 @@ export const Pairings = () => {
               {pairings &&
                 pairings
                   .filter(app => app.pairingType === 'sdk')
-                  .map((app, idx) => (
+                  .map(app => (
                     <Box
                       display='flex'
                       flexDirection='row'
                       alignItems='center'
                       gap='10px'
-                      key={idx}
+                      key={`sdk_${app.serviceName}_${app.addedOn}`}
                     >
                       <Image src={app.serviceImageUrl} borderRadius='full' height='10' width='10' />
                       <Box display='flex' flexDirection='row' flexGrow={1} alignItems='center'>
@@ -190,7 +181,13 @@ export const Pairings = () => {
                 pairings
                   .filter(app => app.pairingType === 'walletconnect')
                   .map(app => (
-                    <Box display='flex' flexDirection='row' alignItems='center' gap='10px'>
+                    <Box
+                      display='flex'
+                      flexDirection='row'
+                      alignItems='center'
+                      gap='10px'
+                      key={`history_${app.serviceName}_${app.addedOn}`}
+                    >
                       <Image src={app.serviceImageUrl} borderRadius='full' height='10' width='10' />
                       <Box display='flex' flexDirection='row' flexGrow={1} alignItems='center'>
                         <p>{app.serviceName}</p>
@@ -223,7 +220,7 @@ export const Pairings = () => {
               {pairings &&
                 pairings.filter(app => app.pairingType === 'walletconnect').length === 0 && (
                   <Text
-                    translation={['pairedApps.history.notPairedWith', { name: 'Wallet Connect' }]}
+                    translation={['pairedApps.history.notPairedWith', { name: 'WalletConnect' }]}
                     color='gray.500'
                   />
                 )}

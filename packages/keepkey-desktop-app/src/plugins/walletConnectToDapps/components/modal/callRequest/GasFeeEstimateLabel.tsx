@@ -1,9 +1,11 @@
 import { HStack } from '@chakra-ui/react'
-import type { FC } from 'react'
-import { useFormContext, useWatch } from 'react-hook-form'
 import { RawText } from 'components/Text'
 import { useLocaleFormatter } from 'hooks/useLocaleFormatter/useLocaleFormatter'
 import type { BN } from 'lib/bignumber/bignumber'
+import type { FC } from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
+
+import type { EIP155SendTxConfirmFormContext } from './EIP155SendTransactionConfirmation'
 
 type GasFeeEstimateLabelType = {
   symbol: string
@@ -11,7 +13,7 @@ type GasFeeEstimateLabelType = {
 }
 
 export const GasFeeEstimateLabel: FC<GasFeeEstimateLabelType> = ({ symbol, fiatRate }) => {
-  const { control } = useFormContext<any>()
+  const { control } = useFormContext<EIP155SendTxConfirmFormContext>()
   const currentFeeAmount = useWatch({ control, name: 'currentFeeAmount' })
   const {
     number: { toFiat },

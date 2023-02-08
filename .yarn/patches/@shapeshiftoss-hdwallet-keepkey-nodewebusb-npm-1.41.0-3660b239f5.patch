@@ -1,0 +1,21 @@
+diff --git a/dist/adapter.js b/dist/adapter.js
+index 7e0ab3ce145d382b5fdfe1756df2c9d0dd428fff..ba3bd073bfacb9e487727cafa7cabd150f80f429 100644
+--- a/dist/adapter.js
++++ b/dist/adapter.js
+@@ -37,7 +37,7 @@ exports.NodeWebUSBAdapterDelegate = {
+     getDevices() {
+         return __awaiter(this, void 0, void 0, function* () {
+             const devices = (yield usb_1.webusb.getDevices()).filter((d) => d.serialNumber !== undefined);
+-            return devices.filter((x) => x.vendorId === utils_1.VENDOR_ID && [utils_1.WEBUSB_PRODUCT_ID, utils_1.HID_PRODUCT_ID].includes(x.productId));
++            return devices.filter((x) => x.vendorId === utils_1.VENDOR_ID && [utils_1.WEBUSB_PRODUCT_ID].includes(x.productId));
+         });
+     },
+     getDevice(serialNumber) {
+@@ -45,7 +45,6 @@ exports.NodeWebUSBAdapterDelegate = {
+             const out = yield usb_1.webusb.requestDevice({
+                 filters: [
+                     { vendorId: utils_1.VENDOR_ID, productId: utils_1.WEBUSB_PRODUCT_ID, serialNumber },
+-                    { vendorId: utils_1.VENDOR_ID, productId: utils_1.HID_PRODUCT_ID, serialNumber },
+                 ],
+             });
+             if (out.serialNumber === undefined)

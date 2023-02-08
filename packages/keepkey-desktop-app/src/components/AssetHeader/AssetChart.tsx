@@ -1,46 +1,36 @@
 import {
-  Alert,
-  AlertDescription,
   Box,
   Button,
   ButtonGroup,
   Flex,
   Skeleton,
-  Stack,
   Stat,
   StatArrow,
   StatGroup,
   StatNumber,
-  useColorModeValue,
 } from '@chakra-ui/react'
-import type { AssetId } from '@keepkey/caip'
-import type { HistoryTimeframe } from '@keepkey/types'
-import { DEFAULT_HISTORY_TIMEFRAME } from 'constants/Config'
-import { useEffect, useMemo, useState } from 'react'
-import NumberFormat from 'react-number-format'
-import { useTranslate } from 'react-polyglot'
-import { Amount } from 'components/Amount/Amount'
+import type { AssetId } from '@shapeshiftoss/caip'
+import type { HistoryTimeframe } from '@shapeshiftoss/types'
 import { BalanceChart } from 'components/BalanceChart/BalanceChart'
 import { Card } from 'components/Card/Card'
 import { TimeControls } from 'components/Graph/TimeControls'
-import { IconCircle } from 'components/IconCircle'
-import { StakingUpArrowIcon } from 'components/Icons/StakingUpArrow'
 import { PriceChart } from 'components/PriceChart/PriceChart'
 import { RawText, Text } from 'components/Text'
+import { DEFAULT_HISTORY_TIMEFRAME } from 'constants/Config'
 import { useLocaleFormatter } from 'hooks/useLocaleFormatter/useLocaleFormatter'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import { useEffect, useMemo, useState } from 'react'
+import NumberFormat from 'react-number-format'
 import type { AccountSpecifier } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
 import {
   selectAssetById,
-  selectCryptoHumanBalanceIncludingStakingByFilter,
-  selectFiatBalanceIncludingStakingByFilter,
+  selectCryptoHumanBalanceByFilter,
+  selectFiatBalanceByFilter,
   selectMarketDataById,
-  selectPortfolioStakingCryptoHumanBalanceByFilter,
 } from 'state/slices/selectors'
 import { useAppSelector } from 'state/store'
 
 import { useIsBalanceChartDataUnavailable } from '../../hooks/useBalanceChartData/utils'
-import { HelperTooltip } from '../HelperTooltip/HelperTooltip'
 
 enum View {
   Price = 'price',
@@ -58,7 +48,6 @@ export const AssetChart = ({ accountId, assetId, isLoaded }: AssetChartProps) =>
     number: { toFiat },
   } = useLocaleFormatter()
   const [percentChange, setPercentChange] = useState(0)
-  const alertIconColor = useColorModeValue('blue.500', 'blue.200')
   const [timeframe, setTimeframe] = useState<HistoryTimeframe>(DEFAULT_HISTORY_TIMEFRAME)
   const assetIds = useMemo(() => [assetId].filter(Boolean), [assetId])
   const asset = useAppSelector(state => selectAssetById(state, assetId))
@@ -70,16 +59,9 @@ export const AssetChart = ({ accountId, assetId, isLoaded }: AssetChartProps) =>
   const [view, setView] = useState(defaultView)
 
   const filter = useMemo(() => ({ assetId, accountId }), [assetId, accountId])
-  const translate = useTranslate()
 
-  const fiatBalance = useAppSelector(s => selectFiatBalanceIncludingStakingByFilter(s, filter))
-  const cryptoHumanBalance = useAppSelector(s =>
-    selectCryptoHumanBalanceIncludingStakingByFilter(s, filter),
-  )
-
-  const stakingFiatBalance = useAppSelector(s =>
-    selectPortfolioStakingCryptoHumanBalanceByFilter(s, filter),
-  )
+  const fiatBalance = useAppSelector(s => selectFiatBalanceByFilter(s, filter))
+  const cryptoHumanBalance = useAppSelector(s => selectCryptoHumanBalanceByFilter(s, filter))
 
   useEffect(() => {
     if (isBalanceChartDataUnavailable) return
@@ -144,33 +126,6 @@ export const AssetChart = ({ accountId, assetId, isLoaded }: AssetChartProps) =>
               </Stat>
             )}
           </StatGroup>
-          {bnOrZero(stakingFiatBalance).gt(0) && view === View.Balance && (
-            <Flex mt={4}>
-              <Alert
-                as={Stack}
-                py={2}
-                direction='row'
-                colorScheme='blue'
-                status='info'
-                variant='subtle'
-                borderRadius='xl'
-              >
-                <IconCircle color='inherit' boxSize='24px'>
-                  <StakingUpArrowIcon color={alertIconColor} />
-                </IconCircle>
-
-                <AlertDescription maxWidth='sm'>
-                  <Amount.Crypto
-                    value={stakingFiatBalance}
-                    symbol={asset.symbol}
-                    suffix={translate('defi.staked')}
-                  />
-                </AlertDescription>
-
-                <HelperTooltip label={translate('dashboard.portfolio.stakedInfo')} />
-              </Alert>
-            </Flex>
-          )}
         </Box>
       </Card.Header>
       {view === View.Balance && marketData ? (

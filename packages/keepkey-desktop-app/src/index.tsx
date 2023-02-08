@@ -1,20 +1,19 @@
 import 'lib/polyfills'
+import '../../keepkey-desktop/src/comlinkTransferHandlers'
 
 import { App } from 'App'
 import { AppProviders } from 'AppProviders'
-import React from 'react'
-import { createRoot } from 'react-dom/client'
+import { ipcListeners } from 'electron-shim'
 import { renderConsoleArt } from 'lib/consoleArt'
 import { logger } from 'lib/logger'
 import { reportWebVitals } from 'lib/reportWebVitals'
-import { ipcRenderer } from 'electron-shim'
-import unhandled from 'electron-unhandled'
+import React from 'react'
+import { createRoot } from 'react-dom/client'
 
-unhandled()
-
-ipcRenderer.send('@app/version')
-ipcRenderer.on('@app/version', (_event, version) => {
-  document.title = `KeepKey Desktop (v${version})`
+ipcListeners.appVersion().then(version => {
+  ipcListeners.appPreRelease().then(isPreRelease => {
+    document.title = `KeepKey Desktop (${isPreRelease ? 'Pre-Release ' : ''}v${version})`
+  })
 })
 
 const root = createRoot(document.getElementById('root')!)

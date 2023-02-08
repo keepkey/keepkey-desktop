@@ -1,7 +1,7 @@
-import type { ChainId } from '@keepkey/caip'
+import type { ChainId } from '@shapeshiftoss/caip'
 import { createSlice } from '@reduxjs/toolkit'
-import isEqual from 'lodash/isEqual'
 import { logger } from 'lib/logger'
+import isEqual from 'lodash/isEqual'
 
 const moduleLogger = logger.child({ namespace: ['accountSpecifiersSlice'] })
 

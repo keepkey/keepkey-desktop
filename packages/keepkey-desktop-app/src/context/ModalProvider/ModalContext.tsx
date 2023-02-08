@@ -1,5 +1,5 @@
-import { createContext } from 'react'
 import type { ModalStateType } from 'context/ModalProvider/ModalProvider'
+import { createContext } from 'react'
 // testability
 export function createModalContext<M>(context?: M) {
   return createContext<M>((context ?? {}) as M)

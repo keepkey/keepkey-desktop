@@ -1,6 +1,6 @@
+import { AssetAccountDetails } from 'components/AssetAccountDetails'
 import { useParams } from 'react-router-dom'
 import type { Route } from 'Routes/helpers'
-import { AssetAccountDetails } from 'components/AssetAccountDetails'
 import type { AccountSpecifier } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
 import { accountIdToFeeAssetId } from 'state/slices/portfolioSlice/utils'
 import { selectAssetById } from 'state/slices/selectors'

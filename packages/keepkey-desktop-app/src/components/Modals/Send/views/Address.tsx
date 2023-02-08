@@ -10,16 +10,16 @@ import {
   ModalHeader,
   Stack,
 } from '@chakra-ui/react'
-import get from 'lodash/get'
-import { useState } from 'react'
-import { useFormContext, useWatch } from 'react-hook-form'
-import { useTranslate } from 'react-polyglot'
-import { useHistory } from 'react-router-dom'
 import { SelectAssetRoutes } from 'components/SelectAssets/SelectAssetCommon'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
 import { useModal } from 'hooks/useModal/useModal'
 import { parseAddressInput } from 'lib/address/address'
+import get from 'lodash/get'
+import { useState } from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
+import { useTranslate } from 'react-polyglot'
+import { useHistory } from 'react-router-dom'
 
 import { AddressInput } from '../AddressInput/AddressInput'
 import type { SendInput } from '../Form'
@@ -40,7 +40,6 @@ export const Address = () => {
 
   if (!asset) return null
   const { chainId } = asset
-  // const isYatSupportedChain = chainId === ethChainId // yat only supports eth mainnet
   const handleNext = () => history.push(SendRoutes.Details)
   const addressError = get(errors, `${SendFormFields.Input}.message`, null)
 
@@ -80,31 +79,24 @@ export const Address = () => {
                   const value = rawInput.trim() // trim leading/trailing spaces
                   // clear previous values
                   setValue(SendFormFields.Address, '')
-                  setValue(SendFormFields.VanityAddress, '')
                   setIsValidating(true)
                   // this does not throw, everything inside is handled
-                  const { address, vanityAddress } = await parseAddressInput({ chainId, value })
+                  const { address } = await parseAddressInput({ chainId, value })
                   setIsValidating(false)
                   // set returned values
                   setValue(SendFormFields.Address, address)
-                  setValue(SendFormFields.VanityAddress, vanityAddress)
-                  // const invalidMessage =
-                  //   isYatFeatureEnabled && isYatSupportedChain
-                  //     ? 'common.invalidAddressOrYat'
-                  //     : 'common.invalidAddress'
                   return address ? true : false
                 },
               },
             }}
           />
         </FormControl>
-        {/* {isYatFeatureEnabled && isYatSupportedChain && <YatBanner mt={6} />} */}
       </ModalBody>
       <ModalFooter>
         <Stack flex={1}>
           <Button
             width='full'
-            isDisabled={!address || !input || addressError}
+            isDisabled={!address || !input || !!addressError}
             isLoading={isValidating}
             colorScheme={addressError && !isValidating ? 'red' : 'blue'}
             size='lg'

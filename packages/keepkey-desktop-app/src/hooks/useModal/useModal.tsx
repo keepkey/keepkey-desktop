@@ -1,6 +1,6 @@
-import { useContext } from 'react'
 import { ModalContext } from 'context/ModalProvider/ModalContext'
 import type { ModalState, ModalStateType } from 'context/ModalProvider/ModalProvider'
+import { useContext } from 'react'
 
 // for testing
 export function makeUseModal<C extends ModalState<T>, T>(context: React.Context<C>) {

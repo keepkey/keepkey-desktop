@@ -1,4 +1,5 @@
 import { bip32ToAddressNList } from '@shapeshiftoss/hdwallet-core'
+import { getConfig } from 'config'
 /**
  * @desc Refference list of eip155 chains
  * @url https://chainlist.org
@@ -53,7 +54,7 @@ export const EIP155_TEST_CHAINS = {
     name: 'Ethereum Goerli',
     logo: '/chain-logos/eip155-1.png',
     rgb: '99, 125, 234',
-    rpc: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    rpc: getConfig().REACT_APP_ETHEREUM_INFURA_URL2,
     addressNList: EIP115Address,
   },
   'eip155:43113': {

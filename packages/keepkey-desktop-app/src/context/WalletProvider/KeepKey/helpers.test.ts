@@ -1,10 +1,10 @@
-import type { KeyboardEvent } from 'react'
 import {
   inputValuesReducer,
   isLetter,
   isValidInput,
   parseIntToEntropy,
 } from 'context/WalletProvider/KeepKey/helpers'
+import type { KeyboardEvent } from 'react'
 
 describe('KeepKey helpers', () => {
   describe('isValidInput', () => {

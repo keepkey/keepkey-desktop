@@ -2,32 +2,29 @@ import { DarkMode } from '@chakra-ui/color-mode'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Flex, Link } from '@chakra-ui/layout'
 import { Button, Image } from '@chakra-ui/react'
-import { useEffect } from 'react'
-import { useTranslate } from 'react-polyglot'
-import { generatePath, matchPath, useHistory } from 'react-router-dom'
 import logo from 'assets/kk-icon-gold.png'
 import heroBgImage from 'assets/splash-bg.png'
 import { Page } from 'components/Layout/Page'
 import { RawText, Text } from 'components/Text'
-import { useFeatureFlag } from 'hooks/useFeatureFlag/useFeatureFlag'
+import { ipcListeners } from 'electron-shim'
+import { useModal } from 'hooks/useModal/useModal'
 import { useQuery } from 'hooks/useQuery/useQuery'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { ipcRenderer } from 'electron-shim'
+import { useEffect } from 'react'
+import { useTranslate } from 'react-polyglot'
+import { generatePath, matchPath, useHistory } from 'react-router'
 
 export const ConnectWallet = () => {
-  const isMigrationMessageEnabled = useFeatureFlag('MigrationMessage')
   const { state, dispatch } = useWallet()
   const hasWallet = Boolean(state.walletInfo?.deviceId) && state.isConnected
   const history = useHistory()
   const translate = useTranslate()
   const query = useQuery<{ returnUrl: string }>()
 
+  const { onboardingSteps, keepKeyWipe } = useModal()
+
   const debugDevice = async function () {
-    try {
-      ipcRenderer.send('@app/restart', {})
-    } catch (e) {
-      console.error(e)
-    }
+    await ipcListeners.appRestart()
   }
 
   useEffect(() => {
@@ -49,6 +46,11 @@ export const ConnectWallet = () => {
       : query?.returnUrl
     hasWallet && history.push(path ?? '/dashboard')
   }, [history, hasWallet, query, state, dispatch])
+
+  useEffect(() => {
+    if (window.localStorage.getItem('onboarded') !== 'true') onboardingSteps.open({})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Page>
@@ -131,6 +133,14 @@ export const ConnectWallet = () => {
                 {translate('connectWalletPage.troubleshoot')}
               </Button>
               <Button
+                width='360px'
+                rightIcon={<ExternalLinkIcon />}
+                colorScheme='green'
+                onClick={() => keepKeyWipe.open({})}
+              >
+                Wipe keepkey
+              </Button>
+              <Button
                 as={Link}
                 isExternal
                 href='https://discord.gg/stfRnW3Jys'
@@ -141,44 +151,6 @@ export const ConnectWallet = () => {
               >
                 <Text translation={'common.getSupport'} />
               </Button>
-            </Flex>
-            <Flex
-              direction={'column'}
-              gap={4}
-              width='full'
-              position={{ base: 'static', md: 'fixed' }}
-              zIndex={3}
-              py={3}
-              px={4}
-              bottom={0}
-              alignItems={'center'}
-            >
-              <Flex width='full' alignItems='center' justifyContent='center' gap={8}>
-                <Link
-                  href='/#/legal/terms-of-service'
-                  color='whiteAlpha.500'
-                  _hover={{ color: 'white' }}
-                >
-                  <Text translation='common.terms' />
-                </Link>
-                <Link
-                  href='/#/legal/privacy-policy'
-                  color='whiteAlpha.500'
-                  _hover={{ color: 'white' }}
-                >
-                  <Text translation='common.privacy' />
-                </Link>
-                {isMigrationMessageEnabled && (
-                  <Link
-                    href='https://github.com/shapeshift'
-                    isExternal
-                    color='whiteAlpha.500'
-                    _hover={{ color: 'white' }}
-                  >
-                    <Text translation='connectWalletPage.poweredBy' />
-                  </Link>
-                )}
-              </Flex>
             </Flex>
           </Flex>
         </Flex>

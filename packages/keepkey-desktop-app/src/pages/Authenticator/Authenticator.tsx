@@ -20,13 +20,14 @@ import {
   Tr,
   useToast,
 } from '@chakra-ui/react'
-import { useCallback, useEffect, useState } from 'react'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
 import { Text } from 'components/Text'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { WalletActions } from 'context/WalletProvider/actions'
 import { useModal } from 'hooks/useModal/useModal'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import { useCallback, useEffect, useState } from 'react'
 
 function assume<T>(_x: unknown): asserts _x is T {}
 
@@ -34,7 +35,8 @@ export type AuthenticatorAccount = { slotIdx: number; domain: string; account: s
 
 export const Authenticator = () => {
   const {
-    state: { wallet },
+    state: { wallet, authenticatorError },
+    dispatch,
   } = useWallet()
 
   const [accounts, setAccounts] = useState<AuthenticatorAccount[]>([])
@@ -67,12 +69,12 @@ export const Authenticator = () => {
     setLoading(true)
     setAccounts([])
 
-    for (let slotIdx = 0; slotIdx < 11; slotIdx++) {
+    for (let slotIdx = 0; slotIdx < 20; slotIdx++) {
       const msg = `\x17getAccount:${slotIdx}`
       console.log('getAccount msg: ', msg)
 
       const data = await wallet.ping({ msg }).catch(e => console.log('error', e))
-      if (!data) continue
+      if (!data || !data.msg || data.msg === '') continue
       console.log(slotIdx, data)
       const [domain, account] = data.msg.split(':')
       setAccounts(accs => {
@@ -90,6 +92,12 @@ export const Authenticator = () => {
     fetchAccs()
   }, [fetchAccs])
 
+  useEffect(() => {
+    if (!authenticatorError) return
+    dispatch({ type: WalletActions.SET_AUTHENTICATOR_ERROR, payload: null })
+    toast({ status: 'error', title: 'Authenticator Error', description: authenticatorError })
+  }, [authenticatorError, dispatch, toast])
+
   const deleteAcc = useCallback(
     async (acc: AuthenticatorAccount) => {
       if (!wallet || !supportsFeature) return
@@ -105,7 +113,7 @@ export const Authenticator = () => {
         description: `Please confirm deleting account on your KeepKey`,
       })
       await wallet.ping({ msg }).catch(console.error)
-      setTimeout(fetchAccs, 2000)
+      fetchAccs()
     },
     [wallet, toast, fetchAccs, supportsFeature],
   )
@@ -121,16 +129,19 @@ export const Authenticator = () => {
       )}:${timeRemain}`
       console.log('generateOtp msg: ', msg)
 
-      await wallet
+      const finished = wallet
         .ping({
           msg,
         })
         .catch(console.error)
+
       toast({
         status: 'info',
         title: 'OTP generated',
         description: `Please check the OTP on your keepkey`,
       })
+
+      await finished
     },
     [wallet, toast, supportsFeature],
   )
@@ -149,7 +160,7 @@ export const Authenticator = () => {
       title: 'Data wiped',
       description: `Authenticator data wiped`,
     })
-    setTimeout(fetchAccs, 2000)
+    fetchAccs()
   }, [wallet, toast, fetchAccs, supportsFeature])
 
   return (
@@ -225,9 +236,9 @@ export const Authenticator = () => {
                       accounts.map(acc => (
                         <Tr>
                           <Td>
-                            <Code>
-                              {acc.domain}:{acc.account}
-                            </Code>
+                            <Code>{`${acc.domain.trim() ? `${acc.domain}:` : ''}${
+                              acc.account
+                            }`}</Code>
                           </Td>
                           <Td>
                             <Button

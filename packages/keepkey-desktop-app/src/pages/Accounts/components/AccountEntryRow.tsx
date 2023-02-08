@@ -1,16 +1,16 @@
 import type { ButtonProps } from '@chakra-ui/react'
 import { Avatar, Button, Flex, ListItem, Stack } from '@chakra-ui/react'
-import type { AccountId, AssetId } from '@keepkey/caip'
+import type { AccountId, AssetId } from '@shapeshiftoss/caip'
+import { Amount } from 'components/Amount/Amount'
+import { RawText } from 'components/Text'
 import { useMemo } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { generatePath } from 'react-router-dom'
-import { Amount } from 'components/Amount/Amount'
-import { RawText } from 'components/Text'
 import {
-  selectPortfolioAccountsCryptoHumanBalancesIncludingStaking,
-  selectPortfolioAccountsFiatBalancesIncludingStaking,
+  selectPortfolioAccountsCryptoHumanBalances,
+  selectPortfolioAccountsFiatBalances,
 } from 'state/slices/portfolioSlice/selectors'
 import { accountIdToLabel, isUtxoAccountId } from 'state/slices/portfolioSlice/utils'
 import { selectAccountNumberByAccountId, selectAssetById } from 'state/slices/selectors'
@@ -31,8 +31,8 @@ export const AccountEntryRow: React.FC<AccountEntryRowProps> = ({
   const filter = useMemo(() => ({ assetId, accountId }), [accountId, assetId])
   const accountNumber = useAppSelector(s => selectAccountNumberByAccountId(s, filter))
   const asset = useAppSelector(s => selectAssetById(s, assetId))
-  const cryptoBalances = useSelector(selectPortfolioAccountsCryptoHumanBalancesIncludingStaking)
-  const fiatBalances = useSelector(selectPortfolioAccountsFiatBalancesIncludingStaking)
+  const cryptoBalances = useSelector(selectPortfolioAccountsCryptoHumanBalances)
+  const fiatBalances = useSelector(selectPortfolioAccountsFiatBalances)
   const cryptoBalance = cryptoBalances?.[accountId]?.[assetId]
   const fiatBalance = fiatBalances?.[accountId]?.[assetId]
   const { icon, name, symbol } = asset

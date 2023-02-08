@@ -8,10 +8,11 @@
   "scripts": {
     "prerec-mac": "brew install git-lfs && git lfs fetch && git lfs install",
     "postinstall": "yaml-sort -i .yarnrc.yml",
-    "clean": "yarn workspaces foreach -p run clean",
-    "build": "yarn workspaces foreach -pRti --from 'keepkey-desktop' run build",
+    "clean": "yarn workspaces foreach -p run clean && git clean -fdx",
+    "build": "yarn workspaces foreach -pRi --topological-dev --from 'keepkey-desktop' run build",
+    "publish": "yarn workspaces foreach -p run publish",
     "release": "yarn run build && yarn workspace keepkey-desktop run release",
-    "dev": "yarn workspaces foreach -pRti --from 'keepkey-desktop' run dev",
+    "dev": "yarn workspaces foreach -pRi --topological-dev --from 'keepkey-desktop' run dev",
     "lint": "yarn workspaces foreach -pi run lint",
     "lint:fix": "yarn workspaces foreach -pi run lint:fix",
     "test": "yarn workspaces foreach -pi run test"
@@ -38,10 +39,20 @@
     "tiny-secp256k1@^1.1.3": "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch",
     "tiny-secp256k1@^1.1.1": "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch",
     "usb@^2.5.2": "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch",
-    "@shapeshiftoss/hdwallet-keepkey@^1.40.0": "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.40.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.40.0-91917954a1.patch",
-    "@shapeshiftoss/hdwallet-keepkey@1.40.0": "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.40.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.40.0-91917954a1.patch"
+    "@tsoa/runtime@^4.1.3": "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch",
+    "web3@1.7.4": "^1.8.1",
+    "@shapeshiftoss/hdwallet-keepkey-nodewebusb@^1.41.0": "patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.41.0-3660b239f5.patch",
+    "comlink-electron-endpoint@^1.0.3": "patch:comlink-electron-endpoint@npm%3A1.0.3#./.yarn/patches/comlink-electron-endpoint-npm-1.0.3-e9e40b4d5c.patch",
+    "@shapeshiftoss/hdwallet-keepkey@^1.41.0": "patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@patch%253A@shapeshiftoss/hdwallet-keepkey@npm%25253A1.41.0%2523./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%253A%253Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%252540workspace%25253A.%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch%3A%3Aversion=1.41.0&hash=196f5c&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-585e8b93cf.patch",
+    "@shapeshiftoss/hdwallet-keepkey@1.41.0": "patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@patch%253A@shapeshiftoss/hdwallet-keepkey@npm%25253A1.41.0%2523./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%253A%253Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%252540workspace%25253A.%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch%3A%3Aversion=1.41.0&hash=196f5c&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-585e8b93cf.patch",
+    "@shapeshiftoss/market-service@^7.1.1": "patch:@shapeshiftoss/market-service@npm%3A7.1.3#./.yarn/patches/@shapeshiftoss-market-service-npm-7.1.3-17db6beeed.patch",
+    "@shapeshiftoss/unchained-client@^10.1.2": "patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch",
+    "@shapeshiftoss/asset-service@^8.1.2": "patch:@shapeshiftoss/asset-service@npm%3A8.1.5#./.yarn/patches/@shapeshiftoss-asset-service-npm-8.1.5-86b922f116.patch"
   },
   "dependenciesMeta": {
+    "@openapitools/openapi-generator-cli@2.5.2": {
+      "unplugged": true
+    },
     "app-builder-lib@24.0.0-alpha.5": {
       "unplugged": true
     },
@@ -60,11 +71,19 @@
     "node-hid@2.1.2": {
       "unplugged": true
     },
+    "swagger-ui-dist@4.15.5": {
+      "unplugged": true
+    },
     "tiny-secp256k1@1.1.6": {
       "unplugged": true
     },
     "usb@2.5.2": {
       "unplugged": true
     }
+  },
+  "dependencies": {
+    "@pioneer-platform/harpie-client": "8.1.17",
+    "@walletconnect/client": "^1.8.0",
+    "crypto": "^1.0.1"
   }
 }

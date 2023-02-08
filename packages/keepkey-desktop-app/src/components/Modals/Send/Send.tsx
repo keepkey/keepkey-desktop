@@ -1,10 +1,10 @@
 import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/react'
-import type { Asset } from '@keepkey/asset-service'
-import type { AccountId } from '@keepkey/caip'
+import type { Asset } from '@shapeshiftoss/asset-service'
+import type { AccountId } from '@shapeshiftoss/caip'
+import { useModal } from 'hooks/useModal/useModal'
 import { useRef } from 'react'
 import type { RouteComponentProps } from 'react-router-dom'
 import { MemoryRouter, Route, Switch } from 'react-router-dom'
-import { useModal } from 'hooks/useModal/useModal'
 
 import { Form } from './Form'
 import { SendRoutes } from './SendCommon'
@@ -29,19 +29,21 @@ export const SendModal = ({ asset, accountId }: SendModalProps) => {
 
   return (
     <Modal isOpen={isOpen} onClose={close} isCentered initialFocusRef={initialRef}>
-      <ModalOverlay />
-      <ModalContent maxW='500px'>
-        <MemoryRouter initialEntries={entries}>
-          <Switch>
-            <Route
-              path='/'
-              component={(props: RouteComponentProps) => (
-                <Form asset={asset} accountId={accountId} {...props} />
-              )}
-            />
-          </Switch>
-        </MemoryRouter>
-      </ModalContent>
+      <div style={{ '--chakra-zIndices-modal': send.zIndex }}>
+        <ModalOverlay />
+        <ModalContent maxW='500px'>
+          <MemoryRouter initialEntries={entries}>
+            <Switch>
+              <Route
+                path='/'
+                component={(props: RouteComponentProps) => (
+                  <Form asset={asset} accountId={accountId} {...props} />
+                )}
+              />
+            </Switch>
+          </MemoryRouter>
+        </ModalContent>
+      </div>
     </Modal>
   )
 }

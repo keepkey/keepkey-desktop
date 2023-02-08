@@ -8,31 +8,40 @@ import {
   InputLeftElement,
   Link,
   SimpleGrid,
+  Skeleton,
+  SkeletonText,
   Stack,
   Text as PlainText,
   VStack,
-  Skeleton,
-  SkeletonText,
 } from '@chakra-ui/react'
-import type { FC } from 'react'
-import { useEffect, useMemo, useState } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
-import { useHistory } from 'react-router'
+import kkIconBlack from 'assets/kk-icon-black.png'
 import { Card } from 'components/Card/Card'
 import { Text } from 'components/Text'
 import { WalletActions } from 'context/WalletProvider/actions'
+import { ipcListeners } from 'electron-shim'
+import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { getPioneerClient } from 'lib/getPioneerClient'
+import type { FC } from 'react'
+import { useCallback } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
+import { useHistory } from 'react-router'
 
 import type { RegistryItem } from '../types'
 import { PageInput } from './PageInput'
-import { getPioneerClient } from 'lib/getPioneerCleint'
 
 const PAGE_SIZE = 20
-const loadingImg = 'https://github.com/BitHighlander/keepkey-desktop/raw/master/electron/icon.png'
+const loadingImg = kkIconBlack
 
 export const DappRegistryGrid: FC = () => {
   const [registryItems, setRegistryItems] = useState<RegistryItem[]>()
   const [loading, setLoading] = useState(true)
+
+  const {
+    state: { wallet },
+  } = useWallet()
+  const { dappClick } = useModal()
 
   const { register, setValue, control } = useForm<{ search: string; page: number }>({
     mode: 'onChange',
@@ -45,6 +54,14 @@ export const DappRegistryGrid: FC = () => {
   const history = useHistory()
   const { dispatch } = useWallet()
 
+  const [supportsVerify, setSupportsVerify] = useState(false)
+
+  useEffect(() => {
+    wallet?.getFirmwareVersion().then(version => {
+      const [major, minor] = version.replace('v', '').split('.')
+      if (Number(major) >= 7 && Number(minor) >= 6) setSupportsVerify(true)
+    })
+  }, [wallet])
   const filteredListings = useMemo(
     () =>
       registryItems &&
@@ -58,7 +75,10 @@ export const DappRegistryGrid: FC = () => {
     try {
       setLoading(true)
       const pioneer = await getPioneerClient()
-      let dapps = await pioneer.ListApps({ limit: 1000, skip: 0 })
+      let version = await ipcListeners.appVersion()
+      console.log('version: ', version)
+      // let dapps = await pioneer.ListApps({ limit: 1000, skip: 0 })
+      let dapps = await pioneer.ListAppsByVersion({ minVersion: version, limit: 1000, skip: 0 })
       function sortByScore(arr: any[]) {
         //sort array by score
         arr.sort((a, b) => {
@@ -84,10 +104,23 @@ export const DappRegistryGrid: FC = () => {
 
   const maxPage = filteredListings ? Math.floor(filteredListings.length / PAGE_SIZE) : 0
 
-  const openDapp = (app: RegistryItem) => {
-    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.app })
-    history.push('/browser')
-  }
+  const openDapp = useCallback(
+    (app: RegistryItem) => {
+      dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.homepage })
+      history.push('/browser')
+    },
+    [dispatch, history],
+  )
+
+  const clickDapp = useCallback(
+    (app: RegistryItem) => {
+      console.log('Dapp clicked', app)
+      if (supportsVerify) dappClick.open({ onContinue: () => openDapp(app) })
+      else openDapp(app)
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dappClick, openDapp],
+  )
 
   return (
     <Box>
@@ -116,6 +149,7 @@ export const DappRegistryGrid: FC = () => {
         <SimpleGrid columns={{ lg: 4, sm: 2, base: 1 }} spacing={4}>
           {Array.from(Array(PAGE_SIZE).keys()).map((_i, idx) => (
             <Box
+              key={`loading_${idx}`}
               borderRadius='lg'
               p={2}
               position='relative'
@@ -150,7 +184,7 @@ export const DappRegistryGrid: FC = () => {
       {filteredListings && filteredListings.length !== 0 ? (
         <SimpleGrid columns={{ lg: 4, sm: 2, base: 1 }} spacing={4}>
           {filteredListings.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE).map(listing => (
-            <Link key={listing.id} onClick={() => openDapp(listing)}>
+            <Link key={listing.id} onClick={() => clickDapp(listing)}>
               <Box
                 borderRadius='lg'
                 p={2}

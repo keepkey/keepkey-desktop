@@ -2,10 +2,10 @@ import './style.css'
 
 import type { TextProps } from '@chakra-ui/react'
 import { Link } from '@chakra-ui/react'
+import { RawText } from 'components/Text'
 import type { HTMLReactParserOptions } from 'html-react-parser'
 import parse, { domToReact, Element } from 'html-react-parser'
 import { Link as RouterLink } from 'react-router-dom'
-import { RawText } from 'components/Text'
 
 const isExternalURL = (url: string) => {
   const tmp = document.createElement('a')

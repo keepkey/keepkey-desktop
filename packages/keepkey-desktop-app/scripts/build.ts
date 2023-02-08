@@ -1,14 +1,15 @@
 import 'dotenv/config'
 
-import * as fs from 'fs'
-import * as path from 'path'
+import { workspacePlugin } from '@keepkey/common-esbuild-bits'
 import * as esbuild from 'esbuild'
 import stableStringify from 'fast-json-stable-stringify'
-import * as ssri from 'ssri'
+import * as fs from 'fs'
+import template from 'lodash/template'
 import { CID } from 'multiformats/cid'
 import * as raw from 'multiformats/codecs/raw'
 import { sha256 } from 'multiformats/hashes/sha2'
-import template from 'lodash/template'
+import * as path from 'path'
+import * as ssri from 'ssri'
 
 process.env.NODE_DEBUG ??= ''
 process.env.NODE_ENV ??= 'production'
@@ -22,7 +23,7 @@ if (process.env.REACT_APP_LOG_LEVEL && !process.env.LOG_LEVEL) {
 
 const workspacePath = path.resolve(__dirname, '..')
 const buildPath = path.join(workspacePath, 'build')
-const rootPath = path.resolve(workspacePath, '../..')
+const rootPath = path.normalize(path.resolve(workspacePath, '../..'))
 
 const getSri = (target: string) => {
   const data = fs.readFileSync(path.join(buildPath, target))
@@ -67,7 +68,7 @@ const collectDefines = async () => {
 const writeEnvJson = async () => {
   const envJson = Object.fromEntries(
     Object.entries(process.env)
-      .filter(([k, v]) => k.startsWith('REACT_APP_') && v && v != '')
+      .filter(([k, v]) => k.startsWith('REACT_APP_') && v && v !== '')
       .sort((a, b) => {
         // just so the printout is consistent
         if (a[0] < b[0]) return -1
@@ -85,7 +86,7 @@ const copyPublicDir = async () => {
   await fs.promises.cp(path.join(workspacePath, '/public'), buildPath, {
     dereference: true,
     recursive: true,
-    filter: file => file != path.join(workspacePath, '/public/index.html'),
+    filter: file => file !== path.join(workspacePath, '/public/index.html'),
   })
 }
 
@@ -206,7 +207,11 @@ const runEsbuild = async (defines: Record<string, string>) => {
       '.wav': 'file',
     },
     entryPoints: [path.join(workspacePath, '/src/loader.ts')],
-    plugins: await Promise.all([nodePolyfillPlugin(), assetResolverPlugin()]),
+    plugins: await Promise.all([
+      nodePolyfillPlugin(),
+      assetResolverPlugin(),
+      workspacePlugin(rootPath, workspacePath),
+    ]),
     sourcemap: process.env.NODE_ENV === 'production' ? undefined : 'linked',
     legalComments: process.env.NODE_ENV === 'production' ? undefined : 'linked',
     minify: process.env.NODE_ENV === 'production',

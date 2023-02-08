@@ -1,11 +1,12 @@
-import merge from 'lodash/merge'
-import noop from 'lodash/noop'
-import React, { useMemo, useReducer } from 'react'
-import { WipeModal } from 'components/Layout/Header/NavBar/KeepKey/Modals/Wipe'
+import { WipeModal } from 'components/Layout/Header/NavBar/KeepKey/Modals/WipeModal'
+import { AddAuthenticatorAccountModal } from 'components/Modals/AddAuthenticatorAccount/AddAuthenticatorAccount'
 import { AssetSearchModal } from 'components/Modals/AssetSearch/AssetSearch'
-import { FiatRampsModal } from 'components/Modals/FiatRamps/FiatRamps'
+import { ChainSelectorModal } from 'components/Modals/ChainSelector/ChainSelector'
+import { DappClickModal } from 'components/Modals/DappClick/DappClick'
 import { KKVote } from 'components/Modals/kkVote/KKVote'
 import { LoadingModal } from 'components/Modals/Loading/Loading'
+import { Languages } from 'components/Modals/OnboardingSteps/Languages'
+import { OnboardingSteps } from 'components/Modals/OnboardingSteps/OnboardingSteps'
 import { PairModal } from 'components/Modals/Pair/Pair'
 import { ReceiveModal } from 'components/Modals/Receive/Receive'
 import { SendModal } from 'components/Modals/Send/Send'
@@ -14,11 +15,18 @@ import { SignModal } from 'components/Modals/Sign/Sign'
 import { HardwareErrorModal } from 'components/Modals/UpdateKeepKey/HardwareError/HardwareError'
 import { RequestBootloaderMode } from 'components/Modals/UpdateKeepKey/RequestBootloaderMode/RequestBootloaderMode'
 import { UpdateKeepKey } from 'components/Modals/UpdateKeepKey/UpdateKeepKey'
+import merge from 'lodash/merge'
+import noop from 'lodash/noop'
 import { AddAccountModal } from 'pages/Accounts/AddAccountModal'
+import React, { useMemo, useReducer } from 'react'
 
 import { ModalContext } from './ModalContext'
-import { ChainSelectorModal } from 'components/Modals/ChainSelector/ChainSelector'
-import { AddAuthenticatorAccountModal } from 'components/Modals/AddAuthenticatorAccount/AddAuthenticatorAccount'
+
+declare module 'csstype' {
+  interface Properties {
+    '--chakra-zIndices-modal'?: number
+  }
+}
 
 // to add new modals, add a new key: value pair below
 // the key is the name returned by the hook and the
@@ -28,8 +36,6 @@ const MODALS = {
   send: SendModal,
   sign: SignModal,
   pair: PairModal,
-  hardwareError: HardwareErrorModal,
-  fiatRamps: FiatRampsModal,
   settings: SettingsModal,
   keepKeyWipe: WipeModal,
   addAccount: AddAccountModal,
@@ -40,7 +46,16 @@ const MODALS = {
   kkVote: KKVote,
   loading: LoadingModal,
   chainSelector: ChainSelectorModal,
+  dappClick: DappClickModal,
+  languages: Languages,
+  hardwareError: HardwareErrorModal,
+  onboardingSteps: OnboardingSteps,
 }
+
+// Extra z-index to apply to various modals -- used to make things appear on top of WalletProvider modals, which show up at 9500.
+const extraSpecialModals: Record<string, number> = {
+  onboardingSteps: 500,
+} satisfies Partial<Record<keyof typeof MODALS, number>>
 
 // state
 export type ModalState<M> = {
@@ -50,6 +65,7 @@ export type ModalState<M> = {
     open: (props: ModalProps<M>[K]) => void
     close: () => void
     isOpen: boolean
+    zIndex: number
   }
 }
 
@@ -82,16 +98,16 @@ type ModalSetup<S extends ModalSetup<S>> = {
   [k in keyof S]: ModalState<S>[k]['Component']
 }
 
-export function createInitialState<S>(modalSetup: S): ModalState<S> {
+export function createInitialState<S extends {}>(modalSetup: S): ModalState<S> {
   const modalMethods = { isOpen: false, open: noop, close: noop }
-  // @ts-ignore
   const modalNames = Object.keys(modalSetup) as (keyof S)[]
   const result = modalNames.reduce(
-    (acc, modalName) => ({
+    (acc, modalName, i) => ({
       ...acc,
       [modalName]: {
         ...modalMethods,
         Component: modalSetup[modalName],
+        zIndex: 9000 + i + (extraSpecialModals[String(modalName)] ?? 0),
       },
     }),
     {} as ModalState<S>,
@@ -103,7 +119,7 @@ export function createInitialState<S>(modalSetup: S): ModalState<S> {
 const initialState = createInitialState(MODALS)
 
 // reducer
-export function modalReducer<S>(state: S, action: ModalActions<S>): S {
+export function modalReducer<S extends ModalState<any>>(state: S, action: ModalActions<S>): S {
   switch (action.type) {
     case OPEN_MODAL:
       return {
@@ -128,7 +144,7 @@ type CreateModalProviderProps<M> = {
 }
 export type ModalStateType = typeof initialState
 // provider
-export function createModalProvider<M>({
+export function createModalProvider<M extends ModalState<any>>({
   instanceInitialState,
   instanceReducer,
   InstanceModalContext,
@@ -148,7 +164,6 @@ export function createModalProvider<M>({
     )
 
     const value = useMemo(() => {
-      // @ts-ignore
       const modalKeys = Object.keys(instanceInitialState) as (keyof M)[]
       const fns = modalKeys.reduce((acc, cur) => {
         const open = openFactory(cur)
@@ -159,18 +174,12 @@ export function createModalProvider<M>({
       return result
     }, [state, openFactory, closeFactory])
 
-    // @ts-ignore
     return (
-      // @ts-ignore
       <InstanceModalContext.Provider value={value}>
         {children}
-        {
-          // @ts-ignore
-          Object.values(value).map((Modal, key) => (
-            // @ts-ignore
-            <Modal.Component key={key} {...Modal.props} />
-          ))
-        }
+        {Object.entries(value).map(([key, Modal]) => (
+          <Modal.Component key={key} {...Modal.props} />
+        ))}
       </InstanceModalContext.Provider>
     )
   }

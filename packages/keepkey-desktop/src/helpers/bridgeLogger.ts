@@ -1,14 +1,8 @@
+import { app } from 'electron'
 import * as fs from 'fs'
 import path from 'path'
-import { app } from 'electron'
 
-export interface BridgeLog {
-  serviceKey: string
-  body?: any
-  route: string
-  method: string
-  time: number
-}
+import type { BridgeLog } from './types'
 
 export class BridgeLogger {
   private logs: BridgeLog[] = new Array<BridgeLog>()
@@ -17,13 +11,13 @@ export class BridgeLogger {
   constructor() {
     try {
       if (fs.existsSync(this.logPath)) {
-        let data: string | Array<BridgeLog> = fs.readFileSync(this.logPath).toString()
+        let data: string | BridgeLog[] = fs.readFileSync(this.logPath).toString()
         if (!data || data === '' || data === ' ' || data.length === 0) {
           this.logs = new Array<BridgeLog>()
         } else {
           data = JSON.parse(data)
           if (!data) this.logs = new Array<BridgeLog>()
-          this.logs = data as Array<BridgeLog>
+          this.logs = data as BridgeLog[]
         }
       }
     } catch (e) {
@@ -42,7 +36,9 @@ export class BridgeLogger {
   }
 
   fetchLogs(serviceKey: string) {
-    const logs = this.logs.filter(log => log.serviceKey === serviceKey)
+    const logs = this.logs.filter(
+      log => log.serviceKey === serviceKey || log.serviceKey === `Bearer ${serviceKey}`,
+    )
     return logs
   }
 }

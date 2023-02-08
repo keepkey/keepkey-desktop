@@ -1,10 +1,10 @@
 import { Box } from '@chakra-ui/react'
-import type { AssetId } from '@keepkey/caip'
-import type { HistoryTimeframe } from '@keepkey/types'
-import { useEffect } from 'react'
+import type { AssetId } from '@shapeshiftoss/caip'
+import type { HistoryTimeframe } from '@shapeshiftoss/types'
 import { Graph } from 'components/Graph/Graph'
 import { useBalanceChartData } from 'hooks/useBalanceChartData/useBalanceChartData'
 import { calculatePercentChange } from 'lib/charts'
+import { useEffect } from 'react'
 import type { AccountSpecifier } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
 
 type BalanceChartArgs = {

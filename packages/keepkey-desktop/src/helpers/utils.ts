@@ -1,19 +1,11 @@
-import { BrowserWindow, desktopCapturer, ipcMain } from 'electron'
-import { startTcpBridge } from '../tcpBridge'
-import {
-  deviceBusyRead,
-  deviceBusyWrite,
-  ipcQueue,
-  kkStateController,
-  renderListenersReady,
-  settings,
-  windows,
-} from '../globalState'
-import isDev from 'electron-is-dev'
-import { startWindowListeners } from '../windowListeners'
-import path from 'path'
+import { BrowserWindow } from 'electron'
 import log from 'electron-log'
-import jsQR from 'jsqr'
+import { rendererIpc } from 'ipcListeners'
+import path from 'path'
+
+import { kkStateController, settings, windows } from '../globalState'
+import { startTcpBridge } from '../tcpBridge'
+import { startWindowListeners } from '../windowListeners'
 
 export const openSignTxWindow = async (signArgs: any) => {
   log.info(' | openSignTxWindow | ')
@@ -33,46 +25,17 @@ export const openSignTxWindow = async (signArgs: any) => {
   if (!windows.mainWindow || windows.mainWindow.isDestroyed()) return
   if (!windowWasPreviouslyOpen) windows.mainWindow.focus()
   // windows.mainWindow.setContentSize(400, 780)
-  windows.mainWindow.webContents.send('@account/sign-tx', signArgs)
 
-  ipcMain.once('@modal/sign-close', () => {
-    if (!windows.mainWindow || windows.mainWindow.isDestroyed()) return
-    windows.mainWindow.setAlwaysOnTop(false)
-    if (windowWasPreviouslyOpen && windows.mainWindow.minimizable) {
-      console.log('prevContentSize', prevContentSize)
-      windows.mainWindow.setContentSize(prevContentSize.width, prevContentSize.height)
-      windows.mainWindow.minimize()
-    } else if (windows.mainWindow.closable) windows.mainWindow.close()
-  })
-}
+  await (await rendererIpc).accountSignTx(signArgs)
 
-export const checkKeepKeyUnlocked = async () => {
-  if (!kkStateController.wallet) return
-  let isLocked
-  try {
-    isLocked = await kkStateController.wallet.isLocked()
-  } catch (e) {
-    console.log('error is', e)
+  windows.mainWindow.setAlwaysOnTop(false)
+  if (windowWasPreviouslyOpen && windows.mainWindow.minimizable) {
+    console.log('prevContentSize', prevContentSize)
+    windows.mainWindow.setContentSize(prevContentSize.width, prevContentSize.height)
+    windows.mainWindow.minimize()
+  } else if (windows.mainWindow.closable) {
+    windows.mainWindow.close()
   }
-  console.log('KEEPKEY LOCKED: ', isLocked)
-  if (isLocked) {
-    if (!windows.mainWindow || windows.mainWindow.isDestroyed()) {
-      if (!(await createMainWindow())) return
-    }
-    if (windows.mainWindow && !windows.mainWindow.isDestroyed()) {
-      windows.mainWindow.focus()
-      windows.mainWindow.webContents.send('@modal/pin')
-    }
-  } else {
-    return
-  }
-
-  const p = new Promise((resolve: any) => {
-    ipcMain.once('@modal/pin-close', () => {
-      return resolve()
-    })
-  })
-  await p
 }
 
 export const getWallectConnectUri = (inputUri: string): string | undefined => {
@@ -81,22 +44,12 @@ export const getWallectConnectUri = (inputUri: string): string | undefined => {
   else return decodeURIComponent(uri.replace('wc/?uri=', '').replace('wc?uri=', ''))
 }
 
-export const queueIpcEvent = (eventName: string, args: any) => {
-  if (!renderListenersReady || !windows?.mainWindow || windows.mainWindow.isDestroyed()) {
-    log.info('queued ipc event: ', eventName)
-    return ipcQueue.push({ eventName, args })
-  } else {
-    log.info('renderListenersReady skipping queue: ', eventName)
-    return windows.mainWindow.webContents.send(eventName, args)
-  }
-}
-
 export const createMainWindow = async () => {
   try {
     await kkStateController.syncState()
-  } catch (e: any) {
+  } catch (e) {
     log.error(e)
-    if (e.toString().includes('claimInterface error')) {
+    if (String(e).includes('claimInterface error')) {
       windows?.splash?.webContents.send('@update/errorClaimed')
       await new Promise(() => 0)
     } else {
@@ -105,66 +58,35 @@ export const createMainWindow = async () => {
     }
   }
 
-  if (settings.shouldAutoStartBridge) await startTcpBridge(settings.bridgeApiPort)
+  if (await settings.shouldAutoStartBridge) await startTcpBridge(await settings.bridgeApiPort)
 
   windows.mainWindow = new BrowserWindow({
     focusable: true,
-    width: isDev ? 1960 : 1148,
+    width: 1400,
     height: 920,
     show: false,
     backgroundColor: 'white',
     autoHideMenuBar: true,
     webPreferences: {
+      preload: path.join(__dirname, 'assets/preload.js'),
       webviewTag: true,
-      nodeIntegration: true,
-      contextIsolation: false,
       devTools: true,
     },
   })
-
-  windows.mainWindow.loadURL(
-    isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, 'app/index.html')}`,
+  windows.mainWindow.webContents.addListener(
+    'will-attach-webview',
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (_event, webPreferences, params) => {
+      // Security check -- we don't use this and it would allow the app to break out of context isolation if compromised
+      delete webPreferences.preload
+      // Security check -- we don't use this and it would allow the app to disable its CSP if compromised
+      delete params.disablewebsecurity
+    },
   )
+
+  windows.mainWindow.loadURL(`file://${path.join(__dirname, 'app/index.html')}`)
 
   startWindowListeners()
 
   return true
-}
-
-// hack to detect when the keepkey is busy so we can be careful not to do 2 things at once
-export const watchForDeviceBusy = () => {
-  let lastDeviceBusyRead = false
-  let lastDeviceBusyWrite = false
-  setInterval(() => {
-    // busy state has changed somehow
-    if (lastDeviceBusyRead !== deviceBusyRead || lastDeviceBusyWrite !== deviceBusyWrite) {
-      if (deviceBusyRead === false && deviceBusyWrite === false) {
-        queueIpcEvent('deviceNotBusy', {})
-      } else {
-        queueIpcEvent('deviceBusy', {})
-      }
-    }
-    lastDeviceBusyRead = deviceBusyRead
-    lastDeviceBusyWrite = deviceBusyWrite
-  }, 1000)
-}
-
-export const scanScreenForQR = async (): Promise<string | undefined> => {
-  const sources = await desktopCapturer.getSources({
-    types: ['screen'],
-    thumbnailSize: { width: 1920, height: 1080 },
-  })
-
-  for (let index = 0; index < sources.length; index++) {
-    const source = sources[index]
-    const thumbnail = source.thumbnail
-    const { height, width } = thumbnail.getSize()
-
-    const scanned = jsQR(new Uint8ClampedArray(thumbnail.getBitmap()), width, height)
-    if (!scanned) continue
-
-    return scanned.data
-  }
-
-  return
 }

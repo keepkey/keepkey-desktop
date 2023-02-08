@@ -1,25 +1,18 @@
 import { useToast } from '@chakra-ui/react'
-import type { AccountId } from '@keepkey/caip'
-import {
-  cosmosChainId,
-  ethChainId,
-  fromAccountId,
-  osmosisChainId,
-  toAccountId,
-} from '@keepkey/caip'
-import { supportsCosmos, supportsOsmosis } from '@shapeshiftoss/hdwallet-core'
+import type { AccountId } from '@shapeshiftoss/caip'
+import { fromAccountId } from '@shapeshiftoss/caip'
 import { DEFAULT_HISTORY_TIMEFRAME } from 'constants/Config'
+import { usePlugins } from 'context/PluginProvider/PluginProvider'
+import { useRouteAssetId } from 'hooks/useRouteAssetId/useRouteAssetId'
+import { useWallet } from 'hooks/useWallet/useWallet'
+import { deriveAccountIdsAndMetadata } from 'lib/account/account'
+import { logger } from 'lib/logger'
 import { entries } from 'lodash'
 import isEmpty from 'lodash/isEmpty'
 // import uniq from 'lodash/uniq'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { useDispatch, useSelector } from 'react-redux'
-import { usePlugins } from 'context/PluginProvider/PluginProvider'
-import { useRouteAssetId } from 'hooks/useRouteAssetId/useRouteAssetId'
-import { useWallet } from 'hooks/useWallet/useWallet'
-import { deriveAccountIdsAndMetadata } from 'lib/account/account'
-import { logger } from 'lib/logger'
 import { accountSpecifiers } from 'state/slices/accountSpecifiersSlice/accountSpecifiersSlice'
 import { useGetAssetsQuery } from 'state/slices/assetsSlice/assetsSlice'
 import {
@@ -35,19 +28,13 @@ import {
   selectAccountSpecifiers,
   selectAssetIds,
   selectAssets,
-  selectPortfolioAccounts,
   selectPortfolioAssetIds,
   selectPortfolioLoadingStatus,
   selectPortfolioLoadingStatusGranular,
   selectSelectedCurrency,
-  selectSelectedLocale,
+  // selectSelectedLocale,
 } from 'state/slices/selectors'
 import { txHistory, txHistoryApi } from 'state/slices/txHistorySlice/txHistorySlice'
-import {
-  EMPTY_COSMOS_ADDRESS,
-  EMPTY_OSMOSIS_ADDRESS,
-} from 'state/slices/validatorDataSlice/constants'
-import { validatorDataApi } from 'state/slices/validatorDataSlice/validatorDataSlice'
 import { useAppSelector } from 'state/store'
 
 const moduleLogger = logger.child({ namespace: ['AppContext'] })
@@ -76,7 +63,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const portfolioLoadingStatus = useSelector(selectPortfolioLoadingStatus)
   const portfolioLoadingStatusGranular = useSelector(selectPortfolioLoadingStatusGranular)
   const portfolioAssetIds = useSelector(selectPortfolioAssetIds)
-  const portfolioAccounts = useSelector(selectPortfolioAccounts)
   const routeAssetId = useRouteAssetId()
 
   // immediately load all assets, before the wallet is even connected,
@@ -158,64 +144,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     dispatch(getAllTxHistory.initiate({ accountSpecifiersList }, { forceRefetch: true }))
   }, [dispatch, accountSpecifiersList, portfolioLoadingStatus])
-
-  // once portfolio is loaded, fetch remaining chain specific data
-  useEffect(() => {
-    if (portfolioLoadingStatus === 'loading') return
-
-    const { getFoxyRebaseHistoryByAccountId } = txHistoryApi.endpoints
-    const { getValidatorData } = validatorDataApi.endpoints
-
-    // forceRefetch is enabled here to make sure that we always have the latest state from chain
-    // and ensure the queryFn runs resulting in dispatches occuring to update client state
-    const options = { forceRefetch: true }
-
-    // Sneaky hack to fetch cosmos SDK default opportunities for wallets that don't support Cosmos SDK
-    // We only store the validator data for these and don't actually store them in portfolio.accounts.byId[accountSpecifier].stakingDataByValidatorId
-    // Since the accountSpecifier is an empty address (generated and private keys burned) and isn't actually in state
-    if (wallet && !supportsCosmos(wallet)) {
-      const accountSpecifier = `${cosmosChainId}:${EMPTY_COSMOS_ADDRESS}`
-      dispatch(getValidatorData.initiate({ accountSpecifier, chainId: cosmosChainId }, options))
-    }
-    if (wallet && !supportsOsmosis(wallet)) {
-      const accountSpecifier = `${osmosisChainId}:${EMPTY_OSMOSIS_ADDRESS}`
-      dispatch(getValidatorData.initiate({ accountSpecifier, chainId: osmosisChainId }, options))
-    }
-
-    accountSpecifiersList.forEach(accountSpecifierMap => {
-      Object.entries(accountSpecifierMap).forEach(([chainId, account]) => {
-        switch (chainId) {
-          case cosmosChainId:
-          case osmosisChainId:
-            const accountSpecifier = toAccountId({ chainId, account })
-            dispatch(getValidatorData.initiate({ accountSpecifier, chainId }, options))
-            break
-          case ethChainId:
-            /**
-             * fetch all rebase history for foxy
-             *
-             * foxy rebase history is most closely linked to transactions.
-             * unfortunately, we have to call this for a specific asset here
-             * because we need it for the dashboard balance chart
-             *
-             * if you're reading this and are about to add another rebase token here,
-             * stop, and make a getRebaseHistoryByAccountId that takes
-             * an accountId and assetId[] in the txHistoryApi
-             */
-            dispatch(
-              getFoxyRebaseHistoryByAccountId.initiate(
-                { accountSpecifierMap, portfolioAssetIds },
-                options,
-              ),
-            )
-            break
-          default:
-        }
-      })
-    })
-    // this effect cares specifically about changes to portfolio accounts or assets
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, portfolioLoadingStatus, portfolioAccounts, portfolioAssetIds])
 
   // once the portfolio is loaded, fetch market data for all portfolio assets
   // start refetch timer to keep market data up to date
