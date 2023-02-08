@@ -95,7 +95,7 @@ export const App = () => {
 
   // get whether or not bridge is connected for hardwareError modal
   useEffect(() => {
-    // ipcListeners.clearBrowserSession()
+    ipcListeners.clearBrowserSession()
     if (connected === null) {
       ipcListeners.bridgeConnected().then(x => {
         setConnected(x)
