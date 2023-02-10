@@ -14,6 +14,7 @@ const moduleLogger = logger.child({ namespace: 'ContractInteractionBreakdown' })
 
 export const TransactionInsight = ({ request }: { request: any }) => {
   const translate = useTranslate()
+  const [prevReq, setPrevReq] = useState<any>()
 
   const { contract } = useContract(request?.params[0].to)
 
@@ -21,6 +22,8 @@ export const TransactionInsight = ({ request }: { request: any }) => {
   const [insight, setInsight] = useState<any>(undefined)
 
   useEffect(() => {
+    if (prevReq && prevReq.id === request.id) return
+    setPrevReq(request)
     ;(async () => {
       try {
         console.log('request: ', request)
@@ -47,7 +50,7 @@ export const TransactionInsight = ({ request }: { request: any }) => {
         moduleLogger.error(e, 'parseTransaction')
       }
     })()
-  }, [request, contract])
+  }, [prevReq, request, contract])
 
   return (
     <ModalSection

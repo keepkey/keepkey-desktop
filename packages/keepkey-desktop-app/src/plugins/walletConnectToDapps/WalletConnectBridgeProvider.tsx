@@ -176,11 +176,11 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
 
         setLegacyBridge(bridgeFromSession)
 
-        // onDisconnect()
-        // localStorage.removeItem('walletconnect')
+        onDisconnect()
+        localStorage.removeItem('walletconnect')
       }
     },
-    [isConnected, isLegacy, legacyBridge, setLegacyEvents, wallet],
+    [isConnected, isLegacy, legacyBridge, onDisconnect, setLegacyEvents, wallet],
   )
 
   useEffect(() => {
