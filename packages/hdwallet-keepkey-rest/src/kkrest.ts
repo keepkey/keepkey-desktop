@@ -760,8 +760,8 @@ export class KeepKeyRestHDWallet
       const signed = await this.sdk.cosmos.cosmosSignAmino(
         {
           signDoc: {
-            accountNumber: msg.account_number,
-            chainId: msg.chain_id,
+            account_number: msg.account_number,
+            chain_id: msg.chain_id,
             // TODO: busted openapi-generator types
             // @ts-expect-error
             msgs: msg.tx.msg,
@@ -779,7 +779,7 @@ export class KeepKeyRestHDWallet
       // TODO: busted openapi-generator types
       return {
         signatures: [signed.signature as string],
-        serialized: core.untouchable('not implemented'),
+        serialized: signed.serialized as string,
         authInfoBytes: core.untouchable('not implemented'),
         body: core.untouchable('not implemented'),
       }

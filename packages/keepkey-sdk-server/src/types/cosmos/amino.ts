@@ -7,7 +7,7 @@ export type Any = {
 }
 
 export type SignDoc = {
-  account_number: types.decimal.U64
+  account_number: string
   /** @minLength 1 */
   chain_id: string
   sequence: types.decimal.U64
