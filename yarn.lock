@@ -5299,7 +5299,7 @@ __metadata:
     "@cosmjs/proto-signing": ^0.28.13
     "@cosmjs/stargate": ^0.28.13
     "@keepkey/device-protocol": ^7.10.2
-    "@keepkey/keepkey-sdk": "workspace:*"
+    "@keepkey/keepkey-sdk": 0.2.24
     "@shapeshiftoss/hdwallet-core": 1.41.0
     "@types/create-hash": ^1.2.2
     "@types/crypto-js": ^4.0.0
@@ -5326,7 +5326,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
+"@keepkey/keepkey-sdk@0.2.24, @keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
   version: 0.0.0-use.local
   resolution: "@keepkey/keepkey-sdk@workspace:packages/keepkey-sdk"
   dependencies:
