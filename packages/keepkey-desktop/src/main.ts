@@ -4,13 +4,12 @@ import './comlinkTransferHandlers'
 
 import * as Sentry from '@sentry/electron'
 import { app, nativeTheme } from 'electron'
-import isDev from 'electron-is-dev'
 import log from 'electron-log'
 // import unhandled from 'electron-unhandled'
 import fs from 'fs'
 
 import { startAppListeners } from './appListeners'
-import { isWin, kkAutoLauncher, settings } from './globalState'
+import { isWin, kkAutoLauncher } from './globalState'
 import { startTcpBridge } from './tcpBridge'
 import { startUpdaterListeners } from './updaterListeners'
 
