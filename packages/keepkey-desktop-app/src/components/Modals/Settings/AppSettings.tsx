@@ -6,7 +6,7 @@ import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
-import { FaRocket, FaTrash } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
 import { HiRefresh } from 'react-icons/hi'
 import { IoFileTray } from 'react-icons/io5'
 import { TbRefreshAlert } from 'react-icons/tb'
@@ -89,7 +89,7 @@ export const AppSettings: FC = () => {
         <Switch isChecked={appSettings.shouldAutoUpdate} pointerEvents='none' />
       </SettingsListItem>
       <Divider my={1} />
-      <SettingsListItem
+      {/* <SettingsListItem
         label={'modals.settings.autoLaunch'}
         onClick={() => {
           setAppSettings(currentSettings => {
@@ -102,7 +102,7 @@ export const AppSettings: FC = () => {
         icon={<Icon as={FaRocket} color='gray.500' />}
       >
         <Switch isChecked={appSettings.shouldAutoLaunch} pointerEvents='none' />
-      </SettingsListItem>
+      </SettingsListItem> */}
       <Divider my={1} />
       <SettingsListItem
         label={'modals.settings.minimizeToTray'}

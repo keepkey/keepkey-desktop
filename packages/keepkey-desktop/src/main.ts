@@ -28,13 +28,14 @@ startTcpBridge().catch(e => log.error('startTcpBridge error:', e))
 
 // Auto launch on startup
 ;(async () => {
-  if (!isDev && (await settings.shouldAutoLaunch)) {
-    await kkAutoLauncher.enable()
-    console.log('autolaunch enabled')
-  } else {
-    await kkAutoLauncher.disable()
-    console.log('autolaunch disabled')
-  }
+  // if (!isDev && (await settings.shouldAutoLaunch)) {
+  //   await kkAutoLauncher.enable()
+  //   console.log('autolaunch enabled')
+  // } else {
+  //   await kkAutoLauncher.disable()
+  //   console.log('autolaunch disabled')
+  // }
+  await kkAutoLauncher.disable()
 })().catch(e => log.error('autolaunch setup error:', e))
 
 try {
