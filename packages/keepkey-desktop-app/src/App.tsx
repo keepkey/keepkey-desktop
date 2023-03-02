@@ -72,7 +72,7 @@ export const App = () => {
         if (!defaultDapp || defaultDapp === '') {
           const defaultDappShapeShift = {
             imageUrl: 'https://assets.coincap.io/assets/icons/fox@2x.png',
-            url: 'https://web-theta-one.vercel.app/',
+            url: 'https://app.shapeshift.com/',
             name: 'ShapeShift',
           }
 

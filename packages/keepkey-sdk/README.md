@@ -27,7 +27,7 @@ export const setupKeepKeySDK = async () => {
             name: 'ShapeShift',
             imageUrl: 'https://assets.coincap.io/assets/icons/fox@2x.png',
             basePath: 'http://localhost:1646/spec/swagger.json',
-            url: 'https://web-theta-one.vercel.app',
+            url: 'https://app.shapeshift.com',
         },
     }
     let sdk = await KeepKeySdk.create(config)
