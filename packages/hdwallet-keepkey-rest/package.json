@@ -1,6 +1,6 @@
 {
   "name": "@keepkey/hdwallet-keepkey-rest",
-  "version": "1.40.10",
+  "version": "1.40.12",
   "license": "MIT",
   "repository": {
     "type": "git",

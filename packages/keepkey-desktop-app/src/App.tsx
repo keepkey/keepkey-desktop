@@ -5,6 +5,7 @@ import type { PairingProps } from 'components/Modals/Pair/types'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
+import { KeepKeyRoutes } from 'context/WalletProvider/routes'
 import { ipcListeners } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
@@ -103,6 +104,11 @@ export const App = () => {
       })
     }
   }, [hardwareError, connected, setConnected, setIsUpdatingKeepkey])
+
+  useEffect(() => {
+    if (state.initialRoute === KeepKeyRoutes.Pin) ipcListeners.setAlwaysOnTop(true)
+    else ipcListeners.setAlwaysOnTop(false)
+  }, [state.initialRoute])
 
   useEffect(() => {
     // This is necessary so when it re-opens the tcp connection everything is good
