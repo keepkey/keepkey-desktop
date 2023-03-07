@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@shapeshiftoss/hdwallet-core": "^1.41.0",
-    "@shapeshiftoss/hdwallet-keepkey": "^1.41.0",
+    "@shapeshiftoss/hdwallet-keepkey": "^1.46.0",
     "@types/express": "^4.17.14",
     "@types/lodash": "^4.14.190",
     "@types/node": "^18",

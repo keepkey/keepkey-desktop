@@ -98,6 +98,30 @@ export class AddressesController extends ApiController {
   }
 
   /**
+   * Get a Cosmos address, loading it into the current session and optionally displaying it on-device.
+   * @summary Get Cosmos Address
+   */
+  @Post('/osmosis')
+  @OperationId('OsmosisGetAddress')
+  public async osmosis(
+      @Body()
+          body: {
+        address_n: types.AddressNList
+        show_display?: boolean
+      },
+  ): Promise<{ address: types.cosmos.Address }> {
+    const response = await this.context.wallet.osmosisGetAddress({
+      addressNList: body.address_n,
+      showDisplay: !!body.show_display,
+    })
+    await this.context.saveAccount(response!, body.address_n)
+
+    return {
+      address: response,
+    }
+  }
+  
+  /**
    * Get an Ethereum address, loading it into the current session and optionally displaying it on-device.
    * @summary Get Ethereum Address
    */
