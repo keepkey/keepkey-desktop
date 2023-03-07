@@ -4,13 +4,12 @@ import './comlinkTransferHandlers'
 
 import * as Sentry from '@sentry/electron'
 import { app, nativeTheme } from 'electron'
-import isDev from 'electron-is-dev'
 import log from 'electron-log'
 // import unhandled from 'electron-unhandled'
 import fs from 'fs'
 
 import { startAppListeners } from './appListeners'
-import { isWin, kkAutoLauncher, settings } from './globalState'
+import { isWin, kkAutoLauncher } from './globalState'
 import { startTcpBridge } from './tcpBridge'
 import { startUpdaterListeners } from './updaterListeners'
 
@@ -28,13 +27,14 @@ startTcpBridge().catch(e => log.error('startTcpBridge error:', e))
 
 // Auto launch on startup
 ;(async () => {
-  if (!isDev && (await settings.shouldAutoLaunch)) {
-    await kkAutoLauncher.enable()
-    console.log('autolaunch enabled')
-  } else {
-    await kkAutoLauncher.disable()
-    console.log('autolaunch disabled')
-  }
+  // if (!isDev && (await settings.shouldAutoLaunch)) {
+  //   await kkAutoLauncher.enable()
+  //   console.log('autolaunch enabled')
+  // } else {
+  //   await kkAutoLauncher.disable()
+  //   console.log('autolaunch disabled')
+  // }
+  await kkAutoLauncher.disable()
 })().catch(e => log.error('autolaunch setup error:', e))
 
 try {
