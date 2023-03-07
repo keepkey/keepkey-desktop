@@ -70,19 +70,6 @@ export class CosmosController extends ApiController {
     const response = await this.context.wallet.cosmosSignTx(input)
     console.log('response: ', JSON.stringify(response))
 
-    // const response = await this.context.wallet.cosmosSignTx({
-    //   addressNList: (await this.context.getAccount(body.signerAddress)).addressNList,
-    //   tx: {
-    //     msg: body.signDoc.msgs,
-    //     fee: body.signDoc.fee,
-    //     signatures: [],
-    //     memo: body.signDoc.memo,
-    //   },
-    //   chain_id: body.signDoc.chain_id,
-    //   account_number: body.signDoc.account_number,
-    //   sequence: body.signDoc.sequence,
-    // })
-
     return {
       signature: response.signatures[0],
       serialized: response.serialized,
