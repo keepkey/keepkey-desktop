@@ -400,6 +400,7 @@ export class KeepKeyRestHDWallet
     this.ethGetAddress.cache = new _.memoize.Cache()
     this.rippleGetAddress.cache = new _.memoize.Cache()
     this.cosmosGetAddress.cache = new _.memoize.Cache()
+    this.osmosisGetAddress.cache = new _.memoize.Cache()
     this.thorchainGetAddress.cache = new _.memoize.Cache()
     this.binanceGetAddress.cache = new _.memoize.Cache()
     this.eosGetPublicKey.cache = new _.memoize.Cache()
@@ -790,6 +791,76 @@ export class KeepKeyRestHDWallet
     })
   }
 
+  public osmosisGetAccountPaths(msg: core.CosmosGetAccountPaths): core.CosmosAccountPath[] {
+    return [
+      {
+        addressNList: [
+          0x80000000 + 44,
+          0x80000000 + core.slip44ByCoin('Atom'),
+          0x80000000 + msg.accountIdx,
+          0,
+          0,
+        ],
+      },
+    ]
+  }
+
+  readonly osmosisGetAddress = _.memoize(
+      async (msg: core.CosmosGetAddress): Promise<string> => {
+        return await this.abortable(async signal => {
+          return (
+              await this.sdk.address.osmosisGetAddress(
+                  {
+                    address_n: msg.addressNList,
+                    show_display: msg.showDisplay,
+                  },
+                  { signal },
+              )
+          ).address
+        })
+      },
+      msg => JSON.stringify(msg),
+  )
+
+  public async osmosisSignTx(msg: core.CosmosSignTx): Promise<core.CosmosSignedTx> {
+    return await this.abortable(async signal => {
+      const signerAddress = (
+          await this.sdk.address.cosmosGetAddress(
+              {
+                address_n: msg.addressNList,
+              },
+              { signal },
+          )
+      ).address
+      const signed = await this.sdk.cosmos.cosmosSignAmino(
+          {
+            signDoc: {
+              account_number: msg.account_number,
+              chain_id: msg.chain_id,
+              // TODO: busted openapi-generator types
+              // @ts-expect-error
+              msgs: msg.tx.msg,
+              memo: msg.tx.memo ?? '',
+              sequence: msg.sequence,
+              fee: {
+                gas: String(msg.fee ?? 0),
+                amount: [],
+              },
+            },
+            signerAddress,
+          },
+          { signal },
+      )
+      // TODO: busted openapi-generator types
+      return {
+        signatures: [signed.signature as string],
+        serialized: signed.serialized as string,
+        authInfoBytes: core.untouchable('not implemented'),
+        body: core.untouchable('not implemented'),
+      }
+    })
+  }
+  
   public thorchainGetAccountPaths(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _msg: core.ThorchainGetAccountPaths,
