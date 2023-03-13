@@ -6410,7 +6410,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/hdwallet-core@npm:1.41.0, @shapeshiftoss/hdwallet-core@npm:^1.41.0":
+"@shapeshiftoss/hdwallet-core@npm:1.41.0":
   version: 1.41.0
   resolution: "@shapeshiftoss/hdwallet-core@npm:1.41.0"
   dependencies:
@@ -6448,14 +6448,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/hdwallet-keepkey-nodehid@npm:^1.41.0":
-  version: 1.41.0
-  resolution: "@shapeshiftoss/hdwallet-keepkey-nodehid@npm:1.41.0"
+"@shapeshiftoss/hdwallet-keepkey-nodehid@npm:^1.46.0":
+  version: 1.46.0
+  resolution: "@shapeshiftoss/hdwallet-keepkey-nodehid@npm:1.46.0"
   dependencies:
-    "@shapeshiftoss/hdwallet-keepkey": 1.41.0
+    "@shapeshiftoss/hdwallet-keepkey": 1.46.0
   peerDependencies:
     node-hid: ^2.1.1
-  checksum: 96d0cf30326da6b72d2202c1443f80b96f61f9c31ecfd1f1457ae3f257e22faef52ab1ed964d97919fc008501cb5b8ba152b2c2bc1eef0302afc255d6898e976
+  checksum: 312758823d9094c005bbc27e03fdeeb0cf37464b1b73c93677ef14eb45ab0db52f8341f3428d9c443d60dd825462ce2d2f255a7e2940ab863bfbc85e924a69fc
   languageName: node
   linkType: hard
 
@@ -6468,6 +6468,18 @@ __metadata:
   peerDependencies:
     usb: ^2.3.1
   checksum: 4c19afcefc89b16b37ca8bfff591971a02496d879fda4fb51ddd093bd6e40716b943757ad51c505c5e88b64f0d1d14e2ad67a54f829a245234f8fee21e15b1ef
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm:^1.46.0":
+  version: 1.46.0
+  resolution: "@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm:1.46.0"
+  dependencies:
+    "@shapeshiftoss/hdwallet-core": 1.46.0
+    "@shapeshiftoss/hdwallet-keepkey": 1.46.0
+  peerDependencies:
+    usb: ^2.3.1
+  checksum: 3dbe14ea645b581a8e8ae390232e36896b712fec7509e801e5b1bce24c51ebe998cb137cb19c2643742ccc001b6e64b70005962bd48fbfd949f89e4d6664eaf9
   languageName: node
   linkType: hard
 
@@ -18423,10 +18435,10 @@ __metadata:
     "@sentry/electron": ^4.1.0
     "@shapeshiftoss/errors": ^1.1.3
     "@shapeshiftoss/eslint-plugin-logger": ^1.1.0
-    "@shapeshiftoss/hdwallet-core": ^1.41.0
+    "@shapeshiftoss/hdwallet-core": ^1.46.0
     "@shapeshiftoss/hdwallet-keepkey": ^1.46.0
-    "@shapeshiftoss/hdwallet-keepkey-nodehid": ^1.41.0
-    "@shapeshiftoss/hdwallet-keepkey-nodewebusb": ^1.41.0
+    "@shapeshiftoss/hdwallet-keepkey-nodehid": ^1.46.0
+    "@shapeshiftoss/hdwallet-keepkey-nodewebusb": ^1.46.0
     "@shapeshiftoss/logger": ^1.1.3
     "@swc/cli": ^0.1.57
     "@swc/core": ^1.3.19

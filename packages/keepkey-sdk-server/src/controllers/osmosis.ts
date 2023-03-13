@@ -49,7 +49,7 @@ export class OsmosisController extends ApiController {
                 amount: [
                     {
                         amount: '900',
-                        denom: 'uatom',
+                        denom: 'uosmo',
                     },
                 ],
                 gas: '90000',
@@ -66,8 +66,8 @@ export class OsmosisController extends ApiController {
             account_number: tx.account_number,
             sequence: tx.sequence,
         }
-        console.log('cosmos input: ', JSON.stringify(input))
-        const response = await this.context.wallet.cosmosSignTx(input)
+        console.log('osmosis input: ', JSON.stringify(input))
+        const response = await this.context.wallet.osmosisSignTx(input)
         console.log('response: ', JSON.stringify(response))
 
         return {
