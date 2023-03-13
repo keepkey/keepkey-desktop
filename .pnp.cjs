@@ -87,6 +87,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@adraffy/ens-normalize", [\
+        ["npm:1.8.9", {\
+          "packageLocation": "./.yarn/cache/@adraffy-ens-normalize-npm-1.8.9-eab35a0613-17791dce03.zip/node_modules/@adraffy/ens-normalize/",\
+          "packageDependencies": [\
+            ["@adraffy/ens-normalize", "npm:1.8.9"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@ampproject/remapping", [\
         ["npm:2.2.0", {\
           "packageLocation": "./.yarn/cache/@ampproject-remapping-npm-2.2.0-114878fa50-d74d170d06.zip/node_modules/@ampproject/remapping/",\
@@ -5483,6 +5492,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["readonly-date", "npm:1.0.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:0.30.0", {\
+          "packageLocation": "./.yarn/cache/@cosmjs-encoding-npm-0.30.0-12d636ab04-18ac0fd63d.zip/node_modules/@cosmjs/encoding/",\
+          "packageDependencies": [\
+            ["@cosmjs/encoding", "npm:0.30.0"],\
+            ["base64-js", "npm:1.5.1"],\
+            ["bech32", "npm:1.1.4"],\
+            ["readonly-date", "npm:1.0.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@cosmjs/json-rpc", [\
@@ -9041,10 +9060,33 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@noble/hashes", [\
+        ["npm:1.1.2", {\
+          "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.1.2-dbc15bb44d-3c2a8cb7c2.zip/node_modules/@noble/hashes/",\
+          "packageDependencies": [\
+            ["@noble/hashes", "npm:1.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.1.3", {\
           "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.1.3-e4b20ddadf-a6f9783d2a.zip/node_modules/@noble/hashes/",\
           "packageDependencies": [\
             ["@noble/hashes", "npm:1.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.2.0", {\
+          "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.2.0-71d3c56c21-8ca080ce55.zip/node_modules/@noble/hashes/",\
+          "packageDependencies": [\
+            ["@noble/hashes", "npm:1.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@noble/secp256k1", [\
+        ["npm:1.7.1", {\
+          "packageLocation": "./.yarn/cache/@noble-secp256k1-npm-1.7.1-95825e0b99-d2301f1f76.zip/node_modules/@noble/secp256k1/",\
+          "packageDependencies": [\
+            ["@noble/secp256k1", "npm:1.7.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9742,7 +9784,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bech32", "npm:2.0.0"],\
             ["bignumber.js", "npm:9.1.0"],\
             ["bitcoinjs-lib", "npm:5.2.0"],\
-            ["bs58check", "npm:2.1.2"],\
+            ["bs58check", "npm:3.0.1"],\
             ["coinselect", "npm:3.1.13"],\
             ["ethers", "npm:5.7.2"],\
             ["multicoin-address-validator", "npm:0.5.11"],\
@@ -9861,40 +9903,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@shapeshiftoss/hdwallet-keepkey", [\
-        ["npm:1.46.0", {\
-          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb-3e181a45a1.zip/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
+        ["patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.46.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb.patch::version=1.46.0&hash=2712dd&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-patch-08c0a1e692-c42728c79c.zip/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/hdwallet-keepkey", "npm:1.46.0"],\
+            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.46.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb.patch::version=1.46.0&hash=2712dd&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@cosmjs/encoding", "npm:0.30.0"],\
             ["@ethereumjs/common", "npm:2.6.5"],\
             ["@ethereumjs/tx", "npm:3.5.2"],\
             ["@keepkey/device-protocol", "npm:7.12.2"],\
             ["@shapeshiftoss/bitcoinjs-lib", "npm:5.2.0-shapeshift.2"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.46.0"],\
             ["@shapeshiftoss/proto-tx-builder", "npm:0.7.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
-            ["bnb-javascript-sdk-nobroadcast", "npm:2.16.15"],\
-            ["crypto-js", "npm:4.1.1"],\
-            ["eip-712", "npm:1.0.0"],\
-            ["eip55", "npm:2.1.0"],\
-            ["google-protobuf", "npm:3.21.2"],\
-            ["icepick", "npm:2.4.0"],\
-            ["lodash", "npm:4.17.21"],\
-            ["p-lazy", "npm:3.1.0"],\
-            ["semver", "npm:7.3.8"],\
-            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@patch%253A@shapeshiftoss/hdwallet-keepkey@npm%25253A1.41.0%2523./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%253A%253Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%252540workspace%25253A.%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch%3A%3Aversion=1.41.0&hash=196f5c&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-585e8b93cf.patch::version=1.41.0&hash=cde76a&locator=keepkey-monorepo%40workspace%3A.", {\
-          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-patch-ca0a8b4cf8-ac24c65c81.zip/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
-          "packageDependencies": [\
-            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@patch%253A@shapeshiftoss/hdwallet-keepkey@npm%25253A1.41.0%2523./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%253A%253Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%252540workspace%25253A.%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch%3A%3Aversion=1.41.0&hash=196f5c&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-585e8b93cf.patch::version=1.41.0&hash=cde76a&locator=keepkey-monorepo%40workspace%3A."],\
-            ["@ethereumjs/common", "npm:2.6.5"],\
-            ["@ethereumjs/tx", "npm:3.5.2"],\
-            ["@keepkey/device-protocol", "npm:7.10.2"],\
-            ["@shapeshiftoss/bitcoinjs-lib", "npm:5.2.0-shapeshift.2"],\
-            ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
-            ["@shapeshiftoss/proto-tx-builder", "npm:0.4.0"],\
             ["assert", "npm:2.0.0"],\
             ["bignumber.js", "npm:9.1.0"],\
             ["bnb-javascript-sdk-nobroadcast", "npm:2.16.15"],\
@@ -9910,7 +9929,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lodash", "npm:4.17.21"],\
             ["long", "npm:4.0.0"],\
             ["p-lazy", "npm:3.1.0"],\
-            ["semver", "npm:6.3.0"],\
+            ["semver", "npm:7.3.8"],\
             ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
           "linkType": "HARD"\
@@ -9928,7 +9947,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-hdwallet-keepkey-nodehid-virtual-afa3712841/0/cache/@shapeshiftoss-hdwallet-keepkey-nodehid-npm-1.41.0-b1adb72bda-96d0cf3032.zip/node_modules/@shapeshiftoss/hdwallet-keepkey-nodehid/",\
           "packageDependencies": [\
             ["@shapeshiftoss/hdwallet-keepkey-nodehid", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.41.0"],\
-            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@patch%253A@shapeshiftoss/hdwallet-keepkey@npm%25253A1.41.0%2523./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%253A%253Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%252540workspace%25253A.%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch%3A%3Aversion=1.41.0&hash=196f5c&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-585e8b93cf.patch::version=1.41.0&hash=cde76a&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.46.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb.patch::version=1.46.0&hash=2712dd&locator=keepkey-monorepo%40workspace%3A."],\
             ["@types/node-hid", null],\
             ["node-hid", "patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
@@ -9952,7 +9971,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.41.0-3660b239f5.patch::version=1.41.0&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
-            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@patch%253A@shapeshiftoss/hdwallet-keepkey@npm%25253A1.41.0%2523./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%253A%253Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%252540workspace%25253A.%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch%3A%3Aversion=1.41.0&hash=196f5c&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-585e8b93cf.patch::version=1.41.0&hash=cde76a&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.46.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb.patch::version=1.46.0&hash=2712dd&locator=keepkey-monorepo%40workspace%3A."],\
             ["@types/usb", null],\
             ["usb", "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
@@ -9969,7 +9988,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@shapeshiftoss/hdwallet-keepkey-tcp", "npm:1.41.0"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
-            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@patch%253A@shapeshiftoss/hdwallet-keepkey@npm%25253A1.41.0%2523./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%253A%253Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%252540workspace%25253A.%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch%3A%3Aversion=1.41.0&hash=196f5c&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-585e8b93cf.patch::version=1.41.0&hash=cde76a&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.46.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb.patch::version=1.46.0&hash=2712dd&locator=keepkey-monorepo%40workspace%3A."],\
             ["axios", "npm:0.21.4"]\
           ],\
           "linkType": "HARD"\
@@ -9981,7 +10000,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@shapeshiftoss/hdwallet-keepkey-webusb", "npm:1.41.0"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
-            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@patch%253A@shapeshiftoss/hdwallet-keepkey@npm%25253A1.41.0%2523./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%253A%253Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%252540workspace%25253A.%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch%3A%3Aversion=1.41.0&hash=196f5c&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-585e8b93cf.patch::version=1.41.0&hash=cde76a&locator=keepkey-monorepo%40workspace%3A."]\
+            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.46.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb.patch::version=1.46.0&hash=2712dd&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -10143,8 +10162,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@cosmjs/tendermint-rpc", "npm:0.28.13"],\
             ["cosmjs-types", "npm:0.5.2"],\
             ["google-protobuf", "npm:3.21.2"],\
-            ["long", "npm:4.0.0"],\
-            ["protobufjs", "npm:7.1.2"]\
+            ["long", "npm:4.0.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -10160,7 +10178,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bn.js", "npm:5.2.1"],\
             ["cosmjs-types", "npm:0.5.2"],\
             ["google-protobuf", "npm:3.21.2"],\
-            ["osmojs", "npm:0.37.0"]\
+            ["long", "npm:4.0.0"],\
+            ["osmojs", "npm:0.37.0"],\
+            ["protobufjs", "npm:7.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13739,6 +13759,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["aes-js", "npm:3.1.2"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:4.0.0-beta.3", {\
+          "packageLocation": "./.yarn/cache/aes-js-npm-4.0.0-beta.3-9395aacd4b-2336feee1e.zip/node_modules/aes-js/",\
+          "packageDependencies": [\
+            ["aes-js", "npm:4.0.0-beta.3"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["agent-base", [\
@@ -14852,6 +14879,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["safe-buffer", "npm:5.2.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:4.0.0", {\
+          "packageLocation": "./.yarn/cache/base-x-npm-4.0.0-64a1f6fa5e-b25db9e07e.zip/node_modules/base-x/",\
+          "packageDependencies": [\
+            ["base-x", "npm:4.0.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["base64-js", [\
@@ -15410,6 +15444,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["base-x", "npm:3.0.9"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:5.0.0", {\
+          "packageLocation": "./.yarn/cache/bs58-npm-5.0.0-da02537b92-2475cb0684.zip/node_modules/bs58/",\
+          "packageDependencies": [\
+            ["bs58", "npm:5.0.0"],\
+            ["base-x", "npm:4.0.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["bs58check", [\
@@ -15420,6 +15462,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bs58", "npm:4.0.1"],\
             ["create-hash", "npm:1.2.0"],\
             ["safe-buffer", "npm:5.2.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:3.0.1", {\
+          "packageLocation": "./.yarn/cache/bs58check-npm-3.0.1-be32851e5e-dbbecc7a09.zip/node_modules/bs58check/",\
+          "packageDependencies": [\
+            ["bs58check", "npm:3.0.1"],\
+            ["@noble/hashes", "npm:1.2.0"],\
+            ["bs58", "npm:5.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -20009,6 +20060,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/wordlists", "npm:5.7.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:6.1.0", {\
+          "packageLocation": "./.yarn/unplugged/ethers-npm-6.1.0-dd9a20f7ac/node_modules/ethers/",\
+          "packageDependencies": [\
+            ["ethers", "npm:6.1.0"],\
+            ["@adraffy/ens-normalize", "npm:1.8.9"],\
+            ["@noble/hashes", "npm:1.1.2"],\
+            ["@noble/secp256k1", "npm:1.7.1"],\
+            ["aes-js", "npm:4.0.0-beta.3"],\
+            ["tslib", "npm:2.4.0"],\
+            ["ws", "virtual:dd9a20f7ac32dc5d05a483291fcc7e19f94a55fc8b8389986e06a4bdb93f5cea1a873f8bec53d0aca877f33c2a01f4ede2b2dba1ac3d7bd3d198ee0b202a9554#npm:8.5.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["ethjs-unit", [\
@@ -23740,7 +23804,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/errors", "npm:1.1.3"],\
             ["@shapeshiftoss/eslint-plugin-logger", "npm:1.1.0"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
-            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@patch%253A@shapeshiftoss/hdwallet-keepkey@npm%25253A1.41.0%2523./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%253A%253Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%252540workspace%25253A.%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch%3A%3Aversion=1.41.0&hash=196f5c&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-585e8b93cf.patch::version=1.41.0&hash=cde76a&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.46.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb.patch::version=1.46.0&hash=2712dd&locator=keepkey-monorepo%40workspace%3A."],\
             ["@shapeshiftoss/hdwallet-keepkey-nodehid", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.41.0"],\
             ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.41.0-3660b239f5.patch::version=1.41.0&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
@@ -23841,6 +23905,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chakra-ui/tag", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.0.12"],\
             ["@chakra-ui/theme-tools", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.0.13"],\
             ["@chakra-ui/toast", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:4.0.3"],\
+            ["@cosmjs/encoding", "npm:0.30.0"],\
             ["@emotion/react", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.10.5"],\
             ["@emotion/styled", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.10.5"],\
             ["@ethersproject/address", "npm:5.7.0"],\
@@ -23868,7 +23933,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/errors", "npm:1.1.3"],\
             ["@shapeshiftoss/eslint-plugin-logger", "npm:1.1.0"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
-            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@patch%3A@shapeshiftoss/hdwallet-keepkey@patch%253A@shapeshiftoss/hdwallet-keepkey@npm%25253A1.41.0%2523./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.41.0-3d4781d024.patch%253A%253Aversion=1.41.0&hash=be0da1&locator=keepkey-monorepo%252540workspace%25253A.%23./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-b61c8bed9e.patch%3A%3Aversion=1.41.0&hash=196f5c&locator=keepkey-monorepo%2540workspace%253A.#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-patch-585e8b93cf.patch::version=1.41.0&hash=cde76a&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.46.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb.patch::version=1.46.0&hash=2712dd&locator=keepkey-monorepo%40workspace%3A."],\
             ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.41.0-3660b239f5.patch::version=1.41.0&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."],\
             ["@shapeshiftoss/hdwallet-keepkey-tcp", "npm:1.41.0"],\
             ["@shapeshiftoss/hdwallet-keepkey-webusb", "npm:1.41.0"],\
@@ -23939,6 +24004,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@walletconnect/utils", "npm:2.1.4"],\
             ["@walletconnect/web3-provider", "npm:1.8.0"],\
             ["allsettled-polyfill", "npm:1.0.4"],\
+            ["assert", "npm:2.0.0"],\
             ["auto-launch", "npm:5.0.5"],\
             ["axios", "npm:1.2.0"],\
             ["bignumber.js", "npm:9.1.0"],\
@@ -23946,7 +24012,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["body-parser", "npm:1.20.1"],\
             ["browserify-zlib", "npm:0.2.0"],\
             ["browserslist", "npm:4.21.4"],\
-            ["bs58check", "npm:2.1.2"],\
+            ["bs58", "npm:5.0.0"],\
+            ["bs58check", "npm:3.0.1"],\
             ["buffer", "npm:6.0.3"],\
             ["chakra-ui-steps", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.8.0"],\
             ["chalk", "npm:4.1.2"],\
@@ -23955,6 +24022,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["common-utils", "workspace:packages/common-utils"],\
             ["concurrently", "npm:7.6.0"],\
             ["cors", "npm:2.8.5"],\
+            ["create-hash", "npm:1.2.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["crypto-browserify", "npm:3.12.0"],\
             ["crypto-js", "npm:4.1.1"],\
@@ -23976,7 +24044,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:4.2.1"],\
             ["eslint-plugin-simple-import-sort", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:7.0.0"],\
             ["eth-url-parser", "npm:1.0.4"],\
-            ["ethers", "npm:5.7.2"],\
+            ["ethers", "npm:6.1.0"],\
             ["eventemitter2", "npm:6.4.9"],\
             ["express", "npm:4.18.2"],\
             ["fast-json-stable-stringify", "npm:2.1.0"],\
@@ -23996,6 +24064,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lit-html", "npm:2.4.0"],\
             ["localforage", "npm:1.10.0"],\
             ["lodash", "npm:4.17.21"],\
+            ["long", "npm:5.2.1"],\
             ["match-sorter", "npm:6.3.1"],\
             ["msw", "npm:0.36.8"],\
             ["multiformats", "npm:9.9.0"],\
@@ -24011,7 +24080,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.8.0"],\
             ["process", "npm:0.11.10"],\
             ["prompts", "npm:2.4.2"],\
-            ["protobufjs", "npm:7.1.2"],\
+            ["protobufjs", "npm:7.2.2"],\
             ["qr-image", "npm:3.2.0"],\
             ["qs", "npm:6.11.0"],\
             ["querystring-es3", "npm:0.2.1"],\
@@ -24097,7 +24166,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["keepkey-sdk-server", "workspace:packages/keepkey-sdk-server"],\
             ["@keepkey/device-protocol", "npm:7.10.2"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
-            ["@shapeshiftoss/hdwallet-keepkey", "npm:1.46.0"],\
+            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.46.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb.patch::version=1.46.0&hash=2712dd&locator=keepkey-monorepo%40workspace%3A."],\
             ["@tsoa/runtime", "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::version=4.1.3&hash=65587b&locator=keepkey-monorepo%40workspace%3A."],\
             ["@types/express", "npm:4.17.14"],\
             ["@types/lodash", "npm:4.14.190"],\
@@ -26543,6 +26612,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["osmojs", "npm:0.37.0"],\
             ["@babel/runtime", "npm:7.21.0"],\
             ["@cosmjs/amino", "npm:0.29.3"],\
+            ["@cosmjs/encoding", "npm:0.30.0"],\
             ["@cosmjs/proto-signing", "npm:0.29.3"],\
             ["@cosmjs/stargate", "npm:0.29.3"],\
             ["@cosmjs/tendermint-rpc", "npm:0.29.5"],\
@@ -28242,6 +28312,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/unplugged/protobufjs-npm-7.1.2-2e50888192/node_modules/protobufjs/",\
           "packageDependencies": [\
             ["protobufjs", "npm:7.1.2"],\
+            ["@protobufjs/aspromise", "npm:1.1.2"],\
+            ["@protobufjs/base64", "npm:1.1.2"],\
+            ["@protobufjs/codegen", "npm:2.0.4"],\
+            ["@protobufjs/eventemitter", "npm:1.1.0"],\
+            ["@protobufjs/fetch", "npm:1.1.0"],\
+            ["@protobufjs/float", "npm:1.0.2"],\
+            ["@protobufjs/inquire", "npm:1.1.0"],\
+            ["@protobufjs/path", "npm:1.1.2"],\
+            ["@protobufjs/pool", "npm:1.1.0"],\
+            ["@protobufjs/utf8", "npm:1.1.0"],\
+            ["@types/node", "npm:18.11.9"],\
+            ["long", "npm:5.2.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:7.2.2", {\
+          "packageLocation": "./.yarn/unplugged/protobufjs-npm-7.2.2-09f46988fc/node_modules/protobufjs/",\
+          "packageDependencies": [\
+            ["protobufjs", "npm:7.2.2"],\
             ["@protobufjs/aspromise", "npm:1.1.2"],\
             ["@protobufjs/base64", "npm:1.1.2"],\
             ["@protobufjs/codegen", "npm:2.0.4"],\
@@ -34039,6 +34128,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
+        ["npm:8.5.0", {\
+          "packageLocation": "./.yarn/cache/ws-npm-8.5.0-8e99728c84-76f2f90e40.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "npm:8.5.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
         ["virtual:0ec9380b3749b5d5695bfbf6ed8935ce70104ced93fd54a10e4b968318f96fcb50606be289c886465bf0299b66ef81b3493eb6ac05bd34b71e7c93e889b6dda7#npm:3.3.3", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-5b17f37054/0/cache/ws-npm-3.3.3-30771aa150-20b7bf34bb.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -34115,6 +34211,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-0a60ef3786/0/cache/ws-npm-7.5.3-3a046a0b1a-423dc0d859.zip/node_modules/ws/",\
           "packageDependencies": [\
             ["ws", "virtual:d1aaf8f72ef0f3d9c0ebd8374d7b93749ad85e70a979d6675b5d8dc175d06664ebc9a1f372401d4cc28f7bde4d203dedaf9d94ec5d9b5312124be9a394abede2#npm:7.5.3"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:dd9a20f7ac32dc5d05a483291fcc7e19f94a55fc8b8389986e06a4bdb93f5cea1a873f8bec53d0aca877f33c2a01f4ede2b2dba1ac3d7bd3d198ee0b202a9554#npm:8.5.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-c2f3574b71/0/cache/ws-npm-8.5.0-8e99728c84-76f2f90e40.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:dd9a20f7ac32dc5d05a483291fcc7e19f94a55fc8b8389986e06a4bdb93f5cea1a873f8bec53d0aca877f33c2a01f4ede2b2dba1ac3d7bd3d198ee0b202a9554#npm:8.5.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\

@@ -1,7 +1,7 @@
 import { formatJsonRpcError } from '@json-rpc-tools/utils'
 import type { SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
-import { utils } from 'ethers'
+import { isHexString, toUtf8String, isAddress } from 'ethers'
 
 import type { TCosmosChain } from '../data/COSMOSData'
 import { COSMOS_MAINNET_CHAINS } from '../data/COSMOSData'
@@ -42,15 +42,15 @@ export const getChainColor = (chainId: string) => {
 }
 
 export function convertHexToUtf8(value: string) {
-  if (utils.isHexString(value)) {
-    return utils.toUtf8String(value)
+  if (isHexString(value)) {
+    return toUtf8String(value)
   }
 
   return value
 }
 
 export function getSignParamsMessage(params: string[]) {
-  const message = params.filter(p => !utils.isAddress(p))[0]
+  const message = params.filter(p => !isAddress(p))[0]
 
   return convertHexToUtf8(message)
 }
