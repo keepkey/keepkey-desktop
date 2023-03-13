@@ -18,6 +18,7 @@ export class KeepKeyRestHDWallet
   readonly _supportsETHInfo = true
   readonly _supportsBTCInfo = true
   readonly _supportsCosmosInfo = true
+  readonly _supportsOsmosisInfo = true
   readonly _supportsRippleInfo = true
   readonly _supportsBinanceInfo = true
   readonly _supportsEosInfo = true
@@ -28,8 +29,10 @@ export class KeepKeyRestHDWallet
   readonly _supportsEthSwitchChain = false
   readonly _supportsAvalanche = true
   readonly _supportsOptimism = true
+  readonly _supportsBSC = true
   readonly _supportsBTC = true
   _supportsCosmos = true
+  _supportsOsmosis = true
   _supportsRipple = true
   _supportsBinance = true
   _supportsEos = true

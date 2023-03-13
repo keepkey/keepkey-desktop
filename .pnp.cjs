@@ -20062,7 +20062,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }],\
         ["npm:6.1.0", {\
-          "packageLocation": "./.yarn/unplugged/ethers-npm-6.1.0-dd9a20f7ac/node_modules/ethers/",\
+          "packageLocation": "./.yarn/cache/ethers-npm-6.1.0-dd9a20f7ac-a216c3e84f.zip/node_modules/ethers/",\
           "packageDependencies": [\
             ["ethers", "npm:6.1.0"],\
             ["@adraffy/ens-normalize", "npm:1.8.9"],\
