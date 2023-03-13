@@ -9,6 +9,7 @@ export class KeepKeySdk {
   readonly auth: apis.AuthApi
   readonly bnb: apis.BNBApi
   readonly cosmos: apis.CosmosApi
+  readonly osmosis: apis.CosmosApi
   readonly eth: apis.ETHApi
   readonly raw: apis.RawApi
   readonly utxo: apis.UTXOApi
@@ -26,6 +27,7 @@ export class KeepKeySdk {
     this.utxo = new apis.UTXOApi(configuration)
     this.bnb = new apis.BNBApi(configuration)
     this.cosmos = new apis.CosmosApi(configuration)
+    this.osmosis = new apis.CosmosApi(configuration)
     this.eth = new apis.ETHApi(configuration)
     this.raw = new apis.RawApi(configuration)
     this.system = Object.freeze(
