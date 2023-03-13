@@ -9878,9 +9878,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-core-npm-1.41.0-2b1ffb2a1d-0d3ba4a30c.zip/node_modules/@shapeshiftoss/hdwallet-core/",\
           "packageDependencies": [\
             ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
-            ["@ethersproject/bytes", "npm:5.7.0"],\
-            ["@types/google-protobuf", "npm:3.15.6"],\
-            ["@types/node", "npm:18.11.9"],\
             ["eip-712", "npm:1.0.0"],\
             ["eventemitter2", "npm:5.0.1"],\
             ["lodash", "npm:4.17.21"],\
@@ -9893,6 +9890,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-core-npm-1.46.0-e1741b8ca5-e541f85522.zip/node_modules/@shapeshiftoss/hdwallet-core/",\
           "packageDependencies": [\
             ["@shapeshiftoss/hdwallet-core", "npm:1.46.0"],\
+            ["@ethersproject/bytes", "npm:5.7.0"],\
+            ["@types/google-protobuf", "npm:3.15.6"],\
+            ["@types/node", "npm:18.11.9"],\
             ["eip-712", "npm:1.0.0"],\
             ["eventemitter2", "npm:5.0.1"],\
             ["lodash", "npm:4.17.21"],\

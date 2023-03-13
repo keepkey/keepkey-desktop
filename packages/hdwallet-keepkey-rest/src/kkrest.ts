@@ -791,12 +791,12 @@ export class KeepKeyRestHDWallet
     })
   }
 
-  public osmosisGetAccountPaths(msg: core.CosmosGetAccountPaths): core.CosmosAccountPath[] {
+  public osmosisGetAccountPaths(msg: core.OsmosisGetAccountPaths): core.OsmosisAccountPath[] {
     return [
       {
         addressNList: [
           0x80000000 + 44,
-          0x80000000 + core.slip44ByCoin('Atom'),
+          0x80000000 + core.slip44ByCoin('Osmo'),
           0x80000000 + msg.accountIdx,
           0,
           0,
@@ -806,7 +806,7 @@ export class KeepKeyRestHDWallet
   }
 
   readonly osmosisGetAddress = _.memoize(
-      async (msg: core.CosmosGetAddress): Promise<string> => {
+      async (msg: core.OsmosisGetAddress): Promise<string> => {
         return await this.abortable(async signal => {
           return (
               await this.sdk.address.osmosisGetAddress(
@@ -822,17 +822,17 @@ export class KeepKeyRestHDWallet
       msg => JSON.stringify(msg),
   )
 
-  public async osmosisSignTx(msg: core.CosmosSignTx): Promise<core.CosmosSignedTx> {
+  public async osmosisSignTx(msg: core.OsmosisSignTx): Promise<core.OsmosisSignedTx> {
     return await this.abortable(async signal => {
       const signerAddress = (
-          await this.sdk.address.cosmosGetAddress(
+          await this.sdk.address.osmosisGetAddress(
               {
                 address_n: msg.addressNList,
               },
               { signal },
           )
       ).address
-      const signed = await this.sdk.cosmos.cosmosSignAmino(
+      const signed = await this.sdk.osmosis.cosmosSignAmino(
           {
             signDoc: {
               account_number: msg.account_number,
