@@ -73,7 +73,7 @@ export class KeepKeySdk {
           e.message ===
             'The request failed and the interceptors did not return an alternative response'
         ) {
-          window.location.assign('keepkey://launch')
+          //window.location.assign('keepkey://launch')
         }
         console.warn('verify failed', e)
         return false

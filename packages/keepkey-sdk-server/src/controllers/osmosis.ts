@@ -36,7 +36,7 @@ export class OsmosisController extends ApiController {
         serialized: string
         signed: types.cosmos.amino.SignDoc
     }> {
-        console.log('cosmos MSG signAmino: ', JSON.stringify(body))
+        console.log('osmosis MSG signAmino: ', JSON.stringify(body))
         if (!body.signDoc.account_number) throw new Error('Missing account_number')
         if (!body.signDoc.chain_id) throw new Error('Missing chain_id')
 
