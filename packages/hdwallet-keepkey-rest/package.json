@@ -1,6 +1,6 @@
 {
   "name": "@keepkey/hdwallet-keepkey-rest",
-  "version": "1.40.18",
+  "version": "1.40.19",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
     "prepublishOnly": "yarn clean && yarn build"
   },
   "peerDependencies": {
-    "@shapeshiftoss/hdwallet-core": "1.41.0"
+    "@shapeshiftoss/hdwallet-core": "1.46.0"
   },
   "dependencies": {
     "@keepkey/keepkey-sdk": "workspace:*",

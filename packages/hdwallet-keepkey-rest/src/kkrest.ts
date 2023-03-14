@@ -832,7 +832,7 @@ export class KeepKeyRestHDWallet
               { signal },
           )
       ).address
-      const signed = await this.sdk.osmosis.cosmosSignAmino(
+      const signed = await this.sdk.osmosis.osmosisSignAmino(
           {
             signDoc: {
               account_number: msg.account_number,
