@@ -37,8 +37,9 @@ export const initializeWallet = async (
     return await transportWrite(data, debugLink)
   }
 
-  // wallet.features will not be undefined because adapter.pairRawDevice() calls wallet.initialize() for us
-  const features = wallet.features!
+  // need to refetch features since bootloaderMode is being cached on windows
+  const features = await wallet.getFeatures()
+  console.log('WALLET FEATURES', features)
   const { majorVersion, minorVersion, patchVersion, bootloaderHash } = features
   const version = `v${majorVersion}.${minorVersion}.${patchVersion}`
 
