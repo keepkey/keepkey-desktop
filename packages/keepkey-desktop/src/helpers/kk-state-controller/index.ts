@@ -119,7 +119,7 @@ export class KKStateController {
     console.log('bootloaderHashes', bootloaderHashes)
 
     const resultInit = await initializeWallet(this.keyring, bootloaderHashes).catch(async err => {
-      log.warn('KKStateController HARDWARE_ERROR', err)
+      log.warn('KKStateController HARDWARE_ERROR :(', err)
       await this.updateState({
         state: KKState.HardwareError,
         error: String(err),
