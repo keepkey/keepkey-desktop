@@ -10,8 +10,8 @@ export const initializeWallet = async (
   const hidAdapter = await HIDKeepKeyAdapter.useKeyring(keyring)
 
   const wallet = await (async () => {
-    const webUsbDevice = await webUsbAdapter.getDevice().catch(() => undefined)
-    if (webUsbDevice) return webUsbAdapter.pairRawDevice(webUsbDevice)
+    // const webUsbDevice = await webUsbAdapter.getDevice().catch(() => undefined)
+    // if (webUsbDevice) return webUsbAdapter.pairRawDevice(webUsbDevice)
     const hidDevice = await hidAdapter.getDevice().catch(() => undefined)
     if (hidDevice) return hidAdapter.pairRawDevice(hidDevice)
     return undefined
@@ -38,7 +38,16 @@ export const initializeWallet = async (
   }
 
   // need to refetch features since bootloaderMode is being cached on windows
-  const features = await wallet.getFeatures()
+  const features = await (async () => {
+    const staleFeatures = wallet.features!
+    try {
+      const freshFeatures = await wallet.getFeatures()
+      return freshFeatures
+      // this will trigger if bootloader is old and does not support getFeatures
+    } catch (e) {
+      return staleFeatures
+    }
+  })()
   console.log('WALLET FEATURES', features)
   const { majorVersion, minorVersion, patchVersion, bootloaderHash } = features
   const version = `v${majorVersion}.${minorVersion}.${patchVersion}`
