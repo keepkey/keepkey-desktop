@@ -24,10 +24,10 @@
     "prepublishOnly": "yarn clean && yarn build"
   },
   "peerDependencies": {
-    "@shapeshiftoss/hdwallet-core": "1.41.0"
+    "@shapeshiftoss/hdwallet-core": "1.46.0"
   },
   "dependencies": {
-    "@keepkey/keepkey-sdk": "^0.2.41",
+    "@keepkey/keepkey-sdk": "workspace:*",
     "lodash": "^4.17.21",
     "semver": "^6.3.0"
   },
