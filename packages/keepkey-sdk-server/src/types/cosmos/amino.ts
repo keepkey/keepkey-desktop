@@ -24,7 +24,142 @@ export type SignDoc = {
     | types.cosmos.amino.signDoc.CosmosSdkWithdrawDelegationReward
     | types.cosmos.amino.signDoc.IbcGoTransfer
     | types.cosmos.amino.signDoc.ThornodeSend
+    | StdTxDelegate
   )[]
+  fee: {
+    amount: types.cosmos.Coins
+    gas: types.decimal.U64
+  }
+}
+
+export type StdTxDelegate = {
+  type: 'cosmos-sdk/MsgDelegate'
+  value:{
+    delegator_address: types.cosmos.Address
+    validator_address: types.cosmos.Address
+    amount: any  
+  }
+}
+
+export type StdTxUnDelegate = {
+  type: 'cosmos-sdk/MsgUndelegate'
+  value:{
+    delegator_address: types.cosmos.Address
+    validator_address: types.cosmos.Address
+    amount: any
+  }
+}
+
+export type StdTxBeginReDelegate = {
+  type: 'cosmos-sdk/MsgBeginRedelegate'
+  value:{
+    delegator_address: types.cosmos.Address
+    validator_src_address: types.cosmos.Address
+    validator_dst_address: types.cosmos.Address
+    amount: any
+  }
+}
+
+export type StdTxWithdrawDelegationReward = {
+  type: 'cosmos-sdk/MsgWithdrawDelegationReward'
+  value:{
+    delegator_address: types.cosmos.Address
+    validator_address: types.cosmos.Address
+  }
+}
+
+export type StdTxMsgTransfer = {
+  type: 'cosmos-sdk/MsgTransfer'
+  value:{
+    source_port: string
+    source_channel: string
+    token: types.cosmos.Coin
+    sender: types.cosmos.Address
+    receiver: types.cosmos.Address
+    timeout_height: types.cosmos.messages.ibcGo.transfer.Height
+    memo?: string
+  }
+}
+
+export type SignDocDelegate = {
+  account_number: string
+  /** @minLength 1 */
+  chain_id: string
+  sequence: types.decimal.U64
+  memo: string
+  /**
+   * @minItems 1
+   * @maxItems 1
+   */
+  msgs: (StdTxDelegate)[],
+  fee: {
+    amount: types.cosmos.Coins
+    gas: types.decimal.U64
+  }
+}
+
+export type SignDocUnDelegate = {
+  account_number: string
+  /** @minLength 1 */
+  chain_id: string
+  sequence: types.decimal.U64
+  memo: string
+  /**
+   * @minItems 1
+   * @maxItems 1
+   */
+  msgs: (StdTxUnDelegate)[],
+  fee: {
+    amount: types.cosmos.Coins
+    gas: types.decimal.U64
+  }
+}
+
+export type SignDocBeginReDelegate = {
+  account_number: string
+  /** @minLength 1 */
+  chain_id: string
+  sequence: types.decimal.U64
+  memo: string
+  /**
+   * @minItems 1
+   * @maxItems 1
+   */
+  msgs: (StdTxBeginReDelegate)[],
+  fee: {
+    amount: types.cosmos.Coins
+    gas: types.decimal.U64
+  }
+}
+
+export type SignDocWithdrawDelegationReward = {
+  account_number: string
+  /** @minLength 1 */
+  chain_id: string
+  sequence: types.decimal.U64
+  memo: string
+  /**
+   * @minItems 1
+   * @maxItems 1
+   */
+  msgs: (StdTxWithdrawDelegationReward)[],
+  fee: {
+    amount: types.cosmos.Coins
+    gas: types.decimal.U64
+  }
+}
+
+export type SignDocIbcGoTransfer = {
+  account_number: string
+  /** @minLength 1 */
+  chain_id: string
+  sequence: types.decimal.U64
+  memo: string
+  /**
+   * @minItems 1
+   * @maxItems 1
+   */
+  msgs: (StdTxMsgTransfer)[],
   fee: {
     amount: types.cosmos.Coins
     gas: types.decimal.U64
@@ -38,10 +173,10 @@ export namespace signDoc {
     value: types.cosmos.messages.cosmosSdk.Send & unknown
   }
 
-  export type CosmosSdkDelegate = types.cosmos.amino.Any & {
+  export type CosmosSdkDelegate = {
     type: 'cosmos-sdk/MsgDelegate'
     /** cosmos-sdk/MsgDelegate */
-    value: types.cosmos.messages.cosmosSdk.Delegate & unknown
+    value: any
   }
 
   export type CosmosSdkUndelegate = types.cosmos.amino.Any & {
