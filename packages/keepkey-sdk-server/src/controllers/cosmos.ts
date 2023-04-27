@@ -38,6 +38,16 @@ export class CosmosController extends ApiController {
   }> {
     if (!body.signDoc.account_number) throw new Error('Missing account_number')
     if (!body.signDoc.chain_id) throw new Error('Missing chain_id')
+    //default fee
+    if(!body.signDoc.fee || !body.signDoc.fee.amount || body.signDoc.fee.amount.length == 0){
+      body.signDoc.fee = {
+        amount: [{
+          denom: "uatom",
+          amount: "5000"
+        }],
+        gas: "290000"
+      }
+    }
     let tx = {
       account_number: String(body.signDoc.account_number),
       chain_id: body.signDoc.chain_id,
@@ -78,11 +88,22 @@ export class CosmosController extends ApiController {
     serialized: string
     signed: types.cosmos.amino.SignDocDelegate
   }> {
+    console.log("signAminoDelegate: ",JSON.stringify(body))
     if (!body.signDoc.account_number) throw new Error('Missing account_number')
     if (!body.signDoc.chain_id) throw new Error('Missing chain_id')
     if (!body.signDoc.msgs[0].value.amount) throw new Error('Missing msg amount')
     if (!body.signDoc.msgs[0].value.delegator_address) throw new Error('Missing msg delegator_address')
     if (!body.signDoc.msgs[0].value.validator_address) throw new Error('Missing msg validator_address')
+    //default fee
+    if(!body.signDoc.fee || !body.signDoc.fee.amount || body.signDoc.fee.amount.length == 0){
+      body.signDoc.fee = {
+        amount: [{
+          denom: "uatom",
+          amount: "5000"
+        }],
+        gas: "290000"
+      }
+    }
     let tx = {
       account_number: String(body.signDoc.account_number),
       chain_id: body.signDoc.chain_id,
@@ -100,6 +121,7 @@ export class CosmosController extends ApiController {
       sequence: tx.sequence,
     }
     const response = await this.context.wallet.cosmosSignTx(input)
+    console.log("signAminoDelegate response: ",JSON.stringify(response))
     return {
       signature: response.signatures[0],
       serialized: response.serialized,

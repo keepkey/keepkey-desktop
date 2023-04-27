@@ -33,8 +33,11 @@ export class BnbController extends ApiController {
     },
   ): Promise<{
     signature: types.hex.secp256k1.Signature
+    serialized: string
+    txid: string
     signed: types.bnb.SignDoc
   }> {
+    console.log('bnb_signTransaction', JSON.stringify(body))
     const response = await this.context.wallet.binanceSignTx({
       addressNList: (await this.context.getAccount(body.signerAddress)).addressNList,
       tx: {
@@ -50,9 +53,11 @@ export class BnbController extends ApiController {
         sequence: body.signDoc.sequence,
       },
     })
-
+    console.log('bnb_signTransaction response', JSON.stringify(response))
     return {
       signature: response.signatures.signature,
+      serialized: response.serialized,
+      txid: response.txid,
       signed: body.signDoc,
     }
   }
