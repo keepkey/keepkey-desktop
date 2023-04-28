@@ -65,35 +65,67 @@ export class EthereumController extends ApiController {
 
     const account = await this.context.getAccount(body.from)
 
-    const msg = {
-      addressNList: account.addressNList,
-      chainId: body.chainId,
-      nonce: body.nonce,
-      value: body.value ?? '0x0',
-      data: body.data ?? '',
-      gasLimit: body.gas,
-      ...(typeof body.to === 'string'
-        ? {
-            to: body.to,
-          }
-        : {
-            to: '',
-            toAddressNList: body.to,
-          }),
-      ...(body.maxFeePerGas ?? undefined !== undefined
-        ? {
-            maxFeePerGas: body.maxFeePerGas!,
-            maxPriorityFeePerGas: body.maxPriorityFeePerGas!,
-          }
-        : {
-            gasPrice: body.gasPrice!,
-          }),
+    //if chainId !== 1, then force legacy fees
+    let msg
+    if(body.chainId !== 1){
+        let gasPrice
+        if(!body.gasPrice){
+            // @ts-ignore
+            const maxFeePerGas = parseInt(body.maxFeePerGas, 16);
+            // @ts-ignore
+            const maxPriorityFeePerGas = parseInt(body.maxPriorityFeePerGas, 16);
+            // @ts-ignore
+            gasPrice = (maxFeePerGas + maxPriorityFeePerGas);
+            gasPrice = '0x' + gasPrice.toString(16);
+            console.log('gasPrice final: ',gasPrice)
+        }
+        msg = {
+            addressNList: account.addressNList,
+            chainId: body.chainId,
+            nonce: body.nonce,
+            value: body.value ?? '0x0',
+            data: body.data ?? '',
+            ...(typeof body.to === 'string'
+                ? {
+                    to: body.to,
+                }
+                : {
+                    to: '',
+                    toAddressNList: body.to,
+                }),
+            gasLimit: body.gas,
+            gasPrice: body.gasPrice || gasPrice,
+        }
+    } else {
+        msg = {
+            addressNList: account.addressNList,
+            chainId: body.chainId,
+            nonce: body.nonce,
+            value: body.value ?? '0x0',
+            data: body.data ?? '',
+            gasLimit: body.gas,
+            ...(typeof body.to === 'string'
+                ? {
+                    to: body.to,
+                }
+                : {
+                    to: '',
+                    toAddressNList: body.to,
+                }),
+            ...(body.maxFeePerGas ?? undefined !== undefined
+                ? {
+                    maxFeePerGas: body.maxFeePerGas!,
+                    maxPriorityFeePerGas: body.maxPriorityFeePerGas!,
+                }
+                : {
+                    gasPrice: body.gasPrice!,
+                }),
+        }
     }
-
-    // test logging statement
-    this.log(msg)
-
-    return await this.context.wallet.ethSignTx(msg)
+    console.log("ethSignTx final MSG: ", msg)
+    let result = await this.context.wallet.ethSignTx(msg)
+    console.log("ethSignTx final result: ", result)
+    return result
   }
 
   /**
