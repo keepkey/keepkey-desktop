@@ -17,14 +17,7 @@ export type SignDoc = {
    * @maxItems 1
    */
   msgs: (
-    | types.cosmos.amino.signDoc.CosmosSdkSend
-    | types.cosmos.amino.signDoc.CosmosSdkDelegate
-    | types.cosmos.amino.signDoc.CosmosSdkUndelegate
-    | types.cosmos.amino.signDoc.CosmosSdkBeginRedelegate
-    | types.cosmos.amino.signDoc.CosmosSdkWithdrawDelegationReward
-    | types.cosmos.amino.signDoc.IbcGoTransfer
-    | types.cosmos.amino.signDoc.ThornodeSend
-    | StdTxDelegate
+    types.cosmos.amino.signDoc.CosmosSdkSend
   )[]
   fee: {
     amount: types.cosmos.Coins
@@ -80,6 +73,7 @@ export type StdTxMsgTransfer = {
     memo?: string
   }
 }
+
 
 export type SignDocDelegate = {
   account_number: string

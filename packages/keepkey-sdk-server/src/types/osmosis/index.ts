@@ -61,7 +61,7 @@ export type StdTxMsgSwap = {
     value:{
         routes: Route[]
         sender: types.cosmos.Address
-        token_in: types.cosmos.Coin
+        token_in: any
         token_out_min_amount: string
     }
 }
