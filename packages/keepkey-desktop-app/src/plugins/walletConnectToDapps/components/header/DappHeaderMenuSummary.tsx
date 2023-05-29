@@ -51,6 +51,12 @@ export const DappHeaderMenuSummary: FC = () => {
                 {walletConnect.dapp.url.replace(/^https?:\/\//, '')}
               </RawText>
             </Box>
+            <Box fontWeight='medium'>
+              <RawText>{walletConnect.dapp.network}</RawText>
+              <RawText fontSize='sm' color='gray.500'>
+                {walletConnect.dapp.service}
+              </RawText>
+            </Box>
           </HStack>
         </MenuGroup>
         <MenuDivider />
