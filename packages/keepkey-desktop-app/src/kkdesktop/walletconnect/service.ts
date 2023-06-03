@@ -121,9 +121,9 @@ export class LegacyWCService {
           : inputHexString
 
       if (request.payload && request.payload.params[0])
-        message = Buffer.from(strip0x(request.payload.params[0]), 'hex').toString('utf8')
+        message = Buffer.from(strip0x(request.payload.params[0]), 'hex')
       if (request.params && request.params[0])
-        message = Buffer.from(strip0x(request.params[0]), 'hex').toString('utf8')
+        message = Buffer.from(strip0x(request.params[0]), 'hex')
 
       if (!message) throw Error('failed to parse message!')
 
