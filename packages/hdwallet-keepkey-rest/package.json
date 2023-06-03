@@ -24,7 +24,7 @@
     "prepublishOnly": "yarn clean && yarn build"
   },
   "peerDependencies": {
-    "@shapeshiftoss/hdwallet-core": "1.46.0"
+    "@shapeshiftoss/hdwallet-core": "^1.50.3"
   },
   "dependencies": {
     "@keepkey/keepkey-sdk": "0.2.47",
@@ -36,7 +36,7 @@
     "@cosmjs/proto-signing": "^0.28.13",
     "@cosmjs/stargate": "^0.28.13",
     "@keepkey/device-protocol": "^7.10.2",
-    "@shapeshiftoss/hdwallet-core": "1.46.0",
+    "@shapeshiftoss/hdwallet-core": "^1.50.3",
     "@types/create-hash": "^1.2.2",
     "@types/crypto-js": "^4.0.0",
     "@types/google-protobuf": "^3.15.6",
