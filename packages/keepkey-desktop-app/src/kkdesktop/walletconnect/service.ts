@@ -180,7 +180,10 @@ export class LegacyWCService {
       })
       const result = response?.serialized
       this.connector.approveRequest({ id: request.id, result })
-    } else if (request.method === 'eth_signTypedData' || request.method === 'eth_signTypedData_v4') {
+    } else if (
+      request.method === 'eth_signTypedData' ||
+      request.method === 'eth_signTypedData_v4'
+    ) {
       if (!this.wallet) throw Error('wallet not init!')
       if (!this.wallet.ethSignTypedData) throw Error('wallet not latest version ethSignTypedData!')
       // TODO: verify param[0] matches given address

@@ -11,8 +11,8 @@ import {
   type UtxoChainId,
   utxoChainIds,
 } from '@shapeshiftoss/chain-adapters'
-import type { KnownChainIds } from '@shapeshiftoss/types'
 import { supportsETH } from '@shapeshiftoss/hdwallet-core'
+import type { KnownChainIds } from '@shapeshiftoss/types'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useEvm } from 'hooks/useEvm/useEvm'
 import { useModal } from 'hooks/useModal/useModal'

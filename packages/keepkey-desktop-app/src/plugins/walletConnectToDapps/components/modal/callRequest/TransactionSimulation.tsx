@@ -45,7 +45,6 @@ export const TransactionSimulation = ({ request }: { request: any }) => {
             value: request?.params[0].value,
           }),
         )
-
       } catch (e) {
         moduleLogger.error(e, 'parseTransaction')
       }

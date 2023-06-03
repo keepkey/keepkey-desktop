@@ -41,8 +41,10 @@ export const DappHeaderMenuSummary: FC = () => {
           <HStack spacing={4} px={3} py={1}>
             <DappAvatar
               name={walletConnect.dapp.name}
-              image={walletConnect.dapp.icons[0] ||
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM8U_ylSIt18n6kEAa0oM2_Ta5o02gBtrMNZdpHAYjmJF7hLyH7IpBZ0WoTRPQcK0QQdk&usqp=CAU'}
+              image={
+                walletConnect.dapp.icons[0] ||
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM8U_ylSIt18n6kEAa0oM2_Ta5o02gBtrMNZdpHAYjmJF7hLyH7IpBZ0WoTRPQcK0QQdk&usqp=CAU'
+              }
               connected={walletConnect.isConnected}
             />
             <Box fontWeight='medium'>
