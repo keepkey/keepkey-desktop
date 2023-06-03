@@ -16,16 +16,16 @@ export const Layout: React.FC<ContainerProps> = ({ children, ...rest }) => {
   const location = useLocation()
   const [hideHeader, setHideHeader] = useState(false)
 
-  useEffect(() => {
-    ;(async () => {
-      if (location.pathname !== '/browser' || !browserUrl) return setHideHeader(false)
-      try {
-        setHideHeader(await ipcListeners.bridgeCheckAppPaired(new URL(browserUrl).origin))
-      } catch (e) {
-        console.warn('Layout:', browserUrl, e)
-      }
-    })().catch(e => console.error('Layout:', e))
-  }, [browserUrl, location])
+  // useEffect(() => {
+  //   ;(async () => {
+  //     if (location.pathname !== '/browser' || !browserUrl) return setHideHeader(false)
+  //     try {
+  //       setHideHeader(await ipcListeners.bridgeCheckAppPaired(new URL(browserUrl).origin))
+  //     } catch (e) {
+  //       console.warn('Layout:', browserUrl, e)
+  //     }
+  //   })().catch(e => console.error('Layout:', e))
+  // }, [browserUrl, location])
 
   return (
     <div
