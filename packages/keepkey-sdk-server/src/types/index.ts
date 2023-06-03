@@ -2,8 +2,9 @@ import type * as types from '.'
 
 export * as bnb from './bnb'
 export * as cosmos from './cosmos'
-export * as osmosis from './osmosis'
 export * as eth from './eth'
+export * as osmosis from './osmosis'
+export * as thorchain from './thorchain'
 export * from './types'
 export * as xrp from './xrp'
 

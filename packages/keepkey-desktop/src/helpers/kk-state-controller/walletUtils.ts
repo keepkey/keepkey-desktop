@@ -14,12 +14,12 @@ export const initializeWallet = async (
     const webUsbDevice = await webUsbAdapter.getDevice().catch(() => undefined)
     if (webUsbDevice) {
       // this line throws the error if the device does not support webUsb
-      const webUsbWallet = await webUsbAdapter.pairRawDevice(webUsbDevice).catch(() => undefined)
+      const webUsbWallet = await webUsbAdapter.pairRawDevice(webUsbDevice)
       if (webUsbWallet) return webUsbWallet
     }
     const hidDevice = await hidAdapter.getDevice().catch(() => undefined)
     if (hidDevice) {
-      const hidWallet = await hidAdapter.pairRawDevice(hidDevice).catch(() => undefined)
+      const hidWallet = await hidAdapter.pairRawDevice(hidDevice)
       return hidWallet
     }
     return undefined
