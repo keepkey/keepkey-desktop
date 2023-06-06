@@ -37,7 +37,7 @@ export class EthereumController extends ApiController {
       value: types.eth.HexQuantity
       nonce: types.eth.HexQuantity
       /** @minValue 1 */
-      chainId: number
+      chainId: number | string
     } & (
       | /** @title EIP-1559 */ {
           /** Maximum total price, in wei/gas, to pay for the gas needed for this transaction */
@@ -65,9 +65,12 @@ export class EthereumController extends ApiController {
 
     const account = await this.context.getAccount(body.from)
 
+    if (body.chainId.toString().startsWith('0x'))
+      body.chainId = parseInt(body.chainId.toString(), 16)
+
     const msg = {
       addressNList: account.addressNList,
-      chainId: body.chainId,
+      chainId: Number(body.chainId),
       nonce: body.nonce,
       value: body.value ?? '0x0',
       data: body.data ?? '',

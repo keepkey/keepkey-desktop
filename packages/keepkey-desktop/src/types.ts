@@ -98,6 +98,7 @@ export type IpcListeners = {
   wipeKeepKey(): Promise<void>
   forceReconnect(): Promise<void>
   setAlwaysOnTop(value: boolean): Promise<void>
+  clearLocalStorage(): Promise<void>
 
   // appUpdate(): Promise<UpdateCheckResult | { updateInfo: { version: string } } | undefined>
   // appDownloadUpdates(): Promise<void>

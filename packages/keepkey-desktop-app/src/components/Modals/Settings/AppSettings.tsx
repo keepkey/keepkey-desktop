@@ -1,5 +1,5 @@
 import { Divider, HStack, Stack } from '@chakra-ui/layout'
-import { Avatar, Button, Icon, Switch } from '@chakra-ui/react'
+import { Avatar, Button, Icon, IconButton, Switch } from '@chakra-ui/react'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { ipcListeners } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
@@ -162,6 +162,21 @@ export const AppSettings: FC = () => {
         icon={<Icon as={TbRefreshAlert} color='gray.500' />}
       >
         <Switch isChecked={appSettings.autoScanQr} pointerEvents='none' />
+      </SettingsListItem>
+      <Divider my={1} />
+      <SettingsListItem
+        label={'modals.settings.clearStorage'}
+        onClick={() => {
+          ipcListeners.clearLocalStorage()
+        }}
+        icon={<Icon as={FaTrash} color='gray.500' />}
+      >
+        <IconButton
+          variant={'ghost'}
+          aria-label='Clear cache'
+          onClick={() => ipcListeners.clearLocalStorage()}
+          icon={<FaTrash />}
+        />
       </SettingsListItem>
       {defaultDapp && <Divider my={1} />}
       {defaultDapp && (
