@@ -17,7 +17,8 @@ export const initializeWallet = async (
       const webUsbWallet = await webUsbAdapter.pairRawDevice(webUsbDevice)
       if (webUsbWallet) return webUsbWallet
     }
-    const hidDevice = await hidAdapter.getDevice().catch(() => undefined) 
+    const hidDevice = await hidAdapter.getDevice().catch(() => undefined)
+    if (hidDevice) {
       const hidWallet = await hidAdapter.pairRawDevice(hidDevice)
       return hidWallet
     }

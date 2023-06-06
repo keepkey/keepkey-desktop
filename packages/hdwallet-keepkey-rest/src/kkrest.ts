@@ -24,6 +24,8 @@ export class KeepKeyRestHDWallet
   readonly _supportsBinanceInfo = true
   readonly _supportsEosInfo = true
   readonly _supportsFioInfo = false
+  readonly _supportsPolygon = true
+  readonly _supportsGnosis = true
   readonly _supportsDebugLink = false
   readonly _isKeepKey = true
   readonly _supportsETH = true

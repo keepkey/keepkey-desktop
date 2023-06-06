@@ -1,3 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit'
+import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import type { AssetId } from '@shapeshiftoss/caip'
 import type {
   FiatMarketDataArgs,
@@ -11,8 +13,6 @@ import {
 } from '@shapeshiftoss/market-service'
 import type { HistoryData, MarketCapResult, MarketData } from '@shapeshiftoss/types'
 import { HistoryTimeframe } from '@shapeshiftoss/types'
-import { createSlice } from '@reduxjs/toolkit'
-import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { untouchable } from 'common-utils'
 import { getConfig } from 'config'
 import { logger } from 'lib/logger'

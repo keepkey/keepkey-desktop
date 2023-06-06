@@ -121,9 +121,9 @@ export class LegacyWCService {
           : inputHexString
 
       if (request.payload && request.payload.params[0])
-        message = Buffer.from(strip0x(request.payload.params[0]), 'hex').toString('utf8')
+        message = Buffer.from(strip0x(request.payload.params[0]), 'hex')
       if (request.params && request.params[0])
-        message = Buffer.from(strip0x(request.params[0]), 'hex').toString('utf8')
+        message = Buffer.from(strip0x(request.params[0]), 'hex')
 
       if (!message) throw Error('failed to parse message!')
 
@@ -180,7 +180,10 @@ export class LegacyWCService {
       })
       const result = response?.serialized
       this.connector.approveRequest({ id: request.id, result })
-    } else if (request.method === 'eth_signTypedData' || request.method === 'eth_signTypedData_v4') {
+    } else if (
+      request.method === 'eth_signTypedData' ||
+      request.method === 'eth_signTypedData_v4'
+    ) {
       if (!this.wallet) throw Error('wallet not init!')
       if (!this.wallet.ethSignTypedData) throw Error('wallet not latest version ethSignTypedData!')
       // TODO: verify param[0] matches given address

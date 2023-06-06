@@ -1,6 +1,11 @@
-import type { AssetId } from '@shapeshiftoss/caip'
-import type { HistoryData, HistoryTimeframe, MarketCapResult, MarketData } from '@shapeshiftoss/types'
 import { createSelector } from '@reduxjs/toolkit'
+import type { AssetId } from '@shapeshiftoss/caip'
+import type {
+  HistoryData,
+  HistoryTimeframe,
+  MarketCapResult,
+  MarketData,
+} from '@shapeshiftoss/types'
 import { bnOrZero } from 'lib/bignumber/bignumber'
 import { priceAtDate } from 'lib/charts'
 import isEmpty from 'lodash/isEmpty'
