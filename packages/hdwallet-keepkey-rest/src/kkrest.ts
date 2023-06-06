@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type * as Messages from '@keepkey/device-protocol/lib/messages_pb'
 import type * as Types from '@keepkey/device-protocol/lib/types_pb'
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk'
@@ -51,6 +52,22 @@ export class KeepKeyRestHDWallet
   protected constructor(sdk: KeepKeySdk) {
     this.sdk = sdk
   }
+  _supportsPolygon: boolean = false
+  _supportsGnosis: boolean = false
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ethSendTx?(_msg: core.ETHSignTx): Promise<core.ETHTxHash | null> {
+    throw new Error('Method not implemented.')
+  }
+  ethGetChainId?(): Promise<number | null> {
+    throw new Error('Method not implemented.')
+  }
+  ethSwitchChain?(_params: core.AddEthereumChainParameter): Promise<void> {
+    throw new Error('Method not implemented.')
+  }
+  ethAddChain?(_params: core.AddEthereumChainParameter): Promise<void> {
+    throw new Error('Method not implemented.')
+  }
+  transport?: core.Transport | undefined
 
   protected async abortable<T>(fn: (signal: AbortSignal) => Promise<T>): Promise<T> {
     const abortController = new AbortController()
@@ -717,7 +734,7 @@ export class KeepKeyRestHDWallet
   )
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async rippleSignTx(msg: core.RippleSignTx): Promise<core.RippleSignedTx> {
+  public async rippleSignTx(_msg: core.RippleSignTx): Promise<core.RippleSignedTx> {
     throw new Error('not implemented')
   }
 
@@ -765,180 +782,180 @@ export class KeepKeyRestHDWallet
 
       let signed
       //switch statement
-      switch(msg.tx.msg[0].type) {
-        case "cosmos-sdk/MsgSend":
-          console.log("MSG: ",msg)
+      switch (msg.tx.msg[0].type) {
+        case 'cosmos-sdk/MsgSend':
+          console.log('MSG: ', msg)
           signed = await this.sdk.cosmos.cosmosSignAmino(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "thorchain/MsgDeposit":
-          console.log("MSG: ",msg)
+          break
+        case 'thorchain/MsgDeposit':
+          console.log('MSG: ', msg)
           signed = await this.sdk.thorchain.thorchainSignAminoDeposit(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "thorchain/MsgSend":
-          console.log("MSG: ",msg)
+          break
+        case 'thorchain/MsgSend':
+          console.log('MSG: ', msg)
           signed = await this.sdk.thorchain.thorchainSignAminoDeposit(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "cosmos-sdk/MsgDelegate":
+          break
+        case 'cosmos-sdk/MsgDelegate':
           signed = await this.sdk.cosmos.cosmosSignAminoDelegate(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "cosmos-sdk/MsgReDelegate":
+          break
+        case 'cosmos-sdk/MsgReDelegate':
           signed = await this.sdk.cosmos.cosmosSignAminoRedelegate(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "cosmos-sdk/MsgUnDelegate":
+          break
+        case 'cosmos-sdk/MsgUnDelegate':
           signed = await this.sdk.cosmos.cosmosSignAminoUndelegate(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "cosmos-sdk/MsgWithdrawDelegationReward":
+          break
+        case 'cosmos-sdk/MsgWithdrawDelegationReward':
           signed = await this.sdk.cosmos.cosmosSignAminoWithdrawDelegatorRewardsAll(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "cosmos-sdk/MsgTransfer":
+          break
+        case 'cosmos-sdk/MsgTransfer':
           signed = await this.sdk.cosmos.cosmosSignAminoIbcTransfer(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo || ' ',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo || ' ',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
+          break
         default:
-          throw Error("osmo Msg not supported "+msg.tx.msg[0].type)
+          throw Error('osmo Msg not supported ' + msg.tx.msg[0].type)
       }
 
       return {
@@ -965,229 +982,229 @@ export class KeepKeyRestHDWallet
   }
 
   readonly osmosisGetAddress = _.memoize(
-      async (msg: core.OsmosisGetAddress): Promise<string> => {
-        return await this.abortable(async signal => {
-          return (
-              await this.sdk.address.osmosisGetAddress(
-                  {
-                    address_n: msg.addressNList,
-                    show_display: msg.showDisplay,
-                  },
-                  { signal },
-              )
-          ).address
-        })
-      },
-      msg => JSON.stringify(msg),
+    async (msg: core.OsmosisGetAddress): Promise<string> => {
+      return await this.abortable(async signal => {
+        return (
+          await this.sdk.address.osmosisGetAddress(
+            {
+              address_n: msg.addressNList,
+              show_display: msg.showDisplay,
+            },
+            { signal },
+          )
+        ).address
+      })
+    },
+    msg => JSON.stringify(msg),
   )
 
   public async osmosisSignTx(msg: core.OsmosisSignTx): Promise<core.OsmosisSignedTx> {
     return await this.abortable(async signal => {
       const signerAddress = (
-          await this.sdk.address.osmosisGetAddress(
-              {
-                address_n: msg.addressNList,
-              },
-              { signal },
-          )
+        await this.sdk.address.osmosisGetAddress(
+          {
+            address_n: msg.addressNList,
+          },
+          { signal },
+        )
       ).address
-      
+
       let signed
       //switch statement
-      switch(msg.tx.msg[0].type) {
-        case "cosmos-sdk/MsgSend":
+      switch (msg.tx.msg[0].type) {
+        case 'cosmos-sdk/MsgSend':
           signed = await this.sdk.osmosis.osmosisSignAmino(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "cosmos-sdk/MsgDelegate":
+          break
+        case 'cosmos-sdk/MsgDelegate':
           signed = await this.sdk.osmosis.osmoSignAminoDelegate(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "cosmos-sdk/MsgReDelegate":
+          break
+        case 'cosmos-sdk/MsgReDelegate':
           signed = await this.sdk.osmosis.osmoSignAminoRedelegate(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "cosmos-sdk/MsgUnDelegate":
+          break
+        case 'cosmos-sdk/MsgUnDelegate':
           signed = await this.sdk.osmosis.osmoSignAminoUndelegate(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "cosmos-sdk/MsgWithdrawDelegationReward":
+          break
+        case 'cosmos-sdk/MsgWithdrawDelegationReward':
           signed = await this.sdk.osmosis.osmoSignAminoWithdrawDelegatorRewardsAll(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "cosmos-sdk/MsgTransfer":
+          break
+        case 'cosmos-sdk/MsgTransfer':
           signed = await this.sdk.osmosis.osmoSignAminoIbcTransfer(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "osmosis/gamm/join-pool":
+          break
+        case 'osmosis/gamm/join-pool':
           signed = await this.sdk.osmosis.osmoSignAminoLpAdd(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo || '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo || '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "osmosis/gamm/exit-pool":
+          break
+        case 'osmosis/gamm/exit-pool':
           signed = await this.sdk.osmosis.osmoSignAminoLpRemove(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
-        case "osmosis/gamm/swap-exact-amount-in": //mosis/gamm/swap-exact-amount-in
+          break
+        case 'osmosis/gamm/swap-exact-amount-in': //mosis/gamm/swap-exact-amount-in
           signed = await this.sdk.osmosis.osmoSignAminoSwap(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break;
+          break
         default:
-          throw Error("Msg not supported "+msg.tx.msg[0].type)
+          throw Error('Msg not supported ' + msg.tx.msg[0].type)
       }
-      
+
       return {
         signatures: [signed.signature as string],
         serialized: signed.serialized as string,
@@ -1196,7 +1213,7 @@ export class KeepKeyRestHDWallet
       }
     })
   }
-  
+
   public thorchainGetAccountPaths(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _msg: core.ThorchainGetAccountPaths,
@@ -1327,14 +1344,14 @@ export class KeepKeyRestHDWallet
 
   readonly eosGetPublicKey = _.memoize(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async (msg: core.EosGetPublicKey): Promise<string> => {
+    async (_msg: core.EosGetPublicKey): Promise<string> => {
       throw new Error('not implemented')
     },
     msg => JSON.stringify(msg),
   )
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async eosSignTx(msg: core.EosToSignTx): Promise<core.EosTxSigned> {
+  public async eosSignTx(_msg: core.EosToSignTx): Promise<core.EosTxSigned> {
     throw new Error('not implemented')
   }
 
