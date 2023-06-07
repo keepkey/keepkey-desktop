@@ -827,6 +827,45 @@ export class KeepKeyRestHDWallet
               signerAddress,
             },
             { signal },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
+                },
+              },
+              signerAddress,
+            },
+            { signal },
+          )
+          break
+        case 'thorchain/MsgDeposit':
+          console.log('MSG: ', msg)
+          signed = await this.sdk.thorchain.thorchainSignAminoDeposit(
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
+                },
+              },
+              signerAddress,
+            },
+            { signal },
           )
           break
         case 'thorchain/MsgSend':
