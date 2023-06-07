@@ -54,8 +54,6 @@ export class KeepKeyRestHDWallet
   protected constructor(sdk: KeepKeySdk) {
     this.sdk = sdk
   }
-  _supportsPolygon: boolean = false
-  _supportsGnosis: boolean = false
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ethSendTx?(_msg: core.ETHSignTx): Promise<core.ETHTxHash | null> {
     throw new Error('Method not implemented.')
@@ -826,24 +824,7 @@ export class KeepKeyRestHDWallet
               },
               signerAddress,
             },
-            { signal },
-            {
-              signDoc: {
-                account_number: msg.account_number,
-                chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
-                msgs: msg.tx.msg,
-                memo: msg.tx.memo ?? '',
-                sequence: msg.sequence,
-                fee: {
-                  gas: String(msg.fee ?? 0),
-                  amount: [],
-                },
-              },
-              signerAddress,
-            },
-            { signal },
+            { signal }
           )
           break
         case 'thorchain/MsgDeposit':
