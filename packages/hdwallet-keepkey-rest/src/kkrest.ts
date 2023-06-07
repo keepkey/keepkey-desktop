@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type * as Messages from '@keepkey/device-protocol/lib/messages_pb'
 import type * as Types from '@keepkey/device-protocol/lib/types_pb'
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk'
@@ -53,6 +54,22 @@ export class KeepKeyRestHDWallet
   protected constructor(sdk: KeepKeySdk) {
     this.sdk = sdk
   }
+  _supportsPolygon: boolean = false
+  _supportsGnosis: boolean = false
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ethSendTx?(_msg: core.ETHSignTx): Promise<core.ETHTxHash | null> {
+    throw new Error('Method not implemented.')
+  }
+  ethGetChainId?(): Promise<number | null> {
+    throw new Error('Method not implemented.')
+  }
+  ethSwitchChain?(_params: core.AddEthereumChainParameter): Promise<void> {
+    throw new Error('Method not implemented.')
+  }
+  ethAddChain?(_params: core.AddEthereumChainParameter): Promise<void> {
+    throw new Error('Method not implemented.')
+  }
+  transport?: core.Transport | undefined
 
   protected async abortable<T>(fn: (signal: AbortSignal) => Promise<T>): Promise<T> {
     const abortController = new AbortController()
@@ -719,7 +736,7 @@ export class KeepKeyRestHDWallet
   )
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async rippleSignTx(msg: core.RippleSignTx): Promise<core.RippleSignedTx> {
+  public async rippleSignTx(_msg: core.RippleSignTx): Promise<core.RippleSignedTx> {
     throw new Error('not implemented')
   }
 
@@ -1329,14 +1346,14 @@ export class KeepKeyRestHDWallet
 
   readonly eosGetPublicKey = _.memoize(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async (msg: core.EosGetPublicKey): Promise<string> => {
+    async (_msg: core.EosGetPublicKey): Promise<string> => {
       throw new Error('not implemented')
     },
     msg => JSON.stringify(msg),
   )
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async eosSignTx(msg: core.EosToSignTx): Promise<core.EosTxSigned> {
+  public async eosSignTx(_msg: core.EosToSignTx): Promise<core.EosTxSigned> {
     throw new Error('not implemented')
   }
 
