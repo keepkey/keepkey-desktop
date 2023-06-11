@@ -42,16 +42,19 @@ export class LegacyWCService {
     console.log(this.connector.connected)
     console.log(this.connector.session)
     await this.connector.killSession()
-    this.connector.off('session_request')
+    this.connector.off('send')
     this.connector.off('connect')
     this.connector.off('call_request')
+    this.connector.off('session_request')
     this.connector.off('wallet_switchEthereumChain')
+    this.connector.off('wallet_addEthereumChain')
   }
 
   private subscribeToEvents() {
-    this.connector.on('session_request', this._onSessionRequest.bind(this))
+    this.connector.on('send', this._onSendMethod.bind(this))
     this.connector.on('connect', this._onConnect.bind(this))
     this.connector.on('call_request', this._onCallRequest.bind(this))
+    this.connector.on('session_request', this._onSessionRequest.bind(this))
     this.connector.on('wallet_switchEthereumChain', this._onSwitchChain.bind(this))
     this.connector.on('wallet_addEthereumChain', this._onAddChain.bind(this))
   }
@@ -78,32 +81,7 @@ export class LegacyWCService {
   }
 
   async _onCallRequest(_: Error | null, payload: any) {
-    if (payload.method === 'send') {
-      switch (payload.params[0]) {
-        case 'eth_accounts':
-          this.connector.approveRequest({
-            id: payload.id,
-            result: this.connector.accounts,
-          })
-          return
-        case 'eth_requestAccounts':
-          this.connector.approveRequest({
-            id: payload.id,
-            result: this.connector.accounts,
-          })
-          return
-        case 'eth_chainId':
-          this.connector.approveRequest({
-            id: payload.id,
-            result: this.connector.chainId,
-          })
-          return
-        default:
-          break
-      }
-    } else {
-      this.options?.onCallRequest(payload)
-    }
+    this.options?.onCallRequest(payload)
   }
 
   async _onSwitchChain(_: Error | null, payload: any) {
@@ -145,6 +123,31 @@ export class LegacyWCService {
         symbol: chain.nativeCurrency.symbol,
       },
     })
+  }
+
+  async _onSendMethod(_: Error | null, payload: any) {
+    switch (payload.params[0]) {
+      case 'eth_accounts':
+        this.connector.approveRequest({
+          id: payload.id,
+          result: this.connector.accounts,
+        })
+        break
+      case 'eth_requestAccounts':
+        this.connector.approveRequest({
+          id: payload.id,
+          result: this.connector.accounts,
+        })
+        break
+      case 'eth_chainId':
+        this.connector.approveRequest({
+          id: payload.id,
+          result: this.connector.chainId,
+        })
+        break
+      default:
+        break
+    }
   }
 
   public async doSwitchChain({ chain }: { chain: PartialChainData }) {

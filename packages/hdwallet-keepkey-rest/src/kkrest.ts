@@ -59,13 +59,13 @@ export class KeepKeyRestHDWallet
     throw new Error('Method not implemented.')
   }
   ethGetChainId?(): Promise<number | null> {
-    return Promise.resolve(1);
+    return Promise.resolve(1)
   }
   ethSwitchChain?(_params: core.AddEthereumChainParameter): Promise<void> {
-    return Promise.resolve();
+    return Promise.resolve()
   }
   ethAddChain?(_params: core.AddEthereumChainParameter): Promise<void> {
-    return Promise.resolve();
+    return Promise.resolve()
   }
   transport?: core.Transport | undefined
 
@@ -563,7 +563,7 @@ export class KeepKeyRestHDWallet
   public async ethSignTx(msg: core.ETHSignTx): Promise<core.ETHSignedTx> {
     return await this.abortable(async signal => {
       if (!msg.data) msg.data = '0x'
-      if (msg.to == undefined || !msg.to || msg.to == null) {
+      if (msg.to === undefined || !msg.to || msg.to === null) {
         msg.to = '0x'
         //contracts have separate nounces
         msg.nonce = '0x0'

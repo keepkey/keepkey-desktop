@@ -103,7 +103,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     (wc: LegacyWCService) => {
       wc.connector.on('call_request', (_e, payload) => {
         console.log('call request', payload)
-        if (payload.method !== 'send') addRequest(payload)
+        addRequest(payload)
       })
 
       wc.connector.off('connect')
