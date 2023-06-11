@@ -824,7 +824,7 @@ export class KeepKeyRestHDWallet
               },
               signerAddress,
             },
-            { signal }
+            { signal },
           )
           break
         case 'thorchain/MsgDeposit':

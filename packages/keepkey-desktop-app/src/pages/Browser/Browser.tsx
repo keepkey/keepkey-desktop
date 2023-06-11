@@ -11,7 +11,6 @@ import { Alert, AlertIcon, HStack, IconButton, Input, Stack } from '@chakra-ui/r
 import * as Comlink from 'comlink'
 import { Main } from 'components/Layout/Main'
 import { getConfig } from 'config'
-import { WalletActions } from 'context/WalletProvider/actions'
 import { ipcListeners } from 'electron-shim'
 // import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
@@ -58,8 +57,9 @@ const clearClipBoardIfWCString = async () => {
   try {
     const clipboardData = await navigator.clipboard.read()
     const link = await clipboardData[0].getType('text/plain')
-    const clipboardUri = await link.text()
-    if (clipboardUri.startsWith('wc:')) {
+    const clipboardUri = decodeURIComponent(await link.text())
+
+    if (clipboardUri.includes('wc:')) {
       await navigator.clipboard.writeText('')
     }
   } catch (e) {

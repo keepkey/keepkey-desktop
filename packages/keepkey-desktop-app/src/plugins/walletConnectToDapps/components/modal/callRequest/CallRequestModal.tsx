@@ -21,11 +21,20 @@ export const NecessaryModal: FC<{ req?: any; isLegacy: boolean; removeReq: any }
   isLegacy,
   removeReq,
 }) => {
+  const { legacyBridge, legacyWeb3 } = useWalletConnect()
+
   if (!req) return <></>
   console.log('req', req)
   console.log('isLegacy', isLegacy)
   if (isLegacy) {
-    if (req.method === 'personal_sign') return <SignMessageConfirmation />
+    if (
+      req.method === 'send' &&
+      (req.params[0] === 'eth_accounts' || req.params[0] === 'eth_requestAccounts') &&
+      legacyWeb3
+    ) {
+      legacyBridge?.approve(req, legacyBridge.connector.accounts, legacyWeb3)
+      return <></>
+    } else if (req.method === 'personal_sign') return <SignMessageConfirmation />
     else return <SendTransactionConfirmation />
   } else {
     if (!req.params.request) return <></>
