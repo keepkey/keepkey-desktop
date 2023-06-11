@@ -15,6 +15,13 @@ type WCServiceOptions = {
   onCallRequest(request: any): void
 }
 
+export type PartialChainData = {
+  chainId: number
+  name: string
+  symbol: string
+  providerUrl: string
+}
+
 export class LegacyWCService {
   constructor(
     private readonly wallet: core.ETHWallet,
@@ -46,6 +53,7 @@ export class LegacyWCService {
     this.connector.on('connect', this._onConnect.bind(this))
     this.connector.on('call_request', this._onCallRequest.bind(this))
     this.connector.on('wallet_switchEthereumChain', this._onSwitchChain.bind(this))
+    this.connector.on('wallet_addEthereumChain', this._onAddChain.bind(this))
   }
 
   async _onSessionRequest(_: Error | null, payload: any) {
@@ -70,7 +78,32 @@ export class LegacyWCService {
   }
 
   async _onCallRequest(_: Error | null, payload: any) {
-    this.options?.onCallRequest(payload)
+    if (payload.method === 'send') {
+      switch (payload.params[0]) {
+        case 'eth_accounts':
+          this.connector.approveRequest({
+            id: payload.id,
+            result: this.connector.accounts,
+          })
+          return
+        case 'eth_requestAccounts':
+          this.connector.approveRequest({
+            id: payload.id,
+            result: this.connector.accounts,
+          })
+          return
+        case 'eth_chainId':
+          this.connector.approveRequest({
+            id: payload.id,
+            result: this.connector.chainId,
+          })
+          return
+        default:
+          break
+      }
+    } else {
+      this.options?.onCallRequest(payload)
+    }
   }
 
   async _onSwitchChain(_: Error | null, payload: any) {
@@ -98,7 +131,23 @@ export class LegacyWCService {
     })
   }
 
-  public async doSwitchChain({ chain }: { chain: EthChainData }) {
+  async _onAddChain(_: Error | null, payload: any) {
+    this.connector.approveRequest({
+      id: payload.id,
+      result: 'success',
+    })
+    const chain = payload.params[0]
+    this.doSwitchChain({
+      chain: {
+        chainId: parseInt(chain.chainId, 16),
+        providerUrl: chain.rpcUrls[0],
+        name: chain.nativeCurrency.name,
+        symbol: chain.nativeCurrency.symbol,
+      },
+    })
+  }
+
+  public async doSwitchChain({ chain }: { chain: PartialChainData }) {
     if (!chain) throw new Error('no data for chainId')
     this.connector.updateChain({
       chainId: chain.chainId,
