@@ -49,9 +49,9 @@
     "@shapeshiftoss/unchained-client@^10.1.2": "patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch",
     "@shapeshiftoss/asset-service@^8.1.2": "patch:@shapeshiftoss/asset-service@npm%3A8.1.5#./.yarn/patches/@shapeshiftoss-asset-service-npm-8.1.5-86b922f116.patch",
     "@shapeshiftoss/hdwallet-keepkey@^1.46.0": "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.46.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb.patch",
+    "@shapeshiftoss/hdwallet-keepkey-nodewebusb@^1.50.3": "patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch",
     "@shapeshiftoss/hdwallet-keepkey@^1.50.3": "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.50.3-dc99de3346.patch",
-    "@shapeshiftoss/hdwallet-keepkey@1.50.3": "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.50.3-dc99de3346.patch",
-    "@shapeshiftoss/hdwallet-keepkey-nodewebusb@^1.50.3": "patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch"
+    "@shapeshiftoss/hdwallet-keepkey@1.50.3": "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.50.3-dc99de3346.patch"
   },
   "dependenciesMeta": {
     "@openapitools/openapi-generator-cli@2.5.2": {
