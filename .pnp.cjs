@@ -8731,7 +8731,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@cosmjs/proto-signing", "npm:0.28.13"],\
             ["@cosmjs/stargate", "npm:0.28.13"],\
             ["@keepkey/device-protocol", "npm:7.10.2"],\
-            ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
+            ["@keepkey/keepkey-sdk", "npm:0.2.48"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.50.3"],\
             ["@types/create-hash", "npm:1.2.2"],\
             ["@types/crypto-js", "npm:4.1.1"],\
@@ -8769,7 +8769,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@cosmjs/proto-signing", "npm:0.28.13"],\
             ["@cosmjs/stargate", "npm:0.28.13"],\
             ["@keepkey/device-protocol", "npm:7.10.2"],\
-            ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
+            ["@keepkey/keepkey-sdk", "npm:0.2.48"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.50.3"],\
             ["@types/create-hash", "npm:1.2.2"],\
             ["@types/crypto-js", "npm:4.1.1"],\
@@ -8796,6 +8796,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@keepkey/keepkey-sdk", [\
+        ["npm:0.2.48", {\
+          "packageLocation": "./.yarn/cache/@keepkey-keepkey-sdk-npm-0.2.48-8ddbf81af0-544340de01.zip/node_modules/@keepkey/keepkey-sdk/",\
+          "packageDependencies": [\
+            ["@keepkey/keepkey-sdk", "npm:0.2.48"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["workspace:packages/keepkey-sdk", {\
           "packageLocation": "./packages/keepkey-sdk/",\
           "packageDependencies": [\

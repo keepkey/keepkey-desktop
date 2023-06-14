@@ -9,7 +9,7 @@ export type Coin = {
 export type StdTxDeposit = {
   type: 'thorchain/MsgDeposit'
   value: {
-    coins: Coin
+    coins: any
     memo: string
     signer: string
   }
@@ -27,7 +27,7 @@ export type SignDocDeposit = {
    */
   msgs: StdTxDeposit[]
   fee: {
-    amount: types.cosmos.Coins
+    amount: any
     gas: types.decimal.U64
   }
 }
@@ -53,7 +53,7 @@ export type SignDocTransfer = {
    */
   msgs: StdTxTransfer[]
   fee: {
-    amount: types.cosmos.Coins
+    amount: any
     gas: types.decimal.U64
   }
 }
