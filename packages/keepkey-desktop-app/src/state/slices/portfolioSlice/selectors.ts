@@ -1,3 +1,4 @@
+import { createSelector } from '@reduxjs/toolkit'
 import type { Asset } from '@shapeshiftoss/asset-service'
 import type { AccountId, AssetId, ChainId } from '@shapeshiftoss/caip'
 import {
@@ -14,7 +15,6 @@ import {
   thorchainAssetId,
 } from '@shapeshiftoss/caip'
 import type { BIP44Params, UtxoAccountType } from '@shapeshiftoss/types'
-import { createSelector } from '@reduxjs/toolkit'
 import type { BigNumber } from 'lib/bignumber/bignumber'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { fromBaseUnit } from 'lib/math'

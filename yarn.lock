@@ -19,10 +19,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adraffy/ens-normalize@npm:1.8.9":
-  version: 1.8.9
-  resolution: "@adraffy/ens-normalize@npm:1.8.9"
-  checksum: 17791dce03a4320a88c377136c48d0c16ac3e5b07aad321d028c8342fcf821b95c0082cd269cddd488472d1273e8157ae101f2e4e7f9e6be42667ed7ab9614d9
+"@adraffy/ens-normalize@git+https://github.com/ricmoo/ens-normalize.js.git":
+  version: 1.9.0
+  resolution: "@adraffy/ens-normalize@https://github.com/ricmoo/ens-normalize.js.git#commit=2d040533e57e4f25f9a7cc4715e219658ad454b5"
+  checksum: 5f5771008a78f1d819ddc2e7c27a5e48c269b491e9f17a52e2bdea2e42c7bdd9e1d812f37fe9cbc1379a755897b649b4375f4ad92140b92a9c04f8fcb2942788
   languageName: node
   linkType: hard
 
@@ -5536,8 +5536,8 @@ __metadata:
     "@cosmjs/proto-signing": ^0.28.13
     "@cosmjs/stargate": ^0.28.13
     "@keepkey/device-protocol": ^7.10.2
-    "@keepkey/keepkey-sdk": "workspace:*"
-    "@shapeshiftoss/hdwallet-core": 1.46.0
+    "@keepkey/keepkey-sdk": 0.2.47
+    "@shapeshiftoss/hdwallet-core": ^1.50.3
     "@types/create-hash": ^1.2.2
     "@types/crypto-js": ^4.0.0
     "@types/google-protobuf": ^3.15.6
@@ -5559,11 +5559,11 @@ __metadata:
     typedoc: ^0.23.21
     typescript: ^4.3.2
   peerDependencies:
-    "@shapeshiftoss/hdwallet-core": 1.46.0
+    "@shapeshiftoss/hdwallet-core": ^1.50.3
   languageName: unknown
   linkType: soft
 
-"@keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
+"@keepkey/keepkey-sdk@0.2.47, @keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
   version: 0.0.0-use.local
   resolution: "@keepkey/keepkey-sdk@workspace:packages/keepkey-sdk"
   dependencies:
@@ -6423,16 +6423,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/hdwallet-core@npm:1.46.0, @shapeshiftoss/hdwallet-core@npm:^1.46.0":
-  version: 1.46.0
-  resolution: "@shapeshiftoss/hdwallet-core@npm:1.46.0"
+"@shapeshiftoss/hdwallet-core@npm:1.50.3, @shapeshiftoss/hdwallet-core@npm:^1.50.3":
+  version: 1.50.3
+  resolution: "@shapeshiftoss/hdwallet-core@npm:1.50.3"
   dependencies:
+    "@shapeshiftoss/proto-tx-builder": ^0.8.0
     eip-712: ^1.0.0
     eventemitter2: ^5.0.1
     lodash: ^4.17.21
     rxjs: ^6.4.0
     type-assertions: ^1.1.0
-  checksum: e541f85522cc046617a5b61f1ceb64e8437a390720df42a21adcbd506932ce9912c013f710b1b5fb1a794edb103b785fca3309ebc53488072b2856eb2f4f1da3
+  checksum: 856419c10c9012179ceddc7eec24c1779e5f42ded1a34c2e41ca49aed8838d24471187ae81704f5b78ba3e1e32b8c2360b36c51fed99c15077419d9182bf4dbe
   languageName: node
   linkType: hard
 
@@ -6448,84 +6449,72 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/hdwallet-keepkey-nodehid@npm:^1.46.0":
-  version: 1.46.0
-  resolution: "@shapeshiftoss/hdwallet-keepkey-nodehid@npm:1.46.0"
+"@shapeshiftoss/hdwallet-keepkey-nodehid@npm:^1.50.3":
+  version: 1.50.3
+  resolution: "@shapeshiftoss/hdwallet-keepkey-nodehid@npm:1.50.3"
   dependencies:
-    "@shapeshiftoss/hdwallet-keepkey": 1.46.0
+    "@shapeshiftoss/hdwallet-keepkey": 1.50.3
   peerDependencies:
     node-hid: ^2.1.1
-  checksum: 312758823d9094c005bbc27e03fdeeb0cf37464b1b73c93677ef14eb45ab0db52f8341f3428d9c443d60dd825462ce2d2f255a7e2940ab863bfbc85e924a69fc
+  checksum: d0606b07c5612ad62a8ca9c93d9877ef8b3dcd5a0a7dd940f8f7d589dcf8d6f17af9f40cc2edb7e83f4f9a8dc81a34dc6ebdb913abe51fde3b7141e8bf9a6570
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm:1.41.0":
-  version: 1.41.0
-  resolution: "@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm:1.41.0"
+"@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm:1.50.3":
+  version: 1.50.3
+  resolution: "@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm:1.50.3"
   dependencies:
-    "@shapeshiftoss/hdwallet-core": 1.41.0
-    "@shapeshiftoss/hdwallet-keepkey": 1.41.0
+    "@shapeshiftoss/hdwallet-core": 1.50.3
+    "@shapeshiftoss/hdwallet-keepkey": 1.50.3
   peerDependencies:
     usb: ^2.3.1
-  checksum: 4c19afcefc89b16b37ca8bfff591971a02496d879fda4fb51ddd093bd6e40716b943757ad51c505c5e88b64f0d1d14e2ad67a54f829a245234f8fee21e15b1ef
+  checksum: b0252bd9c1cdbacf34737a7fe984469a6a930d9778c289e9447c976b350017a16e7a0092b3a3608c383f51b68a27900be25e207b541600eb38adb272ee6543fb
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm:^1.46.0":
-  version: 1.46.0
-  resolution: "@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm:1.46.0"
+"@shapeshiftoss/hdwallet-keepkey-nodewebusb@patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 1.50.3
+  resolution: "@shapeshiftoss/hdwallet-keepkey-nodewebusb@patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::version=1.50.3&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."
   dependencies:
-    "@shapeshiftoss/hdwallet-core": 1.46.0
-    "@shapeshiftoss/hdwallet-keepkey": 1.46.0
+    "@shapeshiftoss/hdwallet-core": 1.50.3
+    "@shapeshiftoss/hdwallet-keepkey": 1.50.3
   peerDependencies:
     usb: ^2.3.1
-  checksum: 3dbe14ea645b581a8e8ae390232e36896b712fec7509e801e5b1bce24c51ebe998cb137cb19c2643742ccc001b6e64b70005962bd48fbfd949f89e4d6664eaf9
+  checksum: 0182c4826b8c1e8cc915f12c4fc1f3f2a28a8f2e7a831a6c7b3a4d3d91c5c8146238e3c7a72ceb72273d8ab9f825ae58c1c7d9e25c43242ce95b80affec410b2
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/hdwallet-keepkey-nodewebusb@patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.41.0-3660b239f5.patch::locator=keepkey-monorepo%40workspace%3A.":
-  version: 1.41.0
-  resolution: "@shapeshiftoss/hdwallet-keepkey-nodewebusb@patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.41.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.41.0-3660b239f5.patch::version=1.41.0&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."
+"@shapeshiftoss/hdwallet-keepkey-tcp@npm:^1.50.3":
+  version: 1.50.3
+  resolution: "@shapeshiftoss/hdwallet-keepkey-tcp@npm:1.50.3"
   dependencies:
-    "@shapeshiftoss/hdwallet-core": 1.41.0
-    "@shapeshiftoss/hdwallet-keepkey": 1.41.0
-  peerDependencies:
-    usb: ^2.3.1
-  checksum: b5c8ab01acfe994d0dbffcbb115352b91059d73c55bb0ae5ca11f1dff53d0fd6abfd5d9ea8f12ed54d57adf02d80b052e3493dd80829c9663341e455be3811f1
-  languageName: node
-  linkType: hard
-
-"@shapeshiftoss/hdwallet-keepkey-tcp@npm:^1.41.0":
-  version: 1.41.0
-  resolution: "@shapeshiftoss/hdwallet-keepkey-tcp@npm:1.41.0"
-  dependencies:
-    "@shapeshiftoss/hdwallet-core": 1.41.0
-    "@shapeshiftoss/hdwallet-keepkey": 1.41.0
+    "@shapeshiftoss/hdwallet-core": 1.50.3
+    "@shapeshiftoss/hdwallet-keepkey": 1.50.3
     axios: ^0.21.1
-  checksum: beba7aad220572a7fb29c1935a6811d75822617947b236aa6bf0329435a9dcba46ae00ec45390a250bc1fcde3c8d982b6ba255145251a3fe1ce1484f6c94307c
+  checksum: 29bbb14dba2e9dd201636e3a8c36ce6b355ee74323c397edffc115ecfc22d04020909cd84ddb36786ba8266d787fa8273c53293e48447491232264e24d165c86
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/hdwallet-keepkey-webusb@npm:^1.41.0":
-  version: 1.41.0
-  resolution: "@shapeshiftoss/hdwallet-keepkey-webusb@npm:1.41.0"
+"@shapeshiftoss/hdwallet-keepkey-webusb@npm:^1.50.3":
+  version: 1.50.3
+  resolution: "@shapeshiftoss/hdwallet-keepkey-webusb@npm:1.50.3"
   dependencies:
-    "@shapeshiftoss/hdwallet-core": 1.41.0
-    "@shapeshiftoss/hdwallet-keepkey": 1.41.0
-  checksum: f641ba0ca77e69d1cdd968346083aee6c0c6819869646d28f672498ac242f89e03c70ecf8759c3623a915b25fc90dbc37513178cd6347a2c23e4b510624f02cf
+    "@shapeshiftoss/hdwallet-core": 1.50.3
+    "@shapeshiftoss/hdwallet-keepkey": 1.50.3
+  checksum: 0f298c212430650cb0fe61eca389263b9f39d2a9c8375777da4846dee7711b48975a59a26d45f83a9e6a8826135895673f626056cad2c800933195c966cb49ee
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/hdwallet-keepkey@npm:1.46.0":
-  version: 1.46.0
-  resolution: "@shapeshiftoss/hdwallet-keepkey@npm:1.46.0"
+"@shapeshiftoss/hdwallet-keepkey@npm:1.50.3":
+  version: 1.50.3
+  resolution: "@shapeshiftoss/hdwallet-keepkey@npm:1.50.3"
   dependencies:
     "@ethereumjs/common": ^2.4.0
     "@ethereumjs/tx": ^3.3.0
     "@keepkey/device-protocol": ^7.12.2
     "@shapeshiftoss/bitcoinjs-lib": 5.2.0-shapeshift.2
-    "@shapeshiftoss/hdwallet-core": 1.46.0
-    "@shapeshiftoss/proto-tx-builder": ^0.7.0
+    "@shapeshiftoss/hdwallet-core": 1.50.3
+    "@shapeshiftoss/proto-tx-builder": ^0.8.0
     bignumber.js: ^9.0.1
     bnb-javascript-sdk-nobroadcast: ^2.16.14
     crypto-js: ^4.0.0
@@ -6537,20 +6526,20 @@ __metadata:
     p-lazy: ^3.1.0
     semver: ^7.3.8
     tiny-secp256k1: ^1.1.6
-  checksum: 3e181a45a172af8460ec07de778275a60a719aaafe291b18952ed0aac618b25469ae0b8ecd0ff5f0fa6067cb330fcc9e166db75ac29b29cb6f6fc27fd6fb1032
+  checksum: 0c33e2be966409f745b0eaa6e41312b346a28103d605229fc89e95174ce12ba1b8ee2ac30e097b70e87b43f2025c4350e9d8e7e04530e9ab51dc9a7cde898761
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/hdwallet-keepkey@patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.46.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb.patch::locator=keepkey-monorepo%40workspace%3A.":
-  version: 1.46.0
-  resolution: "@shapeshiftoss/hdwallet-keepkey@patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.46.0#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.46.0-321161abbb.patch::version=1.46.0&hash=2712dd&locator=keepkey-monorepo%40workspace%3A."
+"@shapeshiftoss/hdwallet-keepkey@patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.50.3-dc99de3346.patch::locator=keepkey-monorepo%40workspace%3A.":
+  version: 1.50.3
+  resolution: "@shapeshiftoss/hdwallet-keepkey@patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.50.3-dc99de3346.patch::version=1.50.3&hash=5b3d78&locator=keepkey-monorepo%40workspace%3A."
   dependencies:
     "@ethereumjs/common": ^2.4.0
     "@ethereumjs/tx": ^3.3.0
     "@keepkey/device-protocol": ^7.12.2
     "@shapeshiftoss/bitcoinjs-lib": 5.2.0-shapeshift.2
-    "@shapeshiftoss/hdwallet-core": 1.46.0
-    "@shapeshiftoss/proto-tx-builder": ^0.7.0
+    "@shapeshiftoss/hdwallet-core": 1.50.3
+    "@shapeshiftoss/proto-tx-builder": ^0.8.0
     bignumber.js: ^9.0.1
     bnb-javascript-sdk-nobroadcast: ^2.16.14
     crypto-js: ^4.0.0
@@ -6562,7 +6551,7 @@ __metadata:
     p-lazy: ^3.1.0
     semver: ^7.3.8
     tiny-secp256k1: ^1.1.6
-  checksum: c42728c79c0e4f0a10d3d7c07f9433b78e4cd8d737d2c64cbca7861c1fe6d7082a9e1237a261834c47094c56b731f0542a4c6d057d5ad48a0a30c01c56bb551f
+  checksum: a65946166ec4100c705c830c75ee38dbd22005920e13ffbfc7d16c98d27267bb0247b924cf23e05ecb16fba656309ea4e92de4ba36fe3f7cc12357924e1dd283
   languageName: node
   linkType: hard
 
@@ -6692,9 +6681,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/proto-tx-builder@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "@shapeshiftoss/proto-tx-builder@npm:0.7.0"
+"@shapeshiftoss/proto-tx-builder@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "@shapeshiftoss/proto-tx-builder@npm:0.8.0"
   dependencies:
     "@cosmjs/amino": ^0.29.4
     "@cosmjs/crypto": 0.29.4
@@ -6705,7 +6694,7 @@ __metadata:
     cosmjs-types: ^0.5.1
     google-protobuf: ^3.17.0
     osmojs: ^0.37.0
-  checksum: 4807657b87469d1c8938b82dcf7898988ab5cd9a58077f831c4fee46cf498f212d54a94cedd59ad0c2dc3f28505021dfe89f9ad204c63fa1f827e031683b73a3
+  checksum: bd67df2db2ad74b3f809a211f04d26971a580f45621f6fe22a04a9362f9a2c5d3bcdb3fc9f6bd5995f63734b25c9df8ccc819951e993a80c9ebfc1762d26b418
   languageName: node
   linkType: hard
 
@@ -7689,7 +7678,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/google-protobuf@npm:^3.15.6, @types/google-protobuf@npm:^3.5.16":
+"@types/google-protobuf@npm:^3.15.1, @types/google-protobuf@npm:^3.15.6, @types/google-protobuf@npm:^3.5.16":
   version: 3.15.6
   resolution: "@types/google-protobuf@npm:3.15.6"
   checksum: e8f7cd9d263093cd0a72eb10ff0bb8221e28aa8b9f601eddbe19b286932aae96fbc9ccb1f3a744525e7811fa87a6aeefd431858b6e2034f14a2dc68710a86d54
@@ -7938,6 +7927,13 @@ __metadata:
   version: 16.9.1
   resolution: "@types/node@npm:16.9.1"
   checksum: 41afcf183a22d59323a0199dd7e0f46591247f45fc08a4434edb26d56dc279ae4fdb80f37989ddd7a0f45e3857c4933e6e82057ede09c5a829f77e373e680375
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:18.15.13":
+  version: 18.15.13
+  resolution: "@types/node@npm:18.15.13"
+  checksum: 79cc5a2b5f98e8973061a4260a781425efd39161a0e117a69cd089603964816c1a14025e1387b4590c8e82d05133b7b4154fa53a7dffb3877890a66145e76515
   languageName: node
   linkType: hard
 
@@ -9571,10 +9567,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aes-js@npm:4.0.0-beta.3":
-  version: 4.0.0-beta.3
-  resolution: "aes-js@npm:4.0.0-beta.3"
-  checksum: 2336feee1e4a7722f5b6ede192b0a22881fd6f9310b36ec10e62b6f015f9fddf812c1d8a61b9743ab710811fd0b0d7aad844178f11e7cb1439bbc14246c6c93e
+"aes-js@npm:4.0.0-beta.5":
+  version: 4.0.0-beta.5
+  resolution: "aes-js@npm:4.0.0-beta.5"
+  checksum: cc2ea969d77df939c32057f7e361b6530aa6cb93cb10617a17a45cd164e6d761002f031ff6330af3e67e58b1f0a3a8fd0b63a720afd591a653b02f649470e15b
   languageName: node
   linkType: hard
 
@@ -14915,17 +14911,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^6.1.0":
-  version: 6.1.0
-  resolution: "ethers@npm:6.1.0"
+"ethers@npm:^6.4.1":
+  version: 6.4.1
+  resolution: "ethers@npm:6.4.1"
   dependencies:
-    "@adraffy/ens-normalize": 1.8.9
+    "@adraffy/ens-normalize": "git+https://github.com/ricmoo/ens-normalize.js.git"
     "@noble/hashes": 1.1.2
     "@noble/secp256k1": 1.7.1
-    aes-js: 4.0.0-beta.3
+    "@types/node": 18.15.13
+    aes-js: 4.0.0-beta.5
     tslib: 2.4.0
     ws: 8.5.0
-  checksum: a216c3e84f93851ed0effe6cf611926ec276e1227ed970dca2e138e8bca953db746bbe8807deec18473d5d4608a2602fca53993ef97ad62b2f6859b4ca20f101
+  checksum: 7d268690ea613537d81304d47ff7ee5147a499168a2eccf75499204fac05513ac82d57272cae070b346bce614c9e8afa96c7a47cb5c43a8029ed7616ddb12355
   languageName: node
   linkType: hard
 
@@ -18219,11 +18216,11 @@ __metadata:
     "@shapeshiftoss/chain-adapters": ^10.1.0
     "@shapeshiftoss/errors": ^1.1.3
     "@shapeshiftoss/eslint-plugin-logger": ^1.1.0
-    "@shapeshiftoss/hdwallet-core": ^1.46.0
-    "@shapeshiftoss/hdwallet-keepkey": ^1.46.0
-    "@shapeshiftoss/hdwallet-keepkey-nodewebusb": ^1.41.0
-    "@shapeshiftoss/hdwallet-keepkey-tcp": ^1.41.0
-    "@shapeshiftoss/hdwallet-keepkey-webusb": ^1.41.0
+    "@shapeshiftoss/hdwallet-core": ^1.50.3
+    "@shapeshiftoss/hdwallet-keepkey": ^1.50.3
+    "@shapeshiftoss/hdwallet-keepkey-nodewebusb": ^1.50.3
+    "@shapeshiftoss/hdwallet-keepkey-tcp": ^1.50.3
+    "@shapeshiftoss/hdwallet-keepkey-webusb": ^1.50.3
     "@shapeshiftoss/hdwallet-native": ^1.41.0
     "@shapeshiftoss/hdwallet-walletconnect": ^1.41.0
     "@shapeshiftoss/investor-foxy": ^7.0.1
@@ -18331,7 +18328,7 @@ __metadata:
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-simple-import-sort: ^7.0.0
     eth-url-parser: ^1.0.4
-    ethers: ^6.1.0
+    ethers: ^6.4.1
     eventemitter2: ^6.4.9
     express: ^4.18.2
     fast-json-stable-stringify: ^2.1.0
@@ -18351,7 +18348,7 @@ __metadata:
     lit-html: ^2.2.5
     localforage: ^1.10.0
     lodash: ^4.17.21
-    long: ^5.2.1
+    long: ^5.2.3
     match-sorter: ^6.3.0
     msw: ^0.36.5
     multiformats: ^9.6.3
@@ -18367,7 +18364,7 @@ __metadata:
     prettier: ^2.3.2
     process: ^0.11.10
     prompts: ^2.4.2
-    protobufjs: ^7.2.2
+    protobufjs: ^7.2.3
     qr-image: ^3.2.0
     qs: ^6.10.5
     querystring-es3: ^0.2.1
@@ -18435,10 +18432,10 @@ __metadata:
     "@sentry/electron": ^4.1.0
     "@shapeshiftoss/errors": ^1.1.3
     "@shapeshiftoss/eslint-plugin-logger": ^1.1.0
-    "@shapeshiftoss/hdwallet-core": ^1.46.0
-    "@shapeshiftoss/hdwallet-keepkey": ^1.46.0
-    "@shapeshiftoss/hdwallet-keepkey-nodehid": ^1.46.0
-    "@shapeshiftoss/hdwallet-keepkey-nodewebusb": ^1.46.0
+    "@shapeshiftoss/hdwallet-core": ^1.50.3
+    "@shapeshiftoss/hdwallet-keepkey": ^1.50.3
+    "@shapeshiftoss/hdwallet-keepkey-nodehid": ^1.50.3
+    "@shapeshiftoss/hdwallet-keepkey-nodewebusb": ^1.50.3
     "@shapeshiftoss/logger": ^1.1.3
     "@swc/cli": ^0.1.57
     "@swc/core": ^1.3.19
@@ -18557,8 +18554,8 @@ __metadata:
   resolution: "keepkey-sdk-server@workspace:packages/keepkey-sdk-server"
   dependencies:
     "@keepkey/device-protocol": ^7.10.2
-    "@shapeshiftoss/hdwallet-core": ^1.46.0
-    "@shapeshiftoss/hdwallet-keepkey": ^1.46.0
+    "@shapeshiftoss/hdwallet-core": ^1.50.3
+    "@shapeshiftoss/hdwallet-keepkey": ^1.50.3
     "@tsoa/runtime": ^4.1.3
     "@types/express": ^4.17.14
     "@types/lodash": ^4.14.190
@@ -18577,6 +18574,7 @@ __metadata:
     openapi-format: ^1.13.0
     prettier: ^2.3.2
     promise.any: ^2.0.5
+    protobufjs: ^7.2.3
     rimraf: ^3.0.2
     tsoa: ^4.1.3
     typescript: ^4.7.0
@@ -18983,10 +18981,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"long@npm:^5.0.0, long@npm:^5.2.0, long@npm:^5.2.1":
+"long@npm:^5.0.0, long@npm:^5.2.0":
   version: 5.2.1
   resolution: "long@npm:5.2.1"
   checksum: 9264da12d1b7df67e5aa6da4498144293caf1ad12e7f092efe4e9a2d32c53f0bbf7334f7cef997080a2a3af061142558ab366efa71698d98b1cdb883477445a7
+  languageName: node
+  linkType: hard
+
+"long@npm:^5.2.3":
+  version: 5.2.3
+  resolution: "long@npm:5.2.3"
+  checksum: 885ede7c3de4facccbd2cacc6168bae3a02c3e836159ea4252c87b6e34d40af819824b2d4edce330bfb5c4d6e8ce3ec5864bdcf9473fa1f53a4f8225860e5897
   languageName: node
   linkType: hard
 
@@ -21902,9 +21907,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"protobufjs@npm:^7.1.2":
-  version: 7.1.2
-  resolution: "protobufjs@npm:7.1.2"
+"protobufjs@npm:^7.1.2, protobufjs@npm:^7.2.3":
+  version: 7.2.3
+  resolution: "protobufjs@npm:7.2.3"
   dependencies:
     "@protobufjs/aspromise": ^1.1.2
     "@protobufjs/base64": ^1.1.2
@@ -21918,27 +21923,7 @@ __metadata:
     "@protobufjs/utf8": ^1.1.0
     "@types/node": ">=13.7.0"
     long: ^5.0.0
-  checksum: ae41669b1b0372fb1d49f506f2d1f2b0fb3dc3cece85987b17bcb544e4cef7c8d27f480486cdec324146ad0a5d22a327166a7ea864a9b3e49cc3c92a5d3f6500
-  languageName: node
-  linkType: hard
-
-"protobufjs@npm:^7.2.2":
-  version: 7.2.2
-  resolution: "protobufjs@npm:7.2.2"
-  dependencies:
-    "@protobufjs/aspromise": ^1.1.2
-    "@protobufjs/base64": ^1.1.2
-    "@protobufjs/codegen": ^2.0.4
-    "@protobufjs/eventemitter": ^1.1.0
-    "@protobufjs/fetch": ^1.1.0
-    "@protobufjs/float": ^1.0.2
-    "@protobufjs/inquire": ^1.1.0
-    "@protobufjs/path": ^1.1.2
-    "@protobufjs/pool": ^1.1.0
-    "@protobufjs/utf8": ^1.1.0
-    "@types/node": ">=13.7.0"
-    long: ^5.0.0
-  checksum: 86166e8f3e46789fa4d117ae72c17356db36bf87c0e0710d224be32e543b1c378a94e66dc2b1de5af45edfc25f56acfc7e688c50c956426a3ae97bc474f4445c
+  checksum: 9afa6de5fced0139a5180c063718508fac3ea734a9f1aceb99712367b15473a83327f91193f16b63540f9112b09a40912f5f0441a9b0d3f3c6a1c7f707d78249
   languageName: node
   linkType: hard
 

@@ -16,16 +16,7 @@ export type SignDoc = {
    * @minItems 1
    * @maxItems 1
    */
-  msgs: (
-    | types.cosmos.amino.signDoc.CosmosSdkSend
-    | types.cosmos.amino.signDoc.CosmosSdkDelegate
-    | types.cosmos.amino.signDoc.CosmosSdkUndelegate
-    | types.cosmos.amino.signDoc.CosmosSdkBeginRedelegate
-    | types.cosmos.amino.signDoc.CosmosSdkWithdrawDelegationReward
-    | types.cosmos.amino.signDoc.IbcGoTransfer
-    | types.cosmos.amino.signDoc.ThornodeSend
-    | StdTxDelegate
-  )[]
+  msgs: types.cosmos.amino.signDoc.CosmosSdkSend[]
   fee: {
     amount: types.cosmos.Coins
     gas: types.decimal.U64
@@ -34,16 +25,16 @@ export type SignDoc = {
 
 export type StdTxDelegate = {
   type: 'cosmos-sdk/MsgDelegate'
-  value:{
+  value: {
     delegator_address: types.cosmos.Address
     validator_address: types.cosmos.Address
-    amount: any  
+    amount: any
   }
 }
 
 export type StdTxUnDelegate = {
   type: 'cosmos-sdk/MsgUndelegate'
-  value:{
+  value: {
     delegator_address: types.cosmos.Address
     validator_address: types.cosmos.Address
     amount: any
@@ -52,7 +43,7 @@ export type StdTxUnDelegate = {
 
 export type StdTxBeginReDelegate = {
   type: 'cosmos-sdk/MsgBeginRedelegate'
-  value:{
+  value: {
     delegator_address: types.cosmos.Address
     validator_src_address: types.cosmos.Address
     validator_dst_address: types.cosmos.Address
@@ -62,7 +53,7 @@ export type StdTxBeginReDelegate = {
 
 export type StdTxWithdrawDelegationReward = {
   type: 'cosmos-sdk/MsgWithdrawDelegationReward'
-  value:{
+  value: {
     delegator_address: types.cosmos.Address
     validator_address: types.cosmos.Address
   }
@@ -70,7 +61,7 @@ export type StdTxWithdrawDelegationReward = {
 
 export type StdTxMsgTransfer = {
   type: 'cosmos-sdk/MsgTransfer'
-  value:{
+  value: {
     source_port: string
     source_channel: string
     token: types.cosmos.Coin
@@ -91,7 +82,7 @@ export type SignDocDelegate = {
    * @minItems 1
    * @maxItems 1
    */
-  msgs: (StdTxDelegate)[],
+  msgs: StdTxDelegate[]
   fee: {
     amount: types.cosmos.Coins
     gas: types.decimal.U64
@@ -108,7 +99,7 @@ export type SignDocUnDelegate = {
    * @minItems 1
    * @maxItems 1
    */
-  msgs: (StdTxUnDelegate)[],
+  msgs: StdTxUnDelegate[]
   fee: {
     amount: types.cosmos.Coins
     gas: types.decimal.U64
@@ -125,7 +116,7 @@ export type SignDocBeginReDelegate = {
    * @minItems 1
    * @maxItems 1
    */
-  msgs: (StdTxBeginReDelegate)[],
+  msgs: StdTxBeginReDelegate[]
   fee: {
     amount: types.cosmos.Coins
     gas: types.decimal.U64
@@ -142,7 +133,7 @@ export type SignDocWithdrawDelegationReward = {
    * @minItems 1
    * @maxItems 1
    */
-  msgs: (StdTxWithdrawDelegationReward)[],
+  msgs: StdTxWithdrawDelegationReward[]
   fee: {
     amount: types.cosmos.Coins
     gas: types.decimal.U64
@@ -159,7 +150,7 @@ export type SignDocIbcGoTransfer = {
    * @minItems 1
    * @maxItems 1
    */
-  msgs: (StdTxMsgTransfer)[],
+  msgs: StdTxMsgTransfer[]
   fee: {
     amount: types.cosmos.Coins
     gas: types.decimal.U64

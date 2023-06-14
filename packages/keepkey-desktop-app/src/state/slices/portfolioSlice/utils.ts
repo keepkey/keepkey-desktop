@@ -19,8 +19,6 @@ import {
 } from '@shapeshiftoss/caip'
 import type { Account } from '@shapeshiftoss/chain-adapters'
 import { utxoAccountParams } from '@shapeshiftoss/chain-adapters'
-import type { KnownChainIds } from '@shapeshiftoss/types'
-import { UtxoAccountType } from '@shapeshiftoss/types'
 import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
 import {
   supportsBTC,
@@ -29,6 +27,8 @@ import {
   supportsEthSwitchChain,
   supportsThorchain,
 } from '@shapeshiftoss/hdwallet-core'
+import type { KnownChainIds } from '@shapeshiftoss/types'
+import { UtxoAccountType } from '@shapeshiftoss/types'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import type { BigNumber } from 'lib/bignumber/bignumber'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'

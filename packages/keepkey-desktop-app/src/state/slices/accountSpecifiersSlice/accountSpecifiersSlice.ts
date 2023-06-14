@@ -1,5 +1,5 @@
-import type { ChainId } from '@shapeshiftoss/caip'
 import { createSlice } from '@reduxjs/toolkit'
+import type { ChainId } from '@shapeshiftoss/caip'
 import { logger } from 'lib/logger'
 import isEqual from 'lodash/isEqual'
 

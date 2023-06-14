@@ -13,7 +13,7 @@ export const useKeepKeyRecover = () => {
     recoverWithPassphrase: boolean
     recoveryEntropy: string
   }) => {
-    setDeviceState({ awaitingDeviceInteraction: true })
+    setDeviceState({ awaitingDeviceInteraction: true, recoveryEntropy: opts.recoveryEntropy })
     const recoverParams: RecoverDevice = {
       entropy: parseIntToEntropy(opts.recoveryEntropy),
       label: opts.label,

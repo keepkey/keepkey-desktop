@@ -1,7 +1,7 @@
 import { formatJsonRpcError } from '@json-rpc-tools/utils'
 import type { SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
-import { isHexString, toUtf8String, isAddress } from 'ethers'
+import { isAddress, isHexString, toUtf8String } from 'ethers'
 
 import type { TCosmosChain } from '../data/COSMOSData'
 import { COSMOS_MAINNET_CHAINS } from '../data/COSMOSData'
