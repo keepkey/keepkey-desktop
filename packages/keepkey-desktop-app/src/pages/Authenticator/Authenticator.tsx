@@ -19,7 +19,18 @@ import {
   Thead,
   Tr,
   useToast,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  ListItem,
+  UnorderedList,
+  Input,
+  IconButton,
 } from '@chakra-ui/react'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { Card } from 'components/Card/Card'
 import { Main } from 'components/Layout/Main'
@@ -33,12 +44,97 @@ function assume<T>(_x: unknown): asserts _x is T {}
 
 export type AuthenticatorAccount = { slotIdx: number; domain: string; account: string }
 
+const PasswordGenerator = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => setIsOpen(false);
+  const [show, setShow] = useState(false); // state for show/hide password
+
+  const sampleData = [
+    { type: 'password', value: 'P@ssw0rd' },
+    { type: 'mnemonic', value: 'apple banana cherry' },
+    // more sample data...
+  ];
+
+  const handleClick = () => setShow(!show); // function for toggling show/hide
+
+  return (
+      <Card flex={1}>
+        <Card.Body>
+          <Table>
+            <Thead>
+              <Tr>
+                <Th>Name</Th>
+                <Th>Type</Th>
+                <Th>Value</Th>
+                <Th>URL</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {sampleData.map((item, index) => (
+                  <Tr key={index}>
+                    <Td>{item.name}</Td>
+                    <Td>{item.type}</Td>
+                    <Td>
+                      <Input type={show ? "text" : "password"} value={item.value} readOnly />
+                      <IconButton aria-label="Show/Hide Password" onClick={handleClick} icon={show ? <ViewOffIcon /> : <ViewIcon />} />
+                    </Td>
+                    <Td>{item.url}</Td>
+                  </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </Card.Body>
+        <Card.Footer>
+          <Button colorScheme="green" onClick={() => setIsOpen(true)}>
+            Generate Password
+          </Button>
+        </Card.Footer>
+
+        <AlertDialog
+            isOpen={isOpen}
+            onClose={onClose}
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                Generate Password or Mnemonic
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+                <UnorderedList>
+                  {sampleData.map((item, index) => (
+                      <ListItem key={index}>{`${item.name} (${item.type}): ${item.value}`}</ListItem>
+                  ))}
+                </UnorderedList>
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Button onClick={onClose}>
+                  Close
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
+      </Card>
+  );
+};
+
+
 export const Authenticator = () => {
+
   const {
     state: { wallet, authenticatorError },
     dispatch,
   } = useWallet()
 
+  const sampleData:any = [
+    { type: 'password', value: 'P@ssw0rd' },
+    { type: 'mnemonic', value: 'apple banana cherry' },
+    // more sample data...
+  ];
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => setIsOpen(false);
   const [accounts, setAccounts] = useState<AuthenticatorAccount[]>([])
   const [loading, setLoading] = useState(true)
   const [supportsFeature, setSupportsFeature] = useState(false)
@@ -50,7 +146,7 @@ export const Authenticator = () => {
 
     assume<KeepKeyHDWallet>(wallet)
 
-    wallet.getFirmwareVersion().then(version => {
+    wallet.getFirmwareVersion().then((version: { replace: (arg0: string, arg1: string) => { (): any; new(): any; split: { (arg0: string): [any, any]; new(): any } } }) => {
       const [major, minor] = version.replace('v', '').split('.')
       if (Number(major) >= 7 && Number(minor) >= 6) setSupportsFeature(true)
     })
@@ -77,7 +173,7 @@ export const Authenticator = () => {
       if (!data || !data.msg || data.msg === '') continue
       console.log(slotIdx, data)
       const [domain, account] = data.msg.split(':')
-      setAccounts(accs => {
+      setAccounts((accs: any[]) => {
         if (accs.length === 0) return [{ slotIdx, domain, account }]
         const exists = accs.find(acc => acc.slotIdx === slotIdx)
         if (exists) return accs
@@ -233,7 +329,7 @@ export const Authenticator = () => {
                   </Thead>
                   <Tbody>
                     {accounts &&
-                      accounts.map(acc => (
+                      accounts.map((acc: { domain: string; account: any }) => (
                         <Tr>
                           <Td>
                             <Code>{`${acc.domain.trim() ? `${acc.domain}:` : ''}${
@@ -270,6 +366,7 @@ export const Authenticator = () => {
           </Stack>
         </Card.Body>
       </Card>
+      <PasswordGenerator />
     </Main>
   )
 }
