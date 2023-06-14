@@ -51,6 +51,8 @@ export class KeepKeyRestHDWallet
   private readonly sdk: KeepKeySdk
   private readonly abortControllers = new Map<AbortController, Promise<void>>()
 
+  private ethChainId: string = '0x1'
+
   protected constructor(sdk: KeepKeySdk) {
     this.sdk = sdk
   }
@@ -58,15 +60,26 @@ export class KeepKeyRestHDWallet
   ethSendTx?(_msg: core.ETHSignTx): Promise<core.ETHTxHash | null> {
     throw new Error('Method not implemented.')
   }
-  ethGetChainId?(): Promise<number | null> {
-    return Promise.resolve(1)
+
+  async ethGetChainId?(): Promise<number | null> {
+    try {
+      // chainId as hex string
+      console.log('ETH GET CHAIN ID CALLED ON KK REST')
+      return parseInt(this.ethChainId, 16)
+    } catch (e) {
+      console.error(e)
+      return null
+    }
   }
-  ethSwitchChain?(_params: core.AddEthereumChainParameter): Promise<void> {
-    return Promise.resolve()
+  async ethSwitchChain?(params: core.AddEthereumChainParameter): Promise<void> {
+    this.ethChainId = params.chainId
+    return
   }
-  ethAddChain?(_params: core.AddEthereumChainParameter): Promise<void> {
-    return Promise.resolve()
+
+  async ethAddChain?(params: core.AddEthereumChainParameter): Promise<void> {
+    return
   }
+
   transport?: core.Transport | undefined
 
   protected async abortable<T>(fn: (signal: AbortSignal) => Promise<T>): Promise<T> {
