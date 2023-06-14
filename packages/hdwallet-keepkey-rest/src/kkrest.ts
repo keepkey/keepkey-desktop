@@ -33,7 +33,6 @@ export class KeepKeyRestHDWallet
   readonly _supportsAvalanche = true
   readonly _supportsOptimism = true
   readonly _supportsBSC = true
-  readonly _supportsPolygon = true;
   readonly _supportsBTC = true
   _supportsCosmos = true
   _supportsOsmosis = true
