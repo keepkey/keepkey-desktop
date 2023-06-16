@@ -1220,61 +1220,61 @@ export class KeepKeyRestHDWallet
           { signal },
         )
       ).address
-      
+
       /*
        */
-      
+
       let signed: any
       //switch statement
       switch (msg.tx.msg[0].type) {
         case 'thorchain/MsgDeposit':
           console.log('thorchain/MsgDeposit MSG: ', msg)
           signed = await this.sdk.thorchain.thorchainSignAminoDeposit(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
           break
         case 'thorchain/MsgSend':
           console.log('thorchain/MsgSend MSG: ', msg)
           signed = await this.sdk.thorchain.thorchainSignAminoDeposit(
-              {
-                signDoc: {
-                  account_number: msg.account_number,
-                  chain_id: msg.chain_id,
-                  // TODO: busted openapi-generator types
-                  // @ts-expect-error
-                  msgs: msg.tx.msg,
-                  memo: msg.tx.memo ?? '',
-                  sequence: msg.sequence,
-                  fee: {
-                    gas: String(msg.fee ?? 0),
-                    amount: [],
-                  },
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
                 },
-                signerAddress,
               },
-              { signal },
+              signerAddress,
+            },
+            { signal },
           )
-          break    
+          break
         default:
           throw Error('thorchain Msg not supported ' + msg.tx.msg[0].type)
       }
-      
+
       return {
         signatures: [signed.signature as string],
         serialized: signed.serialized as string,

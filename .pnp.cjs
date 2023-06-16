@@ -88,10 +88,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@adraffy/ens-normalize", [\
-        ["https://github.com/ricmoo/ens-normalize.js.git#commit=2d040533e57e4f25f9a7cc4715e219658ad454b5", {\
-          "packageLocation": "./.yarn/cache/@adraffy-ens-normalize-https-d94455241d-5f5771008a.zip/node_modules/@adraffy/ens-normalize/",\
+        ["npm:1.9.2", {\
+          "packageLocation": "./.yarn/cache/@adraffy-ens-normalize-npm-1.9.2-1c3a6f9e96-a9fdeb9e08.zip/node_modules/@adraffy/ens-normalize/",\
           "packageDependencies": [\
-            ["@adraffy/ens-normalize", "https://github.com/ricmoo/ens-normalize.js.git#commit=2d040533e57e4f25f9a7cc4715e219658ad454b5"]\
+            ["@adraffy/ens-normalize", "npm:1.9.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -20076,17 +20076,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:6.4.1", {\
-          "packageLocation": "./.yarn/cache/ethers-npm-6.4.1-4fa5cdd8df-7d268690ea.zip/node_modules/ethers/",\
+        ["npm:6.6.0", {\
+          "packageLocation": "./.yarn/cache/ethers-npm-6.6.0-36de8843c5-242f4fb205.zip/node_modules/ethers/",\
           "packageDependencies": [\
-            ["ethers", "npm:6.4.1"],\
-            ["@adraffy/ens-normalize", "https://github.com/ricmoo/ens-normalize.js.git#commit=2d040533e57e4f25f9a7cc4715e219658ad454b5"],\
+            ["ethers", "npm:6.6.0"],\
+            ["@adraffy/ens-normalize", "npm:1.9.2"],\
             ["@noble/hashes", "npm:1.1.2"],\
             ["@noble/secp256k1", "npm:1.7.1"],\
             ["@types/node", "npm:18.15.13"],\
             ["aes-js", "npm:4.0.0-beta.5"],\
             ["tslib", "npm:2.4.0"],\
-            ["ws", "virtual:4fa5cdd8dfec827d5a5de2ec1fbc3c03287671816974b1e9e83ceb7fb417d4ea478818453f0ed1c7da7cd59df3770d8c658e0b7198b3d99d92f1124f811b7cd4#npm:8.5.0"]\
+            ["ws", "virtual:36de8843c526081a4dd5c281ae8a23d107c02c18a1f9cc0b9dbb0acb6328f94dc38de78adf1db425bf86ec9436d7295554efb8a48b536678a99d244d6f98d2bf#npm:8.5.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24060,7 +24060,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:4.2.1"],\
             ["eslint-plugin-simple-import-sort", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:7.0.0"],\
             ["eth-url-parser", "npm:1.0.4"],\
-            ["ethers", "npm:6.4.1"],\
+            ["ethers", "npm:6.6.0"],\
             ["eventemitter2", "npm:6.4.9"],\
             ["express", "npm:4.18.2"],\
             ["fast-json-stable-stringify", "npm:2.1.0"],\
@@ -34178,10 +34178,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:4fa5cdd8dfec827d5a5de2ec1fbc3c03287671816974b1e9e83ceb7fb417d4ea478818453f0ed1c7da7cd59df3770d8c658e0b7198b3d99d92f1124f811b7cd4#npm:8.5.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-0c52892b88/0/cache/ws-npm-8.5.0-8e99728c84-76f2f90e40.zip/node_modules/ws/",\
+        ["virtual:36de8843c526081a4dd5c281ae8a23d107c02c18a1f9cc0b9dbb0acb6328f94dc38de78adf1db425bf86ec9436d7295554efb8a48b536678a99d244d6f98d2bf#npm:8.5.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-a26f953fe7/0/cache/ws-npm-8.5.0-8e99728c84-76f2f90e40.zip/node_modules/ws/",\
           "packageDependencies": [\
-            ["ws", "virtual:4fa5cdd8dfec827d5a5de2ec1fbc3c03287671816974b1e9e83ceb7fb417d4ea478818453f0ed1c7da7cd59df3770d8c658e0b7198b3d99d92f1124f811b7cd4#npm:8.5.0"],\
+            ["ws", "virtual:36de8843c526081a4dd5c281ae8a23d107c02c18a1f9cc0b9dbb0acb6328f94dc38de78adf1db425bf86ec9436d7295554efb8a48b536678a99d244d6f98d2bf#npm:8.5.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\

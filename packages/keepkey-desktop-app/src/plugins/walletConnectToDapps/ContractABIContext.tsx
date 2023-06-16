@@ -1,11 +1,11 @@
 import { getConfig } from 'config'
-import { ethers } from 'ethers'
+import { Interface } from 'ethers'
 import type { FC, PropsWithChildren } from 'react'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
 type ContractABIContextValue = {
-  contracts: Record<string, ethers.utils.Interface | null>
-  loadContract(address: string): Promise<ethers.utils.Interface>
+  contracts: Record<string, Interface | null>
+  loadContract(address: string): Promise<Interface>
 }
 
 const ContractABIContext = createContext<ContractABIContextValue>({
@@ -14,7 +14,7 @@ const ContractABIContext = createContext<ContractABIContextValue>({
 })
 
 export const ContractABIProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [contracts, setMapping] = useState<Record<string, ethers.utils.Interface | null>>({})
+  const [contracts, setMapping] = useState<Record<string, Interface | null>>({})
   const loadContract = useCallback(async (address: string) => {
     try {
       const res = await fetch(
@@ -25,7 +25,7 @@ export const ContractABIProvider: FC<PropsWithChildren> = ({ children }) => {
       if (res.status !== '1') throw new Error(res.result)
 
       const abi = JSON.parse(res.result)
-      const contract = new ethers.utils.Interface(abi)
+      const contract = new Interface(abi)
       setMapping(prev => ({ ...prev, [address]: contract }))
       return contract
     } catch (error) {
@@ -41,7 +41,7 @@ export const ContractABIProvider: FC<PropsWithChildren> = ({ children }) => {
 }
 
 export function useContract(address: string): {
-  contract: ethers.utils.Interface | null
+  contract: Interface | null
   loading: boolean
 } {
   const { contracts, loadContract } = useContext(ContractABIContext)

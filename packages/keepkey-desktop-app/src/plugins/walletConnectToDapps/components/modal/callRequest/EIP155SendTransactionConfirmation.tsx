@@ -4,6 +4,7 @@ import type { ethereum } from '@shapeshiftoss/chain-adapters'
 import type { GasFeeDataEstimate } from '@shapeshiftoss/chain-adapters'
 import { FeeDataKey } from '@shapeshiftoss/chain-adapters'
 import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
+import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { KnownChainIds } from '@shapeshiftoss/types'
 import type { SignClientTypes } from '@walletconnect/types'
 import axios from 'axios'
@@ -11,7 +12,7 @@ import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { Text } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
-import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
+import { useWallet } from 'hooks/useWallet/useWallet'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
@@ -58,7 +59,11 @@ const moduleLogger = logger.child({ namespace: 'EIP155SendTransactionConfirmatio
 export const EIP155SendTransactionConfirmation = () => {
   const translate = useTranslate()
   const cardBg = useColorModeValue('white', 'gray.850')
-  const { keepKeyWallet } = useKeepKey()
+  const {
+    state: { wallet },
+  } = useWallet()
+
+  const keepKeyWallet = wallet as KeepKeyHDWallet | null
 
   const adapterManager = useMemo(() => getChainAdapterManager(), [])
 
