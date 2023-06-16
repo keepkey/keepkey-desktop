@@ -265,7 +265,7 @@ export const SendTransactionConfirmation = () => {
   )
     txInput['gasPrice'] = Web3.utils.toHex(web3GasFeeData)
 
-  if (!address) return <>No address</>
+  //if (!address) return <>No address</>
 
   return (
     <FormProvider {...form}>

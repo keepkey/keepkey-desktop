@@ -89,8 +89,11 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
   }, [currentSessionTopic, isLegacy, legacyBridge, rerender])
 
   useEffect(() => {
-    if (!WalletConnectSignClient) return
-    WalletConnectSignClient.on('session_ping', payload => {
+    if (!WalletConnectSignClient) {
+        console.log('no wallet connect sign client')
+        return
+    }
+    WalletConnectSignClient.on('session_ping', (payload: { topic: any }) => {
       setIsConnected(true)
       setCurrentSessionTopic(payload.topic)
     })
