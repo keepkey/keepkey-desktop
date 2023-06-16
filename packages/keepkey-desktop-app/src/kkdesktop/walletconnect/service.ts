@@ -41,13 +41,13 @@ export class LegacyWCService {
   disconnect = async () => {
     console.log(this.connector.connected)
     console.log(this.connector.session)
-    await this.connector.killSession()
     this.connector.off('send')
     this.connector.off('connect')
     this.connector.off('call_request')
     this.connector.off('session_request')
     this.connector.off('wallet_switchEthereumChain')
     this.connector.off('wallet_addEthereumChain')
+    this.connector.killSession()
   }
 
   private subscribeToEvents() {
