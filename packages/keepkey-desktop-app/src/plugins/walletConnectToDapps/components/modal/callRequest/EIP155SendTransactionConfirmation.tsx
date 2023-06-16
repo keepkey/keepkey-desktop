@@ -12,6 +12,8 @@ import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { Text } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
+import type { EthChainData } from 'context/WalletProvider/web3byChainId'
+import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
@@ -86,12 +88,19 @@ export const EIP155SendTransactionConfirmation = () => {
   const [loadingGasEstimate, setLoadingGasEstimate] = useState(true)
   const [loadingPriceData, setLoadingPriceData] = useState(true)
   const [loadingSigningInProgress, setLoadingSigningInProgress] = useState(false)
+  const [been10Seconds, setBeen10Seconds] = useState(false)
+
+  const [legacyWeb3, setLegacyWeb3] = useState<EthChainData>()
+
+  useEffect(() => {
+    setTimeout(() => setBeen10Seconds(true), 10000)
+  }, [])
 
   const [loading, setLoading] = useState(false)
   useEffect(() => {
     setLoading(
       loadingAddress ||
-        loadingGas ||
+        (loadingGas && !been10Seconds) ||
         loadingNonce ||
         loadingGasEstimate ||
         loadingPriceData ||
@@ -104,15 +113,21 @@ export const EIP155SendTransactionConfirmation = () => {
     loadingGasEstimate,
     loadingPriceData,
     loadingSigningInProgress,
+    been10Seconds,
   ])
 
-  const { requests, removeRequest, isConnected, dapp, legacyWeb3 } = useWalletConnect()
+  const { requests, removeRequest, isConnected, dapp } = useWalletConnect()
   const toast = useToast()
 
   const currentRequest = requests[0] as SignClientTypes.EventArguments['session_request']
   const { topic, params, id } = currentRequest
   const { request, chainId: chainIdString } = params
   const [chainId, setChainId] = useState<number>()
+
+  useEffect(() => {
+    if (!chainId) return
+    web3ByChainId(Number(chainId)).then(setLegacyWeb3)
+  }, [chainId])
 
   useEffect(() => {
     ;(async () => {
