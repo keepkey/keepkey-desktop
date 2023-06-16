@@ -51,6 +51,8 @@ export class KeepKeyRestHDWallet
   private readonly sdk: KeepKeySdk
   private readonly abortControllers = new Map<AbortController, Promise<void>>()
 
+  private ethChainId: string = '0x1'
+
   protected constructor(sdk: KeepKeySdk) {
     this.sdk = sdk
   }
@@ -58,15 +60,25 @@ export class KeepKeyRestHDWallet
   ethSendTx?(_msg: core.ETHSignTx): Promise<core.ETHTxHash | null> {
     throw new Error('Method not implemented.')
   }
-  ethGetChainId?(): Promise<number | null> {
-    throw new Error('Method not implemented.')
+
+  async ethGetChainId?(): Promise<number | null> {
+    try {
+      // chainId as hex string
+      return parseInt(this.ethChainId, 16)
+    } catch (e) {
+      console.error(e)
+      return null
+    }
   }
-  ethSwitchChain?(_params: core.AddEthereumChainParameter): Promise<void> {
-    throw new Error('Method not implemented.')
+  async ethSwitchChain?(params: core.AddEthereumChainParameter): Promise<void> {
+    this.ethChainId = params.chainId
+    return
   }
-  ethAddChain?(_params: core.AddEthereumChainParameter): Promise<void> {
-    throw new Error('Method not implemented.')
+
+  async ethAddChain?(params: core.AddEthereumChainParameter): Promise<void> {
+    return
   }
+
   transport?: core.Transport | undefined
 
   protected async abortable<T>(fn: (signal: AbortSignal) => Promise<T>): Promise<T> {
@@ -562,8 +574,11 @@ export class KeepKeyRestHDWallet
 
   public async ethSignTx(msg: core.ETHSignTx): Promise<core.ETHSignedTx> {
     return await this.abortable(async signal => {
-      console.log('MSG: ', msg)
       if (!msg.data) msg.data = '0x'
+      if (msg.to === undefined || !msg.to || msg.to === null) {
+        msg.to = '0x'
+      }
+      console.log('MSG: ', msg)
       const sig = await this.sdk.eth.ethSignTransaction(
         {
           nonce: msg.nonce,
@@ -585,6 +600,7 @@ export class KeepKeyRestHDWallet
         },
         { signal },
       )
+      console.log('sig.serialized: ', sig.serialized)
       return {
         v: sig.v as number,
         r: sig.r,
@@ -786,94 +802,6 @@ export class KeepKeyRestHDWallet
         case 'cosmos-sdk/MsgSend':
           console.log('MSG: ', msg)
           signed = await this.sdk.cosmos.cosmosSignAmino(
-            {
-              signDoc: {
-                account_number: msg.account_number,
-                chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
-                msgs: msg.tx.msg,
-                memo: msg.tx.memo ?? '',
-                sequence: msg.sequence,
-                fee: {
-                  gas: String(msg.fee ?? 0),
-                  amount: [],
-                },
-              },
-              signerAddress,
-            },
-            { signal },
-          )
-          break
-        case 'thorchain/MsgDeposit':
-          console.log('MSG: ', msg)
-          signed = await this.sdk.thorchain.thorchainSignAminoDeposit(
-            {
-              signDoc: {
-                account_number: msg.account_number,
-                chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
-                msgs: msg.tx.msg,
-                memo: msg.tx.memo ?? '',
-                sequence: msg.sequence,
-                fee: {
-                  gas: String(msg.fee ?? 0),
-                  amount: [],
-                },
-              },
-              signerAddress,
-            },
-            { signal }
-          )
-          break
-        case 'thorchain/MsgDeposit':
-          console.log('MSG: ', msg)
-          signed = await this.sdk.thorchain.thorchainSignAminoDeposit(
-            {
-              signDoc: {
-                account_number: msg.account_number,
-                chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
-                msgs: msg.tx.msg,
-                memo: msg.tx.memo ?? '',
-                sequence: msg.sequence,
-                fee: {
-                  gas: String(msg.fee ?? 0),
-                  amount: [],
-                },
-              },
-              signerAddress,
-            },
-            { signal },
-          )
-          break
-        case 'thorchain/MsgDeposit':
-          console.log('MSG: ', msg)
-          signed = await this.sdk.thorchain.thorchainSignAminoDeposit(
-            {
-              signDoc: {
-                account_number: msg.account_number,
-                chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
-                msgs: msg.tx.msg,
-                memo: msg.tx.memo ?? '',
-                sequence: msg.sequence,
-                fee: {
-                  gas: String(msg.fee ?? 0),
-                  amount: [],
-                },
-              },
-              signerAddress,
-            },
-            { signal },
-          )
-          break
-        case 'thorchain/MsgSend':
-          console.log('MSG: ', msg)
-          signed = await this.sdk.thorchain.thorchainSignAminoDeposit(
             {
               signDoc: {
                 account_number: msg.account_number,
@@ -1292,29 +1220,64 @@ export class KeepKeyRestHDWallet
           { signal },
         )
       ).address
-      const signed = await this.sdk.cosmos.cosmosSignAmino(
-        {
-          signDoc: {
-            accountNumber: msg.account_number,
-            chainId: msg.chain_id,
-            // TODO: busted openapi-generator types
-            // @ts-expect-error
-            msgs: msg.tx.msg,
-            memo: msg.tx.memo ?? '',
-            sequence: msg.sequence,
-            fee: {
-              gas: String(msg.fee ?? 0),
-              amount: [],
+
+      /*
+       */
+
+      let signed: any
+      //switch statement
+      switch (msg.tx.msg[0].type) {
+        case 'thorchain/MsgDeposit':
+          console.log('thorchain/MsgDeposit MSG: ', msg)
+          signed = await this.sdk.thorchain.thorchainSignAminoDeposit(
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
+                },
+              },
+              signerAddress,
             },
-          },
-          signerAddress,
-        },
-        { signal },
-      )
-      // TODO: busted openapi-generator types
+            { signal },
+          )
+          break
+        case 'thorchain/MsgSend':
+          console.log('thorchain/MsgSend MSG: ', msg)
+          signed = await this.sdk.thorchain.thorchainSignAminoDeposit(
+            {
+              signDoc: {
+                account_number: msg.account_number,
+                chain_id: msg.chain_id,
+                // TODO: busted openapi-generator types
+                // @ts-expect-error
+                msgs: msg.tx.msg,
+                memo: msg.tx.memo ?? '',
+                sequence: msg.sequence,
+                fee: {
+                  gas: String(msg.fee ?? 0),
+                  amount: [],
+                },
+              },
+              signerAddress,
+            },
+            { signal },
+          )
+          break
+        default:
+          throw Error('thorchain Msg not supported ' + msg.tx.msg[0].type)
+      }
+
       return {
         signatures: [signed.signature as string],
-        serialized: core.untouchable('not implemented'),
+        serialized: signed.serialized as string,
         authInfoBytes: core.untouchable('not implemented'),
         body: core.untouchable('not implemented'),
       }

@@ -90,7 +90,7 @@ export const SendTransactionConfirmation = () => {
       try {
         setLoading(true)
         await legacyBridge
-          ?.approve(requests[0], txData, legacyWeb3)
+          ?.approve(currentRequest, txData, legacyWeb3)
           .then(() => removeRequest(currentRequest.id))
         removeRequest(currentRequest.id)
       } catch (e) {
@@ -103,7 +103,7 @@ export const SendTransactionConfirmation = () => {
         setLoading(false)
       }
     },
-    [legacyBridge, currentRequest?.id, removeRequest, requests, toast, legacyWeb3],
+    [legacyWeb3, legacyBridge, currentRequest, removeRequest, toast],
   )
 
   const onReject = useCallback(async () => {

@@ -19,10 +19,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adraffy/ens-normalize@git+https://github.com/ricmoo/ens-normalize.js.git":
-  version: 1.9.0
-  resolution: "@adraffy/ens-normalize@https://github.com/ricmoo/ens-normalize.js.git#commit=2d040533e57e4f25f9a7cc4715e219658ad454b5"
-  checksum: 5f5771008a78f1d819ddc2e7c27a5e48c269b491e9f17a52e2bdea2e42c7bdd9e1d812f37fe9cbc1379a755897b649b4375f4ad92140b92a9c04f8fcb2942788
+"@adraffy/ens-normalize@npm:1.9.2":
+  version: 1.9.2
+  resolution: "@adraffy/ens-normalize@npm:1.9.2"
+  checksum: a9fdeb9e080774c19e4b7f9f60aa5b37cf23fe0e8fe80284bf8221f7396e9f78642bfd39a09a94a4dc3fb8e70f2ac81545204bdcaf222d93f4c4c2ae1f0dca0b
   languageName: node
   linkType: hard
 
@@ -5536,7 +5536,7 @@ __metadata:
     "@cosmjs/proto-signing": ^0.28.13
     "@cosmjs/stargate": ^0.28.13
     "@keepkey/device-protocol": ^7.10.2
-    "@keepkey/keepkey-sdk": 0.2.47
+    "@keepkey/keepkey-sdk": 0.2.48
     "@shapeshiftoss/hdwallet-core": ^1.50.3
     "@types/create-hash": ^1.2.2
     "@types/crypto-js": ^4.0.0
@@ -5563,7 +5563,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@keepkey/keepkey-sdk@0.2.47, @keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
+"@keepkey/keepkey-sdk@npm:0.2.48":
+  version: 0.2.48
+  resolution: "@keepkey/keepkey-sdk@npm:0.2.48"
+  checksum: 544340de018238e9f90dd0aff17aa56d265d0f4f531601229fe6b381e8fa07932eebe5c7b3fd631a78443b6493506d3ea0159a680f5c8a54643acdaebc5dc584
+  languageName: node
+  linkType: hard
+
+"@keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
   version: 0.0.0-use.local
   resolution: "@keepkey/keepkey-sdk@workspace:packages/keepkey-sdk"
   dependencies:
@@ -14911,18 +14918,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^6.4.1":
-  version: 6.4.1
-  resolution: "ethers@npm:6.4.1"
+"ethers@npm:^6.6.0":
+  version: 6.6.0
+  resolution: "ethers@npm:6.6.0"
   dependencies:
-    "@adraffy/ens-normalize": "git+https://github.com/ricmoo/ens-normalize.js.git"
+    "@adraffy/ens-normalize": 1.9.2
     "@noble/hashes": 1.1.2
     "@noble/secp256k1": 1.7.1
     "@types/node": 18.15.13
     aes-js: 4.0.0-beta.5
     tslib: 2.4.0
     ws: 8.5.0
-  checksum: 7d268690ea613537d81304d47ff7ee5147a499168a2eccf75499204fac05513ac82d57272cae070b346bce614c9e8afa96c7a47cb5c43a8029ed7616ddb12355
+  checksum: 242f4fb2050e7b3a3efc41fdf72965f2b128c4431f275cf1e34cf3accfb87102dfb72613f2d48aa075ba4462b6ef77bb990ba77c61ce6edac504532dbc06591c
   languageName: node
   linkType: hard
 
@@ -18328,7 +18335,7 @@ __metadata:
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-simple-import-sort: ^7.0.0
     eth-url-parser: ^1.0.4
-    ethers: ^6.4.1
+    ethers: ^6.6.0
     eventemitter2: ^6.4.9
     express: ^4.18.2
     fast-json-stable-stringify: ^2.1.0

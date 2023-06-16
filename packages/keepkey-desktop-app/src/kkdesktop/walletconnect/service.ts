@@ -15,6 +15,13 @@ type WCServiceOptions = {
   onCallRequest(request: any): void
 }
 
+export type PartialChainData = {
+  chainId: number
+  name: string
+  symbol: string
+  providerUrl: string
+}
+
 export class LegacyWCService {
   constructor(
     private readonly wallet: core.ETHWallet,
@@ -35,17 +42,21 @@ export class LegacyWCService {
     console.log(this.connector.connected)
     console.log(this.connector.session)
     await this.connector.killSession()
-    this.connector.off('session_request')
+    this.connector.off('send')
     this.connector.off('connect')
     this.connector.off('call_request')
+    this.connector.off('session_request')
     this.connector.off('wallet_switchEthereumChain')
+    this.connector.off('wallet_addEthereumChain')
   }
 
   private subscribeToEvents() {
-    this.connector.on('session_request', this._onSessionRequest.bind(this))
+    this.connector.on('send', this._onSendMethod.bind(this))
     this.connector.on('connect', this._onConnect.bind(this))
     this.connector.on('call_request', this._onCallRequest.bind(this))
+    this.connector.on('session_request', this._onSessionRequest.bind(this))
     this.connector.on('wallet_switchEthereumChain', this._onSwitchChain.bind(this))
+    this.connector.on('wallet_addEthereumChain', this._onAddChain.bind(this))
   }
 
   async _onSessionRequest(_: Error | null, payload: any) {
@@ -98,7 +109,48 @@ export class LegacyWCService {
     })
   }
 
-  public async doSwitchChain({ chain }: { chain: EthChainData }) {
+  async _onAddChain(_: Error | null, payload: any) {
+    this.connector.approveRequest({
+      id: payload.id,
+      result: 'success',
+    })
+    const chain = payload.params[0]
+    this.doSwitchChain({
+      chain: {
+        chainId: parseInt(chain.chainId, 16),
+        providerUrl: chain.rpcUrls[0],
+        name: chain.nativeCurrency.name,
+        symbol: chain.nativeCurrency.symbol,
+      },
+    })
+  }
+
+  async _onSendMethod(_: Error | null, payload: any) {
+    switch (payload.params[0]) {
+      case 'eth_accounts':
+        this.connector.approveRequest({
+          id: payload.id,
+          result: this.connector.accounts,
+        })
+        break
+      case 'eth_requestAccounts':
+        this.connector.approveRequest({
+          id: payload.id,
+          result: this.connector.accounts,
+        })
+        break
+      case 'eth_chainId':
+        this.connector.approveRequest({
+          id: payload.id,
+          result: this.connector.chainId,
+        })
+        break
+      default:
+        break
+    }
+  }
+
+  public async doSwitchChain({ chain }: { chain: PartialChainData }) {
     if (!chain) throw new Error('no data for chainId')
     this.connector.updateChain({
       chainId: chain.chainId,

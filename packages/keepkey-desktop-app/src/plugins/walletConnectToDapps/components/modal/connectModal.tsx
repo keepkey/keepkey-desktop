@@ -55,13 +55,15 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose, scannedQr }) => {
   useEffect(() => {
     if (isConnected) onClose()
   }, [isConnected, onClose])
-
+  //https://metamask.app.link/wc?uri=wc%3A632f3b04-bc7e-4e67-a425-67584a9b3105%401%3Fbridge%3Dhttps%253A%252F%252Fz.bridge.walletconnect.org%26key%3D04555f2ef770596f7023285a033f98ac3300c4c7acabe012469732d58fa4a534
   const scan = () => {
     ipcListeners
       .appReadQr()
       .then(value => {
         console.log(value)
-        if (value?.startsWith('wc:')) {
+        value = decodeURIComponent(value)
+        if (value.includes('wc:')) {
+          value = value.slice(value.indexOf('wc:'))
           setValue('uri', value)
           handleSubmit(handleConnect)
         }
@@ -72,9 +74,11 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose, scannedQr }) => {
   useEffect(() => {
     console.log('scanned qr', scannedQr)
     if (!scannedQr) return
-    if (scannedQr.startsWith('wc:')) {
-      setValue('uri', scannedQr)
-      connect(scannedQr)
+    const decodedQr = decodeURIComponent(scannedQr)
+    if (decodedQr.includes('wc:')) {
+      const link = decodedQr.slice(decodedQr.indexOf('wc:'))
+      setValue('uri', link)
+      connect(link)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scannedQr])

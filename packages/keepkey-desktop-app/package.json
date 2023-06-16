@@ -294,7 +294,7 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "ethers": "^6.4.1",
+    "ethers": "^6.6.0",
     "fast-json-stable-stringify": "^2.1.0",
     "fs-extra": "^10.0.0",
     "git-semver-tags": "^4.1.1",

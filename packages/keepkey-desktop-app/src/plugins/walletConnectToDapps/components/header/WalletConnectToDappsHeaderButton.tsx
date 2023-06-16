@@ -27,9 +27,10 @@ export const WalletConnectToDappsHeaderButton = () => {
     try {
       const clipboardData = await navigator.clipboard.read()
       const link = await clipboardData[0].getType('text/plain')
-      const clipboardUri = await link.text()
-      if (clipboardUri.startsWith('wc:')) {
-        setScannedQr(clipboardUri)
+      const clipboardUri = decodeURIComponent(await link.text())
+
+      if (clipboardUri.includes('wc:')) {
+        setScannedQr(clipboardUri.slice(clipboardUri.indexOf('wc:')))
       }
 
       if (autoScanQr) {

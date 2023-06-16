@@ -46,11 +46,11 @@ export class ThorchainController extends ApiController {
       body.signDoc.fee = {
         amount: [
           {
-            denom: 'uosmo',
-            amount: '800',
+            denom: 'rune',
+            amount: '0',
           },
         ],
-        gas: '290000',
+        gas: '500000000',
       }
     }
     let tx = {
@@ -103,11 +103,11 @@ export class ThorchainController extends ApiController {
       body.signDoc.fee = {
         amount: [
           {
-            denom: 'uosmo',
-            amount: '800',
+            denom: 'rune',
+            amount: '0',
           },
         ],
-        gas: '290000',
+        gas: '500000000',
       }
     }
     let tx = {
