@@ -25,8 +25,7 @@ import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBrid
 import { useState } from 'react'
 
 export const SessionProposalModal = () => {
-  const { proposals, removeProposal, setPairingMeta, setCurrentSessionTopic, onDisconnect } =
-    useWalletConnect()
+  const { proposals, removeProposal, setPairingMeta, setCurrentSessionTopic } = useWalletConnect()
 
   const currentProposal = proposals[0] as SignClientTypes.EventArguments['session_proposal']
 
@@ -91,7 +90,6 @@ export const SessionProposalModal = () => {
         peer: { metadata },
         topic,
       } = await acknowledged()
-      onDisconnect()
       setPairingMeta(metadata)
       setCurrentSessionTopic(topic)
     }

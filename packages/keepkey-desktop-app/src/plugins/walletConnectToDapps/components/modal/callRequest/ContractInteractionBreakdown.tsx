@@ -72,7 +72,7 @@ export const ContractInteractionBreakdown = ({ request }: { request: any }) => {
 
         <Divider my={4} />
         {!!transaction &&
-          transaction.functionFragment.inputs.map((input: any, index: any) => {
+          transaction.fragment.inputs.map((input: any, index: any) => {
             return (
               <Fragment key={index}>
                 <RawText ml={5} color='gray.500' fontWeight='medium'>
