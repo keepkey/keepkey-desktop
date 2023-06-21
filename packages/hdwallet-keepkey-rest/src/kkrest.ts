@@ -574,10 +574,10 @@ export class KeepKeyRestHDWallet
 
   public async ethSignTx(msg: core.ETHSignTx): Promise<core.ETHSignedTx> {
     return await this.abortable(async signal => {
-      if (!msg.data) msg.data = '0x'
-      if (msg.to === undefined || !msg.to || msg.to === null) {
-        msg.to = '0x'
-      }
+      // if (!msg.data) msg.data = '0x'
+      // if (msg.to === undefined || !msg.to || msg.to === null) {
+      //   msg.to = '0x'
+      // }
       console.log('MSG: ', msg)
       const sig = await this.sdk.eth.ethSignTransaction(
         {
