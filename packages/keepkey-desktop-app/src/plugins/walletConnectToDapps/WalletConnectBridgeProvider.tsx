@@ -90,8 +90,8 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
 
   useEffect(() => {
     if (!WalletConnectSignClient) {
-        console.log('no wallet connect sign client')
-        return
+      console.log('no wallet connect sign client')
+      return
     }
     WalletConnectSignClient.on('session_ping', (payload: { topic: any }) => {
       setIsConnected(true)

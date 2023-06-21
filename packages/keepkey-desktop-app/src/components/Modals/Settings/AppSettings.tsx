@@ -1,9 +1,11 @@
 import { Divider, HStack, Stack } from '@chakra-ui/layout'
 import { Avatar, Button, Icon, IconButton, Switch } from '@chakra-ui/react'
+import { getSdkError } from '@walletconnect/utils'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { ipcListeners } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
+import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { FaTrash } from 'react-icons/fa'
@@ -38,6 +40,15 @@ export const AppSettings: FC = () => {
   const openDapp = (url: string) => {
     dispatch({ type: WalletActions.SET_BROWSER_URL, payload: url })
     history.push('/browser')
+  }
+
+  const unpairAndClear = () => {
+    const pairings = WalletConnectSignClient.pairing.getAll()
+    for (let index = 0; index < pairings.length; index++) {
+      const pairing = pairings[index]
+      WalletConnectSignClient.pairing.delete(pairing.topic, getSdkError('USER_DISCONNECTED'))
+    }
+    ipcListeners.clearLocalStorage()
   }
 
   useEffect(() => {
@@ -166,15 +177,13 @@ export const AppSettings: FC = () => {
       <Divider my={1} />
       <SettingsListItem
         label={'modals.settings.clearStorage'}
-        onClick={() => {
-          ipcListeners.clearLocalStorage()
-        }}
+        onClick={unpairAndClear}
         icon={<Icon as={FaTrash} color='gray.500' />}
       >
         <IconButton
           variant={'ghost'}
           aria-label='Clear cache'
-          onClick={() => ipcListeners.clearLocalStorage()}
+          onClick={unpairAndClear}
           icon={<FaTrash />}
         />
       </SettingsListItem>
