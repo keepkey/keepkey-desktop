@@ -6539,7 +6539,7 @@ __metadata:
 
 "@shapeshiftoss/hdwallet-keepkey@patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.50.3-dc99de3346.patch::locator=keepkey-monorepo%40workspace%3A.":
   version: 1.50.3
-  resolution: "@shapeshiftoss/hdwallet-keepkey@patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.50.3-dc99de3346.patch::version=1.50.3&hash=5b3d78&locator=keepkey-monorepo%40workspace%3A."
+  resolution: "@shapeshiftoss/hdwallet-keepkey@patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.50.3-dc99de3346.patch::version=1.50.3&hash=032a2b&locator=keepkey-monorepo%40workspace%3A."
   dependencies:
     "@ethereumjs/common": ^2.4.0
     "@ethereumjs/tx": ^3.3.0
@@ -6558,7 +6558,7 @@ __metadata:
     p-lazy: ^3.1.0
     semver: ^7.3.8
     tiny-secp256k1: ^1.1.6
-  checksum: a65946166ec4100c705c830c75ee38dbd22005920e13ffbfc7d16c98d27267bb0247b924cf23e05ecb16fba656309ea4e92de4ba36fe3f7cc12357924e1dd283
+  checksum: eca07b59d85138f4392ffda573834a0cb27ac4da3931d5188887cee51ba1e6ee08752af6e90b2e1457143eb756b1f202527067998fb88c3bbb0b99f10132b160
   languageName: node
   linkType: hard
 
