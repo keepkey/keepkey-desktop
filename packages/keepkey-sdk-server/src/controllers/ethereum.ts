@@ -65,7 +65,7 @@ export class EthereumController extends ApiController {
     console.log('Body: ', body)
     assume<{ maxFeePerGas?: string | null }>(body)
     assume<{ gasPrice?: string | null }>(body)
-
+    if(body.chainId === 0) body.chainId = 1
     const account = await this.context.getAccount(body.from)
     if(!body.to) body.to = '0x'
     let chainId: number
