@@ -49,6 +49,7 @@ export const SessionProposalModal = () => {
           const accounts: string[] = (
             await Promise.all(
               requiredNamespaces[key].chains.map(async chain => {
+                console.log(chain)
                 let address
 
                 if (key === 'eip155') {
@@ -65,7 +66,7 @@ export const SessionProposalModal = () => {
                   })
                 }
 
-                if (!address) return ''
+                if (!address) return `${chain}:DOES_NOT_SUPPORT`
 
                 return `${chain}:${address}`
               }),
