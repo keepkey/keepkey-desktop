@@ -99,6 +99,7 @@ export type IpcListeners = {
   forceReconnect(): Promise<void>
   setAlwaysOnTop(value: boolean): Promise<void>
   clearLocalStorage(): Promise<void>
+  getBrowserInjection(): Promise<string>
 
   // appUpdate(): Promise<UpdateCheckResult | { updateInfo: { version: string } } | undefined>
   // appDownloadUpdates(): Promise<void>
