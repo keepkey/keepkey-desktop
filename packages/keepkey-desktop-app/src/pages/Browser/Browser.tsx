@@ -114,7 +114,11 @@ export const Browser = () => {
     const webview = getWebview()!
     const listener = () => {
       setWebviewReady(true)
-      ipcListeners.getBrowserInjection().then(injection => webview.executeJavaScript(injection))
+      const sdkApiKey = localStorage.getItem('@app/serviceKey')
+      if (!sdkApiKey) return
+      ipcListeners
+        .getBrowserInjection(sdkApiKey)
+        .then(injection => webview.executeJavaScript(injection))
     }
     webview.addEventListener('dom-ready', listener)
     return () => {

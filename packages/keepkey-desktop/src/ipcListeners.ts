@@ -315,9 +315,9 @@ export const ipcListeners: IpcListeners = {
     })
   },
 
-  async getBrowserInjection() {
+  async getBrowserInjection(sdkApiKey: string) {
     const injection = readFileSync(path.join(__dirname, 'assets/browser_injection.js'))
-    return injection.toString()
+    return injection.toString().replace('API_KEY_HERE', sdkApiKey)
   },
 
   async clearBrowserSession() {
