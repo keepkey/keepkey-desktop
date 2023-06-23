@@ -112,7 +112,14 @@ export const Browser = () => {
   useEffect(() => {
     clearClipBoardIfWCString()
     const webview = getWebview()!
-    const listener = () => setWebviewReady(true)
+    const listener = () => {
+      setWebviewReady(true)
+      const sdkApiKey = localStorage.getItem('@app/serviceKey')
+      if (!sdkApiKey) return
+      ipcListeners
+        .getBrowserInjection(sdkApiKey)
+        .then(injection => webview.executeJavaScript(injection))
+    }
     webview.addEventListener('dom-ready', listener)
     return () => {
       webview.removeEventListener('dom-ready', listener)

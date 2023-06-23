@@ -6,9 +6,11 @@ import { session } from 'electron'
 import { webContents } from 'electron'
 import { app, desktopCapturer, ipcMain } from 'electron'
 import { autoUpdater } from 'electron-updater'
+import { readFileSync } from 'fs'
 import jsQR from 'jsqr'
 import * as _ from 'lodash'
 import fetch from 'node-fetch'
+import path from 'path'
 // import isDev from 'electron-is-dev'
 // import { autoUpdater } from 'electron-updater'
 import { sleep } from 'wait-promise'
@@ -311,6 +313,11 @@ export const ipcListeners: IpcListeners = {
         }
       }
     })
+  },
+
+  async getBrowserInjection(sdkApiKey: string) {
+    const injection = readFileSync(path.join(__dirname, 'assets/browser_injection.js'))
+    return injection.toString().replace('API_KEY_HERE', sdkApiKey)
   },
 
   async clearBrowserSession() {
