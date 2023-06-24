@@ -178,7 +178,10 @@ export const EIP155SendTransactionConfirmation = () => {
           delete signData.maxFeePerGas
         }
         moduleLogger.debug(signData, 'signData')
-        if (!signData.gasPrice) throw Error('Invalid TX need gasPrice!')
+
+        console.log('SIGN DATA', signData)
+        if (!signData.gasPrice && !signData.maxPriorityFeePerGas && !signData.maxFeePerGas)
+          throw Error('Invalid TX need gasPrice!')
         const response = await keepKeyWallet.ethSignTx(signData)
 
         const signedTx = response?.serialized
@@ -267,9 +270,14 @@ export const EIP155SendTransactionConfirmation = () => {
             bnOrZero(fastData?.maxFeePerGas).times(txInputGas),
             18,
           ).toString()
+          const recommendedAmount = fromBaseUnit(
+            bnOrZero(request.params[0].maxPriorityFeePerGas).times(txInputGas),
+            18,
+          ).toString()
           form.setValue('maxFeePerGas', fastData.maxFeePerGas)
           form.setValue('maxPriorityFeePerGas', fastData.maxPriorityFeePerGas)
-          form.setValue('currentFeeAmount', fastAmount)
+          if (recommendedAmount) form.setValue('currentFeeAmount', recommendedAmount)
+          else form.setValue('currentFeeAmount', fastAmount)
         })(),
         (async () => {
           // for non mainnet chains we use the simple web3.getGasPrice()
@@ -281,7 +289,7 @@ export const EIP155SendTransactionConfirmation = () => {
 
       setLoadingGas(false)
     })().catch(e => moduleLogger.error(e, 'getGasPrice'))
-  }, [form, txInputGas, chainId, legacyWeb3])
+  }, [form, txInputGas, chainId, legacyWeb3, request.params])
 
   useEffect(() => {
     ;(async () => {
@@ -318,20 +326,27 @@ export const EIP155SendTransactionConfirmation = () => {
   const fastMaxFeePerGas = gasFeeData?.fast?.maxFeePerGas
 
   const txMaxFeePerGas = Web3.utils.toHex(
-    !!inputMaxFeePerGas
+    !!inputMaxFeePerGas && inputMaxFeePerGas !== '0x0' && inputMaxFeePerGas !== '0'
       ? inputMaxFeePerGas
-      : !!requestMaxFeePerGas
+      : !!requestMaxFeePerGas && requestMaxFeePerGas !== '0x0' && requestMaxFeePerGas !== '0'
       ? requestMaxFeePerGas
       : fastMaxFeePerGas,
   )
 
   const txMaxPriorityFeePerGas = Web3.utils.toHex(
-    !!inputMaxPriorityFeePerGas
+    !!inputMaxPriorityFeePerGas &&
+      inputMaxPriorityFeePerGas !== '0x0' &&
+      inputMaxPriorityFeePerGas !== '0'
       ? inputMaxPriorityFeePerGas
-      : !!requestMaxPriorityFeePerGas
+      : !!requestMaxPriorityFeePerGas &&
+        requestMaxPriorityFeePerGas !== '0x0' &&
+        requestMaxPriorityFeePerGas !== '0'
       ? requestMaxPriorityFeePerGas
       : fastMaxPriorityFeePerGas,
   )
+
+  console.log(inputMaxFeePerGas, requestMaxFeePerGas, txMaxFeePerGas)
+  console.log(inputMaxPriorityFeePerGas, requestMaxPriorityFeePerGas, txMaxPriorityFeePerGas)
 
   // Recalculate estimated fee amount if txMaxFeePerGas changes
   useEffect(() => {

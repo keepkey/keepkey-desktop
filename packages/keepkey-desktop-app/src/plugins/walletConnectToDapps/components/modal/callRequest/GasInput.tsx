@@ -65,19 +65,19 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
 
   // calculate fee amounts for each selection
   const amounts = useMemo(() => {
+    const recommendedAmount = fromBaseUnit(
+      bnOrZero(recommendedGasPriceData?.maxFeePerGas).times(gasLimit),
+      18,
+    ).toString()
+
     if (!gasFeeData || !recommendedGasPriceData) {
       return {
-        recommended: '0',
+        recommended: recommendedAmount || '0',
         [FeeDataKey.Slow]: '0',
         [FeeDataKey.Average]: '0',
         [FeeDataKey.Fast]: '0',
       }
     }
-
-    const recommendedAmount = fromBaseUnit(
-      bnOrZero(recommendedGasPriceData.maxFeePerGas).times(gasLimit),
-      18,
-    ).toString()
 
     const slowData = gasFeeData[FeeDataKey.Average]
     const slowAmount = fromBaseUnit(bnOrZero(slowData?.maxFeePerGas).times(gasLimit), 18).toString()
