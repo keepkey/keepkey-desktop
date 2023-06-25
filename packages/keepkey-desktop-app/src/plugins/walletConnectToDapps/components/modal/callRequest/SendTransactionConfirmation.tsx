@@ -130,16 +130,30 @@ export const SendTransactionConfirmation = () => {
     !!bnOrZero(inputGas).gt(0) ? inputGas : bnOrZero(requestGas).gt(0) ? requestGas : estimatedGas,
   )
   const walletConnect = useWalletConnect()
+
+  
   const address = walletConnect.legacyBridge?.connector.accounts
     ? walletConnect.legacyBridge?.connector.accounts[0]
     : ''
 
   useEffect(() => {
+    console.log("walletConnect 1", walletConnect)
+    console.log("walletConnect 2", walletConnect)
+    console.log("walletConnect 3 legacyBridge: ", walletConnect.legacyBridge)
+    console.log("walletConnect 4 connector:  ", walletConnect.legacyBridge?.connector)
+    console.log("walletConnect 5 accounts: ", walletConnect.legacyBridge?.connector.accounts)
+  }, [walletConnect])
+
+  useEffect(() => {
+    console.log("walletConnect", address)
+  }, [address])
+  
+  useEffect(() => {
     const adapterManager = getChainAdapterManager()
     const adapter = adapterManager.get(
       KnownChainIds.EthereumMainnet,
     ) as unknown as ethereum.ChainAdapter
-    adapter.getGasFeeData().then(feeData => {
+    adapter.getGasFeeData().then((feeData: { [x: string]: any }) => {
       setGasFeeData(feeData)
       const fastData = feeData[FeeDataKey.Fast]
       const fastAmount = fromBaseUnit(
@@ -265,7 +279,7 @@ export const SendTransactionConfirmation = () => {
   )
     txInput['gasPrice'] = Web3.utils.toHex(web3GasFeeData)
 
-  //if (!address) return <>No address</>
+  // if (!address) return <>No address</>
 
   return (
     <FormProvider {...form}>

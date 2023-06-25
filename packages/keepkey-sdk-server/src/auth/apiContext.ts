@@ -7,6 +7,12 @@ import type { SdkClient } from './sdkClient'
 
 const horribleAccountsHack = new WeakMap<KeepKeyHDWallet, Record<string, BIP32Path>>()
 
+//@TODO get web3 providers
+
+//serve web3 provider
+
+//maintain network context from renderer selections
+
 export class ApiContext {
   readonly sdkClient: SdkClient
   readonly wallet: KeepKeyHDWallet

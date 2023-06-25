@@ -39,6 +39,7 @@ export const SessionProposalModal = () => {
   const [loading, setLoading] = useState(false)
 
   const onApprove = async () => {
+    console.log("proposer: ",proposer)
     setLoading(true)
     if (currentProposal) {
       const namespaces: SessionTypes.Namespaces = {}
@@ -147,7 +148,7 @@ export const SessionProposalModal = () => {
         </ModalHeader>
         <Stack spacing={4} mb={4} p={4}>
           <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center'>
-            <Image src={proposer.metadata.icons[0]} borderRadius='full' height='10' width='10' />
+            <Image src={'wc:83661bcd37dd021f618558af06c80439f1eab2675f3fd26609ef16900a44ebef@2?relay-protocol=irn&symKey=afb64d04c127b73210a26c0125921848806e514b37cb3db22a049e2278b109d9'} borderRadius='full' height='10' width='10' />
             <Box display='flex' flexDirection='column'>
               <Link href={proposer.metadata.url} pl='2'>
                 {proposer.metadata.name}
