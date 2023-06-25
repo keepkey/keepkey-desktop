@@ -30,45 +30,63 @@ export class EthereumController extends ApiController {
   public async signTransaction(
       @Body()
           body: {
-          from?: types.eth.Address
-          addressNList?: any
-          to: string
-          data: types.eth.HexData
-          gas?: types.eth.HexQuantity
-          value: types.eth.HexQuantity
-          nonce: types.eth.HexQuantity
+          from?: types.eth.Address;
+          addressNList?: any;
+          to: string;
+          data: types.eth.HexData;
+          gas?: types.eth.HexQuantity;
+          value: types.eth.HexQuantity;
+          nonce: types.eth.HexQuantity;
           /** @minValue 1 */
-          chainId: number | string
+          chainId: number | string;
       } & (
           | /** @title EIP-1559 */ {
-          maxFeePerGas: types.eth.HexQuantity
-          maxPriorityFeePerGas: types.eth.HexQuantity
-          gasPrice?: null
+          maxFeePerGas: types.eth.HexQuantity;
+          maxPriorityFeePerGas: types.eth.HexQuantity;
+          gasPrice?: null;
       }
           | /** @title Legacy */ {
-          maxFeePerGas?: null
-          maxPriorityFeePerGas?: null
-          gasPrice: types.eth.HexQuantity
+          maxFeePerGas?: null;
+          maxPriorityFeePerGas?: null;
+          gasPrice: types.eth.HexQuantity;
       }
           ),
   ): Promise<{
-      v: types.numeric.U32
-      r: types.eth.HexData
-      s: types.eth.HexData
-      serialized: types.eth.HexData
+      v: types.numeric.U32;
+      r: types.eth.HexData;
+      s: types.eth.HexData;
+      serialized: types.eth.HexData;
   }> {
       // Log request body
       console.log('Body: ', body);
 
       // Ensure chainId is not 0, else set to 1
-      if(body.chainId === 0) body.chainId = 1;
+      if (body.chainId === 0) body.chainId = 1;
 
       // Fetch account details
       const account = await this.context.getAccount(body.addressNList || body.from);
-      console.log("account",account)
-      
+      console.log("account: ", account);
+
+      const fromAddress = await this.context.wallet.ethGetAddress({
+          addressNList: account.addressNList,
+          showDisplay: false,
+      });
+      console.log("fromAddress: ", fromAddress);
+
+      // Validate nonce
+      let nonce = await this.context.web3.eth.getTransactionCount(fromAddress);
+      console.log("nonce: ", nonce);
+
+      // Fix nonce if it is wrong
+      if (nonce.toString() !== body.nonce) {
+          body.nonce = "0x" + nonce.toString(16);  // Convert nonce to hexadecimal
+          console.log("Fixed nonce: ", body.nonce);
+      }
+
+      // Validate fee
+
       // Validate to address, default to '0x'
-      if(!body.to) body.to = '0x';
+      if (!body.to) body.to = '0x';
 
       // Parse chainId to a number, handling hexadecimal representations
       let chainId = (typeof body.chainId === 'string' && body.chainId.startsWith('0x'))
@@ -98,17 +116,18 @@ export class EthereumController extends ApiController {
                           gasPrice: body.gasPrice,
                       })
               }),
-      }
+      };
 
       console.log('ethSignTx final MSG: ', msg);
 
       let result = await this.context.wallet.ethSignTx(msg as any);  // Ensure msg conforms to ETHSignTx type
 
       console.log('ethSignTx final result: ', result);
+      //broadcast transaction
 
       return result;
   }
-
+  
     // @Post('sign-transaction-legacy')
     // @OperationId('eth_signTransaction_legacy')
     // public async signTransactionLegacy(

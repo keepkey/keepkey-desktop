@@ -4,7 +4,7 @@ import { isEqual } from 'lodash'
 
 // import { FailureType, isKKFailureType } from '../util'
 import type { SdkClient } from './sdkClient'
-
+import Web3 from 'web3';
 const horribleAccountsHack = new WeakMap<KeepKeyHDWallet, Record<string, BIP32Path>>()
 
 //@TODO get web3 providers
@@ -18,12 +18,16 @@ export class ApiContext {
   readonly wallet: KeepKeyHDWallet
   readonly accounts: Record<string, BIP32Path>
   readonly path: string
+  chainId: number;
+  web3: Web3; // Add a web3 instance property
 
   protected constructor(sdkClient: SdkClient, accounts: Record<string, BIP32Path>, path: string) {
     this.sdkClient = sdkClient
     this.wallet = sdkClient.wallet
     this.accounts = accounts
     this.path = path
+    this.chainId = 1;
+    this.web3 = new Web3('https://cloudflare-eth.com'); // Initialize the web3 instance
   }
 
   static async create(sdkClient: SdkClient, path: string): Promise<ApiContext> {
