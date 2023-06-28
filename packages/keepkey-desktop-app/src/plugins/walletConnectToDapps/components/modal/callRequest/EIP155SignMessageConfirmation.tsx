@@ -65,13 +65,31 @@ export const EIP155SignMessageConfirmation = () => {
       try {
         if (!accountPath || !wallet) return
         setLoading(true)
+        
+        // const message = getSignParamsMessage(request.params)
+        console.log("request: ",request)
+        console.log("request.params: ",request.params)
+        console.log("request.params[1]: ",request.params[1])
+        let signedMessage
+        if(request.method === "eth_signTypedData"){
+          signedMessage = await (wallet as KeepKeyHDWallet).ethSignTypedData({
+            addressNList: accountPath,
+            typedData:JSON.parse(request.params[1]),
+          })
+        } else if(request.method === "eth_sign" || request.method === "personal_sign"){
+          signedMessage = await (wallet as KeepKeyHDWallet).ethSignMessage({
+            ...txData,
+            addressNList: accountPath,
+            message,
+          })
+        } else {
+          signedMessage = await (wallet as KeepKeyHDWallet).ethSignMessage({
+            ...txData,
+            addressNList: accountPath,
+            message,
+          })
+        }
 
-        const message = getSignParamsMessage(request.params)
-        const signedMessage = await (wallet as KeepKeyHDWallet).ethSignMessage({
-          ...txData,
-          addressNList: accountPath,
-          message,
-        })
         const response = formatJsonRpcResult(id, signedMessage.signature)
         await WalletConnectSignClient.respond({
           topic,

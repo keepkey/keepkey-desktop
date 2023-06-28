@@ -30,40 +30,27 @@ export class EthereumController extends ApiController {
   public async signTransaction(
       @Body()
           body: {
-          from?: types.eth.Address;
+          from?: types.eth.Address | string;
           addressNList?: any;
           to: string;
-          data: types.eth.HexData;
-          gas?: types.eth.HexQuantity;
-          value: types.eth.HexQuantity;
-          nonce: types.eth.HexQuantity;
-          /** @minValue 1 */
-          chainId: number | string;
-      } & (
-          | /** @title EIP-1559 */ {
-          maxFeePerGas: types.eth.HexQuantity;
-          maxPriorityFeePerGas: types.eth.HexQuantity;
-          gasPrice?: null;
+          data: types.eth.HexData | string
+          gas?: types.eth.HexQuantity | string;
+          value: types.eth.HexQuantity | string;
+          nonce: types.eth.HexQuantity | string;
+          chainId: string | number;
+          maxFeePerGas?: types.eth.HexQuantity | string;
+          maxPriorityFeePerGas?: types.eth.HexQuantity | string;
+          gasPrice?: types.eth.HexQuantity | string;
       }
-          | /** @title Legacy */ {
-          maxFeePerGas?: null;
-          maxPriorityFeePerGas?: null;
-          gasPrice: types.eth.HexQuantity;
-      }
-          ),
   ): Promise<{
       v: types.numeric.U32;
       r: types.eth.HexData;
       s: types.eth.HexData;
       serialized: types.eth.HexData;
   }> {
-      // Log request body
       console.log('Body: ', body);
+      if (body.chainId === 0 || body.chainId === '0') body.chainId = '1';
 
-      // Ensure chainId is not 0, else set to 1
-      if (body.chainId === 0) body.chainId = 1;
-
-      // Fetch account details
       const account = await this.context.getAccount(body.addressNList || body.from);
       console.log("account: ", account);
 
@@ -73,57 +60,43 @@ export class EthereumController extends ApiController {
       });
       console.log("fromAddress: ", fromAddress);
 
-      // Validate nonce
       let nonce = await this.context.web3.eth.getTransactionCount(fromAddress);
       console.log("nonce: ", nonce);
 
-      // Fix nonce if it is wrong
       if (nonce.toString() !== body.nonce) {
-          body.nonce = "0x" + nonce.toString(16);  // Convert nonce to hexadecimal
+          body.nonce = "0x" + nonce.toString(16);
           console.log("Fixed nonce: ", body.nonce);
       }
 
-      // Validate fee
-
-      // Validate to address, default to '0x'
       if (!body.to) body.to = '0x';
 
-      // Parse chainId to a number, handling hexadecimal representations
-      let chainId = (typeof body.chainId === 'string' && body.chainId.startsWith('0x'))
-          ? parseInt(body.chainId.slice(2), 16)
-          : parseInt(<string>body.chainId);
+      let chainId: number;
+      if (typeof body.chainId === 'string') {
+          chainId = body.chainId.startsWith('0x') ? parseInt(body.chainId.slice(2), 16) : parseInt(body.chainId);
+      } else {
+          chainId = body.chainId;
+      }
 
-      // Prepare the transaction message
+      let gasPrice = '0x' + (parseInt(body.maxFeePerGas ?? '0x0', 16) + parseInt(body.maxPriorityFeePerGas ?? '0x0', 16)).toString(16);
+
       let msg = {
           addressNList: account.addressNList,
           chainId,
           nonce: body.nonce,
           value: body.value ?? '0x0',
           data: body.data ?? '',
-          gasLimit: body.gas ?? '0x0',  // default value if gasLimit is undefined
+          gasLimit: body.gas ?? '0x0',
           to: body.to,
-          ...(chainId !== 1
-              ? {
-                  gasPrice: body.gasPrice ?? ('0x' + (parseInt(body.maxFeePerGas, 16) + parseInt(body.maxPriorityFeePerGas, 16)).toString(16))
-              }
-              : {
-                  ...(body.maxFeePerGas ?? undefined !== undefined
-                      ? {
-                          maxFeePerGas: body.maxFeePerGas,
-                          maxPriorityFeePerGas: body.maxPriorityFeePerGas,
-                      }
-                      : {
-                          gasPrice: body.gasPrice,
-                      })
-              }),
+          gasPrice: body.gasPrice ?? gasPrice,
+          maxFeePerGas: body.maxFeePerGas,
+          maxPriorityFeePerGas: body.maxPriorityFeePerGas,
       };
 
       console.log('ethSignTx final MSG: ', msg);
 
-      let result = await this.context.wallet.ethSignTx(msg as any);  // Ensure msg conforms to ETHSignTx type
+      let result = await this.context.wallet.ethSignTx(msg as any);
 
       console.log('ethSignTx final result: ', result);
-      //broadcast transaction
 
       return result;
   }
