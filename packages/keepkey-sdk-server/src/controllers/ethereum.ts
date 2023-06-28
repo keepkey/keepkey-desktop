@@ -9,7 +9,7 @@ import {
   SuccessResponse,
   Tags,
 } from '@tsoa/runtime'
-import { assume } from 'common-utils'
+// import { assume } from 'common-utils'
 
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'
@@ -25,122 +25,88 @@ export class EthereumController extends ApiController {
   /**
    * @summary Sign an Ethereum transaction
    */
-  /**
-   * @summary Sign an Ethereum transaction
-   */
   @Post('sign-transaction')
   @OperationId('eth_signTransaction')
   public async signTransaction(
-    @Body()
-    body: {
-      from: types.eth.Address
-      to: string
-      data: types.eth.HexData
-      gas: types.eth.HexQuantity
-      value: types.eth.HexQuantity
-      nonce: types.eth.HexQuantity
-      /** @minValue 1 */
-      chainId: number | string
-    } & (
-      | /** @title EIP-1559 */ {
-          /** Maximum total price, in wei/gas, to pay for the gas needed for this transaction */
-          maxFeePerGas: types.eth.HexQuantity & unknown
-          /** A premium, in wei/gas, to be paid above the applicable block BASEFEE. This fee goes to miners, incentivizing them to process this transaction quickly. */
-          maxPriorityFeePerGas: types.eth.HexQuantity & unknown
-          gasPrice?: null
-        }
-      | /** @title Legacy */ {
-          /** Price, in wei/gas, at which to purchase the gas for this transaction. */
-          maxFeePerGas?: null
-          maxPriorityFeePerGas?: null
-          gasPrice: types.eth.HexQuantity & unknown
-        }
-    ),
+      @Body()
+          body: {
+          from?: types.eth.Address | string;
+          addressNList?: any;
+          to: string;
+          data: types.eth.HexData | string
+          gas?: types.eth.HexQuantity | string;
+          value: types.eth.HexQuantity | string;
+          nonce: types.eth.HexQuantity | string;
+          chainId: string | number;
+          maxFeePerGas?: types.eth.HexQuantity | string;
+          maxPriorityFeePerGas?: types.eth.HexQuantity | string;
+          gasPrice?: types.eth.HexQuantity | string;
+      }
   ): Promise<{
-    v: types.numeric.U32
-    r: types.eth.HexData
-    s: types.eth.HexData
-    serialized: types.eth.HexData
+      v: types.numeric.U32;
+      r: types.eth.HexData;
+      s: types.eth.HexData;
+      serialized: types.eth.HexData;
   }> {
-    console.log('Body: ', body)
-    assume<{ maxFeePerGas?: string | null }>(body)
-    assume<{ gasPrice?: string | null }>(body)
-    if(body.chainId === 0) body.chainId = 1
-    const account = await this.context.getAccount(body.from)
-    if(!body.to) body.to = '0x'
-    let chainId: number
-    if (typeof body.chainId === 'string') {
-      if (body.chainId.startsWith('0x')) {
-        chainId = parseInt(body.chainId.slice(2), 16)
+      console.log('Body: ', body);
+      if (body.chainId === 0 || body.chainId === '0') body.chainId = '1';
+
+      const account = await this.context.getAccount(body.addressNList || body.from);
+      console.log("account: ", account);
+
+      const addressFrom = await this.context.wallet.ethGetAddress({
+          addressNList: account.addressNList,
+          showDisplay: false,
+      });
+      console.log("addressFrom: ", addressFrom);
+      if (!body.to) body.to = '0x';
+
+      let chainId: number;
+      if (typeof body.chainId === 'string') {
+          chainId = body.chainId.startsWith('0x') ? parseInt(body.chainId.slice(2), 16) : parseInt(body.chainId);
       } else {
-        chainId = parseInt(body.chainId)
+          chainId = body.chainId;
       }
-    } else {
-      chainId = body.chainId
-    }
 
-    //if chainId !== 1, then force legacy fees
-    let msg
-    if (chainId !== 1) {
-      let gasPrice
-      if (!body.gasPrice) {
-        // @ts-ignore
-        const maxFeePerGas = parseInt(body.maxFeePerGas, 16)
-        // @ts-ignore
-        const maxPriorityFeePerGas = parseInt(body.maxPriorityFeePerGas, 16)
-        // @ts-ignore
-        gasPrice = maxFeePerGas + maxPriorityFeePerGas
-        gasPrice = '0x' + gasPrice.toString(16)
-        console.log('gasPrice final: ', gasPrice)
-      }
-      msg = {
-        addressNList: account.addressNList,
-        chainId,
-        nonce: body.nonce,
-        value: body.value ?? '0x0',
-        data: body.data ?? '',
-        ...(typeof body.to === 'string'
-          ? {
-              to: body.to,
-            }
-          : {
-              to: '',
-              toAddressNList: body.to,
-            }),
-        gasLimit: body.gas,
-        gasPrice: body.gasPrice || gasPrice,
-      }
-    } else {
-      msg = {
-        addressNList: account.addressNList,
-        chainId,
-        nonce: body.nonce,
-        value: body.value ?? '0x0',
-        data: body.data ?? '',
-        gasLimit: body.gas,
-        ...(typeof body.to === 'string'
-          ? {
-              to: body.to,
-            }
-          : {
-              to: '',
-              toAddressNList: body.to,
-            }),
-        ...(body.maxFeePerGas ?? undefined !== undefined
-          ? {
-              maxFeePerGas: body.maxFeePerGas!,
-              maxPriorityFeePerGas: body.maxPriorityFeePerGas!,
-            }
-          : {
-              gasPrice: body.gasPrice!,
-            }),
-      }
-    }
+      let gasPrice = '0x' + (parseInt(body.maxFeePerGas ?? '0x0', 16) + parseInt(body.maxPriorityFeePerGas ?? '0x0', 16)).toString(16);
 
-    console.log('ethSignTx final MSG: ', msg)
-    let result = await this.context.wallet.ethSignTx(msg)
-    console.log('ethSignTx final result: ', result)
-    return result
+      let msg = {
+          addressNList: account.addressNList,
+          from: addressFrom || '0xC3aFFff54122658b89C31183CeC4F15514F34624',
+          chainId,
+          nonce: body.nonce,
+          value: body.value ?? '0x0',
+          data: body.data ?? '',
+          gasLimit: body.gas ?? '0x0',
+          to: body.to,
+          gasPrice: body.gasPrice ?? gasPrice,
+          maxFeePerGas: body.maxFeePerGas,
+          maxPriorityFeePerGas: body.maxPriorityFeePerGas,
+      };
+      
+      let api = await this.context.api.init()
+      //get insight
+      let insight = await api.SmartInsight(msg);
+      insight = insight.data
+      console.log('insight: ', insight);
+      console.log('insight.recommended: ', insight.recommended);
+      //TODO verify no changes in to from body or value
+      if (insight.recommended.maxFeePerGas) {
+          msg.maxFeePerGas = insight.recommended.maxFeePerGas;
+      }
+      if (insight.recommended.gasPrice) {
+          msg.gasPrice = insight.recommended.gasPrice;
+      }
+      if (insight.recommended.maxPriorityFeePerGas) {
+          msg.maxPriorityFeePerGas = insight.recommended.maxPriorityFeePerGas;
+      }
+      //@ts-ignore
+      let result = await this.context.wallet.ethSignTx(msg);
+      
+      //update invoke and broadcast
+      console.log('ethSignTx final result: ', result);
+
+      return result;
   }
 
   /**
