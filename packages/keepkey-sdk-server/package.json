@@ -20,8 +20,7 @@
     "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
     "promise.any": "^2.0.5",
-    "protobufjs": "^7.2.3",
-    "web3": "4.0.1"
+    "protobufjs": "^7.2.3"
   },
   "devDependencies": {
     "@shapeshiftoss/hdwallet-core": "^1.50.3",
