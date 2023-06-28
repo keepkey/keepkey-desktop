@@ -22,7 +22,7 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
 import { formatChainName } from 'plugins/walletConnectToDapps/utils/utils'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export const SessionProposalModal = () => {
   const { proposals, removeProposal, setPairingMeta, setCurrentSessionTopic } = useWalletConnect()
@@ -30,26 +30,115 @@ export const SessionProposalModal = () => {
   const currentProposal = proposals[0] as SignClientTypes.EventArguments['session_proposal']
 
   const { id, params } = currentProposal
-  const { proposer, requiredNamespaces, relays } = params
+  const { proposer, requiredNamespaces, optionalNamespaces, relays } = params
 
   const {
     state: { wallet },
   } = useWallet()
 
+  const buildNamespace = () => {
+    console.log("optionalNamespaces: ",optionalNamespaces)
+    console.log("requiredNamespaces: ",requiredNamespaces)
+    console.log("optionalNamespaces.eip155: ",optionalNamespaces.eip155)
+    console.log("requiredNamespaces.eip155: ",requiredNamespaces.eip155)
+    console.log("optionalNamespaces.eip155?.chains: ",optionalNamespaces.eip155?.chains)
+    console.log("requiredNamespaces.eip155?.chains: ",requiredNamespaces.eip155?.chains)
+    console.log("optionalNamespaces.eip155?.methods: ",optionalNamespaces.eip155?.methods)
+    console.log("requiredNamespaces.eip155?.methods: ",requiredNamespaces.eip155?.methods)
+    console.log("optionalNamespaces.eip155?.events: ",optionalNamespaces.eip155?.events)
+    console.log("requiredNamespaces.eip155?.events: ",requiredNamespaces.eip155?.events)
+    console.log("optionalNamespaces.eip155?.rpcMap: ",optionalNamespaces.eip155?.rpcMap)
+    console.log("requiredNamespaces.eip155?.rpcMap: ",requiredNamespaces.eip155?.rpcMap)
+    
+    const combinedNamespaces:any = {
+      eip155: {
+        chains: [],
+        methods: [],
+        events: [],
+        rpcMap: [],
+      }
+    };
+
+    const mergeArrays = (arr1: any, arr2: any) => [...new Set([...arr1, ...arr2])];
+
+    const mergeObjects = (obj1: { [x: string]: any }, obj2: { [x: string]: any; hasOwnProperty: (arg0: string) => any }) => {
+      const mergedObj = { ...obj1 };
+
+      for (const key in obj2) {
+        if (obj2.hasOwnProperty(key)) {
+          if (Array.isArray(obj1[key]) && Array.isArray(obj2[key])) {
+            mergedObj[key] = mergeArrays(obj1[key], obj2[key]);
+          } else if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
+            mergedObj[key] = mergeObjects(obj1[key], obj2[key]);
+          } else {
+            mergedObj[key] = obj2[key];
+          }
+        }
+      }
+
+      return mergedObj;
+    };
+
+    combinedNamespaces.eip155.chains = params.requiredNamespaces.eip155?.chains.concat(params.optionalNamespaces.eip155?.chains || []);
+
+    combinedNamespaces.eip155.methods = params.requiredNamespaces.eip155?.methods.concat(params.optionalNamespaces.eip155?.methods || []);
+
+    combinedNamespaces.eip155.events = params.requiredNamespaces.eip155?.events.concat(params.optionalNamespaces.eip155?.events || []);
+
+    combinedNamespaces.eip155.rpcMap = { ...params.requiredNamespaces.eip155?.rpcMap, ...params.optionalNamespaces.eip155?.rpcMap };
+
+
+    // console.log("params.requiredNamespaces.chains: ",params.requiredNamespaces.eip155?.chains)
+    // console.log("params.optionalNamespaces.eip155?.chains: ",params.optionalNamespaces.eip155?.chains)
+    // console.log("params.requiredNamespaces.chains + params.optionalNamespaces.eip155?.chains: ",params.requiredNamespaces.eip155?.chains + params.optionalNamespaces.eip155?.chains)
+    // combinedNamespaces.chains = params.requiredNamespaces.eip155?.chains + params.optionalNamespaces.eip155?.chains
+    // // combinedNamespaces.eip155.chains = mergeArrays(
+    // //     params.requiredNamespaces.eip155?.chains || [],
+    // //     params.optionalNamespaces.eip155?.chains || []
+    // // );
+    // // console.log("combinedNamespaces.chains: ",combinedNamespaces.chains)
+    //
+    // combinedNamespaces.eip155.methods = params.requiredNamespaces.eip155?.methods + params.optionalNamespaces.eip155?.methods
+    // // combinedNamespaces.methods = mergeArrays(
+    // //     params.requiredNamespaces.eip155?.methods || [],
+    // //     params.optionalNamespaces.eip155?.methods || []
+    // // );
+    //
+    // combinedNamespaces.eip155.events = params.requiredNamespaces.eip155?.events + params.optionalNamespaces.eip155?.events
+    // // combinedNamespaces.events = mergeArrays(
+    // //     params.requiredNamespaces.eip155?.events || [],
+    // //     params.optionalNamespaces.eip155?.events || []
+    // // );
+    //
+    // combinedNamespaces.eip155.rpcMap = params.requiredNamespaces.eip155?.rpcMap + params.optionalNamespaces.eip155?.rpcMap
+    // // combinedNamespaces.rpcMap = mergeObjects(
+    // //     params.requiredNamespaces.eip155?.rpcMap || {},
+    // //     params.optionalNamespaces.eip155?.rpcMap || {}
+    // // );
+    // console.log("combinedNamespaces: ",combinedNamespaces)
+    setSessionNamespaces(combinedNamespaces);
+  };
+  
+  useEffect(() => {
+    buildNamespace();
+  }, [params, currentProposal, params.requiredNamespaces, params.optionalNamespaces]);
+
   const [loading, setLoading] = useState(false)
+  const [sessionNamespaces, setSessionNamespaces] = useState([])
 
   const onApprove = async () => {
     console.log("proposer: ",proposer)
+    console.log("params: ",params)
     setLoading(true)
     if (currentProposal) {
       const namespaces: SessionTypes.Namespaces = {}
       let w = wallet as KeepKeyHDWallet
 
       await Promise.all(
-        Object.keys(requiredNamespaces).map(async key => {
+        Object.keys(sessionNamespaces).map(async key => {
           const accounts: string[] = (
             await Promise.all(
-              requiredNamespaces[key].chains.map(async chain => {
+                sessionNamespaces[key].chains.map(async (chain: any) => {
                 console.log(chain)
                 let address
 
@@ -65,6 +154,12 @@ export const SessionProposalModal = () => {
                     addressNList: accountPath[0].addressNList,
                     showDisplay: false,
                   })
+                } else {
+                  const accountPath = w.ethGetAccountPaths({ coin: 'Ethereum', accountIdx: 0 })
+                  address = await w.ethGetAddress({
+                    addressNList: accountPath[0].addressNList,
+                    showDisplay: false,
+                  })
                 }
 
                 if (!address) return `${chain}:DOES_NOT_SUPPORT`
@@ -72,11 +167,11 @@ export const SessionProposalModal = () => {
                 return `${chain}:${address}`
               }),
             )
-          ).filter(s => s !== '')
+          ).filter((s: string) => s !== '')
           namespaces[key] = {
             accounts,
-            methods: requiredNamespaces[key].methods,
-            events: requiredNamespaces[key].events,
+            methods: sessionNamespaces[key].methods,
+            events: sessionNamespaces[key].events,
           }
         }),
       )
@@ -159,23 +254,23 @@ export const SessionProposalModal = () => {
             </Box>
           </Box>
           <Divider />
-          {Object.keys(requiredNamespaces).map(chain => {
+          {Object.keys(sessionNamespaces).map(chain => {
             return (
               <Stack>
                 <RawText mb={5}>{`Review ${chain} permissions`}</RawText>
-                {requiredNamespaces[chain].chains.map(chainId => {
+                {sessionNamespaces[chain].chains.map(chainId => {
                   const extensionMethods: ProposalTypes.RequiredNamespace['methods'] = []
                   const extensionEvents: ProposalTypes.RequiredNamespace['events'] = []
 
-                  requiredNamespaces[chain].extension?.forEach(({ chains, methods, events }) => {
+                  sessionNamespaces[chain].extension?.forEach(({ chains, methods, events }) => {
                     if (chains.includes(chainId)) {
                       extensionMethods.push(...methods)
                       extensionEvents.push(...events)
                     }
                   })
 
-                  const allMethods = [...requiredNamespaces[chain].methods, ...extensionMethods]
-                  const allEvents = [...requiredNamespaces[chain].events, ...extensionEvents]
+                  const allMethods = [...sessionNamespaces[chain].methods, ...extensionMethods]
+                  const allEvents = [...sessionNamespaces[chain].events, ...extensionEvents]
                   return (
                     <Card rounded='lg'>
                       <Card.Header>
