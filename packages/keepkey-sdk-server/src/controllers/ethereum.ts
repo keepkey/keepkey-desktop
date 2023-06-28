@@ -59,14 +59,15 @@ export class EthereumController extends ApiController {
           showDisplay: false,
       });
       console.log("fromAddress: ", fromAddress);
+      
+      //TODO Network actions
+      // let nonce = await this.context.web3.eth.getTransactionCount(fromAddress);
+      // console.log("nonce: ", nonce);
 
-      let nonce = await this.context.web3.eth.getTransactionCount(fromAddress);
-      console.log("nonce: ", nonce);
-
-      if (nonce.toString() !== body.nonce) {
-          body.nonce = "0x" + nonce.toString(16);
-          console.log("Fixed nonce: ", body.nonce);
-      }
+      // if (nonce.toString() !== body.nonce) {
+      //     body.nonce = "0x" + nonce.toString(16);
+      //     console.log("Fixed nonce: ", body.nonce);
+      // }
 
       if (!body.to) body.to = '0x';
 
@@ -100,130 +101,6 @@ export class EthereumController extends ApiController {
 
       return result;
   }
-  
-    // @Post('sign-transaction-legacy')
-    // @OperationId('eth_signTransaction_legacy')
-    // public async signTransactionLegacy(
-    //     @Body()
-    //         body: {
-    //         from?: types.eth.Address;
-    //         addressNList?: any;
-    //         to: string;
-    //         data: types.eth.HexData;
-    //         gas?: types.eth.HexQuantity;
-    //         value: types.eth.HexQuantity;
-    //         nonce: types.eth.HexQuantity;
-    //         /** @minValue 1 */
-    //         chainId: number | string;
-    //         /** @title Legacy */
-    //         gasPrice: types.eth.HexQuantity & unknown;
-    //     },
-    // ): Promise<{
-    //     v: types.numeric.U32;
-    //     r: types.eth.HexData;
-    //     s: types.eth.HexData;
-    //     serialized: types.eth.HexData;
-    // }> {
-    //     console.log('Body (Legacy): ', body);
-    //     assume<{ gasPrice?: string | null }>(body);
-    //     if (body.chainId === 0) body.chainId = 1;
-    //     const account = await this.context.getAccount(body.addressNList || body.from);
-    //
-    //     if (!body.to) body.to = '0x';
-    //
-    //     let chainId: number;
-    //     if (typeof body.chainId === 'string') {
-    //         if (body.chainId.startsWith('0x')) {
-    //             chainId = parseInt(body.chainId.slice(2), 16);
-    //         } else {
-    //             chainId = parseInt(body.chainId);
-    //         }
-    //     } else {
-    //         chainId = body.chainId;
-    //     }
-    //
-    //     const msg: any = {
-    //         addressNList: account.addressNList,
-    //         chainId,
-    //         nonce: body.nonce,
-    //         value: body.value ?? '0x0',
-    //         data: body.data ?? '',
-    //         ...(typeof body.to === 'string'
-    //             ? { to: body.to }
-    //             : { to: '', toAddressNList: body.to }),
-    //         gasLimit: body.gas || '0',
-    //         gasPrice: body.gasPrice,
-    //     };
-    //
-    //     console.log('ethSignTx final MSG (Legacy): ', msg);
-    //     const result = await this.context.wallet.ethSignTx(msg);
-    //     console.log('ethSignTx final result (Legacy): ', result);
-    //     return result;
-    // }
-    //
-    // @Post('sign-transaction-eip1559')
-    // @OperationId('eth_signTransaction_eip1559')
-    // public async signTransactionEIP1559(
-    //     @Body()
-    //         body: {
-    //         from?: types.eth.Address;
-    //         addressNList?: any;
-    //         to: string;
-    //         data: types.eth.HexData;
-    //         gas?: types.eth.HexQuantity;
-    //         value: types.eth.HexQuantity;
-    //         nonce: types.eth.HexQuantity;
-    //         /** @minValue 1 */
-    //         chainId: number | string;
-    //         /** @title EIP-1559 */
-    //         maxFeePerGas: types.eth.HexQuantity & unknown;
-    //         maxPriorityFeePerGas: types.eth.HexQuantity & unknown;
-    //     },
-    // ): Promise<{
-    //     v: types.numeric.U32;
-    //     r: types.eth.HexData;
-    //     s: types.eth.HexData;
-    //     serialized: types.eth.HexData;
-    // }> {
-    //     console.log('Body (EIP-1559): ', body);
-    //     assume<{ maxFeePerGas?: string | null }>(body);
-    //     assume<{ maxPriorityFeePerGas?: string | null }>(body);
-    //     if (body.chainId === 0) body.chainId = 1;
-    //     const account = await this.context.getAccount(body.addressNList || body.from);
-    //
-    //     if (!body.to) body.to = '0x';
-    //
-    //     let chainId: number;
-    //     if (typeof body.chainId === 'string') {
-    //         if (body.chainId.startsWith('0x')) {
-    //             chainId = parseInt(body.chainId.slice(2), 16);
-    //         } else {
-    //             chainId = parseInt(body.chainId);
-    //         }
-    //     } else {
-    //         chainId = body.chainId;
-    //     }
-    //
-    //     const msg: any = {
-    //         addressNList: account.addressNList,
-    //         chainId,
-    //         nonce: body.nonce,
-    //         value: body.value ?? '0x0',
-    //         data: body.data ?? '',
-    //         gasLimit: body.gas || '0',
-    //         ...(typeof body.to === 'string'
-    //             ? { to: body.to }
-    //             : { to: '', toAddressNList: body.to }),
-    //         maxFeePerGas: body.maxFeePerGas!,
-    //         maxPriorityFeePerGas: body.maxPriorityFeePerGas!,
-    //     };
-    //
-    //     console.log('ethSignTx final MSG (EIP-1559): ', msg);
-    //     const result = await this.context.wallet.ethSignTx(msg);
-    //     console.log('ethSignTx final result (EIP-1559): ', result);
-    //     return result;
-    // }
-  
 
   /**
    * @summary Sign EIP-712 typed data

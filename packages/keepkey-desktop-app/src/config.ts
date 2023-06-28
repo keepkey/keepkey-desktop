@@ -36,11 +36,8 @@ const validators = {
   REACT_APP_ALCHEMY_POLYGON_URL: url(),
   REACT_APP_KEEPKEY_VERSIONS_URL: url(),
   REACT_APP_DAPP_URL: url({
-    default: 'http://127.0.0.1:9001/spec/swagger.json',
+    default: 'https://pioneers.dev/spec/swagger.json',
   }),
-  // REACT_APP_DAPP_URL: url({
-  //   default: 'https://pioneers.dev/spec/swagger.json',
-  // }),
   REACT_APP_FEATURE_OSMOSIS: bool({ default: false }),
   REACT_APP_FEATURE_THORCHAIN: bool({ default: false }),
   REACT_APP_FEATURE_MULTI_ACCOUNTS: bool({ default: false }),
