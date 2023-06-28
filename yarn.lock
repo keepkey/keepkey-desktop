@@ -18656,8 +18656,6 @@ __metadata:
     usb: ^2.5.2
     utf-8-validate: ^5.0.10
     uuid: ^9.0.0
-    wait-promise: ^0.4.1
-    web3: ^4.0.1
   languageName: unknown
   linkType: soft
 
@@ -18729,7 +18727,6 @@ __metadata:
     rimraf: ^3.0.2
     tsoa: ^4.1.3
     typescript: ^4.7.0
-    web3: 4.0.1
   languageName: unknown
   linkType: soft
 
@@ -26769,7 +26766,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web3@npm:4.0.1, web3@npm:^4.0.1":
+"web3@npm:^1.8.1":
+  version: 1.8.1
+  resolution: "web3@npm:1.8.1"
+  dependencies:
+    web3-bzz: 1.8.1
+    web3-core: 1.8.1
+    web3-eth: 1.8.1
+    web3-eth-personal: 1.8.1
+    web3-net: 1.8.1
+    web3-shh: 1.8.1
+    web3-utils: 1.8.1
+  checksum: b1cef25229d29e83fe65fdae95f72a1c78b89c2c08bdac9529727b20460b2c77b5ee79e5356db586ab5cb26c92d9c271cf019731cf1fcc6270baffb18b9d8a37
+  languageName: node
+  linkType: hard
+
+"web3@npm:^4.0.1":
   version: 4.0.1
   resolution: "web3@npm:4.0.1"
   dependencies:
@@ -26790,21 +26802,6 @@ __metadata:
     web3-utils: ^4.0.1
     web3-validator: ^1.0.0
   checksum: 5b1c704048c1af295d33ca4c496cae818bf935c3a52e0e5e1d4b5bfff0671b0a2c95c3bcc7b0fc48cf848d6957dd563ba3250dc62b3c17a5cd5ca2acc07abca0
-  languageName: node
-  linkType: hard
-
-"web3@npm:^1.8.1":
-  version: 1.8.1
-  resolution: "web3@npm:1.8.1"
-  dependencies:
-    web3-bzz: 1.8.1
-    web3-core: 1.8.1
-    web3-eth: 1.8.1
-    web3-eth-personal: 1.8.1
-    web3-net: 1.8.1
-    web3-shh: 1.8.1
-    web3-utils: 1.8.1
-  checksum: b1cef25229d29e83fe65fdae95f72a1c78b89c2c08bdac9529727b20460b2c77b5ee79e5356db586ab5cb26c92d9c271cf019731cf1fcc6270baffb18b9d8a37
   languageName: node
   linkType: hard
 
