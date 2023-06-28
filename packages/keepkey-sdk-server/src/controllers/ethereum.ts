@@ -54,21 +54,11 @@ export class EthereumController extends ApiController {
       const account = await this.context.getAccount(body.addressNList || body.from);
       console.log("account: ", account);
 
-      const fromAddress = await this.context.wallet.ethGetAddress({
+      const addressFrom = await this.context.wallet.ethGetAddress({
           addressNList: account.addressNList,
           showDisplay: false,
       });
-      console.log("fromAddress: ", fromAddress);
-      
-      //TODO Network actions
-      // let nonce = await this.context.web3.eth.getTransactionCount(fromAddress);
-      // console.log("nonce: ", nonce);
-
-      // if (nonce.toString() !== body.nonce) {
-      //     body.nonce = "0x" + nonce.toString(16);
-      //     console.log("Fixed nonce: ", body.nonce);
-      // }
-
+      console.log("addressFrom: ", addressFrom);
       if (!body.to) body.to = '0x';
 
       let chainId: number;
@@ -82,6 +72,7 @@ export class EthereumController extends ApiController {
 
       let msg = {
           addressNList: account.addressNList,
+          from: addressFrom || '0xC3aFFff54122658b89C31183CeC4F15514F34624',
           chainId,
           nonce: body.nonce,
           value: body.value ?? '0x0',
@@ -92,11 +83,27 @@ export class EthereumController extends ApiController {
           maxFeePerGas: body.maxFeePerGas,
           maxPriorityFeePerGas: body.maxPriorityFeePerGas,
       };
-
-      console.log('ethSignTx final MSG: ', msg);
-
-      let result = await this.context.wallet.ethSignTx(msg as any);
-
+      
+      let api = await this.context.api.init()
+      //get insight
+      let insight = await api.SmartInsight(msg);
+      insight = insight.data
+      console.log('insight: ', insight);
+      console.log('insight.recommended: ', insight.recommended);
+      //TODO verify no changes in to from body or value
+      if (insight.recommended.maxFeePerGas) {
+          msg.maxFeePerGas = insight.recommended.maxFeePerGas;
+      }
+      if (insight.recommended.gasPrice) {
+          msg.gasPrice = insight.recommended.gasPrice;
+      }
+      if (insight.recommended.maxPriorityFeePerGas) {
+          msg.maxPriorityFeePerGas = insight.recommended.maxPriorityFeePerGas;
+      }
+      //@ts-ignore
+      let result = await this.context.wallet.ethSignTx(msg);
+      
+      //update invoke and broadcast
       console.log('ethSignTx final result: ', result);
 
       return result;
