@@ -18656,6 +18656,8 @@ __metadata:
     usb: ^2.5.2
     utf-8-validate: ^5.0.10
     uuid: ^9.0.0
+    wait-promise: ^0.4.1
+    web3: ^4.0.1
   languageName: unknown
   linkType: soft
 
