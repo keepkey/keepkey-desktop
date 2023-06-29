@@ -3,6 +3,7 @@ import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
 import LegacyWalletConnect from '@walletconnect/client'
 import type { CoreTypes, SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
+import * as Comlink from 'comlink'
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import { web3ByServiceType } from 'context/WalletProvider/web3byChainId'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
@@ -21,7 +22,9 @@ import { WalletConnectBridgeContext } from './WalletConnectBridgeContext'
 export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children }) => {
   const wallet = useWallet().state.wallet
   const [legacyBridge, setLegacyBridge] = useState<LegacyWCService>()
-  const [pairingMeta, setPairingMeta] = useState<CoreTypes.Metadata>()
+  const [pairingMeta, setPairingMeta] = useState<
+    CoreTypes.Metadata & { chainId: string | number }
+  >()
   const [currentSessionTopic, setCurrentSessionTopic] = useState<string>()
   const [isLegacy, setIsLegacy] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
@@ -97,8 +100,6 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
       setIsConnected(true)
       setCurrentSessionTopic(payload.topic)
     })
-    WalletConnectSignClient.on('session_delete', onDisconnect)
-    WalletConnectSignClient.on('session_expire', onDisconnect)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [WalletConnectSignClient])
 
@@ -115,7 +116,8 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
       wc.connector.on('connect', () => {
         setIsLegacy(true)
         setIsConnected(true)
-        if (wc.connector.peerMeta) setPairingMeta(wc.connector.peerMeta)
+        if (wc.connector.peerMeta)
+          setPairingMeta({ ...wc.connector.peerMeta, chainId: wc.connector.chainId })
         if (wc.connector.chainId) web3ByChainId(Number(wc.connector.chainId)).then(setLegacyWeb3)
 
         rerender()
@@ -146,22 +148,35 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     [addRequest, rerender, toast, legacyWeb3],
   )
 
+  const connectWithUri = useCallback(
+    async (uri: string) => {
+      if (isLegacy && isConnected) await legacyBridge?.disconnect()
+      const wc = await getWalletConnect(wallet as ETHWallet, uri)
+      if (wc instanceof LegacyWCService) {
+        setIsLegacy(true)
+        setLegacyEvents(wc)
+        await wc.connect()
+        setLegacyBridge(wc)
+      } else {
+        setIsLegacy(false)
+        setLegacyBridge(undefined)
+      }
+    },
+    [isConnected, isLegacy, legacyBridge, setLegacyEvents, wallet],
+  )
   // connects to given URI or attempts previous connection
   const connect = useCallback(
     async (uri?: string) => {
       if (uri) {
-        if (isLegacy && isConnected) await legacyBridge?.disconnect()
-        const wc = await getWalletConnect(wallet as ETHWallet, uri)
-        if (wc instanceof LegacyWCService) {
-          setIsLegacy(true)
-          setLegacyEvents(wc)
-          await wc.connect()
-          setLegacyBridge(wc)
-        } else {
-          setIsLegacy(false)
-          setLegacyBridge(undefined)
-        }
+        connectWithUri(uri)
       } else {
+        let protocolUrl = await ipcListeners.getProtocolLaunchUrl()
+        if (protocolUrl) {
+          protocolUrl = protocolUrl.replace('keepkey://', '')
+          if (protocolUrl.includes('wc')) {
+            connectWithUri(protocolUrl)
+          }
+        }
         const wcSessionJsonString = localStorage.getItem('walletconnect')
         if (!wcSessionJsonString) return
         const session = JSON.parse(wcSessionJsonString)
@@ -175,7 +190,10 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         setIsConnected(bridgeFromSession.connector.connected)
         web3ByChainId(Number(bridgeFromSession.connector.chainId)).then(setLegacyWeb3)
         if (bridgeFromSession.connector.peerMeta)
-          setPairingMeta(bridgeFromSession.connector.peerMeta)
+          setPairingMeta({
+            ...bridgeFromSession.connector.peerMeta,
+            chainId: bridgeFromSession.connector.chainId,
+          })
 
         setLegacyBridge(bridgeFromSession)
 
@@ -183,8 +201,13 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         localStorage.removeItem('walletconnect')
       }
     },
-    [isConnected, isLegacy, legacyBridge, onDisconnect, setLegacyEvents, wallet],
+    [connectWithUri, onDisconnect, setLegacyEvents, wallet],
   )
+
+  useEffect(() => {
+    ipcListeners.handleWalletConnectUrlInProtocol(Comlink.proxy(connect))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (!wallet) return

@@ -24,7 +24,9 @@ import {
   db,
   isWalletBridgeRunning,
   kkStateController,
+  protocolLaunchUrl,
   settings,
+  setWalletConnectUrlInProtocolHandler,
   windows,
 } from './globalState'
 import {
@@ -345,6 +347,17 @@ export const ipcListeners: IpcListeners = {
     if (!windows.mainWindow) return
     if (value) windows.mainWindow.focus()
     windows.mainWindow.setAlwaysOnTop(value)
+  },
+
+  async getProtocolLaunchUrl() {
+    return protocolLaunchUrl
+  },
+
+  async handleWalletConnectUrlInProtocol(handler) {
+    setWalletConnectUrlInProtocolHandler(async uri => {
+      uri = uri.replace('keepkey://', '')
+      if (uri.includes('wc')) handler(uri)
+    })
   },
 
   // async appUpdate() {
