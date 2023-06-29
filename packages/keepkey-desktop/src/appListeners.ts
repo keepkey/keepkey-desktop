@@ -3,7 +3,14 @@ import isDev from 'electron-is-dev'
 import { autoUpdater } from 'electron-updater'
 import { sleep } from 'wait-promise'
 
-import { bridgeLogger, isLinux, settings, windows } from './globalState'
+import {
+  bridgeLogger,
+  isLinux,
+  setProtocolLaunchUrl,
+  settings,
+  walletConnectUrlInProtocolHandler,
+  windows,
+} from './globalState'
 import { createMainWindow } from './helpers/utils'
 import { createUpdaterSplashWindow, skipUpdateCheck } from './updaterListeners'
 
@@ -25,7 +32,15 @@ export const startAppListeners = () => {
     if (!isDev && !isLinux) await autoUpdater.checkForUpdates()
   })
 
-  app.on('second-instance', async () => {
+  app.on('second-instance', async (e, argv) => {
+    e.preventDefault()
+    if (process.platform !== 'darwin') {
+      const protocolUrl = argv.find(arg => arg.startsWith('keepkey://'))
+      if (protocolUrl) {
+        setProtocolLaunchUrl(protocolUrl)
+        if (walletConnectUrlInProtocolHandler) walletConnectUrlInProtocolHandler(protocolUrl)
+      }
+    }
     if (windows.mainWindow) {
       if (windows.mainWindow.isDestroyed()) {
         await createMainWindow()
@@ -35,6 +50,14 @@ export const startAppListeners = () => {
       windows.mainWindow.focus()
     } else {
       await createMainWindow()
+    }
+  })
+
+  app.on('open-url', (e, url) => {
+    e.preventDefault()
+    if (url.startsWith('keepkey://')) {
+      setProtocolLaunchUrl(url)
+      if (walletConnectUrlInProtocolHandler) walletConnectUrlInProtocolHandler(url)
     }
   })
 

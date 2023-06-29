@@ -100,6 +100,8 @@ export type IpcListeners = {
   setAlwaysOnTop(value: boolean): Promise<void>
   clearLocalStorage(): Promise<void>
   getBrowserInjection(sdkApiKey: string): Promise<string>
+  getProtocolLaunchUrl(): Promise<string | undefined>
+  handleWalletConnectUrlInProtocol(connect: (uri: string) => Promise<void>): Promise<void>
 
   // appUpdate(): Promise<UpdateCheckResult | { updateInfo: { version: string } } | undefined>
   // appDownloadUpdates(): Promise<void>

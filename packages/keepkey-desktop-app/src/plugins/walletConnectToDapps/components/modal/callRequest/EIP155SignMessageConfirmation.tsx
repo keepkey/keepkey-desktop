@@ -65,26 +65,30 @@ export const EIP155SignMessageConfirmation = () => {
       try {
         if (!accountPath || !wallet) return
         setLoading(true)
-        
+
         // const message = getSignParamsMessage(request.params)
-        console.log("request: ",request)
-        console.log("request.params: ",request.params)
-        console.log("request.params[1]: ",request.params[1])
+        console.log('request: ', request)
+        console.log('request.params: ', request.params)
+        console.log('request.params[1]: ', request.params[1])
         let signedMessage
-        if(request.method === "eth_signTypedData" || request.method === "eth_signTypedData_v3" || request.method === "eth_signTypedData_v4"){
+        if (
+          request.method === 'eth_signTypedData' ||
+          request.method === 'eth_signTypedData_v3' ||
+          request.method === 'eth_signTypedData_v4'
+        ) {
           signedMessage = await (wallet as KeepKeyHDWallet).ethSignTypedData({
             addressNList: accountPath,
-            typedData:JSON.parse(request.params[1]),
+            typedData: JSON.parse(request.params[1]),
           })
-        } else if(request.method === "eth_sign" || request.method === "personal_sign"){
+        } else if (request.method === 'eth_sign' || request.method === 'personal_sign') {
           signedMessage = await (wallet as KeepKeyHDWallet).ethSignMessage({
             ...txData,
             addressNList: accountPath,
             message,
           })
         } else {
-          console.error("INVALID REQUEST: ",request)
-          throw Error("unhandled request method"+request.method)
+          console.error('INVALID REQUEST: ', request)
+          throw Error('unhandled request method' + request.method)
         }
 
         const response = formatJsonRpcResult(id, signedMessage.signature)
@@ -103,7 +107,7 @@ export const EIP155SignMessageConfirmation = () => {
         setLoading(false)
       }
     },
-    [accountPath, wallet, request.params, id, topic, removeRequest, currentRequest.id, toast],
+    [accountPath, wallet, request, id, topic, removeRequest, currentRequest.id, message, toast],
   )
 
   const onReject = useCallback(async () => {

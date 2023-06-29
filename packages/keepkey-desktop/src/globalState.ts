@@ -50,6 +50,15 @@ export let setTcpBridgeClosing = (value: boolean) => (tcpBridgeClosing = value)
 export let renderListenersReady = false
 export let setRenderListenersReady = (value: boolean) => (renderListenersReady = value)
 
+export let protocolLaunchUrl: string | undefined = undefined
+export let setProtocolLaunchUrl = (value: string | undefined) => (protocolLaunchUrl = value)
+
+export let walletConnectUrlInProtocolHandler: ((uri: string) => Promise<void>) | undefined =
+  undefined
+export let setWalletConnectUrlInProtocolHandler = (
+  value: ((uri: string) => Promise<void>) | undefined,
+) => (walletConnectUrlInProtocolHandler = value)
+
 export const [shouldShowWindow, setShouldShowWindow] = (() => {
   let out: () => void
   return [new Promise<boolean>(resolve => (out = () => resolve(true))), out!]
