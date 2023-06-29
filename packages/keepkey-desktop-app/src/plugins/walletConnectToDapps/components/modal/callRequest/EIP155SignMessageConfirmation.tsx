@@ -71,7 +71,7 @@ export const EIP155SignMessageConfirmation = () => {
         console.log("request.params: ",request.params)
         console.log("request.params[1]: ",request.params[1])
         let signedMessage
-        if(request.method === "eth_signTypedData"){
+        if(request.method === "eth_signTypedData" || request.method === "eth_signTypedData_v3" || request.method === "eth_signTypedData_v4"){
           signedMessage = await (wallet as KeepKeyHDWallet).ethSignTypedData({
             addressNList: accountPath,
             typedData:JSON.parse(request.params[1]),
@@ -83,11 +83,8 @@ export const EIP155SignMessageConfirmation = () => {
             message,
           })
         } else {
-          signedMessage = await (wallet as KeepKeyHDWallet).ethSignMessage({
-            ...txData,
-            addressNList: accountPath,
-            message,
-          })
+          console.error("INVALID REQUEST: ",request)
+          throw Error("unhandled request method"+request.method)
         }
 
         const response = formatJsonRpcResult(id, signedMessage.signature)

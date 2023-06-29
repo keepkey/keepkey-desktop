@@ -1,10 +1,10 @@
 import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { isEqual } from 'lodash'
-
+// @ts-ignore
+import Pioneer from "@pioneer-platform/pioneer-client"
 // import { FailureType, isKKFailureType } from '../util'
 import type { SdkClient } from './sdkClient'
-// import Web3 from 'web3';
 const horribleAccountsHack = new WeakMap<KeepKeyHDWallet, Record<string, BIP32Path>>()
 
 //@TODO get web3 providers
@@ -18,49 +18,21 @@ export class ApiContext {
   readonly wallet: KeepKeyHDWallet
   readonly accounts: Record<string, BIP32Path>
   readonly path: string
-  chainId: number;
-  // web3: Web3; // Add a web3 instance property
-
+  api: Pioneer;
+  
   protected constructor(sdkClient: SdkClient, accounts: Record<string, BIP32Path>, path: string) {
     this.sdkClient = sdkClient
     this.wallet = sdkClient.wallet
     this.accounts = accounts
     this.path = path
-    this.chainId = 1;
-    // this.web3 = new Web3('https://cloudflare-eth.com'); // Initialize the web3 instance
+    this.api = new Pioneer("https://pioneers.dev/spec/swagger.json",{queryKey:"kkdesktop:1"})
   }
 
   static async create(sdkClient: SdkClient, path: string): Promise<ApiContext> {
     // TODO: something something database something
     if (!horribleAccountsHack.has(sdkClient.wallet)) {
       horribleAccountsHack.set(sdkClient.wallet, {})
-      // try {
-      //   horribleAccountsHack.set(
-      //     sdkClient.wallet,
-      //     Object.fromEntries(
-      //       await Promise.all(
-      //         (
-      //           await sdkClient.wallet.ethGetAccountPaths({
-      //             coin: 'Ethereum',
-      //             accountIdx: 0,
-      //           })
-      //         ).map(async x => [
-      //           await sdkClient.wallet.ethGetAddress({
-      //             addressNList: x.addressNList,
-      //             showDisplay: false,
-      //           }),
-      //           x.addressNList,
-      //         ]),
-      //       ),
-      //     ),
-      //   )
-      // } catch (e) {
-      //   if (!isKKFailureType(e, FailureType.FAILURE_NOTINITIALIZED)) {
-      //     console.warn('horribleAccountsHack failed', e)
-      //   }
-      // }
     }
-
     return new ApiContext(sdkClient, horribleAccountsHack.get(sdkClient.wallet) ?? {}, path)
   }
 
