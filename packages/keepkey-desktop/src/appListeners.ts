@@ -11,7 +11,7 @@ import {
   walletConnectUrlInProtocolHandler,
   windows,
 } from './globalState'
-import { createMainWindow } from './helpers/utils'
+import { createMainWindow, getWalletConnectUri } from './helpers/utils'
 import { createUpdaterSplashWindow, skipUpdateCheck } from './updaterListeners'
 
 export const appReady = new Promise<void>(resolve => {
@@ -38,7 +38,11 @@ export const startAppListeners = () => {
       const protocolUrl = argv.find(arg => arg.startsWith('keepkey://'))
       if (protocolUrl) {
         setProtocolLaunchUrl(protocolUrl)
-        if (walletConnectUrlInProtocolHandler) walletConnectUrlInProtocolHandler(protocolUrl)
+        const wcUri = getWalletConnectUri(protocolUrl)
+        if (wcUri && wcUri.includes('wc')) {
+          setProtocolLaunchUrl(wcUri)
+          if (walletConnectUrlInProtocolHandler) walletConnectUrlInProtocolHandler(wcUri)
+        }
       }
     }
     if (windows.mainWindow) {
@@ -57,7 +61,11 @@ export const startAppListeners = () => {
     e.preventDefault()
     if (url.startsWith('keepkey://')) {
       setProtocolLaunchUrl(url)
-      if (walletConnectUrlInProtocolHandler) walletConnectUrlInProtocolHandler(url)
+      const wcUri = getWalletConnectUri(url)
+      if (wcUri && wcUri.includes('wc')) {
+        setProtocolLaunchUrl(wcUri)
+        if (walletConnectUrlInProtocolHandler) walletConnectUrlInProtocolHandler(wcUri)
+      }
     }
   })
 

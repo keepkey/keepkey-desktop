@@ -172,7 +172,6 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
       } else {
         let protocolUrl = await ipcListeners.getProtocolLaunchUrl()
         if (protocolUrl) {
-          protocolUrl = protocolUrl.replace('keepkey://', '')
           if (protocolUrl.includes('wc')) {
             connectWithUri(protocolUrl)
           }
