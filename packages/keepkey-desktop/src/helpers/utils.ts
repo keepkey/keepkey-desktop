@@ -38,8 +38,8 @@ export const openSignTxWindow = async (signArgs: any) => {
   }
 }
 
-export const getWallectConnectUri = (inputUri: string): string | undefined => {
-  const uri = inputUri.replace('keepkey://', '')
+export const getWalletConnectUri = (inputUri: string): string | undefined => {
+  const uri = inputUri.replace('keepkey://launch/wc?uri=', '').replace('keepkey://wc?uri=', '')
   if (!uri.startsWith('wc')) return
   else return decodeURIComponent(uri.replace('wc/?uri=', '').replace('wc?uri=', ''))
 }
