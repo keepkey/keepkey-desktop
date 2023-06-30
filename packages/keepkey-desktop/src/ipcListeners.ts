@@ -354,10 +354,7 @@ export const ipcListeners: IpcListeners = {
   },
 
   async handleWalletConnectUrlInProtocol(handler) {
-    setWalletConnectUrlInProtocolHandler(async uri => {
-      uri = uri.replace('keepkey://', '')
-      if (uri.includes('wc')) handler(uri)
-    })
+    setWalletConnectUrlInProtocolHandler(handler)
   },
 
   // async appUpdate() {
