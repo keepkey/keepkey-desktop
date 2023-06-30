@@ -102,8 +102,6 @@ export class EthereumController extends ApiController {
       }
       //@ts-ignore
       let result = await this.context.wallet.ethSignTx(msg);
-      
-      //update invoke and broadcast
       console.log('ethSignTx final result: ', result);
 
       return result;

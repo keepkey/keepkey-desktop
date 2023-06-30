@@ -11,7 +11,11 @@ import {
   walletConnectUrlInProtocolHandler,
   windows,
 } from './globalState'
+<<<<<<< HEAD
 import { createMainWindow, getWalletConnectUri } from './helpers/utils'
+=======
+import { createMainWindow } from './helpers/utils'
+>>>>>>> 2bf3b393e0bd7041cc929ae8e4fad942501681f4
 import { createUpdaterSplashWindow, skipUpdateCheck } from './updaterListeners'
 
 export const appReady = new Promise<void>(resolve => {
