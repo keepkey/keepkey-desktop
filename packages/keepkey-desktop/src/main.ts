@@ -7,6 +7,7 @@ import { app, nativeTheme } from 'electron'
 import log from 'electron-log'
 // import unhandled from 'electron-unhandled'
 import fs from 'fs'
+import path from 'path'
 
 import { startAppListeners } from './appListeners'
 import { isWin, kkAutoLauncher } from './globalState'
@@ -44,5 +45,9 @@ try {
 } catch {}
 
 if (process.defaultApp) {
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient('keepkey', process.execPath, [path.resolve(process.argv[1])])
+  }
+} else {
   app.setAsDefaultProtocolClient('keepkey')
 }
