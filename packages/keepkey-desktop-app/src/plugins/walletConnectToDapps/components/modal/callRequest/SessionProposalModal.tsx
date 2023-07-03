@@ -89,7 +89,7 @@ export const SessionProposalModal = () => {
       ...optionalNamespaces.eip155?.rpcMap,
     }
 
-    // setSessionNamespaces(combinedNamespaces)
+    setSessionNamespaces(combinedNamespaces)
   }, [params, currentProposal, requiredNamespaces, optionalNamespaces])
 
   const [loading, setLoading] = useState(false)
