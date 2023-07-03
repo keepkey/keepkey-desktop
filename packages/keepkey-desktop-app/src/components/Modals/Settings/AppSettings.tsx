@@ -5,7 +5,7 @@ import { WalletActions } from 'context/WalletProvider/actions'
 import { ipcListeners } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import { WalletConnectWeb3Wallet } from 'kkdesktop/walletconnect/utils'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { FaTrash } from 'react-icons/fa'
@@ -43,10 +43,10 @@ export const AppSettings: FC = () => {
   }
 
   const unpairAndClear = () => {
-    const pairings = WalletConnectSignClient.pairing.getAll()
+    const pairings = WalletConnectWeb3Wallet.pairing.getAll()
     for (let index = 0; index < pairings.length; index++) {
       const pairing = pairings[index]
-      WalletConnectSignClient.pairing.delete(pairing.topic, getSdkError('USER_DISCONNECTED'))
+      WalletConnectWeb3Wallet.pairing.delete(pairing.topic, getSdkError('USER_DISCONNECTED'))
     }
     ipcListeners.clearLocalStorage()
   }

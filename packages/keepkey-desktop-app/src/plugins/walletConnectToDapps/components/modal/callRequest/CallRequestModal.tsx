@@ -2,7 +2,7 @@ import { ModalContent } from '@chakra-ui/modal'
 import { HStack, Modal, ModalCloseButton, ModalHeader, ModalOverlay } from '@chakra-ui/react'
 import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
 import { Text } from 'components/Text'
-import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import { WalletConnectWeb3Wallet } from 'kkdesktop/walletconnect/utils'
 import { EIP155_SIGNING_METHODS } from 'plugins/walletConnectToDapps/data/EIP115Data'
 import {
   rejectEIP155Request,
@@ -44,7 +44,7 @@ export const NecessaryModal: FC<{ req?: any; isLegacy: boolean; removeReq: any }
 
       default:
         const response = rejectRequestAsUnsupported(req)
-        WalletConnectSignClient.respond({
+        WalletConnectWeb3Wallet.respond({
           topic: req.topic,
           response,
         })
@@ -70,7 +70,7 @@ export const CallRequestModal = () => {
           })
         } else {
           const response = rejectEIP155Request(currentRequest)
-          WalletConnectSignClient.respond({
+          WalletConnectWeb3Wallet.respond({
             topic: currentRequest.topic,
             response,
           })

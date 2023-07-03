@@ -10,7 +10,7 @@ import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
 import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { LegacyWCService } from 'kkdesktop/walletconnect'
-import { getWalletConnect, WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import { getWalletConnect, WalletConnectWeb3Wallet } from 'kkdesktop/walletconnect/utils'
 import type { FC, PropsWithChildren } from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { WalletConnectLogic } from 'WalletConnectLogic'
@@ -77,7 +77,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     if (isLegacy) {
       if (legacyBridge) await legacyBridge.disconnect()
     } else {
-      WalletConnectSignClient.disconnect({
+      WalletConnectWeb3Wallet.disconnectSession({
         topic: currentSessionTopic ?? '',
         reason: getSdkError('USER_DISCONNECTED'),
       })
@@ -90,18 +90,6 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     setLegacyWeb3(undefined)
     rerender()
   }, [currentSessionTopic, isLegacy, legacyBridge, rerender])
-
-  useEffect(() => {
-    if (!WalletConnectSignClient) {
-      console.log('no wallet connect sign client')
-      return
-    }
-    WalletConnectSignClient.on('session_ping', (payload: { topic: any }) => {
-      setIsConnected(true)
-      setCurrentSessionTopic(payload.topic)
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [WalletConnectSignClient])
 
   const setLegacyEvents = useCallback(
     (wc: LegacyWCService) => {
@@ -241,6 +229,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
         setPairingMeta,
         legacyWeb3,
         setLegacyWeb3,
+        setIsConnected,
       }}
     >
       <WalletConnectLogic />

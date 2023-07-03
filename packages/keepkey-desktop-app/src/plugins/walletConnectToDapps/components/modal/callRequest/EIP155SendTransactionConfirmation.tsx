@@ -15,7 +15,7 @@ import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingl
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import { WalletConnectWeb3Wallet } from 'kkdesktop/walletconnect/utils'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
 import { fromBaseUnit } from 'lib/math'
@@ -194,7 +194,7 @@ export const EIP155SendTransactionConfirmation = () => {
           jsonresponse = formatJsonRpcResult(id, txid)
         }
 
-        await WalletConnectSignClient.respond({
+        await WalletConnectWeb3Wallet.respond({
           topic,
           response: jsonresponse,
         })
@@ -228,7 +228,7 @@ export const EIP155SendTransactionConfirmation = () => {
 
   const onReject = useCallback(async () => {
     const response = rejectEIP155Request(currentRequest)
-    WalletConnectSignClient.respond({
+    WalletConnectWeb3Wallet.respond({
       topic: currentRequest.topic,
       response,
     })

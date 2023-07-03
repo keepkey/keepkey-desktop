@@ -19,7 +19,7 @@ import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { RawText, Text } from 'components/Text'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import { WalletConnectWeb3Wallet } from 'kkdesktop/walletconnect/utils'
 import { getSignParamsMessage, rejectEIP155Request } from 'plugins/walletConnectToDapps/utils/utils'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { useCallback, useEffect, useState } from 'react'
@@ -92,7 +92,7 @@ export const EIP155SignMessageConfirmation = () => {
         }
 
         const response = formatJsonRpcResult(id, signedMessage.signature)
-        await WalletConnectSignClient.respond({
+        await WalletConnectWeb3Wallet.respondSessionRequest({
           topic,
           response,
         })
@@ -112,7 +112,7 @@ export const EIP155SignMessageConfirmation = () => {
 
   const onReject = useCallback(async () => {
     const response = rejectEIP155Request(currentRequest)
-    WalletConnectSignClient.respond({
+    WalletConnectWeb3Wallet.respondSessionRequest({
       topic: currentRequest.topic,
       response,
     })
