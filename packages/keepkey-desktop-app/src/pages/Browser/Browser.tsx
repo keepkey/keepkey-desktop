@@ -116,6 +116,21 @@ export const Browser = () => {
       setWebviewReady(true)
       const sdkApiKey = localStorage.getItem('@app/serviceKey')
       if (!sdkApiKey) return
+      webview.executeJavaScript(`localStorage.setItem(
+        'WCM_RECENT_WALLET_DATA',
+        '{
+          "id": "fdcaaa47c154988ff2ce28d39248eb10366ec60c7de725f73b0d33b5bb9b9a64",
+          "name": "KeepKey Desktop",
+          "homepage": "https://www.keepkey.com/",
+          "image_id": "eb4227d9-366c-466c-db8f-ab7e45985500",
+          "order": 5690,
+          "desktop": {
+              "native": "keepkey://launch",
+              "universal": ""
+          }
+      }',
+      )`)
+
       ipcListeners
         .getBrowserInjection(sdkApiKey)
         .then(injection => webview.executeJavaScript(injection))
