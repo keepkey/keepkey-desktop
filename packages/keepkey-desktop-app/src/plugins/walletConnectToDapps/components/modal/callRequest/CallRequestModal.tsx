@@ -44,7 +44,7 @@ export const NecessaryModal: FC<{ req?: any; isLegacy: boolean; removeReq: any }
 
       default:
         const response = rejectRequestAsUnsupported(req)
-        WalletConnectWeb3Wallet.respond({
+        WalletConnectWeb3Wallet.respondSessionRequest({
           topic: req.topic,
           response,
         })
@@ -70,7 +70,7 @@ export const CallRequestModal = () => {
           })
         } else {
           const response = rejectEIP155Request(currentRequest)
-          WalletConnectWeb3Wallet.respond({
+          WalletConnectWeb3Wallet.respondSessionRequest({
             topic: currentRequest.topic,
             response,
           })

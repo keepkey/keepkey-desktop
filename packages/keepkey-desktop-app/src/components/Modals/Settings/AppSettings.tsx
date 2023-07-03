@@ -43,11 +43,11 @@ export const AppSettings: FC = () => {
   }
 
   const unpairAndClear = () => {
-    const pairings = WalletConnectWeb3Wallet.pairing.getAll()
-    for (let index = 0; index < pairings.length; index++) {
-      const pairing = pairings[index]
-      WalletConnectWeb3Wallet.pairing.delete(pairing.topic, getSdkError('USER_DISCONNECTED'))
-    }
+    // const pairings = WalletConnectWeb3Wallet.pairing.getAll()
+    // for (let index = 0; index < pairings.length; index++) {
+    //   const pairing = pairings[index]
+    //   WalletConnectWeb3Wallet.pairing.delete(pairing.topic, getSdkError('USER_DISCONNECTED'))
+    // }
     ipcListeners.clearLocalStorage()
   }
 

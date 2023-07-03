@@ -194,7 +194,7 @@ export const EIP155SendTransactionConfirmation = () => {
           jsonresponse = formatJsonRpcResult(id, txid)
         }
 
-        await WalletConnectWeb3Wallet.respond({
+        await WalletConnectWeb3Wallet.respondSessionRequest({
           topic,
           response: jsonresponse,
         })
@@ -228,7 +228,7 @@ export const EIP155SendTransactionConfirmation = () => {
 
   const onReject = useCallback(async () => {
     const response = rejectEIP155Request(currentRequest)
-    WalletConnectWeb3Wallet.respond({
+    WalletConnectWeb3Wallet.respondSessionRequest({
       topic: currentRequest.topic,
       response,
     })
