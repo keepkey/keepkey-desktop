@@ -37,19 +37,6 @@ export const SessionProposalModal = () => {
   } = useWallet()
 
   const buildNamespace = () => {
-    console.log('optionalNamespaces: ', optionalNamespaces)
-    console.log('requiredNamespaces: ', requiredNamespaces)
-    console.log('optionalNamespaces.eip155: ', optionalNamespaces.eip155)
-    console.log('requiredNamespaces.eip155: ', requiredNamespaces.eip155)
-    console.log('optionalNamespaces.eip155?.chains: ', optionalNamespaces.eip155?.chains)
-    console.log('requiredNamespaces.eip155?.chains: ', requiredNamespaces.eip155?.chains)
-    console.log('optionalNamespaces.eip155?.methods: ', optionalNamespaces.eip155?.methods)
-    console.log('requiredNamespaces.eip155?.methods: ', requiredNamespaces.eip155?.methods)
-    console.log('optionalNamespaces.eip155?.events: ', optionalNamespaces.eip155?.events)
-    console.log('requiredNamespaces.eip155?.events: ', requiredNamespaces.eip155?.events)
-    console.log('optionalNamespaces.eip155?.rpcMap: ', optionalNamespaces.eip155?.rpcMap)
-    console.log('requiredNamespaces.eip155?.rpcMap: ', requiredNamespaces.eip155?.rpcMap)
-
     const combinedNamespaces: any = {
       eip155: {
         chains: [],
@@ -98,35 +85,7 @@ export const SessionProposalModal = () => {
       ...params.requiredNamespaces.eip155?.rpcMap,
       ...params.optionalNamespaces.eip155?.rpcMap,
     }
-
-    // console.log("params.requiredNamespaces.chains: ",params.requiredNamespaces.eip155?.chains)
-    // console.log("params.optionalNamespaces.eip155?.chains: ",params.optionalNamespaces.eip155?.chains)
-    // console.log("params.requiredNamespaces.chains + params.optionalNamespaces.eip155?.chains: ",params.requiredNamespaces.eip155?.chains + params.optionalNamespaces.eip155?.chains)
-    // combinedNamespaces.chains = params.requiredNamespaces.eip155?.chains + params.optionalNamespaces.eip155?.chains
-    // // combinedNamespaces.eip155.chains = mergeArrays(
-    // //     params.requiredNamespaces.eip155?.chains || [],
-    // //     params.optionalNamespaces.eip155?.chains || []
-    // // );
-    // // console.log("combinedNamespaces.chains: ",combinedNamespaces.chains)
-    //
-    // combinedNamespaces.eip155.methods = params.requiredNamespaces.eip155?.methods + params.optionalNamespaces.eip155?.methods
-    // // combinedNamespaces.methods = mergeArrays(
-    // //     params.requiredNamespaces.eip155?.methods || [],
-    // //     params.optionalNamespaces.eip155?.methods || []
-    // // );
-    //
-    // combinedNamespaces.eip155.events = params.requiredNamespaces.eip155?.events + params.optionalNamespaces.eip155?.events
-    // // combinedNamespaces.events = mergeArrays(
-    // //     params.requiredNamespaces.eip155?.events || [],
-    // //     params.optionalNamespaces.eip155?.events || []
-    // // );
-    //
-    // combinedNamespaces.eip155.rpcMap = params.requiredNamespaces.eip155?.rpcMap + params.optionalNamespaces.eip155?.rpcMap
-    // // combinedNamespaces.rpcMap = mergeObjects(
-    // //     params.requiredNamespaces.eip155?.rpcMap || {},
-    // //     params.optionalNamespaces.eip155?.rpcMap || {}
-    // // );
-    // console.log("combinedNamespaces: ",combinedNamespaces)
+    
     setSessionNamespaces(combinedNamespaces)
   }
 

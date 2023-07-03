@@ -33,6 +33,7 @@ export const startAppListeners = () => {
   })
 
   app.on('second-instance', async (e, argv) => {
+    console.log('ARGV', argv)
     e.preventDefault()
     if (process.platform !== 'darwin') {
       const protocolUrl = argv.find(arg => arg.startsWith('keepkey://'))
@@ -58,6 +59,7 @@ export const startAppListeners = () => {
   })
 
   app.on('open-url', (e, url) => {
+    console.log('URL', url)
     e.preventDefault()
     if (url.startsWith('keepkey://')) {
       setProtocolLaunchUrl(url)
