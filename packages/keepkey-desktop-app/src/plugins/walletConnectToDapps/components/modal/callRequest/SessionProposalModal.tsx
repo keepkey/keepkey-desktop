@@ -19,24 +19,25 @@ import { Card } from 'components/Card/Card'
 import { WalletConnectIcon } from 'components/Icons/WalletConnectIcon'
 import { RawText, Text } from 'components/Text'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { WalletConnectSignClient } from 'kkdesktop/walletconnect/utils'
+import { WalletConnectWeb3Wallet } from 'kkdesktop/walletconnect/utils'
 import { formatChainName } from 'plugins/walletConnectToDapps/utils/utils'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { useEffect, useState } from 'react'
 
 export const SessionProposalModal = () => {
-  const { proposals, removeProposal, setPairingMeta, setCurrentSessionTopic } = useWalletConnect()
+  const { proposals, removeProposal, setPairingMeta, setCurrentSessionTopic, setIsConnected } =
+    useWalletConnect()
 
   const currentProposal = proposals[0] as SignClientTypes.EventArguments['session_proposal']
 
   const { id, params } = currentProposal
-  const { proposer, requiredNamespaces, optionalNamespaces, relays } = params
+  const { proposer, requiredNamespaces, optionalNamespaces } = params
 
   const {
     state: { wallet },
   } = useWallet()
 
-  const buildNamespace = () => {
+  useEffect(() => {
     const combinedNamespaces: any = {
       eip155: {
         chains: [],
@@ -46,55 +47,54 @@ export const SessionProposalModal = () => {
       },
     }
 
-    const mergeArrays = (arr1: any, arr2: any) => [...new Set([...arr1, ...arr2])]
+    // const mergeArrays = (arr1: any, arr2: any) => [...new Set([...arr1, ...arr2])]
 
-    const mergeObjects = (
-      obj1: { [x: string]: any },
-      obj2: { [x: string]: any; hasOwnProperty: (arg0: string) => any },
-    ) => {
-      const mergedObj = { ...obj1 }
+    // const mergeObjects = (
+    //   obj1: { [x: string]: any },
+    //   obj2: { [x: string]: any; hasOwnProperty: (arg0: string) => any },
+    // ) => {
+    //   const mergedObj = { ...obj1 }
 
-      for (const key in obj2) {
-        if (obj2.hasOwnProperty(key)) {
-          if (Array.isArray(obj1[key]) && Array.isArray(obj2[key])) {
-            mergedObj[key] = mergeArrays(obj1[key], obj2[key])
-          } else if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
-            mergedObj[key] = mergeObjects(obj1[key], obj2[key])
-          } else {
-            mergedObj[key] = obj2[key]
-          }
-        }
-      }
+    //   for (const key in obj2) {
+    //     if (obj2.hasOwnProperty(key)) {
+    //       if (Array.isArray(obj1[key]) && Array.isArray(obj2[key])) {
+    //         mergedObj[key] = mergeArrays(obj1[key], obj2[key])
+    //       } else if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
+    //         mergedObj[key] = mergeObjects(obj1[key], obj2[key])
+    //       } else {
+    //         mergedObj[key] = obj2[key]
+    //       }
+    //     }
+    //   }
 
-      return mergedObj
-    }
+    //   return mergedObj
+    // }
 
-    combinedNamespaces.eip155.chains = params.requiredNamespaces.eip155?.chains.concat(
-      params.optionalNamespaces.eip155?.chains || [],
+    combinedNamespaces.eip155.chains = requiredNamespaces.eip155?.chains?.concat(
+      optionalNamespaces.eip155?.chains || [],
     )
 
-    combinedNamespaces.eip155.methods = params.requiredNamespaces.eip155?.methods.concat(
-      params.optionalNamespaces.eip155?.methods || [],
+    combinedNamespaces.eip155.methods = requiredNamespaces.eip155?.methods.concat(
+      optionalNamespaces.eip155?.methods || [],
     )
 
-    combinedNamespaces.eip155.events = params.requiredNamespaces.eip155?.events.concat(
-      params.optionalNamespaces.eip155?.events || [],
+    combinedNamespaces.eip155.events = requiredNamespaces.eip155?.events.concat(
+      optionalNamespaces.eip155?.events || [],
     )
 
     combinedNamespaces.eip155.rpcMap = {
-      ...params.requiredNamespaces.eip155?.rpcMap,
-      ...params.optionalNamespaces.eip155?.rpcMap,
+      // @ts-ignore
+      ...requiredNamespaces.eip155?.rpcMap,
+      // @ts-ignore
+      ...optionalNamespaces.eip155?.rpcMap,
     }
-    
-    setSessionNamespaces(combinedNamespaces)
-  }
 
-  useEffect(() => {
-    buildNamespace()
-  }, [params, currentProposal, params.requiredNamespaces, params.optionalNamespaces])
+    setSessionNamespaces(combinedNamespaces)
+  }, [params, currentProposal, requiredNamespaces, optionalNamespaces])
 
   const [loading, setLoading] = useState(false)
-  const [sessionNamespaces, setSessionNamespaces] = useState([])
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [sessionNamespaces, setSessionNamespaces] = useState(requiredNamespaces)
 
   const onApprove = async () => {
     console.log('proposer: ', proposer)
@@ -104,10 +104,12 @@ export const SessionProposalModal = () => {
       const namespaces: SessionTypes.Namespaces = {}
       let w = wallet as KeepKeyHDWallet
 
+      console.log('approving ', 1)
       await Promise.all(
         Object.keys(sessionNamespaces).map(async key => {
           const accounts: string[] = (
             await Promise.all(
+              // @ts-ignore
               sessionNamespaces[key].chains.map(async (chain: any) => {
                 console.log(chain)
                 let address
@@ -138,27 +140,36 @@ export const SessionProposalModal = () => {
               }),
             )
           ).filter((s: string) => s !== '')
+          console.log('approving ', 2)
           namespaces[key] = {
             accounts,
+            // @ts-ignore
             methods: sessionNamespaces[key].methods,
+            // @ts-ignore
             events: sessionNamespaces[key].events,
           }
         }),
       )
 
+      console.log('approving ', 3)
+
       const approveData = {
         id,
-        relayProtocol: relays[0].protocol,
         namespaces,
       }
 
-      const { acknowledged } = await WalletConnectSignClient.approve(approveData)
+      console.log('approving ', 4, approveData)
+
       const {
         peer: { metadata },
         topic,
-      } = await acknowledged()
+      } = await WalletConnectWeb3Wallet.approveSession(approveData)
+      console.log('approving ', 6, metadata, topic)
       setPairingMeta(metadata)
+      console.log('approving ', 7)
       setCurrentSessionTopic(topic)
+      setIsConnected(true)
+      console.log('approving ', 8)
     }
     removeProposal(id)
   }
@@ -167,7 +178,7 @@ export const SessionProposalModal = () => {
   const onReject = async () => {
     setLoading(true)
     if (currentProposal) {
-      await WalletConnectSignClient.reject({
+      await WalletConnectWeb3Wallet.rejectSession({
         id,
         reason: getSdkError('USER_REJECTED_METHODS'),
       })
@@ -180,7 +191,7 @@ export const SessionProposalModal = () => {
       isOpen={!!currentProposal}
       onClose={() => {
         removeProposal(id)
-        WalletConnectSignClient.reject({
+        WalletConnectWeb3Wallet.rejectSession({
           id,
           reason: getSdkError('USER_REJECTED_METHODS'),
         })
@@ -235,42 +246,49 @@ export const SessionProposalModal = () => {
             return (
               <Stack>
                 <RawText mb={5}>{`Review ${chain} permissions`}</RawText>
-                {sessionNamespaces[chain].chains.map(chainId => {
-                  const extensionMethods: ProposalTypes.RequiredNamespace['methods'] = []
-                  const extensionEvents: ProposalTypes.RequiredNamespace['events'] = []
 
-                  sessionNamespaces[chain].extension?.forEach(({ chains, methods, events }) => {
-                    if (chains.includes(chainId)) {
-                      extensionMethods.push(...methods)
-                      extensionEvents.push(...events)
-                    }
+                {
+                  // @ts-ignore
+                  sessionNamespaces[chain].chains.map((chainId: string) => {
+                    const extensionMethods: ProposalTypes.RequiredNamespace['methods'] = []
+                    const extensionEvents: ProposalTypes.RequiredNamespace['events'] = []
+
+                    // @ts-ignore
+                    sessionNamespaces[chain].extension?.forEach(({ chains, methods, events }) => {
+                      if (chains.includes(chainId)) {
+                        extensionMethods.push(...methods)
+                        extensionEvents.push(...events)
+                      }
+                    })
+
+                    // @ts-ignore
+                    const allMethods = [...sessionNamespaces[chain].methods, ...extensionMethods]
+                    // @ts-ignore
+                    const allEvents = [...sessionNamespaces[chain].events, ...extensionEvents]
+                    return (
+                      <Card rounded='lg'>
+                        <Card.Header>
+                          <Card.Heading>{formatChainName(chainId)}</Card.Heading>
+                        </Card.Header>
+                        <Card.Body>
+                          <Card.Heading>
+                            <Text translation='plugins.walletConnectToDapps.modal.sessionProposal.methods' />
+                          </Card.Heading>
+                          <RawText color='gray.500'>
+                            {allMethods.length ? allMethods.join(', ') : '-'}
+                          </RawText>
+                          <Divider mt={2} mb={2} />
+                          <Card.Heading>
+                            <Text translation='plugins.walletConnectToDapps.modal.sessionProposal.events' />
+                          </Card.Heading>
+                          <RawText color='gray.500'>
+                            {allEvents.length ? allEvents.join(', ') : '-'}
+                          </RawText>
+                        </Card.Body>
+                      </Card>
+                    )
                   })
-
-                  const allMethods = [...sessionNamespaces[chain].methods, ...extensionMethods]
-                  const allEvents = [...sessionNamespaces[chain].events, ...extensionEvents]
-                  return (
-                    <Card rounded='lg'>
-                      <Card.Header>
-                        <Card.Heading>{formatChainName(chainId)}</Card.Heading>
-                      </Card.Header>
-                      <Card.Body>
-                        <Card.Heading>
-                          <Text translation='plugins.walletConnectToDapps.modal.sessionProposal.methods' />
-                        </Card.Heading>
-                        <RawText color='gray.500'>
-                          {allMethods.length ? allMethods.join(', ') : '-'}
-                        </RawText>
-                        <Divider mt={2} mb={2} />
-                        <Card.Heading>
-                          <Text translation='plugins.walletConnectToDapps.modal.sessionProposal.events' />
-                        </Card.Heading>
-                        <RawText color='gray.500'>
-                          {allEvents.length ? allEvents.join(', ') : '-'}
-                        </RawText>
-                      </Card.Body>
-                    </Card>
-                  )
-                })}
+                }
                 {/* <SessionProposalChainCard requiredNamespace={requiredNamespaces[chain]} />
                                 {renderAccountSelection(chain)} */}
                 <Divider />
