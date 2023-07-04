@@ -21,6 +21,7 @@ type WalletConnectBridgeContextValue = {
   isConnected: boolean
   legacyWeb3: EthChainData | undefined
   setLegacyWeb3: (data: EthChainData | undefined) => void
+  setIsConnected: (value: boolean) => void
 }
 
 export const WalletConnectBridgeContext = createContext<WalletConnectBridgeContextValue>({
@@ -41,6 +42,7 @@ export const WalletConnectBridgeContext = createContext<WalletConnectBridgeConte
   isConnected: false,
   legacyWeb3: undefined,
   setLegacyWeb3: () => 0,
+  setIsConnected: () => 0,
 })
 
 export function useWalletConnect() {
