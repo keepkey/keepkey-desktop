@@ -8,6 +8,7 @@ import {
   Image,
   Modal,
   ModalBody,
+  Button,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
@@ -133,6 +134,17 @@ export const HardwareErrorModal = (error: {
                         : 'modals.keepKey.hardware.connect',
                     )}
                   </ReactMarkdown>
+                  <br/>
+                  <h4>{translate('modals.keepKey.hardware.guide')}</h4>
+                  <a
+                      href={'https://medium.com/@highlander_35968/troubleshooting-connections-with-the-keepkey-4599f1aaee0'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                  >
+                    <small>{translate('modals.keepKey.hardware.moreInfo')}</small>
+                    <br/>
+                    <Button colorScheme='blue' variant='outline'>Website</Button>
+                  </a>
                 </div>
               </div>
             )}

@@ -83,23 +83,27 @@ export class EthereumController extends ApiController {
           maxFeePerGas: body.maxFeePerGas,
           maxPriorityFeePerGas: body.maxPriorityFeePerGas,
       };
-      
-      let api = await this.context.api.init()
-      //get insight
-      let insight = await api.SmartInsight(msg);
-      insight = insight.data
-      console.log('insight: ', insight);
-      console.log('insight.recommended: ', insight.recommended);
-      //TODO verify no changes in to from body or value
-      if (insight.recommended.maxFeePerGas) {
-          msg.maxFeePerGas = insight.recommended.maxFeePerGas;
+      try{
+          let api = await this.context.api.init()
+          //get insight
+          let insight = await api.SmartInsight(msg);
+          insight = insight.data
+          console.log('insight: ', insight);
+          console.log('insight.recommended: ', insight.recommended);
+          //TODO verify no changes in to from body or value
+          if (insight.recommended.maxFeePerGas) {
+              msg.maxFeePerGas = insight.recommended.maxFeePerGas;
+          }
+          if (insight.recommended.gasPrice) {
+              msg.gasPrice = insight.recommended.gasPrice;
+          }
+          if (insight.recommended.maxPriorityFeePerGas) {
+              msg.maxPriorityFeePerGas = insight.recommended.maxPriorityFeePerGas;
+          }          
+      }catch(e){
+          console.error("unable to get tx insight", e)
       }
-      if (insight.recommended.gasPrice) {
-          msg.gasPrice = insight.recommended.gasPrice;
-      }
-      if (insight.recommended.maxPriorityFeePerGas) {
-          msg.maxPriorityFeePerGas = insight.recommended.maxPriorityFeePerGas;
-      }
+
       //@ts-ignore
       let result = await this.context.wallet.ethSignTx(msg);
       console.log('ethSignTx final result: ', result);
