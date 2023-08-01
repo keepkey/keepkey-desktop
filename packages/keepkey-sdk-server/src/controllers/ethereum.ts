@@ -97,13 +97,16 @@ export class EthereumController extends ApiController {
           if (insight.recommended.gasPrice) {
               msg.gasPrice = insight.recommended.gasPrice;
           }
+          if (insight.recommended.gasLimit) {
+              msg.gasLimit = insight.recommended.gasLimit;
+          }
           if (insight.recommended.maxPriorityFeePerGas) {
               msg.maxPriorityFeePerGas = insight.recommended.maxPriorityFeePerGas;
           }          
       }catch(e){
           console.error("unable to get tx insight", e)
       }
-
+      console.log("MSG: ", msg);
       //@ts-ignore
       let result = await this.context.wallet.ethSignTx(msg);
       console.log('ethSignTx final result: ', result);
