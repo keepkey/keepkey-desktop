@@ -14,8 +14,7 @@ export function isKeepKey(wallet: core.HDWallet): wallet is KeepKeyRestHDWallet 
 }
 
 export class KeepKeyRestHDWallet
-  implements core.HDWallet, core.BTCWallet, core.ETHWallet, core.DebugLinkWallet
-{
+  implements core.HDWallet, core.BTCWallet, core.ETHWallet, core.DebugLinkWallet {
   readonly _supportsETHInfo = true
   readonly _supportsBTCInfo = true
   readonly _supportsCosmosInfo = true
@@ -88,8 +87,8 @@ export class KeepKeyRestHDWallet
       this.abortControllers.set(
         abortController,
         promise.then(
-          () => {},
-          () => {},
+          () => { },
+          () => { },
         ),
       )
       return await promise
@@ -1234,9 +1233,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
-                msgs: msg.tx.msg,
+                msg: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
                 fee: {
@@ -1256,9 +1253,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
-                msgs: msg.tx.msg,
+                msg: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
                 fee: {

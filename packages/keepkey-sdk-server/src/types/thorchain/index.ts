@@ -25,7 +25,7 @@ export type SignDocDeposit = {
    * @minItems 1
    * @maxItems 1
    */
-  msgs: StdTxDeposit[]
+  msg: StdTxDeposit[]
   fee: {
     amount: any
     gas: types.decimal.U64
@@ -51,7 +51,7 @@ export type SignDocTransfer = {
    * @minItems 1
    * @maxItems 1
    */
-  msgs: StdTxTransfer[]
+  msg: StdTxTransfer[]
   fee: {
     amount: any
     gas: types.decimal.U64

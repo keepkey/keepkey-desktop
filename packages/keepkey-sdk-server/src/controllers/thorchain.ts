@@ -37,9 +37,9 @@ export class ThorchainController extends ApiController {
   }> {
     if (!body.signDoc.account_number) throw new Error('Missing account_number')
     if (!body.signDoc.chain_id) throw new Error('Missing chain_id')
-    if (!body.signDoc.msgs[0].value.amount) throw new Error('Missing coins')
-    if (!body.signDoc.msgs[0].value.from_address) throw new Error('Missing from_address')
-    if (!body.signDoc.msgs[0].value.to_address) throw new Error('Missing to_address')
+    if (!body.signDoc.msg[0].value.amount) throw new Error('Missing coins')
+    if (!body.signDoc.msg[0].value.from_address) throw new Error('Missing from_address')
+    if (!body.signDoc.msg[0].value.to_address) throw new Error('Missing to_address')
 
     //default fee
     if (!body.signDoc.fee || !body.signDoc.fee.amount || body.signDoc.fee.amount.length == 0) {
@@ -58,7 +58,7 @@ export class ThorchainController extends ApiController {
       chain_id: body.signDoc.chain_id,
       fee: body.signDoc.fee,
       memo: body.signDoc.memo || '',
-      msg: [body.signDoc.msgs[0]],
+      msg: [body.signDoc.msg[0]],
       signatures: [],
       sequence: body.signDoc.sequence,
     }
@@ -94,9 +94,9 @@ export class ThorchainController extends ApiController {
   }> {
     if (!body.signDoc.account_number) throw new Error('Missing account_number')
     if (!body.signDoc.chain_id) throw new Error('Missing chain_id')
-    if (!body.signDoc.msgs[0].value.coins) throw new Error('Missing coins')
-    if (!body.signDoc.msgs[0].value.memo) throw new Error('Missing memo')
-    if (!body.signDoc.msgs[0].value.signer) throw new Error('Missing signer')
+    if (!body.signDoc.msg[0].value.coins) throw new Error('Missing coins')
+    if (!body.signDoc.msg[0].value.memo) throw new Error('Missing memo')
+    if (!body.signDoc.msg[0].value.signer) throw new Error('Missing signer')
 
     //default fee
     if (!body.signDoc.fee || !body.signDoc.fee.amount || body.signDoc.fee.amount.length == 0) {
@@ -115,7 +115,7 @@ export class ThorchainController extends ApiController {
       chain_id: body.signDoc.chain_id,
       fee: body.signDoc.fee,
       memo: body.signDoc.memo || '',
-      msg: [body.signDoc.msgs[0]],
+      msg: [body.signDoc.msg[0]],
       signatures: [],
       sequence: body.signDoc.sequence,
     }
