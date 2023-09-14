@@ -35,7 +35,7 @@ export type SignDocDeposit = {
 export type StdTxTransfer = {
   type: 'thorchain/MsgSend'
   value: {
-    amount: Coin
+    amount: any
     from_address: string
     to_address: string
   }

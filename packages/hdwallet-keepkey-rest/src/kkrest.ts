@@ -1251,7 +1251,7 @@ export class KeepKeyRestHDWallet
           break
         case 'thorchain/MsgSend':
           console.log('thorchain/MsgSend MSG: ', msg)
-          signed = await this.sdk.thorchain.thorchainSignAminoDeposit(
+          signed = await this.sdk.thorchain.thorchainSignAminoTransfer(
             {
               signDoc: {
                 account_number: msg.account_number,
