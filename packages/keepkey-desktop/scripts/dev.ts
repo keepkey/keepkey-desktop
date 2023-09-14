@@ -51,6 +51,7 @@ export const dev = async () => {
 
   child.stderr.on('data', data => {
     console.error(`stderr [electron main] : ${data}`)
+    console.error("stderr [electron main] : ",JSON.stringify(data))
   })
 
   process.on('SIGINT', () => {

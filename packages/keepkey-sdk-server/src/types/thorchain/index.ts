@@ -1,7 +1,7 @@
 import type * as types from '..'
 
 export type Coin = {
-  amount: types.cosmos.Int
+  amount: string
   /** @minLength 1 */
   denom: string
 }

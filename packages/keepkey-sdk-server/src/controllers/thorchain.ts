@@ -69,7 +69,10 @@ export class ThorchainController extends ApiController {
       account_number: tx.account_number,
       sequence: tx.sequence,
     }
+    // @ts-ignore
+    console.log('thorchain MSG input: ', JSON.stringify(input))
     const response = await this.context.wallet.thorchainSignTx(input)
+    // @ts-ignore
     console.log('thorchain MSG SignDoc: ', JSON.stringify(body))
     return {
       signature: response.signatures[0],
@@ -126,6 +129,7 @@ export class ThorchainController extends ApiController {
       account_number: tx.account_number,
       sequence: tx.sequence,
     }
+    console.log('thorchainSignTx MSG input: ', JSON.stringify(input))
     const response = await this.context.wallet.thorchainSignTx(input)
     console.log('thorchain MSG SignDoc: ', JSON.stringify(body))
     return {

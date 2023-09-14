@@ -71,13 +71,17 @@ export const SessionProposalModal = () => {
     // }
 
     combinedNamespaces.eip155.chains = requiredNamespaces.eip155?.chains?.concat(
-      optionalNamespaces.eip155?.chains || [],
+        optionalNamespaces.eip155?.chains || [],
     )
+    
+    // combinedNamespaces.eip155.chains = requiredNamespaces.eip155?.chains?.concat(
+    //   optionalNamespaces.eip155?.chains || [],
+    // )
 
     combinedNamespaces.eip155.methods = requiredNamespaces.eip155?.methods.concat(
       //only do required methods for now
-      []
-      // optionalNamespaces.eip155?.methods || [],
+      // []
+      optionalNamespaces.eip155?.methods || [],
     )
 
     combinedNamespaces.eip155.events = requiredNamespaces.eip155?.events.concat(

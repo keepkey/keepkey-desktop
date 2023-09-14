@@ -72,7 +72,7 @@ export class EthereumController extends ApiController {
 
       let msg = {
           addressNList: account.addressNList,
-          from: addressFrom || '0xC3aFFff54122658b89C31183CeC4F15514F34624',
+          from: addressFrom,
           chainId,
           nonce: body.nonce,
           value: body.value ?? '0x0',
@@ -83,6 +83,7 @@ export class EthereumController extends ApiController {
           maxFeePerGas: body.maxFeePerGas,
           maxPriorityFeePerGas: body.maxPriorityFeePerGas,
       };
+      console.log("MSG: 0 ", msg);
       try{
           let api = await this.context.api.init()
           //get insight
@@ -90,7 +91,6 @@ export class EthereumController extends ApiController {
           insight = insight.data
           console.log('insight: ', insight);
           console.log('insight.recommended: ', insight.recommended);
-          //TODO verify no changes in to from body or value
           if (insight.recommended.maxFeePerGas) {
               msg.maxFeePerGas = insight.recommended.maxFeePerGas;
           }
@@ -102,11 +102,23 @@ export class EthereumController extends ApiController {
           }
           if (insight.recommended.maxPriorityFeePerGas) {
               msg.maxPriorityFeePerGas = insight.recommended.maxPriorityFeePerGas;
-          }          
+          }
       }catch(e){
           console.error("unable to get tx insight", e)
       }
-      console.log("MSG: ", msg);
+      console.log("MSG: 1 ", msg);
+      if(chainId !== 1){
+          if(msg.maxPriorityFeePerGas){
+              delete msg.maxPriorityFeePerGas;
+          }
+          if(msg.maxFeePerGas){
+              delete msg.maxFeePerGas;
+          }
+          if(!msg.gasPrice){
+              msg.gasPrice = gasPrice;
+          }
+      }
+      console.log("MSG: (final) ", msg);
       //@ts-ignore
       let result = await this.context.wallet.ethSignTx(msg);
       console.log('ethSignTx final result: ', result);
