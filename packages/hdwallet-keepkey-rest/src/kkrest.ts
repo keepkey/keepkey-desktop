@@ -177,7 +177,7 @@ export class KeepKeyRestHDWallet
         )
       })
     },
-    msg => JSON.stringify(msg),
+    (msg: any) => JSON.stringify(msg),
   )
 
   public async ping(msg: core.Ping): Promise<core.Pong> {
@@ -368,7 +368,8 @@ export class KeepKeyRestHDWallet
     // skipped, as this is done automatically by the server during firmwareUpload
   }
 
-  public async firmwareUpload(firmware: Buffer): Promise<void> {
+  // @ts-ignore
+  public async firmwareUpload(firmware: any): Promise<void> {
     return await this.abortable(async signal => {
       await this.sdk.system.firmwareUpdate(new Blob([firmware]), undefined, { signal })
     })
@@ -380,6 +381,7 @@ export class KeepKeyRestHDWallet
 
   protected async getFeaturesUncached(): Promise<Messages.Features.AsObject> {
     const raw = await this.sdk.system.info.getFeatures()
+    // @ts-ignore
     return {
       vendor: raw.vendor,
       // TODO: openapi-generator has busted types on these
@@ -395,18 +397,21 @@ export class KeepKeyRestHDWallet
       label: raw.label,
       coinsList: [],
       initialized: raw.initialized,
+      //@ts-ignore
       revision: Buffer.from((raw.revision as string | undefined) ?? '', 'utf8').toString('base64'),
+      //@ts-ignore
       bootloaderHash: Buffer.from(
         (raw.bootloader_hash as string | undefined) ?? '',
         'hex',
       ).toString('base64'),
+      //@ts-ignore
       firmwareHash: Buffer.from((raw.firmware_hash as string | undefined) ?? '', 'hex').toString(
         'base64',
       ),
       imported: raw.imported,
       pinCached: raw.pin_cached,
       passphraseCached: raw.passphrase_cached,
-      policiesList: (raw.policies ?? []).map(x => ({
+      policiesList: (raw.policies ?? []).map((x: { policy_name: any; enabled: any }) => ({
         policyName: x.policy_name,
         enabled: x.enabled,
       })),
@@ -531,7 +536,7 @@ export class KeepKeyRestHDWallet
         ).address
       })
     },
-    msg => JSON.stringify(msg),
+    (msg: any) => JSON.stringify(msg),
   )
 
   public async btcSignTx(msg: core.BTCSignTxKK): Promise<core.BTCSignedTx> {
@@ -589,12 +594,11 @@ export class KeepKeyRestHDWallet
           ).address,
           to: msg.to,
           gas: msg.gasLimit,
-          // TODO: openapi-generator types are terrible
-          // @ts-expect-error
+
           gasPrice: msg.gasPrice,
-          // @ts-expect-error
+
           maxFeePerGas: msg.maxFeePerGas,
-          // @ts-expect-error
+
           maxPriorityFeePerGas: msg.maxPriorityFeePerGas,
           chainId: msg.chainId,
         },
@@ -626,7 +630,7 @@ export class KeepKeyRestHDWallet
         ).address
       })
     },
-    msg => JSON.stringify(msg),
+    (msg: any) => JSON.stringify(msg),
   )
 
   public async ethSignMessage(msg: core.ETHSignMessage): Promise<core.ETHSignedMessage> {
@@ -634,6 +638,7 @@ export class KeepKeyRestHDWallet
       const address = (
         await this.sdk.address.ethereumGetAddress({ address_n: msg.addressNList }, { signal })
       ).address
+      // @ts-ignore
       const message = `0x${Buffer.from(
         Uint8Array.from(
           typeof msg.message === 'string' ? new TextEncoder().encode(msg.message) : msg.message,
@@ -679,6 +684,7 @@ export class KeepKeyRestHDWallet
 
   public async ethVerifyMessage(msg: core.ETHVerifyMessage): Promise<boolean> {
     return await this.abortable(async signal => {
+      // @ts-ignore
       const message = `0x${Buffer.from(
         Uint8Array.from(
           typeof msg.message === 'string' ? new TextEncoder().encode(msg.message) : msg.message,
@@ -746,7 +752,7 @@ export class KeepKeyRestHDWallet
         ).address
       })
     },
-    msg => JSON.stringify(msg),
+    (msg: any) => JSON.stringify(msg),
   )
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -782,10 +788,10 @@ export class KeepKeyRestHDWallet
         ).address
       })
     },
-    msg => JSON.stringify(msg),
+    (msg: any) => JSON.stringify(msg),
   )
 
-  public async cosmosSignTx(msg: core.CosmosSignTx): Promise<core.CosmosSignedTx> {
+  public async cosmosSignTx(msg: any): Promise<core.CosmosSignedTx> {
     return await this.abortable(async signal => {
       const signerAddress = (
         await this.sdk.address.cosmosGetAddress(
@@ -806,8 +812,6 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -827,8 +831,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -848,8 +851,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -869,8 +871,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -890,8 +891,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -911,8 +911,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo || ' ',
                 sequence: msg.sequence,
@@ -967,10 +966,10 @@ export class KeepKeyRestHDWallet
         ).address
       })
     },
-    msg => JSON.stringify(msg),
+    (msg: any) => JSON.stringify(msg),
   )
 
-  public async osmosisSignTx(msg: core.OsmosisSignTx): Promise<core.OsmosisSignedTx> {
+  public async osmosisSignTx(msg: any): Promise<core.OsmosisSignedTx> {
     return await this.abortable(async signal => {
       const signerAddress = (
         await this.sdk.address.osmosisGetAddress(
@@ -990,8 +989,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -1011,8 +1009,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -1032,8 +1029,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -1053,8 +1049,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -1074,8 +1069,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -1095,8 +1089,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -1116,8 +1109,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo || '',
                 sequence: msg.sequence,
@@ -1137,8 +1129,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -1158,8 +1149,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -1207,10 +1197,10 @@ export class KeepKeyRestHDWallet
         ).address
       })
     },
-    msg => JSON.stringify(msg),
+    (msg: any) => JSON.stringify(msg),
   )
 
-  public async thorchainSignTx(msg: core.ThorchainSignTx): Promise<core.ThorchainSignedTx> {
+  public async thorchainSignTx(msg: any): Promise<any> {
     return await this.abortable(async signal => {
       const signerAddress = (
         await this.sdk.address.thorchainGetAddress(
@@ -1234,8 +1224,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -1256,8 +1245,7 @@ export class KeepKeyRestHDWallet
               signDoc: {
                 account_number: msg.account_number,
                 chain_id: msg.chain_id,
-                // TODO: busted openapi-generator types
-                // @ts-expect-error
+
                 msgs: msg.tx.msg,
                 memo: msg.tx.memo ?? '',
                 sequence: msg.sequence,
@@ -1304,12 +1292,10 @@ export class KeepKeyRestHDWallet
         ).address as string
       })
     },
-    msg => JSON.stringify(msg),
+    (msg: any) => JSON.stringify(msg),
   )
 
-  public async binanceSignTx(msg: core.BinanceSignTx): Promise<core.BinanceSignedTx> {
-    // TODO: busted openapi-generator types
-    // @ts-expect-error
+  public async binanceSignTx(msg: core.BinanceSignTx): Promise<any> {
     return await this.abortable(async signal => {
       const signerAddress = await this.sdk.address.binanceGetAddress(
         {
@@ -1354,7 +1340,7 @@ export class KeepKeyRestHDWallet
     async (_msg: core.EosGetPublicKey): Promise<string> => {
       throw new Error('not implemented')
     },
-    msg => JSON.stringify(msg),
+    (msg: any) => JSON.stringify(msg),
   )
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

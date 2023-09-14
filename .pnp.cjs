@@ -8750,7 +8750,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@cosmjs/proto-signing", "npm:0.28.13"],\
             ["@cosmjs/stargate", "npm:0.28.13"],\
             ["@keepkey/device-protocol", "npm:7.10.2"],\
-            ["@keepkey/keepkey-sdk", "npm:0.2.48"],\
+            ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.50.3"],\
             ["@types/create-hash", "npm:1.2.2"],\
             ["@types/crypto-js", "npm:4.1.1"],\
@@ -8788,7 +8788,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@cosmjs/proto-signing", "npm:0.28.13"],\
             ["@cosmjs/stargate", "npm:0.28.13"],\
             ["@keepkey/device-protocol", "npm:7.10.2"],\
-            ["@keepkey/keepkey-sdk", "npm:0.2.48"],\
+            ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.50.3"],\
             ["@types/create-hash", "npm:1.2.2"],\
             ["@types/crypto-js", "npm:4.1.1"],\
@@ -8815,13 +8815,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@keepkey/keepkey-sdk", [\
-        ["npm:0.2.48", {\
-          "packageLocation": "./.yarn/cache/@keepkey-keepkey-sdk-npm-0.2.48-8ddbf81af0-544340de01.zip/node_modules/@keepkey/keepkey-sdk/",\
-          "packageDependencies": [\
-            ["@keepkey/keepkey-sdk", "npm:0.2.48"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["workspace:packages/keepkey-sdk", {\
           "packageLocation": "./packages/keepkey-sdk/",\
           "packageDependencies": [\
@@ -20413,7 +20406,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["elliptic", "npm:6.5.4"],\
             ["nano-json-stream-parser", "npm:0.1.2"],\
             ["servify", "npm:0.1.12"],\
-            ["ws", "virtual:0ec9380b3749b5d5695bfbf6ed8935ce70104ced93fd54a10e4b968318f96fcb50606be289c886465bf0299b66ef81b3493eb6ac05bd34b71e7c93e889b6dda7#npm:3.3.3"],\
+            ["ws", "virtual:f0336c84008699a86abfadce785f4a22941161f29b5b5e6919a8c7693f76e5c3938176dc2db06c085dc60cce29a261dc2ce48f374b1356bc1c873e5683508a38#npm:3.3.3"],\
             ["xhr-request-promise", "npm:0.1.3"]\
           ],\
           "linkType": "HARD"\
@@ -35177,7 +35170,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["inherits", "npm:2.0.4"],\
             ["readable-stream", "npm:2.3.7"],\
             ["safe-buffer", "npm:5.2.1"],\
-            ["ws", "virtual:0ec9380b3749b5d5695bfbf6ed8935ce70104ced93fd54a10e4b968318f96fcb50606be289c886465bf0299b66ef81b3493eb6ac05bd34b71e7c93e889b6dda7#npm:3.3.3"],\
+            ["ws", "virtual:f0336c84008699a86abfadce785f4a22941161f29b5b5e6919a8c7693f76e5c3938176dc2db06c085dc60cce29a261dc2ce48f374b1356bc1c873e5683508a38#npm:3.3.3"],\
             ["xtend", "npm:4.0.2"]\
           ],\
           "linkType": "HARD"\
@@ -35465,26 +35458,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:0ec9380b3749b5d5695bfbf6ed8935ce70104ced93fd54a10e4b968318f96fcb50606be289c886465bf0299b66ef81b3493eb6ac05bd34b71e7c93e889b6dda7#npm:3.3.3", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-5b17f37054/0/cache/ws-npm-3.3.3-30771aa150-20b7bf34bb.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:0ec9380b3749b5d5695bfbf6ed8935ce70104ced93fd54a10e4b968318f96fcb50606be289c886465bf0299b66ef81b3493eb6ac05bd34b71e7c93e889b6dda7#npm:3.3.3"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["async-limiter", "npm:1.0.1"],\
-            ["bufferutil", null],\
-            ["safe-buffer", "npm:5.1.2"],\
-            ["ultron", "npm:1.1.1"],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["virtual:2f724013ee6bb4be6a979cb35ef8cc78912aa089af0234c2140fbcd838bfe689f6a5e3dd020040cdadad90a458035177d738aa33e2b5585aed4215f15333f64c#npm:5.2.3", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-2f80e10896/0/cache/ws-npm-5.2.3-b2f5e4219f-bdb2223a40.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -35578,6 +35551,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:f0336c84008699a86abfadce785f4a22941161f29b5b5e6919a8c7693f76e5c3938176dc2db06c085dc60cce29a261dc2ce48f374b1356bc1c873e5683508a38#npm:3.3.3", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-cde5fb87c6/0/cache/ws-npm-3.3.3-30771aa150-20b7bf34bb.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:f0336c84008699a86abfadce785f4a22941161f29b5b5e6919a8c7693f76e5c3938176dc2db06c085dc60cce29a261dc2ce48f374b1356bc1c873e5683508a38#npm:3.3.3"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["async-limiter", "npm:1.0.1"],\
+            ["bufferutil", null],\
+            ["safe-buffer", "npm:5.1.2"],\
+            ["ultron", "npm:1.1.1"],\
             ["utf-8-validate", null]\
           ],\
           "packagePeers": [\

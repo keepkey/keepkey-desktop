@@ -47,9 +47,11 @@ export const ConnectModal: FC<Props> = ({ isOpen, onClose, scannedQr }) => {
     async (values: FormValues) => {
       if (!values) values = getValues()
       //if wallet-connect v1 show warning!
-        if (values.uri.includes('bridge.walletconnect.org')) {
-          alert("Wallet Connect v1 has been shutdown, please inform the Dapp developers that gave you this connection string they need upgrade to v2.")
-        }
+      if (values.uri.includes('bridge.walletconnect.org')) {
+        alert(
+          'Wallet Connect v1 has been shutdown, please inform the Dapp developers that gave you this connection string they need upgrade to v2.',
+        )
+      }
       await connect(values.uri)
       onClose()
     },

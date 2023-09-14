@@ -1,8 +1,9 @@
+// @ts-ignore
+import Pioneer from '@pioneer-platform/pioneer-client'
 import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { isEqual } from 'lodash'
-// @ts-ignore
-import Pioneer from "@pioneer-platform/pioneer-client"
+
 // import { FailureType, isKKFailureType } from '../util'
 import type { SdkClient } from './sdkClient'
 const horribleAccountsHack = new WeakMap<KeepKeyHDWallet, Record<string, BIP32Path>>()
@@ -18,14 +19,14 @@ export class ApiContext {
   readonly wallet: KeepKeyHDWallet
   readonly accounts: Record<string, BIP32Path>
   readonly path: string
-  api: Pioneer;
-  
+  api: Pioneer
+
   protected constructor(sdkClient: SdkClient, accounts: Record<string, BIP32Path>, path: string) {
     this.sdkClient = sdkClient
     this.wallet = sdkClient.wallet
     this.accounts = accounts
     this.path = path
-    this.api = new Pioneer("https://pioneers.dev/spec/swagger.json",{queryKey:"kkdesktop:1"})
+    this.api = new Pioneer('https://pioneers.dev/spec/swagger.json', { queryKey: 'kkdesktop:1' })
   }
 
   static async create(sdkClient: SdkClient, path: string): Promise<ApiContext> {

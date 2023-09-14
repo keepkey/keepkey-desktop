@@ -9,8 +9,8 @@ import {
   SuccessResponse,
   Tags,
 } from '@tsoa/runtime'
-// import { assume } from 'common-utils'
 
+// import { assume } from 'common-utils'
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'
 import type * as types from '../types'
@@ -28,102 +28,108 @@ export class EthereumController extends ApiController {
   @Post('sign-transaction')
   @OperationId('eth_signTransaction')
   public async signTransaction(
-      @Body()
-          body: {
-          from?: types.eth.Address | string;
-          addressNList?: any;
-          to: string;
-          data: types.eth.HexData | string
-          gas?: types.eth.HexQuantity | string;
-          value: types.eth.HexQuantity | string;
-          nonce: types.eth.HexQuantity | string;
-          chainId: string | number;
-          maxFeePerGas?: types.eth.HexQuantity | string;
-          maxPriorityFeePerGas?: types.eth.HexQuantity | string;
-          gasPrice?: types.eth.HexQuantity | string;
-      }
+    @Body()
+    body: {
+      from?: types.eth.Address | string
+      addressNList?: any
+      to: string
+      data: types.eth.HexData | string
+      gas?: types.eth.HexQuantity | string
+      value: types.eth.HexQuantity | string
+      nonce: types.eth.HexQuantity | string
+      chainId: string | number
+      maxFeePerGas?: types.eth.HexQuantity | string
+      maxPriorityFeePerGas?: types.eth.HexQuantity | string
+      gasPrice?: types.eth.HexQuantity | string
+    },
   ): Promise<{
-      v: types.numeric.U32;
-      r: types.eth.HexData;
-      s: types.eth.HexData;
-      serialized: types.eth.HexData;
+    v: types.numeric.U32
+    r: types.eth.HexData
+    s: types.eth.HexData
+    serialized: types.eth.HexData
   }> {
-      console.log('Body: ', body);
-      if (body.chainId === 0 || body.chainId === '0') body.chainId = '1';
+    console.log('Body: ', body)
+    if (body.chainId === 0 || body.chainId === '0') body.chainId = '1'
 
-      const account = await this.context.getAccount(body.addressNList || body.from);
-      console.log("account: ", account);
+    const account = await this.context.getAccount(body.addressNList || body.from)
+    console.log('account: ', account)
 
-      const addressFrom = await this.context.wallet.ethGetAddress({
-          addressNList: account.addressNList,
-          showDisplay: false,
-      });
-      console.log("addressFrom: ", addressFrom);
-      if (!body.to) body.to = '0x';
+    const addressFrom = await this.context.wallet.ethGetAddress({
+      addressNList: account.addressNList,
+      showDisplay: false,
+    })
+    console.log('addressFrom: ', addressFrom)
+    if (!body.to) body.to = '0x'
 
-      let chainId: number;
-      if (typeof body.chainId === 'string') {
-          chainId = body.chainId.startsWith('0x') ? parseInt(body.chainId.slice(2), 16) : parseInt(body.chainId);
-      } else {
-          chainId = body.chainId;
+    let chainId: number
+    if (typeof body.chainId === 'string') {
+      chainId = body.chainId.startsWith('0x')
+        ? parseInt(body.chainId.slice(2), 16)
+        : parseInt(body.chainId)
+    } else {
+      chainId = body.chainId
+    }
+
+    let gasPrice =
+      '0x' +
+      (
+        parseInt(body.maxFeePerGas ?? '0x0', 16) + parseInt(body.maxPriorityFeePerGas ?? '0x0', 16)
+      ).toString(16)
+
+    let msg = {
+      addressNList: account.addressNList,
+      from: addressFrom,
+      chainId,
+      nonce: body.nonce,
+      value: body.value || '0x0',
+      data: body.data || '',
+      gasLimit: body.gas || '0x0',
+      to: body.to,
+      gasPrice: body.gasPrice || gasPrice,
+      maxFeePerGas: body.maxFeePerGas,
+      maxPriorityFeePerGas: body.maxPriorityFeePerGas,
+    }
+    console.log('MSG: 0 ', msg)
+    try {
+      let api = await this.context.api.init()
+      //get insight
+      let insight = await api.SmartInsight(msg)
+      insight = insight.data
+      console.log('insight: ', insight)
+      console.log('insight.recommended: ', insight.recommended)
+      if (insight.recommended.maxFeePerGas) {
+        msg.maxFeePerGas = insight.recommended.maxFeePerGas
       }
-
-      let gasPrice = '0x' + (parseInt(body.maxFeePerGas ?? '0x0', 16) + parseInt(body.maxPriorityFeePerGas ?? '0x0', 16)).toString(16);
-
-      let msg = {
-          addressNList: account.addressNList,
-          from: addressFrom,
-          chainId,
-          nonce: body.nonce,
-          value: body.value || '0x0',
-          data: body.data || '',
-          gasLimit: body.gas || '0x0',
-          to: body.to,
-          gasPrice: body.gasPrice || gasPrice,
-          maxFeePerGas: body.maxFeePerGas,
-          maxPriorityFeePerGas: body.maxPriorityFeePerGas,
-      };
-      console.log("MSG: 0 ", msg);
-      try{
-          let api = await this.context.api.init()
-          //get insight
-          let insight = await api.SmartInsight(msg);
-          insight = insight.data
-          console.log('insight: ', insight);
-          console.log('insight.recommended: ', insight.recommended);
-          if (insight.recommended.maxFeePerGas) {
-              msg.maxFeePerGas = insight.recommended.maxFeePerGas;
-          }
-          if (insight.recommended.gasPrice) {
-              msg.gasPrice = insight.recommended.gasPrice;
-          }
-          if (insight.recommended.gasLimit) {
-              msg.gasLimit = insight.recommended.gasLimit;
-          }
-          if (insight.recommended.maxPriorityFeePerGas) {
-              msg.maxPriorityFeePerGas = insight.recommended.maxPriorityFeePerGas;
-          }
-      }catch(e){
-          console.error("unable to get tx insight", e)
+      if (insight.recommended.gasPrice) {
+        msg.gasPrice = insight.recommended.gasPrice
       }
-      console.log("MSG: 1 ", msg);
-      if(chainId !== 1){
-          if(msg.maxPriorityFeePerGas){
-              delete msg.maxPriorityFeePerGas;
-          }
-          if(msg.maxFeePerGas){
-              delete msg.maxFeePerGas;
-          }
-          if(!msg.gasPrice){
-              msg.gasPrice = gasPrice;
-          }
+      if (insight.recommended.gasLimit) {
+        msg.gasLimit = insight.recommended.gasLimit
       }
-      console.log("MSG: (final) ", msg);
-      //@ts-ignore
-      let result = await this.context.wallet.ethSignTx(msg);
-      console.log('ethSignTx final result: ', result);
+      if (insight.recommended.maxPriorityFeePerGas) {
+        msg.maxPriorityFeePerGas = insight.recommended.maxPriorityFeePerGas
+      }
+    } catch (e) {
+      console.error('unable to get tx insight', e)
+    }
+    console.log('MSG: 1 ', msg)
+    if (chainId !== 1) {
+      if (msg.maxPriorityFeePerGas) {
+        delete msg.maxPriorityFeePerGas
+      }
+      if (msg.maxFeePerGas) {
+        delete msg.maxFeePerGas
+      }
+      if (!msg.gasPrice) {
+        msg.gasPrice = gasPrice
+      }
+    }
+    console.log('MSG: (final) ', msg)
+    //@ts-ignore
+    let result = await this.context.wallet.ethSignTx(msg)
+    console.log('ethSignTx final result: ', result)
 
-      return result;
+    return result
   }
 
   /**

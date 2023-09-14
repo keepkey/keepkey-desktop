@@ -35,7 +35,10 @@ export type SignDocDeposit = {
 export type StdTxTransfer = {
   type: 'thorchain/MsgSend'
   value: {
-    amount: any
+    amount: {
+      amount: string
+      denom: string
+    }[]
     from_address: string
     to_address: string
   }
@@ -53,7 +56,10 @@ export type SignDocTransfer = {
    */
   msgs: StdTxTransfer[]
   fee: {
-    amount: any
+    amount: {
+      amount: string
+      denom: string
+    }[]
     gas: types.decimal.U64
   }
 }
