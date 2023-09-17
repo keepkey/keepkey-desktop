@@ -17,6 +17,7 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     steps:
+      # Existing Steps
       - name: Checkout
         uses: nschloe/action-cached-lfs-checkout@v1
         with:
@@ -45,9 +46,22 @@ jobs:
           name: app-build-dir-${{ runner.os }}
           path: packages/keepkey-desktop/build/
           if-no-files-found: error
+
+      # Additional Step for Generating Checksums
+      - name: Generate Checksum
+        run: find packages/keepkey-desktop/build/ -type f -exec openssl dgst -sha256 {} \; > checksum.txt
+
+      # Additional Step for Uploading Checksums
+      - name: Upload Checksum
+        uses: actions/upload-artifact@v3
+        with:
+          name: checksum-${{ runner.os }}
+          path: checksum.txt
+          if-no-files-found: error
+
+      # Rest of the Steps
       - name: Mac - Prepare For App Notarization
         if: startsWith(matrix.os, 'macos')
-        # Import Apple API key for app notarization on macOS
         run: |
           mkdir -p ~/private_keys/
           echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
@@ -70,7 +84,6 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
           CSC_LINK: ${{ secrets.mac_certs }}
           CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
-          # macOS notarization API key
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
       - name: Windows - Build Electron App
@@ -79,8 +92,6 @@ jobs:
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
-          # CSC_LINK: ${{ secrets.windows_certs }}
-          # CSC_KEY_PASSWORD: ${{ secrets.windows_certs_password }}
       - name: Linux - Upload .AppImage
         if: startsWith(matrix.os, 'ubuntu')
         uses: actions/upload-artifact@v3
