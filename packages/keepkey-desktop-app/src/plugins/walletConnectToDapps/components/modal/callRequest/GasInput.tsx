@@ -21,11 +21,12 @@ import { bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
 import { fromBaseUnit } from 'lib/math'
 import type { FC } from 'react'
+import { getPioneerClient } from 'lib/getPioneerClient'
 import { useEffect, useState } from 'react'
 import { Fragment, useCallback, useMemo } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
 import { useTranslate } from 'react-polyglot'
-
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import type { TxData } from './SendTransactionConfirmation'
 
 type GasInputProps = {
@@ -40,28 +41,49 @@ const moduleLogger = logger.child({ namespace: 'GasInput' })
 
 export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit = '250000' }) => {
   const { setValue } = useFormContext<TxData>()
-
+  const { requests, removeRequest, isConnected, dapp } = useWalletConnect()
+  const currentRequest = requests[0] as SignClientTypes.EventArguments['session_request']
+  const { topic, params, id } = currentRequest
+  const { request, chainId: chainIdString } = params
   const borderColor = useColorModeValue('gray.100', 'gray.750')
   const bgColor = useColorModeValue('white', 'gray.850')
   const translate = useTranslate()
-
+  const [gasRecomendedByDapp, setGasRecomendedByDapp] = useState<string | undefined>(undefined)
+  const [gasRecomendedByPioneer, setGasRecomendedByPioneer] = useState<string | undefined>(undefined)
   const [gasFeeData, setGasFeeData] = useState<GasFeeDataEstimate | undefined>(undefined)
 
   const currentFeeAmount = useWatch({ name: 'currentFeeAmount' })
 
   useEffect(() => {
-    const adapterManager = getChainAdapterManager()
+    // Define an asynchronous function
+    const fetchData = async () => {
+      console.log("params: ", params);
+      const chainId = params.chainId.replace("eip155:", "");
+      console.log("chainId: ", chainId);
 
-    const adapter = adapterManager.get(
-      KnownChainIds.EthereumMainnet,
-    )! as unknown as ethereum.ChainAdapter
-    adapter
-      .getGasFeeData()
-      .then(feeData => {
-        setGasFeeData(feeData)
-      })
-      .catch(e => moduleLogger.error(e, 'getGasFeeData'))
-  }, [])
+      // Handle gas
+      let gasRecomendedByDapp = params.request.params[0].gas;
+      let gasInDecimal = parseInt(gasRecomendedByDapp, 16);
+      gasInDecimal = gasInDecimal / 1e9;
+      console.log("gasInDecimal: ", gasInDecimal);
+      setGasRecomendedByDapp(gasInDecimal.toString());
+
+      // Fetch additional data
+      const pioneer = await getPioneerClient();
+      let caip = "eip155:"+chainId+"/slip44:60";
+      let recomendedFeeFromPioneer = await pioneer.GetFeeInfoByCaip({ caip });
+      console.log("recomendedFeeFromPioneer: ", recomendedFeeFromPioneer);
+      // Convert gas price from BigNumber to Gwei
+      let gasPriceHex = recomendedFeeFromPioneer.data.gasPrice.hex;
+      let gasPriceInWei = parseInt(gasPriceHex, 16);
+      let gasPriceInGwei = gasPriceInWei / 1e9;
+      console.log("Gas price in Gwei: ", gasPriceInGwei);
+      setGasRecomendedByPioneer(gasPriceInGwei);
+    };
+
+    // Invoke the asynchronous function
+    fetchData();
+  }, []);
 
   // calculate fee amounts for each selection
   const amounts = useMemo(() => {
@@ -102,26 +124,33 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
 
   const options = [
     {
-      value: FeeDataKey.Slow,
-      label: translate(getFeeTranslation(FeeDataKey.Slow)),
+      value: gasRecomendedByDapp,
+      label: "Recommended by Dapp",
       duration: '',
-      amount: amounts[FeeDataKey.Slow],
+      amount: gasRecomendedByDapp,
       color: 'green.200',
     },
     {
-      value: FeeDataKey.Average,
-      label: translate(getFeeTranslation(FeeDataKey.Average)),
+      value: gasRecomendedByPioneer,
+      label: "Recommended by Pioneer",
       duration: '',
-      amount: amounts[FeeDataKey.Average],
-      color: 'blue.200',
+      amount: gasRecomendedByPioneer,
+      color: 'green.200',
     },
-    {
-      value: FeeDataKey.Fast,
-      label: translate(getFeeTranslation(FeeDataKey.Fast)),
-      duration: '',
-      amount: amounts[FeeDataKey.Fast],
-      color: 'red.400',
-    },
+    // {
+    //   value: FeeDataKey.Average,
+    //   label: translate(getFeeTranslation(FeeDataKey.Average)),
+    //   duration: '',
+    //   amount: amounts[FeeDataKey.Average],
+    //   color: 'blue.200',
+    // },
+    // {
+    //   value: FeeDataKey.Fast,
+    //   label: translate(getFeeTranslation(FeeDataKey.Fast)),
+    //   duration: '',
+    //   amount: amounts[FeeDataKey.Fast],
+    //   color: 'red.400',
+    // },
   ]
 
   if (!!recommendedGasPriceData?.maxFeePerGas) {
@@ -170,21 +199,29 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
     ],
   )
 
-  const baseFeeInputChange = useCallback(
-    (selection: string) => {
-      setCurrentRadioSelection('custom')
-      setValue('maxFeePerGas', selection)
-    },
-    [setValue],
+  const gasFeeInputChange = useCallback(
+      (selection: string) => {
+        setCurrentRadioSelection('custom')
+        setValue('gasPrice', selection)
+      },
+      [setValue],
   )
 
-  const priorityFeeInputChange = useCallback(
-    (selection: string) => {
-      setCurrentRadioSelection('custom')
-      setValue('maxPriorityFeePerGas', selection)
-    },
-    [setValue],
-  )
+  // const baseFeeInputChange = useCallback(
+  //   (selection: string) => {
+  //     setCurrentRadioSelection('custom')
+  //     setValue('maxFeePerGas', selection)
+  //   },
+  //   [setValue],
+  // )
+  //
+  // const priorityFeeInputChange = useCallback(
+  //   (selection: string) => {
+  //     setCurrentRadioSelection('custom')
+  //     setValue('maxPriorityFeePerGas', selection)
+  //   },
+  //   [setValue],
+  // )
 
   return (
     <FormControl
@@ -246,21 +283,30 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
                   <HelperTooltip label={translate('gasInput.base.tooltip')}>
                     <Text translation='gasInput.base.label' color='gray.500' fontWeight='medium' />
                   </HelperTooltip>
-                  <NumberInput borderColor={borderColor} mt={2} onChange={baseFeeInputChange}>
+                  <NumberInput borderColor={borderColor} mt={2} onChange={gasFeeInputChange}>
                     <NumberInputField placeholder='Number...' />
                   </NumberInput>
                 </Box>
                 <Box>
-                  <HelperTooltip label={translate('gasInput.priority.tooltip')}>
-                    <Text
-                      translation='gasInput.priority.label'
-                      color='gray.500'
-                      fontWeight='medium'
-                    />
-                  </HelperTooltip>
-                  <NumberInput borderColor={borderColor} mt={2} onChange={priorityFeeInputChange}>
-                    <NumberInputField placeholder='Number...' />
-                  </NumberInput>
+
+                {/*  <HelperTooltip label={translate('gasInput.base.tooltip')}>*/}
+                {/*    <Text translation='gasInput.base.label' color='gray.500' fontWeight='medium' />*/}
+                {/*  </HelperTooltip>*/}
+                {/*  <NumberInput borderColor={borderColor} mt={2} onChange={baseFeeInputChange}>*/}
+                {/*    <NumberInputField placeholder='Number...' />*/}
+                {/*  </NumberInput>*/}
+                {/*</Box>*/}
+                {/*<Box>*/}
+                {/*  <HelperTooltip label={translate('gasInput.priority.tooltip')}>*/}
+                {/*    <Text*/}
+                {/*      translation='gasInput.priority.label'*/}
+                {/*      color='gray.500'*/}
+                {/*      fontWeight='medium'*/}
+                {/*    />*/}
+                {/*  </HelperTooltip>*/}
+                {/*  <NumberInput borderColor={borderColor} mt={2} onChange={priorityFeeInputChange}>*/}
+                {/*    <NumberInputField placeholder='Number...' />*/}
+                {/*  </NumberInput>*/}
                 </Box>
               </SimpleGrid>
             </Box>

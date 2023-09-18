@@ -115,10 +115,8 @@ export const EIP155SendTransactionConfirmation = () => {
     loadingSigningInProgress,
     been10Seconds,
   ])
-
-  const { requests, removeRequest, isConnected, dapp } = useWalletConnect()
   const toast = useToast()
-
+  const { requests, removeRequest, isConnected, dapp } = useWalletConnect()
   const currentRequest = requests[0] as SignClientTypes.EventArguments['session_request']
   const { topic, params, id } = currentRequest
   const { request, chainId: chainIdString } = params
@@ -166,18 +164,25 @@ export const EIP155SendTransactionConfirmation = () => {
           gasLimit: txData.gasLimit,
           to: txData.to,
           value: txData.value ?? '0x0',
-          nonce: txData.nonce,
-          maxPriorityFeePerGas: txData.maxPriorityFeePerGas,
-          maxFeePerGas: txData.maxFeePerGas,
+          nonce: txData.nonce
         }
+        
+        /*
+            If custom gas selected use it
+         */
 
-        // if gasPrice was passed in it means we couldnt get maxPriorityFeePerGas & maxFeePerGas
-        if (request.params[0].gasPrice) {
-          signData.gasPrice = request.params[0].gasPrice
+
+        moduleLogger.debug(signData, 'signData')
+        
+        
+        
+        //gas was recommended by the dapp
+        if(params.request.params[0].gas){
+          signData.gasPrice = params.request.params[0].gas
           delete signData.maxPriorityFeePerGas
           delete signData.maxFeePerGas
         }
-        moduleLogger.debug(signData, 'signData')
+
 
         console.log('SIGN DATA', signData)
         if (!signData.gasPrice && !signData.maxPriorityFeePerGas && !signData.maxFeePerGas)
@@ -457,9 +462,9 @@ export const EIP155SendTransactionConfirmation = () => {
           title={
             <HStack justify='space-between'>
               <Text translation='plugins.walletConnectToDapps.modal.sendTransaction.estGasCost' />
-              {legacyWeb3?.symbol && (
-                <GasFeeEstimateLabel symbol={legacyWeb3?.symbol} fiatRate={priceData} />
-              )}
+              {/*{legacyWeb3?.symbol && (*/}
+              {/*  <GasFeeEstimateLabel symbol={legacyWeb3?.symbol} fiatRate={priceData} />*/}
+              {/*)}*/}
             </HStack>
           }
           icon={<FaGasPump />}
