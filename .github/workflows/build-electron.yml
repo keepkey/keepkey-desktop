@@ -61,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: checksum-${{ runner.os }}
-          path: ./scripts/checksum.txt
+          path: checksum.txt
           if-no-files-found: error
 
       # Rest of the Steps
