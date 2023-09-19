@@ -36,18 +36,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apidevtools/json-schema-ref-parser@npm:^9.0.7":
-  version: 9.1.0
-  resolution: "@apidevtools/json-schema-ref-parser@npm:9.1.0"
-  dependencies:
-    "@jsdevtools/ono": ^7.1.3
-    "@types/json-schema": ^7.0.6
-    call-me-maybe: ^1.0.1
-    js-yaml: ^4.1.0
-  checksum: 135569d905cd5cd3652fe850ff3a07bfbbfb1585bb20139710e8a865f0bd9fa1c8bbe8122cce11928ce00fc618b8b9f61ccd7b62827654c9b7e2853789ee0e4a
-  languageName: node
-  linkType: hard
-
 "@arcanis/slice-ansi@npm:^1.1.1":
   version: 1.1.1
   resolution: "@arcanis/slice-ansi@npm:1.1.1"
@@ -5469,13 +5457,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jsdevtools/ono@npm:^7.1.3":
-  version: 7.1.3
-  resolution: "@jsdevtools/ono@npm:7.1.3"
-  checksum: 2297fcd472ba810bffe8519d2249171132844c7174f3a16634f9260761c8c78bc0428a4190b5b6d72d45673c13918ab9844d706c3ed4ef8f62ab11a2627a08ad
-  languageName: node
-  linkType: hard
-
 "@json-rpc-tools/types@npm:^1.7.6":
   version: 1.7.6
   resolution: "@json-rpc-tools/types@npm:1.7.6"
@@ -6014,20 +5995,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pioneer-platform/pioneer-client@npm:^8.1.29":
-  version: 8.1.29
-  resolution: "@pioneer-platform/pioneer-client@npm:8.1.29"
-  dependencies:
-    "@types/node": ^13.13.14
-    axios: ^0.19.2
-    openapi-client-axios: ^3.6.1
-    request: ^2.88.2
-    ts-node: ^8.10.2
-    typescript: ^3.9.7
-  checksum: 4ae8fc6ad4ef343700a48940cfc0fcdbc6345dc28f5ea60273734f55365502be83db9c74460d8cbd65f35c68bbd52c6f0121b46e1f9113ef42d27b12347b79eb
-  languageName: node
-  linkType: hard
-
 "@pioneer-platform/pioneer-client@npm:^9.0.11":
   version: 9.0.11
   resolution: "@pioneer-platform/pioneer-client@npm:9.0.11"
@@ -6035,6 +6002,15 @@ __metadata:
     eth_mnemonic_signer: ^1.0.9
     swagger-client: ^3.19.8
   checksum: d06412a5bba26e65fed5bd645fe262deecccfe692b5635e84e43fc3675365bf501f679f89221a608e0cab299a1a3598c7957105ed2b5e77fc8e063f54f9b1eca
+  languageName: node
+  linkType: hard
+
+"@pioneer-platform/pioneer-client@npm:^9.0.18":
+  version: 9.0.18
+  resolution: "@pioneer-platform/pioneer-client@npm:9.0.18"
+  dependencies:
+    swagger-client: ^3.19.8
+  checksum: c10012b88f792ef7e132a0bc590c5b484ffb24d53b19b517405841955ab64a60d9edde0909d286f0a75f71198f9dc29c1d07d4f1908c9ce1fa2b51ca92115224
   languageName: node
   linkType: hard
 
@@ -8252,7 +8228,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/json-schema@npm:^7.0.4, @types/json-schema@npm:^7.0.6, @types/json-schema@npm:^7.0.9":
+"@types/json-schema@npm:^7.0.4, @types/json-schema@npm:^7.0.9":
   version: 7.0.11
   resolution: "@types/json-schema@npm:7.0.11"
   checksum: 527bddfe62db9012fccd7627794bd4c71beb77601861055d87e3ee464f2217c85fca7a4b56ae677478367bbd248dbde13553312b7d4dbc702a2f2bbf60c4018d
@@ -8391,7 +8367,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^13.13.12, @types/node@npm:^13.13.14":
+"@types/node@npm:^13.13.12":
   version: 13.13.52
   resolution: "@types/node@npm:13.13.52"
   checksum: 8f1afff497ebeba209e2dc340d823284e087a47632afe99a7daa30eaff80893e520f222ad400cd1f2d3b8288e93cf3eaded52a8e64eaefb8aacfe6c35de98f42
@@ -10872,15 +10848,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.19.2":
-  version: 0.19.2
-  resolution: "axios@npm:0.19.2"
-  dependencies:
-    follow-redirects: 1.5.10
-  checksum: dcace11a0a25fdf9b3b97fc9d011d23dd9c67cc13d91778080482ddddbbfe731f7410a090b11aa0bbbdf83686c5911ccb4289fd3683b7488c1b0c4d3c882380c
-  languageName: node
-  linkType: hard
-
 "axios@npm:^0.21.1, axios@npm:^0.21.2":
   version: 0.21.4
   resolution: "axios@npm:0.21.4"
@@ -11140,13 +11107,6 @@ __metadata:
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
   checksum: 669632eb3745404c2f822a18fc3a0122d2f9a7a13f7fb8b5823ee19d1d2ff9ee5b52c53367176ea4ad093c332fd5ab4bd0ebae5a8e27917a4105a4cfc86b1005
-  languageName: node
-  linkType: hard
-
-"bath-es5@npm:^3.0.3":
-  version: 3.0.3
-  resolution: "bath-es5@npm:3.0.3"
-  checksum: 094e917ac086b13307fd290ee53c3b2c87cc55a73fd086b6a364488bb63e704e182a82b6f08280feedb1b196f7fe505fb86367a9bc5110c910096e0591490ca3
   languageName: node
   linkType: hard
 
@@ -11921,13 +11881,6 @@ __metadata:
     function-bind: ^1.1.1
     get-intrinsic: ^1.0.2
   checksum: f8e31de9d19988a4b80f3e704788c4a2d6b6f3d17cfec4f57dc29ced450c53a49270dc66bf0fbd693329ee948dd33e6c90a329519aef17474a4d961e8d6426b0
-  languageName: node
-  linkType: hard
-
-"call-me-maybe@npm:^1.0.1":
-  version: 1.0.2
-  resolution: "call-me-maybe@npm:1.0.2"
-  checksum: 42ff2d0bed5b207e3f0122589162eaaa47ba618f79ad2382fe0ba14d9e49fbf901099a6227440acc5946f86a4953e8aa2d242b330b0a5de4d090bb18f8935cae
   languageName: node
   linkType: hard
 
@@ -13392,15 +13345,6 @@ __metadata:
     supports-color:
       optional: true
   checksum: 3dbad3f94ea64f34431a9cbf0bafb61853eda57bff2880036153438f50fb5a84f27683ba0d8e5426bf41a8c6ff03879488120cf5b3a761e77953169c0600a708
-  languageName: node
-  linkType: hard
-
-"debug@npm:=3.1.0":
-  version: 3.1.0
-  resolution: "debug@npm:3.1.0"
-  dependencies:
-    ms: 2.0.0
-  checksum: 0b52718ab957254a5b3ca07fc34543bc778f358620c206a08452251eb7fc193c3ea3505072acbf4350219c14e2d71ceb7bdaa0d3370aa630b50da790458d08b3
   languageName: node
   linkType: hard
 
@@ -16146,15 +16090,6 @@ __metadata:
   dependencies:
     tslib: ^2.0.3
   checksum: 039c05600626d5a7b725e38ca10754c45c4f5be5d23d4371f91ae67982d5878dc8a3f3d7be0867bcda7ce34e98c39ddbe90d8a6c06d1b0ace69e1d4c6d12422a
-  languageName: node
-  linkType: hard
-
-"follow-redirects@npm:1.5.10":
-  version: 1.5.10
-  resolution: "follow-redirects@npm:1.5.10"
-  dependencies:
-    debug: =3.1.0
-  checksum: 0edc4b74e37e7b88ee716188a8f2a790238877c1d954f00c7b78d560f3bef40061c130536d13bee8e47b4e8e71edf1175a2de2729e51ab8206e4646b2370e484
   languageName: node
   linkType: hard
 
@@ -19045,7 +18980,7 @@ __metadata:
     "@keepkey/hdwallet-keepkey-rest": "workspace:*"
     "@keepkey/keepkey-sdk": "workspace:*"
     "@peculiar/webcrypto": ^1.3.3
-    "@pioneer-platform/pioneer-client": ^8.1.29
+    "@pioneer-platform/pioneer-client": ^9.0.18
     "@react-spring/web": ^9.5.2
     "@reduxjs/toolkit": ^1.8.2
     "@shapeshiftoss/asset-service": ^8.1.2
@@ -19791,7 +19726,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:4.17.21, lodash@npm:^4.15.0, lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
+"lodash@npm:4.17.21, lodash@npm:^4.15.0, lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -21515,22 +21450,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openapi-client-axios@npm:^3.6.1":
-  version: 3.14.1
-  resolution: "openapi-client-axios@npm:3.14.1"
-  dependencies:
-    "@apidevtools/json-schema-ref-parser": ^9.0.7
-    bath-es5: ^3.0.3
-    lodash: ^4.17.20
-    openapi-types: ^9.0.0
-    query-string: ^7.0.0
-  peerDependencies:
-    axios: ^0.21.1
-    js-yaml: ^3.13.1
-  checksum: 8624cea2f3a7142fd3a5bb64761a87eb205d552cefc35d4ab4b770498d814aaa0a2b62541cf6b319123136816d3d901368fe2f2c65ddbe53273fe50425abee07
-  languageName: node
-  linkType: hard
-
 "openapi-format@npm:^1.13.0":
   version: 1.13.0
   resolution: "openapi-format@npm:1.13.0"
@@ -21542,13 +21461,6 @@ __metadata:
   bin:
     openapi-format: bin/cli.js
   checksum: cc4cd3b266925ac5df25dbbc16590ff630a9d952db28707cf95acb76833e07b64c165bdda2d28a4257f0da9709234f12775e37e3d17bcb836ff1e9cd39dff5b7
-  languageName: node
-  linkType: hard
-
-"openapi-types@npm:^9.0.0":
-  version: 9.3.1
-  resolution: "openapi-types@npm:9.3.1"
-  checksum: 44b7132b159666877b1659dcfb48ea34d45222dd96a14626d57830401dfad801d2cba5dc9e88471faa4f1c2f7670d814601d91e156d6a05ecccc60c65660ebbc
   languageName: node
   linkType: hard
 
@@ -23024,18 +22936,6 @@ __metadata:
     object-assign: ^4.1.0
     strict-uri-encode: ^1.0.0
   checksum: 4ac760d9778d413ef5f94f030ed14b1a07a1708dd13fd3bc54f8b9ef7b425942c7577f30de0bf5a7d227ee65a9a0350dfa3a43d1d266880882fb7ce4c434a4dd
-  languageName: node
-  linkType: hard
-
-"query-string@npm:^7.0.0":
-  version: 7.1.1
-  resolution: "query-string@npm:7.1.1"
-  dependencies:
-    decode-uri-component: ^0.2.0
-    filter-obj: ^1.1.0
-    split-on-first: ^1.0.0
-    strict-uri-encode: ^2.0.0
-  checksum: b227d1f588ae93f9f0ad078c6b811295fa151dc5a160a03bb2bac5fa0e6919cb1daa570aad1d288e77c8e89fde5362ba505b1014e6e793da9b1e885b59a690a6
   languageName: node
   linkType: hard
 
@@ -26301,7 +26201,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^3.9.5, typescript@npm:^3.9.7":
+"typescript@npm:^3.9.5":
   version: 3.9.10
   resolution: "typescript@npm:3.9.10"
   bin:
@@ -26331,7 +26231,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^3.9.5#~builtin<compat/typescript>, typescript@patch:typescript@^3.9.7#~builtin<compat/typescript>":
+"typescript@patch:typescript@^3.9.5#~builtin<compat/typescript>":
   version: 3.9.10
   resolution: "typescript@patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"
   bin:

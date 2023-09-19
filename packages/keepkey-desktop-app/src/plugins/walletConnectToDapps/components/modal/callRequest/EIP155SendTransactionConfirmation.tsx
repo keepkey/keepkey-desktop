@@ -1,39 +1,37 @@
-import { Box, Button, HStack, Image, useColorModeValue, useToast, VStack } from '@chakra-ui/react'
+import { Button, HStack, Image, useColorModeValue, useToast, VStack,  Box,
+  Divider,
+  FormControl,
+  Radio,
+  RadioGroup, NumberInput, NumberInputField, SimpleGrid,
+  Alert,
+  AlertIcon,
+  FormLabel,
+} from '@chakra-ui/react'
 import { formatJsonRpcResult } from '@json-rpc-tools/utils'
-import type { ethereum } from '@shapeshiftoss/chain-adapters'
-import type { GasFeeDataEstimate } from '@shapeshiftoss/chain-adapters'
-import { FeeDataKey } from '@shapeshiftoss/chain-adapters'
 import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
-import { KnownChainIds } from '@shapeshiftoss/types'
 import type { SignClientTypes } from '@walletconnect/types'
-import axios from 'axios'
 import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
-import { Text } from 'components/Text'
-import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
+import { RawText, Text } from 'components/Text'
+import { HelperTooltip } from 'components/HelperTooltip/HelperTooltip'
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'
 import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
+import { getPioneerClient } from 'lib/getPioneerClient'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { WalletConnectWeb3Wallet } from 'kkdesktop/walletconnect/utils'
 import { bn, bnOrZero } from 'lib/bignumber/bignumber'
 import { logger } from 'lib/logger'
-import { fromBaseUnit } from 'lib/math'
 import { EIP155_SIGNING_METHODS } from 'plugins/walletConnectToDapps/data/EIP115Data'
 import { rejectEIP155Request } from 'plugins/walletConnectToDapps/utils/utils'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { useCallback } from 'react'
-import { useMemo } from 'react'
+import {Fragment, useCallback} from 'react'
 import { useEffect, useState } from 'react'
 import { FormProvider, useForm, useWatch } from 'react-hook-form'
 import { FaGasPump, FaWrench } from 'react-icons/fa'
 import { useTranslate } from 'react-polyglot'
-import Web3 from 'web3'
-
 import { AddressSummaryCard } from './AddressSummaryCard'
 import { ContractInteractionBreakdown } from './ContractInteractionBreakdown'
-import { GasFeeEstimateLabel } from './GasFeeEstimateLabel'
-import { GasInput } from './GasInput'
 import { ModalSection } from './ModalSection'
 import { TransactionAdvancedParameters } from './TransactionAdvancedParameters'
 
@@ -64,68 +62,130 @@ export const EIP155SendTransactionConfirmation = () => {
   const {
     state: { wallet },
   } = useWallet()
-
+  const toast = useToast()
+  const { requests, removeRequest, isConnected, dapp } = useWalletConnect()
+  const currentRequest = requests[0] as SignClientTypes.EventArguments['session_request']
+  const { topic, params, id } = currentRequest
+  const { request, chainId: chainIdString } = params
   const keepKeyWallet = wallet as KeepKeyHDWallet | null
-
-  const adapterManager = useMemo(() => getChainAdapterManager(), [])
-
   const [address, setAddress] = useState<string>()
   const [accountPath, setAccountPath] = useState<BIP32Path>()
-
-  const form = useForm({
-    defaultValues: {
-      nonce: '',
-      gasLimit: '',
-      maxPriorityFeePerGas: '',
-      maxFeePerGas: '',
-      currentFeeAmount: '',
-    } satisfies EIP155SendTxConfirmFormContext,
-  })
-
+  const borderColor = useColorModeValue('gray.100', 'gray.750')
+  const bgColor = useColorModeValue('white', 'gray.850')
+  const [pioneer, setPioneer] = useState(null)
+  const [txData, setTxData] = useState(null)
+  const [caip, setCaip] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [loadingAddress, setLoadingAddress] = useState(true)
   const [loadingGas, setLoadingGas] = useState(true)
   const [loadingNonce, setLoadingNonce] = useState(true)
   const [loadingGasEstimate, setLoadingGasEstimate] = useState(true)
   const [loadingPriceData, setLoadingPriceData] = useState(true)
   const [loadingSigningInProgress, setLoadingSigningInProgress] = useState(false)
-  const [been10Seconds, setBeen10Seconds] = useState(false)
-
+  const [selectedGasPrice, setSelectedGasPrice] = useState<string>()
+  const [selectedGasPriceHex, setSelectedGasPriceHex] = useState<string>()
   const [legacyWeb3, setLegacyWeb3] = useState<EthChainData>()
-
-  useEffect(() => {
-    setTimeout(() => setBeen10Seconds(true), 10000)
-  }, [])
-
-  const [loading, setLoading] = useState(false)
-  useEffect(() => {
-    setLoading(
-      loadingAddress ||
-        (loadingGas && !been10Seconds) ||
-        loadingNonce ||
-        loadingGasEstimate ||
-        loadingPriceData ||
-        loadingSigningInProgress,
-    )
-  }, [
-    loadingAddress,
-    loadingGas,
-    loadingNonce,
-    loadingGasEstimate,
-    loadingPriceData,
-    loadingSigningInProgress,
-    been10Seconds,
-  ])
-  const toast = useToast()
-  const { requests, removeRequest, isConnected, dapp } = useWalletConnect()
-  const currentRequest = requests[0] as SignClientTypes.EventArguments['session_request']
-  const { topic, params, id } = currentRequest
-  const { request, chainId: chainIdString } = params
+  const [gasRecomendedByDapp, setGasRecomendedByDapp] = useState<string | undefined>(undefined)
+  const [gasRecomendedByPioneer, setGasRecomendedByPioneer] = useState<string | undefined>(undefined)
+  const [customGasPrice, setCustomGasPrice] = useState<string | undefined>(undefined)
+  const [currentFeeAmount, setCurrentFeeAmount] = useState<string | undefined>(undefined)
+  const [currentFeeAmountUsd, setCurrentFeeAmountUsd] = useState<string | undefined>(undefined)
+  const [recomendedNonce, setRecomendedNonce] = useState<string | undefined>(undefined)
+  const [nativeBalance, setNativeBalance] = useState<string | undefined>(undefined)
+  const [recomendedGasLimit, setRecomendedGasLimit] = useState<string | undefined>(undefined)
   const [chainId, setChainId] = useState<number>()
 
-  useEffect(() => {
-    if (!chainId) return
-    web3ByChainId(Number(chainId)).then(setLegacyWeb3)
-  }, [chainId])
+  const form = useForm({
+    defaultValues: {
+      nonce: '',
+      gasLimit: '',
+      gasPrice: '',
+      maxPriorityFeePerGas: '',
+      maxFeePerGas: '',
+      currentFeeAmount: '',
+    },
+  })
+  
+  const options = [
+    {
+      identifier: 'dapp',
+      value: gasRecomendedByDapp,
+      label: "Recommended by Dapp",
+      duration: '',
+      amount: gasRecomendedByDapp,
+      color: 'yellow.200',
+    },
+    {
+      identifier: 'pioneer',
+      value: gasRecomendedByPioneer,
+      label: "Recommended by Pioneer",
+      duration: '',
+      amount: gasRecomendedByPioneer,
+      color: 'green.200',
+    },
+    {
+      identifier: 'custom',
+      value: customGasPrice,
+      label: "set by user",
+      duration: '',
+      amount: customGasPrice,
+      color: 'green.200',
+    },
+  ]
+
+  //default to pioneer
+  //@TODO default to highest! (pioneer or dapp) add some kind of alert if dapp is wrong
+  const [currentRadioSelection, setCurrentRadioSelection] = useState(
+      'pioneer',
+  )
+
+  const handleRadioChange = useCallback(
+      (selection: string) => {
+        console.log("Handling radio change to: ", selection);
+        setCurrentRadioSelection(selection);
+        if (selection === 'pioneer') {
+          setSelectedGasPrice(gasRecomendedByPioneer);
+        } else if (selection === 'dapp') {
+          setSelectedGasPrice(gasRecomendedByDapp);
+        } else if (selection === 'custom') {
+          setSelectedGasPrice(customGasPrice);
+        } else {
+          throw new Error('unknown value');
+        }
+      },
+      [gasRecomendedByDapp, gasRecomendedByPioneer, customGasPrice]
+  );
+
+  const gasFeeInputChange = useCallback(
+      (selection: string) => {
+        console.log("Setting Gas price value: ", selection);
+        setCurrentRadioSelection('custom'); // Add this line
+        setCustomGasPrice(selection);
+        setSelectedGasPrice(selection);
+      },
+      []
+  );
+
+  /*
+      Get Gas Estimates
+      get Nonce  Recomended
+      (TODO) get TxHistory (last 5 txs) (for replacing txs)
+   */
+
+  function toPaddedHex(nonceStr:string) {
+    // Convert string to integer
+    const nonceInt = parseInt(nonceStr, 10);
+
+    // Convert to hexadecimal string
+    let hexNonce = nonceInt.toString(16);
+
+    // Ensure it starts with '0x'
+    if (!hexNonce.startsWith('0x')) {
+      hexNonce = '0x' + hexNonce;
+    }
+
+    return hexNonce;
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -142,8 +202,114 @@ export const EIP155SendTransactionConfirmation = () => {
       })
       setLoadingAddress(false)
       setAddress(accAddress)
+      console.log("isConnected: ",isConnected)
+      console.log("dapp: ",dapp)
+
     })().catch(e => moduleLogger.error(e))
   }, [keepKeyWallet])
+  
+  let onStart = async function () {
+    try{
+      const chainId = params.chainId.replace("eip155:", "");
+      console.log("chainId: ", chainId);
+      console.log("address: ",address)
+      let sanitizedChainId = (typeof chainId === 'string') ? chainId.replace(/[^0-9]/g, '') : '';
+      let caip = sanitizedChainId ? `eip155:${sanitizedChainId}/slip44:60` : null;
+      console.log("caip: ", caip);
+      setCaip(caip)
+      
+      // Handle gas from dapp
+      let gasRecomendedByDapp = params.request.params[0].gas;
+      let gasInDecimal = parseInt(gasRecomendedByDapp, 16);
+      gasInDecimal = gasInDecimal / 1e9;
+      console.log("gasInDecimal: ", gasInDecimal);
+      setGasRecomendedByDapp(gasInDecimal.toString());
+
+      //get gas from pioneer
+      const pioneer = await getPioneerClient();
+      setPioneer(pioneer)
+      let recomendedFeeFromPioneer = await pioneer.GetFeeInfoByCaip({ caip });
+      console.log("recomendedFeeFromPioneer: ", recomendedFeeFromPioneer);
+      // Convert gas price from BigNumber to Gwei
+      let gasPriceHex = recomendedFeeFromPioneer.data.gasPrice.hex;
+      let gasPriceInWei = parseInt(gasPriceHex, 16);
+      let gasPriceInGwei = gasPriceInWei / 1e9;
+      console.log("Gas price in Gwei: ", gasPriceInGwei);
+      setGasRecomendedByPioneer(gasPriceInGwei);
+      setSelectedGasPrice(gasPriceInGwei)
+      console.log("caip: ", caip);
+      console.log("address: ", address);
+
+      //get nonce from pioneer
+      if(caip && address){
+        let result = await pioneer.GetAddressInfoByCaip({caip,address});
+        console.log("result: ",result.data)
+        if(result?.data?.nonce)setRecomendedNonce(result.data.nonce);
+        if(result?.data?.balance)setNativeBalance(result.data.balance);
+
+        //default txData
+        const txDataInit: any = {
+          addressNList: accountPath,
+          chainId: toPaddedHex(chainId),
+          data: params.request.params[0].data,
+          gasLimit: toPaddedHex("100000"), //TODO get smart limit from pioneer
+          to: params.request.params[0].to,
+          value: params.request.params[0].value ?? '0x0',
+          nonce: toPaddedHex(result.data.nonce.toString()),
+        }
+        console.log("txDataInit: ", txDataInit);
+        //@TODO get txInsight from pioneer for recomended vaules
+
+        setTxData(txDataInit)
+      }
+    }catch(e){
+      console.error(e)
+    }
+  }
+  useEffect(() => {
+    onStart()
+  }, [keepKeyWallet, address])
+
+  useEffect(() => {
+    console.log("selectedGasPrice (in gwei): ", selectedGasPrice);
+    if(selectedGasPrice){
+      // Convert from gwei to wei (1 gwei = 10^9 wei)
+      const gasPriceInWei = bn(selectedGasPrice).multipliedBy(bn('1e9'));
+
+      // Convert to hex
+      const hexGasPrice = '0x' + gasPriceInWei.toString(16);
+
+      console.log("Hex representation of selectedGasPrice (in wei): ", hexGasPrice);
+
+      if(hexGasPrice){
+        setSelectedGasPriceHex(hexGasPrice);
+        setLoadingGas(false)
+        setLoadingPriceData(false)
+      }  
+    }
+    console.log("selectedGasPrice: ", selectedGasPrice);
+    console.log("selectedGasPriceHex: ", selectedGasPriceHex);
+  }, [selectedGasPrice]);
+
+
+  useEffect(() => {
+    setLoading(
+      loadingAddress ||
+        loadingGas ||
+        loadingNonce ||
+        loadingGasEstimate ||
+        loadingPriceData ||
+        loadingSigningInProgress,
+    )
+  }, [
+    loadingAddress,
+    loadingGas,
+    loadingNonce,
+    loadingGasEstimate,
+    loadingPriceData,
+    loadingSigningInProgress,
+  ])
+
 
   useEffect(() => {
     if (!chainIdString) return
@@ -152,51 +318,85 @@ export const EIP155SendTransactionConfirmation = () => {
     setChainId(Number(chainIdRegexp[1]))
   }, [chainIdString])
 
-  const onConfirm = useCallback(
-    async (txData: TxData) => {
-      if (!keepKeyWallet || !accountPath || !chainId || !legacyWeb3) return
+  const onConfirm = async function() {
       try {
-        setLoadingSigningInProgress(true)
-        const signData: any = {
-          addressNList: accountPath,
-          chainId,
-          data: txData.data,
-          gasLimit: txData.gasLimit,
-          to: txData.to,
-          value: txData.value ?? '0x0',
-          nonce: txData.nonce
+        if (!keepKeyWallet || !accountPath || !chainId) {
+          if(!keepKeyWallet)console.log("no keepKeyWallet")
+          if(!accountPath)console.log("no accountPath")
+          if(!chainId)console.log("no chainId")
+          return
         }
-        
+        setLoadingSigningInProgress(true)
+        console.log("txData: ",txData)
+        console.log("selectedGasPriceHex: ",selectedGasPriceHex)
+        console.log("selectedGasPrice: ",selectedGasPrice)
         /*
             If custom gas selected use it
          */
+      
+        /*
+           If custom nonce selected use it
+         */
 
-
-        moduleLogger.debug(signData, 'signData')
-        
-        
-        
         //gas was recommended by the dapp
-        if(params.request.params[0].gas){
-          signData.gasPrice = params.request.params[0].gas
-          delete signData.maxPriorityFeePerGas
-          delete signData.maxFeePerGas
+        if(!selectedGasPriceHex && params.request.params[0].gas){
+          console.log("No selected price was given! using dapps!")
+          txData.gasPrice = params.request.params[0].gas
+          delete txData.maxPriorityFeePerGas
+          delete txData.maxFeePerGas
+        } else if(selectedGasPriceHex && chainId !== 1){
+          console.log("useing selected gas without eip1555 not eth!")
+          txData.gasPrice = selectedGasPriceHex
+          console.log("selectedGasPriceHex: ",selectedGasPriceHex)
+          delete txData.maxPriorityFeePerGas
+          delete txData.maxFeePerGas
+        } else if(selectedGasPrice && chainId == 1) {
+          console.log("Converting selected gas to eip1555");
+
+          // Convert selectedGasPrice from Gwei to Wei
+          const selectedGasPriceInWei = selectedGasPrice * 10**9;
+
+          // Calculate 10% of selectedGasPriceInWei as the priority fee (miner tip)
+          const priorityFee = Math.floor(selectedGasPriceInWei * 0.1);
+
+          // Use the selectedGasPriceInWei as the maximum fee
+          const maxFee = selectedGasPriceInWei;
+
+          // Convert integers to Hexadecimal (and pad if necessary)
+          const maxPriorityFeePerGasHex = "0x" + priorityFee.toString(16).padStart(16, '0');
+          const maxFeePerGasHex = "0x" + maxFee.toString(16).padStart(16, '0');
+
+          // Apply the calculated EIP-1559 compliant fees
+          txData.maxPriorityFeePerGas = maxPriorityFeePerGasHex;
+          txData.maxFeePerGas = maxFeePerGasHex;
+
+          // Remove the legacy gas price parameter
+          delete txData.gasPrice;
+        } else {
+          throw Error("unable to deturming gas price intent! aborting")
         }
 
-
-        console.log('SIGN DATA', signData)
-        if (!signData.gasPrice && !signData.maxPriorityFeePerGas && !signData.maxFeePerGas)
+        console.log('SIGN DATA', txData)
+        if (!txData.gasPrice && !txData.maxPriorityFeePerGas && !txData.maxFeePerGas)
           throw Error('Invalid TX need gasPrice!')
-        const response = await keepKeyWallet.ethSignTx(signData)
-
+        const response = await keepKeyWallet.ethSignTx(txData)
+        console.log('RESPONSE', response)
         const signedTx = response?.serialized
 
         let jsonresponse = formatJsonRpcResult(id, signedTx)
 
         if (request.method === EIP155_SIGNING_METHODS.ETH_SEND_TRANSACTION) {
-          await legacyWeb3.web3.eth.sendSignedTransaction(signedTx)
-          const txid = legacyWeb3.web3.utils.sha3(signedTx)!
-          jsonresponse = formatJsonRpcResult(id, txid)
+          //broadcast tx
+          let tx = {
+            invocationId:"0x0",
+            caip,
+            serialized:response.serialized,
+          }
+          let broadcast = await pioneer.Broadcast(tx)
+          broadcast = broadcast.data
+          console.log("broadcast: ",broadcast)
+          console.log("data: ",broadcast.txid)
+          jsonresponse = formatJsonRpcResult(id, broadcast.txid)
         }
 
         await WalletConnectWeb3Wallet.respondSessionRequest({
@@ -215,21 +415,7 @@ export const EIP155SendTransactionConfirmation = () => {
       } finally {
         setLoadingSigningInProgress(false)
       }
-    },
-    [
-      keepKeyWallet,
-      accountPath,
-      chainId,
-      legacyWeb3,
-      request.params,
-      request.method,
-      id,
-      topic,
-      removeRequest,
-      currentRequest.id,
-      toast,
-    ],
-  )
+  }
 
   const onReject = useCallback(async () => {
     const response = rejectEIP155Request(currentRequest)
@@ -241,180 +427,12 @@ export const EIP155SendTransactionConfirmation = () => {
     setLoadingSigningInProgress(false)
   }, [currentRequest, removeRequest])
 
-  const [gasFeeData, setGasFeeData] = useState<GasFeeDataEstimate | undefined>(undefined)
-  const [priceData, setPriceData] = useState(bn(0))
-
-  const [web3GasFeeData, setweb3GasFeeData] = useState('0')
-
-  // determine which gasLimit to use: user input > from the request > or estimate
-  const requestGas = parseInt(request.params[0].gasLimit ?? '0x0', 16).toString(10)
-  const inputGas = useWatch({ control: form.control, name: 'gasLimit' })
-
-  const [estimatedGas, setEstimatedGas] = useState('0')
-
-  const txInputGas = Web3.utils.toHex(
-    !!bnOrZero(inputGas).gt(0) ? inputGas : bnOrZero(requestGas).gt(0) ? requestGas : estimatedGas,
-  )
-
-  useEffect(() => {
-    ;(async () => {
-      if (!chainId || !legacyWeb3) return
-      const adapterManager = getChainAdapterManager()
-      const adapter = adapterManager.get(
-        KnownChainIds.EthereumMainnet,
-      )! as unknown as ethereum.ChainAdapter
-      setLoadingGas(true)
-
-      await Promise.all([
-        (async () => {
-          const feeData = await adapter.getGasFeeData()
-          moduleLogger.debug(feeData, 'getGasFeeData')
-          setGasFeeData(feeData)
-          const fastData = feeData[FeeDataKey.Fast]
-          const fastAmount = fromBaseUnit(
-            bnOrZero(fastData?.maxFeePerGas).times(txInputGas),
-            18,
-          ).toString()
-          const recommendedAmount = fromBaseUnit(
-            bnOrZero(request.params[0].maxPriorityFeePerGas).times(txInputGas),
-            18,
-          ).toString()
-          form.setValue('maxFeePerGas', fastData.maxFeePerGas)
-          form.setValue('maxPriorityFeePerGas', fastData.maxPriorityFeePerGas)
-          if (recommendedAmount) form.setValue('currentFeeAmount', recommendedAmount)
-          else form.setValue('currentFeeAmount', fastAmount)
-        })(),
-        (async () => {
-          // for non mainnet chains we use the simple web3.getGasPrice()
-          const p = await legacyWeb3.web3.eth.getGasPrice()
-          moduleLogger.debug(p, 'getGasPrice')
-          setweb3GasFeeData(p)
-        })(),
-      ])
-
-      setLoadingGas(false)
-    })().catch(e => moduleLogger.error(e, 'getGasPrice'))
-  }, [form, txInputGas, chainId, legacyWeb3, request.params])
-
-  useEffect(() => {
-    ;(async () => {
-      if (legacyWeb3?.coinGeckoId) {
-        setLoadingPriceData(true)
-        try {
-          const { data } = await axios.get(
-            `https://api.coingecko.com/api/v3/simple/price?ids=${legacyWeb3.coinGeckoId}&vs_currencies=usd`,
-          )
-          setPriceData(bnOrZero(data?.[legacyWeb3.coinGeckoId]?.usd))
-        } catch (e) {
-          throw new Error('Failed to get price data')
-        }
-      }
-      setLoadingPriceData(false)
-    })()
-  }, [legacyWeb3])
-
-  // determine which gas fees to use: user input > from the request > Fast
-  const requestMaxPriorityFeePerGas = request.params[0].maxPriorityFeePerGas
-  const requestMaxFeePerGas = request.params[0].maxFeePerGas
-
-  const inputMaxPriorityFeePerGas = useWatch({
-    control: form.control,
-    name: 'maxPriorityFeePerGas',
-  })
-
-  const inputMaxFeePerGas = useWatch({
-    control: form.control,
-    name: 'maxFeePerGas',
-  })
-
-  const fastMaxPriorityFeePerGas = gasFeeData?.fast?.maxPriorityFeePerGas
-  const fastMaxFeePerGas = gasFeeData?.fast?.maxFeePerGas
-
-  const txMaxFeePerGas = Web3.utils.toHex(
-    !!inputMaxFeePerGas && inputMaxFeePerGas !== '0x0' && inputMaxFeePerGas !== '0'
-      ? inputMaxFeePerGas
-      : !!requestMaxFeePerGas && requestMaxFeePerGas !== '0x0' && requestMaxFeePerGas !== '0'
-      ? requestMaxFeePerGas
-      : fastMaxFeePerGas,
-  )
-
-  const txMaxPriorityFeePerGas = Web3.utils.toHex(
-    !!inputMaxPriorityFeePerGas &&
-      inputMaxPriorityFeePerGas !== '0x0' &&
-      inputMaxPriorityFeePerGas !== '0'
-      ? inputMaxPriorityFeePerGas
-      : !!requestMaxPriorityFeePerGas &&
-        requestMaxPriorityFeePerGas !== '0x0' &&
-        requestMaxPriorityFeePerGas !== '0'
-      ? requestMaxPriorityFeePerGas
-      : fastMaxPriorityFeePerGas,
-  )
-
-  console.log(inputMaxFeePerGas, requestMaxFeePerGas, txMaxFeePerGas)
-  console.log(inputMaxPriorityFeePerGas, requestMaxPriorityFeePerGas, txMaxPriorityFeePerGas)
-
-  // Recalculate estimated fee amount if txMaxFeePerGas changes
-  useEffect(() => {
-    const currentAmount = fromBaseUnit(bnOrZero(txMaxFeePerGas).times(txInputGas), 18)
-    form.setValue('currentFeeAmount', currentAmount)
-  }, [form, inputMaxFeePerGas, txInputGas, txMaxFeePerGas])
-
-  // determine which nonce to use: user input > from the request > true nonce
-  const requestNonce = request.params[0].nonce
-  const inputNonce = useWatch({ control: form.control, name: 'nonce' })
-  const [trueNonce, setTrueNonce] = useState('0')
-  useEffect(() => {
-    ;(async () => {
-      setLoadingNonce(true)
-      const count = await legacyWeb3?.web3.eth.getTransactionCount(address ?? '')
-      setTrueNonce(`${count}`)
-      setLoadingNonce(false)
-    })().catch(e => moduleLogger.error(e, 'useEffect for setTrueNonce'))
-  }, [adapterManager, address, legacyWeb3])
-  const txInputNonce = Web3.utils.toHex(
-    !!inputNonce ? inputNonce : !!requestNonce ? requestNonce : trueNonce,
-  )
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        setLoadingGasEstimate(true)
-        const estimate = await legacyWeb3?.web3.eth.estimateGas({
-          from: request.params[0].from,
-          nonce: Number(txInputNonce),
-          to: request.params[0].to,
-          data: request.params[0].data,
-        })
-        setEstimatedGas(String(estimate))
-      } catch (e) {
-        // 500k seemed reasonable
-        setEstimatedGas('500000')
-      } finally {
-        setLoadingGasEstimate(false)
-      }
-    })().catch(e => moduleLogger.error(e, 'useEffect for setEstimatedGas'))
-  }, [txInputNonce, address, currentRequest.params, legacyWeb3?.web3.eth, request.params])
-
-  if (!isConnected || !dapp || !currentRequest) return null
-
-  const txInput: TxData = {
-    nonce: txInputNonce,
-    gasLimit: txInputGas,
-    data: request.params[0].data,
-    to: request.params[0].to,
-    value: request.params[0].value,
-    maxFeePerGas: txMaxFeePerGas,
-    maxPriorityFeePerGas: txMaxPriorityFeePerGas,
-  }
-
-  // not mainnet and they havent entered custom gas fee data and no fee data from wc request.
-  // default to the web3 gasPrice for the network
-  if (chainId !== 1 && !inputMaxPriorityFeePerGas && !requestMaxPriorityFeePerGas)
-    txInput['gasPrice'] = Web3.utils.toHex(web3GasFeeData)
-
   return (
     <FormProvider {...form}>
       <VStack p={6} spacing={6} alignItems='stretch'>
+        <Box>
+          <Text>(Cethod: {request.method}) CAIP: {caip}</Text>
+        </Box>
         <Box>
           <Text
             fontWeight='medium'
@@ -471,13 +489,72 @@ export const EIP155SendTransactionConfirmation = () => {
           defaultOpen={false}
         >
           <Box pt={2}>
-            <GasInput
-              gasLimit={txInputGas}
-              recommendedGasPriceData={{
-                maxPriorityFeePerGas: request.params[0].maxPriorityFeePerGas,
-                maxFeePerGas: request.params[0].maxFeePerGas,
-              }}
-            />
+            <FormControl
+                borderWidth={1}
+                borderColor={borderColor}
+                bg={bgColor}
+                borderRadius='xl'
+                px={4}
+                pt={2}
+                pb={4}
+            >
+              <HStack justifyContent='space-between' mb={4}>
+                <HelperTooltip label={translate('gasInput.gasPrice.tooltip')}>
+                  <Text color='gray.500' fontWeight='medium' translation='gasInput.gasPrice.label' />
+                </HelperTooltip>
+                {!!true && (
+                    <RawText fontWeight='medium'>{`${currentRadioSelection} ${currentFeeAmount}`}</RawText>
+                )}
+              </HStack>
+
+              <Box borderWidth={1} borderRadius='lg' borderColor={borderColor}>
+                <RadioGroup alignItems='stretch' value={currentRadioSelection} onChange={handleRadioChange}>
+                  <VStack spacing={0}>
+                    {options.map(option => (
+                        <Fragment key={option.value}>
+                          <HStack
+                              alignItems='center'
+                              fontWeight='medium'
+                              width='full'
+                              justifyContent='space-between'
+                              px={4}
+                              py={2}
+                          >
+                            <Radio color='blue' value={option.identifier}>
+                              <HStack>
+                                <RawText>{option.label}</RawText>
+                                <RawText color='gray.500' flex={1}>
+                                  {option.duration}
+                                </RawText>
+                              </HStack>
+                            </Radio>
+                            <RawText color={option.color}>{option.amount} (Gwei)</RawText>
+                          </HStack>
+                          <Divider />
+                        </Fragment>
+                    ))}
+                    <Box px={4} py={2} width='full'>
+                      <SimpleGrid
+                          mt={2}
+                          spacing={4}
+                          templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
+                      >
+                        <Box>
+                          <HelperTooltip label={translate('gasInput.base.gasPrice')}>
+                            <Text translation='gasInput.base.label' color='gray.500' fontWeight='medium' />
+                          </HelperTooltip>
+                          <NumberInput borderColor={borderColor} mt={2} onChange={gasFeeInputChange}>
+                            <NumberInputField placeholder='Number...' />
+                          </NumberInput>
+                        </Box>
+                        <Box>
+                        </Box>
+                      </SimpleGrid>
+                    </Box>
+                  </VStack>
+                </RadioGroup>
+              </Box>
+            </FormControl>
           </Box>
         </ModalSection>
 
@@ -488,7 +565,63 @@ export const EIP155SendTransactionConfirmation = () => {
           icon={<FaWrench />}
           defaultOpen={false}
         >
-          <TransactionAdvancedParameters />
+          {/*<Card bg={useColorModeValue('white', 'gray.850')} p={4} borderRadius='md'>*/}
+          {/*  <VStack alignItems='stretch'>*/}
+          {/*    <Alert status='warning' variant='subtle' py={1} px={2} fontSize='sm'>*/}
+          {/*      <AlertIcon />*/}
+          {/*      <Text*/}
+          {/*          color='orange.200'*/}
+          {/*          translation='plugins.walletConnectToDapps.modal.sendTransaction.advancedParameters.alert'*/}
+          {/*      />*/}
+          {/*    </Alert>*/}
+          
+          {/*    <FormControl>*/}
+          {/*      <FormLabel display='flex' columnGap={1}>*/}
+          {/*        <Text*/}
+          {/*            color='gray.500'*/}
+          {/*            fontWeight='medium'*/}
+          {/*            translation='plugins.walletConnectToDapps.modal.sendTransaction.advancedParameters.nonce.title'*/}
+          {/*        />*/}
+          {/*        <HelperTooltip*/}
+          {/*            label={translate(*/}
+          {/*                'plugins.walletConnectToDapps.modal.sendTransaction.advancedParameters.nonce.tooltip',*/}
+          {/*            )}*/}
+          {/*        />*/}
+          {/*      </FormLabel>*/}
+          {/*      <NumberInput borderColor={borderColor} mt={2}>*/}
+          {/*        <NumberInputField*/}
+          {/*            placeholder={translate(*/}
+          {/*                'plugins.walletConnectToDapps.modal.sendTransaction.advancedParameters.nonce.placeholder',*/}
+          {/*            )}*/}
+          {/*            {recomendedNonce}*/}
+          {/*        />*/}
+          {/*      </NumberInput>*/}
+          {/*    </FormControl>*/}
+          
+          {/*    <FormControl>*/}
+          {/*      <FormLabel display='flex' columnGap={1}>*/}
+          {/*        <Text*/}
+          {/*            color='gray.500'*/}
+          {/*            fontWeight='medium'*/}
+          {/*            translation='plugins.walletConnectToDapps.modal.sendTransaction.advancedParameters.gasLimit.title'*/}
+          {/*        />*/}
+          {/*        <HelperTooltip*/}
+          {/*            label={translate(*/}
+          {/*                'plugins.walletConnectToDapps.modal.sendTransaction.advancedParameters.gasLimit.tooltip',*/}
+          {/*            )}*/}
+          {/*        />*/}
+          {/*      </FormLabel>*/}
+          {/*      <NumberInput borderColor={borderColor} mt={2}>*/}
+          {/*        <NumberInputField*/}
+          {/*            placeholder={translate(*/}
+          {/*                'plugins.walletConnectToDapps.modal.sendTransaction.advancedParameters.gasLimit.placeholder',*/}
+          {/*            )}*/}
+          {/*            {recomendedGasLimit}*/}
+          {/*        />*/}
+          {/*      </NumberInput>*/}
+          {/*    </FormControl>*/}
+          {/*  </VStack>*/}
+          {/*</Card>*/}
         </ModalSection>
 
         <Text
@@ -503,8 +636,7 @@ export const EIP155SendTransactionConfirmation = () => {
             width='full'
             colorScheme='blue'
             type='submit'
-            isLoading={loading}
-            onClick={() => onConfirm(txInput)}
+            onClick={() => onConfirm()}
           >
             {translate('plugins.walletConnectToDapps.modal.signMessage.confirm')}
           </Button>

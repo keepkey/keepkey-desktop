@@ -30,6 +30,7 @@ import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBrid
 import type { TxData } from './SendTransactionConfirmation'
 
 type GasInputProps = {
+  setSelectedGasPrice: (gasPrice: string) => void
   recommendedGasPriceData?: {
     maxFeePerGas: string
     maxPriorityFeePerGas: string
@@ -39,18 +40,19 @@ type GasInputProps = {
 
 const moduleLogger = logger.child({ namespace: 'GasInput' })
 
-export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit = '250000' }) => {
+export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, setSelectedGasPrice, gasLimit = '250000' }) => {
   const { setValue } = useFormContext<TxData>()
-  const { requests, removeRequest, isConnected, dapp } = useWalletConnect()
-  const currentRequest = requests[0] as SignClientTypes.EventArguments['session_request']
-  const { topic, params, id } = currentRequest
-  const { request, chainId: chainIdString } = params
+  const { requests } = useWalletConnect()
+  const currentRequest = requests[0]
+  const { params} = currentRequest
+  // const { request, chainId: chainIdString } = params
   const borderColor = useColorModeValue('gray.100', 'gray.750')
   const bgColor = useColorModeValue('white', 'gray.850')
   const translate = useTranslate()
   const [gasRecomendedByDapp, setGasRecomendedByDapp] = useState<string | undefined>(undefined)
   const [gasRecomendedByPioneer, setGasRecomendedByPioneer] = useState<string | undefined>(undefined)
-  const [gasFeeData, setGasFeeData] = useState<GasFeeDataEstimate | undefined>(undefined)
+  const [customGasPrice, setCustomGasPrice] = useState<string | undefined>(undefined)
+  //const [gasFeeData, setGasFeeData] = useState<GasFeeDataEstimate | undefined>(undefined)
 
   const currentFeeAmount = useWatch({ name: 'currentFeeAmount' })
 
@@ -70,7 +72,9 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
 
       // Fetch additional data
       const pioneer = await getPioneerClient();
-      let caip = "eip155:"+chainId+"/slip44:60";
+      let sanitizedChainId = (typeof chainId === 'string') ? chainId.replace(/[^0-9]/g, '') : '';
+      let caip = sanitizedChainId ? `eip155:${sanitizedChainId}/slip44:60` : null;
+      console.log("caip: ", caip);
       let recomendedFeeFromPioneer = await pioneer.GetFeeInfoByCaip({ caip });
       console.log("recomendedFeeFromPioneer: ", recomendedFeeFromPioneer);
       // Convert gas price from BigNumber to Gwei
@@ -79,149 +83,70 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
       let gasPriceInGwei = gasPriceInWei / 1e9;
       console.log("Gas price in Gwei: ", gasPriceInGwei);
       setGasRecomendedByPioneer(gasPriceInGwei);
+      setSelectedGasPrice(gasRecomendedByPioneer);
     };
 
     // Invoke the asynchronous function
     fetchData();
   }, []);
 
-  // calculate fee amounts for each selection
-  const amounts = useMemo(() => {
-    const recommendedAmount = fromBaseUnit(
-      bnOrZero(recommendedGasPriceData?.maxFeePerGas).times(gasLimit),
-      18,
-    ).toString()
-
-    if (!gasFeeData || !recommendedGasPriceData) {
-      return {
-        recommended: recommendedAmount || '0',
-        [FeeDataKey.Slow]: '0',
-        [FeeDataKey.Average]: '0',
-        [FeeDataKey.Fast]: '0',
-      }
-    }
-
-    const slowData = gasFeeData[FeeDataKey.Average]
-    const slowAmount = fromBaseUnit(bnOrZero(slowData?.maxFeePerGas).times(gasLimit), 18).toString()
-
-    const averageData = gasFeeData[FeeDataKey.Average]
-    const averageAmount = fromBaseUnit(
-      bnOrZero(averageData?.maxFeePerGas).times(gasLimit),
-      18,
-    ).toString()
-
-    const fastData = gasFeeData[FeeDataKey.Fast]
-    const fastAmount = fromBaseUnit(bnOrZero(fastData?.maxFeePerGas).times(gasLimit), 18).toString()
-
-    return {
-      recommended: recommendedAmount,
-      [FeeDataKey.Slow]: slowAmount,
-      [FeeDataKey.Average]: averageAmount,
-      [FeeDataKey.Fast]: fastAmount,
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gasFeeData, gasLimit, recommendedGasPriceData?.maxFeePerGas])
-
   const options = [
     {
+      identifier: 'dapp',
       value: gasRecomendedByDapp,
       label: "Recommended by Dapp",
       duration: '',
       amount: gasRecomendedByDapp,
-      color: 'green.200',
+      color: 'yellow.200',
     },
     {
+      identifier: 'pioneer',
       value: gasRecomendedByPioneer,
       label: "Recommended by Pioneer",
       duration: '',
       amount: gasRecomendedByPioneer,
       color: 'green.200',
     },
-    // {
-    //   value: FeeDataKey.Average,
-    //   label: translate(getFeeTranslation(FeeDataKey.Average)),
-    //   duration: '',
-    //   amount: amounts[FeeDataKey.Average],
-    //   color: 'blue.200',
-    // },
-    // {
-    //   value: FeeDataKey.Fast,
-    //   label: translate(getFeeTranslation(FeeDataKey.Fast)),
-    //   duration: '',
-    //   amount: amounts[FeeDataKey.Fast],
-    //   color: 'red.400',
-    // },
-  ]
-
-  if (!!recommendedGasPriceData?.maxFeePerGas) {
-    options.push({
-      value: 'recommended' as FeeDataKey,
-      label: 'Recommended',
+    {
+      identifier: 'custom',
+      value: customGasPrice,
+      label: "set by user",
       duration: '',
-      amount: amounts.recommended,
+      amount: customGasPrice,
       color: 'green.200',
-    })
-  }
+    },
+  ]
+  
   const [currentRadioSelection, setCurrentRadioSelection] = useState(
-    !!recommendedGasPriceData?.maxFeePerGas ? 'recommended' : FeeDataKey.Fast,
+    'pioneer',
   )
 
   const handleRadioChange = useCallback(
-    (selection: string) => {
-      setCurrentRadioSelection(selection)
-
-      if (selection === 'recommended') {
-        setValue('maxPriorityFeePerGas', recommendedGasPriceData?.maxPriorityFeePerGas!)
-        setValue('maxFeePerGas', recommendedGasPriceData?.maxFeePerGas!)
-      } else if (selection === FeeDataKey.Slow) {
-        setValue('maxPriorityFeePerGas', gasFeeData?.slow?.maxPriorityFeePerGas!)
-        setValue('maxFeePerGas', gasFeeData?.slow?.maxFeePerGas!)
-      } else if (selection === FeeDataKey.Average) {
-        setValue('maxPriorityFeePerGas', gasFeeData?.average?.maxPriorityFeePerGas!)
-        setValue('maxFeePerGas', gasFeeData?.average?.maxFeePerGas!)
-      } else if (selection === FeeDataKey.Fast) {
-        setValue('maxPriorityFeePerGas', gasFeeData?.fast?.maxPriorityFeePerGas!)
-        setValue('maxFeePerGas', gasFeeData?.fast?.maxFeePerGas!)
-      } else {
-        throw new Error('unknown value')
-      }
-    },
-    [
-      gasFeeData?.average?.maxPriorityFeePerGas,
-      gasFeeData?.average?.maxFeePerGas,
-      gasFeeData?.fast?.maxFeePerGas,
-      gasFeeData?.fast?.maxPriorityFeePerGas,
-      gasFeeData?.slow?.maxFeePerGas,
-      gasFeeData?.slow?.maxPriorityFeePerGas,
-      recommendedGasPriceData?.maxFeePerGas,
-      recommendedGasPriceData?.maxPriorityFeePerGas,
-      setValue,
-    ],
-  )
+      (selection: string) => {
+        console.log("Handling radio change to: ", selection);
+        setCurrentRadioSelection(selection);
+        if (selection === 'pioneer') {
+          setSelectedGasPrice(gasRecomendedByPioneer);
+        } else if (selection === 'dapp') {
+          setSelectedGasPrice(gasRecomendedByDapp);
+        } else if (selection === 'custom') {
+          setSelectedGasPrice(customGasPrice);
+        } else {
+          throw new Error('unknown value');
+        }
+      },
+      [gasRecomendedByDapp, gasRecomendedByPioneer, customGasPrice]
+  );
 
   const gasFeeInputChange = useCallback(
       (selection: string) => {
-        setCurrentRadioSelection('custom')
-        setValue('gasPrice', selection)
+        console.log("Setting Gas price value: ", selection);
+        setCurrentRadioSelection('custom'); // Add this line
+        setCustomGasPrice(selection);
+        setSelectedGasPrice(selection);
       },
-      [setValue],
-  )
-
-  // const baseFeeInputChange = useCallback(
-  //   (selection: string) => {
-  //     setCurrentRadioSelection('custom')
-  //     setValue('maxFeePerGas', selection)
-  //   },
-  //   [setValue],
-  // )
-  //
-  // const priorityFeeInputChange = useCallback(
-  //   (selection: string) => {
-  //     setCurrentRadioSelection('custom')
-  //     setValue('maxPriorityFeePerGas', selection)
-  //   },
-  //   [setValue],
-  // )
+      []
+  );
 
   return (
     <FormControl
@@ -255,7 +180,7 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
                   px={4}
                   py={2}
                 >
-                  <Radio color='blue' value={option.value}>
+                  <Radio color='blue' value={option.identifier}>
                     <HStack>
                       <RawText>{option.label}</RawText>
                       <RawText color='gray.500' flex={1}>
@@ -263,24 +188,19 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
                       </RawText>
                     </HStack>
                   </Radio>
-                  <RawText color={option.color}>{option.amount}</RawText>
+                  <RawText color={option.color}>{option.amount} (Gwei)</RawText>
                 </HStack>
                 <Divider />
               </Fragment>
             ))}
             <Box px={4} py={2} width='full'>
-              <HStack width='full'>
-                <Radio color='blue' onClick={() => setCurrentRadioSelection('custom')}>
-                  <Text translation='gasInput.custom' />
-                </Radio>
-              </HStack>
               <SimpleGrid
                 mt={2}
                 spacing={4}
                 templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
               >
                 <Box>
-                  <HelperTooltip label={translate('gasInput.base.tooltip')}>
+                  <HelperTooltip label={translate('gasInput.base.gasPrice')}>
                     <Text translation='gasInput.base.label' color='gray.500' fontWeight='medium' />
                   </HelperTooltip>
                   <NumberInput borderColor={borderColor} mt={2} onChange={gasFeeInputChange}>
@@ -288,25 +208,6 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, gasLimit 
                   </NumberInput>
                 </Box>
                 <Box>
-
-                {/*  <HelperTooltip label={translate('gasInput.base.tooltip')}>*/}
-                {/*    <Text translation='gasInput.base.label' color='gray.500' fontWeight='medium' />*/}
-                {/*  </HelperTooltip>*/}
-                {/*  <NumberInput borderColor={borderColor} mt={2} onChange={baseFeeInputChange}>*/}
-                {/*    <NumberInputField placeholder='Number...' />*/}
-                {/*  </NumberInput>*/}
-                {/*</Box>*/}
-                {/*<Box>*/}
-                {/*  <HelperTooltip label={translate('gasInput.priority.tooltip')}>*/}
-                {/*    <Text*/}
-                {/*      translation='gasInput.priority.label'*/}
-                {/*      color='gray.500'*/}
-                {/*      fontWeight='medium'*/}
-                {/*    />*/}
-                {/*  </HelperTooltip>*/}
-                {/*  <NumberInput borderColor={borderColor} mt={2} onChange={priorityFeeInputChange}>*/}
-                {/*    <NumberInputField placeholder='Number...' />*/}
-                {/*  </NumberInput>*/}
                 </Box>
               </SimpleGrid>
             </Box>
