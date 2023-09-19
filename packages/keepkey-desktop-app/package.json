@@ -110,7 +110,7 @@
     "@keepkey/device-protocol": "^7.10.2",
     "@keepkey/hdwallet-keepkey-rest": "workspace:*",
     "@keepkey/keepkey-sdk": "workspace:*",
-    "@pioneer-platform/pioneer-client": "^8.1.29",
+    "@pioneer-platform/pioneer-client": "^9.0.18",
     "@react-spring/web": "^9.5.2",
     "@reduxjs/toolkit": "^1.8.2",
     "@shapeshiftoss/asset-service": "^8.1.2",

@@ -90,8 +90,11 @@ export const EIP155SignMessageConfirmation = () => {
           console.error('INVALID REQUEST: ', request)
           throw Error('unhandled request method' + request.method)
         }
-
+        console.log("signedMessage: ",signedMessage)
+        
         const response = formatJsonRpcResult(id, signedMessage.signature)
+        console.log("response: ",response)
+        
         await WalletConnectWeb3Wallet.respondSessionRequest({
           topic,
           response,
@@ -126,6 +129,10 @@ export const EIP155SignMessageConfirmation = () => {
 
   return (
     <VStack p={6} spacing={6} alignItems='stretch'>
+      <Box>
+        <Text>(Cethod: {request.method})</Text>
+      </Box>
+      
       <Box>
         <Text
           fontWeight='medium'

@@ -816,7 +816,7 @@
   "gasInput": {
     "gasPrice": {
       "label": "Gas Price",
-      "tooltip": "TODO: Gas Price Tooltip"
+      "tooltip": "Gap price in Gwei"
     },
     "base": {
       "label": "Base fee",
