@@ -51,14 +51,9 @@ jobs:
       - name: Generate Checksum
         run: |
           if [[ "${{ runner.os }}" == "Windows" ]]; then
-            # Windows Command (PowerShell)
-            Get-ChildItem -Recurse packages/keepkey-desktop/build/ -File | ForEach-Object {
-              $hash = Get-FileHash -Path $_.FullName -Algorithm SHA256
-              "{0} {1}" -f $hash.Hash, $_.Name
-            } | Out-File -Encoding utf8 checksum.txt
+          ./generate_checksum_windows.sh
           else
-            # Unix-like Command (Bash)
-            find packages/keepkey-desktop/build/ -type f -exec openssl dgst -sha256 {} \; > checksum.txt
+          ./generate_checksum_unix.sh
           fi
         shell: bash
       # Additional Step for Uploading Checksums
