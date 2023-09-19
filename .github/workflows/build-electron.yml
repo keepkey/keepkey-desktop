@@ -49,8 +49,18 @@ jobs:
 
       # Additional Step for Generating Checksums
       - name: Generate Checksum
-        run: find packages/keepkey-desktop/build/ -type f -exec openssl dgst -sha256 {} \; > checksum.txt
-
+        run: |
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            # Windows Command (PowerShell)
+            Get-ChildItem -Recurse packages/keepkey-desktop/build/ -File | ForEach-Object {
+              $hash = Get-FileHash -Path $_.FullName -Algorithm SHA256
+              "{0} {1}" -f $hash.Hash, $_.Name
+            } | Out-File -Encoding utf8 checksum.txt
+          else
+            # Unix-like Command (Bash)
+            find packages/keepkey-desktop/build/ -type f -exec openssl dgst -sha256 {} \; > checksum.txt
+          fi
+        shell: bash
       # Additional Step for Uploading Checksums
       - name: Upload Checksum
         uses: actions/upload-artifact@v3
