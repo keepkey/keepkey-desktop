@@ -845,6 +845,7 @@ export class KeepKeyRestHDWallet
             { signal },
           )
           break
+        case 'cosmos-sdk/MsgBeginRedelegate':
         case 'cosmos-sdk/MsgReDelegate':
           signed = await this.sdk.cosmos.cosmosSignAminoRedelegate(
             {
@@ -865,6 +866,7 @@ export class KeepKeyRestHDWallet
             { signal },
           )
           break
+        case 'cosmos-sdk/MsgUndelegate':
         case 'cosmos-sdk/MsgUnDelegate':
           signed = await this.sdk.cosmos.cosmosSignAminoUndelegate(
             {
@@ -885,6 +887,7 @@ export class KeepKeyRestHDWallet
             { signal },
           )
           break
+        case 'cosmos-sdk/MsgWithdrawDelegatorReward':
         case 'cosmos-sdk/MsgWithdrawDelegationReward':
           signed = await this.sdk.cosmos.cosmosSignAminoWithdrawDelegatorRewardsAll(
             {

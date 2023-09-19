@@ -51,7 +51,7 @@ jobs:
       - name: Generate Checksum
         run: |
           if [[ "${{ runner.os }}" == "Windows" ]]; then
-          ./generate_checksum_windows.sh
+          ./scripts/generate_checksum_windows.sh
           else
           ./generate_checksum_unix.sh
           fi
