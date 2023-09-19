@@ -53,7 +53,7 @@ jobs:
           if [[ "${{ runner.os }}" == "Windows" ]]; then
           ./scripts/generate_checksum_windows.sh
           else
-          ./generate_checksum_unix.sh
+          ./scripts/generate_checksum_unix.sh
           fi
         shell: bash
       # Additional Step for Uploading Checksums
