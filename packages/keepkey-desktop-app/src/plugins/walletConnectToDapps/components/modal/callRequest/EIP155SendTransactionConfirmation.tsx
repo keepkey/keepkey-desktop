@@ -3,9 +3,6 @@ import { Button, HStack, Image, useColorModeValue, useToast, VStack,  Box,
   FormControl,
   Radio,
   RadioGroup, NumberInput, NumberInputField, SimpleGrid,
-  Alert,
-  AlertIcon,
-  FormLabel,
 } from '@chakra-ui/react'
 import { formatJsonRpcResult } from '@json-rpc-tools/utils'
 import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
@@ -16,7 +13,6 @@ import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { RawText, Text } from 'components/Text'
 import { HelperTooltip } from 'components/HelperTooltip/HelperTooltip'
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'
-import { web3ByChainId } from 'context/WalletProvider/web3byChainId'
 import { getPioneerClient } from 'lib/getPioneerClient'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { WalletConnectWeb3Wallet } from 'kkdesktop/walletconnect/utils'

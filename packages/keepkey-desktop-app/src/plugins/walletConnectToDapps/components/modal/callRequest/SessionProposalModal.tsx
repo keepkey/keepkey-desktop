@@ -9,10 +9,20 @@ import {
   Modal,
   ModalCloseButton,
   ModalHeader,
+  Spinner,
   ModalOverlay,
   Stack,
+  Table,
+  Tbody,
+  Td,
+  Tr,
+  Thead,
+  Th,
+  RadioGroup,
+  Radio
 } from '@chakra-ui/react'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import { MiddleEllipsis } from 'components/MiddleEllipsis/MiddleEllipsis'
 import type { ProposalTypes, SessionTypes, SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
 import { Card } from 'components/Card/Card'
@@ -23,13 +33,16 @@ import { WalletConnectWeb3Wallet } from 'kkdesktop/walletconnect/utils'
 import { formatChainName } from 'plugins/walletConnectToDapps/utils/utils'
 import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { useEffect, useState } from 'react'
+import { getPioneerClient } from 'lib/getPioneerClient'
 
 export const SessionProposalModal = () => {
   const { proposals, removeProposal, setPairingMeta, setCurrentSessionTopic, setIsConnected } =
     useWalletConnect()
 
   const currentProposal = proposals[0] as SignClientTypes.EventArguments['session_proposal']
-
+  const [pioneer, setPioneer] = useState(null)
+  const [allAccounts,setAllAccounts] = useState([])
+  const [selectedAccount,setSelectedAccount] = useState({})
   const { id, params } = currentProposal
   const { proposer, requiredNamespaces, optionalNamespaces } = params
 
@@ -37,66 +50,108 @@ export const SessionProposalModal = () => {
     state: { wallet },
   } = useWallet()
 
+  const onStart = async () => {
+    try{
+      //get gas from pioneer
+      const pioneer = await getPioneerClient();
+      setPioneer(pioneer)
+      let w = wallet as KeepKeyHDWallet
+
+
+      
+      const combinedNamespaces: any = {
+        eip155: {
+          chains: [],
+          methods: [],
+          events: [],
+          rpcMap: [],
+        },
+      }
+
+      // const mergeArrays = (arr1: any, arr2: any) => [...new Set([...arr1, ...arr2])]
+
+      // const mergeObjects = (
+      //   obj1: { [x: string]: any },
+      //   obj2: { [x: string]: any; hasOwnProperty: (arg0: string) => any },
+      // ) => {
+      //   const mergedObj = { ...obj1 }
+
+      //   for (const key in obj2) {
+      //     if (obj2.hasOwnProperty(key)) {
+      //       if (Array.isArray(obj1[key]) && Array.isArray(obj2[key])) {
+      //         mergedObj[key] = mergeArrays(obj1[key], obj2[key])
+      //       } else if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
+      //         mergedObj[key] = mergeObjects(obj1[key], obj2[key])
+      //       } else {
+      //         mergedObj[key] = obj2[key]
+      //       }
+      //     }
+      //   }
+
+      //   return mergedObj
+      // }
+
+      combinedNamespaces.eip155.chains = requiredNamespaces.eip155?.chains?.concat(
+          optionalNamespaces.eip155?.chains || [],
+      )
+
+      // combinedNamespaces.eip155.chains = requiredNamespaces.eip155?.chains?.concat(
+      //   optionalNamespaces.eip155?.chains || [],
+      // )
+
+      combinedNamespaces.eip155.methods = requiredNamespaces.eip155?.methods.concat(
+          //only do required methods for now
+          // []
+          optionalNamespaces.eip155?.methods || [],
+      )
+
+      combinedNamespaces.eip155.events = requiredNamespaces.eip155?.events.concat(
+          optionalNamespaces.eip155?.events || [],
+      )
+
+      combinedNamespaces.eip155.rpcMap = {
+        // @ts-ignore
+        ...requiredNamespaces.eip155?.rpcMap,
+        // @ts-ignore
+        ...optionalNamespaces.eip155?.rpcMap,
+      }
+
+      setSessionNamespaces(combinedNamespaces)
+      
+      //populate account options
+      let accountsOptions = [0,1,2,3,4,5]
+      let allAccounts = []
+
+      let caip = "eip155:1/slip44:60"
+      for(let i=0; i< accountsOptions.length; i++){
+        console.log("i: ",i)
+        const accountPath = w.ethGetAccountPaths({ coin: 'Ethereum', accountIdx: i })
+        console.log("accountPath: ",accountPath)
+        console.log("accountPath[0].addressNList: ",accountPath[0].addressNList)
+        let address = await w.ethGetAddress({addressNList: accountPath[0].addressNList, showDisplay: false})
+        let account:any = {}
+        console.log("account: ",account)
+        if(address){
+          account.address = address
+          //get ETH balance
+          let result = await pioneer.GetAddressInfoByCaip({caip,address});
+          console.log("result: ",result.data)
+          account.balance = result.data.balance
+          allAccounts.push(account)
+        }
+      }
+      setAllAccounts(allAccounts)
+      console.log("allAccounts", allAccounts)
+      setSelectedAccount(allAccounts[0])
+      
+    }catch(e){
+      console.error(e)
+    }
+  }
+
   useEffect(() => {
-    const combinedNamespaces: any = {
-      eip155: {
-        chains: [],
-        methods: [],
-        events: [],
-        rpcMap: [],
-      },
-    }
-
-    // const mergeArrays = (arr1: any, arr2: any) => [...new Set([...arr1, ...arr2])]
-
-    // const mergeObjects = (
-    //   obj1: { [x: string]: any },
-    //   obj2: { [x: string]: any; hasOwnProperty: (arg0: string) => any },
-    // ) => {
-    //   const mergedObj = { ...obj1 }
-
-    //   for (const key in obj2) {
-    //     if (obj2.hasOwnProperty(key)) {
-    //       if (Array.isArray(obj1[key]) && Array.isArray(obj2[key])) {
-    //         mergedObj[key] = mergeArrays(obj1[key], obj2[key])
-    //       } else if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
-    //         mergedObj[key] = mergeObjects(obj1[key], obj2[key])
-    //       } else {
-    //         mergedObj[key] = obj2[key]
-    //       }
-    //     }
-    //   }
-
-    //   return mergedObj
-    // }
-
-    combinedNamespaces.eip155.chains = requiredNamespaces.eip155?.chains?.concat(
-      optionalNamespaces.eip155?.chains || [],
-    )
-
-    // combinedNamespaces.eip155.chains = requiredNamespaces.eip155?.chains?.concat(
-    //   optionalNamespaces.eip155?.chains || [],
-    // )
-
-    combinedNamespaces.eip155.methods = requiredNamespaces.eip155?.methods.concat(
-      //only do required methods for now
-      // []
-      optionalNamespaces.eip155?.methods || [],
-    )
-
-    combinedNamespaces.eip155.events = requiredNamespaces.eip155?.events.concat(
-      optionalNamespaces.eip155?.events || [],
-    )
-
-    combinedNamespaces.eip155.rpcMap = {
-      // @ts-ignore
-      ...requiredNamespaces.eip155?.rpcMap,
-      // @ts-ignore
-      ...optionalNamespaces.eip155?.rpcMap,
-    }
-
-    setSessionNamespaces(combinedNamespaces)
-  }, [params, currentProposal, requiredNamespaces, optionalNamespaces])
+    onStart()
+  }, [params, currentProposal, requiredNamespaces, optionalNamespaces, wallet])
 
   const [loading, setLoading] = useState(false)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -119,13 +174,8 @@ export const SessionProposalModal = () => {
               sessionNamespaces[key].chains.map(async (chain: any) => {
                 console.log(chain)
                 let address
-
                 if (key === 'eip155') {
-                  const accountPath = w.ethGetAccountPaths({ coin: 'Ethereum', accountIdx: 0 })
-                  address = await w.ethGetAddress({
-                    addressNList: accountPath[0].addressNList,
-                    showDisplay: false,
-                  })
+                  address = selectedAccount.address
                 } else if (key === 'cosmos') {
                   const accountPath = w.cosmosGetAccountPaths({ accountIdx: 0 })
                   address = await w.cosmosGetAddress({
@@ -133,11 +183,7 @@ export const SessionProposalModal = () => {
                     showDisplay: false,
                   })
                 } else {
-                  const accountPath = w.ethGetAccountPaths({ coin: 'Ethereum', accountIdx: 0 })
-                  address = await w.ethGetAddress({
-                    addressNList: accountPath[0].addressNList,
-                    showDisplay: false,
-                  })
+                  address = selectedAccount.address
                 }
 
                 if (!address) return `${chain}:DOES_NOT_SUPPORT`
@@ -191,6 +237,13 @@ export const SessionProposalModal = () => {
     }
     removeProposal(id)
   }
+
+  const handleRadioChange = (index:any) => {
+    console.log("handleRadioChange index: ",index)
+    console.log("handleRadioChange index: ",allAccounts[index])
+    console.log("handleRadioChange index: ",allAccounts[index].address)
+    setSelectedAccount(allAccounts[index]);
+  };
 
   return (
     <Modal
@@ -248,59 +301,102 @@ export const SessionProposalModal = () => {
             </Box>
           </Box>
           <Divider />
-          {Object.keys(sessionNamespaces).map(chain => {
-            return (
-              <Stack>
-                <RawText mb={5}>{`Review ${chain} permissions`}</RawText>
+          <Box maxHeight="400px" overflowY="scroll">
+            {Object.keys(sessionNamespaces).map(chain => {
+              return (
+                  <Stack>
+                    <RawText mb={5}>{`Review ${chain} permissions`}</RawText>
 
-                {
-                  // @ts-ignore
-                  sessionNamespaces[chain].chains.map((chainId: string) => {
-                    const extensionMethods: ProposalTypes.RequiredNamespace['methods'] = []
-                    const extensionEvents: ProposalTypes.RequiredNamespace['events'] = []
+                    {
+                      // @ts-ignore
+                      sessionNamespaces[chain].chains.map((chainId: string) => {
+                        const extensionMethods: ProposalTypes.RequiredNamespace['methods'] = []
+                        const extensionEvents: ProposalTypes.RequiredNamespace['events'] = []
 
-                    // @ts-ignore
-                    sessionNamespaces[chain].extension?.forEach(({ chains, methods, events }) => {
-                      if (chains.includes(chainId)) {
-                        extensionMethods.push(...methods)
-                        extensionEvents.push(...events)
-                      }
-                    })
+                        // @ts-ignore
+                        sessionNamespaces[chain].extension?.forEach(({ chains, methods, events }) => {
+                          if (chains.includes(chainId)) {
+                            extensionMethods.push(...methods)
+                            extensionEvents.push(...events)
+                          }
+                        })
 
-                    // @ts-ignore
-                    const allMethods = [...sessionNamespaces[chain].methods, ...extensionMethods]
-                    // @ts-ignore
-                    const allEvents = [...sessionNamespaces[chain].events, ...extensionEvents]
-                    return (
-                      <Card rounded='lg'>
-                        <Card.Header>
-                          <Card.Heading>{formatChainName(chainId)}</Card.Heading>
-                        </Card.Header>
-                        <Card.Body>
-                          <Card.Heading>
-                            <Text translation='plugins.walletConnectToDapps.modal.sessionProposal.methods' />
-                          </Card.Heading>
-                          <RawText color='gray.500'>
-                            {allMethods.length ? allMethods.join(', ') : '-'}
-                          </RawText>
-                          <Divider mt={2} mb={2} />
-                          <Card.Heading>
-                            <Text translation='plugins.walletConnectToDapps.modal.sessionProposal.events' />
-                          </Card.Heading>
-                          <RawText color='gray.500'>
-                            {allEvents.length ? allEvents.join(', ') : '-'}
-                          </RawText>
-                        </Card.Body>
-                      </Card>
-                    )
-                  })
-                }
-                {/* <SessionProposalChainCard requiredNamespace={requiredNamespaces[chain]} />
+                        // @ts-ignore
+                        const allMethods = [...sessionNamespaces[chain].methods, ...extensionMethods]
+                        // @ts-ignore
+                        const allEvents = [...sessionNamespaces[chain].events, ...extensionEvents]
+                        return (
+                            <Card rounded='lg'>
+                              <Card.Header>
+                                <Card.Heading>{formatChainName(chainId)}</Card.Heading>
+                              </Card.Header>
+                              <Card.Body>
+                                <Card.Heading>
+                                  <Text translation='plugins.walletConnectToDapps.modal.sessionProposal.methods' />
+                                </Card.Heading>
+                                <RawText color='gray.500'>
+                                  {allMethods.length ? allMethods.join(', ') : '-'}
+                                </RawText>
+                                <Divider mt={2} mb={2} />
+                                <Card.Heading>
+                                  <Text translation='plugins.walletConnectToDapps.modal.sessionProposal.events' />
+                                </Card.Heading>
+                                <RawText color='gray.500'>
+                                  {allEvents.length ? allEvents.join(', ') : '-'}
+                                </RawText>
+                              </Card.Body>
+                            </Card>
+                        )
+                      })
+                    }
+                    {/* <SessionProposalChainCard requiredNamespace={requiredNamespaces[chain]} />
                                 {renderAccountSelection(chain)} */}
-                <Divider />
-              </Stack>
-            )
-          })}
+                    <Divider />
+                  </Stack>
+              )
+            })}
+          </Box>
+          <Card mt={5} p={4} borderWidth="1px" rounded="lg">
+            <Card.Header>
+              <Card.Heading>Select Account</Card.Heading>
+            </Card.Header>
+            <Card.Body>
+              <Table variant="simple">
+                <Thead>
+                  <Tr>
+                    <Th>Address</Th>
+                    <Th isNumeric>Balance</Th>
+                    <Th>Select</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  <RadioGroup onChange={handleRadioChange} defaultValue="1">
+                    {allAccounts.length === 0 ? (
+                        <Tr>
+                          <Td colSpan={3} textAlign="center">
+                            <Spinner />
+                          </Td>
+                        </Tr>
+                    ) : (
+                        allAccounts.map((account, index) => (
+                            <Tr key={index}>
+                              <Td maxWidth="full" isTruncated>
+                                {index}: {account.address.substring(0, 10)}...
+                              </Td>
+                              <Td isNumeric>
+                                {account.balance}
+                              </Td>
+                              <Td>
+                                <Radio value={index.toString()}></Radio>
+                              </Td>
+                            </Tr>
+                        ))
+                    )}
+                  </RadioGroup>
+                </Tbody>
+              </Table>
+            </Card.Body>
+          </Card>
           <Button width='full' size='lg' colorScheme='blue' onClick={onApprove} isLoading={loading}>
             <Text translation={'plugins.walletConnectToDapps.modal.sessionProposal.approve'} />
           </Button>
