@@ -370,7 +370,7 @@ export const SessionProposalModal = () => {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <RadioGroup onChange={handleRadioChange} defaultValue="1">
+                  <RadioGroup onChange={handleRadioChange} defaultValue="0">
                     {allAccounts.length === 0 ? (
                         <Tr>
                           <Td colSpan={3} textAlign="center">

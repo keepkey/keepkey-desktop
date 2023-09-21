@@ -187,22 +187,24 @@ export const EIP155SendTransactionConfirmation = () => {
     ;(async () => {
       if (!keepKeyWallet) return
       setLoadingAddress(true)
-      const accounts = keepKeyWallet.ethGetAccountPaths({
-        coin: 'Ethereum',
-        accountIdx: 0,
-      })
-      setAccountPath(accounts[0].addressNList)
-      const accAddress = await keepKeyWallet.ethGetAddress({
-        addressNList: accounts[0].addressNList,
-        showDisplay: false,
-      })
-      setLoadingAddress(false)
-      setAddress(accAddress)
-      console.log("isConnected: ",isConnected)
-      console.log("dapp: ",dapp)
-
+      let accountsOptions = [0,1,2,3,4,5]
+      for(let i=0; i< accountsOptions.length; i++){
+        console.log("i: ", i)
+        const accountPath = keepKeyWallet.ethGetAccountPaths({ coin: 'Ethereum', accountIdx: i })
+        console.log("accountPath: ", accountPath)
+        console.log("accountPath[0].addressNList: ", accountPath[0].addressNList)
+        let address = await keepKeyWallet.ethGetAddress({addressNList: accountPath[0].addressNList, showDisplay: false})
+        console.log("address: ",address)
+        if(address.toLowerCase() === params.request.params[0].from.toLowerCase()){
+          console.log("match: ",address, params.request.params[0].from)
+          setAddress(address)
+          setAccountPath(accountPath[0].addressNList)
+          setLoadingAddress(false)
+          return
+        }
+      }
     })().catch(e => moduleLogger.error(e))
-  }, [keepKeyWallet])
+  }, [keepKeyWallet, params])
   
   let onStart = async function () {
     try{
