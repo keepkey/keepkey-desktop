@@ -56,7 +56,7 @@ export const EIP155SignMessageConfirmation = () => {
       for(let i=0; i< accountsOptions.length; i++){
         const accountPath = wallet.ethGetAccountPaths({ coin: 'Ethereum', accountIdx: i })
         let address = await wallet.ethGetAddress({addressNList: accountPath[0].addressNList, showDisplay: false})
-        if(address.toLowerCase() === params.request.params[0].from.toLowerCase()){
+        if(address.toLowerCase() === params.request.params[1].toLowerCase()){
           setAddress(address)
           setAccountPath(accountPath[0].addressNList)
           // setLoadingAddress(false)
@@ -100,12 +100,14 @@ export const EIP155SignMessageConfirmation = () => {
         
         const response = formatJsonRpcResult(id, signedMessage.signature)
         console.log("response: ",response)
-        
-        await WalletConnectWeb3Wallet.respondSessionRequest({
+        console.log("topic: ",topic)
+        let result = await WalletConnectWeb3Wallet.respondSessionRequest({
           topic,
           response,
         })
+        console.log("ETHsignMsg result push: ",result)
         removeRequest(currentRequest.id)
+
       } catch (e) {
         toast({
           title: 'Error',
