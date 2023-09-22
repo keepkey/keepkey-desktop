@@ -49,16 +49,22 @@ export const EIP155SignMessageConfirmation = () => {
   const message = getSignParamsMessage(request.params)
 
   useEffect(() => {
-    if (!wallet) return
-    const accounts = (wallet as KeepKeyHDWallet).ethGetAccountPaths({
-      coin: 'Ethereum',
-      accountIdx: 0,
-    })
-    setAccountPath(accounts[0].addressNList)
-    ;(wallet as KeepKeyHDWallet)
-      .ethGetAddress({ addressNList: accounts[0].addressNList, showDisplay: false })
-      .then(setAddress)
-  }, [wallet])
+    ;(async () => {
+      if (!wallet) return
+      // setLoadingAddress(true)
+      let accountsOptions = [0,1,2,3,4,5]
+      for(let i=0; i< accountsOptions.length; i++){
+        const accountPath = wallet.ethGetAccountPaths({ coin: 'Ethereum', accountIdx: i })
+        let address = await wallet.ethGetAddress({addressNList: accountPath[0].addressNList, showDisplay: false})
+        if(address.toLowerCase() === params.request.params[0].from.toLowerCase()){
+          setAddress(address)
+          setAccountPath(accountPath[0].addressNList)
+          // setLoadingAddress(false)
+          return
+        }
+      }
+    })().catch(e => console.error(e))
+  }, [wallet, params])
 
   const onConfirm = useCallback(
     async (txData: any) => {
