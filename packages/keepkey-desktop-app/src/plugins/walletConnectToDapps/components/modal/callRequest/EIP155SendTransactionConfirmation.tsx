@@ -222,6 +222,7 @@ export const EIP155SendTransactionConfirmation = () => {
       let gasPriceHex = recomendedFeeFromPioneer.data.gasPrice.hex;
       let gasPriceInWei = parseInt(gasPriceHex, 16);
       let gasPriceInGwei = gasPriceInWei / 1e9;
+      console.log("pioneer: ", gasPriceInGwei, "gwei")
       setGasRecomendedByPioneer(gasPriceInGwei);
       setSelectedGasPrice(gasPriceInGwei)
 
@@ -328,34 +329,12 @@ export const EIP155SendTransactionConfirmation = () => {
           txData.gasPrice = params.request.params[0].gas
           delete txData.maxPriorityFeePerGas
           delete txData.maxFeePerGas
-        } else if(selectedGasPriceHex && chainId !== 1){
+        } else if(selectedGasPriceHex){
           console.log("useing selected gas without eip1555 not eth!")
           txData.gasPrice = selectedGasPriceHex
           console.log("selectedGasPriceHex: ",selectedGasPriceHex)
           delete txData.maxPriorityFeePerGas
           delete txData.maxFeePerGas
-        } else if(selectedGasPrice && chainId == 1) {
-          console.log("Converting selected gas to eip1555");
-
-          // Convert selectedGasPrice from Gwei to Wei
-          const selectedGasPriceInWei = selectedGasPrice * 10**9;
-
-          // Calculate 10% of selectedGasPriceInWei as the priority fee (miner tip)
-          const priorityFee = Math.floor(selectedGasPriceInWei * 0.1);
-
-          // Use the selectedGasPriceInWei as the maximum fee
-          const maxFee = selectedGasPriceInWei;
-
-          // Convert integers to Hexadecimal (and pad if necessary)
-          const maxPriorityFeePerGasHex = "0x" + priorityFee.toString(16).padStart(16, '0');
-          const maxFeePerGasHex = "0x" + maxFee.toString(16).padStart(16, '0');
-
-          // Apply the calculated EIP-1559 compliant fees
-          txData.maxPriorityFeePerGas = maxPriorityFeePerGasHex;
-          txData.maxFeePerGas = maxFeePerGasHex;
-
-          // Remove the legacy gas price parameter
-          delete txData.gasPrice;
         } else {
           throw Error("unable to deturming gas price intent! aborting")
         }
