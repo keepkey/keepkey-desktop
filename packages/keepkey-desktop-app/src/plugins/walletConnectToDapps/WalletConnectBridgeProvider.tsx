@@ -40,7 +40,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
 
   const removeRequest = useCallback(
     (id: number) => {
-      const newRequests = requests.filter(request => request.id !== id)
+      const newRequests = requests.filter((request: { id: number }) => request.id !== id)
       delete newRequests[id]
       setRequests(newRequests)
     },
@@ -49,7 +49,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
 
   const removeProposal = useCallback(
     (id: number) => {
-      const newProposals = proposals.filter(proposal => proposal.id !== id)
+      const newProposals = proposals.filter((proposal: { id: number }) => proposal.id !== id)
       delete newProposals[id]
       setProposals(newProposals)
     },
@@ -58,12 +58,14 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
 
   useEffect(() => {
     if (!requests) return
+    console.log("requests: ",requests)
     if (requests.length <= 0) ipcListeners.setAlwaysOnTop(false)
     else if (requests.length >= 1) ipcListeners.setAlwaysOnTop(true)
   }, [requests])
 
   useEffect(() => {
     if (!proposals) return
+    console.log("proposals: ",proposals)
     if (proposals.length <= 0) ipcListeners.setAlwaysOnTop(false)
     else if (proposals.length >= 1) ipcListeners.setAlwaysOnTop(true)
   }, [proposals])
@@ -77,6 +79,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     if (isLegacy) {
       if (legacyBridge) await legacyBridge.disconnect()
     } else {
+      console.log("currentSessionTopic: ",currentSessionTopic)
       WalletConnectWeb3Wallet.disconnectSession({
         topic: currentSessionTopic ?? '',
         reason: getSdkError('USER_DISCONNECTED'),

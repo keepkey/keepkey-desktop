@@ -189,14 +189,9 @@ export const EIP155SendTransactionConfirmation = () => {
       setLoadingAddress(true)
       let accountsOptions = [0,1,2,3,4,5]
       for(let i=0; i< accountsOptions.length; i++){
-        console.log("i: ", i)
         const accountPath = keepKeyWallet.ethGetAccountPaths({ coin: 'Ethereum', accountIdx: i })
-        console.log("accountPath: ", accountPath)
-        console.log("accountPath[0].addressNList: ", accountPath[0].addressNList)
         let address = await keepKeyWallet.ethGetAddress({addressNList: accountPath[0].addressNList, showDisplay: false})
-        console.log("address: ",address)
         if(address.toLowerCase() === params.request.params[0].from.toLowerCase()){
-          console.log("match: ",address, params.request.params[0].from)
           setAddress(address)
           setAccountPath(accountPath[0].addressNList)
           setLoadingAddress(false)
@@ -209,39 +204,31 @@ export const EIP155SendTransactionConfirmation = () => {
   let onStart = async function () {
     try{
       const chainId = params.chainId.replace("eip155:", "");
-      console.log("chainId: ", chainId);
-      console.log("address: ",address)
       let sanitizedChainId = (typeof chainId === 'string') ? chainId.replace(/[^0-9]/g, '') : '';
       let caip = sanitizedChainId ? `eip155:${sanitizedChainId}/slip44:60` : null;
-      console.log("caip: ", caip);
       setCaip(caip)
       
       // Handle gas from dapp
       let gasRecomendedByDapp = params.request.params[0].gas;
       let gasInDecimal = parseInt(gasRecomendedByDapp, 16);
       gasInDecimal = gasInDecimal / 1e9;
-      console.log("gasInDecimal: ", gasInDecimal);
       setGasRecomendedByDapp(gasInDecimal.toString());
 
       //get gas from pioneer
       const pioneer = await getPioneerClient();
       setPioneer(pioneer)
       let recomendedFeeFromPioneer = await pioneer.GetFeeInfoByCaip({ caip });
-      console.log("recomendedFeeFromPioneer: ", recomendedFeeFromPioneer);
       // Convert gas price from BigNumber to Gwei
       let gasPriceHex = recomendedFeeFromPioneer.data.gasPrice.hex;
       let gasPriceInWei = parseInt(gasPriceHex, 16);
       let gasPriceInGwei = gasPriceInWei / 1e9;
-      console.log("Gas price in Gwei: ", gasPriceInGwei);
+      console.log("pioneer: ", gasPriceInGwei, "gwei")
       setGasRecomendedByPioneer(gasPriceInGwei);
       setSelectedGasPrice(gasPriceInGwei)
-      console.log("caip: ", caip);
-      console.log("address: ", address);
 
       //get nonce from pioneer
       if(caip && address){
         let result = await pioneer.GetAddressInfoByCaip({caip,address});
-        console.log("result: ",result.data)
         if(result?.data?.nonce)setRecomendedNonce(result.data.nonce);
         if(result?.data?.balance)setNativeBalance(result.data.balance);
 
@@ -342,34 +329,12 @@ export const EIP155SendTransactionConfirmation = () => {
           txData.gasPrice = params.request.params[0].gas
           delete txData.maxPriorityFeePerGas
           delete txData.maxFeePerGas
-        } else if(selectedGasPriceHex && chainId !== 1){
+        } else if(selectedGasPriceHex){
           console.log("useing selected gas without eip1555 not eth!")
           txData.gasPrice = selectedGasPriceHex
           console.log("selectedGasPriceHex: ",selectedGasPriceHex)
           delete txData.maxPriorityFeePerGas
           delete txData.maxFeePerGas
-        } else if(selectedGasPrice && chainId == 1) {
-          console.log("Converting selected gas to eip1555");
-
-          // Convert selectedGasPrice from Gwei to Wei
-          const selectedGasPriceInWei = selectedGasPrice * 10**9;
-
-          // Calculate 10% of selectedGasPriceInWei as the priority fee (miner tip)
-          const priorityFee = Math.floor(selectedGasPriceInWei * 0.1);
-
-          // Use the selectedGasPriceInWei as the maximum fee
-          const maxFee = selectedGasPriceInWei;
-
-          // Convert integers to Hexadecimal (and pad if necessary)
-          const maxPriorityFeePerGasHex = "0x" + priorityFee.toString(16).padStart(16, '0');
-          const maxFeePerGasHex = "0x" + maxFee.toString(16).padStart(16, '0');
-
-          // Apply the calculated EIP-1559 compliant fees
-          txData.maxPriorityFeePerGas = maxPriorityFeePerGasHex;
-          txData.maxFeePerGas = maxFeePerGasHex;
-
-          // Remove the legacy gas price parameter
-          delete txData.gasPrice;
         } else {
           throw Error("unable to deturming gas price intent! aborting")
         }
@@ -396,7 +361,7 @@ export const EIP155SendTransactionConfirmation = () => {
           console.log("data: ",broadcast.txid)
           jsonresponse = formatJsonRpcResult(id, broadcast.txid)
         }
-
+        console.log("RESP TO SIGN: jsonresponse: ",jsonresponse)
         await WalletConnectWeb3Wallet.respondSessionRequest({
           topic,
           response: jsonresponse,

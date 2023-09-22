@@ -52,6 +52,7 @@ export const SessionProposalModal = () => {
 
   const onStart = async () => {
     try{
+      setLoading(true)
       //get gas from pioneer
       const pioneer = await getPioneerClient();
       setPioneer(pioneer)
@@ -119,7 +120,7 @@ export const SessionProposalModal = () => {
       setSessionNamespaces(combinedNamespaces)
       
       //populate account options
-      let accountsOptions = [0,1,2,3,4,5]
+      let accountsOptions = [0,1,2]
       let allAccounts = []
 
       let caip = "eip155:1/slip44:60"
@@ -143,7 +144,7 @@ export const SessionProposalModal = () => {
       setAllAccounts(allAccounts)
       console.log("allAccounts", allAccounts)
       setSelectedAccount(allAccounts[0])
-      
+      setLoading(false)
     }catch(e){
       console.error(e)
     }

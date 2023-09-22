@@ -11,6 +11,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
+import { Buffer } from 'buffer'
 import { formatJsonRpcResult } from '@json-rpc-tools/utils'
 import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
@@ -48,28 +49,40 @@ export const EIP155SignMessageConfirmation = () => {
   const { request } = params
   const message = getSignParamsMessage(request.params)
 
+  // useEffect(() => {
+  //   if (!wallet) return
+  //   const accounts = (wallet as KeepKeyHDWallet).ethGetAccountPaths({
+  //     coin: 'Ethereum',
+  //     accountIdx: 0,
+  //   })
+  //   setAccountPath(accounts[0].addressNList)
+  //   ;(wallet as KeepKeyHDWallet)
+  //     .ethGetAddress({ addressNList: accounts[0].addressNList, showDisplay: false })
+  //     .then(setAddress)
+  // }, [wallet])
+
   useEffect(() => {
-    if (!wallet) return
-    const accounts = (wallet as KeepKeyHDWallet).ethGetAccountPaths({
-      coin: 'Ethereum',
-      accountIdx: 0,
-    })
-    setAccountPath(accounts[0].addressNList)
-    ;(wallet as KeepKeyHDWallet)
-      .ethGetAddress({ addressNList: accounts[0].addressNList, showDisplay: false })
-      .then(setAddress)
-  }, [wallet])
+    ;(async () => {
+      if (!wallet) return
+      let accountsOptions = [0,1,2,3,4,5]
+      for(let i=0; i< accountsOptions.length; i++){
+        const accountPath = wallet.ethGetAccountPaths({ coin: 'Ethereum', accountIdx: i })
+        let address = await wallet.ethGetAddress({addressNList: accountPath[0].addressNList, showDisplay: false})
+        if(address.toLowerCase() === params.request.params[0].toLowerCase()){
+          setAddress(address)
+          setAccountPath(accountPath[0].addressNList)
+          return
+        }
+      }
+    })().catch(e => console.error(e))
+  }, [wallet, params])
 
   const onConfirm = useCallback(
     async (txData: any) => {
       try {
         if (!accountPath || !wallet) return
         setLoading(true)
-
-        // const message = getSignParamsMessage(request.params)
-        console.log('request: ', request)
-        console.log('request.params: ', request.params)
-        console.log('request.params[1]: ', request.params[1])
+        
         let signedMessage
         if (
           request.method === 'eth_signTypedData' ||
@@ -81,6 +94,15 @@ export const EIP155SignMessageConfirmation = () => {
             typedData: JSON.parse(request.params[1]),
           })
         } else if (request.method === 'eth_sign' || request.method === 'personal_sign') {
+          //TODO move this to a util function
+          const strip0x = (inputHexString: string) =>
+              inputHexString.startsWith('0x')
+                  ? inputHexString.slice(2, inputHexString.length)
+                  : inputHexString
+
+          let message = Buffer.from(strip0x(request.params[0]), 'hex')
+          console.log('message: ', message)
+
           signedMessage = await (wallet as KeepKeyHDWallet).ethSignMessage({
             ...txData,
             addressNList: accountPath,
@@ -94,12 +116,14 @@ export const EIP155SignMessageConfirmation = () => {
         
         const response = formatJsonRpcResult(id, signedMessage.signature)
         console.log("response: ",response)
-        
-        await WalletConnectWeb3Wallet.respondSessionRequest({
+        console.log("topic: ",topic)
+        let result = await WalletConnectWeb3Wallet.respondSessionRequest({
           topic,
           response,
         })
+        console.log("ETHsignMsg result push: ",result)
         removeRequest(currentRequest.id)
+
       } catch (e) {
         toast({
           title: 'Error',
