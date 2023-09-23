@@ -273,12 +273,12 @@ export const Browser = () => {
         allowpopups='true'
       ></webview>
       <Stack direction={{ base: 'column', md: 'column' }} height='full' style={{ margin: '5px' }}>
-        {webviewLoadFailure !== undefined && (
-          <Alert status='error'>
-            <AlertIcon />
-            {webviewLoadFailure}
-          </Alert>
-        )}
+        {/*{webviewLoadFailure !== undefined && (*/}
+        {/*  // <Alert status='error'>*/}
+        {/*  //   <AlertIcon />*/}
+        {/*  //   {webviewLoadFailure}*/}
+        {/*  // </Alert>*/}
+        {/*)}*/}
         <form onSubmit={formatAndSaveUrl}>
           <HStack>
             <Input
