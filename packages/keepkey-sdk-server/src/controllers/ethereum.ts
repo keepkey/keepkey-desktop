@@ -51,11 +51,8 @@ export class EthereumController extends ApiController {
     console.log('Body: ', body)
     if (body.chainId === 0 || body.chainId === '0') body.chainId = '1'
 
-    const account = await this.context.getAccount(body.addressNList || body.from)
-    console.log('account: ', account)
-
     const addressFrom = await this.context.wallet.ethGetAddress({
-      addressNList: account.addressNList,
+      addressNList: body.addressNList,
       showDisplay: false,
     })
     console.log('addressFrom: ', addressFrom)
@@ -77,7 +74,7 @@ export class EthereumController extends ApiController {
       ).toString(16)
 
     let msg = {
-      addressNList: account.addressNList,
+      addressNList: body.addressNList,
       from: addressFrom,
       chainId,
       nonce: body.nonce,
