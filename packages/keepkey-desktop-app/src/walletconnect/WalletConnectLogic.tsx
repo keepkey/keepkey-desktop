@@ -9,6 +9,9 @@ export const WalletConnectLogic = () => {
     createWallectConnectWeb3Wallet().then(client => {
       client.on('session_proposal', addProposal)
       client.on('session_request', req => {
+        console.log("req: ", req)
+        console.log("req: ", JSON.stringify(req))
+        console.log("req: ", req.params.request.method)
         switch (req.params.request.method) {
           case 'wallet_addEthereumChain':
             const response = formatJsonRpcResult(req.id, true)
@@ -17,7 +20,6 @@ export const WalletConnectLogic = () => {
               response,
             })
             break
-
           default:
             addRequest(req)
             break

@@ -101,9 +101,11 @@ export const DappGrid: FC<{ asset: KKAsset }> = ({ asset }) => {
         asset: asset.name,
         symbol: asset.chainId,
         minVersion: version,
+        version,
         limit: 1000,
         skip: 0,
       })
+      console.log('dapps: ', dapps)
       setDapps(dapps.data)
     } catch (e) {
       console.error(' e: ', e)

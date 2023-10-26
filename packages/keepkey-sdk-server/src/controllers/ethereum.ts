@@ -51,13 +51,32 @@ export class EthereumController extends ApiController {
     console.log('Body: ', body)
     if (body.chainId === 0 || body.chainId === '0') body.chainId = '1'
 
-    const account = await this.context.getAccount(body.addressNList || body.from)
-    console.log('account: ', account)
+    let addressFrom
+    if (body?.addressNList) {
+      addressFrom = await this.context.wallet.ethGetAddress({
+        addressNList: body?.addressNList,
+        showDisplay: false,
+      })
+    } else if (body?.from) {
+      for (let i = 0; i < 5; i++) {
+        const accountPath = this.context.wallet.ethGetAccountPaths({
+          coin: 'Ethereum',
+          accountIdx: i,
+        })
+        console.log('accountPath: ', accountPath)
+        console.log('accountPath[0].addressNList: ', accountPath[0].addressNList)
+        let address = await this.context.wallet.ethGetAddress({
+          addressNList: accountPath[0].addressNList,
+          showDisplay: false,
+        })
+        if (address === body?.from) {
+          addressFrom = accountPath[0].addressNList
+          body.addressNList = accountPath[0].addressNList
+          break
+        }
+      }
+    }
 
-    const addressFrom = await this.context.wallet.ethGetAddress({
-      addressNList: account.addressNList,
-      showDisplay: false,
-    })
     console.log('addressFrom: ', addressFrom)
     if (!body.to) body.to = '0x'
 
@@ -77,7 +96,7 @@ export class EthereumController extends ApiController {
       ).toString(16)
 
     let msg = {
-      addressNList: account.addressNList,
+      addressNList: body.addressNList,
       from: addressFrom,
       chainId,
       nonce: body.nonce,

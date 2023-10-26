@@ -56,25 +56,18 @@ export const NecessaryModal: FC<{ req?: any; isLegacy: boolean; removeReq: any }
 }
 
 export const CallRequestModal = () => {
-  const { legacyBridge, requests, isLegacy, removeRequest } = useWalletConnect()
+  const { requests, isLegacy, removeRequest } = useWalletConnect()
   const currentRequest = requests[0] as any
 
   return (
     <Modal
       isOpen={!!currentRequest}
       onClose={() => {
-        if (isLegacy) {
-          legacyBridge?.connector.rejectRequest({
-            id: currentRequest.id,
-            error: { message: 'Rejected by user' },
-          })
-        } else {
-          const response = rejectEIP155Request(currentRequest)
-          WalletConnectWeb3Wallet.respondSessionRequest({
-            topic: currentRequest.topic,
-            response,
-          })
-        }
+        const response = rejectEIP155Request(currentRequest)
+        WalletConnectWeb3Wallet.respondSessionRequest({
+          topic: currentRequest.topic,
+          response,
+        })
         removeRequest(currentRequest.id)
       }}
       variant='header-nav'

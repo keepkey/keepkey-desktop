@@ -56,9 +56,9 @@ export const DappHeaderMenuSummary: FC = () => {
               </RawText>
             </Box>
             <Box fontWeight='medium'>
-              <RawText>{walletConnect.dapp.network}</RawText>
+              <RawText>{walletConnect.dapp?.name}</RawText>
               <RawText fontSize='sm' color='gray.500'>
-                {walletConnect.dapp.service}
+                {walletConnect.dapp?.description}
               </RawText>
             </Box>
           </HStack>

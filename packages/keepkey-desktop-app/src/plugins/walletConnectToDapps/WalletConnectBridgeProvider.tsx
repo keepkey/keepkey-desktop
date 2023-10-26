@@ -13,7 +13,7 @@ import { LegacyWCService } from 'kkdesktop/walletconnect'
 import { getWalletConnect, WalletConnectWeb3Wallet } from 'kkdesktop/walletconnect/utils'
 import type { FC, PropsWithChildren } from 'react'
 import { useCallback, useEffect, useState } from 'react'
-import { WalletConnectLogic } from 'WalletConnectLogic'
+import { WalletConnectLogic } from 'walletconnect/WalletConnectLogic'
 
 import { CallRequestModal } from './components/modal/callRequest/CallRequestModal'
 import { SessionProposalModal } from './components/modal/callRequest/SessionProposalModal'
