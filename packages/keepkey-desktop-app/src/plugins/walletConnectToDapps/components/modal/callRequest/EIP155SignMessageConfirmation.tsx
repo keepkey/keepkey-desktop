@@ -68,7 +68,17 @@ export const EIP155SignMessageConfirmation = () => {
       for(let i=0; i< accountsOptions.length; i++){
         const accountPath = wallet.ethGetAccountPaths({ coin: 'Ethereum', accountIdx: i })
         let address = await wallet.ethGetAddress({addressNList: accountPath[0].addressNList, showDisplay: false})
-        if(address.toLowerCase() === params.request.params[0].toLowerCase()){
+        let refAddress
+        //if
+        if(
+            request.method === 'eth_signTypedData' ||
+            request.method === 'eth_signTypedData_v3' ||
+            request.method === 'eth_signTypedData_v4') {
+          refAddress = params.request.params[0]
+        } else {
+          refAddress = params.request.params[1]
+        }
+        if(address.toLowerCase() === refAddress.toLowerCase()){
           setAddress(address)
           setAccountPath(accountPath[0].addressNList)
           return

@@ -47,7 +47,7 @@ export class CosmosController extends ApiController {
             amount: '5000',
           },
         ],
-        gas: '290000',
+        gas: '1000000',
       }
     }
     let tx = {
@@ -107,7 +107,7 @@ export class CosmosController extends ApiController {
             amount: '5000',
           },
         ],
-        gas: '290000',
+        gas: '1000000',
       }
     }
     let tx = {
@@ -168,7 +168,7 @@ export class CosmosController extends ApiController {
             amount: '5000',
           },
         ],
-        gas: '290000',
+        gas: '1000000',
       }
     }
 
@@ -231,7 +231,7 @@ export class CosmosController extends ApiController {
             amount: '5000',
           },
         ],
-        gas: '290000',
+        gas: '1000000',
       }
     }
 
@@ -291,7 +291,7 @@ export class CosmosController extends ApiController {
             amount: '5000',
           },
         ],
-        gas: '290000',
+        gas: '1000000',
       }
     }
 
@@ -355,7 +355,7 @@ export class CosmosController extends ApiController {
             amount: '5000',
           },
         ],
-        gas: '290000',
+        gas: '1000000',
       }
     }
 
