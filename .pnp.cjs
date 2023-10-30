@@ -25133,7 +25133,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["keepkey-sdk-server", "workspace:packages/keepkey-sdk-server"],\
             ["@keepkey/device-protocol", "npm:7.10.2"],\
             ["@pioneer-platform/pioneer-client", "npm:9.0.11"],\
-            ["@shapeshiftoss/hdwallet-core", "npm:1.50.3"],\
+            ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-keepkey", "npm:1.52.11"],\
             ["@tsoa/runtime", "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::version=4.1.3&hash=65587b&locator=keepkey-monorepo%40workspace%3A."],\
             ["@types/express", "npm:4.17.14"],\
