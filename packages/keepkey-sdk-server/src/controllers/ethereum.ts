@@ -197,7 +197,7 @@ export class EthereumController extends ApiController {
     return (
       await this.context.wallet.ethSignMessage({
         addressNList: account.addressNList,
-        message: Buffer.from(body.message.replace(/^0x/, ''), 'hex'),
+        message: Buffer.from(body.message.replace(/^0x/, ''), 'hex').toString(),
       })
     ).signature
   }
