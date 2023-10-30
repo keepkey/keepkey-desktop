@@ -116,18 +116,19 @@ export class EthereumController extends ApiController {
       insight = insight.data
       console.log('insight: ', insight)
       console.log('insight.recommended: ', insight.recommended)
-      if (insight.recommended.maxFeePerGas) {
-        msg.maxFeePerGas = insight.recommended.maxFeePerGas
-      }
-      if (insight.recommended.gasPrice) {
-        msg.gasPrice = insight.recommended.gasPrice
-      }
-      if (insight.recommended.gasLimit) {
-        msg.gasLimit = insight.recommended.gasLimit
-      }
-      if (insight.recommended.maxPriorityFeePerGas) {
-        msg.maxPriorityFeePerGas = insight.recommended.maxPriorityFeePerGas
-      }
+      //Nerving insight (Move to pre-send)
+      // if (insight.recommended.maxFeePerGas) {
+      //   msg.maxFeePerGas = insight.recommended.maxFeePerGas
+      // }
+      // if (insight.recommended.gasPrice) {
+      //   msg.gasPrice = insight.recommended.gasPrice
+      // }
+      // if (insight.recommended.gasLimit) {
+      //   msg.gasLimit = insight.recommended.gasLimit
+      // }
+      // if (insight.recommended.maxPriorityFeePerGas) {
+      //   msg.maxPriorityFeePerGas = insight.recommended.maxPriorityFeePerGas
+      // }
     } catch (e) {
       console.error('unable to get tx insight', e)
     }
