@@ -9799,6 +9799,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", [\
+        ["npm:1.52.11", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.52.11-6730b2b406-7bafd865d5.zip/node_modules/@shapeshiftoss/hdwallet-keepkey-nodewebusb/",\
+          "packageDependencies": [\
+            ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "npm:1.52.11"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
         ["patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::version=1.50.3&hash=f48a29&locator=keepkey-monorepo%40workspace%3A.", {\
           "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-nodewebusb-patch-57ec04f2d5-0182c4826b.zip/node_modules/@shapeshiftoss/hdwallet-keepkey-nodewebusb/",\
           "packageDependencies": [\
@@ -9806,12 +9813,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::version=1.50.3&hash=f48a29&locator=keepkey-monorepo%40workspace%3A.", {\
-          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-hdwallet-keepkey-nodewebusb-virtual-a3085d6b9a/0/cache/@shapeshiftoss-hdwallet-keepkey-nodewebusb-patch-57ec04f2d5-0182c4826b.zip/node_modules/@shapeshiftoss/hdwallet-keepkey-nodewebusb/",\
+        ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::version=1.50.3&hash=f48a29&locator=keepkey-monorepo%40workspace%3A.", {\
+          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-hdwallet-keepkey-nodewebusb-virtual-2fd41fa3eb/0/cache/@shapeshiftoss-hdwallet-keepkey-nodewebusb-patch-57ec04f2d5-0182c4826b.zip/node_modules/@shapeshiftoss/hdwallet-keepkey-nodewebusb/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::version=1.50.3&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::version=1.50.3&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.50.3"],\
             ["@shapeshiftoss/hdwallet-keepkey", "npm:1.50.3"],\
+            ["@types/usb", null],\
+            ["usb", "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A."]\
+          ],\
+          "packagePeers": [\
+            "@types/usb",\
+            "usb"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.52.11", {\
+          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-hdwallet-keepkey-nodewebusb-virtual-ee6a0ebef1/0/cache/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.52.11-6730b2b406-7bafd865d5.zip/node_modules/@shapeshiftoss/hdwallet-keepkey-nodewebusb/",\
+          "packageDependencies": [\
+            ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.52.11"],\
+            ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
+            ["@shapeshiftoss/hdwallet-keepkey", "npm:1.52.11"],\
             ["@types/usb", null],\
             ["usb", "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A."]\
           ],\
@@ -9823,12 +9845,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@shapeshiftoss/hdwallet-keepkey-tcp", [\
-        ["npm:1.50.3", {\
-          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-tcp-npm-1.50.3-17813f489c-29bbb14dba.zip/node_modules/@shapeshiftoss/hdwallet-keepkey-tcp/",\
+        ["npm:1.52.11", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-tcp-npm-1.52.11-9e1173945d-e94579cee1.zip/node_modules/@shapeshiftoss/hdwallet-keepkey-tcp/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/hdwallet-keepkey-tcp", "npm:1.50.3"],\
-            ["@shapeshiftoss/hdwallet-core", "npm:1.50.3"],\
-            ["@shapeshiftoss/hdwallet-keepkey", "npm:1.50.3"],\
+            ["@shapeshiftoss/hdwallet-keepkey-tcp", "npm:1.52.11"],\
+            ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
+            ["@shapeshiftoss/hdwallet-keepkey", "npm:1.52.11"],\
             ["axios", "npm:0.21.4"]\
           ],\
           "linkType": "HARD"\
@@ -24334,7 +24356,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/hdwallet-core", "npm:1.50.3"],\
             ["@shapeshiftoss/hdwallet-keepkey", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-keepkey-nodehid", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.50.3"],\
-            ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::version=1.50.3&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::version=1.50.3&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
             ["@swc/cli", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:0.1.57"],\
             ["@swc/core", "npm:1.3.20"],\
@@ -24464,8 +24486,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/eslint-plugin-logger", "npm:1.1.0"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-keepkey", "npm:1.52.11"],\
-            ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::version=1.50.3&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."],\
-            ["@shapeshiftoss/hdwallet-keepkey-tcp", "npm:1.50.3"],\
+            ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.52.11"],\
+            ["@shapeshiftoss/hdwallet-keepkey-tcp", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-keepkey-webusb", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-native", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-walletconnect", "npm:1.52.11"],\

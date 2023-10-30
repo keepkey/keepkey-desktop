@@ -6249,6 +6249,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm:^1.52.11":
+  version: 1.52.11
+  resolution: "@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm:1.52.11"
+  dependencies:
+    "@shapeshiftoss/hdwallet-core": 1.52.11
+    "@shapeshiftoss/hdwallet-keepkey": 1.52.11
+  peerDependencies:
+    usb: ^2.3.1
+  checksum: 7bafd865d5b52988765bed2b935c44d4c3e46d73a37dadafa95bf9f1cb62a40bd10a8204869efa9f9aa5c8f6869a1681b055e08da638e91a3bed3627fa1599e3
+  languageName: node
+  linkType: hard
+
 "@shapeshiftoss/hdwallet-keepkey-nodewebusb@patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::locator=keepkey-monorepo%40workspace%3A.":
   version: 1.50.3
   resolution: "@shapeshiftoss/hdwallet-keepkey-nodewebusb@patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::version=1.50.3&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."
@@ -6261,14 +6273,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/hdwallet-keepkey-tcp@npm:^1.50.3":
-  version: 1.50.3
-  resolution: "@shapeshiftoss/hdwallet-keepkey-tcp@npm:1.50.3"
+"@shapeshiftoss/hdwallet-keepkey-tcp@npm:^1.52.11":
+  version: 1.52.11
+  resolution: "@shapeshiftoss/hdwallet-keepkey-tcp@npm:1.52.11"
   dependencies:
-    "@shapeshiftoss/hdwallet-core": 1.50.3
-    "@shapeshiftoss/hdwallet-keepkey": 1.50.3
+    "@shapeshiftoss/hdwallet-core": 1.52.11
+    "@shapeshiftoss/hdwallet-keepkey": 1.52.11
     axios: ^0.21.1
-  checksum: 29bbb14dba2e9dd201636e3a8c36ce6b355ee74323c397edffc115ecfc22d04020909cd84ddb36786ba8266d787fa8273c53293e48447491232264e24d165c86
+  checksum: e94579cee1d9c77f1ca69ef80de0993399912f682d11e0e564ffb8b8c58966500068fa67d82868790e83fba1d3c728573423b159baa64c42c2931d6a71ee4688
   languageName: node
   linkType: hard
 
@@ -18681,8 +18693,8 @@ __metadata:
     "@shapeshiftoss/eslint-plugin-logger": ^1.1.0
     "@shapeshiftoss/hdwallet-core": ^1.52.11
     "@shapeshiftoss/hdwallet-keepkey": 1.52.11
-    "@shapeshiftoss/hdwallet-keepkey-nodewebusb": ^1.50.3
-    "@shapeshiftoss/hdwallet-keepkey-tcp": ^1.50.3
+    "@shapeshiftoss/hdwallet-keepkey-nodewebusb": ^1.52.11
+    "@shapeshiftoss/hdwallet-keepkey-tcp": ^1.52.11
     "@shapeshiftoss/hdwallet-keepkey-webusb": ^1.52.11
     "@shapeshiftoss/hdwallet-native": ^1.52.11
     "@shapeshiftoss/hdwallet-walletconnect": ^1.52.11
