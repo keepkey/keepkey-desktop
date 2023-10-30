@@ -10091,6 +10091,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-npm-1.52.11-4bf2d79bed-69c345a797.zip/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
           "packageDependencies": [\
             ["@shapeshiftoss/hdwallet-keepkey", "npm:1.52.11"],\
+            ["@cosmjs/encoding", "npm:0.30.0"],\
             ["@ethereumjs/common", "npm:2.6.5"],\
             ["@ethereumjs/tx", "npm:3.5.2"],\
             ["@keepkey/device-protocol", "npm:7.12.2"],\
@@ -10098,13 +10099,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/bitcoinjs-lib", "npm:5.2.0-shapeshift.2"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
             ["@shapeshiftoss/proto-tx-builder", "npm:0.8.0"],\
+            ["assert", "npm:2.0.0"],\
             ["bignumber.js", "npm:9.1.0"],\
             ["bnb-javascript-sdk-nobroadcast", "npm:2.16.15"],\
+            ["bs58", "npm:4.0.1"],\
+            ["bs58check", "npm:2.1.2"],\
+            ["create-hash", "npm:1.2.0"],\
             ["crypto-js", "npm:4.1.1"],\
             ["eip55", "npm:2.1.0"],\
+            ["ethers", "npm:5.7.2"],\
             ["google-protobuf", "npm:3.21.2"],\
             ["icepick", "npm:2.4.0"],\
             ["lodash", "npm:4.17.21"],\
+            ["long", "npm:4.0.0"],\
             ["p-lazy", "npm:3.1.0"],\
             ["semver", "npm:7.3.8"],\
             ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."]\
