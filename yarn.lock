@@ -6613,6 +6613,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@shapeshiftoss/hdwallet-core@npm:1.52.11":
+  version: 1.52.11
+  resolution: "@shapeshiftoss/hdwallet-core@npm:1.52.11"
+  dependencies:
+    "@shapeshiftoss/proto-tx-builder": ^0.8.0
+    eip-712: ^1.0.0
+    eventemitter2: ^5.0.1
+    lodash: ^4.17.21
+    rxjs: ^6.4.0
+    type-assertions: ^1.1.0
+  checksum: 7cc001c16b3c73caeefc7e17e8e5a893e58e9d4a12822f5632461db7730b83267e6a9d91c204199d8569e84d2b8dcba35494dfbcade81d5488d40022d775d374
+  languageName: node
+  linkType: hard
+
 "@shapeshiftoss/hdwallet-core@npm:latest":
   version: 1.38.0
   resolution: "@shapeshiftoss/hdwallet-core@npm:1.38.0"
@@ -6703,6 +6717,31 @@ __metadata:
     semver: ^7.3.8
     tiny-secp256k1: ^1.1.6
   checksum: 0c33e2be966409f745b0eaa6e41312b346a28103d605229fc89e95174ce12ba1b8ee2ac30e097b70e87b43f2025c4350e9d8e7e04530e9ab51dc9a7cde898761
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/hdwallet-keepkey@npm:1.52.11":
+  version: 1.52.11
+  resolution: "@shapeshiftoss/hdwallet-keepkey@npm:1.52.11"
+  dependencies:
+    "@ethereumjs/common": ^2.4.0
+    "@ethereumjs/tx": ^3.3.0
+    "@keepkey/device-protocol": ^7.12.2
+    "@metamask/eth-sig-util": ^7.0.0
+    "@shapeshiftoss/bitcoinjs-lib": 5.2.0-shapeshift.2
+    "@shapeshiftoss/hdwallet-core": 1.52.11
+    "@shapeshiftoss/proto-tx-builder": ^0.8.0
+    bignumber.js: ^9.0.1
+    bnb-javascript-sdk-nobroadcast: ^2.16.14
+    crypto-js: ^4.0.0
+    eip55: ^2.1.0
+    google-protobuf: ^3.15.8
+    icepick: ^2.4.0
+    lodash: ^4.17.21
+    p-lazy: ^3.1.0
+    semver: ^7.3.8
+    tiny-secp256k1: ^1.1.6
+  checksum: 69c345a797380bfaa2636e193b5699f93c41fe4ac13eb979d658430352c8e874fe12b15aa3b05fceb69fb0d12182cd8ea89b31b6109f8c6f642f6721b76153ee
   languageName: node
   linkType: hard
 
