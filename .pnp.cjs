@@ -6470,6 +6470,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["events", "npm:3.3.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:3.2.0", {\
+          "packageLocation": "./.yarn/cache/@ethereumjs-common-npm-3.2.0-3c84584256-cb9cc11f5c.zip/node_modules/@ethereumjs/common/",\
+          "packageDependencies": [\
+            ["@ethereumjs/common", "npm:3.2.0"],\
+            ["@ethereumjs/util", "npm:8.1.0"],\
+            ["crc-32", "npm:1.2.2"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@ethereumjs/rlp", [\
@@ -6497,6 +6506,33 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethereumjs/tx", "npm:3.5.2"],\
             ["@ethereumjs/common", "npm:2.6.5"],\
             ["ethereumjs-util", "npm:7.1.5"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:4.2.0", {\
+          "packageLocation": "./.yarn/cache/@ethereumjs-tx-npm-4.2.0-dccef00bdd-87a3f5f245.zip/node_modules/@ethereumjs/tx/",\
+          "packageDependencies": [\
+            ["@ethereumjs/tx", "npm:4.2.0"],\
+            ["@ethereumjs/common", "npm:3.2.0"],\
+            ["@ethereumjs/rlp", "npm:4.0.1"],\
+            ["@ethereumjs/util", "npm:8.1.0"],\
+            ["ethereum-cryptography", "npm:2.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@ethereumjs/util", [\
+        ["npm:8.1.0", {\
+          "packageLocation": "./.yarn/cache/@ethereumjs-util-npm-8.1.0-d7f8b5e130-9ae5dee8f1.zip/node_modules/@ethereumjs/util/",\
+          "packageDependencies": [\
+            ["@ethereumjs/util", "npm:8.1.0"],\
+            ["@ethereumjs/rlp", "npm:4.0.1"],\
+            ["buffer", "npm:6.0.3"],\
+            ["ethereum-cryptography", "npm:2.0.0"],\
+            ["events", "npm:3.3.0"],\
+            ["micro-ftch", "npm:0.3.1"],\
+            ["url", "npm:0.11.0"],\
+            ["util", "npm:0.12.5"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8846,11 +8882,55 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@metamask/abi-utils", [\
+        ["npm:2.0.2", {\
+          "packageLocation": "./.yarn/cache/@metamask-abi-utils-npm-2.0.2-2e5a6e99ba-5ec153e769.zip/node_modules/@metamask/abi-utils/",\
+          "packageDependencies": [\
+            ["@metamask/abi-utils", "npm:2.0.2"],\
+            ["@metamask/utils", "npm:8.2.0"],\
+            ["superstruct", "npm:1.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@metamask/eth-sig-util", [\
+        ["npm:7.0.0", {\
+          "packageLocation": "./.yarn/cache/@metamask-eth-sig-util-npm-7.0.0-b834e2afc8-bcb6bd2333.zip/node_modules/@metamask/eth-sig-util/",\
+          "packageDependencies": [\
+            ["@metamask/eth-sig-util", "npm:7.0.0"],\
+            ["@ethereumjs/util", "npm:8.1.0"],\
+            ["@metamask/abi-utils", "npm:2.0.2"],\
+            ["@metamask/utils", "npm:8.2.0"],\
+            ["ethereum-cryptography", "npm:2.1.2"],\
+            ["ethjs-util", "npm:0.1.6"],\
+            ["tweetnacl", "npm:1.0.3"],\
+            ["tweetnacl-util", "npm:0.15.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@metamask/safe-event-emitter", [\
         ["npm:2.0.0", {\
           "packageLocation": "./.yarn/cache/@metamask-safe-event-emitter-npm-2.0.0-0f6c91f887-8b717ac5d5.zip/node_modules/@metamask/safe-event-emitter/",\
           "packageDependencies": [\
             ["@metamask/safe-event-emitter", "npm:2.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@metamask/utils", [\
+        ["npm:8.2.0", {\
+          "packageLocation": "./.yarn/cache/@metamask-utils-npm-8.2.0-d757b49780-1c70c0f9c3.zip/node_modules/@metamask/utils/",\
+          "packageDependencies": [\
+            ["@metamask/utils", "npm:8.2.0"],\
+            ["@ethereumjs/tx", "npm:4.2.0"],\
+            ["@noble/hashes", "npm:1.3.2"],\
+            ["@scure/base", "npm:1.1.3"],\
+            ["@types/debug", "npm:4.1.10"],\
+            ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+            ["pony-cause", "npm:2.1.10"],\
+            ["semver", "npm:7.5.4"],\
+            ["superstruct", "npm:1.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9062,6 +9142,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@noble/hashes", "npm:1.3.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.1.0", {\
+          "packageLocation": "./.yarn/cache/@noble-curves-npm-1.1.0-dccaf3c158-2658cdd3f8.zip/node_modules/@noble/curves/",\
+          "packageDependencies": [\
+            ["@noble/curves", "npm:1.1.0"],\
+            ["@noble/hashes", "npm:1.3.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@noble/hashes", [\
@@ -9097,6 +9185,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.3.1-64a92c8445-7fdefc0f7a.zip/node_modules/@noble/hashes/",\
           "packageDependencies": [\
             ["@noble/hashes", "npm:1.3.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.3.2", {\
+          "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.3.2-1e619f9da0-fe23536b43.zip/node_modules/@noble/hashes/",\
+          "packageDependencies": [\
+            ["@noble/hashes", "npm:1.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9606,6 +9701,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@scure/base", "npm:1.1.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.1.3", {\
+          "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.3-4126a221a4-1606ab8a4d.zip/node_modules/@scure/base/",\
+          "packageDependencies": [\
+            ["@scure/base", "npm:1.1.3"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@scure/bip32", [\
@@ -9618,6 +9720,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@scure/base", "npm:1.1.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.3.1", {\
+          "packageLocation": "./.yarn/cache/@scure-bip32-npm-1.3.1-3af4429c8d-394d65f77a.zip/node_modules/@scure/bip32/",\
+          "packageDependencies": [\
+            ["@scure/bip32", "npm:1.3.1"],\
+            ["@noble/curves", "npm:1.1.0"],\
+            ["@noble/hashes", "npm:1.3.2"],\
+            ["@scure/base", "npm:1.1.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@scure/bip39", [\
@@ -9625,6 +9737,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@scure-bip39-npm-1.2.0-089bd3a496-980d761f53.zip/node_modules/@scure/bip39/",\
           "packageDependencies": [\
             ["@scure/bip39", "npm:1.2.0"],\
+            ["@noble/hashes", "npm:1.3.1"],\
+            ["@scure/base", "npm:1.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.2.1", {\
+          "packageLocation": "./.yarn/cache/@scure-bip39-npm-1.2.1-f930930e61-c5bd6f1328.zip/node_modules/@scure/bip39/",\
+          "packageDependencies": [\
+            ["@scure/bip39", "npm:1.2.1"],\
             ["@noble/hashes", "npm:1.3.1"],\
             ["@scure/base", "npm:1.1.1"]\
           ],\
@@ -9955,9 +10076,57 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["type-assertions", "npm:1.1.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.52.11", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-core-npm-1.52.11-79ee39679a-7cc001c16b.zip/node_modules/@shapeshiftoss/hdwallet-core/",\
+          "packageDependencies": [\
+            ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
+            ["@shapeshiftoss/proto-tx-builder", "npm:0.8.0"],\
+            ["eip-712", "npm:1.0.0"],\
+            ["eventemitter2", "npm:5.0.1"],\
+            ["lodash", "npm:4.17.21"],\
+            ["rxjs", "npm:6.6.7"],\
+            ["type-assertions", "npm:1.1.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@shapeshiftoss/hdwallet-keepkey", [\
+        ["npm:1.52.11", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-npm-1.52.11-4bf2d79bed-69c345a797.zip/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
+          "packageDependencies": [\
+            ["@shapeshiftoss/hdwallet-keepkey", "npm:1.52.11"],\
+            ["@cosmjs/encoding", "npm:0.30.0"],\
+            ["@ethereumjs/common", "npm:2.6.5"],\
+            ["@ethereumjs/tx", "npm:3.5.2"],\
+            ["@keepkey/device-protocol", "npm:7.12.2"],\
+            ["@metamask/eth-sig-util", "npm:7.0.0"],\
+            ["@shapeshiftoss/bitcoinjs-lib", "npm:5.2.0-shapeshift.2"],\
+            ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
+            ["@shapeshiftoss/proto-tx-builder", "npm:0.8.0"],\
+            ["assert", "npm:2.0.0"],\
+            ["bignumber.js", "npm:9.1.0"],\
+            ["bnb-javascript-sdk-nobroadcast", "npm:2.16.15"],\
+            ["bs58", "npm:4.0.1"],\
+            ["bs58check", "npm:2.1.2"],\
+            ["buffer", "npm:6.0.3"],\
+            ["create-hash", "npm:1.2.0"],\
+            ["crypto-js", "npm:4.1.1"],\
+            ["eip55", "npm:2.1.0"],\
+            ["ethers", "npm:5.7.2"],\
+            ["events", "npm:3.3.0"],\
+            ["google-protobuf", "npm:3.21.2"],\
+            ["icepick", "npm:2.4.0"],\
+            ["lodash", "npm:4.17.21"],\
+            ["long", "npm:4.0.0"],\
+            ["p-lazy", "npm:3.1.0"],\
+            ["semver", "npm:7.3.8"],\
+            ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
+            ["url", "npm:0.11.0"],\
+            ["util", "npm:0.12.5"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.50.3-dc99de3346.patch::version=1.50.3&hash=032a2b&locator=keepkey-monorepo%40workspace%3A.", {\
           "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-patch-43ddb4e7ff-eca07b59d8.zip/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
           "packageDependencies": [\
@@ -11611,6 +11780,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/debug", [\
+        ["npm:4.1.10", {\
+          "packageLocation": "./.yarn/cache/@types-debug-npm-4.1.10-7b2db159f1-938f79c5b6.zip/node_modules/@types/debug/",\
+          "packageDependencies": [\
+            ["@types/debug", "npm:4.1.10"],\
+            ["@types/ms", "npm:0.7.31"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:4.1.7", {\
           "packageLocation": "./.yarn/cache/@types-debug-npm-4.1.7-f54c81f8db-0a7b89d8ed.zip/node_modules/@types/debug/",\
           "packageDependencies": [\
@@ -20469,6 +20646,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@scure/bip39", "npm:1.2.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:2.1.2", {\
+          "packageLocation": "./.yarn/cache/ethereum-cryptography-npm-2.1.2-dde1258735-2e8f7b8cc9.zip/node_modules/ethereum-cryptography/",\
+          "packageDependencies": [\
+            ["ethereum-cryptography", "npm:2.1.2"],\
+            ["@noble/curves", "npm:1.1.0"],\
+            ["@noble/hashes", "npm:1.3.1"],\
+            ["@scure/bip32", "npm:1.3.1"],\
+            ["@scure/bip39", "npm:1.2.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["ethereum-regex", [\
@@ -24578,7 +24766,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/errors", "npm:1.1.3"],\
             ["@shapeshiftoss/eslint-plugin-logger", "npm:1.1.0"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.50.3"],\
-            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.50.3-dc99de3346.patch::version=1.50.3&hash=032a2b&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/hdwallet-keepkey", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-keepkey-nodehid", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.50.3"],\
             ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::version=1.50.3&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
@@ -24708,7 +24896,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/errors", "npm:1.1.3"],\
             ["@shapeshiftoss/eslint-plugin-logger", "npm:1.1.0"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.50.3"],\
-            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.50.3-dc99de3346.patch::version=1.50.3&hash=032a2b&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/hdwallet-keepkey", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/hdwallet-keepkey-nodewebusb@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-nodewebusb-npm-1.50.3-6c05e16413.patch::version=1.50.3&hash=f48a29&locator=keepkey-monorepo%40workspace%3A."],\
             ["@shapeshiftoss/hdwallet-keepkey-tcp", "npm:1.50.3"],\
             ["@shapeshiftoss/hdwallet-keepkey-webusb", "npm:1.50.3"],\
@@ -24944,7 +25132,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@keepkey/device-protocol", "npm:7.10.2"],\
             ["@pioneer-platform/pioneer-client", "npm:9.0.11"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.50.3"],\
-            ["@shapeshiftoss/hdwallet-keepkey", "patch:@shapeshiftoss/hdwallet-keepkey@npm%3A1.50.3#./.yarn/patches/@shapeshiftoss-hdwallet-keepkey-npm-1.50.3-dc99de3346.patch::version=1.50.3&hash=032a2b&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/hdwallet-keepkey", "npm:1.52.11"],\
             ["@tsoa/runtime", "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::version=4.1.3&hash=65587b&locator=keepkey-monorepo%40workspace%3A."],\
             ["@types/express", "npm:4.17.14"],\
             ["@types/lodash", "npm:4.14.190"],\
@@ -25892,6 +26080,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/methods-npm-1.1.2-92f6fdb39b-0917ff4041.zip/node_modules/methods/",\
           "packageDependencies": [\
             ["methods", "npm:1.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["micro-ftch", [\
+        ["npm:0.3.1", {\
+          "packageLocation": "./.yarn/cache/micro-ftch-npm-0.3.1-4699fe6be7-0e49654725.zip/node_modules/micro-ftch/",\
+          "packageDependencies": [\
+            ["micro-ftch", "npm:0.3.1"],\
+            ["url", "npm:0.11.0"],\
+            ["util", "npm:0.12.5"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -27913,6 +28112,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["assert", "npm:2.0.0"],\
             ["buffer", "npm:6.0.3"],\
             ["util", "npm:0.12.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["pony-cause", [\
+        ["npm:2.1.10", {\
+          "packageLocation": "./.yarn/cache/pony-cause-npm-2.1.10-222e66a27c-8b61378f21.zip/node_modules/pony-cause/",\
+          "packageDependencies": [\
+            ["pony-cause", "npm:2.1.10"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -31402,6 +31610,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lru-cache", "npm:6.0.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:7.5.4", {\
+          "packageLocation": "./.yarn/cache/semver-npm-7.5.4-c4ad957fcd-12d8ad952f.zip/node_modules/semver/",\
+          "packageDependencies": [\
+            ["semver", "npm:7.5.4"],\
+            ["lru-cache", "npm:6.0.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["semver-compare", [\
@@ -32330,6 +32546,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/superstruct-npm-0.15.5-25c6f7b4d6-6d1f5249fe.zip/node_modules/superstruct/",\
           "packageDependencies": [\
             ["superstruct", "npm:0.15.5"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.0.3", {\
+          "packageLocation": "./.yarn/cache/superstruct-npm-1.0.3-6b4f4a255b-761790bb11.zip/node_modules/superstruct/",\
+          "packageDependencies": [\
+            ["superstruct", "npm:1.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -33324,6 +33547,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tweetnacl-npm-0.14.5-a3f766c0d1-6061daba17.zip/node_modules/tweetnacl/",\
           "packageDependencies": [\
             ["tweetnacl", "npm:0.14.5"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.0.3", {\
+          "packageLocation": "./.yarn/cache/tweetnacl-npm-1.0.3-b7eef04660-e4a57cac18.zip/node_modules/tweetnacl/",\
+          "packageDependencies": [\
+            ["tweetnacl", "npm:1.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["tweetnacl-util", [\
+        ["npm:0.15.1", {\
+          "packageLocation": "./.yarn/cache/tweetnacl-util-npm-0.15.1-1a24bc512a-ae6aa8a52c.zip/node_modules/tweetnacl-util/",\
+          "packageDependencies": [\
+            ["tweetnacl-util", "npm:0.15.1"]\
           ],\
           "linkType": "HARD"\
         }]\
