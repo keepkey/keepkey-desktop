@@ -89,6 +89,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@adraffy/ens-normalize", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/@adraffy-ens-normalize-npm-1.10.0-7dfdaa4813-af0540f963.zip/node_modules/@adraffy/ens-normalize/",\
+          "packageDependencies": [\
+            ["@adraffy/ens-normalize", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.9.2", {\
           "packageLocation": "./.yarn/cache/@adraffy-ens-normalize-npm-1.9.2-1c3a6f9e96-a9fdeb9e08.zip/node_modules/@adraffy/ens-normalize/",\
           "packageDependencies": [\
@@ -9146,16 +9153,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@noble/hashes", "npm:1.3.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.2.0", {\
+          "packageLocation": "./.yarn/cache/@noble-curves-npm-1.2.0-9b40ee1239-bb798d7a66.zip/node_modules/@noble/curves/",\
+          "packageDependencies": [\
+            ["@noble/curves", "npm:1.2.0"],\
+            ["@noble/hashes", "npm:1.3.2"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@noble/hashes", [\
-        ["npm:1.1.2", {\
-          "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.1.2-dbc15bb44d-3c2a8cb7c2.zip/node_modules/@noble/hashes/",\
-          "packageDependencies": [\
-            ["@noble/hashes", "npm:1.1.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:1.1.3", {\
           "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.1.3-e4b20ddadf-a6f9783d2a.zip/node_modules/@noble/hashes/",\
           "packageDependencies": [\
@@ -9188,15 +9196,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.3.2-1e619f9da0-fe23536b43.zip/node_modules/@noble/hashes/",\
           "packageDependencies": [\
             ["@noble/hashes", "npm:1.3.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@noble/secp256k1", [\
-        ["npm:1.7.1", {\
-          "packageLocation": "./.yarn/cache/@noble-secp256k1-npm-1.7.1-95825e0b99-d2301f1f76.zip/node_modules/@noble/secp256k1/",\
-          "packageDependencies": [\
-            ["@noble/secp256k1", "npm:1.7.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -20887,17 +20886,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:6.6.0", {\
-          "packageLocation": "./.yarn/cache/ethers-npm-6.6.0-36de8843c5-242f4fb205.zip/node_modules/ethers/",\
+        ["npm:6.8.0", {\
+          "packageLocation": "./.yarn/cache/ethers-npm-6.8.0-ddd26c20b5-967e4bdc23.zip/node_modules/ethers/",\
           "packageDependencies": [\
-            ["ethers", "npm:6.6.0"],\
-            ["@adraffy/ens-normalize", "npm:1.9.2"],\
-            ["@noble/hashes", "npm:1.1.2"],\
-            ["@noble/secp256k1", "npm:1.7.1"],\
+            ["ethers", "npm:6.8.0"],\
+            ["@adraffy/ens-normalize", "npm:1.10.0"],\
+            ["@noble/curves", "npm:1.2.0"],\
+            ["@noble/hashes", "npm:1.3.2"],\
             ["@types/node", "npm:18.15.13"],\
             ["aes-js", "npm:4.0.0-beta.5"],\
             ["tslib", "npm:2.4.0"],\
-            ["ws", "virtual:36de8843c526081a4dd5c281ae8a23d107c02c18a1f9cc0b9dbb0acb6328f94dc38de78adf1db425bf86ec9436d7295554efb8a48b536678a99d244d6f98d2bf#npm:8.5.0"]\
+            ["ws", "virtual:ddd26c20b5735e80e4f756e0c13d035e6753b2faf5c186b6ae231e5eed36c833459b91ac7c434941809b566b5599ec3e23012916bbab2e2ee97117af21d000bb#npm:8.5.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24871,6 +24870,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@keepkey/device-protocol", "npm:7.10.2"],\
             ["@keepkey/hdwallet-keepkey-rest", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#workspace:packages/hdwallet-keepkey-rest"],\
             ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
+            ["@metamask/eth-sig-util", "npm:7.0.0"],\
             ["@peculiar/webcrypto", "npm:1.4.1"],\
             ["@pioneer-platform/pioneer-client", "npm:9.0.18"],\
             ["@react-spring/web", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:9.5.5"],\
@@ -24993,7 +24993,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:4.2.1"],\
             ["eslint-plugin-simple-import-sort", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:7.0.0"],\
             ["eth-url-parser", "npm:1.0.4"],\
-            ["ethers", "npm:6.6.0"],\
+            ["ethers", "npm:6.8.0"],\
             ["eventemitter2", "npm:6.4.9"],\
             ["express", "npm:4.18.2"],\
             ["fast-json-stable-stringify", "npm:2.1.0"],\
@@ -35564,23 +35564,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:36de8843c526081a4dd5c281ae8a23d107c02c18a1f9cc0b9dbb0acb6328f94dc38de78adf1db425bf86ec9436d7295554efb8a48b536678a99d244d6f98d2bf#npm:8.5.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-a26f953fe7/0/cache/ws-npm-8.5.0-8e99728c84-76f2f90e40.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:36de8843c526081a4dd5c281ae8a23d107c02c18a1f9cc0b9dbb0acb6328f94dc38de78adf1db425bf86ec9436d7295554efb8a48b536678a99d244d6f98d2bf#npm:8.5.0"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["virtual:5e31633c8534b6e043bef28c3d9a0f26f37796b518cc278813e5b58191a1aac456a1506fff3b2e62d12df33a12eec092b8e4afdb92bdf33b94ad9f47291167f0#npm:8.13.0", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-7c9eec8af1/0/cache/ws-npm-8.13.0-26ffa3016a-53e991bbf9.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -35636,6 +35619,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-0a60ef3786/0/cache/ws-npm-7.5.3-3a046a0b1a-423dc0d859.zip/node_modules/ws/",\
           "packageDependencies": [\
             ["ws", "virtual:d1aaf8f72ef0f3d9c0ebd8374d7b93749ad85e70a979d6675b5d8dc175d06664ebc9a1f372401d4cc28f7bde4d203dedaf9d94ec5d9b5312124be9a394abede2#npm:7.5.3"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:ddd26c20b5735e80e4f756e0c13d035e6753b2faf5c186b6ae231e5eed36c833459b91ac7c434941809b566b5599ec3e23012916bbab2e2ee97117af21d000bb#npm:8.5.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-32cbb57b3d/0/cache/ws-npm-8.5.0-8e99728c84-76f2f90e40.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:ddd26c20b5735e80e4f756e0c13d035e6753b2faf5c186b6ae231e5eed36c833459b91ac7c434941809b566b5599ec3e23012916bbab2e2ee97117af21d000bb#npm:8.5.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
