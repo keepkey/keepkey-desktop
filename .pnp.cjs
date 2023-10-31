@@ -9940,6 +9940,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@shapeshiftoss/investor", [\
+        ["npm:3.1.3", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-investor-npm-3.1.3-77a196a158-819918d6a6.zip/node_modules/@shapeshiftoss/investor/",\
+          "packageDependencies": [\
+            ["@shapeshiftoss/investor", "npm:3.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@shapeshiftoss/investor-foxy", [\
         ["npm:8.0.1", {\
           "packageLocation": "./.yarn/cache/@shapeshiftoss-investor-foxy-npm-8.0.1-7c0f8b27c6-a07af44a77.zip/node_modules/@shapeshiftoss/investor-foxy/",\
@@ -9997,7 +10006,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
             ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
-            ["@shapeshiftoss/investor", null],\
+            ["@shapeshiftoss/investor", "npm:3.1.3"],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
             ["@shapeshiftoss/types", "npm:8.6.0"],\
             ["@types/shapeshiftoss__caip", null],\
@@ -24597,6 +24606,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/hdwallet-keepkey-webusb", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-native", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-walletconnect", "npm:1.41.0"],\
+            ["@shapeshiftoss/investor", "npm:3.1.3"],\
             ["@shapeshiftoss/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.0.1"],\
             ["@shapeshiftoss/investor-idle", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.7.0"],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
