@@ -9565,7 +9565,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.15.0"],\
             ["@shapeshiftoss/types", "npm:8.6.0"],\
-            ["@types/shapeshiftoss__types", null]\
+            ["@types/shapeshiftoss__types", null],\
+            ["axios", "npm:1.6.0"],\
+            ["fs", [\
+              "noist",\
+              "npm:1.0.0"\
+            ]],\
+            ["lodash", "npm:4.17.21"]\
           ],\
           "packagePeers": [\
             "@shapeshiftoss/types",\
@@ -25161,7 +25167,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["npm:4.17.21", {\
           "packageLocation": "./.yarn/cache/lodash-npm-4.17.21-6382451519-eb835a2e51.zip/node_modules/lodash/",\
           "packageDependencies": [\
-            ["lodash", "npm:4.17.21"]\
+            ["lodash", "npm:4.17.21"],\
+            ["url", "npm:0.11.0"]\
           ],\
           "linkType": "HARD"\
         }]\
