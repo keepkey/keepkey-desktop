@@ -10006,9 +10006,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-chain-adapters-virtual-44d32e6822/0/cache/@shapeshiftoss-chain-adapters-npm-10.14.0-fd381cc624-1b08abca75.zip/node_modules/@shapeshiftoss/chain-adapters/",\
           "packageDependencies": [\
             ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.14.0"],\
+            ["@ethersproject/contracts", "npm:5.7.0"],\
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-native", "npm:1.41.0"],\
+            ["@shapeshiftoss/logger", "npm:1.1.3"],\
             ["@shapeshiftoss/types", "npm:8.3.2"],\
             ["@shapeshiftoss/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch::version=10.3.0&hash=fab71a&locator=keepkey-monorepo%40workspace%3A."],\
             ["@types/bs58check", null],\
