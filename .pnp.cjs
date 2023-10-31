@@ -9587,12 +9587,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@shapeshiftoss/chain-adapters", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:11.2.2"],\
             ["@ethersproject/contracts", "npm:5.7.0"],\
-            ["@shapeshiftoss/caip", null],\
+            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.15.0"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
-            ["@shapeshiftoss/hdwallet-native", null],\
+            ["@shapeshiftoss/hdwallet-native", "npm:1.52.11"],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
-            ["@shapeshiftoss/types", null],\
-            ["@shapeshiftoss/unchained-client", null],\
+            ["@shapeshiftoss/types", "npm:8.6.0"],\
+            ["@shapeshiftoss/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.14.0"],\
             ["@types/bs58check", null],\
             ["@types/shapeshiftoss__caip", null],\
             ["@types/shapeshiftoss__hdwallet-core", null],\
@@ -9610,11 +9610,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-utils", "npm:1.7.4"]\
           ],\
           "packagePeers": [\
-            "@shapeshiftoss/caip",\
             "@shapeshiftoss/hdwallet-core",\
-            "@shapeshiftoss/hdwallet-native",\
-            "@shapeshiftoss/types",\
-            "@shapeshiftoss/unchained-client",\
             "@types/bs58check",\
             "@types/shapeshiftoss__caip",\
             "@types/shapeshiftoss__hdwallet-core",\
