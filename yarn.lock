@@ -6462,9 +6462,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/asset-service@npm:8.1.5":
-  version: 8.1.5
-  resolution: "@shapeshiftoss/asset-service@npm:8.1.5"
+"@shapeshiftoss/asset-service@npm:^8.12.0":
+  version: 8.12.0
+  resolution: "@shapeshiftoss/asset-service@npm:8.12.0"
   dependencies:
     axios: ^0.26.1
     identicon.js: ^2.3.3
@@ -6474,23 +6474,7 @@ __metadata:
   peerDependencies:
     "@shapeshiftoss/caip": ^8.0.0
     "@shapeshiftoss/types": ^8.1.0
-  checksum: 1efd5c4f3a21736507cb145ed5c2b2e6c53813bb5e48c8cda48ebff55141b4ae4d889d343e24ec95b836fe99002844d68f193db4e92c7421c61184e9f3412ae2
-  languageName: node
-  linkType: hard
-
-"@shapeshiftoss/asset-service@patch:@shapeshiftoss/asset-service@npm%3A8.1.5#./.yarn/patches/@shapeshiftoss-asset-service-npm-8.1.5-86b922f116.patch::locator=keepkey-monorepo%40workspace%3A.":
-  version: 8.1.5
-  resolution: "@shapeshiftoss/asset-service@patch:@shapeshiftoss/asset-service@npm%3A8.1.5#./.yarn/patches/@shapeshiftoss-asset-service-npm-8.1.5-86b922f116.patch::version=8.1.5&hash=536e97&locator=keepkey-monorepo%40workspace%3A."
-  dependencies:
-    axios: ^0.26.1
-    identicon.js: ^2.3.3
-    js-pixel-fonts: ^1.5.0
-    lodash: ^4.17.21
-    node-polyglot: ^2.4.2
-  peerDependencies:
-    "@shapeshiftoss/caip": ^8.0.0
-    "@shapeshiftoss/types": ^8.1.0
-  checksum: 15c68cd0cca448942f187cd1b4ebb1d915a29d74091b929e99d3741626f1a89b4e05e77e4a7f8c97b94c62a1158dca4ee0d4e4c216a357c1731aaf183dbfe01b
+  checksum: 0f0e6fe60fb185d0abe12d42aa9057b31dc6ab1e4c417f65d52e5448b1380bfbd4c82b3b972e3a9fa2b26d1cfc9dc62a69d2ae4c384bafe0d4683f10e96c8a17
   languageName: node
   linkType: hard
 
@@ -6764,23 +6748,43 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/investor-foxy@npm:^7.0.1":
-  version: 7.0.2
-  resolution: "@shapeshiftoss/investor-foxy@npm:7.0.2"
+"@shapeshiftoss/investor-foxy@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "@shapeshiftoss/investor-foxy@npm:8.0.1"
   dependencies:
     "@ethersproject/providers": ^5.5.3
     axios: ^0.26.1
-    bignumber.js: ^9.0.2
+    bignumber.js: ^9.1.1
     lodash: ^4.17.21
     web3: 1.7.4
     web3-core: 1.7.4
     web3-utils: 1.7.4
   peerDependencies:
     "@shapeshiftoss/caip": ^8.0.0
-    "@shapeshiftoss/chain-adapters": ^10.0.0
-    "@shapeshiftoss/hdwallet-core": ^1.36.0
+    "@shapeshiftoss/chain-adapters": ^11.0.0
+    "@shapeshiftoss/hdwallet-core": ^1.46.0
     "@shapeshiftoss/types": ^8.1.0
-  checksum: 33bfdc441810a5eedd31363115e3fd4c76668e0b10a94b44590adc047cbb091d547563b911890b2047cc93376c9e64940593ffe37ee8945fd6bf984ccf6bf714
+  checksum: a07af44a77a7110e632d3e5403e0101fabe75ce4b41900d0692f0d2500e498b258535243e72da1d99d4d29e7de5ad8b72bf8c6957c93276f757bf46c279ce025
+  languageName: node
+  linkType: hard
+
+"@shapeshiftoss/investor-idle@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "@shapeshiftoss/investor-idle@npm:2.7.0"
+  dependencies:
+    "@ethersproject/providers": ^5.5.3
+    bignumber.js: ^9.1.1
+    lodash: ^4.17.21
+    web3: 1.7.4
+    web3-core: 1.7.4
+    web3-utils: 1.7.4
+  peerDependencies:
+    "@shapeshiftoss/caip": ^8.4.2
+    "@shapeshiftoss/chain-adapters": ^11.0.0
+    "@shapeshiftoss/hdwallet-core": ^1.46.0
+    "@shapeshiftoss/investor": ^3.0.0
+    "@shapeshiftoss/types": ^8.3.1
+  checksum: 4c465acfedf76bf0edcd8cfd5077f0b1d87b8f18bb786f5573250c72825c88b66ef8f81c3d89d0d3be5d14d3d65a584d0b6907de090ba987088c0658f8371064
   languageName: node
   linkType: hard
 
@@ -6791,45 +6795,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/market-service@npm:7.1.3":
-  version: 7.1.3
-  resolution: "@shapeshiftoss/market-service@npm:7.1.3"
+"@shapeshiftoss/market-service@npm:^7.8.0":
+  version: 7.8.0
+  resolution: "@shapeshiftoss/market-service@npm:7.8.0"
   dependencies:
     "@ethersproject/providers": ^5.5.3
     "@yfi/sdk": ^1.2.0
     axios: ^0.26.1
     axios-rate-limit: ^1.3.0
-    bignumber.js: ^9.0.2
+    bignumber.js: ^9.1.1
     dayjs: ^1.10.6
     p-ratelimit: ^1.0.1
   peerDependencies:
     "@shapeshiftoss/caip": ^8.0.0
-    "@shapeshiftoss/chain-adapters": ^10.0.0
-    "@shapeshiftoss/investor-foxy": ^7.0.0
+    "@shapeshiftoss/chain-adapters": ^11.0.0
+    "@shapeshiftoss/investor-foxy": ^8.0.0
+    "@shapeshiftoss/investor-idle": ^2.3.2
     "@shapeshiftoss/types": ^8.1.0
     "@shapeshiftoss/unchained-client": ^10.0.1
-  checksum: 58fcfa671cea7e650764f298e4dd8e9a92c6b2e7d50f325ddfdc1e37b3588c77d58c0303ab0ffed90473c67a88bb8338764b76e4b1b9a407f304ae239753b224
-  languageName: node
-  linkType: hard
-
-"@shapeshiftoss/market-service@patch:@shapeshiftoss/market-service@npm%3A7.1.3#./.yarn/patches/@shapeshiftoss-market-service-npm-7.1.3-17db6beeed.patch::locator=keepkey-monorepo%40workspace%3A.":
-  version: 7.1.3
-  resolution: "@shapeshiftoss/market-service@patch:@shapeshiftoss/market-service@npm%3A7.1.3#./.yarn/patches/@shapeshiftoss-market-service-npm-7.1.3-17db6beeed.patch::version=7.1.3&hash=645b69&locator=keepkey-monorepo%40workspace%3A."
-  dependencies:
-    "@ethersproject/providers": ^5.5.3
-    "@yfi/sdk": ^1.2.0
-    axios: ^0.26.1
-    axios-rate-limit: ^1.3.0
-    bignumber.js: ^9.0.2
-    dayjs: ^1.10.6
-    p-ratelimit: ^1.0.1
-  peerDependencies:
-    "@shapeshiftoss/caip": ^8.0.0
-    "@shapeshiftoss/chain-adapters": ^10.0.0
-    "@shapeshiftoss/investor-foxy": ^7.0.0
-    "@shapeshiftoss/types": ^8.1.0
-    "@shapeshiftoss/unchained-client": ^10.0.1
-  checksum: ded4feef715359b40e3f308df39b528c33ef17a5836e76cc7e20497790a4d9df5e746f69efaccf826b6760b9fad21fb91013cd2461ee2636901528ef1664b5d7
+  checksum: dd6fe83bba31fcdae23198fc7a25ae68ff278c1b006acfb5e33770d9569b0854d19ba4f239a7cb9b32a279da9c766be7dab40566c13a7b413ce65d29b57caffd
   languageName: node
   linkType: hard
 
@@ -6865,19 +6849,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/types@npm:^8.3.1":
-  version: 8.3.2
-  resolution: "@shapeshiftoss/types@npm:8.3.2"
-  checksum: a8d01b9007ade32415fb6ffd4ab040d0a16b98d99df9fbf2f9fce6abc94625fc01ae9f809bb2ae735fa284e0e78de3bdb8e854122d3018f03b0e0e8a2d34ed96
+"@shapeshiftoss/types@npm:^8.6.0":
+  version: 8.6.0
+  resolution: "@shapeshiftoss/types@npm:8.6.0"
+  checksum: 2309f8ede8b7c93d0b1228623d9606955654a0fa55fb261af85d3d5b12753f730dbb4d0b49298bcfb831e5afccbef3b53990dd9439c5ff3588389eb6cc5b2fc1
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/unchained-client@npm:10.3.0":
-  version: 10.3.0
-  resolution: "@shapeshiftoss/unchained-client@npm:10.3.0"
+"@shapeshiftoss/unchained-client@npm:^10.14.0":
+  version: 10.14.0
+  resolution: "@shapeshiftoss/unchained-client@npm:10.14.0"
   dependencies:
     "@yfi/sdk": ^1.2.0
-    bignumber.js: ^9.0.2
+    axios: ^0.26.1
+    bignumber.js: ^9.1.1
     ethers: ^5.5.3
     isomorphic-ws: ^4.0.1
     ws: ^8.3.0
@@ -6885,24 +6870,7 @@ __metadata:
     "@shapeshiftoss/caip": ^8.0.0
     "@shapeshiftoss/logger": ^1.1.2
     "@shapeshiftoss/types": ^8.1.0
-  checksum: 3d83c35b7d1ede36d67f840ae437d1db999d27d1935d3e7cdc71572d9ee42cebda75e573b527f4726130558c29247cac972b014d3edeeea5024137d794910662
-  languageName: node
-  linkType: hard
-
-"@shapeshiftoss/unchained-client@patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch::locator=keepkey-monorepo%40workspace%3A.":
-  version: 10.3.0
-  resolution: "@shapeshiftoss/unchained-client@patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch::version=10.3.0&hash=fab71a&locator=keepkey-monorepo%40workspace%3A."
-  dependencies:
-    "@yfi/sdk": ^1.2.0
-    bignumber.js: ^9.0.2
-    ethers: ^5.5.3
-    isomorphic-ws: ^4.0.1
-    ws: ^8.3.0
-  peerDependencies:
-    "@shapeshiftoss/caip": ^8.0.0
-    "@shapeshiftoss/logger": ^1.1.2
-    "@shapeshiftoss/types": ^8.1.0
-  checksum: 6b407072f8a612d0a1237f7e1bed5642cbd35178874628f3ff34dc39fd4556bf1459c05186ca672ac1c61999617d85c3589a7f710f6b4e98e78087dc7b568102
+  checksum: fa590539499b9da965c3659f65d54a925f655b1b0b3d4fef0f6e9f4203694bb80d50c3c40ea506a0fdef269c78bb94cabdb1d2b3a72fdb20200271e4b294e6a0
   languageName: node
   linkType: hard
 
@@ -10968,23 +10936,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:1.6.0, axios@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "axios@npm:1.6.0"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: c7c9f2ae9e0b9bad7d6f9a4dff030930b12ee667dedf54c3c776714f91681feb743c509ac0796ae5c01e12c4ab4a2bee74905068dd200fbc1ab86f9814578fb0
+  languageName: node
+  linkType: hard
+
 "axios@npm:^0.21.1, axios@npm:^0.21.2":
   version: 0.21.4
   resolution: "axios@npm:0.21.4"
   dependencies:
     follow-redirects: ^1.14.0
   checksum: 44245f24ac971e7458f3120c92f9d66d1fc695e8b97019139de5b0cc65d9b8104647db01e5f46917728edfc0cfd88eb30fc4c55e6053eef4ace76768ce95ff3c
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "axios@npm:1.2.0"
-  dependencies:
-    follow-redirects: ^1.15.0
-    form-data: ^4.0.0
-    proxy-from-env: ^1.1.0
-  checksum: f08ce214e957dfde45b837f8d3c7861424608fb7df32faa638835e338782a9f4c0b05074e92e0e8dcca3a1e6250112fbbe1b15a6b21104da633d84745bbb79cc
   languageName: node
   linkType: hard
 
@@ -19137,7 +19105,7 @@ __metadata:
     "@pioneer-platform/pioneer-client": ^9.0.18
     "@react-spring/web": ^9.5.2
     "@reduxjs/toolkit": ^1.8.2
-    "@shapeshiftoss/asset-service": ^8.1.2
+    "@shapeshiftoss/asset-service": ^8.12.0
     "@shapeshiftoss/caip": ^8.4.2
     "@shapeshiftoss/chain-adapters": ^11.2.2
     "@shapeshiftoss/errors": ^1.1.3
@@ -19149,11 +19117,12 @@ __metadata:
     "@shapeshiftoss/hdwallet-keepkey-webusb": ^1.52.11
     "@shapeshiftoss/hdwallet-native": ^1.41.0
     "@shapeshiftoss/hdwallet-walletconnect": ^1.41.0
-    "@shapeshiftoss/investor-foxy": ^7.0.1
+    "@shapeshiftoss/investor-foxy": ^8.0.1
+    "@shapeshiftoss/investor-idle": ^2.7.0
     "@shapeshiftoss/logger": ^1.1.3
-    "@shapeshiftoss/market-service": ^7.1.1
-    "@shapeshiftoss/types": ^8.3.1
-    "@shapeshiftoss/unchained-client": ^10.1.2
+    "@shapeshiftoss/market-service": ^7.8.0
+    "@shapeshiftoss/types": ^8.6.0
+    "@shapeshiftoss/unchained-client": ^10.14.0
     "@swc/cli": ^0.1.57
     "@swc/core": ^1.3.19
     "@swc/jest": ^0.2.23
@@ -19217,7 +19186,7 @@ __metadata:
     allsettled-polyfill: ^1.0.4
     assert: ^2.0.0
     auto-launch: ^5.0.5
-    axios: ^1.2.0
+    axios: ^1.6.0
     bignumber.js: ^9.0.2
     bip39: ^3.0.4
     body-parser: ^1.20.1

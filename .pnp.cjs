@@ -9868,19 +9868,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@shapeshiftoss/asset-service", [\
-        ["patch:@shapeshiftoss/asset-service@npm%3A8.1.5#./.yarn/patches/@shapeshiftoss-asset-service-npm-8.1.5-86b922f116.patch::version=8.1.5&hash=536e97&locator=keepkey-monorepo%40workspace%3A.", {\
-          "packageLocation": "./.yarn/cache/@shapeshiftoss-asset-service-patch-eaaa6c5f7d-15c68cd0cc.zip/node_modules/@shapeshiftoss/asset-service/",\
+        ["npm:8.12.0", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-asset-service-npm-8.12.0-11b3b54fef-0f0e6fe60f.zip/node_modules/@shapeshiftoss/asset-service/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/asset-service", "patch:@shapeshiftoss/asset-service@npm%3A8.1.5#./.yarn/patches/@shapeshiftoss-asset-service-npm-8.1.5-86b922f116.patch::version=8.1.5&hash=536e97&locator=keepkey-monorepo%40workspace%3A."]\
+            ["@shapeshiftoss/asset-service", "npm:8.12.0"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/asset-service@npm%3A8.1.5#./.yarn/patches/@shapeshiftoss-asset-service-npm-8.1.5-86b922f116.patch::version=8.1.5&hash=536e97&locator=keepkey-monorepo%40workspace%3A.", {\
-          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-asset-service-virtual-199018d5c3/0/cache/@shapeshiftoss-asset-service-patch-eaaa6c5f7d-15c68cd0cc.zip/node_modules/@shapeshiftoss/asset-service/",\
+        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.12.0", {\
+          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-asset-service-virtual-e9495c6837/0/cache/@shapeshiftoss-asset-service-npm-8.12.0-11b3b54fef-0f0e6fe60f.zip/node_modules/@shapeshiftoss/asset-service/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/asset-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/asset-service@npm%3A8.1.5#./.yarn/patches/@shapeshiftoss-asset-service-npm-8.1.5-86b922f116.patch::version=8.1.5&hash=536e97&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/asset-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.12.0"],\
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
-            ["@shapeshiftoss/types", "npm:8.3.2"],\
+            ["@shapeshiftoss/types", "npm:8.6.0"],\
             ["@types/shapeshiftoss__caip", null],\
             ["@types/shapeshiftoss__types", null],\
             ["axios", "npm:0.26.1"],\
@@ -9935,7 +9935,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-caip-virtual-a4bfae53f0/0/cache/@shapeshiftoss-caip-npm-8.4.4-6be66cf6ac-2af1044466.zip/node_modules/@shapeshiftoss/caip/",\
           "packageDependencies": [\
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
-            ["@shapeshiftoss/types", "npm:8.3.2"],\
+            ["@shapeshiftoss/types", "npm:8.6.0"],\
             ["@types/shapeshiftoss__types", null],\
             ["lodash", "npm:4.17.21"]\
           ],\
@@ -10006,8 +10006,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-native", "npm:1.41.0"],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
-            ["@shapeshiftoss/types", "npm:8.3.2"],\
-            ["@shapeshiftoss/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch::version=10.3.0&hash=fab71a&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/types", "npm:8.6.0"],\
+            ["@shapeshiftoss/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.14.0"],\
             ["@types/bs58check", null],\
             ["@types/shapeshiftoss__caip", null],\
             ["@types/shapeshiftoss__hdwallet-core", null],\
@@ -10101,6 +10101,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-core-npm-1.38.0-59e113d87b-a2a198b491.zip/node_modules/@shapeshiftoss/hdwallet-core/",\
           "packageDependencies": [\
             ["@shapeshiftoss/hdwallet-core", "npm:1.38.0"],\
+            ["@ethersproject/bytes", "npm:5.7.0"],\
+            ["@types/google-protobuf", "npm:3.15.6"],\
+            ["@types/node", "npm:18.11.9"],\
             ["eventemitter2", "npm:5.0.1"],\
             ["lodash", "npm:4.17.21"],\
             ["rxjs", "npm:6.6.7"],\
@@ -10112,6 +10115,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-core-npm-1.41.0-2b1ffb2a1d-0d3ba4a30c.zip/node_modules/@shapeshiftoss/hdwallet-core/",\
           "packageDependencies": [\
             ["@shapeshiftoss/hdwallet-core", "npm:1.41.0"],\
+            ["@ethersproject/bytes", "npm:5.7.0"],\
+            ["@types/google-protobuf", "npm:3.15.6"],\
+            ["@types/node", "npm:18.11.9"],\
             ["eip-712", "npm:1.0.0"],\
             ["eventemitter2", "npm:5.0.1"],\
             ["lodash", "npm:4.17.21"],\
@@ -10140,7 +10146,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-core-npm-1.52.11-79ee39679a-7cc001c16b.zip/node_modules/@shapeshiftoss/hdwallet-core/",\
           "packageDependencies": [\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
+            ["@ethersproject/bytes", "npm:5.7.0"],\
             ["@shapeshiftoss/proto-tx-builder", "npm:0.8.0"],\
+            ["@types/google-protobuf", "npm:3.15.6"],\
+            ["@types/node", "npm:18.11.9"],\
             ["eip-712", "npm:1.0.0"],\
             ["eventemitter2", "npm:5.0.1"],\
             ["lodash", "npm:4.17.21"],\
@@ -10302,28 +10311,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@shapeshiftoss/investor-foxy", [\
-        ["npm:7.0.2", {\
-          "packageLocation": "./.yarn/cache/@shapeshiftoss-investor-foxy-npm-7.0.2-1ca261be4c-33bfdc4418.zip/node_modules/@shapeshiftoss/investor-foxy/",\
+        ["npm:8.0.1", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-investor-foxy-npm-8.0.1-7c0f8b27c6-a07af44a77.zip/node_modules/@shapeshiftoss/investor-foxy/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/investor-foxy", "npm:7.0.2"]\
+            ["@shapeshiftoss/investor-foxy", "npm:8.0.1"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.0.2", {\
-          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-investor-foxy-virtual-eae8b38f72/0/cache/@shapeshiftoss-investor-foxy-npm-7.0.2-1ca261be4c-33bfdc4418.zip/node_modules/@shapeshiftoss/investor-foxy/",\
+        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.0.1", {\
+          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-investor-foxy-virtual-a8a89499bc/0/cache/@shapeshiftoss-investor-foxy-npm-8.0.1-7c0f8b27c6-a07af44a77.zip/node_modules/@shapeshiftoss/investor-foxy/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.0.2"],\
+            ["@shapeshiftoss/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.0.1"],\
             ["@ethersproject/providers", "npm:5.7.2"],\
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
             ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
-            ["@shapeshiftoss/types", "npm:8.3.2"],\
+            ["@shapeshiftoss/types", "npm:8.6.0"],\
             ["@types/shapeshiftoss__caip", null],\
             ["@types/shapeshiftoss__chain-adapters", null],\
             ["@types/shapeshiftoss__hdwallet-core", null],\
             ["@types/shapeshiftoss__types", null],\
             ["axios", "npm:0.26.1"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["lodash", "npm:4.17.21"],\
             ["web3", "npm:1.8.1"],\
             ["web3-core", "npm:1.7.4"],\
@@ -10342,6 +10351,52 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@shapeshiftoss/investor-idle", [\
+        ["npm:2.7.0", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-investor-idle-npm-2.7.0-75bd66e5ee-4c465acfed.zip/node_modules/@shapeshiftoss/investor-idle/",\
+          "packageDependencies": [\
+            ["@shapeshiftoss/investor-idle", "npm:2.7.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.7.0", {\
+          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-investor-idle-virtual-f9d15523c5/0/cache/@shapeshiftoss-investor-idle-npm-2.7.0-75bd66e5ee-4c465acfed.zip/node_modules/@shapeshiftoss/investor-idle/",\
+          "packageDependencies": [\
+            ["@shapeshiftoss/investor-idle", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.7.0"],\
+            ["@ethersproject/providers", "npm:5.7.2"],\
+            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
+            ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
+            ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
+            ["@shapeshiftoss/investor", null],\
+            ["@shapeshiftoss/logger", "npm:1.1.3"],\
+            ["@shapeshiftoss/types", "npm:8.6.0"],\
+            ["@types/shapeshiftoss__caip", null],\
+            ["@types/shapeshiftoss__chain-adapters", null],\
+            ["@types/shapeshiftoss__hdwallet-core", null],\
+            ["@types/shapeshiftoss__investor", null],\
+            ["@types/shapeshiftoss__types", null],\
+            ["axios", "npm:1.6.0"],\
+            ["bignumber.js", "npm:9.1.2"],\
+            ["lodash", "npm:4.17.21"],\
+            ["web3", "npm:1.8.1"],\
+            ["web3-core", "npm:1.7.4"],\
+            ["web3-utils", "npm:1.7.4"]\
+          ],\
+          "packagePeers": [\
+            "@shapeshiftoss/caip",\
+            "@shapeshiftoss/chain-adapters",\
+            "@shapeshiftoss/hdwallet-core",\
+            "@shapeshiftoss/investor",\
+            "@shapeshiftoss/types",\
+            "@types/shapeshiftoss__caip",\
+            "@types/shapeshiftoss__chain-adapters",\
+            "@types/shapeshiftoss__hdwallet-core",\
+            "@types/shapeshiftoss__investor",\
+            "@types/shapeshiftoss__types"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@shapeshiftoss/logger", [\
         ["npm:1.1.3", {\
           "packageLocation": "./.yarn/cache/@shapeshiftoss-logger-npm-1.1.3-0e4428d3db-e0523fe08b.zip/node_modules/@shapeshiftoss/logger/",\
@@ -10352,17 +10407,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@shapeshiftoss/market-service", [\
-        ["patch:@shapeshiftoss/market-service@npm%3A7.1.3#./.yarn/patches/@shapeshiftoss-market-service-npm-7.1.3-17db6beeed.patch::version=7.1.3&hash=645b69&locator=keepkey-monorepo%40workspace%3A.", {\
-          "packageLocation": "./.yarn/cache/@shapeshiftoss-market-service-patch-ff0c771200-ded4feef71.zip/node_modules/@shapeshiftoss/market-service/",\
+        ["npm:7.8.0", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-market-service-npm-7.8.0-676272c865-dd6fe83bba.zip/node_modules/@shapeshiftoss/market-service/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/market-service", "patch:@shapeshiftoss/market-service@npm%3A7.1.3#./.yarn/patches/@shapeshiftoss-market-service-npm-7.1.3-17db6beeed.patch::version=7.1.3&hash=645b69&locator=keepkey-monorepo%40workspace%3A."]\
+            ["@shapeshiftoss/market-service", "npm:7.8.0"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/market-service@npm%3A7.1.3#./.yarn/patches/@shapeshiftoss-market-service-npm-7.1.3-17db6beeed.patch::version=7.1.3&hash=645b69&locator=keepkey-monorepo%40workspace%3A.", {\
-          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-market-service-virtual-42fd599c5e/0/cache/@shapeshiftoss-market-service-patch-ff0c771200-ded4feef71.zip/node_modules/@shapeshiftoss/market-service/",\
+        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.8.0", {\
+          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-market-service-virtual-3eed78a729/0/cache/@shapeshiftoss-market-service-npm-7.8.0-676272c865-dd6fe83bba.zip/node_modules/@shapeshiftoss/market-service/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/market-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/market-service@npm%3A7.1.3#./.yarn/patches/@shapeshiftoss-market-service-npm-7.1.3-17db6beeed.patch::version=7.1.3&hash=645b69&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/market-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.8.0"],\
             ["@ethersproject/abi", "npm:5.7.0"],\
             ["@ethersproject/address", "npm:5.7.0"],\
             ["@ethersproject/bignumber", "npm:5.7.0"],\
@@ -10371,19 +10426,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/providers", "npm:5.7.2"],\
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
             ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
-            ["@shapeshiftoss/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.0.2"],\
+            ["@shapeshiftoss/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.0.1"],\
+            ["@shapeshiftoss/investor-idle", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.7.0"],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
-            ["@shapeshiftoss/types", "npm:8.3.2"],\
-            ["@shapeshiftoss/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch::version=10.3.0&hash=fab71a&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/types", "npm:8.6.0"],\
+            ["@shapeshiftoss/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.14.0"],\
             ["@types/shapeshiftoss__caip", null],\
             ["@types/shapeshiftoss__chain-adapters", null],\
             ["@types/shapeshiftoss__investor-foxy", null],\
+            ["@types/shapeshiftoss__investor-idle", null],\
             ["@types/shapeshiftoss__types", null],\
             ["@types/shapeshiftoss__unchained-client", null],\
-            ["@yfi/sdk", "virtual:42fd599c5e0e04706da026e35497f61be6df3f447b6a7319ec36982ae5642854a96cf0edaa957b2ea782fdd9ab2f7a0496ea69893fb7f1ba57b40ba90ba04169#npm:1.2.0"],\
+            ["@yfi/sdk", "virtual:3eed78a7296de97bd9707eadce4306b8d9e78831e11f8e63ef4a04ad1ea6a666ad3533aeda624fab30cdfc516171729a44baff9eafe7035c746a85bc9630741c#npm:1.2.0"],\
             ["axios", "npm:0.26.1"],\
-            ["axios-rate-limit", "virtual:42fd599c5e0e04706da026e35497f61be6df3f447b6a7319ec36982ae5642854a96cf0edaa957b2ea782fdd9ab2f7a0496ea69893fb7f1ba57b40ba90ba04169#npm:1.3.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["axios-rate-limit", "virtual:3eed78a7296de97bd9707eadce4306b8d9e78831e11f8e63ef4a04ad1ea6a666ad3533aeda624fab30cdfc516171729a44baff9eafe7035c746a85bc9630741c#npm:1.3.0"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["dayjs", "npm:1.11.6"],\
             ["lodash", "npm:4.17.21"],\
             ["p-ratelimit", "npm:1.0.1"]\
@@ -10392,11 +10449,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@shapeshiftoss/caip",\
             "@shapeshiftoss/chain-adapters",\
             "@shapeshiftoss/investor-foxy",\
+            "@shapeshiftoss/investor-idle",\
             "@shapeshiftoss/types",\
             "@shapeshiftoss/unchained-client",\
             "@types/shapeshiftoss__caip",\
             "@types/shapeshiftoss__chain-adapters",\
             "@types/shapeshiftoss__investor-foxy",\
+            "@types/shapeshiftoss__investor-idle",\
             "@types/shapeshiftoss__types",\
             "@types/shapeshiftoss__unchained-client"\
           ],\
@@ -10438,26 +10497,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@shapeshiftoss/types", [\
-        ["npm:8.3.2", {\
-          "packageLocation": "./.yarn/cache/@shapeshiftoss-types-npm-8.3.2-c748590280-a8d01b9007.zip/node_modules/@shapeshiftoss/types/",\
+        ["npm:8.6.0", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-types-npm-8.6.0-0428192641-2309f8ede8.zip/node_modules/@shapeshiftoss/types/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/types", "npm:8.3.2"]\
+            ["@shapeshiftoss/types", "npm:8.6.0"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@shapeshiftoss/unchained-client", [\
-        ["patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch::version=10.3.0&hash=fab71a&locator=keepkey-monorepo%40workspace%3A.", {\
-          "packageLocation": "./.yarn/cache/@shapeshiftoss-unchained-client-patch-b1c4a9dc82-6b407072f8.zip/node_modules/@shapeshiftoss/unchained-client/",\
+        ["npm:10.14.0", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-unchained-client-npm-10.14.0-b1ce2e094a-fa59053949.zip/node_modules/@shapeshiftoss/unchained-client/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/unchained-client", "patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch::version=10.3.0&hash=fab71a&locator=keepkey-monorepo%40workspace%3A."]\
+            ["@shapeshiftoss/unchained-client", "npm:10.14.0"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch::version=10.3.0&hash=fab71a&locator=keepkey-monorepo%40workspace%3A.", {\
-          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-unchained-client-virtual-c064e35e76/0/cache/@shapeshiftoss-unchained-client-patch-b1c4a9dc82-6b407072f8.zip/node_modules/@shapeshiftoss/unchained-client/",\
+        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.14.0", {\
+          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-unchained-client-virtual-bda02b6b4f/0/cache/@shapeshiftoss-unchained-client-npm-10.14.0-b1ce2e094a-fa59053949.zip/node_modules/@shapeshiftoss/unchained-client/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch::version=10.3.0&hash=fab71a&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.14.0"],\
             ["@ethersproject/abi", "npm:5.7.0"],\
             ["@ethersproject/address", "npm:5.7.0"],\
             ["@ethersproject/bignumber", "npm:5.7.0"],\
@@ -10466,15 +10525,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/providers", "npm:5.7.2"],\
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
-            ["@shapeshiftoss/types", "npm:8.3.2"],\
+            ["@shapeshiftoss/types", "npm:8.6.0"],\
             ["@types/shapeshiftoss__caip", null],\
             ["@types/shapeshiftoss__logger", null],\
             ["@types/shapeshiftoss__types", null],\
-            ["@yfi/sdk", "virtual:42fd599c5e0e04706da026e35497f61be6df3f447b6a7319ec36982ae5642854a96cf0edaa957b2ea782fdd9ab2f7a0496ea69893fb7f1ba57b40ba90ba04169#npm:1.2.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["@yfi/sdk", "virtual:3eed78a7296de97bd9707eadce4306b8d9e78831e11f8e63ef4a04ad1ea6a666ad3533aeda624fab30cdfc516171729a44baff9eafe7035c746a85bc9630741c#npm:1.2.0"],\
+            ["axios", "npm:0.26.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["ethers", "npm:5.7.2"],\
-            ["isomorphic-ws", "virtual:c064e35e76bf080f5a28ea1ac0a82d6e836c4b76dc78ac6e9aad183123d9baf0d79530b36a79832b9ef58b7d4dd3018695de23e2936a65c147fba400e3fbcfa8#npm:4.0.1"],\
-            ["ws", "virtual:c064e35e76bf080f5a28ea1ac0a82d6e836c4b76dc78ac6e9aad183123d9baf0d79530b36a79832b9ef58b7d4dd3018695de23e2936a65c147fba400e3fbcfa8#npm:8.11.0"]\
+            ["isomorphic-ws", "virtual:bda02b6b4f7e707387854fb44f372ae15afe00ba08a4d8a3dee13c9d1a611cfafc1033448891528696a36eaaccffbb68abdc4bc9d3f9ca2e89a78e6d238ec7d7#npm:4.0.1"],\
+            ["ws", "virtual:bda02b6b4f7e707387854fb44f372ae15afe00ba08a4d8a3dee13c9d1a611cfafc1033448891528696a36eaaccffbb68abdc4bc9d3f9ca2e89a78e6d238ec7d7#npm:8.11.0"]\
           ],\
           "packagePeers": [\
             "@shapeshiftoss/caip",\
@@ -14359,10 +14419,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:42fd599c5e0e04706da026e35497f61be6df3f447b6a7319ec36982ae5642854a96cf0edaa957b2ea782fdd9ab2f7a0496ea69893fb7f1ba57b40ba90ba04169#npm:1.2.0", {\
-          "packageLocation": "./.yarn/__virtual__/@yfi-sdk-virtual-10738c3124/0/cache/@yfi-sdk-npm-1.2.0-25a6a1a047-96027dea1a.zip/node_modules/@yfi/sdk/",\
+        ["virtual:3eed78a7296de97bd9707eadce4306b8d9e78831e11f8e63ef4a04ad1ea6a666ad3533aeda624fab30cdfc516171729a44baff9eafe7035c746a85bc9630741c#npm:1.2.0", {\
+          "packageLocation": "./.yarn/__virtual__/@yfi-sdk-virtual-1d654fccdc/0/cache/@yfi-sdk-npm-1.2.0-25a6a1a047-96027dea1a.zip/node_modules/@yfi/sdk/",\
           "packageDependencies": [\
-            ["@yfi/sdk", "virtual:42fd599c5e0e04706da026e35497f61be6df3f447b6a7319ec36982ae5642854a96cf0edaa957b2ea782fdd9ab2f7a0496ea69893fb7f1ba57b40ba90ba04169#npm:1.2.0"],\
+            ["@yfi/sdk", "virtual:3eed78a7296de97bd9707eadce4306b8d9e78831e11f8e63ef4a04ad1ea6a666ad3533aeda624fab30cdfc516171729a44baff9eafe7035c746a85bc9630741c#npm:1.2.0"],\
             ["@ethersproject/abi", "npm:5.7.0"],\
             ["@ethersproject/address", "npm:5.7.0"],\
             ["@ethersproject/bignumber", "npm:5.7.0"],\
@@ -15335,20 +15395,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:1.2.0", {\
-          "packageLocation": "./.yarn/cache/axios-npm-1.2.0-ad83373c57-f08ce214e9.zip/node_modules/axios/",\
+        ["npm:1.4.0", {\
+          "packageLocation": "./.yarn/cache/axios-npm-1.4.0-4d7ce8ca3e-7fb6a4313b.zip/node_modules/axios/",\
           "packageDependencies": [\
-            ["axios", "npm:1.2.0"],\
+            ["axios", "npm:1.4.0"],\
             ["follow-redirects", "virtual:e278873748b4e9d158db595d2f6cb0351c74052f52b53924aec4d9299e7b6babfb62aead374cf2f6e453bc8bea3b052380dc6b1137a162bbfc102bbb1c8cac42#npm:1.15.2"],\
             ["form-data", "npm:4.0.0"],\
             ["proxy-from-env", "npm:1.1.0"]\
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:1.4.0", {\
-          "packageLocation": "./.yarn/cache/axios-npm-1.4.0-4d7ce8ca3e-7fb6a4313b.zip/node_modules/axios/",\
+        ["npm:1.6.0", {\
+          "packageLocation": "./.yarn/cache/axios-npm-1.6.0-b0f6015a96-c7c9f2ae9e.zip/node_modules/axios/",\
           "packageDependencies": [\
-            ["axios", "npm:1.4.0"],\
+            ["axios", "npm:1.6.0"],\
             ["follow-redirects", "virtual:e278873748b4e9d158db595d2f6cb0351c74052f52b53924aec4d9299e7b6babfb62aead374cf2f6e453bc8bea3b052380dc6b1137a162bbfc102bbb1c8cac42#npm:1.15.2"],\
             ["form-data", "npm:4.0.0"],\
             ["proxy-from-env", "npm:1.1.0"]\
@@ -15364,10 +15424,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:42fd599c5e0e04706da026e35497f61be6df3f447b6a7319ec36982ae5642854a96cf0edaa957b2ea782fdd9ab2f7a0496ea69893fb7f1ba57b40ba90ba04169#npm:1.3.0", {\
-          "packageLocation": "./.yarn/__virtual__/axios-rate-limit-virtual-9718031771/0/cache/axios-rate-limit-npm-1.3.0-b7ef75d4f7-19e9637322.zip/node_modules/axios-rate-limit/",\
+        ["virtual:3eed78a7296de97bd9707eadce4306b8d9e78831e11f8e63ef4a04ad1ea6a666ad3533aeda624fab30cdfc516171729a44baff9eafe7035c746a85bc9630741c#npm:1.3.0", {\
+          "packageLocation": "./.yarn/__virtual__/axios-rate-limit-virtual-ecd7f313eb/0/cache/axios-rate-limit-npm-1.3.0-b7ef75d4f7-19e9637322.zip/node_modules/axios-rate-limit/",\
           "packageDependencies": [\
-            ["axios-rate-limit", "virtual:42fd599c5e0e04706da026e35497f61be6df3f447b6a7319ec36982ae5642854a96cf0edaa957b2ea782fdd9ab2f7a0496ea69893fb7f1ba57b40ba90ba04169#npm:1.3.0"],\
+            ["axios-rate-limit", "virtual:3eed78a7296de97bd9707eadce4306b8d9e78831e11f8e63ef4a04ad1ea6a666ad3533aeda624fab30cdfc516171729a44baff9eafe7035c746a85bc9630741c#npm:1.3.0"],\
             ["@types/axios", null],\
             ["axios", "npm:0.26.1"]\
           ],\
@@ -23619,12 +23679,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:c064e35e76bf080f5a28ea1ac0a82d6e836c4b76dc78ac6e9aad183123d9baf0d79530b36a79832b9ef58b7d4dd3018695de23e2936a65c147fba400e3fbcfa8#npm:4.0.1", {\
-          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-7f565de5a8/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",\
+        ["virtual:bda02b6b4f7e707387854fb44f372ae15afe00ba08a4d8a3dee13c9d1a611cfafc1033448891528696a36eaaccffbb68abdc4bc9d3f9ca2e89a78e6d238ec7d7#npm:4.0.1", {\
+          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-88cfa10897/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",\
           "packageDependencies": [\
-            ["isomorphic-ws", "virtual:c064e35e76bf080f5a28ea1ac0a82d6e836c4b76dc78ac6e9aad183123d9baf0d79530b36a79832b9ef58b7d4dd3018695de23e2936a65c147fba400e3fbcfa8#npm:4.0.1"],\
+            ["isomorphic-ws", "virtual:bda02b6b4f7e707387854fb44f372ae15afe00ba08a4d8a3dee13c9d1a611cfafc1033448891528696a36eaaccffbb68abdc4bc9d3f9ca2e89a78e6d238ec7d7#npm:4.0.1"],\
             ["@types/ws", null],\
-            ["ws", "virtual:c064e35e76bf080f5a28ea1ac0a82d6e836c4b76dc78ac6e9aad183123d9baf0d79530b36a79832b9ef58b7d4dd3018695de23e2936a65c147fba400e3fbcfa8#npm:8.11.0"]\
+            ["ws", "virtual:bda02b6b4f7e707387854fb44f372ae15afe00ba08a4d8a3dee13c9d1a611cfafc1033448891528696a36eaaccffbb68abdc4bc9d3f9ca2e89a78e6d238ec7d7#npm:8.11.0"]\
           ],\
           "packagePeers": [\
             "@types/ws",\
@@ -24526,7 +24586,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["whatwg-encoding", "npm:2.0.0"],\
             ["whatwg-mimetype", "npm:3.0.0"],\
             ["whatwg-url", "npm:11.0.0"],\
-            ["ws", "virtual:c064e35e76bf080f5a28ea1ac0a82d6e836c4b76dc78ac6e9aad183123d9baf0d79530b36a79832b9ef58b7d4dd3018695de23e2936a65c147fba400e3fbcfa8#npm:8.11.0"],\
+            ["ws", "virtual:bda02b6b4f7e707387854fb44f372ae15afe00ba08a4d8a3dee13c9d1a611cfafc1033448891528696a36eaaccffbb68abdc4bc9d3f9ca2e89a78e6d238ec7d7#npm:8.11.0"],\
             ["xml-name-validator", "npm:4.0.0"]\
           ],\
           "packagePeers": [\
@@ -24946,7 +25006,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@pioneer-platform/pioneer-client", "npm:9.0.18"],\
             ["@react-spring/web", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:9.5.5"],\
             ["@reduxjs/toolkit", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.9.0"],\
-            ["@shapeshiftoss/asset-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/asset-service@npm%3A8.1.5#./.yarn/patches/@shapeshiftoss-asset-service-npm-8.1.5-86b922f116.patch::version=8.1.5&hash=536e97&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/asset-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.12.0"],\
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
             ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
             ["@shapeshiftoss/errors", "npm:1.1.3"],\
@@ -24958,11 +25018,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/hdwallet-keepkey-webusb", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-native", "npm:1.41.0"],\
             ["@shapeshiftoss/hdwallet-walletconnect", "npm:1.41.0"],\
-            ["@shapeshiftoss/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.0.2"],\
+            ["@shapeshiftoss/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.0.1"],\
+            ["@shapeshiftoss/investor-idle", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.7.0"],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
-            ["@shapeshiftoss/market-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/market-service@npm%3A7.1.3#./.yarn/patches/@shapeshiftoss-market-service-npm-7.1.3-17db6beeed.patch::version=7.1.3&hash=645b69&locator=keepkey-monorepo%40workspace%3A."],\
-            ["@shapeshiftoss/types", "npm:8.3.2"],\
-            ["@shapeshiftoss/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/unchained-client@npm%3A10.3.0#./.yarn/patches/@shapeshiftoss-unchained-client-npm-10.3.0-66b57a2bce.patch::version=10.3.0&hash=fab71a&locator=keepkey-monorepo%40workspace%3A."],\
+            ["@shapeshiftoss/market-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.8.0"],\
+            ["@shapeshiftoss/types", "npm:8.6.0"],\
+            ["@shapeshiftoss/unchained-client", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.14.0"],\
             ["@swc/cli", "virtual:b5921f14a2964433f4758a9b40eb23425d352e5a443b972e7eb71d1daf1dc9e3ed0f08294b412155bda1f41c7266a9e84a34c3da1911b35fed88f608be369e94#npm:0.1.57"],\
             ["@swc/core", "npm:1.3.20"],\
             ["@swc/jest", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:0.2.23"],\
@@ -25026,7 +25087,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["allsettled-polyfill", "npm:1.0.4"],\
             ["assert", "npm:2.0.0"],\
             ["auto-launch", "npm:5.0.5"],\
-            ["axios", "npm:1.2.0"],\
+            ["axios", "npm:1.6.0"],\
             ["bignumber.js", "npm:9.1.0"],\
             ["bip39", "npm:3.0.4"],\
             ["body-parser", "npm:1.20.1"],\
@@ -35669,10 +35730,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:c064e35e76bf080f5a28ea1ac0a82d6e836c4b76dc78ac6e9aad183123d9baf0d79530b36a79832b9ef58b7d4dd3018695de23e2936a65c147fba400e3fbcfa8#npm:8.11.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-305f3206a8/0/cache/ws-npm-8.11.0-ab72116a01-316b33aba3.zip/node_modules/ws/",\
+        ["virtual:bda02b6b4f7e707387854fb44f372ae15afe00ba08a4d8a3dee13c9d1a611cfafc1033448891528696a36eaaccffbb68abdc4bc9d3f9ca2e89a78e6d238ec7d7#npm:8.11.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-cd7c0738cd/0/cache/ws-npm-8.11.0-ab72116a01-316b33aba3.zip/node_modules/ws/",\
           "packageDependencies": [\
-            ["ws", "virtual:c064e35e76bf080f5a28ea1ac0a82d6e836c4b76dc78ac6e9aad183123d9baf0d79530b36a79832b9ef58b7d4dd3018695de23e2936a65c147fba400e3fbcfa8#npm:8.11.0"],\
+            ["ws", "virtual:bda02b6b4f7e707387854fb44f372ae15afe00ba08a4d8a3dee13c9d1a611cfafc1033448891528696a36eaaccffbb68abdc4bc9d3f9ca2e89a78e6d238ec7d7#npm:8.11.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
