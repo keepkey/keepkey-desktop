@@ -11297,6 +11297,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bs58check@npm:2.0.2":
+  version: 2.0.2
+  resolution: "bs58check@npm:2.0.2"
+  dependencies:
+    bs58: ^4.0.0
+    create-hash: ^1.1.0
+  checksum: fe3c9b8d503e60dca6502f20eee1f62b0a1b1f4648e0cae0dc1157f06429a6cde7dd1580a6b7475313d42a147fa89c0b8514902a29d54067c7fa5f0e472876aa
+  languageName: node
+  linkType: hard
+
 "bs58check@npm:<3.0.0, bs58check@npm:^2.0.0, bs58check@npm:^2.1.1, bs58check@npm:^2.1.2":
   version: 2.1.2
   resolution: "bs58check@npm:2.1.2"
@@ -18748,7 +18758,7 @@ __metadata:
     body-parser: ^1.20.1
     browserify-zlib: ^0.2.0
     browserslist: ^4.21.4
-    bs58: ^5.0.0
+    bs58check: 2.0.2
     buffer: ^6.0.3
     chakra-ui-steps: ^1.7.3
     chalk: 4.1.2

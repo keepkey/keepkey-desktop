@@ -160,7 +160,7 @@
     "bip39": "^3.0.4",
     "body-parser": "^1.20.1",
     "browserify-zlib": "^0.2.0",
-    "bs58": "^5.0.0",
+    "bs58check": "2.0.2",
     "buffer": "^6.0.3",
     "chakra-ui-steps": "^1.7.3",
     "comlink": "^4.3.1",

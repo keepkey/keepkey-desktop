@@ -9648,7 +9648,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bech32", "npm:2.0.0"],\
             ["bignumber.js", "npm:9.1.2"],\
             ["bitcoinjs-lib", "npm:5.2.0"],\
-            ["bs58check", "npm:3.0.1"],\
+            ["bs58check", "npm:2.0.2"],\
             ["coinselect", "npm:3.1.13"],\
             ["ethers", "npm:5.7.2"],\
             ["multicoin-address-validator", "npm:0.5.12"],\
@@ -9665,7 +9665,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/shapeshiftoss__hdwallet-core",\
             "@types/shapeshiftoss__hdwallet-native",\
             "@types/shapeshiftoss__types",\
-            "@types/shapeshiftoss__unchained-client"\
+            "@types/shapeshiftoss__unchained-client",\
+            "bs58check"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15965,6 +15966,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["bs58check", [\
+        ["npm:2.0.2", {\
+          "packageLocation": "./.yarn/cache/bs58check-npm-2.0.2-047bb1f54b-fe3c9b8d50.zip/node_modules/bs58check/",\
+          "packageDependencies": [\
+            ["bs58check", "npm:2.0.2"],\
+            ["bs58", "npm:4.0.1"],\
+            ["create-hash", "npm:1.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:2.1.2", {\
           "packageLocation": "./.yarn/cache/bs58check-npm-2.1.2-4e87e40195-43bdf08a5d.zip/node_modules/bs58check/",\
           "packageDependencies": [\
@@ -24682,7 +24692,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["body-parser", "npm:1.20.1"],\
             ["browserify-zlib", "npm:0.2.0"],\
             ["browserslist", "npm:4.21.4"],\
-            ["bs58", "npm:5.0.0"],\
+            ["bs58check", "npm:2.0.2"],\
             ["buffer", "npm:6.0.3"],\
             ["chakra-ui-steps", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.8.0"],\
             ["chalk", "npm:4.1.2"],\
