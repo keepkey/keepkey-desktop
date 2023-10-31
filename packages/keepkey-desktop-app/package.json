@@ -122,7 +122,7 @@
     "@shapeshiftoss/hdwallet-keepkey-nodewebusb": "^1.52.11",
     "@shapeshiftoss/hdwallet-keepkey-tcp": "^1.52.11",
     "@shapeshiftoss/hdwallet-keepkey-webusb": "^1.52.11",
-    "@shapeshiftoss/hdwallet-native": "^1.41.0",
+    "@shapeshiftoss/hdwallet-native": "^1.52.11",
     "@shapeshiftoss/hdwallet-walletconnect": "^1.41.0",
     "@shapeshiftoss/investor-foxy": "^8.0.1",
     "@shapeshiftoss/investor-idle": "^2.7.0",
