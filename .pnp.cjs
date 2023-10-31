@@ -9508,7 +9508,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-asset-service-virtual-e9495c6837/0/cache/@shapeshiftoss-asset-service-npm-8.12.0-11b3b54fef-0f0e6fe60f.zip/node_modules/@shapeshiftoss/asset-service/",\
           "packageDependencies": [\
             ["@shapeshiftoss/asset-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.12.0"],\
-            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
+            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.15.0"],\
             ["@shapeshiftoss/types", "npm:8.6.0"],\
             ["@types/shapeshiftoss__caip", null],\
             ["@types/shapeshiftoss__types", null],\
@@ -9553,20 +9553,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@shapeshiftoss/caip", [\
-        ["npm:8.4.4", {\
-          "packageLocation": "./.yarn/cache/@shapeshiftoss-caip-npm-8.4.4-6be66cf6ac-2af1044466.zip/node_modules/@shapeshiftoss/caip/",\
+        ["npm:8.15.0", {\
+          "packageLocation": "./.yarn/cache/@shapeshiftoss-caip-npm-8.15.0-f1e7f80009-d9cde4e0fa.zip/node_modules/@shapeshiftoss/caip/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/caip", "npm:8.4.4"]\
+            ["@shapeshiftoss/caip", "npm:8.15.0"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4", {\
-          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-caip-virtual-a4bfae53f0/0/cache/@shapeshiftoss-caip-npm-8.4.4-6be66cf6ac-2af1044466.zip/node_modules/@shapeshiftoss/caip/",\
+        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.15.0", {\
+          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-caip-virtual-37bbe91d01/0/cache/@shapeshiftoss-caip-npm-8.15.0-f1e7f80009-d9cde4e0fa.zip/node_modules/@shapeshiftoss/caip/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
+            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.15.0"],\
             ["@shapeshiftoss/types", "npm:8.6.0"],\
-            ["@types/shapeshiftoss__types", null],\
-            ["lodash", "npm:4.17.21"]\
+            ["@types/shapeshiftoss__types", null]\
           ],\
           "packagePeers": [\
             "@shapeshiftoss/types",\
@@ -9631,7 +9630,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
             ["@ethersproject/contracts", "npm:5.7.0"],\
-            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
+            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.15.0"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-native", "npm:1.52.11"],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
@@ -9647,7 +9646,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bech32", "npm:2.0.0"],\
             ["bignumber.js", "npm:9.1.2"],\
             ["bitcoinjs-lib", "npm:5.2.0"],\
-            ["bs58check", "npm:3.0.1"],\
+            ["bs58check", "npm:2.1.2"],\
             ["coinselect", "npm:3.1.13"],\
             ["ethers", "npm:5.7.2"],\
             ["multicoin-address-validator", "npm:0.5.12"],\
@@ -9962,7 +9961,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@shapeshiftoss/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.0.1"],\
             ["@ethersproject/providers", "npm:5.7.2"],\
-            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
+            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.15.0"],\
             ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
             ["@shapeshiftoss/types", "npm:8.6.0"],\
@@ -10003,7 +10002,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@shapeshiftoss/investor-idle", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.7.0"],\
             ["@ethersproject/providers", "npm:5.7.2"],\
-            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
+            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.15.0"],\
             ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
             ["@shapeshiftoss/investor", "npm:3.1.3"],\
@@ -10063,7 +10062,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/bytes", "npm:5.7.0"],\
             ["@ethersproject/contracts", "npm:5.7.0"],\
             ["@ethersproject/providers", "npm:5.7.2"],\
-            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
+            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.15.0"],\
             ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
             ["@shapeshiftoss/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.0.1"],\
             ["@shapeshiftoss/investor-idle", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.7.0"],\
@@ -10148,7 +10147,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/bytes", "npm:5.7.0"],\
             ["@ethersproject/contracts", "npm:5.7.0"],\
             ["@ethersproject/providers", "npm:5.7.2"],\
-            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
+            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.15.0"],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
             ["@shapeshiftoss/types", "npm:8.6.0"],\
             ["@types/shapeshiftoss__caip", null],\
@@ -24595,7 +24594,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@react-spring/web", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:9.5.5"],\
             ["@reduxjs/toolkit", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.9.0"],\
             ["@shapeshiftoss/asset-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.12.0"],\
-            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
+            ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.15.0"],\
             ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
             ["@shapeshiftoss/errors", "npm:1.1.3"],\
             ["@shapeshiftoss/eslint-plugin-logger", "npm:1.1.0"],\
@@ -24683,7 +24682,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["browserify-zlib", "npm:0.2.0"],\
             ["browserslist", "npm:4.21.4"],\
             ["bs58", "npm:5.0.0"],\
-            ["bs58check", "npm:3.0.1"],\
+            ["bs58check", "npm:2.1.2"],\
             ["buffer", "npm:6.0.3"],\
             ["chakra-ui-steps", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.8.0"],\
             ["chalk", "npm:4.1.2"],\
