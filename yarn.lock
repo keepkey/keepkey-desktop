@@ -11297,7 +11297,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bs58check@npm:2.1.2, bs58check@npm:<3.0.0, bs58check@npm:^2.0.0, bs58check@npm:^2.1.1, bs58check@npm:^2.1.2":
+"bs58check@npm:<3.0.0, bs58check@npm:^2.0.0, bs58check@npm:^2.1.1, bs58check@npm:^2.1.2":
   version: 2.1.2
   resolution: "bs58check@npm:2.1.2"
   dependencies:
@@ -18749,7 +18749,6 @@ __metadata:
     browserify-zlib: ^0.2.0
     browserslist: ^4.21.4
     bs58: ^5.0.0
-    bs58check: 2.1.2
     buffer: ^6.0.3
     chakra-ui-steps: ^1.7.3
     chalk: 4.1.2
