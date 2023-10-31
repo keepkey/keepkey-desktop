@@ -9947,13 +9947,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@shapeshiftoss/chain-adapters", [\
-        ["npm:10.14.0", {\
-          "packageLocation": "./.yarn/cache/@shapeshiftoss-chain-adapters-npm-10.14.0-fd381cc624-1b08abca75.zip/node_modules/@shapeshiftoss/chain-adapters/",\
-          "packageDependencies": [\
-            ["@shapeshiftoss/chain-adapters", "npm:10.14.0"]\
-          ],\
-          "linkType": "SOFT"\
-        }],\
         ["npm:11.2.2", {\
           "packageLocation": "./.yarn/cache/@shapeshiftoss-chain-adapters-npm-11.2.2-68a86e862e-32bd2d67fd.zip/node_modules/@shapeshiftoss/chain-adapters/",\
           "packageDependencies": [\
@@ -9965,9 +9958,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-chain-adapters-virtual-2a5ba15e0d/0/cache/@shapeshiftoss-chain-adapters-npm-11.2.2-68a86e862e-32bd2d67fd.zip/node_modules/@shapeshiftoss/chain-adapters/",\
           "packageDependencies": [\
             ["@shapeshiftoss/chain-adapters", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:11.2.2"],\
+            ["@ethersproject/contracts", "npm:5.7.0"],\
             ["@shapeshiftoss/caip", null],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
             ["@shapeshiftoss/hdwallet-native", null],\
+            ["@shapeshiftoss/logger", "npm:1.1.3"],\
             ["@shapeshiftoss/types", null],\
             ["@shapeshiftoss/unchained-client", null],\
             ["@types/bs58check", null],\
@@ -10002,10 +9997,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.14.0", {\
-          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-chain-adapters-virtual-44d32e6822/0/cache/@shapeshiftoss-chain-adapters-npm-10.14.0-fd381cc624-1b08abca75.zip/node_modules/@shapeshiftoss/chain-adapters/",\
+        ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2", {\
+          "packageLocation": "./.yarn/__virtual__/@shapeshiftoss-chain-adapters-virtual-599307c501/0/cache/@shapeshiftoss-chain-adapters-npm-11.2.2-68a86e862e-32bd2d67fd.zip/node_modules/@shapeshiftoss/chain-adapters/",\
           "packageDependencies": [\
-            ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.14.0"],\
+            ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
             ["@ethersproject/contracts", "npm:5.7.0"],\
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
@@ -10021,7 +10016,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/shapeshiftoss__unchained-client", null],\
             ["axios", "npm:0.26.1"],\
             ["bech32", "npm:2.0.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["bitcoinjs-lib", "npm:5.2.0"],\
             ["bs58check", "npm:3.0.1"],\
             ["coinselect", "npm:3.1.13"],\
@@ -10320,7 +10315,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@shapeshiftoss/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.0.2"],\
             ["@ethersproject/providers", "npm:5.7.2"],\
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
-            ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.14.0"],\
+            ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
             ["@shapeshiftoss/types", "npm:8.3.2"],\
             ["@types/shapeshiftoss__caip", null],\
@@ -10375,7 +10370,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/contracts", "npm:5.7.0"],\
             ["@ethersproject/providers", "npm:5.7.2"],\
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
-            ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.14.0"],\
+            ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
             ["@shapeshiftoss/investor-foxy", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:7.0.2"],\
             ["@shapeshiftoss/logger", "npm:1.1.3"],\
             ["@shapeshiftoss/types", "npm:8.3.2"],\
@@ -24953,7 +24948,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.9.0"],\
             ["@shapeshiftoss/asset-service", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#patch:@shapeshiftoss/asset-service@npm%3A8.1.5#./.yarn/patches/@shapeshiftoss-asset-service-npm-8.1.5-86b922f116.patch::version=8.1.5&hash=536e97&locator=keepkey-monorepo%40workspace%3A."],\
             ["@shapeshiftoss/caip", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:8.4.4"],\
-            ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:10.14.0"],\
+            ["@shapeshiftoss/chain-adapters", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:11.2.2"],\
             ["@shapeshiftoss/errors", "npm:1.1.3"],\
             ["@shapeshiftoss/eslint-plugin-logger", "npm:1.1.0"],\
             ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\

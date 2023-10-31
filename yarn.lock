@@ -6527,29 +6527,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shapeshiftoss/chain-adapters@npm:^10.1.0":
-  version: 10.14.0
-  resolution: "@shapeshiftoss/chain-adapters@npm:10.14.0"
-  dependencies:
-    axios: ^0.26.1
-    bech32: ^2.0.0
-    bignumber.js: ^9.0.2
-    bitcoinjs-lib: ^5.2.0
-    coinselect: ^3.1.13
-    ethers: ^5.4.7
-    multicoin-address-validator: ^0.5.12
-    web3-utils: 1.7.4
-  peerDependencies:
-    "@shapeshiftoss/caip": ^8.0.0
-    "@shapeshiftoss/hdwallet-core": ^1.42.0
-    "@shapeshiftoss/hdwallet-native": ^1.42.0
-    "@shapeshiftoss/types": ^8.1.0
-    "@shapeshiftoss/unchained-client": ^10.11.0
-    bs58check: ^2.0.2
-  checksum: 1b08abca757b4362abadfdd73c2762b6c39a203d5e9483a43c5bafc34ab1c73981528ec1d039239d30b6d4491e25a912ffea21702a09ca36382403400c316b1b
-  languageName: node
-  linkType: hard
-
 "@shapeshiftoss/chain-adapters@npm:^11.2.2":
   version: 11.2.2
   resolution: "@shapeshiftoss/chain-adapters@npm:11.2.2"
@@ -19162,7 +19139,7 @@ __metadata:
     "@reduxjs/toolkit": ^1.8.2
     "@shapeshiftoss/asset-service": ^8.1.2
     "@shapeshiftoss/caip": ^8.4.2
-    "@shapeshiftoss/chain-adapters": ^10.1.0
+    "@shapeshiftoss/chain-adapters": ^11.2.2
     "@shapeshiftoss/errors": ^1.1.3
     "@shapeshiftoss/eslint-plugin-logger": ^1.1.0
     "@shapeshiftoss/hdwallet-core": ^1.52.11
