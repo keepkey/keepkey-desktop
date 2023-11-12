@@ -8,23 +8,34 @@ export const initializeWallet = async (
 ) => {
   const webUsbAdapter = await NodeWebUSBKeepKeyAdapter.useKeyring(keyring)
   const hidAdapter = await HIDKeepKeyAdapter.useKeyring(keyring)
-
+  console.log("initializeWallet checkpoint 1 ")
   const wallet = await (async () => {
     // webUsbAdapter recognizes a device even if it does not support webUsb
     const webUsbDevice = await webUsbAdapter.getDevice().catch(() => undefined)
+    console.log("initializeWallet checkpoint 2 ")
     if (webUsbDevice) {
+      console.log("initializeWallet checkpoint 2a ")
+      console.log("webUsbDevice: ",webUsbDevice)
       // this line throws the error if the device does not support webUsb
-      const webUsbWallet = await webUsbAdapter.pairRawDevice(webUsbDevice)
-      if (webUsbWallet) return webUsbWallet
+      try{
+        const webUsbWallet = await webUsbAdapter.pairRawDevice(webUsbDevice)
+        console.log("webUsbWallet: ",webUsbWallet)
+        if (webUsbWallet) return webUsbWallet  
+      }catch(e){
+        console.error("Fauked to pair webUsbDevice: ",e)
+      }
     }
+    console.log("initializeWallet checkpoint 3 ")
     const hidDevice = await hidAdapter.getDevice().catch(() => undefined)
+    console.log("hidDevice:", hidDevice)
     if (hidDevice) {
+      console.log("initializeWallet checkpoint 3a ")
       const hidWallet = await hidAdapter.pairRawDevice(hidDevice)
       return hidWallet
     }
     return undefined
   })()
-
+  console.log("wallet:", wallet)
   if (!wallet) {
     return { wallet }
   }

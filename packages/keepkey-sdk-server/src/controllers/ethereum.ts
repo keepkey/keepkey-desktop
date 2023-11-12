@@ -123,9 +123,9 @@ export class EthereumController extends ApiController {
       // if (insight.recommended.gasPrice) {
       //   msg.gasPrice = insight.recommended.gasPrice
       // }
-      // if (insight.recommended.gasLimit) {
-      //   msg.gasLimit = insight.recommended.gasLimit
-      // }
+      if (parseInt(insight.recommended.gasLimit) > parseInt(msg.gasLimit)) {
+        msg.gasLimit = insight.recommended.gasLimit
+      }
       // if (insight.recommended.maxPriorityFeePerGas) {
       //   msg.maxPriorityFeePerGas = insight.recommended.maxPriorityFeePerGas
       // }
