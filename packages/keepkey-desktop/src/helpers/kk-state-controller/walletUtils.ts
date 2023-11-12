@@ -22,7 +22,7 @@ export const initializeWallet = async (
         console.log("webUsbWallet: ",webUsbWallet)
         if (webUsbWallet) return webUsbWallet  
       }catch(e){
-        console.error("Fauked to pair webUsbDevice: ",e)
+        console.error("Failed to pair webUsbDevice: ",e)
       }
     }
     console.log("initializeWallet checkpoint 3 ")
