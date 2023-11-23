@@ -123,9 +123,11 @@ export class EthereumController extends ApiController {
       // if (insight.recommended.gasPrice) {
       //   msg.gasPrice = insight.recommended.gasPrice
       // }
-      // if (insight.recommended.gasLimit) {
-      //   msg.gasLimit = insight.recommended.gasLimit
-      // }
+      if (body.gas && insight.recommended.gasLimit > body.gas) {
+        console.log("body.gas: ", body.gas)
+        console.log("insight.recommended.gasLimit: ", insight.recommended.gasLimit)
+        msg.gasLimit = insight.recommended.gasLimit
+      }
       // if (insight.recommended.maxPriorityFeePerGas) {
       //   msg.maxPriorityFeePerGas = insight.recommended.maxPriorityFeePerGas
       // }
