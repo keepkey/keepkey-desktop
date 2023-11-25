@@ -600,6 +600,8 @@ export const EIP155SendTransactionConfirmation = () => {
             colorScheme='blue'
             type='submit'
             onClick={() => onConfirm()}
+            isLoading={loadingSigningInProgress}
+            disabled={loadingGas || loadingPriceData}
           >
             {translate('plugins.walletConnectToDapps.modal.signMessage.confirm')}
           </Button>
