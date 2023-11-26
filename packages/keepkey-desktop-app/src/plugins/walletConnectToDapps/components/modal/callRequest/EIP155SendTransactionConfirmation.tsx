@@ -237,7 +237,7 @@ export const EIP155SendTransactionConfirmation = () => {
           addressNList: accountPath,
           chainId: toPaddedHex(chainId),
           data: params.request.params[0].data,
-          gasLimit: toPaddedHex("100000"), //TODO get smart limit from pioneer
+          gasLimit: toPaddedHex("500000"), //TODO get smart limit from pioneer
           to: params.request.params[0].to,
           value: params.request.params[0].value ?? '0x0',
           nonce: toPaddedHex(result.data.nonce.toString()),
