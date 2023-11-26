@@ -139,6 +139,19 @@ const nodePolyfillPlugin = async (): Promise<esbuild.Plugin> => ({
     build.onResolve({ filter: /^zlib$/ }, async () => ({
       path: require.resolve('browserify-zlib'),
     }))
+    // Add polyfills for missing packages
+    // build.onResolve({ filter: /^events$/ }, async () => ({
+    //   path: require.resolve('events'),
+    // }))
+    // build.onResolve({ filter: /^buffer$/ }, async () => ({
+    //   path: require.resolve('buffer'),
+    // }))
+    // build.onResolve({ filter: /^util$/ }, async () => ({
+    //   path: require.resolve('util'),
+    // }))
+    // build.onResolve({ filter: /^url$/ }, async () => ({
+    //   path: require.resolve('url'),
+    // }))
   },
 })
 
