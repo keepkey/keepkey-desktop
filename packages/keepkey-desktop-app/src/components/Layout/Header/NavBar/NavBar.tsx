@@ -86,7 +86,7 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
         as={Link}
         isExternal
         size='sm'
-        href='https://discord.gg/stfRnW3Jys'
+        href='https://discord.gg/P7Yw8gHUhn'
         label={translate('common.joinDiscord')}
         leftIcon={<ChatIcon />}
         data-test='navigation-join-discord-button'

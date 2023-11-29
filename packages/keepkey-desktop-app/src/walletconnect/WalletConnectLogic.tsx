@@ -8,7 +8,7 @@ export const WalletConnectLogic = () => {
   useEffect(() => {
     createWallectConnectWeb3Wallet().then(client => {
       client.on('session_proposal', addProposal)
-      client.on('session_request', req => {
+      client.on('session_request', (req: { params: { request: { method: any } }; id: any; topic: any }) => {
         console.log("req: ", req)
         console.log("req: ", JSON.stringify(req))
         console.log("req: ", req.params.request.method)
@@ -26,7 +26,7 @@ export const WalletConnectLogic = () => {
         }
       })
       client.on('session_delete', onDisconnect)
-      client.on('auth_request', data => {
+      client.on('auth_request', (data: any) => {
         console.log('AUTH REQUEST', data)
       })
     })
