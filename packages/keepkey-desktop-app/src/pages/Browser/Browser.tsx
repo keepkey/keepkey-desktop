@@ -96,7 +96,7 @@ const checkIfSSDApp = (currentUrl: string) => {
 }
 
 export const Browser = () => {
-  const [url, setUrl] = useState('https://app.shapeshift.com/')
+  const [url, setUrl] = useState('https://private.shapeshift.com/')
   const [inputUrl, setInputUrl] = useState(url)
   const [loading, setLoading] = useState(false)
   const [webviewLoadFailure, setWebviewLoadFailure] = useState<string | undefined>(undefined)

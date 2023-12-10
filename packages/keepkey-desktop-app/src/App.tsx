@@ -70,10 +70,10 @@ export const App = () => {
       }
       if (connected) {
         let defaultDapp = localStorage.getItem('@app/defaultDapp')
-        if (!defaultDapp || defaultDapp === '') {
+        if (!defaultDapp || defaultDapp === '' || defaultDapp.indexOf('shapeshift') > -1) {
           const defaultDappShapeShift = {
             imageUrl: 'https://assets.coincap.io/assets/icons/fox@2x.png',
-            url: 'https://app.shapeshift.com/',
+            url: 'https://private.shapeshift.com/',
             name: 'ShapeShift',
           }
 
