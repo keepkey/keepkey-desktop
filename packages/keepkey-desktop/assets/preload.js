@@ -26,8 +26,4 @@ window.addEventListener('message', ev => {
   }
 })
 
-contextBridge.exposeInMainWorld('keepkey', {
-  shapeshiftlogin: () => ipcRenderer.invoke('@app/shapeshift-login'),
-})
-
 // unhandled()
