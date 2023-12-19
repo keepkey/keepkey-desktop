@@ -7,7 +7,7 @@ import {
   CloseIcon,
   RepeatIcon,
 } from '@chakra-ui/icons'
-import { Alert, AlertIcon, HStack, IconButton, Input, Stack } from '@chakra-ui/react'
+import { HStack, IconButton, Input, Stack } from '@chakra-ui/react'
 import * as Comlink from 'comlink'
 import { Main } from 'components/Layout/Main'
 import { getConfig } from 'config'
@@ -74,21 +74,17 @@ const checkIfSSDApp = (currentUrl: string) => {
     if (!webview) return
 
     webview
-      .executeJavaScript('localStorage.getItem("@app/serviceKey");', true)
-      .then(apiKey => {
-        if (!apiKey) {
+      .executeJavaScript('localStorage.getItem("@app/ssautologin");', true)
+      .then(ssautologin => {
+        if (!ssautologin) {
           const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
-          const localWalletType = localStorage.getItem('localWalletType')
           const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
-          if (!kkDesktopApiKey) return
-          webview
-            .executeJavaScript(
-              `localStorage.setItem("@app/serviceKey", "${kkDesktopApiKey}"); localStorage.setItem("localWalletType", "${localWalletType}"); localStorage.setItem("localWalletDeviceId", "${localWalletDeviceId}");`,
-              true,
-            )
-            .then(() => {
-              webview.reload()
-            })
+          if (!kkDesktopApiKey || !localWalletDeviceId) return
+
+          ipcListeners.getSSAutoLogin(localWalletDeviceId, kkDesktopApiKey).then(
+            injection => webview.executeJavaScript(injection),
+            // .then(() => webview.reload())
+          )
         }
       })
       .catch(console.error)

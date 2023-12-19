@@ -322,6 +322,14 @@ export const ipcListeners: IpcListeners = {
     return injection.toString().replace('API_KEY_HERE', sdkApiKey)
   },
 
+  async getSSAutoLogin(walletId: string, sdkApiKey: string) {
+    const injection = readFileSync(path.join(__dirname, 'assets/ss_autologin.js'))
+    return injection
+      .toString()
+      .replace('WALLET_DEVICE_ID_HERE', walletId)
+      .replace('API_KEY_HERE', sdkApiKey)
+  },
+
   async clearBrowserSession() {
     const browserSession = session.fromPartition('browser')
     await browserSession.clearStorageData()
