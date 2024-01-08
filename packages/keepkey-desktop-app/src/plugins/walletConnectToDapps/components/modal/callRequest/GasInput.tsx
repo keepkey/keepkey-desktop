@@ -18,15 +18,16 @@ import { getFeeTranslation } from 'components/Modals/Send/TxFeeRadioGroup'
 import { RawText, Text } from 'components/Text'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { bnOrZero } from 'lib/bignumber/bignumber'
+import { getPioneerClient } from 'lib/getPioneerClient'
 import { logger } from 'lib/logger'
 import { fromBaseUnit } from 'lib/math'
+import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import type { FC } from 'react'
-import { getPioneerClient } from 'lib/getPioneerClient'
 import { useEffect, useState } from 'react'
 import { Fragment, useCallback, useMemo } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
 import { useTranslate } from 'react-polyglot'
-import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
+
 import type { TxData } from './SendTransactionConfirmation'
 
 type GasInputProps = {
@@ -40,17 +41,23 @@ type GasInputProps = {
 
 const moduleLogger = logger.child({ namespace: 'GasInput' })
 
-export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, setSelectedGasPrice, gasLimit = '250000' }) => {
+export const GasInput: FC<GasInputProps> = ({
+  recommendedGasPriceData,
+  setSelectedGasPrice,
+  gasLimit = '250000',
+}) => {
   const { setValue } = useFormContext<TxData>()
   const { requests } = useWalletConnect()
   const currentRequest = requests[0]
-  const { params} = currentRequest
+  const { params } = currentRequest
   // const { request, chainId: chainIdString } = params
   const borderColor = useColorModeValue('gray.100', 'gray.750')
   const bgColor = useColorModeValue('white', 'gray.850')
   const translate = useTranslate()
   const [gasRecomendedByDapp, setGasRecomendedByDapp] = useState<string | undefined>(undefined)
-  const [gasRecomendedByPioneer, setGasRecomendedByPioneer] = useState<string | undefined>(undefined)
+  const [gasRecomendedByPioneer, setGasRecomendedByPioneer] = useState<string | undefined>(
+    undefined,
+  )
   const [customGasPrice, setCustomGasPrice] = useState<string | undefined>(undefined)
   //const [gasFeeData, setGasFeeData] = useState<GasFeeDataEstimate | undefined>(undefined)
 
@@ -59,42 +66,42 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, setSelect
   useEffect(() => {
     // Define an asynchronous function
     const fetchData = async () => {
-      console.log("params: ", params);
-      const chainId = params.chainId.replace("eip155:", "");
-      console.log("chainId: ", chainId);
+      console.log('params: ', params)
+      const chainId = params.chainId.replace('eip155:', '')
+      console.log('chainId: ', chainId)
 
       // Handle gas
-      let gasRecomendedByDapp = params.request.params[0].gas;
-      let gasInDecimal = parseInt(gasRecomendedByDapp, 16);
-      gasInDecimal = gasInDecimal / 1e9;
-      console.log("gasInDecimal: ", gasInDecimal);
-      setGasRecomendedByDapp(gasInDecimal.toString());
+      let gasRecomendedByDapp = params.request.params[0].gas
+      let gasInDecimal = parseInt(gasRecomendedByDapp, 16)
+      gasInDecimal = gasInDecimal / 1e9
+      console.log('gasInDecimal: ', gasInDecimal)
+      setGasRecomendedByDapp(gasInDecimal.toString())
 
       // Fetch additional data
-      const pioneer = await getPioneerClient();
-      let sanitizedChainId = (typeof chainId === 'string') ? chainId.replace(/[^0-9]/g, '') : '';
-      let caip = sanitizedChainId ? `eip155:${sanitizedChainId}/slip44:60` : null;
-      console.log("caip: ", caip);
-      let recomendedFeeFromPioneer = await pioneer.GetFeeInfoByCaip({ caip });
-      console.log("recomendedFeeFromPioneer: ", recomendedFeeFromPioneer);
+      const pioneer = await getPioneerClient()
+      let sanitizedChainId = typeof chainId === 'string' ? chainId.replace(/[^0-9]/g, '') : ''
+      let caip = sanitizedChainId ? `eip155:${sanitizedChainId}/slip44:60` : null
+      console.log('caip: ', caip)
+      let recomendedFeeFromPioneer = await pioneer.GetFeeInfoByCaip({ caip })
+      console.log('recomendedFeeFromPioneer: ', recomendedFeeFromPioneer)
       // Convert gas price from BigNumber to Gwei
-      let gasPriceHex = recomendedFeeFromPioneer.data.gasPrice.hex;
-      let gasPriceInWei = parseInt(gasPriceHex, 16);
-      let gasPriceInGwei = gasPriceInWei / 1e9;
-      console.log("Gas price in Gwei: ", gasPriceInGwei);
-      setGasRecomendedByPioneer(gasPriceInGwei);
-      setSelectedGasPrice(gasRecomendedByPioneer);
-    };
+      let gasPriceHex = recomendedFeeFromPioneer.data.gasPrice.hex
+      let gasPriceInWei = parseInt(gasPriceHex, 16)
+      let gasPriceInGwei = gasPriceInWei / 1e9
+      console.log('Gas price in Gwei: ', gasPriceInGwei)
+      setGasRecomendedByPioneer(gasPriceInGwei)
+      setSelectedGasPrice(gasRecomendedByPioneer)
+    }
 
     // Invoke the asynchronous function
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   const options = [
     {
       identifier: 'dapp',
       value: gasRecomendedByDapp,
-      label: "Recommended by Dapp",
+      label: 'Recommended by Dapp',
       duration: '',
       amount: gasRecomendedByDapp,
       color: 'yellow.200',
@@ -102,7 +109,7 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, setSelect
     {
       identifier: 'pioneer',
       value: gasRecomendedByPioneer,
-      label: "Recommended by Pioneer",
+      label: 'Recommended by Pioneer',
       duration: '',
       amount: gasRecomendedByPioneer,
       color: 'green.200',
@@ -110,43 +117,38 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, setSelect
     {
       identifier: 'custom',
       value: customGasPrice,
-      label: "set by user",
+      label: 'set by user',
       duration: '',
       amount: customGasPrice,
       color: 'green.200',
     },
   ]
-  
-  const [currentRadioSelection, setCurrentRadioSelection] = useState(
-    'pioneer',
-  )
+
+  const [currentRadioSelection, setCurrentRadioSelection] = useState('pioneer')
 
   const handleRadioChange = useCallback(
-      (selection: string) => {
-        console.log("Handling radio change to: ", selection);
-        setCurrentRadioSelection(selection);
-        if (selection === 'pioneer') {
-          setSelectedGasPrice(gasRecomendedByPioneer);
-        } else if (selection === 'dapp') {
-          setSelectedGasPrice(gasRecomendedByDapp);
-        } else if (selection === 'custom') {
-          setSelectedGasPrice(customGasPrice);
-        } else {
-          throw new Error('unknown value');
-        }
-      },
-      [gasRecomendedByDapp, gasRecomendedByPioneer, customGasPrice]
-  );
+    (selection: string) => {
+      console.log('Handling radio change to: ', selection)
+      setCurrentRadioSelection(selection)
+      if (selection === 'pioneer') {
+        setSelectedGasPrice(gasRecomendedByPioneer)
+      } else if (selection === 'dapp') {
+        setSelectedGasPrice(gasRecomendedByDapp)
+      } else if (selection === 'custom') {
+        setSelectedGasPrice(customGasPrice)
+      } else {
+        throw new Error('unknown value')
+      }
+    },
+    [gasRecomendedByDapp, gasRecomendedByPioneer, customGasPrice],
+  )
 
-  const gasFeeInputChange = useCallback(
-      (selection: string) => {
-        console.log("Setting Gas price value: ", selection);
-        setCurrentRadioSelection('custom'); // Add this line
-        setCustomGasPrice(selection);
-        setSelectedGasPrice(selection);
-      },
-      []
-  );
+  const gasFeeInputChange = useCallback((selection: string) => {
+    console.log('Setting Gas price value: ', selection)
+    setCurrentRadioSelection('custom') // Add this line
+    setCustomGasPrice(selection)
+    setSelectedGasPrice(selection)
+  }, [])
 
   return (
     <FormControl
@@ -207,8 +209,7 @@ export const GasInput: FC<GasInputProps> = ({ recommendedGasPriceData, setSelect
                     <NumberInputField placeholder='Number...' />
                   </NumberInput>
                 </Box>
-                <Box>
-                </Box>
+                <Box></Box>
               </SimpleGrid>
             </Box>
           </VStack>

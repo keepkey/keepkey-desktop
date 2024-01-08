@@ -55,7 +55,7 @@ export class UtxoController extends ApiController {
       }
     }
     // @ts-ignore
-    console.log("UTXO signTransaction input:",input)
+    console.log('UTXO signTransaction input:', input)
     return await this.context.wallet.btcSignTx(input)
   }
 }

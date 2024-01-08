@@ -58,14 +58,14 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
 
   useEffect(() => {
     if (!requests) return
-    console.log("requests: ",requests)
+    console.log('requests: ', requests)
     if (requests.length <= 0) ipcListeners.setAlwaysOnTop(false)
     else if (requests.length >= 1) ipcListeners.setAlwaysOnTop(true)
   }, [requests])
 
   useEffect(() => {
     if (!proposals) return
-    console.log("proposals: ",proposals)
+    console.log('proposals: ', proposals)
     if (proposals.length <= 0) ipcListeners.setAlwaysOnTop(false)
     else if (proposals.length >= 1) ipcListeners.setAlwaysOnTop(true)
   }, [proposals])
@@ -79,7 +79,7 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
     if (isLegacy) {
       if (legacyBridge) await legacyBridge.disconnect()
     } else {
-      console.log("currentSessionTopic: ",currentSessionTopic)
+      console.log('currentSessionTopic: ', currentSessionTopic)
       WalletConnectWeb3Wallet.disconnectSession({
         topic: currentSessionTopic ?? '',
         reason: getSdkError('USER_DISCONNECTED'),

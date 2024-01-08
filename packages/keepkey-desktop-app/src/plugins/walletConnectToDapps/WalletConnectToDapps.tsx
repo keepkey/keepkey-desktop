@@ -3,10 +3,10 @@ import { Container, Stack } from '@chakra-ui/react'
 // import Client from '@pioneer-platform/pioneer-client'
 // import { getConfig } from 'config'
 import type { FC } from 'react'
+
 // import { WalletActions } from 'context/WalletProvider/actions'
 // import { ExplorationBanner } from './components/ExplorationBanner'
 // import { useEffect, useState } from 'react'
-
 // import { useWallet } from '../../hooks/useWallet/useWallet'
 import { DappRegistryGrid } from './components/DappRegistryGrid'
 // import { useHistory } from 'react-router'

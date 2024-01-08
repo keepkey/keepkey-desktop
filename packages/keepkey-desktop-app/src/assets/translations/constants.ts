@@ -28,6 +28,10 @@ export const locales = [
     label: 'Português',
   },
   {
+    key: 'pl',
+    label: 'Polski',
+  },
+  {
     key: 'ru',
     label: 'Русский',
   },
