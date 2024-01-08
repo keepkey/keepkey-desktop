@@ -1,0 +1,707 @@
+{
+  "common": {
+    "back": "Z powrotem",
+    "balance": "Balansować",
+    "next": "Następny",
+    "error": "Błąd",
+    "cancel": "Anulować",
+    "close": "Zamknąć",
+    "continue": "Kontynuować",
+    "approve": "Zatwierdzić",
+    "confirm": "Potwierdzać",
+    "reject": "Odrzucić",
+    "connected": "Połączony",
+    "created": "Utworzony %{date}",
+    "noResultsFound": "Nie znaleziono wyników.",
+    "insufficientFunds": "Niewystarczające środki",
+    "estimatedGas": "Szacowana opłata za gaz",
+    "relayerGasFee": "Opłata za gaz",
+    "insufficientAmountForGas": "Za mało ETH, aby pokryć gaz",
+    "invalidAddress": "Błędny adres",
+    "invalidAddressOrYat": "Nieprawidłowy adres lub Yat",
+    "deposit": "Depozyt",
+    "withdraw": "Withdraw",
+    "withdrawal": "Wycofać",
+    "claim": "Prawo",
+    "withdrawAndClaim": "Wycofaj i odbierz",
+    "overview": "Przegląd",
+    "getStarted": "Zaczynaj",
+    "connectWallet": "Połącz portfel",
+    "connectedWallet": "Połączony portfel",
+    "connectedWalletSettings": "Ustawienia portfela",
+    "noWallet": "Brak podłączonego portfela",
+    "seeAll": "Widzieć wszystko",
+    "darkMode": "Tryb ciemny",
+    "darkTheme": "Ciemny schemat",
+    "lightTheme": "Lekki motyw",
+    "rename": "Przemianować",
+    "forget": "Zapominać?",
+    "pending": "Aż do",
+    "available": "Dostępny",
+    "or": "Lub",
+    "somethingWentWrong": "Coś poszło nie tak",
+    "somethingWentWrongBody": "Coś poszło nie tak",
+    "accountError": "Błąd ładowania kont dla %{erroredAccountNames}.",
+    "degradedState": "Aplikacja jest w złym stanie",
+    "degradedInfo": "Nie można pobrać danych dla niektórych kont.",
+    "success": "Powodzenie",
+    "retry": "Spróbować ponownie",
+    "retryQuestion": "Spróbować ponownie?",
+    "transactionFailed": "Transakcja nieudana",
+    "transactionFailedBody": "Transakcja nieudana",
+    "submitFeedback": "Prześlij opinię",
+    "send": "Wysłać",
+    "receive": "Odbierać",
+    "privacy": "Polityka prywatności",
+    "terms": "Warunki usługi",
+    "days": "Dni",
+    "copied": "Skopiowane do schowka.",
+    "copyFailed": "Nie udało się skopiować do schowka",
+    "copyFailedDescription": "Proszę skopiować ręcznie",
+    "viewAsset": "Wyświetl zasób",
+    "settings": "Ustawienia",
+    "joinDiscord": "Wsparcie",
+    "getSupport": "Potrzebujesz więcej pomocy? Uzyskaj wsparcie na żywo",
+    "legalDated": "Data: styczeń 2022 r",
+    "approveOnWallet": "Zatwierdź w portfelu",
+    "confirmOnWallet": "Potwierdź w portfelu",
+    "login": "Zaloguj sie",
+    "verify": "Zweryfikować",
+    "notRobot": "Nie jestem robotem",
+    "skip": "Pominąć",
+    "generalError": "Wystąpił błąd",
+    "showDetails": "Pokaż szczegóły",
+    "hideDetails": "Ukryj szczegóły",
+    "walletSupportsETHOnly": "Ethereum Tylko",
+    "loadingText": "Ładowanie...",
+    "txId": "Tx ID: Identyfikator transakcji",
+    "selectAsset": "Wybierz zasób",
+    "switchNetwork": "Przełącz sieć",
+    "unsupportedNetwork": "Nieobsługiwana sieć"
+  },
+  "updateToast": {
+    "body": "Dostępna jest nowa wersja aplikacji",
+    "cta": "Załaduj ponownie aplikację"
+  },
+  "multiCurrency": {
+    "toast": {
+      "title": "Błąd ładowania danych dla %{symbol}",
+      "description": "Twoja waluta została zresetowana do USD"
+    }
+  },
+  "connectWalletPage": {
+    "troubleshoot": "Rozwiązywanie problemów z połączeniem",
+    "nextFrontier": "Następna granica bezpieczeństwa kryptograficznego",
+    "protectYourCrypto": "Chroń swoje kryptowaluty, przechowuj swoje klucze prywatne w trybie offline, i chroń swoje aktywa przed hakerami. Czas osiągnąć wolność finansową w najbezpieczniejszy sposób KeepKey.",
+    "shapeshift": "ShapeShift",
+    "exploreThe": "Poznaj",
+    "defiUniverse": "DeFi Wszechświat",
+    "body": "100% za darmo. Otwarte źródło. Własność społeczności. Nieizolacyjny. Prywatny.",
+    "body2": "Witamy w nowym ShapeShift. 100% za darmo. Otwarte źródło. Własność społeczności. Nieizolacyjny. Prywatny.",
+    "betaSunset": "Beta zaszła, Ucz się więcej",
+    "poweredBy": "Obsługiwane przez ShapeShift",
+    "header": "Aby rozpocząć, podłącz portfel",
+    "cta": "Połącz portfel",
+    "viewADemo": "Obejrzyj wersję demonstracyjną",
+    "buyKeepKey": "Brak urządzenia? Kup KeepKey"
+  },
+  "connectWallet": {
+    "menu": {
+      "triggerButton": "Połącz portfel",
+      "switchWallet": "Zmień dostawcę portfela",
+      "disconnect": "Rozłączyć się",
+      "disconnected": "(Bezładny)",
+      "openDev": "Otwórz dokumentację programisty API"
+    }
+  },
+  "navBar": {
+    "assets": "Aktywa",
+    "assetDetails": "Szczegóły zasobu",
+    "accounts": "Konta",
+    "accountAsset": "Aktywa konta",
+    "accountDetails": "Szczegóły Konta",
+    "transactionHistory": "Historia transakcji",
+    "overview": "Przegląd",
+    "transactions": "Transakcje",
+    "tradeHistory": "Historia handlu",
+    "dApps": "dApps",
+    "pairings": "Pary",
+    "authenticator": "Uwierzytelniacz",
+    "clickToConnect": "Kliknij, aby podłączyć portfel",
+    "wallet": "Portfel",
+    "explore": "Badać",
+    "trade": "Handel",
+    "browser": "Przeglądarka"
+  },
+  "pairedApps": {
+    "header": "Aktualne pary",
+    "body": "Lista wszystkich aplikacji, które są aktualnie sparowane z Twoim KeepKey",
+    "noApps": "Obecnie nie ma sparowanych aplikacji",
+    "cta": {
+      "unpair": "Rozparuj aplikację",
+      "launchDapp": "Początek dApp",
+      "openLogs": "Otwórz dzienniki"
+    },
+    "history": {
+      "header": "Historia parowania",
+      "wc": "Aplikacje WalletConnect",
+      "sdk": "Aplikacje KeepKey SDK",
+      "body": "Lista wszystkich aplikacji, z którymi zostało sparowane KeepKey Komputer Stacjonarny",
+      "noApps": "Nie było wcześniej sparowanych aplikacji",
+      "notPairedWith": "Żadna aplikacja nie została wcześniej sparowana z: %{name}"
+    }
+  },
+  "authenticator": {
+    "heading": "Uwierzytelniacz",
+    "header": "Konta",
+    "noAccounts": "Obecnie na Twoim KeepKey nie ma zapisanych żadnych kont",
+    "actions": "Działania",
+    "account": "Konto",
+    "unsupported": {
+      "title": "Funkcja nieobsługiwana!",
+      "description1": "Musisz zaktualizować oprogramowanie sprzętowe KeepKeys do wersji ",
+      "description2": " lub nowszy, aby móc korzystać z tej funkcji"
+    },
+    "cta": {
+      "generateOtp": "Wygeneruj OTP",
+      "deleteAcc": "Usuń konto",
+      "addAcc": "Dodaj konto",
+      "refresh": "Odśwież konta",
+      "wipeData": "Wyczyść dane"
+    },
+    "modal": {
+      "header": "Dodaj konto",
+      "scan": "Wyświetl kod QR, a następnie kliknij przycisk skanowania poniżej",
+      "cta": {
+        "manual": "Dodaj ręcznie",
+        "scan": "Skanowania QR code",
+        "back": "Wróć"
+      }
+    }
+  },
+  "pairingDetails": {
+    "header": "Dziennik żądań",
+    "body": "Lista wszystkich żądań przesłanych do mostu KeepKey przez %{name}",
+    "noRequests": "Nie złożono jeszcze żadnych żądań"
+  },
+  "modals": {
+    "onboarding": {
+      "dappsTitle": "Co to jest dApp?",
+      "dappsText1": "KeepKey Desktop ma wbudowany sklep dApp Store. Ten sklep umożliwia odkrywanie i łączenie się z listą zdecentralizowanych aplikacji.",
+      "dappsText2": "KeepKey ułatwia interakcję ze zdecentralizowanymi aplikacjami. Możesz skorzystać z naszej przeglądarki w aplikacji, aby łatwo uzyskać dostęp do tych dApps i skorzystać z naszej integracji z portfelem. Nasza przeglądarka w aplikacji wykorzystuje siłę społeczności, aby wybierać dla Ciebie najlepsze i najbardziej renomowane aplikacje dApps.",
+      "dappsText3": "Dołącz do społeczności ShapeShift i użyj swoich tokenów FOX, aby głosować na najlepsze dApps w Pioneer dApp. Odblokuj ekskluzywne korzyści i nagrody, będąc pierwszą osobą, która śledzi i rozwija dApps i zasoby!",
+      "restoreTitle": "Co to jest mnemonik?",
+      "restoreText1": "BIP39 to implementacja standaryzująca sposób, w jaki portfele obsługują frazy mnemoniczne i frazy początkowe, które umożliwiają odzyskanie konta w przypadku utraty urządzenia.",
+      "restoreText2": "Fraza odzyskiwania BIP39 jest uniwersalna, co oznacza, że ​​można ją zaimportować do dowolnego portfela w ekosystemie kryptowalut.",
+      "restoreText3": "Nigdy nie udostępniaj nikomu hasła odzyskiwania. Jeśli utracisz zwrot środków, utracisz dostęp do swoich środków.",
+      "pinTitle": "Co to jest szyfr pinowy?",
+      "pinText1": "Proces wprowadzania kodu PIN wykorzystuje szyfr wygenerowany na urządzeniu.",
+      "pinText2": "Zwróć uwagę, że szyfr wyświetlony po prawej stronie reprezentuje to, co jest wyświetlane na urządzeniu. Jak widać poniżej. Aby wprowadzić kod PIN, naciśnij lokalizację numeru PIN z urządzenia w trybie wprowadzania kodu PIN w aplikacji komputerowej KeepKey.",
+      "previous": "Poprzedni"
+    },
+    "clickDapp": {
+      "header": "Rozszerzona weryfikacja",
+      "content": "This is the content section. Highlander to replace this content with something useful",
+      "verify": "Zweryfikować",
+      "continue": "Kontynuować"
+    },
+    "keepKey": {
+      "passphrase": {
+        "errors": {
+          "unknown": "Wystąpił błąd podczas przesyłania hasła",
+          "empty": "Używasz pustego hasła"
+        },
+        "header": "Wprowadź swoje hasło",
+        "body": "Po przesłaniu hasła użyj przycisku na kluczu KeepKey, aby je zatwierdzić.",
+        "bodyConfirm": "Naciśnij i przytrzymaj przycisk na KeepKey, aby potwierdzić hasło.",
+        "button": "Prześlij hasło"
+      },
+      "hardware": {
+        "claimTitle": "Już zarezerwowany interfejs!",
+        "claimInterface": "Inne oprogramowanie obecnie korzysta z KeepKey.",
+        "claimInterface2": "Zamknij inne oprogramowanie i spróbuj ponownie.",
+        "claimInterface3": "Sprawdź wszystkie karty przeglądarki i zamknij app.ShapeShift.com, jeśli jest otwarta!",
+        "claimInterface4": "Odłącz i podłącz ponownie KeepKey, aby kontynuować.",
+        "headerError": "Błąd sprzętowy!",
+        "headerReconnect": "Podłącz ponownie swój KeepKey",
+        "headerConnect": "Witamy w KeepKey Desktop!",
+        "troubleshoot": "Urządzenie podłączone? Rozwiązywanie problemów",
+        "connect": "łączyć",
+        "reconnect": "Aby kontynuować, odłącz i podłącz ponownie KeepKey.",
+        "guide": "Podręcznik rozwiązywania problemów",
+        "moreInfo": "Nadal nie możesz się połączyć? Aby uzyskać więcej informacji, przeczytaj nasz przewodnik rozwiązywania problemów tutaj."
+      },
+      "bootloader": {
+        "header": "Wymagana aktualizacja programu ładującego dla Twojego KeepKey!",
+        "cta": "Twój KeepKey jest nieaktualny! Zaktualizujmy bootloader.",
+        "bootloaderUpdate": "Aktualizacja bootloadera klucza KeepKey",
+        "update": "Sprawdź status KeepKey",
+        "continue": "Zatwierdzenie i kontynuacja",
+        "bootloaderNeeded": "Aby kontynuować, należy zaktualizować bootloader urządzenia.",
+        "bootloader": "Wersja bootloadera",
+        "firmware": "Wersja oprogramowania sprzętowego",
+        "updater": "Aby kontynuować, należy przełączyć klucz KeepKey w tryb aktualizacji oprogramowania sprzętowego.",
+        "step1": "Odłącz",
+        "step2": "Hold down button",
+        "step3": "Podłącz ponownie urządzenie (przytrzymując przycisk) aby przejść do trybu aktualizacji oprogramowania sprzętowego i kontynuować."
+      },
+      "firmware": {
+        "header": "Wymagana aktualizacja oprogramowania sprzętowego klucza KeepKey!",
+        "firmwareUpdate": "Aktualizacja oprogramowania sprzętowego klucza KeepKey",
+        "update": "Sprawdź status KeepKey",
+        "cta": "Odłącz klucz KeepKey, przytrzymaj przycisk i podłącz go ponownie (przytrzymując przycisk) aby przejść do trybu aktualizacji oprogramowania sprzętowego.",
+        "continue": "Zatwierdzenie i kontynuacja",
+        "firmwareNeeded": "Aby kontynuować, należy zaktualizować oprogramowanie sprzętowe urządzenia.",
+        "firmware": "Wersja oprogramowania sprzętowego"
+      },
+      "label": {
+        "header": "Oznacz swój klucz KeepKey (opcjonalnie)",
+        "body": "Oznaczenie każdego z urządzeń pozwala łatwo odróżnić jedno od drugiego.",
+        "setLabelButton": "Ustaw etykietę",
+        "skipLabelButton": "Pominąć",
+        "placeholder": "Opcjonalny"
+      },
+      "recoverySettings": {
+        "header": "Odzyskaj swój portfel",
+        "sentenceLengthLabel": "Długość wyroku odzyskiwania",
+        "recoveryPassphraseLabel": "Hasło odzyskiwania",
+        "recoveryPassphraseToggle": "Odzyskać za pomocą hasła?",
+        "recoveryPassphraseDescription": "Jeśli nie masz pewności, czy Twoja kara rekonwalescencji jest chroniona hasłem, pomiń to.",
+        "wordEntropy": "%{wordEntropy} słowa",
+        "button": "Odzyskaj portfel"
+      },
+      "recoverySentence": {
+        "header": "Zapisz swoje zdanie dotyczące odzyskiwania",
+        "body": "Na ekranie KeepKey zobaczysz wyrok umożliwiający odzyskanie środków. Zapisz to. Jeśli utracisz dostęp do urządzenia, dostęp do Twoich zasobów będzie możliwy TYLKO za pomocą tego zdania.",
+        "infoFirst": "Bardzo ważne jest, aby zapisać go dokładnie tak, jak widnieje na kluczu KeepKey.",
+        "infoSecond": "Never share your recovery sentence, it grants access to all of your funds.",
+        "awaitingButtonPress": "Follow the steps on your KeepKey to view your Recovery Sentence. Write it down!"
+      },
+      "factoryState": {
+        "header": "Rozpocznij korzystanie z KeepKey",
+        "body": "Twój KeepKey jest ustawiony na domyślne ustawienia fabryczne. Możesz utworzyć nowy portfel lub przywrócić portfel za pomocą zdania odzyskiwania.",
+        "createButton": "Utwórz nowy portfel",
+        "recoverButton": "Odzyskaj portfel"
+      },
+      "recoverySentenceEntry": {
+        "header": "Wprowadź swoje zdanie odzyskiwania",
+        "body": "Korzystając z pomieszanego schematu klawiatury na Twoim KeepKey, wprowadź pierwsze 4 litery każdego słowa. Jeśli słowo ma mniej niż 4 litery, naciśnij Enter, spację lub kliknij dalej po zakończeniu pisania.",
+        "button": "Dalej",
+        "awaitingButtonPress": "Postępuj zgodnie z instrukcjami na Twoim KeepKey, aby kontynuować.",
+        "toastMessage": "KeepKey przywrócony pomyślnie!"
+      },
+      "recoverySettingUp": {
+        "header": "Konfiguracja urządzenia...",
+        "body": "Proszę czekać podczas inicjalizacji urządzenia i synchronizacji adresów."
+      },
+      "recoveryInvalid": {
+        "header": "Nieprawidłowe zdanie odzyskiwania",
+        "body": "Wprowadzone zdanie odzyskiwania jest nieprawidłowe.",
+        "button": "Spróbuj ponownie"
+      },
+      "downloadUpdater": {
+        "header": "Pobierz aktualizator KeepKey",
+        "button": "Pobierz %{filename}",
+        "wrongPlatform": "Nie używasz %{platform}? Kliknij tutaj"
+      },
+      "requestBootloaderMode": {
+        "title": "Dostępna jest aktualizacja",
+        "versionAlert1": "Twoje KeepKey obecnie jest w wersji ",
+        "versionAlert2": ", wersja ",
+        "versionAlert3": " jest już dostępna",
+        "requestUpdaterMode": "Aby kontynuować, musisz przełączyć swoje KeepKey w tryb aktualizacji Firmware.",
+        "restart": "1. odłącz urządzenie",
+        "restart1": "2. przytrzymaj przycisk",
+        "restart2": "3. kontynuując przytrzymywanie przycisku, podłącz urządzenie ponownie",
+        "skipUpdate": {
+          "text": "Nie masz ochoty aktualizować jeszcze?",
+          "cta": "Pomiń aktualizację"
+        }
+      }
+    },
+    "settings": {
+      "settings": "Ustawienia",
+      "devTools": "możesz nacisnąć \n\n Cmd + Opt + I \n\n na macOS, lub \n\n Ctrl + Shift + I \n\n na Windowsie lub Linuxie, aby uruchomić Narzędzia Deweloperskie.",
+      "currency": "Waluta",
+      "clearWalletAccountData": "Usuń wszystkie konta i dane portfela",
+      "deleteAccountsConfirm": "Jesteś pewien?\n\nTo usunie wszystkie osobiste dane, w tym portfele, konta, salda.\n\nUpewnij się, że masz kopię zapasową swoich portfeli przed kontynuacją.",
+      "currencyFormat": "Format waluty",
+      "language": "Język",
+      "balanceThreshold": "Próg salda",
+      "balanceThresholdTooltip": "Na pulpicie nawigacyjnym i wykresach, ukryj salda poniżej tej wartości",
+      "autoLaunch": "Automatyczne uruchamianie aplikacji przy starcie",
+      "minimizeToTray": "Minimalizuj do zasobnika",
+      "autoUpdate": "Automatyczna instalacja aktualizacji",
+      "downloadPreRelease": "Pobierz wersje przedpremierowe",
+      "allowBetaFirmware": "Pobierz wersję beta Firmware KeepKey",
+      "autoScanQr": "Automatyczne skanowanie kodów QR",
+      "resetDefaultDapp": "Resetuj domyślną dapp",
+      "currencies": {
+        "CNY": "Juan chiński",
+        "USD": "Dolar amerykański (domyślnie)",
+        "EUR": "Euro",
+        "JPY": "Jen japoński",
+        "GBP": "Funt brytyjski",
+        "KRW": "Won południowokoreański",
+        "INR": "Rupia indyjska",
+        "CAD": "Dolar kanadyjski",
+        "HKD": "Dolar hongkoński",
+        "AUD": "Dolar australijski",
+        "TWD": "Nowy dolar tajwański",
+        "BRL": "Real brazylijski",
+        "CHF": "Frank szwajcarski",
+        "THB": "Bat tajski",
+        "MXN": "Peso meksykańskie",
+        "RUB": "Rubel rosyjski",
+        "SAR": "Rial saudyjski",
+        "SGD": "Dolar singapurski",
+        "ILS": "Szekel izraelski",
+        "IDR": "Rupia indonezyjska"
+      },
+      "tabs": {
+        "general": "Ogólne",
+        "app": "Aplikacja",
+        "keepkey": "KeepKey"
+      }
+    },
+    "pair": {
+      "header": "Połącz portfel",
+      "notFound": "Ta Dapp nie jest rozpoznana, używaj na własne ryzyko!",
+      "native": {
+        "header": "Żądanie sparowania aplikacji",
+        "body": "%{serviceName} chce sparować się z Twoim KeepKey"
+      },
+      "walletconnect": {
+        "header": "Żądanie sparowania Wallet Connect",
+        "chain": "Blockchain(y)",
+        "relay": "Protokół Relay",
+        "methods": "Metody"
+      },
+      "cta": {
+        "makeDefault": "Uruchom dapp przy starcie",
+        "pair": "Sparuj",
+        "reject": "Odrzuć"
+      }
+    }
+  },
+  "walletProvider": {
+    "errors": {
+      "walletNotFound": "Nie można nawiązać komunikacji z Twoim portfelem. Jeśli problem będzie się powtarzał, skontaktuj się z pomocą techniczną Keepkey."
+    },
+    "keepKey": {
+      "errors": {
+        "unknown": "Wystąpił nieoczekiwany błąd podczas komunikacji z Twoim KeepKey",
+        "updateAlert": "Firmware 6.1.0 lub nowsze jest wymagane do korzystania z Twojego Keepkey z tym klientem. Zaktualizuj swoje urządzenie.",
+        "pinCancelled": "Wprowadzanie kodu PIN zostało anulowane",
+        "pinInvalid": "Wprowadzony kod PIN jest nieprawidłowy",
+        "pinMismatch": "Dwa wprowadzone kody PIN nie pasują do siebie"
+      },
+      "connect": {
+        "header": "Sparuj swoje KeepKey",
+        "body": "Podłącz urządzenie KeepKey i kliknij Sparuj.",
+        "button": "Sparuj",
+        "conflictingApp": "Nie można znaleźć Twojego KeepKey. Inna aplikacja może próbować nawiązać połączenie z Twoim KeepKey.",
+        "downloadUpdaterApp": "Pobierz aplikację aktualizującą"
+      },
+      "pin": {
+        "header": "Wprowadź swój PIN",
+        "body": "Użyj układu PIN pokazanego na Twoim urządzeniu, aby znaleźć miejsce naciśnięcia na klawiaturze PIN.",
+        "button": "Odblokuj"
+      },
+      "newPin": {
+        "header": "Wprowadź swój nowy PIN",
+        "body": "Utwórz nowy PIN (do 9 cyfr) za pomocą szyfru wyświetlanego na Twoim KeepKey.",
+        "button": "Potwierdź"
+      },
+      "newPinConfirm": {
+        "header": "Potwierdź swój nowy PIN",
+        "body": "Ponownie wprowadź swój PIN za pomocą szyfru wyświetlanego na Twoim KeepKey.",
+        "button": "Zapisz PIN"
+      },
+      "remove": {
+        "header": "Potwierdź swój PIN",
+        "body": "Proszę potwierdzić swój PIN, aby usunąć go z Twojego KeepKey",
+        "button": "Potwierdź"
+      },
+      "settings": {
+        "menuLabels": {
+          "bootloader": "Bootloader",
+          "firmware": "Oprogramowanie",
+          "pin": "PIN",
+          "advanced": "Zaawansowane",
+          "deviceTimeout": "Limit czasu urządzenia",
+          "passphrase": "Hasło",
+          "wipeDevice": "Wyczyść urządzenie",
+          "removePin": "Usuń Pin",
+          "label": "Etykieta"
+        },
+        "status": {
+          "enabled": "Włączone",
+          "disabled": "Wyłączone",
+          "upToDate": "Aktualne",
+          "updateAvailable": "Dostępna aktualizacja",
+          "hasPin": "••••••",
+          "noPin": "(brak)"
+        },
+        "headings": {
+          "deviceSetting": "Ustawienie urządzenia %{setting}",
+          "enterPin": "Wprowadź aktualny PIN",
+          "setPin": "Ustaw nowy PIN",
+          "confirmPin": "Potwierdź nowy PIN",
+          "passphrase": "Hasło"
+        },
+        "descriptions": {
+          "pin": "PIN to kombinacja do 9 cyfr, którą wybierasz po zainicjowaniu KeepKey. PIN chroni twoje urządzenie przed nieautoryzowanym użyciem, gdy KeepKey wpadnie w niepowołane ręce.",
+          "passphrase": "Umożliwia posiadanie wielu portfeli, dostępnych poprzez użycie unikalnego hasła dla każdego portfela.",
+          "label": "Etykietowanie każdego z urządzeń umożliwia łatwe rozróżnienie jednego od drugiego.",
+          "timeout": "Twoje urządzenie przechodzi w stan uśpienia po 10 minutach aktywności domyślnie. Możesz to jednak zmienić.",
+          "buttonPrompt": "Przytrzymaj przycisk na KeepKey, aby zmienić ustawienie urządzenia %{setting}.",
+          "updateSuccess": "%{setting} pomyślnie zaktualizowane!",
+          "updateFailed": "Wystąpił błąd podczas aktualizacji %{setting}.",
+          "timeoutDuration": "%{minutes} minut"
+        },
+        "alerts": {
+          "passphrase": {
+            "title": "Używaj ostrożnie",
+            "body": "Jeśli zapomnisz swojego hasła, stracisz dostęp do swoich środków.",
+            "link": "Dowiedz się więcej"
+          }
+        },
+        "placeholders": {
+          "label": "Wpisz etykietę urządzenia"
+        },
+        "actions": {
+          "update": "Aktualizuj %{setting}",
+          "enable": "Włącz %{setting}",
+          "learnMore": "Dowiedz się więcej"
+        }
+      },
+      "modals": {
+        "headings": {
+          "wipeKeepKey": "Wyczyść swój KeepKey",
+          "forgotPinWipeDevice": "Zapomniałeś PIN? Wyczyść urządzenie"
+        },
+        "descriptions": {
+          "wipeKeepKey": "Rozumiem, że przez wyczyszczenie mojego KeepKey stracę dostęp do moich środków, jeśli nie mam mojej frazy odzyskiwania."
+        },
+        "actions": {
+          "wipeDevice": "Wyczyść urządzenie"
+        },
+        "confirmations": {
+          "wipeKeepKey": "Przytrzymaj przycisk na KeepKey, aby potwierdzić reset do ustawień fabrycznych."
+        },
+        "checkboxes": {
+          "wipeKeepKey": "Zapisałem swoją frazę odzyskiwania i rozumiem, co robię"
+        }
+      },
+      "walletConnect": {
+        "errors": {
+          "unknown": "Wystąpił nieoczekiwany błąd podczas komunikacji z WalletConnect",
+          "connectFailure": "Nie można połączyć portfela WalletConnect"
+        },
+        "connect": {
+          "header": "Paruj WalletConnect",
+          "body": "Kliknij Paruj, a następnie wybierz WalletConnect z okna wyskakujące",
+          "button": "Paruj"
+        },
+        "failure": {
+          "header": "Błąd",
+          "body": "Nie można połączyć portfela WalletConnect"
+        }
+      },
+      "selectModal": {
+        "header": "Podłącz portfel",
+        "body": "Podłączając portfel, zgadzasz się na Warunki korzystania z ShapeShift i potwierdzasz, że przeczytałeś i rozumiesz zastrzeżenie ShapeShift.",
+        "footer": "Nie masz portfela?",
+        "create": "Utwórz jeden"
+      }
+    },
+    "assets": {
+      "assetDetails": {
+        "assetHeader": {
+          "balance": "Saldo",
+          "price": "Cena",
+          "marketCap": "Kapitalizacja rynkowa",
+          "24HrVolume": "Wolumen 24h",
+          "dayChange": "Zmiana dzienna",
+          "aboutAsset": "O %{asset}",
+          "SegwitP2sh": "Segwit",
+          "SegwitNative": "Rodzimy Segwit",
+          "P2pkh": "Legacy",
+          "SegwitNativeTooltip": "Zalecane dla większości użytkowników. Używaj innych adresów tylko, jeśli wiesz, do czego służą",
+          "btcFormat": "Format BTC",
+          "assetUnavailable": "Dane rynkowe tego aktywa nie są jeszcze dostępne. Pracujemy nad tym, proszę czekać!",
+          "loading": "Pobieranie historii cen, proszę czekać...",
+          "maxTotalSupply": "Maksymalna całkowita podaż",
+          "availableSupply": "Dostępna podaż",
+          "marketData": "Dane rynkowe"
+        },
+        "assetDescription": {
+          "showMore": "Pokaż więcej",
+          "showLess": "Pokaż mniej"
+        },
+        "assetHistory": {
+          "transactionHistory": "Historia transakcji",
+          "recentTransactions": "Ostatnie transakcje",
+          "emptyTransactions": "Transakcje pojawią się tutaj."
+        },
+        "assetAccounts": {
+          "account": "Konto",
+          "assetAllocation": "Alokacja aktywów",
+          "allocation": "Alokacja",
+          "amount": "Kwota",
+          "value": "Wartość"
+        },
+        "nft": {
+          "nftAllocation": "Kolekcja NFT"
+        }
+      },
+      "assetCards": {
+        "assetActions": {
+          "buy": "Kup",
+          "sell": "Sprzedaj",
+          "trade": "Handluj"
+        },
+        "accountTokens": "Tokeny konta",
+        "showTokens": "Pokaż tokeny (%{amount})",
+        "hideTokens": "Ukryj tokeny (%{amount})",
+        "underlyingAssets": "Podstawowe aktywa",
+        "rewards": {
+          "farmingRewards": "Nagrody z farmienia",
+          "currentRewards": "Bieżące nagrody",
+          "currentAPY": "Bieżące APY",
+          "yourRewards": "Twoje nagrody",
+          "currentAPYLabel": "Bieżące APY dla twoich nagród",
+          "claimRewards": "Odbierz nagrody"
+        },
+        "accounts": {
+          "accounts": "Konta",
+          "selectAccount": "Wybierz konto",
+          "addAccount": "Dodaj konto",
+          "accountNumber": "Konto nr %{accountNumber}",
+          "accountChain": "Łańcuch konta",
+          "selectChain": "Wybierz łańcuch, na którym chcesz utworzyć konto.",
+          "requiresPriorTxHistory": "Możesz dodać nowe konto tylko jeśli istniejące konta mają historię transakcji",
+          "newAccountAdded": "Nowe konto %{name} dodane",
+          "youCanNowUse": "Możesz teraz używać konta %{name} nr %{accountNumber}"
+        },
+        "plugins": {
+          "walletConnectToDapps": {
+            "registry": {
+              "availableDapps": "Dostępne dApps",
+              "getStarted": "Zacznij",
+              "learnMore": "Dowiedz się więcej",
+              "banner": {
+                "title": "Połącz się z ponad 300+ dApps",
+                "subtitle": "Połącz swojego portfela z dApp za pomocą WalletConnect i inicjuj transakcje"
+              },
+              "emptyStateDescription": "Spróbuj dostosować swoje zapytanie wyszukiwania i spróbuj ponownie.",
+              "pageInput": {
+                "label": "%{current} z %{total}",
+                "nextPage": "Następna strona",
+                "prevPage": "Poprzednia strona"
+              }
+            },
+            "header": {
+              "connectDapp": "Połącz dApp",
+              "connectedDapp": "Połączony dApp",
+              "menu": {
+                "disconnect": "Rozłącz",
+                "address": "Adres",
+                "connected": "Połączony",
+                "network": "Sieć",
+                "unsupportedNetwork": "Nieobsługiwana sieć"
+              }
+            },
+            "modal": {
+              "title": "WalletConnect",
+              "ethereum": "Ethereum",
+              "sessionProposal": {
+                "title": "Propozycja sesji WalletConnect",
+                "approve": "Zatwierdź",
+                "reject": "Odrzuć",
+                "methods": "Metody",
+                "events": "Wydarzenia"
+              },
+              "signMessage": {
+                "signingFrom": "Podpisywanie z",
+                "requestFrom": "Żądanie od",
+                "message": "Wiadomość",
+                "description": "Będziesz musiał potwierdzić podpisanie tej wiadomości przy użyciu podłączonego portfela.",
+                "confirm": "Potwierdź",
+                "reject": "Odrzuć"
+              },
+              "sendTransaction": {
+                "sendingFrom": "Wysyłanie z",
+                "interactingWith": "Interakcja z",
+                "contractInteraction": {
+                  "title": "Interakcja z kontraktem",
+                  "sendingEth": "Wysyłanie ETH",
+                  "amount": "Kwota",
+                  "data": "Dane",
+                  "insight": "Wgląd",
+                  "simulation": "symulacja",
+                  "raw": "Surowy",
+                  "contract": "ABI kontraktu"
+                },
+                "raw": {
+                  "raw": "Surowa Transakcja",
+                  "to": "Interakcja z Kontraktem",
+                  "from": "Wysyłanie ETH",
+                  "data": "Dane Hex"
+                },
+                "simulation": {
+                  "title": "Informacje o symulacji TX (napędzane przez blocknative.com)"
+                },
+                "insight": {
+                  "title": "Informacje o wglądzie TX (napędzane przez harpie.io)",
+                  "isDangerousOperation": "Czy ta akcja kontraktu jest niebezpieczna?",
+                  "isMaliciousAddress": "Czy ten kontrakt jest Złośliwy?",
+                  "isTrustedAddress": "Czy ten kontrakt jest zaufany?",
+                  "recommendedAction": "Zalecamy ci",
+                  "THEFT": "czy ten kontrakt był zgłaszany w kradzieżach?",
+                  "CYBERCRIME": "Czy ten kontrakt jest związany z cyberprzestępczością?",
+                  "SANCTIONED": "Czy ten kontrakt jest sankcjonowany?",
+                  "BOT": "Czy ten kontrakt jest własnością bota?",
+                  "WASH_TRADER": "Czy ten kontrakt jest własnością handlarza praniem?",
+                  "MIXER": "Czy ten kontrakt jest własnością mieszadła?"
+                },
+                "advancedParameters": {
+                  "title": "Zaawansowane Parametry",
+                  "alert": "Tylko do zaawansowanego użytku. Modyfikowanie tych ustawień może skutkować zablokowanymi transakcjami.",
+                  "nonce": {
+                    "title": "Nonce",
+                    "placeholder": "Nonce...",
+                    "tooltip": "wyjaśnij nonce tutaj"
+                  },
+                  "gasLimit": {
+                    "title": "Limit Gazu",
+                    "placeholder": "Limit Gazu...",
+                    "tooltip": "wyjaśnij limit gazu tutaj"
+                  }
+                },
+                "estGasCost": "Szacowany Koszt Gazu",
+                "description": "Za chwilę utworzysz transakcję i będziesz musiał potwierdzić ją przy użyciu obecnie podłączonego portfela."
+              },
+              "connect": {
+                "title": "Połącz swój portfel z dApp za pomocą WalletConnect i inicjuj transakcje",
+                "howTo": "Jak połączyć się z dApp?",
+                "linkPlaceholder": "Kod QR lub link połączenia",
+                "connect": "Połącz"
+              }
+            }
+          }
+        },
+        "gasInput": {
+          "gasPrice": {
+            "label": "Cena Gazu",
+            "tooltip": "Cena gazu w Gwei"
+          },
+          "base": {
+            "label": "Opłata Bazowa",
+            "tooltip": "Opłata bazowa jest ustalana przez sieć i zmienia się co 13-14 sekund w zależności od popytu. Ustaw maksymalną cenę (nie uwzględniając opłaty priorytetowej) w gwei, którą jesteś gotów zapłacić za każdą jednostkę gazu."
+          },
+          "priority": {
+            "label": "Opłata Priorytetowa",
+            "tooltip": "Opłata priorytetowa to opcjonalny napiwek, aby zmotywować producentów bloków do priorytetowego traktowania Twojej transakcji. Ustaw opłatę priorytetową w gwei, którą chcesz zapłacić za każdą jednostkę gazu."
+          }}}}}}
