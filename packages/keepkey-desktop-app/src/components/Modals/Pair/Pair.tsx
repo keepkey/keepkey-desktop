@@ -42,37 +42,37 @@ export const PairModal = ({
   const { pair } = useModal()
   const { close, isOpen } = pair
 
-  let onStart = useCallback(
-    async function () {
-      try {
-        const pioneer = await getPioneerClient()
-
-        let globals = await pioneer.Globals()
-        console.log('globals: ', globals)
-        console.log('input.data: ', input?.data)
-        console.log('input.data: ', input?.data.name)
-
-        //find EVP by name
-        let evpData = await pioneer.ListAppsByName({ name: input?.data.name })
-        console.log('evpData: ', evpData)
-        //if found EVP, send to device
-
-        if (evpData[0]) {
-          //send to device
-        } else {
-          //show Warning
-          // setIsFound(false)
-        }
-      } catch (e) {
-        console.error(e)
-      }
-    },
-    [input?.data],
-  )
-
-  useEffect(() => {
-    onStart()
-  }, [input, input?.data, input?.type, onStart])
+  // let onStart = useCallback(
+  //   async function () {
+  //     try {
+  //       const pioneer = await getPioneerClient()
+  //
+  //       let globals = await pioneer.Globals()
+  //       console.log('globals: ', globals)
+  //       console.log('input.data: ', input?.data)
+  //       console.log('input.data: ', input?.data.name)
+  //
+  //       //find EVP by name
+  //       let evpData = await pioneer.ListAppsByName({ name: input?.data.name })
+  //       console.log('evpData: ', evpData)
+  //       //if found EVP, send to device
+  //
+  //       if (evpData[0]) {
+  //         //send to device
+  //       } else {
+  //         //show Warning
+  //         // setIsFound(false)
+  //       }
+  //     } catch (e) {
+  //       console.error(e)
+  //     }
+  //   },
+  //   [input?.data],
+  // )
+  //
+  // useEffect(() => {
+  //   onStart()
+  // }, [input, input?.data, input?.type, onStart])
 
   const HandleSubmit = async () => {
     if (makeDefault && input?.type === 'native' && input?.data.url)

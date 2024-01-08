@@ -11,11 +11,11 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
-import { Buffer } from 'buffer'
 import { formatJsonRpcResult } from '@json-rpc-tools/utils'
 import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import type { SignClientTypes } from '@walletconnect/types'
+import { Buffer } from 'buffer'
 import { Card } from 'components/Card/Card'
 import { KeepKeyIcon } from 'components/Icons/KeepKeyIcon'
 import { RawText, Text } from 'components/Text'
@@ -64,21 +64,25 @@ export const EIP155SignMessageConfirmation = () => {
   useEffect(() => {
     ;(async () => {
       if (!wallet) return
-      let accountsOptions = [0,1,2,3,4,5]
-      for(let i=0; i< accountsOptions.length; i++){
+      let accountsOptions = [0, 1, 2, 3, 4, 5]
+      for (let i = 0; i < accountsOptions.length; i++) {
         const accountPath = wallet.ethGetAccountPaths({ coin: 'Ethereum', accountIdx: i })
-        let address = await wallet.ethGetAddress({addressNList: accountPath[0].addressNList, showDisplay: false})
+        let address = await wallet.ethGetAddress({
+          addressNList: accountPath[0].addressNList,
+          showDisplay: false,
+        })
         let refAddress
         //if
-        if(
-            request.method === 'eth_signTypedData' ||
-            request.method === 'eth_signTypedData_v3' ||
-            request.method === 'eth_signTypedData_v4') {
+        if (
+          request.method === 'eth_signTypedData' ||
+          request.method === 'eth_signTypedData_v3' ||
+          request.method === 'eth_signTypedData_v4'
+        ) {
           refAddress = params.request.params[0]
         } else {
           refAddress = params.request.params[1]
         }
-        if(address.toLowerCase() === refAddress.toLowerCase()){
+        if (address.toLowerCase() === refAddress.toLowerCase()) {
           setAddress(address)
           setAccountPath(accountPath[0].addressNList)
           return
@@ -92,7 +96,7 @@ export const EIP155SignMessageConfirmation = () => {
       try {
         if (!accountPath || !wallet) return
         setLoading(true)
-        
+
         let signedMessage
         if (
           request.method === 'eth_signTypedData' ||
@@ -106,9 +110,9 @@ export const EIP155SignMessageConfirmation = () => {
         } else if (request.method === 'eth_sign' || request.method === 'personal_sign') {
           //TODO move this to a util function
           const strip0x = (inputHexString: string) =>
-              inputHexString.startsWith('0x')
-                  ? inputHexString.slice(2, inputHexString.length)
-                  : inputHexString
+            inputHexString.startsWith('0x')
+              ? inputHexString.slice(2, inputHexString.length)
+              : inputHexString
 
           let message = Buffer.from(strip0x(request.params[0]), 'hex')
           console.log('message: ', message)
@@ -122,18 +126,17 @@ export const EIP155SignMessageConfirmation = () => {
           console.error('INVALID REQUEST: ', request)
           throw Error('unhandled request method' + request.method)
         }
-        console.log("signedMessage: ",signedMessage)
-        
+        console.log('signedMessage: ', signedMessage)
+
         const response = formatJsonRpcResult(id, signedMessage.signature)
-        console.log("response: ",response)
-        console.log("topic: ",topic)
+        console.log('response: ', response)
+        console.log('topic: ', topic)
         let result = await WalletConnectWeb3Wallet.respondSessionRequest({
           topic,
           response,
         })
-        console.log("ETHsignMsg result push: ",result)
+        console.log('ETHsignMsg result push: ', result)
         removeRequest(currentRequest.id)
-
       } catch (e) {
         toast({
           title: 'Error',
@@ -166,7 +169,7 @@ export const EIP155SignMessageConfirmation = () => {
       <Box>
         <Text>(Cethod: {request.method})</Text>
       </Box>
-      
+
       <Box>
         <Text
           fontWeight='medium'

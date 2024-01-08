@@ -169,65 +169,65 @@ export const SessionProposalModal = () => {
       let w = wallet as KeepKeyHDWallet
 
       console.log('approving ', 1)
+
       await Promise.all(
-        Object.keys(sessionNamespaces).map(async key => {
-          const accounts: string[] = (
-            await Promise.all(
-              // @ts-ignore
-              sessionNamespaces[key].chains.map(async (chain: any) => {
-                console.log(chain)
-                let address
-                if (key === 'eip155') {
-                  // @ts-ignore
-                  address = selectedAccount?.address
-                } else if (key === 'cosmos') {
-                  const accountPath = w.cosmosGetAccountPaths({ accountIdx: 0 })
-                  address = await w.cosmosGetAddress({
-                    addressNList: accountPath[0].addressNList,
-                    showDisplay: false,
-                  })
-                } else {
-                  address = selectedAccount.address
+        Object.keys(sessionNamespaces).map(async chain => {
+          const accounts: string[] = []
+
+          if (sessionNamespaces[chain] && sessionNamespaces[chain].chains) {
+            for (const chainId of sessionNamespaces[chain].chains) {
+              const extensionMethods: ProposalTypes.RequiredNamespace['methods'] = []
+              const extensionEvents: ProposalTypes.RequiredNamespace['events'] = []
+
+              sessionNamespaces[chain].extension?.forEach(({ chains, methods, events }) => {
+                if (chains.includes(chainId)) {
+                  extensionMethods.push(...methods)
+                  extensionEvents.push(...events)
                 }
+              })
 
-                if (!address) return `${chain}:DOES_NOT_SUPPORT`
+              const allMethods = [...(sessionNamespaces[chain].methods || []), ...extensionMethods]
+              const allEvents = [...(sessionNamespaces[chain].events || []), ...extensionEvents]
 
-                return `${chain}:${address}`
-              }),
-            )
-          ).filter((s: string) => s !== '')
-          console.log('approving ', 2)
-          namespaces[key] = {
-            accounts,
-            // @ts-ignore
-            methods: sessionNamespaces[key].methods,
-            // @ts-ignore
-            events: sessionNamespaces[key].events,
+              let address
+              if (chain === 'eip155') {
+                address = selectedAccount?.address
+              } else {
+                // Handle other chains
+              }
+
+              if (address) {
+                accounts.push(`${chainId}:${address}`)
+              }
+
+              namespaces[chain] = {
+                accounts,
+                methods: allMethods,
+                events: allEvents,
+              }
+            }
           }
         }),
       )
-
-      console.log('approving ', 3)
 
       const approveData = {
         id,
         namespaces,
       }
 
-      console.log('approving ', 4, approveData)
-
       const {
         peer: { metadata },
         topic,
       } = await WalletConnectWeb3Wallet.approveSession(approveData)
-      console.log('approving ', 6, metadata, topic)
+
       setPairingMeta(metadata)
-      console.log('approving ', 7)
       setCurrentSessionTopic(topic)
       setIsConnected(true)
-      console.log('approving ', 8)
+
+      removeProposal(id)
     }
-    removeProposal(id)
+
+    setLoading(false)
   }
 
   // Hanlde reject action
@@ -308,16 +308,15 @@ export const SessionProposalModal = () => {
           <Box maxHeight='400px' overflowY='scroll'>
             {Object.keys(sessionNamespaces).map(chain => {
               return (
-                <Stack>
+                <Stack key={chain}>
                   <RawText mb={5}>{`Review ${chain} permissions`}</RawText>
 
-                  {
-                    // @ts-ignore
+                  {sessionNamespaces[chain] &&
+                    sessionNamespaces[chain].chains &&
                     sessionNamespaces[chain].chains.map((chainId: string) => {
                       const extensionMethods: ProposalTypes.RequiredNamespace['methods'] = []
                       const extensionEvents: ProposalTypes.RequiredNamespace['events'] = []
 
-                      // @ts-ignore
                       sessionNamespaces[chain].extension?.forEach(({ chains, methods, events }) => {
                         if (chains.includes(chainId)) {
                           extensionMethods.push(...methods)
@@ -325,12 +324,17 @@ export const SessionProposalModal = () => {
                         }
                       })
 
-                      // @ts-ignore
-                      const allMethods = [...sessionNamespaces[chain].methods, ...extensionMethods]
-                      // @ts-ignore
-                      const allEvents = [...sessionNamespaces[chain].events, ...extensionEvents]
+                      const allMethods = [
+                        ...(sessionNamespaces[chain].methods || []),
+                        ...extensionMethods,
+                      ]
+                      const allEvents = [
+                        ...(sessionNamespaces[chain].events || []),
+                        ...extensionEvents,
+                      ]
+
                       return (
-                        <Card rounded='lg'>
+                        <Card rounded='lg' key={chainId}>
                           <Card.Header>
                             <Card.Heading>{formatChainName(chainId)}</Card.Heading>
                           </Card.Header>
@@ -351,10 +355,10 @@ export const SessionProposalModal = () => {
                           </Card.Body>
                         </Card>
                       )
-                    })
-                  }
+                    })}
+
                   {/* <SessionProposalChainCard requiredNamespace={requiredNamespaces[chain]} />
-                                {renderAccountSelection(chain)} */}
+      {renderAccountSelection(chain)} */}
                   <Divider />
                 </Stack>
               )

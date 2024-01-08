@@ -124,8 +124,8 @@ export class EthereumController extends ApiController {
       //   msg.gasPrice = insight.recommended.gasPrice
       // }
       if (body.gas && insight.recommended.gasLimit > body.gas) {
-        console.log("body.gas: ", body.gas)
-        console.log("insight.recommended.gasLimit: ", insight.recommended.gasLimit)
+        console.log('body.gas: ', body.gas)
+        console.log('insight.recommended.gasLimit: ', insight.recommended.gasLimit)
         msg.gasLimit = insight.recommended.gasLimit
       }
       // if (insight.recommended.maxPriorityFeePerGas) {
@@ -194,22 +194,22 @@ export class EthereumController extends ApiController {
       address: types.eth.Address
     },
   ): Promise<types.eth.Signature> {
-    const account = await this.context.getAccount(body.address);
+    const account = await this.context.getAccount(body.address)
 
     // @ts-ignore
-    console.log("body: ",body)
-    console.log("account: ",account)
+    console.log('body: ', body)
+    console.log('account: ', account)
 
     if (typeof body.message !== 'string' || !/^0x[0-9a-fA-F]+$/.test(body.message)) {
-      throw new Error('Invalid message: The message must be a hex string starting with 0x');
+      throw new Error('Invalid message: The message must be a hex string starting with 0x')
     }
 
     return (
-        await this.context.wallet.ethSignMessage({
-          addressNList: account.addressNList,
-          message: body.message,
-        })
-    ).signature;
+      await this.context.wallet.ethSignMessage({
+        addressNList: account.addressNList,
+        message: body.message,
+      })
+    ).signature
   }
 
   /**

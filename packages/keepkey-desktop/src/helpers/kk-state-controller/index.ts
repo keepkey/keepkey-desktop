@@ -126,7 +126,7 @@ export class KKStateController {
       })
       return undefined
     })
-    console.log("resultInit: ", resultInit)
+    console.log('resultInit: ', resultInit)
     this.wallet = resultInit?.wallet
     if (!resultInit) return
 
