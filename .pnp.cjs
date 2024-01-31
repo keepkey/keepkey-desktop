@@ -8704,7 +8704,7 @@ const RAW_RUNTIME_STATE =
           ["@cosmjs/stargate", "npm:0.28.13"],\
           ["@keepkey/device-protocol", "npm:7.10.2"],\
           ["@keepkey/hdwallet-core", "npm:1.53.9"],\
-          ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
+          ["@keepkey/keepkey-sdk", "npm:0.2.52"],\
           ["@types/create-hash", "npm:1.2.2"],\
           ["@types/crypto-js", "npm:4.1.1"],\
           ["@types/google-protobuf", "npm:3.15.6"],\
@@ -8743,7 +8743,7 @@ const RAW_RUNTIME_STATE =
           ["@cosmjs/stargate", "npm:0.28.13"],\
           ["@keepkey/device-protocol", "npm:7.10.2"],\
           ["@keepkey/hdwallet-core", "npm:1.53.9"],\
-          ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
+          ["@keepkey/keepkey-sdk", "npm:0.2.52"],\
           ["@types/create-hash", "npm:1.2.2"],\
           ["@types/crypto-js", "npm:4.1.1"],\
           ["@types/google-protobuf", "npm:3.15.6"],\
@@ -8793,6 +8793,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@keepkey/keepkey-sdk", [\
+      ["npm:0.2.52", {\
+        "packageLocation": "./.yarn/cache/@keepkey-keepkey-sdk-npm-0.2.52-b317817dae-53d90c0ea6.zip/node_modules/@keepkey/keepkey-sdk/",\
+        "packageDependencies": [\
+          ["@keepkey/keepkey-sdk", "npm:0.2.52"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["workspace:packages/keepkey-sdk", {\
         "packageLocation": "./packages/keepkey-sdk/",\
         "packageDependencies": [\

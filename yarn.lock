@@ -5475,7 +5475,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keepkey/keepkey-sdk@npm:0.2.52, @keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
+"@keepkey/keepkey-sdk@npm:0.2.52":
+  version: 0.2.52
+  resolution: "@keepkey/keepkey-sdk@npm:0.2.52"
+  checksum: 10/53d90c0ea686d84ab90ee60fe800447548d42744737533a97e119ea9650aed196d52d876b7c0816da59d826ecc6bd416aee3c93af4e7cbd2d8922e7caa471d73
+  languageName: node
+  linkType: hard
+
+"@keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
   version: 0.0.0-use.local
   resolution: "@keepkey/keepkey-sdk@workspace:packages/keepkey-sdk"
   dependencies:
