@@ -1,6 +1,6 @@
 {
   "name": "keepkey-monorepo",
-  "packageManager": "yarn@3.3.0",
+  "packageManager": "yarn@4.1.0",
   "private": true,
   "workspaces": [
     "packages/*"
