@@ -1,4 +1,4 @@
-import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
+import type { ETHWallet } from '@keepkey/hdwallet-core'
 import LegacyWalletConnect from '@walletconnect/client'
 import { Core } from '@walletconnect/core'
 import { parseUri } from '@walletconnect/utils'
