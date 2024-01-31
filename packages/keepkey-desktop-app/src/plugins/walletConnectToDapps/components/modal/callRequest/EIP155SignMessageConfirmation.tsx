@@ -12,7 +12,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { formatJsonRpcResult } from '@json-rpc-tools/utils'
-import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
+import type { BIP32Path } from '@keepkey/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import type { SignClientTypes } from '@walletconnect/types'
 import { Buffer } from 'buffer'

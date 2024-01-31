@@ -1,6 +1,6 @@
 import type { AssetId } from '@shapeshiftoss/caip'
 import { FeeDataKey } from '@shapeshiftoss/chain-adapters'
-import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import type { HDWallet } from '@keepkey/hdwallet-core'
 import { renderHook, waitFor } from '@testing-library/react'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import type { PropsWithChildren } from 'react'

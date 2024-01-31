@@ -1,6 +1,6 @@
 import * as Messages from '@keepkey/device-protocol/lib/messages_pb'
-import * as core from '@shapeshiftoss/hdwallet-core'
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import * as core from '@keepkey/hdwallet-core'
+import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
 import { assume } from 'common-utils'
 import log from 'electron-log'
 import { usb } from 'usb'

@@ -1,5 +1,5 @@
 import { Button, ModalBody } from '@chakra-ui/react'
-import type { ResetDevice } from '@shapeshiftoss/hdwallet-core'
+import type { ResetDevice } from '@keepkey/hdwallet-core'
 import { deferred } from 'common-utils'
 import { AwaitKeepKey } from 'components/Layout/Header/NavBar/KeepKey/AwaitKeepKey'
 import { Text } from 'components/Text'
