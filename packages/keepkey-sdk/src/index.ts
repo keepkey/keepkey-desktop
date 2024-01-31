@@ -11,6 +11,7 @@ export class KeepKeySdk {
   readonly cosmos: apis.CosmosApi
   readonly osmosis: apis.OsmosisApi
   readonly thorchain: apis.ThorchainApi
+  readonly mayachain: apis.MayachainApi
   readonly eth: apis.ETHApi
   readonly raw: apis.RawApi
   readonly utxo: apis.UTXOApi
@@ -30,6 +31,7 @@ export class KeepKeySdk {
     this.cosmos = new apis.CosmosApi(configuration)
     this.osmosis = new apis.OsmosisApi(configuration)
     this.thorchain = new apis.ThorchainApi(configuration)
+    this.mayachain = new apis.MayachainApi(configuration)
     this.eth = new apis.ETHApi(configuration)
     this.raw = new apis.RawApi(configuration)
     this.system = Object.freeze(

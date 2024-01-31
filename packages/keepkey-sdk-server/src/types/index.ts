@@ -5,6 +5,7 @@ export * as cosmos from './cosmos'
 export * as eth from './eth'
 export * as osmosis from './osmosis'
 export * as thorchain from './thorchain'
+export * as mayachain from './mayachain'
 export * from './types'
 export * as xrp from './xrp'
 
