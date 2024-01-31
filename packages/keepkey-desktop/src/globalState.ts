@@ -1,5 +1,5 @@
 // import * as Types from '@keepkey/device-protocol/lib/types_pb'
-import type * as core from '@shapeshiftoss/hdwallet-core'
+import type * as core from '@keepkey/hdwallet-core'
 import AutoLaunch from 'auto-launch'
 import type { BrowserWindow } from 'electron'
 import { app } from 'electron'

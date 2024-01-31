@@ -1,4 +1,4 @@
-import type { RecoverDevice } from '@shapeshiftoss/hdwallet-core'
+import type { RecoverDevice } from '@keepkey/hdwallet-core'
 import { getConfig } from 'config'
 import { VALID_ENTROPY_NUMBERS } from 'context/WalletProvider/KeepKey/components/RecoverySettings'
 import type { KeyboardEvent } from 'react'

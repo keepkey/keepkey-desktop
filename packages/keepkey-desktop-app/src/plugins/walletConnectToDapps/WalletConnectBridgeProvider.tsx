@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react'
-import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
+import type { ETHWallet } from '@keepkey/hdwallet-core'
 import LegacyWalletConnect from '@walletconnect/client'
 import type { CoreTypes, SignClientTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'

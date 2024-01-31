@@ -3,7 +3,7 @@ import type * as Messages from '@keepkey/device-protocol/lib/messages_pb'
 import type * as Types from '@keepkey/device-protocol/lib/types_pb'
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk'
 import { FetchError } from '@keepkey/keepkey-sdk'
-import * as core from '@shapeshiftoss/hdwallet-core'
+import * as core from '@keepkey/hdwallet-core'
 import _ from 'lodash'
 import semver from 'semver'
 
@@ -31,6 +31,8 @@ export class KeepKeyRestHDWallet
   readonly _supportsETH = true
   readonly _supportsEthSwitchChain = false
   readonly _supportsAvalanche = true
+  readonly _supportsArbitrum = true
+  readonly _supportsArbitrumNova = true
   readonly _supportsOptimism = true
   readonly _supportsBSC = true
   readonly _supportsBTC = true
@@ -41,12 +43,15 @@ export class KeepKeyRestHDWallet
   _supportsEos = true
   readonly _supportsThorchainInfo = true
   readonly _supportsThorchain = true
+  readonly _supportsMayachainInfo = true
+  readonly _supportsMayachain = true
   readonly _supportsSecretInfo = false
   readonly _supportsSecret = false
   readonly _supportsKava = false
   readonly _supportsKavaInfo = false
   readonly _supportsTerra = false
   readonly _supportsTerraInfo = false
+  
 
   private readonly sdk: KeepKeySdk
   private readonly abortControllers = new Map<AbortController, Promise<void>>()

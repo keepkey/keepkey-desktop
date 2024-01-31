@@ -19,14 +19,14 @@ import {
 } from '@shapeshiftoss/caip'
 import type { Account } from '@shapeshiftoss/chain-adapters'
 import { utxoAccountParams } from '@shapeshiftoss/chain-adapters'
-import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import type { HDWallet } from '@keepkey/hdwallet-core'
 import {
   supportsBTC,
   supportsCosmos,
   supportsETH,
   supportsEthSwitchChain,
   supportsThorchain,
-} from '@shapeshiftoss/hdwallet-core'
+} from '@keepkey/hdwallet-core'
 import type { KnownChainIds } from '@shapeshiftoss/types'
 import { UtxoAccountType } from '@shapeshiftoss/types'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'

@@ -1,6 +1,6 @@
 import type { ChainAdapter } from '@shapeshiftoss/chain-adapters'
-import type { ETHSignTx, HDWallet } from '@shapeshiftoss/hdwallet-core'
-import { bip32ToAddressNList } from '@shapeshiftoss/hdwallet-core'
+import type { ETHSignTx, HDWallet } from '@keepkey/hdwallet-core'
+import { bip32ToAddressNList } from '@keepkey/hdwallet-core'
 import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
 import { KnownChainIds } from '@shapeshiftoss/types'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'

@@ -1,4 +1,4 @@
-import type { Keyring } from '@shapeshiftoss/hdwallet-core'
+import type { Keyring } from '@keepkey/hdwallet-core'
 import { logger } from 'lib/logger'
 import isArray from 'lodash/isArray'
 import join from 'lodash/join'

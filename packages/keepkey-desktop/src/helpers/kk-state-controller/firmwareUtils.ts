@@ -1,4 +1,4 @@
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
 import { promises as fs } from 'fs'
 import fetch from 'node-fetch'
 import path from 'path'

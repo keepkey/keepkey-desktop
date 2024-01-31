@@ -1,7 +1,7 @@
 // @ts-ignore
 import Pioneer from '@pioneer-platform/pioneer-client'
-import type { BIP32Path } from '@shapeshiftoss/hdwallet-core'
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import type { BIP32Path } from '@keepkey/hdwallet-core'
+import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
 import { isEqual } from 'lodash'
 
 // import { FailureType, isKKFailureType } from '../util'
