@@ -1,5 +1,5 @@
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk'
-import type { HDWallet } from '@shapeshiftoss/hdwallet-core'
+import type { HDWallet } from '@keepkey/hdwallet-core'
 import type { Deferred } from 'common-utils'
 
 import type { Entropy } from './KeepKey/components/RecoverySettings'

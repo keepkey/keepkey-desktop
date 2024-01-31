@@ -1,4 +1,4 @@
-import type { RecoverDevice } from '@shapeshiftoss/hdwallet-core'
+import type { RecoverDevice } from '@keepkey/hdwallet-core'
 import { parseIntToEntropy } from 'context/WalletProvider/KeepKey/helpers'
 import { useWallet } from 'hooks/useWallet/useWallet'
 
