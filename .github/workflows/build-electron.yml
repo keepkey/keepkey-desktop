@@ -17,79 +17,70 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     steps:
-      # Checkout the code
+      # Existing Steps
       - name: Checkout
-        uses: actions/checkout@v2
-
-      # Setup Node.js environment
-      - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: nschloe/action-cached-lfs-checkout@v1
         with:
-          node-version: '14' # Specify the Node.js version here
-
-      # Cache dependencies using Yarn
-      - name: Cache Yarn Dependencies
-        uses: actions/cache@v2
+          submodules: true
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+      - name: Restore Cached Electron Bundles
+        id: restore-cache
+        uses: actions/cache@v3
         with:
           path: |
-            .yarn/cache
-            .yarn/unplugged
-            .yarn/build-state.yml
-            .yarn/install-state.gz
-            **/.pnp.*
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
-      # Install Yarn at a specific version before install dependencies
-      - name: Install Yarn at specific version
-        run: npm install -g yarn@4.1.0
-
-      # Install dependencies
+            ~/.cache/electron
+            ~/Library/Caches/electron
+            ~/AppData/Local/electron/Cache
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}
       - name: Yarn Install
-        run: yarn install --immutable
-
-      # Build the project
+        run: yarn install
       - name: Yarn Build
         run: yarn build
-
-      # Upload the built application
       - name: Upload Built App
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: app-build-dir-${{ runner.os }}
           path: packages/keepkey-desktop/build/
           if-no-files-found: error
 
-      # Additional Steps
-
-      # Generate checksums for the builds
+      # Additional Step for Generating Checksums
       - name: Generate Checksum
         run: |
           if [[ "${{ runner.os }}" == "Windows" ]]; then
-            ./scripts/generate_checksum_windows.sh
+          ./scripts/generate_checksum_windows.sh
           else
-            ./scripts/generate_checksum_unix.sh
+          ./scripts/generate_checksum_unix.sh
           fi
         shell: bash
-
-      # Upload checksums
+      # Additional Step for Uploading Checksums
       - name: Upload Checksum
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: checksum-${{ runner.os }}
           path: checksum.txt
           if-no-files-found: error
 
-      # Platform-specific build and publish steps
-
-      # MacOS specific steps
+      # Rest of the Steps
       - name: Mac - Prepare For App Notarization
         if: startsWith(matrix.os, 'macos')
         run: |
           mkdir -p ~/private_keys/
           echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
-
+      - name: Linux - Publish packages
+        if: startsWith(matrix.os, 'ubuntu')
+        run: yarn publish
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Linux - Build Electron App
+        if: startsWith(matrix.os, 'ubuntu')
+        run: yarn run release
+        env:
+          NODE_ENV: production
+          GH_TOKEN: ${{ secrets.github_token }}
       - name: Mac - Build Electron App
         if: startsWith(matrix.os, 'macos')
         run: yarn run release
@@ -100,43 +91,24 @@ jobs:
           CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
-
-      # Ubuntu specific steps
-      - name: Linux - Publish packages
-        if: startsWith(matrix.os, 'ubuntu')
-        run: yarn publish
-        env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Linux - Build Electron App
-        if: startsWith(matrix.os, 'ubuntu')
-        run: yarn run release
-        env:
-          NODE_ENV: production
-          GH_TOKEN: ${{ secrets.github_token }}
-
-      # Windows specific steps
       - name: Windows - Build Electron App
         if: startsWith(matrix.os, 'windows')
         run: yarn run release
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
-
-      # Upload artifacts for each platform
       - name: Linux - Upload .AppImage
         if: startsWith(matrix.os, 'ubuntu')
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: linux-AppImage
           path: |
             packages/keepkey-desktop/dist/*.AppImage
             packages/keepkey-desktop/dist/*.AppImage.blockmap
           if-no-files-found: error
-
       - name: Mac - Upload .dmg
         if: startsWith(matrix.os, 'macos')
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mac-dmg
           path: |
@@ -145,10 +117,9 @@ jobs:
             packages/keepkey-desktop/dist/*.zip
             packages/keepkey-desktop/dist/*.zip.blockmap
           if-no-files-found: error
-
       - name: Windows - Upload .exe
         if: startsWith(matrix.os, 'windows')
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: windows-nsis
           path: |
