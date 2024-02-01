@@ -1,5 +1,5 @@
 import { CHAIN_NAMESPACE, fromChainId } from '@shapeshiftoss/caip'
-import type { ETHWallet } from '@shapeshiftoss/hdwallet-core'
+import type { ETHWallet } from '@keepkey/hdwallet-core'
 import { getChainAdapterManager } from 'context/PluginProvider/chainAdapterSingleton'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { bnOrZero } from 'lib/bignumber/bignumber'

@@ -1,6 +1,6 @@
-import type * as core from '@shapeshiftoss/hdwallet-core'
-import { HIDKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-nodehid'
-import { NodeWebUSBKeepKeyAdapter } from '@shapeshiftoss/hdwallet-keepkey-nodewebusb'
+import type * as core from '@keepkey/hdwallet-core'
+import { HIDKeepKeyAdapter } from '@keepkey/hdwallet-keepkey-nodehid'
+import { NodeWebUSBKeepKeyAdapter } from '@keepkey/hdwallet-keepkey-nodewebusb'
 
 export const initializeWallet = async (
   keyring: core.Keyring,

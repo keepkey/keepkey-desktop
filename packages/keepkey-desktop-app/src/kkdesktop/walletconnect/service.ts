@@ -1,4 +1,4 @@
-import * as core from '@shapeshiftoss/hdwallet-core'
+import * as core from '@keepkey/hdwallet-core'
 import type LegacyWalletConnect from '@walletconnect/client'
 import { Buffer } from 'buffer'
 import type { EthChainData } from 'context/WalletProvider/web3byChainId'

@@ -1,4 +1,4 @@
-import type { KeepKeyHDWallet } from '@shapeshiftoss/hdwallet-keepkey'
+import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
 
 declare module 'express' {
   interface Request {

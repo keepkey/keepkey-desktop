@@ -1,4 +1,4 @@
-import type * as core from '@shapeshiftoss/hdwallet-core'
+import type * as core from '@keepkey/hdwallet-core'
 
 // possible states
 export enum KKState {

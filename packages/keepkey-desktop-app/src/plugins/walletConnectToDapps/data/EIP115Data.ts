@@ -1,4 +1,4 @@
-import { bip32ToAddressNList } from '@shapeshiftoss/hdwallet-core'
+import { bip32ToAddressNList } from '@keepkey/hdwallet-core'
 import { getConfig } from 'config'
 /**
  * @desc Refference list of eip155 chains

@@ -1,4 +1,4 @@
-import type { BTCInputScriptType } from '@shapeshiftoss/hdwallet-core'
+import type { BTCInputScriptType } from '@keepkey/hdwallet-core'
 import {
   Body,
   Middlewares,
