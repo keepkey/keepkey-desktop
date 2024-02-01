@@ -19,6 +19,11 @@ export const initializeWallet = async (
         if (webUsbWallet) return webUsbWallet
       } catch (e) {
         console.error('unable to pair webUsb device', e)
+        // @ts-ignore
+        if (e.message.indexOf('LIBUSB_ERROR_ACCESS') > -1) {
+          console.error('device already claimed!');
+          throw new Error("LIBUSB_ERROR_ACCESS: claimInterface: device already claimed! must close other applications using the device");
+        }
       }
     }
     const hidDevice = await hidAdapter.getDevice().catch(() => undefined)
