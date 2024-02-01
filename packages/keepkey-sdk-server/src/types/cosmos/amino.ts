@@ -199,4 +199,10 @@ export namespace signDoc {
     /** thorchain/MsgSend */
     value: types.cosmos.messages.thornode.Send & unknown
   }
+
+  export type MayanodeSend = types.cosmos.amino.Any & {
+    type: 'mayachain/MsgSend'
+    /** mayachain/MsgSend */
+    value: types.cosmos.messages.mayanode.Send & unknown
+  }
 }

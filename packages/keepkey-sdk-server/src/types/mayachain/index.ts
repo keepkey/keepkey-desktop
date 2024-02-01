@@ -32,8 +32,8 @@ export type SignDocDeposit = {
   }
 }
 
-export type StdTxTransfer = {
-  type: 'maychain/MsgSend'
+export type StdTxTransferMaya = {
+  type: 'mayachain/MsgSend'
   value: {
     amount: {
       amount: string
@@ -54,7 +54,7 @@ export type SignDocTransfer = {
    * @minItems 1
    * @maxItems 1
    */
-  msgs: StdTxTransfer[]
+  msgs: StdTxTransferMaya[]
   fee: {
     amount: {
       amount: string
