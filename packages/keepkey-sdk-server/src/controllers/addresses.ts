@@ -194,6 +194,30 @@ export class AddressesController extends ApiController {
   }
 
   /**
+   * Get a mayachain address, loading it into the current session and optionally displaying it on-device.
+   * @summary Get Thorchain Address
+   */
+  @Post('/mayachain')
+  @OperationId('MayachainGetAddress')
+  public async mayachain(
+      @Body()
+          body: {
+        address_n: types.AddressNList
+        show_display?: boolean
+      },
+  ): Promise<{ address: types.cosmos.Address }> {
+    const response = await this.context.wallet.mayachainGetAddress({
+      addressNList: body.address_n,
+      showDisplay: !!body.show_display,
+    })
+    await this.context.saveAccount(response!, body.address_n)
+
+    return {
+      address: response!,
+    }
+  }
+  
+  /**
    * Get an XRP address, loading it into the current session and optionally displaying it on-device.
    * @summary Get XRP Address
    */

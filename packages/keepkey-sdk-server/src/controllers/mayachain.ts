@@ -106,10 +106,10 @@ export class MayachainController extends ApiController {
             body.signDoc.fee = {
                 amount: [
                     {
-                        denom: 'rune',
+                        denom: 'cacao',
                         amount: '0',
                     },
-                ],
+                ], 
                 gas: '500000000',
             }
         }
