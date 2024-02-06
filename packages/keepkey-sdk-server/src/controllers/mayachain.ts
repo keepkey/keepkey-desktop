@@ -46,7 +46,7 @@ export class MayachainController extends ApiController {
             body.signDoc.fee = {
                 amount: [
                     {
-                        denom: 'rune',
+                        denom: 'cacao',
                         amount: '0',
                     },
                 ],
@@ -70,10 +70,10 @@ export class MayachainController extends ApiController {
             sequence: tx.sequence,
         }
         // @ts-ignore
-        console.log('thorchain MSG input: ', JSON.stringify(input))
+        console.log('mayachainSignTx MSG input: ', JSON.stringify(input))
         const response = await this.context.wallet.mayachainSignTx(input)
         // @ts-ignore
-        console.log('thorchain MSG SignDoc: ', JSON.stringify(body))
+        console.log('mayachainSignTx MSG SignDoc: ', JSON.stringify(body))
         return {
             signature: response.signatures[0],
             serialized: response.serialized,

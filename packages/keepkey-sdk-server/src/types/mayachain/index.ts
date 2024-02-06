@@ -6,7 +6,7 @@ export type Coin = {
   denom: string
 }
 
-export type StdTxDeposit = {
+export type StdTxDepositMaya = {
   type: 'mayachain/MsgDeposit'
   value: {
     coins: any
@@ -25,7 +25,7 @@ export type SignDocDeposit = {
    * @minItems 1
    * @maxItems 1
    */
-  msgs: StdTxDeposit[]
+  msgs: StdTxDepositMaya[]
   fee: {
     amount: any
     gas: types.decimal.U64
