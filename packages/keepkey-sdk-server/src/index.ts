@@ -26,16 +26,20 @@ export function RegisterRoutes(app: express.Router) {
       })
     }
     if (err instanceof HDWalletError) {
-      if (err instanceof ActionCancelled) {
-        return res.status(500).json({
-          message: err.message,
-          name: err.name,
-          type: err.type,
-          failure_type: Types.FailureType.FAILURE_ACTIONCANCELLED,
-        })
-      } else {
-        return res.status(500).json({ message: err.message, name: err.name, type: err.type })
-      }
+      // @ts-ignore
+      console.log("ActionCancelled: ",ActionCancelled)
+      console.log("Types: ",Types)
+      //NERFED debugging node.js ActionCancelled error
+      // if (err instanceof ActionCancelled) {
+      //   return res.status(500).json({
+      //     message: err.message,
+      //     name: err.name,
+      //     type: err.type,
+      //     failure_type: Types.FailureType.FAILURE_ACTIONCANCELLED,
+      //   })
+      // } else {
+      //   return res.status(500).json({ message: err.message, name: err.name, type: err.type })
+      // }
     } else if (err && typeof err === 'object' && 'from_wallet' in err) {
       assume<core.Event>(err)
       switch (err.message_enum) {
