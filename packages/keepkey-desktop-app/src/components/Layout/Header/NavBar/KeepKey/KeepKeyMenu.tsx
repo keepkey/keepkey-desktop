@@ -46,10 +46,8 @@ export const KeepKeyMenu = () => {
       : translate('walletProvider.keepKey.settings.status.disabled')
   }
 
-  const getUpdateText = (updateAvailable: boolean | undefined) => {
-    return updateAvailable
-      ? translate('walletProvider.keepKey.settings.status.updateAvailable')
-      : translate('walletProvider.keepKey.settings.status.upToDate')
+  const getUpdateText = () => {
+    return translate('walletProvider.keepKey.settings.status.upToDate')
   }
 
   const handleWipeClick = () => {
@@ -104,8 +102,8 @@ export const KeepKeyMenu = () => {
             label='walletProvider.keepKey.settings.menuLabels.bootloader'
             value={getUpdateText(versions?.bootloader.updateAvailable)}
             badge={versions?.bootloader.device ?? 'Loading'}
-            badgeColor={versions?.bootloader.updateAvailable ? 'yellow' : 'green'}
-            valueDisposition={versions?.bootloader.updateAvailable ? 'info' : 'neutral'}
+            badgeColor={'green'}
+            valueDisposition={'neutral'}
             isDisabled={!versions?.bootloader.updateAvailable}
             externalUrl={updaterUrl}
           />
@@ -113,9 +111,9 @@ export const KeepKeyMenu = () => {
             label='walletProvider.keepKey.settings.menuLabels.firmware'
             value={getUpdateText(versions?.firmware.updateAvailable)}
             badge={versions?.firmware.device ?? 'Loading'}
-            badgeColor={versions?.firmware.updateAvailable ? 'yellow' : 'green'}
-            valueDisposition={versions?.firmware.updateAvailable ? 'info' : 'neutral'}
-            isDisabled={!versions?.firmware.updateAvailable}
+            badgeColor={'green'}
+            valueDisposition={'neutral'}
+            isDisabled={true}
             externalUrl={updaterUrl}
           />
           <MenuDivider />
