@@ -10120,7 +10120,10 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-core-npm-1.53.3-b54647f610-77c694c1a4.zip/node_modules/@shapeshiftoss/hdwallet-core/",\
         "packageDependencies": [\
           ["@shapeshiftoss/hdwallet-core", "npm:1.53.3"],\
+          ["@ethersproject/bytes", "npm:5.7.0"],\
           ["@shapeshiftoss/proto-tx-builder", "npm:0.8.0"],\
+          ["@types/google-protobuf", "npm:3.15.12"],\
+          ["@types/node", "npm:18.11.9"],\
           ["eip-712", "npm:1.0.0"],\
           ["eventemitter2", "npm:5.0.1"],\
           ["lodash", "npm:4.17.21"],\
@@ -10135,6 +10138,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@shapeshiftoss-hdwallet-keepkey-npm-1.52.11-4bf2d79bed-4f43128e3e.zip/node_modules/@shapeshiftoss/hdwallet-keepkey/",\
         "packageDependencies": [\
           ["@shapeshiftoss/hdwallet-keepkey", "npm:1.52.11"],\
+          ["@cosmjs/encoding", "npm:0.30.0"],\
           ["@ethereumjs/common", "npm:2.6.5"],\
           ["@ethereumjs/tx", "npm:3.5.2"],\
           ["@keepkey/device-protocol", "npm:7.12.2"],\
@@ -10142,16 +10146,26 @@ const RAW_RUNTIME_STATE =
           ["@shapeshiftoss/bitcoinjs-lib", "npm:5.2.0-shapeshift.2"],\
           ["@shapeshiftoss/hdwallet-core", "npm:1.52.11"],\
           ["@shapeshiftoss/proto-tx-builder", "npm:0.8.0"],\
+          ["assert", "npm:2.0.0"],\
           ["bignumber.js", "npm:9.1.0"],\
           ["bnb-javascript-sdk-nobroadcast", "npm:2.16.15"],\
+          ["bs58", "npm:4.0.1"],\
+          ["bs58check", "npm:2.1.2"],\
+          ["buffer", "npm:6.0.3"],\
+          ["create-hash", "npm:1.2.0"],\
           ["crypto-js", "npm:4.1.1"],\
           ["eip55", "npm:2.1.0"],\
+          ["ethers", "npm:5.7.2"],\
+          ["events", "npm:3.3.0"],\
           ["google-protobuf", "npm:3.21.2"],\
           ["icepick", "npm:2.4.0"],\
           ["lodash", "npm:4.17.21"],\
+          ["long", "npm:4.0.0"],\
           ["p-lazy", "npm:3.1.0"],\
           ["semver", "npm:7.3.8"],\
-          ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."]\
+          ["tiny-secp256k1", "patch:tiny-secp256k1@npm%3A1.1.6#./.yarn/patches/tiny-secp256k1-npm-1.1.6-00db893e04.patch::version=1.1.6&hash=6b0a67&locator=keepkey-monorepo%40workspace%3A."],\
+          ["url", "npm:0.11.0"],\
+          ["util", "npm:0.12.5"]\
         ],\
         "linkType": "HARD"\
       }]\
