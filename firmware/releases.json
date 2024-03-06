@@ -2,7 +2,7 @@
   "latest": {
     "firmware": {
       "version": "v7.9.3",
-      "url": "v7.9.1/firmware.keepkey.bin",
+      "url": "v7.9.3/firmware.keepkey.bin",
       "hash": "24cca93ef5e7907dc6d8405b8ab9800d4e072dd9259138cf7679107985b88137"
     },
     "bootloader": {
