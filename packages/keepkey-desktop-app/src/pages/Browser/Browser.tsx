@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/icons'
 import { HStack, IconButton, Input, Stack, useDisclosure,   Drawer,
   DrawerContent,
-  DrawerOverlay, Button } from '@chakra-ui/react'
+  DrawerOverlay, Button, IconButton, Avatar } from '@chakra-ui/react'
 import * as Comlink from 'comlink'
 import { Main } from 'components/Layout/Main'
 import { getConfig } from 'config'
@@ -110,7 +110,7 @@ export const Browser = () => {
   useEffect(() => {
     onOpen()
   }, []);  // Include dependencies if they change over time
-  
+
   useEffect(() => {
     const setupListeners = () => {
       const webview = getWebview();
@@ -252,7 +252,7 @@ export const Browser = () => {
       onOpen();
     }
   };
-  
+
   useEffect(() => {
     if (!webviewReady) return
 
@@ -275,22 +275,6 @@ export const Browser = () => {
             flexDirection: 'column',
           }}
       >
-        <Stack direction='row' flex={1}>
-          <webview
-              id='webview'
-              partition='browser'
-              src='about:blank'
-              style={{ flexGrow: 8 }}
-              allowpopups='true'
-          ></webview>
-          <Stack flex={4} display={isOpen ? 'flex' : 'none'}>
-            <webview
-                id='second-webview-top'
-                src='https://wallet-connect-dapp-ochre.vercel.app/'
-                style={{ flex: 4 }}
-            ></webview>
-          </Stack>
-        </Stack>
         <Stack direction={{ base: 'column', md: 'column' }} height='full' style={{ margin: '5px' }}>
           <form onSubmit={formatAndSaveUrl}>
             <HStack>
@@ -322,9 +306,25 @@ export const Browser = () => {
                   isDisabled={!canGoForward}
               />
               <IconButton aria-label='Open developer tools' icon={<FaBug />} onClick={openDevTools} />
+              <Button onClick={toggleSecondWebview}><Avatar size="xs" src="https://asset.brandfetch.io/id11-wfgsq/idYIhr7BJC.jpeg" />{isOpen ? 'Wallet Connect' : 'Wallet Connect'}</Button>
             </HStack>
           </form>
-          <Button onClick={toggleSecondWebview}>{isOpen ? 'Close Second Webview' : 'Open Second Webview'}</Button>
+        </Stack>
+        <Stack direction='row' flex={1}>
+          <webview
+              id='webview'
+              partition='browser'
+              src='about:blank'
+              style={{ flexGrow: 8 }}
+              allowpopups='true'
+          ></webview>
+          <Stack flex={4} display={isOpen ? 'flex' : 'none'}>
+            <webview
+                id='second-webview-top'
+                src='https://wallet-connect-dapp-ochre.vercel.app/'
+                style={{ flex: 4 }}
+            ></webview>
+          </Stack>
         </Stack>
       </Main>
   )
