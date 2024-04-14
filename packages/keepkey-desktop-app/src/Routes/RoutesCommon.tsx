@@ -45,13 +45,13 @@ export const routes: NestedRoute[] = [
   //   main: TransactionHistory,
   //   category: RouteCategory.Explore,
   // },
-  {
-    path: '/authenticator',
-    label: 'navBar.authenticator',
-    icon: <FaLock />,
-    category: RouteCategory.Explore,
-    main: Authenticator,
-  },
+  // {
+  //   path: '/authenticator',
+  //   label: 'navBar.authenticator',
+  //   icon: <FaLock />,
+  //   category: RouteCategory.Explore,
+  //   main: Authenticator,
+  // },
   {
     path: '/browser',
     label: 'navBar.browser',
@@ -75,48 +75,48 @@ export const routes: NestedRoute[] = [
       },
     ],
   },
-  {
-    path: '/assets',
-    label: 'navBar.assets',
-    main: Assets,
-    icon: <AssetsIcon />,
-    category: RouteCategory.Wallet,
-    routes: [
-      {
-        path: '/:chainId/:assetSubId',
-        label: 'Overview',
-        icon: <AssetsIcon />,
-        main: null,
-        hide: true,
-        routes: [
-          {
-            path: '/',
-            label: 'navBar.overview',
-            main: Asset,
-          },
-          {
-            path: '/transactions',
-            label: 'navBar.transactions',
-            main: AssetTxHistory,
-          },
-        ],
-      },
-      {
-        path: '/keepkey/:chainId/:assetSubId',
-        label: 'Overview',
-        icon: <AssetsIcon />,
-        main: null,
-        hide: true,
-        routes: [
-          {
-            path: '/',
-            label: 'navBar.overview',
-            main: KeepkeyAsset,
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   path: '/assets',
+  //   label: 'navBar.assets',
+  //   main: Assets,
+  //   icon: <AssetsIcon />,
+  //   category: RouteCategory.Wallet,
+  //   routes: [
+  //     {
+  //       path: '/:chainId/:assetSubId',
+  //       label: 'Overview',
+  //       icon: <AssetsIcon />,
+  //       main: null,
+  //       hide: true,
+  //       routes: [
+  //         {
+  //           path: '/',
+  //           label: 'navBar.overview',
+  //           main: Asset,
+  //         },
+  //         {
+  //           path: '/transactions',
+  //           label: 'navBar.transactions',
+  //           main: AssetTxHistory,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       path: '/keepkey/:chainId/:assetSubId',
+  //       label: 'Overview',
+  //       icon: <AssetsIcon />,
+  //       main: null,
+  //       hide: true,
+  //       routes: [
+  //         {
+  //           path: '/',
+  //           label: 'navBar.overview',
+  //           main: KeepkeyAsset,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   // {
   //   path: '/accounts',
   //   label: 'navBar.accounts',

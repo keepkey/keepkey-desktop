@@ -1,5 +1,3 @@
-/// <reference types="electron" />
-
 import {
   ArrowForwardIcon,
   ArrowLeftIcon,
@@ -7,7 +5,9 @@ import {
   CloseIcon,
   RepeatIcon,
 } from '@chakra-ui/icons'
-import { HStack, IconButton, Input, Stack } from '@chakra-ui/react'
+import { HStack, IconButton, Input, Stack, useDisclosure,   Drawer,
+  DrawerContent,
+  DrawerOverlay, Button } from '@chakra-ui/react'
 import * as Comlink from 'comlink'
 import { Main } from 'components/Layout/Main'
 import { getConfig } from 'config'
@@ -95,6 +95,7 @@ export const Browser = () => {
   const [url, setUrl] = useState('https://private.shapeshift.com/')
   const [inputUrl, setInputUrl] = useState(url)
   const [loading, setLoading] = useState(false)
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [webviewLoadFailure, setWebviewLoadFailure] = useState<string | undefined>(undefined)
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
@@ -105,6 +106,36 @@ export const Browser = () => {
   } = useWallet()
 
   const [webviewReady, setWebviewReady] = useState(false)
+
+  useEffect(() => {
+    onOpen()
+  }, []);  // Include dependencies if they change over time
+  
+  useEffect(() => {
+    const setupListeners = () => {
+      const webview = getWebview();
+      if (!webview) {
+        console.error("Webview not available");
+        return;
+      }
+
+      const listener = () => {
+        const currentUrl = webview.getURL();
+        const urlParams = new URL(currentUrl).searchParams;
+        const walletConnect = urlParams.get('walletconnect');
+        console.log("URL changed to:", currentUrl);  // Debug: Log current URL
+        console.log("walletconnect parameter:", walletConnect);  // Debug: Log walletconnect param
+      };
+
+      webview.addEventListener('did-stop-loading', listener);
+      return () => {
+        webview.removeEventListener('did-stop-loading', listener);
+      };
+    };
+
+    setupListeners();
+  }, [onOpen, onClose]);  // Include dependencies if they change over time
+
   useEffect(() => {
     clearClipBoardIfWCString()
     const webview = getWebview()!
@@ -213,29 +244,15 @@ export const Browser = () => {
     }
   }, [browserUrl, webviewReady])
 
-  // useEffect(() => {
-  //   if (!webviewReady) return
-
-  //   const contentsId = getWebview()!.getWebContentsId()
-  //   const abortController = new AbortController()
-  //   const callback = _.memoize(async (data: string) => {
-  //     if (!data.startsWith('wc:')) return
-  //     console.log(`got scanned code, connecting to ${data}`)
-  //     await connectIndirect('')
-  //     await connectIndirect(data)
-  //   })
-
-  //   ipcListeners
-  //     .appMonitorWebContentsForQr(contentsId, abortController.signal, Comlink.proxy(callback))
-  //     .catch(e => console.error('appMonitorWebContentsForQr error:', e))
-
-  //   return () => abortController.abort()
-  // }, [webviewReady])
-
-  // useEffect(() => {
-  //   connectIndirect = connect
-  // }, [connect])
-
+  // Add a button to manually toggle the drawer for debugging
+  const toggleSecondWebview = () => {
+    if (isOpen) {
+      onClose();
+    } else {
+      onOpen();
+    }
+  };
+  
   useEffect(() => {
     if (!webviewReady) return
 
@@ -248,66 +265,67 @@ export const Browser = () => {
   }, [webviewReady])
 
   return (
-    <Main
-      height='full'
-      style={{
-        padding: 0,
-        minWidth: '100%',
-        flexGrow: 1,
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <webview
-        id='webview'
-        partition='browser'
-        src='about:blank'
-        style={{
-          flexGrow: 1,
-        }}
-        // @ts-expect-error
-        allowpopups='true'
-      ></webview>
-      <Stack direction={{ base: 'column', md: 'column' }} height='full' style={{ margin: '5px' }}>
-        {/*{webviewLoadFailure !== undefined && (*/}
-        {/*  // <Alert status='error'>*/}
-        {/*  //   <AlertIcon />*/}
-        {/*  //   {webviewLoadFailure}*/}
-        {/*  // </Alert>*/}
-        {/*)}*/}
-        <form onSubmit={formatAndSaveUrl}>
-          <HStack>
-            <Input
-              disabled={loading}
-              value={inputUrl}
-              onChange={e => setInputUrl(e.target.value)}
-              onBlur={formatAndSaveUrl}
-            />
-            {loading ? (
-              <IconButton aria-label='Stop' icon={<CloseIcon />} onClick={stopLoading} />
-            ) : url === inputUrl && webviewLoadFailure === undefined ? (
-              <IconButton aria-label='Reload' icon={<RepeatIcon />} type='submit' />
-            ) : (
-              <IconButton aria-label='Go' icon={<ArrowForwardIcon />} type='submit' />
-            )}
-            <IconButton
-              aria-label='Back'
-              icon={<ArrowLeftIcon />}
-              onClick={goBack}
-              isLoading={loading}
-              isDisabled={!canGoBack}
-            />
-            <IconButton
-              aria-label='Forward'
-              icon={<ArrowRightIcon />}
-              onClick={goForward}
-              isLoading={loading}
-              isDisabled={!canGoForward}
-            />
-            <IconButton aria-label='Open developer tools' icon={<FaBug />} onClick={openDevTools} />
-          </HStack>
-        </form>
-      </Stack>
-    </Main>
+      <Main
+          height='full'
+          style={{
+            padding: 0,
+            minWidth: '100%',
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+      >
+        <Stack direction='row' flex={1}>
+          <webview
+              id='webview'
+              partition='browser'
+              src='about:blank'
+              style={{ flexGrow: 8 }}
+              allowpopups='true'
+          ></webview>
+          <Stack flex={4} display={isOpen ? 'flex' : 'none'}>
+            <webview
+                id='second-webview-top'
+                src='https://wallet-connect-dapp-ochre.vercel.app/'
+                style={{ flex: 4 }}
+            ></webview>
+          </Stack>
+        </Stack>
+        <Stack direction={{ base: 'column', md: 'column' }} height='full' style={{ margin: '5px' }}>
+          <form onSubmit={formatAndSaveUrl}>
+            <HStack>
+              <Input
+                  disabled={loading}
+                  value={inputUrl}
+                  onChange={e => setInputUrl(e.target.value)}
+                  onBlur={formatAndSaveUrl}
+              />
+              {loading ? (
+                  <IconButton aria-label='Stop' icon={<CloseIcon />} onClick={stopLoading} />
+              ) : url === inputUrl && webviewLoadFailure === undefined ? (
+                  <IconButton aria-label='Reload' icon={<RepeatIcon />} type='submit' />
+              ) : (
+                  <IconButton aria-label='Go' icon={<ArrowForwardIcon />} type='submit' />
+              )}
+              <IconButton
+                  aria-label='Back'
+                  icon={<ArrowLeftIcon />}
+                  onClick={goBack}
+                  isLoading={loading}
+                  isDisabled={!canGoBack}
+              />
+              <IconButton
+                  aria-label='Forward'
+                  icon={<ArrowRightIcon />}
+                  onClick={goForward}
+                  isLoading={loading}
+                  isDisabled={!canGoForward}
+              />
+              <IconButton aria-label='Open developer tools' icon={<FaBug />} onClick={openDevTools} />
+            </HStack>
+          </form>
+          <Button onClick={toggleSecondWebview}>{isOpen ? 'Close Second Webview' : 'Open Second Webview'}</Button>
+        </Stack>
+      </Main>
   )
 }
