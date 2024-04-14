@@ -70,11 +70,11 @@ jobs:
         run: |
           mkdir -p ~/private_keys/
           echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
-#      - name: Linux - Publish packages
-#        if: startsWith(matrix.os, 'ubuntu')
-#        run: yarn publish
-#        env:
-#          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Linux - Publish packages
+        if: startsWith(matrix.os, 'ubuntu')
+        run: yarn publish --all
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Linux - Build Electron App
         if: startsWith(matrix.os, 'ubuntu')
         run: yarn run release
