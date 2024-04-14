@@ -66,7 +66,7 @@ export const Header = () => {
             width='full'
             paddingTop={{ base: 'env(safe-area-inset-top)', md: 0 }}
         >
-          <HStack height='4.5rem' width='full' borderBottomWidth={1} borderColor={borderColor}>
+          <HStack height='2rem' width='full' borderBottomWidth={1} borderColor={borderColor}>
             <HStack width='full' margin='0 auto' px={{ base: 0, md: 4 }} spacing={0} columnGap={4}>
               <Box flex={1} display={{ base: 'block', md: 'none' }}>
                 <IconButton
@@ -78,7 +78,7 @@ export const Header = () => {
               </Box>
               <Flex justifyContent={{ base: 'center', md: 'flex-start' }}>
                 <Link to='/'>
-                  <Image boxSize='48px' src={KeepKeyIconBlack} alt='Go to Dashboard' />
+                  <Image boxSize='33px' src={KeepKeyIconBlack} alt='Go to Dashboard' />
                 </Link>
               </Flex>
               <Flex justifyContent='flex-end' flex={1} rowGap={4} columnGap={2}>

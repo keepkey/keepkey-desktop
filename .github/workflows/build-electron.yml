@@ -72,7 +72,7 @@ jobs:
           echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
       - name: Linux - Publish packages
         if: startsWith(matrix.os, 'ubuntu')
-        run: yarn publish
+        run: yarn publish --all
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Linux - Build Electron App
