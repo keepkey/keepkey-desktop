@@ -82,11 +82,11 @@ export const Header = () => {
                 </Link>
               </Flex>
               <Flex justifyContent='flex-end' flex={1} rowGap={4} columnGap={2}>
-                <Button onClick={openWalletConnect}>
-                  <Avatar size="xs" src="placeholder" />
-                  Wallet Connect
-                </Button>
-                <ChainMenu display={{ base: 'none', md: 'block' }} />
+                {/*<Button onClick={openWalletConnect}>*/}
+                {/*  <Avatar size="xs" src="placeholder" />*/}
+                {/*  Wallet Connect*/}
+                {/*</Button>*/}
+                {/*<ChainMenu display={{ base: 'none', md: 'block' }} />*/}
               </Flex>
             </HStack>
           </HStack>
