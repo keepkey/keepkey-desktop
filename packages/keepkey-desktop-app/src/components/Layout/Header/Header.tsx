@@ -17,8 +17,8 @@ import { HamburgerIcon } from '@chakra-ui/icons';
 import KeepKeyIconBlack from 'assets/kk-icon-black.png';
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { WalletActions } from 'context/WalletProvider/actions';
-import { ChainMenu } from './NavBar/ChainMenu';
+// import { WalletActions } from 'context/WalletProvider/actions';
+// import { ChainMenu } from './NavBar/ChainMenu';
 import { SideNavContent } from './SideNavContent';
 import { useWallet } from 'hooks/useWallet/useWallet';
 
@@ -66,7 +66,7 @@ export const Header = () => {
             width='full'
             paddingTop={{ base: 'env(safe-area-inset-top)', md: 0 }}
         >
-          <HStack height='2rem' width='full' borderBottomWidth={1} borderColor={borderColor}>
+          <HStack height='2.3rem' width='full' borderBottomWidth={1} borderColor={borderColor}>
             <HStack width='full' margin='0 auto' px={{ base: 0, md: 4 }} spacing={0} columnGap={4}>
               <Box flex={1} display={{ base: 'block', md: 'none' }}>
                 <IconButton
