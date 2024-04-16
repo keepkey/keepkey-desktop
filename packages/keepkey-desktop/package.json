@@ -51,10 +51,6 @@
                 "zip"
             ]
         },
-        "dmg": {
-            "background": "background.png",
-            "icon": "icon.png"
-        },
         "win": {
             "icon": "icon.png",
             "target": [
