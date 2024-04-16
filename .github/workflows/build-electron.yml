@@ -131,4 +131,3 @@ jobs:
             packages/keepkey-desktop/dist/*.exe
             packages/keepkey-desktop/dist/*.exe.blockmap
           if-no-files-found: error
-  
