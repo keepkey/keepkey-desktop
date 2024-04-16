@@ -86,6 +86,7 @@
     "@walletconnect/client": "^1.8.0",
     "builder-util": "^25.0.0-alpha.6",
     "crypto": "^1.0.1",
+    "dotenv-cli": "^7.4.1",
     "web3": "^4.0.1"
   }
 }

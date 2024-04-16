@@ -60,6 +60,7 @@ const RAW_RUNTIME_STATE =
           ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
           ["builder-util", "npm:25.0.0-alpha.6"],\
           ["crypto", "npm:1.0.1"],\
+          ["dotenv-cli", "npm:7.4.1"],\
           ["eslint", "npm:8.28.0"],\
           ["prettier", "npm:2.8.0"],\
           ["typescript", "patch:typescript@npm%3A4.9.3#optional!builtin<compat/typescript>::version=4.9.3&hash=a66ed4"],\
@@ -3115,17 +3116,17 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@bithighlander/electron-builder-notarize", [\
-      ["npm:0.0.8", {\
-        "packageLocation": "./.yarn/cache/@bithighlander-electron-builder-notarize-npm-0.0.8-b8ae32ff79-f876a5d8cd.zip/node_modules/@bithighlander/electron-builder-notarize/",\
+      ["npm:0.0.9", {\
+        "packageLocation": "./.yarn/cache/@bithighlander-electron-builder-notarize-npm-0.0.9-80b0598b25-4493135ca2.zip/node_modules/@bithighlander/electron-builder-notarize/",\
         "packageDependencies": [\
-          ["@bithighlander/electron-builder-notarize", "npm:0.0.8"]\
+          ["@bithighlander/electron-builder-notarize", "npm:0.0.9"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.8", {\
-        "packageLocation": "./.yarn/__virtual__/@bithighlander-electron-builder-notarize-virtual-d978f81292/0/cache/@bithighlander-electron-builder-notarize-npm-0.0.8-b8ae32ff79-f876a5d8cd.zip/node_modules/@bithighlander/electron-builder-notarize/",\
+      ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.9", {\
+        "packageLocation": "./.yarn/__virtual__/@bithighlander-electron-builder-notarize-virtual-4fb4e992e5/0/cache/@bithighlander-electron-builder-notarize-npm-0.0.9-80b0598b25-4493135ca2.zip/node_modules/@bithighlander/electron-builder-notarize/",\
         "packageDependencies": [\
-          ["@bithighlander/electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.8"],\
+          ["@bithighlander/electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.9"],\
           ["@types/electron-builder", null],\
           ["builder-util", "npm:24.13.1"],\
           ["dotenv", "npm:8.6.0"],\
@@ -18988,6 +18989,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["npm:16.4.5", {\
+        "packageLocation": "./.yarn/cache/dotenv-npm-16.4.5-bcb20eb95d-55a3134601.zip/node_modules/dotenv/",\
+        "packageDependencies": [\
+          ["dotenv", "npm:16.4.5"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:8.6.0", {\
         "packageLocation": "./.yarn/cache/dotenv-npm-8.6.0-2ce3e9f7bb-31d7b5c010.zip/node_modules/dotenv/",\
         "packageDependencies": [\
@@ -19003,7 +19011,27 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["dotenv-cli", [\
+      ["npm:7.4.1", {\
+        "packageLocation": "./.yarn/cache/dotenv-cli-npm-7.4.1-ac1a13f3cf-213ed2a446.zip/node_modules/dotenv-cli/",\
+        "packageDependencies": [\
+          ["dotenv-cli", "npm:7.4.1"],\
+          ["cross-spawn", "npm:7.0.3"],\
+          ["dotenv", "npm:16.4.5"],\
+          ["dotenv-expand", "npm:10.0.0"],\
+          ["minimist", "npm:1.2.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["dotenv-expand", [\
+      ["npm:10.0.0", {\
+        "packageLocation": "./.yarn/cache/dotenv-expand-npm-10.0.0-fa5b032ad9-b41eb278bc.zip/node_modules/dotenv-expand/",\
+        "packageDependencies": [\
+          ["dotenv-expand", "npm:10.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:5.1.0", {\
         "packageLocation": "./.yarn/cache/dotenv-expand-npm-5.1.0-c3fff50eb5-d52af2a6e4.zip/node_modules/dotenv-expand/",\
         "packageDependencies": [\
@@ -24779,7 +24807,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/keepkey-desktop/",\
         "packageDependencies": [\
           ["keepkey-desktop", "workspace:packages/keepkey-desktop"],\
-          ["@bithighlander/electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.8"],\
+          ["@bithighlander/electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.9"],\
           ["@ethersproject/contracts", "npm:5.7.0"],\
           ["@keepkey/common-esbuild-bits", "workspace:packages/common-esbuild-bits"],\
           ["@keepkey/device-protocol", "npm:7.10.2"],\
@@ -25146,6 +25174,7 @@ const RAW_RUNTIME_STATE =
           ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
           ["builder-util", "npm:25.0.0-alpha.6"],\
           ["crypto", "npm:1.0.1"],\
+          ["dotenv-cli", "npm:7.4.1"],\
           ["eslint", "npm:8.28.0"],\
           ["prettier", "npm:2.8.0"],\
           ["typescript", "patch:typescript@npm%3A4.9.3#optional!builtin<compat/typescript>::version=4.9.3&hash=a66ed4"],\
