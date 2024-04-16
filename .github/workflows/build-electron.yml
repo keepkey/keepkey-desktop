@@ -17,6 +17,7 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     steps:
+      # Existing Steps
       - name: Checkout
         uses: nschloe/action-cached-lfs-checkout@v1
         with:
@@ -45,40 +46,44 @@ jobs:
           name: app-build-dir-${{ runner.os }}
           path: packages/keepkey-desktop/build/
           if-no-files-found: error
+
+      # Additional Step for Generating Checksums
       - name: Generate Checksum
         run: |
           if [[ "${{ runner.os }}" == "Windows" ]]; then
-            ./scripts/generate_checksum_windows.sh
+          ./scripts/generate_checksum_windows.sh
           else
-            ./scripts/generate_checksum_unix.sh
+          ./scripts/generate_checksum_unix.sh
           fi
         shell: bash
+      # Additional Step for Uploading Checksums
       - name: Upload Checksum
         uses: actions/upload-artifact@v3
         with:
           name: checksum-${{ runner.os }}
           path: checksum.txt
           if-no-files-found: error
-      - name: Install or Update Xcode Command Line Tools
+
+      # Rest of the Steps
+      - name: Mac - Notarize and Staple App
         if: startsWith(matrix.os, 'macos')
         run: |
-          set -e
-          CLT_PLACEHOLDER="/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress"
-          touch ${CLT_PLACEHOLDER}
-          PROD=$(softwareupdate -l |
-            grep "\*.*Command Line" |
-            head -n 1 | awk -F"*" '{print $2}' |
-            sed -e 's/^ *//' |
-            tr -d '\n')
-          softwareupdate -i "${PROD}" --verbose
-          rm ${CLT_PLACEHOLDER}
-      - name: Mac - Notarize the app with notarytool
-        if: startsWith(matrix.os, 'macos')
-        run: |
-          xcrun notarytool submit path/to/your.app --keychain-profile "AC_NOTARY" --wait
-          xcrun stapler staple path/to/your.app
+          # Submit the application for notarization and wait for the process to complete
+          xcrun notarytool submit packages/keepkey-desktop/build/*.app --keychain-profile "AC_NOTARY" --wait
+          # Staple the notarization ticket to the application
+          xcrun stapler staple packages/keepkey-desktop/build/*.app
         env:
           AC_NOTARY: ${{ secrets.notarytool_profile }}
+#      - name: Mac - Prepare For App Notarization
+#        if: startsWith(matrix.os, 'macos')
+#        run: |
+#          mkdir -p ~/private_keys/
+#          echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
+#      - name: Linux - Publish packages
+#        if: startsWith(matrix.os, 'ubuntu')
+#        run: yarn publish --all
+#        env:
+#          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Linux - Build Electron App
         if: startsWith(matrix.os, 'ubuntu')
         run: yarn run release
