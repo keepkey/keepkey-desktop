@@ -59,9 +59,19 @@ jobs:
           name: checksum-${{ runner.os }}
           path: checksum.txt
           if-no-files-found: error
-      - name: Install Xcode Command Line Tools
+      - name: Install or Update Xcode Command Line Tools
         if: startsWith(matrix.os, 'macos')
-        run: xcode-select --install
+        run: |
+          set -e
+          CLT_PLACEHOLDER="/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress"
+          touch ${CLT_PLACEHOLDER}
+          PROD=$(softwareupdate -l |
+            grep "\*.*Command Line" |
+            head -n 1 | awk -F"*" '{print $2}' |
+            sed -e 's/^ *//' |
+            tr -d '\n')
+          softwareupdate -i "${PROD}" --verbose
+          rm ${CLT_PLACEHOLDER}
       - name: Mac - Notarize the app with notarytool
         if: startsWith(matrix.os, 'macos')
         run: |
