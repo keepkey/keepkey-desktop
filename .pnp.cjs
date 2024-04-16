@@ -58,6 +58,7 @@ const RAW_RUNTIME_STATE =
           ["@pioneer-platform/harpie-client", "npm:8.1.17"],\
           ["@walletconnect/client", "npm:1.8.0"],\
           ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
+          ["builder-util", "npm:25.0.0-alpha.6"],\
           ["crypto", "npm:1.0.1"],\
           ["eslint", "npm:8.28.0"],\
           ["prettier", "npm:2.8.0"],\
@@ -174,7 +175,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/traverse", "npm:7.20.5"],\
           ["@babel/types", "npm:7.20.5"],\
           ["convert-source-map", "npm:1.9.0"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["gensync", "npm:1.0.0-beta.2"],\
           ["json5", "npm:2.2.1"],\
           ["semver", "npm:6.3.0"]\
@@ -376,7 +377,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/helper-compilation-targets", "virtual:b1e311b55659baa9c4169323608ca37ecc2291e8ec57c2ac0aca9958fcbf8971073b1fdc942301c2cc1d03ea7f108f3c1a4bdee052d99fbd65df985729261d42#npm:7.20.0"],\
           ["@babel/helper-plugin-utils", "npm:7.20.2"],\
           ["@types/babel__core", null],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["lodash.debounce", "npm:4.0.8"],\
           ["resolve", "patch:resolve@npm%3A1.22.1#optional!builtin<compat/resolve>::version=1.22.1&hash=c3c19d"],\
           ["semver", "npm:6.3.0"]\
@@ -3058,7 +3059,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/helper-split-export-declaration", "npm:7.18.6"],\
           ["@babel/parser", "npm:7.20.5"],\
           ["@babel/types", "npm:7.20.5"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["globals", "npm:11.12.0"]\
         ],\
         "linkType": "HARD"\
@@ -3116,6 +3117,32 @@ const RAW_RUNTIME_STATE =
           ["typeforce", "npm:1.18.0"],\
           ["varuint-bitcoin", "npm:1.1.2"],\
           ["wif", "npm:2.0.6"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@bithighlander/electron-builder-notarize", [\
+      ["npm:0.0.1", {\
+        "packageLocation": "./.yarn/cache/@bithighlander-electron-builder-notarize-npm-0.0.1-260cb00452-4cf87a8f94.zip/node_modules/@bithighlander/electron-builder-notarize/",\
+        "packageDependencies": [\
+          ["@bithighlander/electron-builder-notarize", "npm:0.0.1"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.1", {\
+        "packageLocation": "./.yarn/__virtual__/@bithighlander-electron-builder-notarize-virtual-f9da9cc12c/0/cache/@bithighlander-electron-builder-notarize-npm-0.0.1-260cb00452-4cf87a8f94.zip/node_modules/@bithighlander/electron-builder-notarize/",\
+        "packageDependencies": [\
+          ["@bithighlander/electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.1"],\
+          ["@types/electron-builder", null],\
+          ["dotenv", "npm:8.6.0"],\
+          ["electron-builder", "npm:24.13.3"],\
+          ["electron-notarize", "npm:1.2.2"],\
+          ["js-yaml", "npm:3.14.1"],\
+          ["read-pkg-up", "npm:7.0.1"]\
+        ],\
+        "packagePeers": [\
+          "@types/electron-builder",\
+          "electron-builder"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6359,7 +6386,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@electron-get-npm-2.0.2-41edb8e2bd-c92cf51c21.zip/node_modules/@electron/get/",\
         "packageDependencies": [\
           ["@electron/get", "npm:2.0.2"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["env-paths", "npm:2.2.1"],\
           ["fs-extra", "npm:8.1.0"],\
           ["global-agent", "npm:3.0.0"],\
@@ -6376,7 +6403,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@electron-notarize-npm-2.2.1-c407243035-6d5bb78a0b.zip/node_modules/@electron/notarize/",\
         "packageDependencies": [\
           ["@electron/notarize", "npm:2.2.1"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["fs-extra", "npm:9.1.0"],\
           ["promise-retry", "npm:2.0.1"]\
         ],\
@@ -6389,7 +6416,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@electron/osx-sign", "npm:1.0.5"],\
           ["compare-version", "npm:0.1.2"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["fs-extra", "npm:10.1.0"],\
           ["isbinaryfile", "npm:4.0.10"],\
           ["minimist", "npm:1.2.7"],\
@@ -6405,7 +6432,7 @@ const RAW_RUNTIME_STATE =
           ["@electron/universal", "npm:1.3.3"],\
           ["@electron/asar", "npm:3.2.2"],\
           ["@malept/cross-spawn-promise", "npm:1.1.1"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["dir-compare", "npm:2.4.0"],\
           ["fs-extra", "npm:9.1.0"],\
           ["minimatch", "npm:3.1.2"],\
@@ -6419,7 +6446,7 @@ const RAW_RUNTIME_STATE =
           ["@electron/universal", "npm:1.5.1"],\
           ["@electron/asar", "npm:3.2.2"],\
           ["@malept/cross-spawn-promise", "npm:1.1.1"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["dir-compare", "npm:3.3.0"],\
           ["fs-extra", "npm:9.1.0"],\
           ["minimatch", "npm:3.1.2"],\
@@ -6685,7 +6712,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@eslint/eslintrc", "npm:1.3.3"],\
           ["ajv", "npm:6.12.6"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["espree", "npm:9.4.1"],\
           ["globals", "npm:13.18.0"],\
           ["ignore", "npm:5.2.1"],\
@@ -7330,7 +7357,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@humanwhocodes/config-array", "npm:0.11.7"],\
           ["@humanwhocodes/object-schema", "npm:1.2.1"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["minimatch", "npm:3.1.2"]\
         ],\
         "linkType": "HARD"\
@@ -8915,7 +8942,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@malept-flatpak-bundler-npm-0.4.0-fb94377955-14e04215bc.zip/node_modules/@malept/flatpak-bundler/",\
         "packageDependencies": [\
           ["@malept/flatpak-bundler", "npm:0.4.0"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["fs-extra", "npm:9.1.0"],\
           ["lodash", "npm:4.17.21"],\
           ["tmp-promise", "npm:3.0.3"]\
@@ -8981,7 +9008,7 @@ const RAW_RUNTIME_STATE =
           ["@noble/hashes", "npm:1.3.2"],\
           ["@scure/base", "npm:1.1.3"],\
           ["@types/debug", "npm:4.1.10"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["pony-cause", "npm:2.1.10"],\
           ["semver", "npm:7.5.4"],\
           ["superstruct", "npm:1.0.3"]\
@@ -9079,7 +9106,7 @@ const RAW_RUNTIME_STATE =
           ["@mswjs/interceptors", "npm:0.12.7"],\
           ["@open-draft/until", "npm:1.0.3"],\
           ["@xmldom/xmldom", "npm:0.7.9"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["headers-utils", "npm:3.0.2"],\
           ["outvariant", "npm:1.3.0"],\
           ["strict-event-emitter", "npm:0.2.8"]\
@@ -12787,7 +12814,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/scope-manager", "npm:5.45.0"],\
           ["@typescript-eslint/type-utils", "virtual:f3567450e00d483ad081fe7eee6066d8baf6a47cb0af66dcea12bd51cccaf2efc691ce04fdf594fc99e6edf43c9071142c65665bc20c2b166dddc7670c648c76#npm:5.45.0"],\
           ["@typescript-eslint/utils", "virtual:f3567450e00d483ad081fe7eee6066d8baf6a47cb0af66dcea12bd51cccaf2efc691ce04fdf594fc99e6edf43c9071142c65665bc20c2b166dddc7670c648c76#npm:5.45.0"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["eslint", "npm:8.28.0"],\
           ["ignore", "npm:5.2.1"],\
           ["natural-compare-lite", "npm:1.4.0"],\
@@ -12847,7 +12874,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/scope-manager", "npm:5.45.0"],\
           ["@typescript-eslint/types", "npm:5.45.0"],\
           ["@typescript-eslint/typescript-estree", "virtual:dd84848f965b8fd93085c023baa3bf43186404f3d4821ca3a0a4f39e4019b091b4ba944e7517adb49d9ce334557894a124c52a3cba044192171a5ecb8f9a7ad6#npm:5.45.0"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["eslint", "npm:8.28.0"],\
           ["typescript", "patch:typescript@npm%3A4.9.3#optional!builtin<compat/typescript>::version=4.9.3&hash=a66ed4"]\
         ],\
@@ -12887,7 +12914,7 @@ const RAW_RUNTIME_STATE =
           ["@types/typescript", null],\
           ["@typescript-eslint/typescript-estree", "virtual:dd84848f965b8fd93085c023baa3bf43186404f3d4821ca3a0a4f39e4019b091b4ba944e7517adb49d9ce334557894a124c52a3cba044192171a5ecb8f9a7ad6#npm:5.45.0"],\
           ["@typescript-eslint/utils", "virtual:f3567450e00d483ad081fe7eee6066d8baf6a47cb0af66dcea12bd51cccaf2efc691ce04fdf594fc99e6edf43c9071142c65665bc20c2b166dddc7670c648c76#npm:5.45.0"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["eslint", "npm:8.28.0"],\
           ["tsutils", "virtual:f3567450e00d483ad081fe7eee6066d8baf6a47cb0af66dcea12bd51cccaf2efc691ce04fdf594fc99e6edf43c9071142c65665bc20c2b166dddc7670c648c76#npm:3.21.0"],\
           ["typescript", "patch:typescript@npm%3A4.9.3#optional!builtin<compat/typescript>::version=4.9.3&hash=a66ed4"]\
@@ -12925,7 +12952,7 @@ const RAW_RUNTIME_STATE =
           ["@types/typescript", null],\
           ["@typescript-eslint/types", "npm:5.45.0"],\
           ["@typescript-eslint/visitor-keys", "npm:5.45.0"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["globby", "npm:11.1.0"],\
           ["is-glob", "npm:4.0.3"],\
           ["semver", "npm:7.3.8"],\
@@ -12945,7 +12972,7 @@ const RAW_RUNTIME_STATE =
           ["@types/typescript", null],\
           ["@typescript-eslint/types", "npm:5.45.0"],\
           ["@typescript-eslint/visitor-keys", "npm:5.45.0"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["globby", "npm:11.1.0"],\
           ["is-glob", "npm:4.0.3"],\
           ["semver", "npm:7.3.8"],\
@@ -14628,7 +14655,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/agent-base-npm-6.0.2-428f325a93-21fb903e09.zip/node_modules/agent-base/",\
         "packageDependencies": [\
           ["agent-base", "npm:6.0.2"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"]\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -14638,7 +14665,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/agentkeepalive-npm-4.2.1-b86a9fb343-63961cba1a.zip/node_modules/agentkeepalive/",\
         "packageDependencies": [\
           ["agentkeepalive", "npm:4.2.1"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["depd", "npm:1.1.2"],\
           ["humanize-ms", "npm:1.2.1"]\
         ],\
@@ -14827,7 +14854,7 @@ const RAW_RUNTIME_STATE =
           ["builder-util", "npm:24.0.0-alpha.3"],\
           ["builder-util-runtime", "npm:9.1.2-alpha.0"],\
           ["chromium-pickle-js", "npm:0.2.0"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["dmg-builder", "npm:24.0.0-alpha.5"],\
           ["ejs", "npm:3.1.8"],\
           ["electron-osx-sign", "npm:0.6.0"],\
@@ -14873,7 +14900,7 @@ const RAW_RUNTIME_STATE =
           ["builder-util", "npm:24.13.1"],\
           ["builder-util-runtime", "npm:9.2.4"],\
           ["chromium-pickle-js", "npm:0.2.0"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["dmg-builder", "npm:24.13.3"],\
           ["ejs", "npm:3.1.8"],\
           ["electron-builder-squirrel-windows", null],\
@@ -16541,7 +16568,7 @@ const RAW_RUNTIME_STATE =
           ["builder-util-runtime", "npm:9.1.2-alpha.0"],\
           ["chalk", "npm:4.1.2"],\
           ["cross-spawn", "npm:7.0.3"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["fs-extra", "npm:10.1.0"],\
           ["http-proxy-agent", "npm:5.0.0"],\
           ["https-proxy-agent", "npm:5.0.1"],\
@@ -16564,7 +16591,7 @@ const RAW_RUNTIME_STATE =
           ["builder-util-runtime", "npm:9.2.4"],\
           ["chalk", "npm:4.1.2"],\
           ["cross-spawn", "npm:7.0.3"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["fs-extra", "npm:10.1.0"],\
           ["http-proxy-agent", "npm:5.0.0"],\
           ["https-proxy-agent", "npm:5.0.1"],\
@@ -16587,7 +16614,7 @@ const RAW_RUNTIME_STATE =
           ["builder-util-runtime", "npm:9.2.5-alpha.2"],\
           ["chalk", "npm:4.1.2"],\
           ["cross-spawn", "npm:7.0.3"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["fs-extra", "npm:10.1.0"],\
           ["http-proxy-agent", "npm:5.0.0"],\
           ["https-proxy-agent", "npm:5.0.1"],\
@@ -16605,7 +16632,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/builder-util-runtime-npm-9.1.1-b7fce9788a-6b429ea283.zip/node_modules/builder-util-runtime/",\
         "packageDependencies": [\
           ["builder-util-runtime", "npm:9.1.1"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["sax", "npm:1.2.4"]\
         ],\
         "linkType": "HARD"\
@@ -16614,7 +16641,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/builder-util-runtime-npm-9.1.2-alpha.0-fc9f2706fd-25eace7c48.zip/node_modules/builder-util-runtime/",\
         "packageDependencies": [\
           ["builder-util-runtime", "npm:9.1.2-alpha.0"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["sax", "npm:1.2.4"]\
         ],\
         "linkType": "HARD"\
@@ -16623,7 +16650,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/builder-util-runtime-npm-9.2.4-d04e702c06-6b4b6518f8.zip/node_modules/builder-util-runtime/",\
         "packageDependencies": [\
           ["builder-util-runtime", "npm:9.2.4"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["sax", "npm:1.2.4"]\
         ],\
         "linkType": "HARD"\
@@ -16632,7 +16659,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/builder-util-runtime-npm-9.2.5-alpha.2-aa122e5b13-e836171404.zip/node_modules/builder-util-runtime/",\
         "packageDependencies": [\
           ["builder-util-runtime", "npm:9.2.5-alpha.2"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["sax", "npm:1.2.4"]\
         ],\
         "linkType": "HARD"\
@@ -18443,12 +18470,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4", {\
-        "packageLocation": "./.yarn/__virtual__/debug-virtual-914c8ff4c9/0/cache/debug-npm-4.3.4-4513954577-0073c3bcbd.zip/node_modules/debug/",\
+      ["virtual:a5b359e1c0907fca82becef8b98b4a9de89f0f0c00a24ab16de27f1a708cd5b350f497c0e8639b5462145a0f7016ef07e9b4ad479943062e54fa68c95266f56a#npm:2.6.9", {\
+        "packageLocation": "./.yarn/__virtual__/debug-virtual-6265f4ab8a/0/cache/debug-npm-2.6.9-7d4cb597dc-e07005f2b4.zip/node_modules/debug/",\
         "packageDependencies": [\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:a5b359e1c0907fca82becef8b98b4a9de89f0f0c00a24ab16de27f1a708cd5b350f497c0e8639b5462145a0f7016ef07e9b4ad479943062e54fa68c95266f56a#npm:2.6.9"],\
           ["@types/supports-color", null],\
-          ["ms", "npm:2.1.2"],\
+          ["ms", "npm:2.0.0"],\
           ["supports-color", null]\
         ],\
         "packagePeers": [\
@@ -18457,12 +18484,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:a5b359e1c0907fca82becef8b98b4a9de89f0f0c00a24ab16de27f1a708cd5b350f497c0e8639b5462145a0f7016ef07e9b4ad479943062e54fa68c95266f56a#npm:2.6.9", {\
-        "packageLocation": "./.yarn/__virtual__/debug-virtual-6265f4ab8a/0/cache/debug-npm-2.6.9-7d4cb597dc-e07005f2b4.zip/node_modules/debug/",\
+      ["virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4", {\
+        "packageLocation": "./.yarn/__virtual__/debug-virtual-acc5f54a0e/0/cache/debug-npm-4.3.4-4513954577-0073c3bcbd.zip/node_modules/debug/",\
         "packageDependencies": [\
-          ["debug", "virtual:a5b359e1c0907fca82becef8b98b4a9de89f0f0c00a24ab16de27f1a708cd5b350f497c0e8639b5462145a0f7016ef07e9b4ad479943062e54fa68c95266f56a#npm:2.6.9"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["@types/supports-color", null],\
-          ["ms", "npm:2.0.0"],\
+          ["ms", "npm:2.1.2"],\
           ["supports-color", null]\
         ],\
         "packagePeers": [\
@@ -19263,33 +19290,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["electron-builder-notarize", [\
-      ["npm:1.5.2", {\
-        "packageLocation": "./.yarn/cache/electron-builder-notarize-npm-1.5.2-53a9bf8681-729377aa72.zip/node_modules/electron-builder-notarize/",\
-        "packageDependencies": [\
-          ["electron-builder-notarize", "npm:1.5.2"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.5.2", {\
-        "packageLocation": "./.yarn/__virtual__/electron-builder-notarize-virtual-9d68d14f5b/0/cache/electron-builder-notarize-npm-1.5.2-53a9bf8681-729377aa72.zip/node_modules/electron-builder-notarize/",\
-        "packageDependencies": [\
-          ["electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.5.2"],\
-          ["@types/electron-builder", null],\
-          ["builder-util", "npm:25.0.0-alpha.6"],\
-          ["dotenv", "npm:8.6.0"],\
-          ["electron-builder", "npm:24.13.3"],\
-          ["electron-notarize", "npm:1.2.2"],\
-          ["js-yaml", "npm:3.14.1"],\
-          ["read-pkg-up", "npm:7.0.1"]\
-        ],\
-        "packagePeers": [\
-          "@types/electron-builder",\
-          "electron-builder"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["electron-is-dev", [\
       ["npm:2.0.0", {\
         "packageLocation": "./.yarn/cache/electron-is-dev-npm-2.0.0-9d41637d91-7393f46f06.zip/node_modules/electron-is-dev/",\
@@ -19314,7 +19314,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/electron-notarize-npm-1.2.2-8e8b3da845-c66b175b6f.zip/node_modules/electron-notarize/",\
         "packageDependencies": [\
           ["electron-notarize", "npm:1.2.2"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["fs-extra", "npm:9.1.0"]\
         ],\
         "linkType": "HARD"\
@@ -19372,7 +19372,7 @@ const RAW_RUNTIME_STATE =
           ["electron-rebuild", "npm:3.2.9"],\
           ["@malept/cross-spawn-promise", "npm:2.0.0"],\
           ["chalk", "npm:4.1.2"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["detect-libc", "npm:2.0.1"],\
           ["fs-extra", "npm:10.1.0"],\
           ["got", "npm:11.8.5"],\
@@ -20054,7 +20054,7 @@ const RAW_RUNTIME_STATE =
           ["ajv", "npm:6.12.6"],\
           ["chalk", "npm:4.1.2"],\
           ["cross-spawn", "npm:7.0.3"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["doctrine", "npm:3.0.0"],\
           ["escape-string-regexp", "npm:4.0.0"],\
           ["eslint-scope", "npm:7.1.1"],\
@@ -21348,7 +21348,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["extract-zip", "npm:2.0.1"],\
           ["@types/yauzl", "npm:2.10.0"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["get-stream", "npm:5.2.0"],\
           ["yauzl", "npm:2.10.0"]\
         ],\
@@ -22796,7 +22796,7 @@ const RAW_RUNTIME_STATE =
           ["http-proxy-agent", "npm:5.0.0"],\
           ["@tootallnate/once", "npm:2.0.0"],\
           ["agent-base", "npm:6.0.2"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"]\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -22850,7 +22850,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["https-proxy-agent", "npm:5.0.1"],\
           ["agent-base", "npm:6.0.2"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"]\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -23862,7 +23862,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/istanbul-lib-source-maps-npm-4.0.1-af0f859df7-5526983462.zip/node_modules/istanbul-lib-source-maps/",\
         "packageDependencies": [\
           ["istanbul-lib-source-maps", "npm:4.0.1"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["istanbul-lib-coverage", "npm:3.2.0"],\
           ["source-map", "npm:0.6.1"]\
         ],\
@@ -24976,6 +24976,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/keepkey-desktop/",\
         "packageDependencies": [\
           ["keepkey-desktop", "workspace:packages/keepkey-desktop"],\
+          ["@bithighlander/electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.1"],\
           ["@ethersproject/contracts", "npm:5.7.0"],\
           ["@keepkey/common-esbuild-bits", "workspace:packages/common-esbuild-bits"],\
           ["@keepkey/device-protocol", "npm:7.10.2"],\
@@ -25022,7 +25023,6 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.0.3"],\
           ["electron", "npm:22.0.0"],\
           ["electron-builder", "npm:24.13.3"],\
-          ["electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.5.2"],\
           ["electron-is-dev", "npm:2.0.0"],\
           ["electron-log", "npm:4.4.8"],\
           ["electron-unhandled", "npm:4.0.1"],\
@@ -25341,6 +25341,7 @@ const RAW_RUNTIME_STATE =
           ["@pioneer-platform/harpie-client", "npm:8.1.17"],\
           ["@walletconnect/client", "npm:1.8.0"],\
           ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
+          ["builder-util", "npm:25.0.0-alpha.6"],\
           ["crypto", "npm:1.0.1"],\
           ["eslint", "npm:8.28.0"],\
           ["prettier", "npm:2.8.0"],\
@@ -26329,7 +26330,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["micromark", "npm:3.1.0"],\
           ["@types/debug", "npm:4.1.7"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["decode-named-character-reference", "npm:1.0.2"],\
           ["micromark-core-commonmark", "npm:1.0.6"],\
           ["micromark-factory-space", "npm:1.0.0"],\
@@ -26693,7 +26694,7 @@ const RAW_RUNTIME_STATE =
           ["minify", "npm:6.0.1"],\
           ["clean-css", "npm:4.2.4"],\
           ["css-b64-images", "npm:0.2.5"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["html-minifier-terser", "npm:5.1.1"],\
           ["terser", "npm:5.16.0"],\
           ["try-to-catch", "npm:3.0.1"]\
@@ -32234,7 +32235,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["socks-proxy-agent", "npm:7.0.0"],\
           ["agent-base", "npm:6.0.2"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["socks", "npm:2.7.1"]\
         ],\
         "linkType": "HARD"\
@@ -32816,7 +32817,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/sumchecker-npm-3.0.1-b6973781e3-5c69776ce2.zip/node_modules/sumchecker/",\
         "packageDependencies": [\
           ["sumchecker", "npm:3.0.1"],\
-          ["debug", "virtual:9e3a462140b35a19ddb3d48ebde58d66740d97f4c0386bc195c327fc2c44fa59f43cbcb382dd9f194b16d0dd6c0a138aadd4a9de84088f88e25946598f97cb88#npm:4.3.4"]\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"]\
         ],\
         "linkType": "HARD"\
       }]\
