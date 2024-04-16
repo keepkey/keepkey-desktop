@@ -19325,7 +19325,7 @@ __metadata:
     concurrently: "npm:^7.6.0"
     cors: "npm:^2.8.5"
     create-hash: "npm:^1.2.0"
-    dmg-builder: "npm:^24.0.0-alpha.5"
+    dmg-builder: "npm:24.13.3"
     dotenv: "npm:^16.0.3"
     electron: "npm:22.0.0"
     electron-builder: "npm:24.13.3"
