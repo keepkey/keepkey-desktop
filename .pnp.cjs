@@ -18958,19 +18958,18 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["electron-builder-notarize", [\
-      ["npm:1.5.0", {\
-        "packageLocation": "./.yarn/cache/electron-builder-notarize-npm-1.5.0-5c13f2ab61-c5c00c8c95.zip/node_modules/electron-builder-notarize/",\
+      ["npm:1.5.2", {\
+        "packageLocation": "./.yarn/cache/electron-builder-notarize-npm-1.5.2-53a9bf8681-729377aa72.zip/node_modules/electron-builder-notarize/",\
         "packageDependencies": [\
-          ["electron-builder-notarize", "npm:1.5.0"]\
+          ["electron-builder-notarize", "npm:1.5.2"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.5.0", {\
-        "packageLocation": "./.yarn/__virtual__/electron-builder-notarize-virtual-00c2b51929/0/cache/electron-builder-notarize-npm-1.5.0-5c13f2ab61-c5c00c8c95.zip/node_modules/electron-builder-notarize/",\
+      ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.5.2", {\
+        "packageLocation": "./.yarn/__virtual__/electron-builder-notarize-virtual-9d68d14f5b/0/cache/electron-builder-notarize-npm-1.5.2-53a9bf8681-729377aa72.zip/node_modules/electron-builder-notarize/",\
         "packageDependencies": [\
-          ["electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.5.0"],\
+          ["electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.5.2"],\
           ["@types/electron-builder", null],\
-          ["builder-util", "npm:24.0.0-alpha.3"],\
           ["dotenv", "npm:8.6.0"],\
           ["electron-builder", "npm:24.0.0-alpha.5"],\
           ["electron-notarize", "npm:1.2.2"],\
@@ -24694,7 +24693,7 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.0.3"],\
           ["electron", "npm:22.0.0"],\
           ["electron-builder", "npm:24.0.0-alpha.5"],\
-          ["electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.5.0"],\
+          ["electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.5.2"],\
           ["electron-is-dev", "npm:2.0.0"],\
           ["electron-log", "npm:4.4.8"],\
           ["electron-unhandled", "npm:4.0.1"],\
