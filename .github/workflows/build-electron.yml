@@ -85,14 +85,14 @@ jobs:
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
-          CSC_LINK: ${{ secrets.mac_certs }}
+#          CSC_LINK: ${{ secrets.mac_certs }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.apple_app_specific_password }}
           APPLE_ID: ${{ secrets.apple_id }}
           APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
-          API_KEY_ID: ${{ secrets.api_key_id }}
-          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
+#          CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
+#          API_KEY_ID: ${{ secrets.api_key_id }}
+#          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
       - name: Windows - Build Electron App
         if: startsWith(matrix.os, 'windows')
         run: yarn run release
