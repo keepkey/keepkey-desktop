@@ -12,6 +12,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"7zip-bin@npm:~5.2.0":
+  version: 5.2.0
+  resolution: "7zip-bin@npm:5.2.0"
+  checksum: 10/5339c7a56f57f8d7d16ac8d15f588d155e5705cd4822e0d161ea45e6fbfe4a5226b464a331ec555a1ec9376ad04e5f61c125656cf3a1507900c1968ccbcfe80b
+  languageName: node
+  linkType: hard
+
 "@adobe/css-tools@npm:^4.0.1":
   version: 4.0.1
   resolution: "@adobe/css-tools@npm:4.0.1"
@@ -11636,6 +11643,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"builder-util-runtime@npm:9.2.5-alpha.2":
+  version: 9.2.5-alpha.2
+  resolution: "builder-util-runtime@npm:9.2.5-alpha.2"
+  dependencies:
+    debug: "npm:^4.3.4"
+    sax: "npm:^1.2.4"
+  checksum: 10/e836171404ea55c0a21636dc229da0b7a19e9606572d5b687bfd8077acc8c93b38990775c9245c298c05a06d413c94f5d0ec8d6091bdaa2f0b21b478b4270687
+  languageName: node
+  linkType: hard
+
 "builder-util@npm:24.0.0-alpha.3":
   version: 24.0.0-alpha.3
   resolution: "builder-util@npm:24.0.0-alpha.3"
@@ -11658,6 +11675,30 @@ __metadata:
     stat-mode: "npm:^1.0.0"
     temp-file: "npm:^3.4.0"
   checksum: 10/b735322ebd9d1a58811f375e42b24f263185bfc8da201a64cb4a93c6302713cf5a415833c30a979a73ed63542be4d35f275d5407bbaccb9a21153b8173720acc
+  languageName: node
+  linkType: hard
+
+"builder-util@npm:^25.0.0-alpha.6":
+  version: 25.0.0-alpha.6
+  resolution: "builder-util@npm:25.0.0-alpha.6"
+  dependencies:
+    7zip-bin: "npm:~5.2.0"
+    "@types/debug": "npm:^4.1.6"
+    app-builder-bin: "npm:4.0.0"
+    bluebird-lst: "npm:^1.0.9"
+    builder-util-runtime: "npm:9.2.5-alpha.2"
+    chalk: "npm:^4.1.2"
+    cross-spawn: "npm:^7.0.3"
+    debug: "npm:^4.3.4"
+    fs-extra: "npm:^10.1.0"
+    http-proxy-agent: "npm:^5.0.0"
+    https-proxy-agent: "npm:^5.0.1"
+    is-ci: "npm:^3.0.0"
+    js-yaml: "npm:^4.1.0"
+    source-map-support: "npm:^0.5.19"
+    stat-mode: "npm:^1.0.0"
+    temp-file: "npm:^3.4.0"
+  checksum: 10/ce5dfa1c37c23302e839ed83035e89515e25f56339902c9af0ed02c789b7e527e4df4a564cfaa84ea18bf8030e6948137df66c44f1ffb1b6e069d71db80e6c55
   languageName: node
   linkType: hard
 
@@ -11865,7 +11906,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:4.1.2, chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0, chalk@npm:^4.1.1":
+"chalk@npm:4.1.2, chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0, chalk@npm:^4.1.1, chalk@npm:^4.1.2":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -19163,6 +19204,7 @@ __metadata:
     "@pioneer-platform/harpie-client": "npm:8.1.17"
     "@walletconnect/client": "npm:^1.8.0"
     "@yarnpkg/sdks": "npm:^3.0.0-rc.31"
+    builder-util: "npm:^25.0.0-alpha.6"
     crypto: "npm:^1.0.1"
     eslint: "npm:^8.28.0"
     prettier: "npm:^2.3.2"
