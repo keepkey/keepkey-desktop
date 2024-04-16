@@ -51,6 +51,10 @@
                 "zip"
             ]
         },
+        "dmg": {
+            "background": "background.png",
+            "icon": "icon.png"
+        },
         "win": {
             "icon": "icon.png",
             "target": [
@@ -125,7 +129,7 @@
         "web3": "^4.0.1"
     },
     "devDependencies": {
-        "@bithighlander/electron-builder-notarize": "0.0.4",
+        "@bithighlander/electron-builder-notarize": "0.0.5",
         "@keepkey/common-esbuild-bits": "workspace:*",
         "@shapeshiftoss/eslint-plugin-logger": "^1.1.0",
         "@shapeshiftoss/hdwallet-keepkey": "^1.52.11",
