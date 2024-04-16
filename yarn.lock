@@ -1752,6 +1752,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bithighlander/electron-builder-notarize@npm:0.0.1":
+  version: 0.0.1
+  resolution: "@bithighlander/electron-builder-notarize@npm:0.0.1"
+  dependencies:
+    dotenv: "npm:^8.2.0"
+    electron-notarize: "npm:^1.1.1"
+    js-yaml: "npm:^3.14.0"
+    read-pkg-up: "npm:^7.0.0"
+  peerDependencies:
+    electron-builder: ">= 20.44.4"
+  checksum: 10/4cf87a8f946f375d3c90085aa1acd07d80edd1d458306df294f5eaf9e7899a29a02066068c6c1eb6c788a902df38bc46311c1272f3671c557bf50275e300ef08
+  languageName: node
+  linkType: hard
+
 "@chakra-ui/accordion@npm:2.1.3":
   version: 2.1.3
   resolution: "@chakra-ui/accordion@npm:2.1.3"
@@ -14070,20 +14084,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-builder-notarize@npm:1.5.2":
-  version: 1.5.2
-  resolution: "electron-builder-notarize@npm:1.5.2"
-  dependencies:
-    dotenv: "npm:^8.2.0"
-    electron-notarize: "npm:^1.1.1"
-    js-yaml: "npm:^3.14.0"
-    read-pkg-up: "npm:^7.0.0"
-  peerDependencies:
-    electron-builder: ">= 20.44.4"
-  checksum: 10/729377aa72e6462b8e46eb077a2932c97db2408a55ade7b06d8ddce6bd067246d83b9a73b4534758f4a3ef31158dcd74e56aa4f4ea2e11df6ecd6fd51573e060
-  languageName: node
-  linkType: hard
-
 "electron-builder@npm:24.13.3":
   version: 24.13.3
   resolution: "electron-builder@npm:24.13.3"
@@ -19281,6 +19281,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "keepkey-desktop@workspace:packages/keepkey-desktop"
   dependencies:
+    "@bithighlander/electron-builder-notarize": "npm:0.0.1"
     "@ethersproject/contracts": "npm:^5.7.0"
     "@keepkey/common-esbuild-bits": "workspace:*"
     "@keepkey/device-protocol": "npm:^7.10.2"
@@ -19327,7 +19328,6 @@ __metadata:
     dotenv: "npm:^16.0.3"
     electron: "npm:22.0.0"
     electron-builder: "npm:24.13.3"
-    electron-builder-notarize: "npm:1.5.2"
     electron-is-dev: "npm:^2.0.0"
     electron-log: "npm:^4.4.8"
     electron-unhandled: "npm:^4.0.1"
@@ -19383,6 +19383,7 @@ __metadata:
     "@pioneer-platform/harpie-client": "npm:8.1.17"
     "@walletconnect/client": "npm:^1.8.0"
     "@yarnpkg/sdks": "npm:^3.0.0-rc.31"
+    builder-util: "npm:^25.0.0-alpha.6"
     crypto: "npm:^1.0.1"
     eslint: "npm:^8.28.0"
     prettier: "npm:^2.3.2"
