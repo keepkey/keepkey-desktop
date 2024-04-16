@@ -11744,7 +11744,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"builder-util@npm:24.0.0-alpha.3, builder-util@npm:^24.0.0-alpha.3":
+"builder-util@npm:24.0.0-alpha.3":
   version: 24.0.0-alpha.3
   resolution: "builder-util@npm:24.0.0-alpha.3"
   dependencies:
@@ -13980,9 +13980,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-builder-notarize@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "electron-builder-notarize@npm:1.5.0"
+"electron-builder-notarize@npm:^1.5.2":
+  version: 1.5.2
+  resolution: "electron-builder-notarize@npm:1.5.2"
   dependencies:
     dotenv: "npm:^8.2.0"
     electron-notarize: "npm:^1.1.1"
@@ -13990,7 +13990,7 @@ __metadata:
     read-pkg-up: "npm:^7.0.0"
   peerDependencies:
     electron-builder: ">= 20.44.4"
-  checksum: 10/c5c00c8c95bc82b76e0c86a37bde3bfb0eb44cb96c1864b6df12aa5c59b67932ea488006d1dc7d48d878a6f42c09c1aba7ea328639f631fc26de2a58cd365f83
+  checksum: 10/729377aa72e6462b8e46eb077a2932c97db2408a55ade7b06d8ddce6bd067246d83b9a73b4534758f4a3ef31158dcd74e56aa4f4ea2e11df6ecd6fd51573e060
   languageName: node
   linkType: hard
 
@@ -19216,7 +19216,7 @@ __metadata:
     dotenv: "npm:^16.0.3"
     electron: "npm:22.0.0"
     electron-builder: "npm:^24.0.0-alpha.5"
-    electron-builder-notarize: "npm:^1.5.0"
+    electron-builder-notarize: "npm:^1.5.2"
     electron-is-dev: "npm:^2.0.0"
     electron-log: "npm:^4.4.8"
     electron-unhandled: "npm:^4.0.1"
