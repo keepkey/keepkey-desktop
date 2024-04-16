@@ -54,6 +54,9 @@
         "dmg": {
             "background": "background.png"
         },
+        "nsis": {
+            "packElevateHelper": false
+        },
         "win": {
             "icon": "icon.png",
             "target": [
@@ -128,7 +131,7 @@
         "web3": "^4.0.1"
     },
     "devDependencies": {
-        "@bithighlander/electron-builder-notarize": "0.0.6",
+        "@bithighlander/electron-builder-notarize": "0.0.7",
         "@keepkey/common-esbuild-bits": "workspace:*",
         "@shapeshiftoss/eslint-plugin-logger": "^1.1.0",
         "@shapeshiftoss/hdwallet-keepkey": "^1.52.11",
