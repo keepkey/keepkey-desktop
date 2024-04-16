@@ -3122,19 +3122,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@bithighlander/electron-builder-notarize", [\
-      ["npm:0.0.3", {\
-        "packageLocation": "./.yarn/cache/@bithighlander-electron-builder-notarize-npm-0.0.3-56f5a88f82-300d570dc6.zip/node_modules/@bithighlander/electron-builder-notarize/",\
+      ["npm:0.0.4", {\
+        "packageLocation": "./.yarn/cache/@bithighlander-electron-builder-notarize-npm-0.0.4-d6c04bfff3-4e56b7e960.zip/node_modules/@bithighlander/electron-builder-notarize/",\
         "packageDependencies": [\
-          ["@bithighlander/electron-builder-notarize", "npm:0.0.3"]\
+          ["@bithighlander/electron-builder-notarize", "npm:0.0.4"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.3", {\
-        "packageLocation": "./.yarn/__virtual__/@bithighlander-electron-builder-notarize-virtual-5794019b00/0/cache/@bithighlander-electron-builder-notarize-npm-0.0.3-56f5a88f82-300d570dc6.zip/node_modules/@bithighlander/electron-builder-notarize/",\
+      ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.4", {\
+        "packageLocation": "./.yarn/__virtual__/@bithighlander-electron-builder-notarize-virtual-8b27add463/0/cache/@bithighlander-electron-builder-notarize-npm-0.0.4-d6c04bfff3-4e56b7e960.zip/node_modules/@bithighlander/electron-builder-notarize/",\
         "packageDependencies": [\
-          ["@bithighlander/electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.3"],\
+          ["@bithighlander/electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.4"],\
           ["@types/electron-builder", null],\
-          ["builder-util", "npm:25.0.0-alpha.6"],\
+          ["builder-util", "npm:24.13.1"],\
           ["dotenv", "npm:8.6.0"],\
           ["electron-builder", "npm:24.13.3"],\
           ["electron-notarize", "npm:1.2.2"],\
@@ -24870,7 +24870,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/keepkey-desktop/",\
         "packageDependencies": [\
           ["keepkey-desktop", "workspace:packages/keepkey-desktop"],\
-          ["@bithighlander/electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.3"],\
+          ["@bithighlander/electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.4"],\
           ["@ethersproject/contracts", "npm:5.7.0"],\
           ["@keepkey/common-esbuild-bits", "workspace:packages/common-esbuild-bits"],\
           ["@keepkey/device-protocol", "npm:7.10.2"],\
