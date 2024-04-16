@@ -14070,7 +14070,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-builder-notarize@npm:^1.5.0":
+"electron-builder-notarize@npm:1.5.2":
   version: 1.5.2
   resolution: "electron-builder-notarize@npm:1.5.2"
   dependencies:
@@ -14084,7 +14084,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-builder@npm:^24.0.0-alpha.5":
+"electron-builder@npm:24.13.3":
   version: 24.13.3
   resolution: "electron-builder@npm:24.13.3"
   dependencies:
@@ -19326,8 +19326,8 @@ __metadata:
     dmg-builder: "npm:^24.0.0-alpha.5"
     dotenv: "npm:^16.0.3"
     electron: "npm:22.0.0"
-    electron-builder: "npm:^24.0.0-alpha.5"
-    electron-builder-notarize: "npm:^1.5.0"
+    electron-builder: "npm:24.13.3"
+    electron-builder-notarize: "npm:1.5.2"
     electron-is-dev: "npm:^2.0.0"
     electron-log: "npm:^4.4.8"
     electron-unhandled: "npm:^4.0.1"
