@@ -17,7 +17,6 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     steps:
-      # Existing Steps
       - name: Checkout
         uses: nschloe/action-cached-lfs-checkout@v1
         with:
@@ -46,29 +45,36 @@ jobs:
           name: app-build-dir-${{ runner.os }}
           path: packages/keepkey-desktop/build/
           if-no-files-found: error
-
-      # Additional Step for Generating Checksums
       - name: Generate Checksum
         run: |
           if [[ "${{ runner.os }}" == "Windows" ]]; then
-          ./scripts/generate_checksum_windows.sh
+            ./scripts/generate_checksum_windows.sh
           else
-          ./scripts/generate_checksum_unix.sh
+            ./scripts/generate_checksum_unix.sh
           fi
         shell: bash
-      # Additional Step for Uploading Checksums
       - name: Upload Checksum
         uses: actions/upload-artifact@v3
         with:
           name: checksum-${{ runner.os }}
           path: checksum.txt
           if-no-files-found: error
-
-      - name: Mac - Prepare For App Notarization
+      - name: Install Xcode Command Line Tools
+        if: startsWith(matrix.os, 'macos')
+        run: xcode-select --install
+      - name: Mac - Notarize the app with notarytool
         if: startsWith(matrix.os, 'macos')
         run: |
-          mkdir -p ~/private_keys/
-          echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
+          xcrun notarytool submit path/to/your.app --keychain-profile "AC_NOTARY" --wait
+          xcrun stapler staple path/to/your.app
+        env:
+          AC_NOTARY: ${{ secrets.notarytool_profile }}
+      - name: Linux - Build Electron App
+        if: startsWith(matrix.os, 'ubuntu')
+        run: yarn run release
+        env:
+          NODE_ENV: production
+          GH_TOKEN: ${{ secrets.github_token }}
       - name: Mac - Build Electron App
         if: startsWith(matrix.os, 'macos')
         run: yarn run release
@@ -79,20 +85,6 @@ jobs:
           CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
-      # Debugging notarization errors
-      - name: List Notarization Error Log Directory
-        if: startsWith(matrix.os, 'macos') && failure()
-        run: ls -la ~/private_keys/ # Adjust path as needed
-      - name: Output Notarization Error Log
-        if: startsWith(matrix.os, 'macos') && failure()
-        run: cat ~/private_keys/notarization-error.log # Adjust path as needed
-
-      - name: Linux - Build Electron App
-        if: startsWith(matrix.os, 'ubuntu')
-        run: yarn run release
-        env:
-          NODE_ENV: production
-          GH_TOKEN: ${{ secrets.github_token }}
       - name: Windows - Build Electron App
         if: startsWith(matrix.os, 'windows')
         run: yarn run release
