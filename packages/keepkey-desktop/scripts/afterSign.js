@@ -1,1 +1,1 @@
-module.exports = require('electron-builder-notarize')
+module.exports = require('@bithighlander/electron-builder-notarize')
