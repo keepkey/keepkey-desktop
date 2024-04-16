@@ -1752,17 +1752,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bithighlander/electron-builder-notarize@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@bithighlander/electron-builder-notarize@npm:0.0.1"
+"@bithighlander/electron-builder-notarize@npm:0.0.3":
+  version: 0.0.3
+  resolution: "@bithighlander/electron-builder-notarize@npm:0.0.3"
   dependencies:
+    builder-util: "npm:^25.0.0-alpha.6"
     dotenv: "npm:^8.2.0"
-    electron-notarize: "npm:^1.1.1"
+    electron-notarize: "npm:^1.2.2"
     js-yaml: "npm:^3.14.0"
     read-pkg-up: "npm:^7.0.0"
   peerDependencies:
     electron-builder: ">= 20.44.4"
-  checksum: 10/4cf87a8f946f375d3c90085aa1acd07d80edd1d458306df294f5eaf9e7899a29a02066068c6c1eb6c788a902df38bc46311c1272f3671c557bf50275e300ef08
+  checksum: 10/300d570dc61f2c84eb6596d49e9e24256a14e4f10580a7bd80ff676bd81c9cce37228b945f16f017aaf58dbec296880ff2d4fee0e530aea4cf959feb0f36d4ab
   languageName: node
   linkType: hard
 
@@ -14228,7 +14229,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-notarize@npm:^1.1.1":
+"electron-notarize@npm:^1.2.2":
   version: 1.2.2
   resolution: "electron-notarize@npm:1.2.2"
   dependencies:
@@ -19390,7 +19391,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "keepkey-desktop@workspace:packages/keepkey-desktop"
   dependencies:
-    "@bithighlander/electron-builder-notarize": "npm:0.0.1"
+    "@bithighlander/electron-builder-notarize": "npm:0.0.3"
     "@ethersproject/contracts": "npm:^5.7.0"
     "@keepkey/common-esbuild-bits": "workspace:*"
     "@keepkey/device-protocol": "npm:^7.10.2"
