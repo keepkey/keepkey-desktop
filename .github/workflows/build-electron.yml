@@ -16,6 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
+
     steps:
       - name: Checkout
         uses: nschloe/action-cached-lfs-checkout@v1
@@ -43,6 +44,13 @@ jobs:
 
       - name: Yarn Build
         run: yarn build
+
+      - name: List build output
+        run: |
+          echo "Listing contents of the build directory:"
+          ls -la packages/keepkey-desktop/build/
+          echo "Checking for app bundle in build directory:"
+          ls -la packages/keepkey-desktop/build/*.app || echo "No .app bundle found."
 
       - name: Upload Built App
         uses: actions/upload-artifact@v3
@@ -127,7 +135,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows-nsis
-          path: |
-            packages/keepkey-desktop/dist/*.exe
-            packages/keepkey-desktop/dist/*.exe.blockmap
+          path          packages/keepkey-desktop/dist/*.exe
+          packages/keepkey-desktop/dist/*.exe.blockmap
           if-no-files-found: error
