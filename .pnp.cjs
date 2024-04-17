@@ -14691,14 +14691,14 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["app-builder-lib", [\
       ["npm:24.13.3", {\
-        "packageLocation": "./.yarn/cache/app-builder-lib-npm-24.13.3-86a66c0bf3-4379dc87e0.zip/node_modules/app-builder-lib/",\
+        "packageLocation": "./.yarn/unplugged/app-builder-lib-virtual-7f0f06db2b/node_modules/app-builder-lib/",\
         "packageDependencies": [\
           ["app-builder-lib", "npm:24.13.3"]\
         ],\
         "linkType": "SOFT"\
       }],\
       ["virtual:2047ba97167ee5c31186be69709f8211bef32d6370396e9cda7df3bbe54dcb5ca9b427e4c86c7da5aea097affdeefe63f51a3a00d513dcbfeb3b68aebf5b5241#npm:24.13.3", {\
-        "packageLocation": "./.yarn/__virtual__/app-builder-lib-virtual-7f0f06db2b/0/cache/app-builder-lib-npm-24.13.3-86a66c0bf3-4379dc87e0.zip/node_modules/app-builder-lib/",\
+        "packageLocation": "./.yarn/unplugged/app-builder-lib-virtual-7f0f06db2b/node_modules/app-builder-lib/",\
         "packageDependencies": [\
           ["app-builder-lib", "virtual:2047ba97167ee5c31186be69709f8211bef32d6370396e9cda7df3bbe54dcb5ca9b427e4c86c7da5aea097affdeefe63f51a3a00d513dcbfeb3b68aebf5b5241#npm:24.13.3"],\
           ["@develar/schema-utils", "npm:2.6.5"],\
