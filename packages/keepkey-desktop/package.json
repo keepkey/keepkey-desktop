@@ -1,6 +1,6 @@
 {
     "name": "keepkey-desktop",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "author": {
         "name": "KeepKey",
         "email": "support@keepkey.com"
@@ -49,7 +49,7 @@
                 "teamId": "DR57X8Z394"
             },
             "target": [
-                "dmg"
+                "zip"
             ]
         },
         "dmg": {

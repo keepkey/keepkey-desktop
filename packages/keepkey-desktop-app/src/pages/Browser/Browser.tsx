@@ -108,10 +108,6 @@ export const Browser = () => {
   const [webviewReady, setWebviewReady] = useState(false)
 
   useEffect(() => {
-    onOpen()
-  }, []);  // Include dependencies if they change over time
-
-  useEffect(() => {
     const setupListeners = () => {
       const webview = getWebview();
       if (!webview) {
