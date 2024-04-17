@@ -22,10 +22,12 @@ jobs:
         uses: nschloe/action-cached-lfs-checkout@v1
         with:
           submodules: true
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
+
       - name: Restore Cached Electron Bundles
         id: restore-cache
         uses: actions/cache@v3
@@ -36,10 +38,13 @@ jobs:
             ~/AppData/Local/electron/Cache
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}
+
       - name: Yarn Install
         run: yarn install
+
       - name: Yarn Build
         run: yarn build
+
       - name: Upload Built App
         uses: actions/upload-artifact@v3
         with:
@@ -47,16 +52,15 @@ jobs:
           path: packages/keepkey-desktop/build/
           if-no-files-found: error
 
-      # Additional Step for Generating Checksums
       - name: Generate Checksum
         run: |
           if [[ "${{ runner.os }}" == "Windows" ]]; then
-          ./scripts/generate_checksum_windows.sh
+            ./scripts/generate_checksum_windows.sh
           else
-          ./scripts/generate_checksum_unix.sh
+            ./scripts/generate_checksum_unix.sh
           fi
         shell: bash
-      # Additional Step for Uploading Checksums
+
       - name: Upload Checksum
         uses: actions/upload-artifact@v3
         with:
@@ -64,12 +68,14 @@ jobs:
           path: checksum.txt
           if-no-files-found: error
 
-      # Rest of the Steps
       - name: Mac - Prepare For App Notarization
         if: startsWith(matrix.os, 'macos')
         run: |
           mkdir -p ~/private_keys/
           echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
+          ls -al ~/private_keys # Debugging line to check the contents of the directory
+          chmod -R 755 ~/private_keys # Ensure proper permissions
+
       - name: Linux - Build Electron App
         if: startsWith(matrix.os, 'ubuntu')
         run: yarn run release
@@ -79,6 +85,7 @@ jobs:
           APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           GH_TOKEN: ${{ secrets.github_token }}
+
       - name: Mac - Build Electron App
         if: startsWith(matrix.os, 'macos')
         run: yarn run release
@@ -91,14 +98,14 @@ jobs:
           APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
-#          API_KEY_ID: ${{ secrets.api_key_id }}
-#          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
+
       - name: Windows - Build Electron App
         if: startsWith(matrix.os, 'windows')
         run: yarn run release
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
+
       - name: Linux - Upload .AppImage
         if: startsWith(matrix.os, 'ubuntu')
         uses: actions/upload-artifact@v3
@@ -108,6 +115,7 @@ jobs:
             packages/keepkey-desktop/dist/*.AppImage
             packages/keepkey-desktop/dist/*.AppImage.blockmap
           if-no-files-found: error
+
       - name: Mac - Upload .dmg
         if: startsWith(matrix.os, 'macos')
         uses: actions/upload-artifact@v3
@@ -119,6 +127,7 @@ jobs:
             packages/keepkey-desktop/dist/*.zip
             packages/keepkey-desktop/dist/*.zip.blockmap
           if-no-files-found: error
+
       - name: Windows - Upload .exe
         if: startsWith(matrix.os, 'windows')
         uses: actions/upload-artifact@v3
