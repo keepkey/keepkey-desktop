@@ -52,7 +52,7 @@
             ]
         },
         "dmg": {
-            "sign": false,
+            "sign": true,
             "background": "background.png"
         },
         "nsis": {
