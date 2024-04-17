@@ -19521,6 +19521,8 @@ __metadata:
       unplugged: true
     app-builder-lib@24.0.0-alpha.5:
       unplugged: true
+    app-builder-lib@24.13.3:
+      unplugged: true
     bigint-buffer@1.1.5:
       unplugged: true
     dmg-builder@24.0.0-alpha.5:
