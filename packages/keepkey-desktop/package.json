@@ -73,6 +73,7 @@
         }
     },
     "dependencies": {
+        "@electron/notarize": "^2.3.0",
         "@ethersproject/contracts": "^5.7.0",
         "@keepkey/device-protocol": "^7.10.2",
         "@keepkey/hdwallet-core": "^1.53.9",
@@ -132,7 +133,6 @@
         "web3": "^4.0.1"
     },
     "devDependencies": {
-        "@bithighlander/electron-builder-notarize": "0.0.11",
         "@keepkey/common-esbuild-bits": "workspace:*",
         "@shapeshiftoss/eslint-plugin-logger": "^1.1.0",
         "@shapeshiftoss/hdwallet-keepkey": "^1.52.11",

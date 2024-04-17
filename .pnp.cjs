@@ -3115,33 +3115,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@bithighlander/electron-builder-notarize", [\
-      ["npm:0.0.11", {\
-        "packageLocation": "./.yarn/cache/@bithighlander-electron-builder-notarize-npm-0.0.11-8e4ce7141e-99532e3d05.zip/node_modules/@bithighlander/electron-builder-notarize/",\
-        "packageDependencies": [\
-          ["@bithighlander/electron-builder-notarize", "npm:0.0.11"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.11", {\
-        "packageLocation": "./.yarn/__virtual__/@bithighlander-electron-builder-notarize-virtual-07a1317064/0/cache/@bithighlander-electron-builder-notarize-npm-0.0.11-8e4ce7141e-99532e3d05.zip/node_modules/@bithighlander/electron-builder-notarize/",\
-        "packageDependencies": [\
-          ["@bithighlander/electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.11"],\
-          ["@types/electron-builder", null],\
-          ["builder-util", "npm:24.13.1"],\
-          ["dotenv", "npm:8.6.0"],\
-          ["electron-builder", "npm:24.13.3"],\
-          ["electron-notarize", "npm:1.2.2"],\
-          ["js-yaml", "npm:3.14.1"],\
-          ["read-pkg-up", "npm:7.0.1"]\
-        ],\
-        "packagePeers": [\
-          "@types/electron-builder",\
-          "electron-builder"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@chakra-ui/accordion", [\
       ["npm:2.1.3", {\
         "packageLocation": "./.yarn/cache/@chakra-ui-accordion-npm-2.1.3-41f02bcb91-87f30ad537.zip/node_modules/@chakra-ui/accordion/",\
@@ -6398,6 +6371,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@electron-notarize-npm-2.2.1-c407243035-6d5bb78a0b.zip/node_modules/@electron/notarize/",\
         "packageDependencies": [\
           ["@electron/notarize", "npm:2.2.1"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
+          ["fs-extra", "npm:9.1.0"],\
+          ["promise-retry", "npm:2.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.3.0", {\
+        "packageLocation": "./.yarn/cache/@electron-notarize-npm-2.3.0-5dca3415c9-7725617389.zip/node_modules/@electron/notarize/",\
+        "packageDependencies": [\
+          ["@electron/notarize", "npm:2.3.0"],\
           ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
           ["fs-extra", "npm:9.1.0"],\
           ["promise-retry", "npm:2.0.1"]\
@@ -19200,17 +19183,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["electron-notarize", [\
-      ["npm:1.2.2", {\
-        "packageLocation": "./.yarn/cache/electron-notarize-npm-1.2.2-8e8b3da845-c66b175b6f.zip/node_modules/electron-notarize/",\
-        "packageDependencies": [\
-          ["electron-notarize", "npm:1.2.2"],\
-          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
-          ["fs-extra", "npm:9.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["electron-publish", [\
       ["npm:24.13.1", {\
         "packageLocation": "./.yarn/cache/electron-publish-npm-24.13.1-40acfab2ad-60133b51bf.zip/node_modules/electron-publish/",\
@@ -24807,7 +24779,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/keepkey-desktop/",\
         "packageDependencies": [\
           ["keepkey-desktop", "workspace:packages/keepkey-desktop"],\
-          ["@bithighlander/electron-builder-notarize", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:0.0.11"],\
+          ["@electron/notarize", "npm:2.3.0"],\
           ["@ethersproject/contracts", "npm:5.7.0"],\
           ["@keepkey/common-esbuild-bits", "workspace:packages/common-esbuild-bits"],\
           ["@keepkey/device-protocol", "npm:7.10.2"],\
