@@ -88,16 +88,16 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
         leftIcon={<SettingsIcon />}
         data-test='navigation-settings-button'
       />
-      {/*<MainNavLink*/}
-      {/*  isCompact={isCompact}*/}
-      {/*  as={Link}*/}
-      {/*  isExternal*/}
-      {/*  size='sm'*/}
-      {/*  href='https://discord.gg/P7Yw8gHUhn'*/}
-      {/*  label={translate('common.joinDiscord')}*/}
-      {/*  leftIcon={<ChatIcon />}*/}
-      {/*  data-test='navigation-join-discord-button'*/}
-      {/*/>*/}
+      <MainNavLink
+        isCompact={isCompact}
+        as={Link}
+        isExternal
+        size='sm'
+        href='https://keepkey-docs-o9qn.vercel.app/'
+        label={translate('common.joinDiscord')}
+        leftIcon={<ChatIcon />}
+        data-test='navigation-join-discord-button'
+      />
 
       {/*<Tooltip label='support' placement='top'>*/}
       {/*  <Button*/}
