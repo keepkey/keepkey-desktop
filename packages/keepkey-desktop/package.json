@@ -50,6 +50,7 @@
               "teamId": "DR57X8Z394"
             },
             "target": [
+                "dmg",
                 "zip"
             ]
         },
