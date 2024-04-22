@@ -43,7 +43,6 @@
         "mac": {
             "hardenedRuntime": true,
             "category": "public.app-category.finance",
-            "notarize": true,
             "icon": "icon.png",
             "entitlements": "entitlements.mac.plist",
             "entitlementsInherit": "entitlements.mac.plist",
