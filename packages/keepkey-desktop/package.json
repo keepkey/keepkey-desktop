@@ -1,6 +1,6 @@
 {
     "name": "keepkey-desktop",
-    "version": "3.0.3",
+    "version": "3.0.4",
     "author": {
         "name": "KeepKey",
         "email": "support@keepkey.com"
@@ -14,7 +14,7 @@
     "private": true,
     "scripts": {
         "build": "ts-node --skipProject --swc ./scripts/build.ts",
-        "release": "yarn run -T build && rimraf build/metafile.json build/app/metafile.json && electron-builder",
+        "release": "yarn run -T build && rimraf build/metafile.json build/app/metafile.json && DEBUG=electron-builder electron-builder",
         "dev": "ts-node --skipProject --swc ./scripts/dev.ts",
         "clean": "rimraf build dist",
         "lint": "eslint -c .eslintrc src --ext .ts,.tsx",
@@ -50,7 +50,6 @@
                 "teamId": "DR57X8Z394"
             },
             "target": [
-                "dmg",
                 "zip"
             ]
         },
@@ -156,7 +155,7 @@
         "@typescript-eslint/parser": "^5.45.0",
         "concurrently": "^7.6.0",
         "electron": "22.0.0",
-        "electron-builder": "^24.13.3",
+        "electron-builder": "^25.0.0-alpha.6",
         "eslint": "^8.28.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-import": "^2.26.0",
