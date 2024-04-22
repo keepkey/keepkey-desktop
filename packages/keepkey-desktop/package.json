@@ -25,14 +25,15 @@
     "build": {
         "appId": "com.keepkey.desktop",
         "productName": "KeepKey Desktop",
-        "generateUpdatesFilesForAllChannels": false,
+        "generateUpdatesFilesForAllChannels": true,
+        "notorize": true,
         "publish": "github",
         "files": [
             "build/**/*"
         ],
         "protocols": [
             {
-                "name": "KeepkeyDesktop",
+                "name": "Keepkey Desktop",
                 "schemes": [
                     "keepkey"
                 ]
