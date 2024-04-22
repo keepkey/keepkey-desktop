@@ -32,7 +32,7 @@
         ],
         "protocols": [
             {
-                "name": "Keepkey Desktop",
+                "name": "KeepkeyDesktop",
                 "schemes": [
                     "keepkey"
                 ]
