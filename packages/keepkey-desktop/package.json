@@ -46,6 +46,9 @@
             "icon": "icon.png",
             "entitlements": "entitlements.mac.plist",
             "entitlementsInherit": "entitlements.mac.plist",
+            "notarize": {
+              "teamId": "DR57X8Z394"
+            },
             "target": [
                 "zip"
             ]
