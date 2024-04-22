@@ -26,7 +26,7 @@
         "appId": "com.keepkey.desktop",
         "productName": "KeepKey Desktop",
         "generateUpdatesFilesForAllChannels": true,
-        "notorize": true,
+        "notarize": true,
         "publish": "github",
         "files": [
             "build/**/*"
@@ -52,7 +52,8 @@
             ]
         },
         "dmg": {
-            "background": "background.png"
+            "background": "background.png",
+            "sign": false
         },
         "nsis": {
             "differentialPackage": false
