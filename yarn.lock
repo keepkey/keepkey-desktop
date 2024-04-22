@@ -14027,7 +14027,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-builder@npm:^24.13.3":
+"electron-builder@npm:^24.0.0":
   version: 24.13.3
   resolution: "electron-builder@npm:24.13.3"
   dependencies:
@@ -19194,7 +19194,7 @@ __metadata:
     create-hash: "npm:^1.2.0"
     dotenv: "npm:^16.0.3"
     electron: "npm:22.0.0"
-    electron-builder: "npm:^24.13.3"
+    electron-builder: "npm:^24.0.0"
     electron-is-dev: "npm:^2.0.0"
     electron-log: "npm:^4.4.8"
     electron-unhandled: "npm:^4.0.1"
