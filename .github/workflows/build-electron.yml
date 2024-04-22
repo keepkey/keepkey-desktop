@@ -22,10 +22,12 @@ jobs:
         uses: nschloe/action-cached-lfs-checkout@v1
         with:
           submodules: true
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
+
       - name: Restore Cached Electron Bundles
         id: restore-cache
         uses: actions/cache@v3
@@ -36,10 +38,13 @@ jobs:
             ~/AppData/Local/electron/Cache
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}
+
       - name: Yarn Install
         run: yarn install
+
       - name: Yarn Build
         run: yarn build
+
       - name: Upload Built App
         uses: actions/upload-artifact@v3
         with:
@@ -47,16 +52,15 @@ jobs:
           path: packages/keepkey-desktop/build/
           if-no-files-found: error
 
-      # Additional Step for Generating Checksums
       - name: Generate Checksum
         run: |
           if [[ "${{ runner.os }}" == "Windows" ]]; then
-          ./scripts/generate_checksum_windows.sh
+            ./scripts/generate_checksum_windows.sh
           else
-          ./scripts/generate_checksum_unix.sh
+            ./scripts/generate_checksum_unix.sh
           fi
         shell: bash
-      # Additional Step for Uploading Checksums
+
       - name: Upload Checksum
         uses: actions/upload-artifact@v3
         with:
@@ -64,32 +68,24 @@ jobs:
           path: checksum.txt
           if-no-files-found: error
 
-      # Rest of the Steps
-      - name: Mac - Notarize and Staple App
+      - name: Mac - Prepare For App Notarization
         if: startsWith(matrix.os, 'macos')
         run: |
-          # Submit the application for notarization and wait for the process to complete
-          xcrun notarytool submit packages/keepkey-desktop/build/*.app --keychain-profile "AC_NOTARY" --wait
-          # Staple the notarization ticket to the application
-          xcrun stapler staple packages/keepkey-desktop/build/*.app
-        env:
-          AC_NOTARY: ${{ secrets.notarytool_profile }}
-      #      - name: Mac - Prepare For App Notarization
-      #        if: startsWith(matrix.os, 'macos')
-      #        run: |
-      #          mkdir -p ~/private_keys/
-      #          echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
-      #      - name: Linux - Publish packages
-      #        if: startsWith(matrix.os, 'ubuntu')
-      #        run: yarn publish --all
-      #        env:
-      #          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          mkdir -p ~/private_keys/
+          echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
+          ls -al ~/private_keys # Debugging line to check the contents of the directory
+          chmod -R 755 ~/private_keys # Ensure proper permissions
+
       - name: Linux - Build Electron App
         if: startsWith(matrix.os, 'ubuntu')
         run: yarn run release
         env:
           NODE_ENV: production
+          APPLE_ID: ${{ secrets.apple_id }}
+          APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           GH_TOKEN: ${{ secrets.github_token }}
+
       - name: Mac - Build Electron App
         if: startsWith(matrix.os, 'macos')
         run: yarn run release
@@ -97,15 +93,19 @@ jobs:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
           CSC_LINK: ${{ secrets.mac_certs }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.apple_app_specific_password }}
+          APPLE_ID: ${{ secrets.apple_id }}
+          APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
-          API_KEY_ID: ${{ secrets.api_key_id }}
-          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
+
       - name: Windows - Build Electron App
         if: startsWith(matrix.os, 'windows')
         run: yarn run release
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
+
       - name: Linux - Upload .AppImage
         if: startsWith(matrix.os, 'ubuntu')
         uses: actions/upload-artifact@v3
@@ -115,6 +115,7 @@ jobs:
             packages/keepkey-desktop/dist/*.AppImage
             packages/keepkey-desktop/dist/*.AppImage.blockmap
           if-no-files-found: error
+
       - name: Mac - Upload .dmg
         if: startsWith(matrix.os, 'macos')
         uses: actions/upload-artifact@v3
@@ -126,6 +127,7 @@ jobs:
             packages/keepkey-desktop/dist/*.zip
             packages/keepkey-desktop/dist/*.zip.blockmap
           if-no-files-found: error
+
       - name: Windows - Upload .exe
         if: startsWith(matrix.os, 'windows')
         uses: actions/upload-artifact@v3
