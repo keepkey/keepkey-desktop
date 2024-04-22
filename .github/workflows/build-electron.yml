@@ -44,8 +44,7 @@ jobs:
         uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{ secrets.github_token }}
-          package_root: "." # Specify if different
-          build_script_name: "build" # Only if you have a separate script
+          package_root: "packages/keepkey-desktop" # Specify if different
           release: ${{ startsWith(github.ref, 'refs/tags/v') }}
         env:
           NODE_ENV: production
