@@ -25,6 +25,7 @@
     "build": {
         "appId": "com.keepkey.desktop",
         "productName": "KeepKey Desktop",
+        "afterSign": "./scripts/afterSign.js",
         "generateUpdatesFilesForAllChannels": true,
         "publish": "github",
         "files": [
@@ -49,9 +50,7 @@
             "target": [
                 "dmg"
             ],
-            "notarize": {
-                "teamId": "DR57X8Z394"
-            }
+            "notarize": false
         },
         "dmg": {
             "background": "background.png",
