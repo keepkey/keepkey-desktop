@@ -1,6 +1,6 @@
 {
     "name": "keepkey-desktop",
-    "version": "3.0.5",
+    "version": "3.0.6",
     "author": {
         "name": "KeepKey",
         "email": "support@keepkey.com"
@@ -25,6 +25,7 @@
     "build": {
         "appId": "com.keepkey.desktop",
         "productName": "KeepKey Desktop",
+        "afterSign": "./scripts/afterSign.js",
         "generateUpdatesFilesForAllChannels": true,
         "publish": "github",
         "files": [
@@ -46,17 +47,9 @@
             "icon": "icon.png",
             "entitlements": "entitlements.mac.plist",
             "entitlementsInherit": "entitlements.mac.plist",
-            "notarize": {
-              "teamId": "DR57X8Z394"
-            },
             "target": [
-                "dmg",
-                "zip"
+                "dmg"
             ]
-        },
-        "dmg": {
-            "background": "background.png",
-            "sign": false
         },
         "nsis": {
             "differentialPackage": false
@@ -157,7 +150,8 @@
         "@typescript-eslint/parser": "^5.45.0",
         "concurrently": "^7.6.0",
         "electron": "22.0.0",
-        "electron-builder": "^24.0.0",
+        "electron-builder": "24.0.0-alpha.5",
+        "electron-notarize-dmg": "^1.0.0",
         "eslint": "^8.28.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-import": "^2.26.0",
