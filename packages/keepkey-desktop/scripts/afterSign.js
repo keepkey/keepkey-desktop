@@ -24,7 +24,7 @@ exports.default = async function notarizing(context) {
     appBundleId: 'com.keepkey.desktop',
     appPath,
     appleId: process.env.APPLE_ID,
-    appleIdPassword: process.env.APPLE_ID_PASSWORD,
+    appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
     tool: 'notarytool',
     teamId: 'DR57X8Z394',
   })
