@@ -49,12 +49,7 @@
             "entitlementsInherit": "entitlements.mac.plist",
             "target": [
                 "dmg"
-            ],
-            "notarize": false
-        },
-        "dmg": {
-            "background": "background.png",
-            "sign": false
+            ]
         },
         "nsis": {
             "differentialPackage": false
@@ -155,7 +150,7 @@
         "@typescript-eslint/parser": "^5.45.0",
         "concurrently": "^7.6.0",
         "electron": "22.0.0",
-        "electron-builder": "^24.13.3",
+        "electron-builder": "24.0.0-alpha.5",
         "electron-notarize-dmg": "^1.0.0",
         "eslint": "^8.28.0",
         "eslint-config-prettier": "^8.3.0",
