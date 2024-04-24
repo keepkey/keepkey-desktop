@@ -25,7 +25,6 @@
     "build": {
         "appId": "com.keepkey.desktop",
         "productName": "KeepKey Desktop",
-        "afterSign": "./scripts/afterSign.js",
         "generateUpdatesFilesForAllChannels": true,
         "publish": "github",
         "files": [
