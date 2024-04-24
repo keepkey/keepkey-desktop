@@ -1,13 +1,13 @@
 require('dotenv').config()
 const { notarize } = require('@electron/notarize')
 
-const isSet = (value) => value && value !== 'false'
+// const isSet = value => value && value !== 'false'
 
 // electron-build hook to be used in electron-build pipeline in the future
 // ===========================================================================
 // Note: for now we don't use this at the moment.
 // Run ./notarize-cli.js instead
-exports.default = async function notarizing (context) {
+exports.default = async function notarizing(context) {
   const { electronPlatformName, appOutDir } = context
   if (electronPlatformName !== 'darwin') return
   // skip notarization if secrets are not present in env
@@ -17,13 +17,15 @@ exports.default = async function notarizing (context) {
   }
 
   const appName = context.packager.appInfo.productFilename
-  const appPath = `${appOutDir}/mac-arm64/${appName}.app`; // Correct the path based on actual output directory
+  const appPath = `${appOutDir}/mac-arm64/${appName}.app` // Correct the path based on actual output directory
+  console.log('app path:', appPath)
+  console.log('cwd', __dirname)
   return notarize({
     appBundleId: 'com.keepkey.desktop',
     appPath,
     appleId: process.env.APPLE_ID,
     appleIdPassword: process.env.APPLE_ID_PASSWORD,
     tool: 'notarytool',
-    teamId: 'DR57X8Z394'
+    teamId: 'DR57X8Z394',
   })
 }

@@ -14063,6 +14063,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"electron-notarize-dmg@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "electron-notarize-dmg@npm:1.0.0"
+  dependencies:
+    debug: "npm:^4.1.1"
+    fs-extra: "npm:^8.1.0"
+  checksum: 10/81dbbc9100504069e53323e4ac2b79bc61885963569c1196d2bc41e6cb169a96cb74d3c15724878702d78785522fd1c89551ab3841a73c38b5937127a5ebb022
+  languageName: node
+  linkType: hard
+
 "electron-publish@npm:24.13.1":
   version: 24.13.1
   resolution: "electron-publish@npm:24.13.1"
@@ -19197,6 +19207,7 @@ __metadata:
     electron-builder: "npm:^24.0.0"
     electron-is-dev: "npm:^2.0.0"
     electron-log: "npm:^4.4.8"
+    electron-notarize-dmg: "npm:^1.0.0"
     electron-unhandled: "npm:^4.0.1"
     electron-updater: "npm:^6.1.8"
     esbuild: "npm:^0.15.14"

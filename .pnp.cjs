@@ -19147,6 +19147,17 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["electron-notarize-dmg", [\
+      ["npm:1.0.0", {\
+        "packageLocation": "./.yarn/cache/electron-notarize-dmg-npm-1.0.0-606f1c1752-81dbbc9100.zip/node_modules/electron-notarize-dmg/",\
+        "packageDependencies": [\
+          ["electron-notarize-dmg", "npm:1.0.0"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
+          ["fs-extra", "npm:8.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["electron-publish", [\
       ["npm:24.13.1", {\
         "packageLocation": "./.yarn/cache/electron-publish-npm-24.13.1-40acfab2ad-60133b51bf.zip/node_modules/electron-publish/",\
@@ -24789,6 +24800,7 @@ const RAW_RUNTIME_STATE =
           ["electron-builder", "npm:24.13.3"],\
           ["electron-is-dev", "npm:2.0.0"],\
           ["electron-log", "npm:4.4.8"],\
+          ["electron-notarize-dmg", "npm:1.0.0"],\
           ["electron-unhandled", "npm:4.0.1"],\
           ["electron-updater", "npm:6.2.1"],\
           ["esbuild", "npm:0.15.16"],\
