@@ -49,7 +49,10 @@
             "target": [
                 "dmg",
                 "zip"
-            ]
+            ],
+            "notarize": {
+                "teamId": "DR57X8Z394"
+            }
         },
         "dmg": {
             "background": "background.png",
