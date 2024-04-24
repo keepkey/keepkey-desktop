@@ -14791,7 +14791,7 @@ const RAW_RUNTIME_STATE =
           ["@types/fs-extra", "npm:9.0.13"],\
           ["async-exit-hook", "npm:2.0.1"],\
           ["bluebird-lst", "npm:1.0.9"],\
-          ["builder-util", "npm:24.13.1"],\
+          ["builder-util", "npm:25.0.0-alpha.6"],\
           ["builder-util-runtime", "npm:9.2.4"],\
           ["chromium-pickle-js", "npm:0.2.0"],\
           ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
@@ -16443,29 +16443,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["builder-util", [\
-      ["npm:24.13.1", {\
-        "packageLocation": "./.yarn/cache/builder-util-npm-24.13.1-8df62f958e-e63836c920.zip/node_modules/builder-util/",\
-        "packageDependencies": [\
-          ["builder-util", "npm:24.13.1"],\
-          ["7zip-bin", "npm:5.2.0"],\
-          ["@types/debug", "npm:4.1.7"],\
-          ["app-builder-bin", "npm:4.0.0"],\
-          ["bluebird-lst", "npm:1.0.9"],\
-          ["builder-util-runtime", "npm:9.2.4"],\
-          ["chalk", "npm:4.1.2"],\
-          ["cross-spawn", "npm:7.0.3"],\
-          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
-          ["fs-extra", "npm:10.1.0"],\
-          ["http-proxy-agent", "npm:5.0.0"],\
-          ["https-proxy-agent", "npm:5.0.1"],\
-          ["is-ci", "npm:3.0.1"],\
-          ["js-yaml", "npm:4.1.0"],\
-          ["source-map-support", "npm:0.5.21"],\
-          ["stat-mode", "npm:1.0.0"],\
-          ["temp-file", "npm:3.4.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:25.0.0-alpha.6", {\
         "packageLocation": "./.yarn/cache/builder-util-npm-25.0.0-alpha.6-04fd6c378d-ce5dfa1c37.zip/node_modules/builder-util/",\
         "packageDependencies": [\
@@ -18766,7 +18743,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["dmg-builder", "npm:24.13.3"],\
           ["app-builder-lib", "virtual:2047ba97167ee5c31186be69709f8211bef32d6370396e9cda7df3bbe54dcb5ca9b427e4c86c7da5aea097affdeefe63f51a3a00d513dcbfeb3b68aebf5b5241#npm:24.13.3"],\
-          ["builder-util", "npm:24.13.1"],\
+          ["builder-util", "npm:25.0.0-alpha.6"],\
           ["builder-util-runtime", "npm:9.2.4"],\
           ["dmg-license", "npm:1.0.11"],\
           ["fs-extra", "npm:10.1.0"],\
@@ -19114,7 +19091,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["electron-builder", "npm:24.13.3"],\
           ["app-builder-lib", "virtual:2047ba97167ee5c31186be69709f8211bef32d6370396e9cda7df3bbe54dcb5ca9b427e4c86c7da5aea097affdeefe63f51a3a00d513dcbfeb3b68aebf5b5241#npm:24.13.3"],\
-          ["builder-util", "npm:24.13.1"],\
+          ["builder-util", "npm:25.0.0-alpha.6"],\
           ["builder-util-runtime", "npm:9.2.4"],\
           ["chalk", "npm:4.1.2"],\
           ["dmg-builder", "npm:24.13.3"],\
@@ -19164,7 +19141,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["electron-publish", "npm:24.13.1"],\
           ["@types/fs-extra", "npm:9.0.13"],\
-          ["builder-util", "npm:24.13.1"],\
+          ["builder-util", "npm:25.0.0-alpha.6"],\
           ["builder-util-runtime", "npm:9.2.4"],\
           ["chalk", "npm:4.1.2"],\
           ["fs-extra", "npm:10.1.0"],\
