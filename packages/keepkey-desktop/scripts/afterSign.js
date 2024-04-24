@@ -17,7 +17,7 @@ exports.default = async function notarizing(context) {
   }
 
   const appName = context.packager.appInfo.productFilename
-  const appPath = `${appOutDir}/mac-arm64/${appName}.app` // Correct the path based on actual output directory
+  const appPath = `${appOutDir}/${appName}.app` // Correct the path based on actual output directory
   console.log('app path:', appPath)
   console.log('cwd', __dirname)
   return notarize({
