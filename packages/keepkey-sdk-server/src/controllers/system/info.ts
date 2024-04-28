@@ -15,6 +15,7 @@ import { Readable } from 'stream'
 import { ApiController } from '../../auth'
 import { extra } from '../../middlewares'
 import type * as types from '../../types'
+let publicKeyCache = new Map<string, { xpub: string }>();
 
 @Route('/system/info')
 @Tags('Info')
@@ -23,6 +24,8 @@ import type * as types from '../../types'
 @Response(400, 'Bad request')
 @Response(500, 'Error processing request')
 export class SystemInfoController extends ApiController {
+  
+
   /**
    * Get entropy from the device's RNG.
    * @summary Get entropy
@@ -100,7 +103,10 @@ export class SystemInfoController extends ApiController {
     },
   ): Promise<{ xpub: string }> {
     if (!this.context.wallet) throw undefined
-
+    const requestBodyKey = JSON.stringify(body);
+    if (publicKeyCache.has(requestBodyKey)) {
+      return publicKeyCache.get(requestBodyKey)!;
+    }
     const [out] = await this.context.wallet.getPublicKeys([
       {
         addressNList: body.address_n,
@@ -123,9 +129,11 @@ export class SystemInfoController extends ApiController {
     ])
 
     if (!out) throw new Error('expected public key, got null')
-    return {
-      xpub: out.xpub,
-    }
+    // Store the result in the cache
+    const result = { xpub: out.xpub };
+    // Store the result in the cache
+    publicKeyCache.set(requestBodyKey, result);
+    return result;
   }
 
   /**
