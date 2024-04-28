@@ -119,7 +119,7 @@ export class AddressesController extends ApiController {
       show_display?: boolean
     },
   ): Promise<{ address: types.cosmos.Address }> {
-    const requestBodyKey = JSON.stringify(body);
+    const requestBodyKey = 'osmo:'+JSON.stringify(body);
     if (publicKeyCache.has(requestBodyKey)) {
       return publicKeyCache.get(requestBodyKey)!;
     }
@@ -200,7 +200,7 @@ export class AddressesController extends ApiController {
       show_display?: boolean
     },
   ): Promise<{ address: types.cosmos.Address }> {
-    const requestBodyKey = JSON.stringify(body);
+    const requestBodyKey = 'thor:'+JSON.stringify(body);
     if (publicKeyCache.has(requestBodyKey)) {
       return publicKeyCache.get(requestBodyKey)!;
     }
@@ -227,7 +227,7 @@ export class AddressesController extends ApiController {
         show_display?: boolean
       },
   ): Promise<{ address: types.cosmos.Address }> {
-    const requestBodyKey = JSON.stringify(body);
+    const requestBodyKey = 'maya:'+JSON.stringify(body);
     if (publicKeyCache.has(requestBodyKey)) {
       return publicKeyCache.get(requestBodyKey)!;
     }
