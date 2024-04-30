@@ -46,7 +46,7 @@ export class AddressesController extends ApiController {
       scriptType: body.script_type,
       showDisplay: !!body.show_display,
     })
-    //await this.context.saveAccount(response!, body.address_n)
+    await this.context.saveAccount(response!, body.address_n)
     const result:any = { address: response };
     publicKeyCache.set(requestBodyKey, result);
     return result;
@@ -73,6 +73,7 @@ export class AddressesController extends ApiController {
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
+    await this.context.saveAccount(response!, body.address_n)
 
     const result:any = { address: response };
     publicKeyCache.set(requestBodyKey, result);
@@ -100,6 +101,7 @@ export class AddressesController extends ApiController {
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
+    await this.context.saveAccount(response!, body.address_n)
 
     const result:any = { address: response };
     publicKeyCache.set(requestBodyKey, result);
@@ -127,6 +129,7 @@ export class AddressesController extends ApiController {
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
+    await this.context.saveAccount(response!, body.address_n)
 
     const result:any = { address: response };
     publicKeyCache.set(requestBodyKey, result);
@@ -154,6 +157,7 @@ export class AddressesController extends ApiController {
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
+    await this.context.saveAccount(response!, body.address_n)
 
     const result:any = { address: response };
     publicKeyCache.set(requestBodyKey, result);
@@ -181,6 +185,7 @@ export class AddressesController extends ApiController {
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
+    await this.context.saveAccount(response!, body.address_n)
 
     const result:any = { address: response };
     publicKeyCache.set(requestBodyKey, result);
@@ -208,6 +213,7 @@ export class AddressesController extends ApiController {
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
+    await this.context.saveAccount(response!, body.address_n)
 
     const result:any = { address: response };
     publicKeyCache.set(requestBodyKey, result);
@@ -235,6 +241,7 @@ export class AddressesController extends ApiController {
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
+    await this.context.saveAccount(response!, body.address_n)
 
     const result:any = { address: response };
     publicKeyCache.set(requestBodyKey, result);
@@ -263,7 +270,8 @@ export class AddressesController extends ApiController {
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
-
+    await this.context.saveAccount(response!, body.address_n)
+    
     const result:any = { address: response };
     publicKeyCache.set(requestBodyKey, result);
     return result;
