@@ -103,7 +103,12 @@ jobs:
 
       - name: Windows - Build Electron App
         if: startsWith(matrix.os, 'windows')
-        run: yarn run release
+        run: |
+          yarn run release
+          # Copy the file with 'arm64' in its name to a new version without 'arm64'
+          for file in packages/keepkey-desktop/dist/*-arm64.dmg; do
+            cp "$file" "${file/-arm64/}"
+          done
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
