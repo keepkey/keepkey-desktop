@@ -102,10 +102,18 @@ export const Browser = () => {
   const [forceLoad, setForceLoad] = useState(false)
   const {
     dispatch,
-    state: { browserUrl },
+    state: { browserUrl, walletConnectUri },
   } = useWallet()
 
   const [webviewReady, setWebviewReady] = useState(false)
+
+  // Additional useEffect hook to listen to walletConnectUri changes
+  useEffect(() => {
+    if (walletConnectUri) {
+      console.log("WINNING!")
+      toggleSecondWebview()  // Opens the side window if a walletConnectUri is present
+    }
+  }, [walletConnectUri, onOpen]);
 
   useEffect(() => {
     const setupListeners = () => {
