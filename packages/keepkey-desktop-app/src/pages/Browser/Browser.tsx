@@ -19,29 +19,12 @@ import { FaBug } from 'react-icons/fa'
 
 const getWebview = () => document.getElementById('webview') as Electron.WebviewTag | null
 
-const goBack = () => {
-  const webview = getWebview()
-  if (!webview) return
-  if (webview.canGoBack()) webview.goBack()
-}
-
-const goForward = () => {
-  const webview = getWebview()
-  if (!webview) return
-  if (webview.canGoForward()) webview.goForward()
-}
-
-const openDevTools = () => {
-  const webview = getWebview()
-  if (!webview) return
-  webview.openDevTools()
-}
-
-const stopLoading = () => {
-  const webview = getWebview()
-  if (!webview) return
-  webview.stop()
-}
+import {
+  goBack,
+  goForward,
+  openDevTools,
+  stopLoading,
+} from './Support';
 
 const formatUrl = (inputUrl: string) => {
   try {
