@@ -24,31 +24,9 @@ import {
   goForward,
   openDevTools,
   stopLoading,
+  formatUrl,
+  clearClipBoardIfWCString
 } from './Support';
-
-const formatUrl = (inputUrl: string) => {
-  try {
-    return new URL(inputUrl).toString()
-  } catch {}
-  try {
-    return new URL(`https://${inputUrl}`).toString()
-  } catch {}
-  return undefined
-}
-
-const clearClipBoardIfWCString = async () => {
-  try {
-    const clipboardData = await navigator.clipboard.read()
-    const link = await clipboardData[0].getType('text/plain')
-    const clipboardUri = decodeURIComponent(await link.text())
-
-    if (clipboardUri.includes('wc:')) {
-      await navigator.clipboard.writeText('')
-    }
-  } catch (e) {
-    console.error(e)
-  }
-}
 
 const checkIfSSDApp = (currentUrl: string) => {
   const url = new URL(currentUrl)
