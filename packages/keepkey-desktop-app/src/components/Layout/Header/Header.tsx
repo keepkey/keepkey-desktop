@@ -17,7 +17,7 @@ import { HamburgerIcon } from '@chakra-ui/icons';
 import KeepKeyIconBlack from 'assets/kk-icon-black.png';
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-// import { WalletActions } from 'context/WalletProvider/actions';
+import { WalletActions } from 'context/WalletProvider/actions'
 // import { ChainMenu } from './NavBar/ChainMenu';
 import { SideNavContent } from './SideNavContent';
 import { useWallet } from 'hooks/useWallet/useWallet';
@@ -25,6 +25,7 @@ import { useWallet } from 'hooks/useWallet/useWallet';
 export const Header = () => {
   const { onToggle, isOpen, onClose } = useDisclosure();
   const [browserUrl, setBrowserUrl] = useState('');
+  const [walletConnectOpen, setWalletConnectOpen] = useState(false);
   const history = useHistory();
   const bg = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.100', 'gray.750');
@@ -39,8 +40,11 @@ export const Header = () => {
 
   const openWalletConnect = async function() {
     try {
-
-      history.push('/browser?walletconnect=true');
+      history.push('/browser');
+      //dispatch
+      dispatch({ type: WalletActions.SET_WALLET_CONNECT_OPEN, payload: !walletConnectOpen });
+      setWalletConnectOpen(!walletConnectOpen);
+      // history.push('/browser?walletconnect=true');
     } catch (e) {
       console.error(e);
       toast({
@@ -82,10 +86,10 @@ export const Header = () => {
                 </Link>
               </Flex>
               <Flex justifyContent='flex-end' flex={1} rowGap={4} columnGap={2}>
-                {/*<Button onClick={openWalletConnect}>*/}
-                {/*  <Avatar size="xs" src="placeholder" />*/}
-                {/*  Wallet Connect*/}
-                {/*</Button>*/}
+                <Button onClick={openWalletConnect}>
+                  <Avatar size="xs" src="placeholder" />
+                  Wallet Connect
+                </Button>
                 {/*<ChainMenu display={{ base: 'none', md: 'block' }} />*/}
               </Flex>
             </HStack>
