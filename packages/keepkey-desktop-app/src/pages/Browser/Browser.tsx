@@ -18,6 +18,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { FaBug } from 'react-icons/fa'
 
 const getWebview = () => document.getElementById('webview') as Electron.WebviewTag | null
+const getWebviewWc = () => document.getElementById('second-webview-top') as Electron.WebviewTag | null
 
 const goBack = () => {
     const webview = getWebview()
@@ -93,8 +94,11 @@ const checkIfSSDApp = (currentUrl: string) => {
 
 export const Browser = () => {
     const [url, setUrl] = useState('https://private.shapeshift.com/')
+    const [urlWc, setUrlWc] = useState('https://wallet-connect-dapp-ochre.vercel.app')
     const [inputUrl, setInputUrl] = useState(url)
+    const [inputUrlWc, setInputUrlWc] = useState(url)
     const [loading, setLoading] = useState(false)
+    const [loadingWc, setLoadingWc] = useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [webviewLoadFailure, setWebviewLoadFailure] = useState<string | undefined>(undefined)
     const [canGoBack, setCanGoBack] = useState(false)
@@ -106,6 +110,7 @@ export const Browser = () => {
     } = useWallet()
 
     const [webviewReady, setWebviewReady] = useState(false)
+    const [webviewWcReady, setWebviewWcReady] = useState(false)
 
     useEffect(() => {
         const setupListeners = () => {
@@ -130,6 +135,30 @@ export const Browser = () => {
         };
 
         setupListeners();
+
+        const setupListenersWc = () => {
+            const webviewWc = getWebviewWc();
+            if (!webviewWc) {
+                console.error("Webview not available");
+                return;
+            }
+
+            const listener = () => {
+                const currentUrl = webviewWc.getURL();
+                const urlParams = new URL(currentUrl).searchParams;
+                const walletConnect = urlParams.get('walletconnect');
+                console.log("WC URL changed to:", currentUrl);  // Debug: Log current URL
+                console.log("walletconnect parameter:", walletConnect);  // Debug: Log walletconnect param
+            };
+
+            webviewWc.addEventListener('did-stop-loading', listener);
+            return () => {
+                webviewWc.removeEventListener('did-stop-loading', listener);
+            };
+        };
+
+        setupListenersWc();
+        
     }, [onOpen, onClose]);  // Include dependencies if they change over time
 
     useEffect(() => {
@@ -145,7 +174,7 @@ export const Browser = () => {
 
             ipcListeners
                 .getBrowserInjection(sdkApiKey)
-                .then(injection => webview.executeJavaScript(injection))
+                .then((injection: any) => webview.executeJavaScript(injection))
         }
         webview.addEventListener('dom-ready', listener)
         return () => {
@@ -153,6 +182,19 @@ export const Browser = () => {
         }
     }, [])
 
+    useEffect(() => {
+        const webview = getWebviewWc()!
+        const listener = () => {
+            setWebviewWcReady(true)
+            ipcListeners
+                .then((injection: any) => webview.executeJavaScript(injection))
+        }
+        webview.addEventListener('dom-ready', listener)
+        return () => {
+            webview.removeEventListener('dom-ready', listener)
+        }
+    }, [])
+    
     useEffect(() => {
         const webview = getWebview()!
         const listener = () => {
@@ -182,6 +224,22 @@ export const Browser = () => {
         }
     }, [])
 
+    useEffect(() => {
+        const webview = getWebviewWc()!
+        const listener = () => {
+            const webview = getWebviewWc()!
+            const currentUrl = webview.getURL()
+            setUrlWc(currentUrl)
+            // setCanGoBack(webview.canGoBack())
+            // setCanGoForward(webview.canGoForward())
+            setLoadingWc(false)
+        }
+        webview.addEventListener('did-stop-loading', listener)
+        return () => {
+            webview.removeEventListener('did-stop-loading', listener)
+        }
+    }, [])
+    
     useEffect(() => {
         const webview = getWebview()!
         const listener = (e: Electron.DidFailLoadEvent) => {
@@ -227,9 +285,11 @@ export const Browser = () => {
     )
 
     useEffect(() => {
-        if (!webviewReady) return
-        if (!walletConnectUri) return
-        toggleSecondWebview()
+        if (webviewWcReady && walletConnectUri) {
+            const newUrl = `https://wallet-connect-dapp-ochre.vercel.app/wc?uri=${encodeURIComponent(walletConnectUri)}`;
+            const webviewWc = getWebviewWc();
+            webviewWc?.loadURL(newUrl);
+        }
     }, [walletConnectUri, webviewReady])
 
     useEffect(() => {
@@ -246,6 +306,19 @@ export const Browser = () => {
         }
     }, [browserUrl, webviewReady])
 
+    useEffect(() => {
+        if (!webviewWcReady) return
+        if (!walletConnectUri) return
+
+        if (walletConnectUri) {
+            console.log('walletConnectUri', walletConnectUri)
+            //src='https://wallet-connect-dapp-ochre.vercel.app/'
+            setUrlWc('https://wallet-connect-dapp-ochre.vercel.app/wc?='+walletConnectUri)
+        } else {
+            console.error('invalid browserUrl', browserUrl)
+        }
+    }, [walletConnectUri, webviewWcReady])
+    
     //walletConnectOpen
     useEffect(() => {
         toggleSecondWebview()
@@ -268,9 +341,20 @@ export const Browser = () => {
         const loadURL = webview.loadURL.bind(webview)
         ipcListeners
             .webviewAttachOpenHandler(contentsId, Comlink.proxy(loadURL))
-            .catch(e => console.error('webviewAttachOpenHandler error:', e))
+            .catch((e: any) => console.error('webviewAttachOpenHandler error:', e))
     }, [webviewReady])
 
+    useEffect(() => {
+        if (!webviewWcReady) return
+
+        const webviewWc = getWebviewWc()!
+        const contentsId = webviewWc.getWebContentsId()
+        const loadURL = webviewWc.loadURL.bind(webviewWc)
+        ipcListeners
+            .webviewAttachOpenHandler(contentsId, Comlink.proxy(loadURL))
+            .catch((e: any) => console.error('webviewAttachOpenHandler error:', e))
+    }, [webviewWcReady])
+    
     return (
         <Main
             height='full'
@@ -293,7 +377,7 @@ export const Browser = () => {
                 <Stack flex={4} display={isOpen ? 'flex' : 'none'}>
                     <webview
                         id='second-webview-top'
-                        src='https://wallet-connect-dapp-ochre.vercel.app/'
+                        src={webviewWcReady ? `https://wallet-connect-dapp-ochre.vercel.app/wc?uri=${encodeURIComponent(walletConnectUri || '')}` : 'about:blank'}
                         style={{ flex: 4 }}
                     ></webview>
                 </Stack>
