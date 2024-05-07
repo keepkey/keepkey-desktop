@@ -99,7 +99,9 @@ export const Browser = () => {
     const [inputUrlWc, setInputUrlWc] = useState(url)
     const [loading, setLoading] = useState(false)
     const [loadingWc, setLoadingWc] = useState(false)
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen, onOpen, onClose } = useDisclosure({
+        defaultIsOpen: false // Explicitly set the default state to closed
+    });
     const [webviewLoadFailure, setWebviewLoadFailure] = useState<string | undefined>(undefined)
     const [canGoBack, setCanGoBack] = useState(false)
     const [canGoForward, setCanGoForward] = useState(false)
@@ -311,9 +313,16 @@ export const Browser = () => {
         if (!walletConnectUri) return
 
         if (walletConnectUri) {
+            if (!isOpen) {
+                onOpen();
+            }
             console.log('walletConnectUri', walletConnectUri)
             //src='https://wallet-connect-dapp-ochre.vercel.app/'
-            setUrlWc('https://wallet-connect-dapp-ochre.vercel.app/wc?='+walletConnectUri)
+            if(walletConnectUri){
+                setUrlWc('https://wallet-connect-dapp-ochre.vercel.app/wc?='+walletConnectUri)    
+            }else{
+                setUrlWc('https://wallet-connect-dapp-ochre.vercel.app')
+            }
         } else {
             console.error('invalid browserUrl', browserUrl)
         }
@@ -321,17 +330,22 @@ export const Browser = () => {
     
     //walletConnectOpen
     useEffect(() => {
-        toggleSecondWebview()
+        console.log("walletConnectOpen: ", walletConnectOpen)
+        if(walletConnectOpen){
+            onOpen()
+        } else {
+            onClose();
+        }
     }, [walletConnectOpen])
     
     // Add a button to manually toggle the drawer for debugging
-    const toggleSecondWebview = () => {
-        if (isOpen) {
-            onClose();
-        } else {
-            onOpen();
-        }
-    };
+    // const toggleSecondWebview = () => {
+    //     if (isOpen) {
+    //         onClose();
+    //     } else {
+    //         onOpen();
+    //     }
+    // };
 
     useEffect(() => {
         if (!webviewReady) return
@@ -377,7 +391,7 @@ export const Browser = () => {
                 <Stack flex={4} display={isOpen ? 'flex' : 'none'}>
                     <webview
                         id='second-webview-top'
-                        src={webviewWcReady ? `https://wallet-connect-dapp-ochre.vercel.app/wc?uri=${encodeURIComponent(walletConnectUri || '')}` : 'about:blank'}
+                        src={webviewWcReady ? `https://wallet-connect-dapp-ochre.vercel.app` : 'about:blank'}
                         style={{ flex: 4 }}
                     ></webview>
                 </Stack>
