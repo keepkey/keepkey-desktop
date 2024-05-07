@@ -380,6 +380,40 @@ export const Browser = () => {
                 flexDirection: 'column',
             }}
         >
+            <Stack direction={{ base: 'column', md: 'column' }} height='full' style={{ margin: '5px' }}>
+                <form onSubmit={formatAndSaveUrl}>
+                    <HStack>
+                        <Input
+                            disabled={loading}
+                            value={inputUrl}
+                            onChange={e => setInputUrl(e.target.value)}
+                            onBlur={formatAndSaveUrl}
+                        />
+                        {loading ? (
+                            <IconButton aria-label='Stop' icon={<CloseIcon />} onClick={stopLoading} />
+                        ) : url === inputUrl && webviewLoadFailure === undefined ? (
+                            <IconButton aria-label='Reload' icon={<RepeatIcon />} type='submit' />
+                        ) : (
+                            <IconButton aria-label='Go' icon={<ArrowForwardIcon />} type='submit' />
+                        )}
+                        <IconButton
+                            aria-label='Back'
+                            icon={<ArrowLeftIcon />}
+                            onClick={goBack}
+                            isLoading={loading}
+                            isDisabled={!canGoBack}
+                        />
+                        <IconButton
+                            aria-label='Forward'
+                            icon={<ArrowRightIcon />}
+                            onClick={goForward}
+                            isLoading={loading}
+                            isDisabled={!canGoForward}
+                        />
+                        <IconButton aria-label='Open developer tools' icon={<FaBug />} onClick={openDevTools} />
+                    </HStack>
+                </form>
+            </Stack>
             <Stack direction='row' flex={1}>
                 <webview
                     id='webview'
