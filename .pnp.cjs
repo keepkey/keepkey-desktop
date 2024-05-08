@@ -8623,10 +8623,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:1.53.14", {\
-        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-core-npm-1.53.14-e95e838bcb-b8645cfc3b.zip/node_modules/@keepkey/hdwallet-core/",\
+      ["npm:1.53.15", {\
+        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-core-npm-1.53.15-8f56b4fc6b-ca6d5116c6.zip/node_modules/@keepkey/hdwallet-core/",\
         "packageDependencies": [\
-          ["@keepkey/hdwallet-core", "npm:1.53.14"],\
+          ["@keepkey/hdwallet-core", "npm:1.53.15"],\
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["@keepkey/proto-tx-builder", "npm:0.9.0"],\
           ["@types/google-protobuf", "npm:3.15.12"],\
@@ -8637,34 +8637,18 @@ const RAW_RUNTIME_STATE =
           ["type-assertions", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:1.53.9", {\
-        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-core-npm-1.53.9-bfece65763-1a1e085158.zip/node_modules/@keepkey/hdwallet-core/",\
-        "packageDependencies": [\
-          ["@keepkey/hdwallet-core", "npm:1.53.9"],\
-          ["@ethersproject/bytes", "npm:5.7.0"],\
-          ["@keepkey/proto-tx-builder", "npm:0.9.0"],\
-          ["@types/node", "npm:20.12.11"],\
-          ["eip-712", "npm:1.0.0"],\
-          ["eventemitter2", "npm:5.0.1"],\
-          ["google-protobuf", "npm:3.21.2"],\
-          ["lodash", "npm:4.17.21"],\
-          ["rxjs", "npm:6.6.7"],\
-          ["type-assertions", "npm:1.1.0"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["@keepkey/hdwallet-keepkey", [\
-      ["npm:1.53.14", {\
-        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-keepkey-npm-1.53.14-1f17ca5b24-077ae044ed.zip/node_modules/@keepkey/hdwallet-keepkey/",\
+      ["npm:1.53.15", {\
+        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-keepkey-npm-1.53.15-d71e68cad8-cbc1d88716.zip/node_modules/@keepkey/hdwallet-keepkey/",\
         "packageDependencies": [\
-          ["@keepkey/hdwallet-keepkey", "npm:1.53.14"],\
+          ["@keepkey/hdwallet-keepkey", "npm:1.53.15"],\
           ["@cosmjs/encoding", "npm:0.30.0"],\
           ["@ethereumjs/common", "npm:2.6.5"],\
           ["@ethereumjs/tx", "npm:3.5.2"],\
           ["@keepkey/device-protocol", "npm:7.13.2"],\
-          ["@keepkey/hdwallet-core", "npm:1.53.9"],\
+          ["@keepkey/hdwallet-core", "npm:1.53.15"],\
           ["@keepkey/proto-tx-builder", "npm:0.9.0"],\
           ["@metamask/eth-sig-util", "npm:7.0.0"],\
           ["@shapeshiftoss/bitcoinjs-lib", "npm:5.2.0-shapeshift.2"],\
@@ -8693,18 +8677,18 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@keepkey/hdwallet-keepkey-nodehid", [\
-      ["npm:1.53.14", {\
-        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-keepkey-nodehid-npm-1.53.14-d61da9d39a-f2e97cd740.zip/node_modules/@keepkey/hdwallet-keepkey-nodehid/",\
+      ["npm:1.53.15", {\
+        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-keepkey-nodehid-npm-1.53.15-42c639c025-4440afa779.zip/node_modules/@keepkey/hdwallet-keepkey-nodehid/",\
         "packageDependencies": [\
-          ["@keepkey/hdwallet-keepkey-nodehid", "npm:1.53.14"]\
+          ["@keepkey/hdwallet-keepkey-nodehid", "npm:1.53.15"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.53.14", {\
-        "packageLocation": "./.yarn/__virtual__/@keepkey-hdwallet-keepkey-nodehid-virtual-91952fd191/0/cache/@keepkey-hdwallet-keepkey-nodehid-npm-1.53.14-d61da9d39a-f2e97cd740.zip/node_modules/@keepkey/hdwallet-keepkey-nodehid/",\
+      ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.53.15", {\
+        "packageLocation": "./.yarn/__virtual__/@keepkey-hdwallet-keepkey-nodehid-virtual-9b016901d2/0/cache/@keepkey-hdwallet-keepkey-nodehid-npm-1.53.15-42c639c025-4440afa779.zip/node_modules/@keepkey/hdwallet-keepkey-nodehid/",\
         "packageDependencies": [\
-          ["@keepkey/hdwallet-keepkey-nodehid", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.53.14"],\
-          ["@keepkey/hdwallet-keepkey", "npm:1.53.14"],\
+          ["@keepkey/hdwallet-keepkey-nodehid", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.53.15"],\
+          ["@keepkey/hdwallet-keepkey", "npm:1.53.15"],\
           ["@types/node-hid", null],\
           ["node-hid", "patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."]\
         ],\
@@ -8716,19 +8700,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@keepkey/hdwallet-keepkey-nodewebusb", [\
-      ["npm:1.53.14", {\
-        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-keepkey-nodewebusb-npm-1.53.14-1feafc47f3-bb8c1307da.zip/node_modules/@keepkey/hdwallet-keepkey-nodewebusb/",\
+      ["npm:1.53.15", {\
+        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-keepkey-nodewebusb-npm-1.53.15-38e5291da9-4d91fdd67c.zip/node_modules/@keepkey/hdwallet-keepkey-nodewebusb/",\
         "packageDependencies": [\
-          ["@keepkey/hdwallet-keepkey-nodewebusb", "npm:1.53.14"]\
+          ["@keepkey/hdwallet-keepkey-nodewebusb", "npm:1.53.15"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.53.14", {\
-        "packageLocation": "./.yarn/__virtual__/@keepkey-hdwallet-keepkey-nodewebusb-virtual-4cbe5fa48e/0/cache/@keepkey-hdwallet-keepkey-nodewebusb-npm-1.53.14-1feafc47f3-bb8c1307da.zip/node_modules/@keepkey/hdwallet-keepkey-nodewebusb/",\
+      ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.53.15", {\
+        "packageLocation": "./.yarn/__virtual__/@keepkey-hdwallet-keepkey-nodewebusb-virtual-c7d08400d6/0/cache/@keepkey-hdwallet-keepkey-nodewebusb-npm-1.53.15-38e5291da9-4d91fdd67c.zip/node_modules/@keepkey/hdwallet-keepkey-nodewebusb/",\
         "packageDependencies": [\
-          ["@keepkey/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.53.14"],\
-          ["@keepkey/hdwallet-core", "npm:1.53.14"],\
-          ["@keepkey/hdwallet-keepkey", "npm:1.53.14"],\
+          ["@keepkey/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.53.15"],\
+          ["@keepkey/hdwallet-core", "npm:1.53.15"],\
+          ["@keepkey/hdwallet-keepkey", "npm:1.53.15"],\
           ["@types/usb", null],\
           ["usb", "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A."]\
         ],\
@@ -8748,8 +8732,8 @@ const RAW_RUNTIME_STATE =
           ["@cosmjs/proto-signing", "npm:0.28.13"],\
           ["@cosmjs/stargate", "npm:0.28.13"],\
           ["@keepkey/device-protocol", "npm:7.10.2"],\
-          ["@keepkey/hdwallet-core", "npm:1.53.14"],\
-          ["@keepkey/hdwallet-keepkey", "npm:1.53.14"],\
+          ["@keepkey/hdwallet-core", "npm:1.53.15"],\
+          ["@keepkey/hdwallet-keepkey", "npm:1.53.15"],\
           ["@keepkey/keepkey-sdk", "npm:0.2.52"],\
           ["@types/create-hash", "npm:1.2.2"],\
           ["@types/crypto-js", "npm:4.1.1"],\
@@ -8789,7 +8773,7 @@ const RAW_RUNTIME_STATE =
           ["@cosmjs/stargate", "npm:0.28.13"],\
           ["@keepkey/device-protocol", "npm:7.10.2"],\
           ["@keepkey/hdwallet-core", "npm:1.53.12"],\
-          ["@keepkey/hdwallet-keepkey", "npm:1.53.14"],\
+          ["@keepkey/hdwallet-keepkey", "npm:1.53.15"],\
           ["@keepkey/keepkey-sdk", "npm:0.2.52"],\
           ["@types/create-hash", "npm:1.2.2"],\
           ["@types/crypto-js", "npm:4.1.1"],\
@@ -8817,24 +8801,24 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@keepkey/hdwallet-keepkey-tcp", [\
-      ["npm:1.53.14", {\
-        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-keepkey-tcp-npm-1.53.14-b91ba86380-c8ef8b1093.zip/node_modules/@keepkey/hdwallet-keepkey-tcp/",\
+      ["npm:1.53.15", {\
+        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-keepkey-tcp-npm-1.53.15-07011ee449-866d9e8372.zip/node_modules/@keepkey/hdwallet-keepkey-tcp/",\
         "packageDependencies": [\
-          ["@keepkey/hdwallet-keepkey-tcp", "npm:1.53.14"],\
-          ["@keepkey/hdwallet-core", "npm:1.53.14"],\
-          ["@keepkey/hdwallet-keepkey", "npm:1.53.14"],\
+          ["@keepkey/hdwallet-keepkey-tcp", "npm:1.53.15"],\
+          ["@keepkey/hdwallet-core", "npm:1.53.15"],\
+          ["@keepkey/hdwallet-keepkey", "npm:1.53.15"],\
           ["axios", "npm:0.21.4"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@keepkey/hdwallet-keepkey-webusb", [\
-      ["npm:1.53.14", {\
-        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-keepkey-webusb-npm-1.53.14-1d3c1b0ef8-5547cd8d92.zip/node_modules/@keepkey/hdwallet-keepkey-webusb/",\
+      ["npm:1.53.15", {\
+        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-keepkey-webusb-npm-1.53.15-313d222a23-24f7bbfb20.zip/node_modules/@keepkey/hdwallet-keepkey-webusb/",\
         "packageDependencies": [\
-          ["@keepkey/hdwallet-keepkey-webusb", "npm:1.53.14"],\
-          ["@keepkey/hdwallet-core", "npm:1.53.14"],\
-          ["@keepkey/hdwallet-keepkey", "npm:1.53.14"]\
+          ["@keepkey/hdwallet-keepkey-webusb", "npm:1.53.15"],\
+          ["@keepkey/hdwallet-core", "npm:1.53.15"],\
+          ["@keepkey/hdwallet-keepkey", "npm:1.53.15"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -12241,14 +12225,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-node-npm-20.11.13-8a5bd5c659-ffe143dd5e.zip/node_modules/@types/node/",\
         "packageDependencies": [\
           ["@types/node", "npm:20.11.13"],\
-          ["undici-types", "npm:5.26.5"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:20.12.11", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-20.12.11-3c685779f4-c6afe7c2c4.zip/node_modules/@types/node/",\
-        "packageDependencies": [\
-          ["@types/node", "npm:20.12.11"],\
           ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
@@ -24854,10 +24830,10 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/contracts", "npm:5.7.0"],\
           ["@keepkey/common-esbuild-bits", "workspace:packages/common-esbuild-bits"],\
           ["@keepkey/device-protocol", "npm:7.10.2"],\
-          ["@keepkey/hdwallet-core", "npm:1.53.14"],\
-          ["@keepkey/hdwallet-keepkey", "npm:1.53.14"],\
-          ["@keepkey/hdwallet-keepkey-nodehid", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.53.14"],\
-          ["@keepkey/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.53.14"],\
+          ["@keepkey/hdwallet-core", "npm:1.53.15"],\
+          ["@keepkey/hdwallet-keepkey", "npm:1.53.15"],\
+          ["@keepkey/hdwallet-keepkey-nodehid", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.53.15"],\
+          ["@keepkey/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.53.15"],\
           ["@sentry/electron", "npm:4.1.2"],\
           ["@shapeshiftoss/chain-adapters", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:11.2.2"],\
           ["@shapeshiftoss/errors", "npm:1.1.3"],\
@@ -24984,12 +24960,12 @@ const RAW_RUNTIME_STATE =
           ["@json-rpc-tools/utils", "npm:1.7.6"],\
           ["@keepkey/common-esbuild-bits", "workspace:packages/common-esbuild-bits"],\
           ["@keepkey/device-protocol", "npm:7.10.2"],\
-          ["@keepkey/hdwallet-core", "npm:1.53.14"],\
-          ["@keepkey/hdwallet-keepkey", "npm:1.53.14"],\
-          ["@keepkey/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.53.14"],\
+          ["@keepkey/hdwallet-core", "npm:1.53.15"],\
+          ["@keepkey/hdwallet-keepkey", "npm:1.53.15"],\
+          ["@keepkey/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.53.15"],\
           ["@keepkey/hdwallet-keepkey-rest", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#workspace:packages/hdwallet-keepkey-rest"],\
-          ["@keepkey/hdwallet-keepkey-tcp", "npm:1.53.14"],\
-          ["@keepkey/hdwallet-keepkey-webusb", "npm:1.53.14"],\
+          ["@keepkey/hdwallet-keepkey-tcp", "npm:1.53.15"],\
+          ["@keepkey/hdwallet-keepkey-webusb", "npm:1.53.15"],\
           ["@keepkey/keepkey-sdk", "workspace:packages/keepkey-sdk"],\
           ["@peculiar/webcrypto", "npm:1.4.1"],\
           ["@pioneer-platform/pioneer-client", "npm:9.0.18"],\
@@ -25234,8 +25210,8 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["keepkey-sdk-server", "workspace:packages/keepkey-sdk-server"],\
           ["@keepkey/device-protocol", "npm:7.10.2"],\
-          ["@keepkey/hdwallet-core", "npm:1.53.14"],\
-          ["@keepkey/hdwallet-keepkey", "npm:1.53.14"],\
+          ["@keepkey/hdwallet-core", "npm:1.53.15"],\
+          ["@keepkey/hdwallet-keepkey", "npm:1.53.15"],\
           ["@pioneer-platform/pioneer-client", "npm:9.0.11"],\
           ["@tsoa/runtime", "patch:@tsoa/runtime@npm%3A4.1.3#./.yarn/patches/@tsoa-runtime-npm-4.1.3-5071b07b86.patch::version=4.1.3&hash=65587b&locator=keepkey-monorepo%40workspace%3A."],\
           ["@types/express", "npm:4.17.14"],\
