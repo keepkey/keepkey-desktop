@@ -8610,19 +8610,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@keepkey/hdwallet-core", [\
-      ["npm:1.53.12", {\
-        "packageLocation": "./.yarn/cache/@keepkey-hdwallet-core-npm-1.53.12-fa6c58f48c-aa77923913.zip/node_modules/@keepkey/hdwallet-core/",\
-        "packageDependencies": [\
-          ["@keepkey/hdwallet-core", "npm:1.53.12"],\
-          ["@keepkey/proto-tx-builder", "npm:0.9.0"],\
-          ["eip-712", "npm:1.0.0"],\
-          ["eventemitter2", "npm:5.0.1"],\
-          ["lodash", "npm:4.17.21"],\
-          ["rxjs", "npm:6.6.7"],\
-          ["type-assertions", "npm:1.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:1.53.15", {\
         "packageLocation": "./.yarn/cache/@keepkey-hdwallet-core-npm-1.53.15-8f56b4fc6b-ca6d5116c6.zip/node_modules/@keepkey/hdwallet-core/",\
         "packageDependencies": [\
@@ -8772,7 +8759,7 @@ const RAW_RUNTIME_STATE =
           ["@cosmjs/proto-signing", "npm:0.28.13"],\
           ["@cosmjs/stargate", "npm:0.28.13"],\
           ["@keepkey/device-protocol", "npm:7.10.2"],\
-          ["@keepkey/hdwallet-core", "npm:1.53.12"],\
+          ["@keepkey/hdwallet-core", "npm:1.53.15"],\
           ["@keepkey/hdwallet-keepkey", "npm:1.53.15"],\
           ["@keepkey/keepkey-sdk", "npm:0.2.52"],\
           ["@types/create-hash", "npm:1.2.2"],\

@@ -5365,7 +5365,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keepkey/hdwallet-core@npm:1.53.15, @keepkey/hdwallet-core@npm:^1.53.15":
+"@keepkey/hdwallet-core@npm:1.53.15, @keepkey/hdwallet-core@npm:^1.53.12, @keepkey/hdwallet-core@npm:^1.53.15":
   version: 1.53.15
   resolution: "@keepkey/hdwallet-core@npm:1.53.15"
   dependencies:
@@ -5376,20 +5376,6 @@ __metadata:
     rxjs: "npm:^6.4.0"
     type-assertions: "npm:^1.1.0"
   checksum: 10/ca6d5116c6b0e7ceea54e2cb880afe8898060073d9240329be9bcb9c819afa708cfde3a3be3d8648d8113f2f9dad35e7e01da8f64e29866b10206bebc4abfcff
-  languageName: node
-  linkType: hard
-
-"@keepkey/hdwallet-core@npm:^1.53.12":
-  version: 1.53.12
-  resolution: "@keepkey/hdwallet-core@npm:1.53.12"
-  dependencies:
-    "@keepkey/proto-tx-builder": "npm:^0.9.0"
-    eip-712: "npm:^1.0.0"
-    eventemitter2: "npm:^5.0.1"
-    lodash: "npm:^4.17.21"
-    rxjs: "npm:^6.4.0"
-    type-assertions: "npm:^1.1.0"
-  checksum: 10/aa779239131746c6b48b29dab325c6ea98d695cb7c7a643f1c00559d407a09d8c2d28dc18a7e30a8eff1d6224da6cbe6e4f0a5af86ea51ba0b943f132656943e
   languageName: node
   linkType: hard
 
