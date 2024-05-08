@@ -5365,7 +5365,38 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keepkey/hdwallet-core@npm:1.53.12, @keepkey/hdwallet-core@npm:^1.53.12, @keepkey/hdwallet-core@npm:^1.53.9":
+"@keepkey/hdwallet-core@npm:1.53.14, @keepkey/hdwallet-core@npm:^1.53.14":
+  version: 1.53.14
+  resolution: "@keepkey/hdwallet-core@npm:1.53.14"
+  dependencies:
+    "@keepkey/proto-tx-builder": "npm:^0.9.0"
+    eip-712: "npm:^1.0.0"
+    eventemitter2: "npm:^5.0.1"
+    lodash: "npm:^4.17.21"
+    rxjs: "npm:^6.4.0"
+    type-assertions: "npm:^1.1.0"
+  checksum: 10/b8645cfc3b396ef0f16780aa7f9ce0315dbccc85779ac578b840cd27df5049071f0a4ee9ce213372be073dc220855670c7feed4cad8bfe7ed921d0a418b922e7
+  languageName: node
+  linkType: hard
+
+"@keepkey/hdwallet-core@npm:1.53.9":
+  version: 1.53.9
+  resolution: "@keepkey/hdwallet-core@npm:1.53.9"
+  dependencies:
+    "@ethersproject/bytes": "npm:^5.7.0"
+    "@keepkey/proto-tx-builder": "npm:^0.9.0"
+    "@types/node": "npm:^20.11.13"
+    eip-712: "npm:^1.0.0"
+    eventemitter2: "npm:^5.0.1"
+    google-protobuf: "npm:^3.21.2"
+    lodash: "npm:^4.17.21"
+    rxjs: "npm:^6.4.0"
+    type-assertions: "npm:^1.1.0"
+  checksum: 10/1a1e085158fbdcd629da642beeeaff6386963996acf6f38bebdc39e3dbdbf210a13e0b0bdafe189fd5ba973188d1fa050e866590b6eb89fd3775489918a73955
+  languageName: node
+  linkType: hard
+
+"@keepkey/hdwallet-core@npm:^1.53.12":
   version: 1.53.12
   resolution: "@keepkey/hdwallet-core@npm:1.53.12"
   dependencies:
@@ -5379,26 +5410,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keepkey/hdwallet-keepkey-nodehid@npm:^1.53.9":
-  version: 1.53.12
-  resolution: "@keepkey/hdwallet-keepkey-nodehid@npm:1.53.12"
+"@keepkey/hdwallet-keepkey-nodehid@npm:^1.53.14":
+  version: 1.53.14
+  resolution: "@keepkey/hdwallet-keepkey-nodehid@npm:1.53.14"
   dependencies:
-    "@keepkey/hdwallet-keepkey": "npm:1.53.12"
+    "@keepkey/hdwallet-keepkey": "npm:1.53.14"
   peerDependencies:
     node-hid: ^2.1.1
-  checksum: 10/7e90f6613afcfb30d83917ab28fd8f53649c44b76532e5fc971bcc6749f00ec3f57cfd298fe6924f6c224dc4e977b18fc432438fd71d0cc34f6ddfeed90dfaba
+  checksum: 10/f2e97cd7400d95f5c31da02767fabbd70d347c7b27048e4f8581a7bbeaa9b6ee3214a3f5d916f84ed2180f786f103907eb38c366fb166a9dc996d90972537015
   languageName: node
   linkType: hard
 
-"@keepkey/hdwallet-keepkey-nodewebusb@npm:^1.53.12, @keepkey/hdwallet-keepkey-nodewebusb@npm:^1.53.9":
-  version: 1.53.12
-  resolution: "@keepkey/hdwallet-keepkey-nodewebusb@npm:1.53.12"
+"@keepkey/hdwallet-keepkey-nodewebusb@npm:^1.53.14":
+  version: 1.53.14
+  resolution: "@keepkey/hdwallet-keepkey-nodewebusb@npm:1.53.14"
   dependencies:
-    "@keepkey/hdwallet-core": "npm:1.53.12"
-    "@keepkey/hdwallet-keepkey": "npm:1.53.12"
+    "@keepkey/hdwallet-core": "npm:1.53.14"
+    "@keepkey/hdwallet-keepkey": "npm:1.53.14"
   peerDependencies:
     usb: ^2.3.1
-  checksum: 10/02af5faadfadab8fd757bcd420a45f84a393fad7e1250ad1150e8a08f5c52064bbd684473922951c53ebaefb71cfca9b069a9e760ce1191c73a7a30e23197d59
+  checksum: 10/bb8c1307da23fa95f115a716a434740c839e873e01a999169d7ed626b7801bc8f61538ac57ad3dd69197eb78a1364fc64d15be2e3d316bb3e632eabf2abeb9cc
   languageName: node
   linkType: hard
 
@@ -5411,6 +5442,7 @@ __metadata:
     "@cosmjs/stargate": "npm:^0.28.13"
     "@keepkey/device-protocol": "npm:^7.10.2"
     "@keepkey/hdwallet-core": "npm:^1.53.12"
+    "@keepkey/hdwallet-keepkey": "npm:1.53.14"
     "@keepkey/keepkey-sdk": "npm:0.2.52"
     "@types/create-hash": "npm:^1.2.2"
     "@types/crypto-js": "npm:^4.0.0"
@@ -5438,35 +5470,35 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@keepkey/hdwallet-keepkey-tcp@npm:^1.53.12":
-  version: 1.53.12
-  resolution: "@keepkey/hdwallet-keepkey-tcp@npm:1.53.12"
+"@keepkey/hdwallet-keepkey-tcp@npm:^1.53.14":
+  version: 1.53.14
+  resolution: "@keepkey/hdwallet-keepkey-tcp@npm:1.53.14"
   dependencies:
-    "@keepkey/hdwallet-core": "npm:1.53.12"
-    "@keepkey/hdwallet-keepkey": "npm:1.53.12"
+    "@keepkey/hdwallet-core": "npm:1.53.14"
+    "@keepkey/hdwallet-keepkey": "npm:1.53.14"
     axios: "npm:^0.21.1"
-  checksum: 10/2d983b19b50d7d931872ad40fff39a32d087349d620dd05f17180eeb02d72c5c5d4e174e909b3532b8dc4a9a68a23af5d75ac1033d4f6340d763da6fb2dc28db
+  checksum: 10/c8ef8b1093763f76e6aba35eef46a7f2b09ce565d767c16c418adacf991c2086f462bc0e9ce9bac5358210f7df239749f0d273842ebd9ff98435361b1d42af64
   languageName: node
   linkType: hard
 
-"@keepkey/hdwallet-keepkey-webusb@npm:^1.53.12":
-  version: 1.53.12
-  resolution: "@keepkey/hdwallet-keepkey-webusb@npm:1.53.12"
+"@keepkey/hdwallet-keepkey-webusb@npm:^1.53.14":
+  version: 1.53.14
+  resolution: "@keepkey/hdwallet-keepkey-webusb@npm:1.53.14"
   dependencies:
-    "@keepkey/hdwallet-core": "npm:1.53.12"
-    "@keepkey/hdwallet-keepkey": "npm:1.53.12"
-  checksum: 10/bc274ab79d0747786dc3db01ecc3a0f2c96721d85bc16298d69dac16c2dedbe8239dfc55f5ed3415eeebb874ab649d2b769156e92187d47d6c772108019ed478
+    "@keepkey/hdwallet-core": "npm:1.53.14"
+    "@keepkey/hdwallet-keepkey": "npm:1.53.14"
+  checksum: 10/5547cd8d9229c0281c0bb6c473bd2e9aeeeffb0a8ff6afcd33ac8a8c9a496e5337bb0194d28b505419c95618f86287010fcccf58d3252e021fdfb9baa53b0af3
   languageName: node
   linkType: hard
 
-"@keepkey/hdwallet-keepkey@npm:1.53.12, @keepkey/hdwallet-keepkey@npm:^1.53.12":
-  version: 1.53.12
-  resolution: "@keepkey/hdwallet-keepkey@npm:1.53.12"
+"@keepkey/hdwallet-keepkey@npm:1.53.14":
+  version: 1.53.14
+  resolution: "@keepkey/hdwallet-keepkey@npm:1.53.14"
   dependencies:
     "@ethereumjs/common": "npm:^2.4.0"
     "@ethereumjs/tx": "npm:^3.3.0"
     "@keepkey/device-protocol": "npm:^7.13.2"
-    "@keepkey/hdwallet-core": "npm:1.53.12"
+    "@keepkey/hdwallet-core": "npm:1.53.9"
     "@keepkey/proto-tx-builder": "npm:^0.9.0"
     "@metamask/eth-sig-util": "npm:^7.0.0"
     "@shapeshiftoss/bitcoinjs-lib": "npm:5.2.0-shapeshift.2"
@@ -5480,7 +5512,7 @@ __metadata:
     p-lazy: "npm:^3.1.0"
     semver: "npm:^7.3.8"
     tiny-secp256k1: "npm:^1.1.6"
-  checksum: 10/81db99245a08c7444e07b0dad461efbb1991efa0e1e794c03c40b60fa8acfbb34dd500f3dc4f699908be6c3382ce4d570fd5253930f1a93fabea4ef3b4ee53a3
+  checksum: 10/077ae044edf2c020af2e78ceeaae687fd36f39b7ddbc8308f6c9e4c617e46bafb0735d8530c7c7e5036ba2ba0e7f5c54c71f2aa2fbd2f5c812c5d71736d9c2dd
   languageName: node
   linkType: hard
 
@@ -8340,6 +8372,15 @@ __metadata:
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 10/ffe143dd5e52d0d29f5bcea165b752c5355eaff8b6b933441108b540419e14c0c7e0e7912783e914125ab957e30db93f9c827e8dd437ec7e5f03def995e9a5e6
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.11.13":
+  version: 20.12.11
+  resolution: "@types/node@npm:20.12.11"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 10/c6afe7c2c4504a4f488814d7b306ebad16bf42cbb43bf9db9fe1aed8c5fb99235593c3be5088979a64526b106cf022256688e2f002811be8273d87dc2e0d484f
   languageName: node
   linkType: hard
 
@@ -16710,7 +16751,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"google-protobuf@npm:^3.15.8, google-protobuf@npm:^3.17.0, google-protobuf@npm:^3.7.0-rc.2":
+"google-protobuf@npm:^3.15.8, google-protobuf@npm:^3.17.0, google-protobuf@npm:^3.21.2, google-protobuf@npm:^3.7.0-rc.2":
   version: 3.21.2
   resolution: "google-protobuf@npm:3.21.2"
   checksum: 10/b376c2e47fb0419b41b901e4da8f3827fe9594ffb7887708b9c241f36005d0b9f2edc7b3f05795f6793924a241e767f67831732eae0f23bdbb337b56a6ab4e26
@@ -19008,12 +19049,12 @@ __metadata:
     "@json-rpc-tools/utils": "npm:^1.7.6"
     "@keepkey/common-esbuild-bits": "workspace:*"
     "@keepkey/device-protocol": "npm:^7.10.2"
-    "@keepkey/hdwallet-core": "npm:^1.53.12"
-    "@keepkey/hdwallet-keepkey": "npm:1.53.12"
-    "@keepkey/hdwallet-keepkey-nodewebusb": "npm:^1.53.12"
+    "@keepkey/hdwallet-core": "npm:^1.53.14"
+    "@keepkey/hdwallet-keepkey": "npm:1.53.14"
+    "@keepkey/hdwallet-keepkey-nodewebusb": "npm:^1.53.14"
     "@keepkey/hdwallet-keepkey-rest": "workspace:*"
-    "@keepkey/hdwallet-keepkey-tcp": "npm:^1.53.12"
-    "@keepkey/hdwallet-keepkey-webusb": "npm:^1.53.12"
+    "@keepkey/hdwallet-keepkey-tcp": "npm:^1.53.14"
+    "@keepkey/hdwallet-keepkey-webusb": "npm:^1.53.14"
     "@keepkey/keepkey-sdk": "workspace:*"
     "@peculiar/webcrypto": "npm:^1.3.3"
     "@pioneer-platform/pioneer-client": "npm:^9.0.18"
@@ -19237,9 +19278,10 @@ __metadata:
     "@ethersproject/contracts": "npm:^5.7.0"
     "@keepkey/common-esbuild-bits": "workspace:*"
     "@keepkey/device-protocol": "npm:^7.10.2"
-    "@keepkey/hdwallet-core": "npm:^1.53.9"
-    "@keepkey/hdwallet-keepkey-nodehid": "npm:^1.53.9"
-    "@keepkey/hdwallet-keepkey-nodewebusb": "npm:^1.53.9"
+    "@keepkey/hdwallet-core": "npm:^1.53.14"
+    "@keepkey/hdwallet-keepkey": "npm:1.53.14"
+    "@keepkey/hdwallet-keepkey-nodehid": "npm:^1.53.14"
+    "@keepkey/hdwallet-keepkey-nodewebusb": "npm:^1.53.14"
     "@sentry/electron": "npm:^4.1.0"
     "@shapeshiftoss/chain-adapters": "npm:^11.2.2"
     "@shapeshiftoss/errors": "npm:^1.1.3"
@@ -19375,8 +19417,8 @@ __metadata:
   resolution: "keepkey-sdk-server@workspace:packages/keepkey-sdk-server"
   dependencies:
     "@keepkey/device-protocol": "npm:^7.10.2"
-    "@keepkey/hdwallet-core": "npm:^1.53.12"
-    "@keepkey/hdwallet-keepkey": "npm:^1.53.12"
+    "@keepkey/hdwallet-core": "npm:^1.53.14"
+    "@keepkey/hdwallet-keepkey": "npm:1.53.14"
     "@pioneer-platform/pioneer-client": "npm:^9.0.11"
     "@tsoa/runtime": "npm:^4.1.3"
     "@types/express": "npm:^4.17.14"

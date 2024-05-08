@@ -27,6 +27,7 @@
     "@keepkey/hdwallet-core": "^1.53.12"
   },
   "dependencies": {
+    "@keepkey/hdwallet-keepkey": "1.53.14",
     "@keepkey/keepkey-sdk": "0.2.52",
     "lodash": "^4.17.21",
     "semver": "^6.3.0"
