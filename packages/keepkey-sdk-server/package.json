@@ -24,8 +24,8 @@
     "protobufjs": "^7.2.3"
   },
   "devDependencies": {
-    "@keepkey/hdwallet-core": "^1.53.14",
-    "@keepkey/hdwallet-keepkey": "1.53.14",
+    "@keepkey/hdwallet-core": "^1.53.15",
+    "@keepkey/hdwallet-keepkey": "1.53.15",
     "@pioneer-platform/pioneer-client": "^9.0.11",
     "@types/express": "^4.17.14",
     "@types/lodash": "^4.14.190",
