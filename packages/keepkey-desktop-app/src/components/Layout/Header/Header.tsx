@@ -86,13 +86,13 @@ export const Header = () => {
                 </Link>
               </Flex>
               <Flex justifyContent='flex-end' flex={1} rowGap={4} columnGap={2}>
-                <Button
-                    onClick={openWalletConnect}
-                    size="md"           // Set the size of the button
-                    leftIcon={<Avatar size="xs" src="https://pbs.twimg.com/profile_images/1737473466847125504/SN4QL9k3_400x400.jpg" />}  // Set the avatar as the icon of the button
-                >
-                  Wallet Connect
-                </Button>
+                <Avatar onClick={openWalletConnect} size="xs" src="https://pbs.twimg.com/profile_images/1737473466847125504/SN4QL9k3_400x400.jpg" />
+                {/*<Button*/}
+                {/*    onClick={openWalletConnect}*/}
+                {/*    size="md"           // Set the size of the button*/}
+                {/*    leftIcon={<Avatar size="xs" src="https://pbs.twimg.com/profile_images/1737473466847125504/SN4QL9k3_400x400.jpg" />}  // Set the avatar as the icon of the button*/}
+                {/*>*/}
+                {/*</Button>*/}
                 {/*<ChainMenu display={{ base: 'none', md: 'block' }} />*/}
               </Flex>
             </HStack>
