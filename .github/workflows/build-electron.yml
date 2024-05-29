@@ -193,10 +193,18 @@ jobs:
 
       - name: Rename .dmg for Intel Macs
         run: |
-          mv packages/keepkey-desktop/dist/KeepKey\ Desktop-*.dmg packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.dmg
-          mv packages/keepkey-desktop/dist/KeepKey\ Desktop-*.dmg.blockmap packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.dmg.blockmap
-          mv packages/keepkey-desktop/dist/KeepKey\ Desktop-*.zip packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.zip
-          mv packages/keepkey-desktop/dist/KeepKey\ Desktop-*.zip.blockmap packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.zip.blockmap
+          if [ -f "packages/keepkey-desktop/dist/KeepKey Desktop-3.0.18-arm64.dmg" ]; then
+            mv packages/keepkey-desktop/dist/KeepKey\ Desktop-*.dmg packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.dmg
+          fi
+          if [ -f "packages/keepkey-desktop/dist/KeepKey Desktop-3.0.18-arm64.dmg.blockmap" ]; then
+            mv packages/keepkey-desktop/dist/KeepKey\ Desktop-*.dmg.blockmap packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.dmg.blockmap
+          fi
+          if [ -f "packages/keepkey-desktop/dist/KeepKey Desktop-3.0.18-arm64.zip" ]; then
+            mv packages/keepkey-desktop/dist/KeepKey\ Desktop-*.zip packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.zip
+          fi
+          if [ -f "packages/keepkey-desktop/dist/KeepKey Desktop-3.0.18-arm64.zip.blockmap" ]; then
+            mv packages/keepkey-desktop/dist/KeepKey\ Desktop-*.zip.blockmap packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.zip.blockmap
+          fi
 
       - name: Upload .dmg
         uses: actions/upload-artifact@v3
