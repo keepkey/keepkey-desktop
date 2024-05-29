@@ -10,9 +10,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  release-linux:
-    runs-on: ubuntu-latest
+  release:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, ubuntu-latest, windows-latest]
     steps:
+      # Existing Steps
       - name: Checkout
         uses: nschloe/action-cached-lfs-checkout@v1
         with:
@@ -27,7 +32,10 @@ jobs:
         id: restore-cache
         uses: actions/cache@v3
         with:
-          path: ~/.cache/electron
+          path: |
+            ~/.cache/electron
+            ~/Library/Caches/electron
+            ~/AppData/Local/electron/Cache
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}
 
@@ -37,145 +45,55 @@ jobs:
       - name: Yarn Build
         run: yarn build
 
-      - name: List Directory After Build
-        run: ls -al packages/keepkey-desktop/
+      - name: Upload Built App
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-build-dir-${{ runner.os }}
+          path: packages/keepkey-desktop/build/
+          if-no-files-found: error
 
       - name: Generate Checksum
-        run: ./scripts/generate_checksum_unix.sh
+        run: |
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            ./scripts/generate_checksum_windows.sh
+          else
+            ./scripts/generate_checksum_unix.sh
+          fi
         shell: bash
 
       - name: Upload Checksum
         uses: actions/upload-artifact@v3
         with:
-          name: checksum-linux
+          name: checksum-${{ runner.os }}
           path: checksum.txt
           if-no-files-found: error
 
-      - name: Build Electron App
-        run: yarn run release
-        env:
-          NODE_ENV: production
-          GH_TOKEN: ${{ secrets.github_token }}
-
-      - name: List Directory After Release
-        run: ls -al packages/keepkey-desktop/dist/
-
-      - name: Upload .AppImage
-        uses: actions/upload-artifact@v3
-        with:
-          name: linux-AppImage
-          path: |
-            packages/keepkey-desktop/dist/*.AppImage
-            packages/keepkey-desktop/dist/*.AppImage.blockmap
-          if-no-files-found: error
-
-  release-windows:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout
-        uses: nschloe/action-cached-lfs-checkout@v1
-        with:
-          submodules: true
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Restore Cached Electron Bundles
-        id: restore-cache
-        uses: actions/cache@v3
-        with:
-          path: ~/AppData/Local/electron/Cache
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}
-
-      - name: Yarn Install
-        run: yarn install
-
-      - name: Yarn Build
-        run: yarn build
-
-      - name: List Directory After Build
-        run: ls -al packages/keepkey-desktop/
-
-      - name: Generate Checksum
-        run: ./scripts/generate_checksum_windows.sh
-
-      - name: Upload Checksum
-        uses: actions/upload-artifact@v3
-        with:
-          name: checksum-windows
-          path: checksum.txt
-          if-no-files-found: error
-
-      - name: Build Electron App
-        run: yarn run release
-        env:
-          NODE_ENV: production
-          GH_TOKEN: ${{ secrets.github_token }}
-
-      - name: List Directory After Release
-        run: ls -al packages/keepkey-desktop/dist/
-
-      - name: Upload .exe
-        uses: actions/upload-artifact@v3
-        with:
-          name: windows-nsis
-          path: |
-            packages/keepkey-desktop/dist/*.exe
-            packages/keepkey-desktop/dist/*.exe.blockmap
-          if-no-files-found: error
-
-  release-macos-x64:
-    runs-on: macos-14
-    steps:
-      - name: Checkout
-        uses: nschloe/action-cached-lfs-checkout@v1
-        with:
-          submodules: true
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Restore Cached Electron Bundles
-        id: restore-cache
-        uses: actions/cache@v3
-        with:
-          path: ~/Library/Caches/electron
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}
-
-      - name: Yarn Install
-        run: yarn install
-
-      - name: Yarn Build
-        run: yarn build
-
-      - name: List Directory After Build
-        run: ls -al packages/keepkey-desktop/
-
-      - name: Generate Checksum
-        run: ./scripts/generate_checksum_unix.sh
-        shell: bash
-
-      - name: Upload Checksum
-        uses: actions/upload-artifact@v3
-        with:
-          name: checksum-macos-x64
-          path: checksum.txt
-          if-no-files-found: error
-
-      - name: Prepare For App Notarization
+      - name: Mac - Prepare For App Notarization
+        if: startsWith(matrix.os, 'macos')
         run: |
           mkdir -p ~/private_keys/
           echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
-          chmod -R 755 ~/private_keys
+          ls -al ~/private_keys # Debugging line to check the contents of the directory
+          chmod -R 755 ~/private_keys # Ensure proper permissions
 
-      - name: Build Electron App (x64)
-        run: yarn run release -- --x64
+      - name: Linux - Build Electron App
+        if: startsWith(matrix.os, 'ubuntu')
+        run: yarn run release
+        env:
+          NODE_ENV: production
+          APPLE_ID: ${{ secrets.apple_id }}
+          APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
+          APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
+          GH_TOKEN: ${{ secrets.github_token }}
+
+      - name: Mac - Build Electron App
+        if: startsWith(matrix.os, 'macos')
+        run: |
+          yarn run release
+          # Copy the file with 'arm64' in its name to a new version without 'arm64'
+          for file in packages/keepkey-desktop/dist/*-arm64.dmg; do
+            cp "$file" "${file/-arm64/}"
+          done
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
@@ -188,106 +106,43 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
           CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
 
-      - name: List Directory After Release
-        run: ls -al packages/keepkey-desktop/dist/
-
-      - name: Rename .dmg for Intel Macs
+      - name: Windows - Build Electron App
+        if: startsWith(matrix.os, 'windows')
         run: |
-          if [ -f "packages/keepkey-desktop/dist/KeepKey Desktop-3.0.18-arm64.dmg" ]; then
-            mv packages/keepkey-desktop/dist/KeepKey\ Desktop-*.dmg packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.dmg
-          fi
-          if [ -f "packages/keepkey-desktop/dist/KeepKey Desktop-3.0.18-arm64.dmg.blockmap" ]; then
-            mv packages/keepkey-desktop/dist/KeepKey\ Desktop-*.dmg.blockmap packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.dmg.blockmap
-          fi
-          if [ -f "packages/keepkey-desktop/dist/KeepKey Desktop-3.0.18-arm64.zip" ]; then
-            mv packages/keepkey-desktop/dist/KeepKey\ Desktop-*.zip packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.zip
-          fi
-          if [ -f "packages/keepkey-desktop/dist/KeepKey Desktop-3.0.18-arm64.zip.blockmap" ]; then
-            mv packages/keepkey-desktop/dist/KeepKey\ Desktop-*.zip.blockmap packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.zip.blockmap
-          fi
+          yarn run release
+          cp "packages/keepkey-desktop/dist/KeepKey-Desktop-*-*-arm64.dmg" "packages/keepkey-desktop/dist/KeepKey-Desktop-latest.dmg"
+        env:
+          NODE_ENV: production
+          GH_TOKEN: ${{ secrets.github_token }}
 
-      - name: Upload .dmg
+      - name: Linux - Upload .AppImage
+        if: startsWith(matrix.os, 'ubuntu')
         uses: actions/upload-artifact@v3
         with:
-          name: mac-dmg-x64
+          name: linux-AppImage
           path: |
-            packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.dmg
-            packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.dmg.blockmap
-            packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.zip
-            packages/keepkey-desktop/dist/KeepKey\ Desktop-x64.zip.blockmap
+            packages/keepkey-desktop/dist/*.AppImage
+            packages/keepkey-desktop/dist/*.AppImage.blockmap
           if-no-files-found: error
 
-#  release-macos-arm64:
-#    runs-on: macos-14
-#    steps:
-#      - name: Checkout
-#        uses: nschloe/action-cached-lfs-checkout@v1
-#        with:
-#          submodules: true
-#
-#      - name: Setup Node
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version-file: '.nvmrc'
-#
-#      - name: Restore Cached Electron Bundles
-#        id: restore-cache
-#        uses: actions/cache@v3
-#        with:
-#          path: ~/Library/Caches/electron
-#          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-#          restore-keys: ${{ runner.os }}
-#
-#      - name: Yarn Install
-#        run: yarn install
-#
-#      - name: Yarn Build
-#        run: yarn build
-#
-#      - name: List Directory After Build
-#        run: ls -al packages/keepkey-desktop/
-#
-#      - name: Generate Checksum
-#        run: ./scripts/generate_checksum_unix.sh
-#        shell: bash
-#
-#      - name: Upload Checksum
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: checksum-macos-arm64
-#          path: checksum.txt
-#          if-no-files-found: error
-#
-#      - name: Prepare For App Notarization
-#        run: |
-#          mkdir -p ~/private_keys/
-#          echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
-#          chmod -R 755 ~/private_keys
-#
-#      - name: Build Electron App (arm64)
-#        run: yarn run release -- --arm64
-#        env:
-#          NODE_ENV: production
-#          GH_TOKEN: ${{ secrets.github_token }}
-#          CSC_LINK: ${{ secrets.mac_certs }}
-#          APPLE_API_KEY: ${{ secrets.apple_api_key }}
-#          APPLE_API_KEY_ID: ${{ secrets.apple_api_key_id }}
-#          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.apple_app_specific_password }}
-#          APPLE_ID: ${{ secrets.apple_id }}
-#          APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
-#          APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
-#          CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
-#
-#      - name: List Directory After Release
-#        run: ls -al packages/keepkey-desktop/dist/
-#
-#      - name: Upload .dmg
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: mac-dmg-arm64
-#          path: |
-#            packages/keepkey-desktop/dist/*.dmg
-#            packages/keepkey-desktop/dist/*.dmg.blockmap
-#            packages/keepkey-desktop/dist/*.zip
-#            packages/keepkey-desktop/dist/*.zip.blockmap
-#          if-no-files-found: error
+      - name: Mac - Upload .dmg
+        if: startsWith(matrix.os, 'macos')
+        uses: actions/upload-artifact@v3
+        with:
+          name: mac-dmg
+          path: |
+            packages/keepkey-desktop/dist/*.dmg
+            packages/keepkey-desktop/dist/*.dmg.blockmap
+            packages/keepkey-desktop/dist/*.zip
+            packages/keepkey-desktop/dist/*.zip.blockmap
+          if-no-files-found: error
+
+      - name: Windows - Upload .exe
+        if: startsWith(matrix.os, 'windows')
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-nsis
+          path: |
+            packages/keepkey-desktop/dist/*.exe
+            packages/keepkey-desktop/dist/*.exe.blockmap
+          if-no-files-found: error
