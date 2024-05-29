@@ -38,7 +38,7 @@ jobs:
         run: yarn build
 
       - name: List Directory After Build
-        run: ls -al packages/keepkey-desktop/dist/
+        run: ls -al packages/keepkey-desktop/
 
       - name: Generate Checksum
         run: ./scripts/generate_checksum_unix.sh
@@ -97,7 +97,7 @@ jobs:
         run: yarn build
 
       - name: List Directory After Build
-        run: ls -al packages/keepkey-desktop/dist/
+        run: ls -al packages/keepkey-desktop/
 
       - name: Generate Checksum
         run: ./scripts/generate_checksum_windows.sh
@@ -155,7 +155,7 @@ jobs:
         run: yarn build
 
       - name: List Directory After Build
-        run: ls -al packages/keepkey-desktop/dist/
+        run: ls -al packages/keepkey-desktop/
 
       - name: Generate Checksum
         run: ./scripts/generate_checksum_unix.sh
@@ -230,7 +230,7 @@ jobs:
         run: yarn build
 
       - name: List Directory After Build
-        run: ls -al packages/keepkey-desktop/dist/
+        run: ls -al packages/keepkey-desktop/
 
       - name: Generate Checksum
         run: ./scripts/generate_checksum_unix.sh
