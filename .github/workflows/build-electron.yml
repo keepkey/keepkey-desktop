@@ -37,6 +37,9 @@ jobs:
       - name: Yarn Build
         run: yarn build
 
+      - name: List Directory After Build
+        run: ls -al packages/keepkey-desktop/dist/
+
       - name: Generate Checksum
         run: ./scripts/generate_checksum_unix.sh
         shell: bash
@@ -53,6 +56,9 @@ jobs:
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
+
+      - name: List Directory After Release
+        run: ls -al packages/keepkey-desktop/dist/
 
       - name: Upload .AppImage
         uses: actions/upload-artifact@v3
@@ -90,6 +96,9 @@ jobs:
       - name: Yarn Build
         run: yarn build
 
+      - name: List Directory After Build
+        run: ls -al packages/keepkey-desktop/dist/
+
       - name: Generate Checksum
         run: ./scripts/generate_checksum_windows.sh
 
@@ -105,6 +114,9 @@ jobs:
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
+
+      - name: List Directory After Release
+        run: ls -al packages/keepkey-desktop/dist/
 
       - name: Upload .exe
         uses: actions/upload-artifact@v3
@@ -142,6 +154,9 @@ jobs:
       - name: Yarn Build
         run: yarn build
 
+      - name: List Directory After Build
+        run: ls -al packages/keepkey-desktop/dist/
+
       - name: Generate Checksum
         run: ./scripts/generate_checksum_unix.sh
         shell: bash
@@ -173,15 +188,18 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
           CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
 
-      - name: Upload .dmg (x64)
+      - name: List Directory After Release
+        run: ls -al packages/keepkey-desktop/dist/
+
+      - name: Upload .dmg
         uses: actions/upload-artifact@v3
         with:
           name: mac-dmg-x64
           path: |
-            packages/keepkey-desktop/dist/*x64.dmg
-            packages/keepkey-desktop/dist/*x64.dmg.blockmap
-            packages/keepkey-desktop/dist/*x64.zip
-            packages/keepkey-desktop/dist/*x64.zip.blockmap
+            packages/keepkey-desktop/dist/*.dmg
+            packages/keepkey-desktop/dist/*.dmg.blockmap
+            packages/keepkey-desktop/dist/*.zip
+            packages/keepkey-desktop/dist/*.zip.blockmap
           if-no-files-found: error
 
   release-macos-arm64:
@@ -210,6 +228,9 @@ jobs:
 
       - name: Yarn Build
         run: yarn build
+
+      - name: List Directory After Build
+        run: ls -al packages/keepkey-desktop/dist/
 
       - name: Generate Checksum
         run: ./scripts/generate_checksum_unix.sh
@@ -242,13 +263,16 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
           CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
 
-      - name: Upload .dmg (arm64)
+      - name: List Directory After Release
+        run: ls -al packages/keepkey-desktop/dist/
+
+      - name: Upload .dmg
         uses: actions/upload-artifact@v3
         with:
           name: mac-dmg-arm64
           path: |
-            packages/keepkey-desktop/dist/*arm64.dmg
-            packages/keepkey-desktop/dist/*arm64.dmg.blockmap
-            packages/keepkey-desktop/dist/*arm64.zip
-            packages/keepkey-desktop/dist/*arm64.zip.blockmap
+            packages/keepkey-desktop/dist/*.dmg
+            packages/keepkey-desktop/dist/*.dmg.blockmap
+            packages/keepkey-desktop/dist/*.zip
+            packages/keepkey-desktop/dist/*.zip.blockmap
           if-no-files-found: error
