@@ -173,7 +173,7 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
           CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
 
-      - name: Upload .dmg
+      - name: Upload .dmg (x64)
         uses: actions/upload-artifact@v3
         with:
           name: mac-dmg-x64
@@ -242,7 +242,7 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
           CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
 
-      - name: Upload .dmg
+      - name: Upload .dmg (arm64)
         uses: actions/upload-artifact@v3
         with:
           name: mac-dmg-arm64
