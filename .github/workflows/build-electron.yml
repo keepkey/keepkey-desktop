@@ -57,6 +57,7 @@ jobs:
             ./scripts/generate_checksum_windows.sh
           else
             ./scripts/generate_checksum_unix.sh
+          fi
         shell: bash
 
       - name: Upload Checksum
