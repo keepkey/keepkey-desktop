@@ -178,10 +178,10 @@ jobs:
         with:
           name: mac-dmg-x64
           path: |
-            packages/keepkey-desktop/dist/*.dmg
-            packages/keepkey-desktop/dist/*.dmg.blockmap
-            packages/keepkey-desktop/dist/*.zip
-            packages/keepkey-desktop/dist/*.zip.blockmap
+            packages/keepkey-desktop/dist/*x64.dmg
+            packages/keepkey-desktop/dist/*x64.dmg.blockmap
+            packages/keepkey-desktop/dist/*x64.zip
+            packages/keepkey-desktop/dist/*x64.zip.blockmap
           if-no-files-found: error
 
   release-macos-arm64:
@@ -247,8 +247,8 @@ jobs:
         with:
           name: mac-dmg-arm64
           path: |
-            packages/keepkey-desktop/dist/*.dmg
-            packages/keepkey-desktop/dist/*.dmg.blockmap
-            packages/keepkey-desktop/dist/*.zip
-            packages/keepkey-desktop/dist/*.zip.blockmap
+            packages/keepkey-desktop/dist/*arm64.dmg
+            packages/keepkey-desktop/dist/*arm64.dmg.blockmap
+            packages/keepkey-desktop/dist/*arm64.zip
+            packages/keepkey-desktop/dist/*arm64.zip.blockmap
           if-no-files-found: error
