@@ -90,15 +90,15 @@ jobs:
         if: startsWith(matrix.os, 'macos')
         run: |
           yarn run release
-          # Copy the file with 'arm64' in its name to a new version without 'arm64'
+          # Copy the file with 'universal' in its name to a new version without 'universal'
           for file in packages/keepkey-desktop/dist/*-universal.dmg; do
-            cp "$file" "${file/-universal/}"
+            [ -f "$file" ] && cp "$file" "${file/-universal/}"
           done
           for file in packages/keepkey-desktop/dist/*-universal.dmg.blockmap; do
-            cp "$file" "${file/-universal/}"
+            [ -f "$file" ] && cp "$file" "${file/-universal/}"
           done
           for file in packages/keepkey-desktop/dist/*-universal.zip; do
-            cp "$file" "${file/-universal/}"
+            [ -f "$file" ] && cp "$file" "${file/-universal/}"
           done
         env:
           NODE_ENV: production
