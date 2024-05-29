@@ -15,6 +15,7 @@
     "scripts": {
         "build": "ts-node --skipProject --swc ./scripts/build.ts",
         "release": "yarn run -T build && rimraf build/metafile.json build/app/metafile.json && DEBUG=electron-builder electron-builder",
+        "release-intel": "yarn run -T build && rimraf build/metafile.json build/app/metafile.json && DEBUG=electron-builder electron-builder -- --x64",
         "electron-builder": "DEBUG=electron-builder electron-builder",
         "dev": "ts-node --skipProject --swc ./scripts/dev.ts",
         "clean": "rimraf build dist",
@@ -47,8 +48,20 @@
             "icon": "icon.png",
             "entitlements": "entitlements.mac.plist",
             "entitlementsInherit": "entitlements.mac.plist",
+            "mergeASARs": false,
             "target": [
-                "dmg"
+              {
+                "target": "dmg",
+                "arch": [
+                  "universal"
+                ]
+              },
+              {
+                "target": "zip",
+                "arch": [
+                  "universal"
+                ]
+              }
             ]
         },
         "nsis": {

@@ -12,6 +12,7 @@
     "build": "yarn workspaces foreach -pRi --topological-dev --from 'keepkey-desktop' run build",
     "publish": "yarn workspaces foreach -p run publish",
     "release": "yarn run build && yarn workspace keepkey-desktop run release",
+    "release-intel": "yarn run build && yarn workspace keepkey-desktop run release-intel",
     "electron-builder": "yarn run build && yarn workspace keepkey-desktop run release",
     "dev": "yarn workspaces foreach -pRi --topological-dev --from 'keepkey-desktop' run dev",
     "lint": "yarn workspaces foreach -pi run lint",
