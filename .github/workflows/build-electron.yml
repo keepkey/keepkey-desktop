@@ -94,6 +94,12 @@ jobs:
           for file in packages/keepkey-desktop/dist/*-universal.dmg; do
             cp "$file" "${file/-universal/}"
           done
+          for file in packages/keepkey-desktop/dist/*-universal.dmg.blockmap; do
+            cp "$file" "${file/-universal/}"
+          done
+          for file in packages/keepkey-desktop/dist/*-universal.zip; do
+            cp "$file" "${file/-universal/}"
+          done
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
