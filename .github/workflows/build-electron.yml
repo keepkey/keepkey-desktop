@@ -90,10 +90,10 @@ jobs:
         if: startsWith(matrix.os, 'macos')
         run: |
           yarn run release
-#          # Copy the file with 'arm64' in its name to a new version without 'arm64'
-#          for file in packages/keepkey-desktop/dist/*-arm64.dmg; do
-#            cp "$file" "${file/-arm64/}"
-#          done
+          # Copy the file with 'arm64' in its name to a new version without 'arm64'
+          for file in packages/keepkey-desktop/dist/*-universal.dmg; do
+            cp "$file" "${file/-universal/}"
+          done
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
