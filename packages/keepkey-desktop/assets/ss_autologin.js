@@ -1,5 +1,5 @@
 // Initialized in browser_injection.js
-// const KK_SDK_API_KEY = 'API_KEY_HERE'
+const KK_SDK_API_KEY = 'API_KEY_HERE'
 const KK_DEVICE_ID = 'WALLET_DEVICE_ID_HERE'
 
 console.log('LOADED SS AUTOLOGIN SCRIPT')
