@@ -5412,7 +5412,7 @@ __metadata:
     "@keepkey/device-protocol": "npm:^7.10.2"
     "@keepkey/hdwallet-core": "npm:^1.53.16"
     "@keepkey/hdwallet-keepkey": "npm:1.53.16"
-    "@keepkey/keepkey-sdk": "npm:0.2.52"
+    "@keepkey/keepkey-sdk": "npm:0.2.57"
     "@types/create-hash": "npm:^1.2.2"
     "@types/crypto-js": "npm:^4.0.0"
     "@types/google-protobuf": "npm:^3.15.6"
@@ -5485,14 +5485,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keepkey/keepkey-sdk@npm:0.2.52":
-  version: 0.2.52
-  resolution: "@keepkey/keepkey-sdk@npm:0.2.52"
-  checksum: 10/53d90c0ea686d84ab90ee60fe800447548d42744737533a97e119ea9650aed196d52d876b7c0816da59d826ecc6bd416aee3c93af4e7cbd2d8922e7caa471d73
-  languageName: node
-  linkType: hard
-
-"@keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
+"@keepkey/keepkey-sdk@npm:0.2.57, @keepkey/keepkey-sdk@workspace:*, @keepkey/keepkey-sdk@workspace:packages/keepkey-sdk":
   version: 0.0.0-use.local
   resolution: "@keepkey/keepkey-sdk@workspace:packages/keepkey-sdk"
   dependencies:

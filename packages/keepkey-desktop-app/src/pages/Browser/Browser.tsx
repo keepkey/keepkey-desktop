@@ -103,7 +103,7 @@ const checkIfSSDApp = (currentUrl: string) => {
                 if (!kkDesktopApiKey || !localWalletDeviceId) return
 
                 ipcListeners.getSSAutoLogin(localWalletDeviceId, kkDesktopApiKey).then(
-                  injection => {
+                    (injection: any) => {
                     console.log('INJECTION', injection)
                     webview.executeJavaScript(injection)
                   },
@@ -114,12 +114,12 @@ const checkIfSSDApp = (currentUrl: string) => {
         }
       })
       .catch(console.error)
-  } else {
-    if (kkDesktopApiKey)
-      ipcListeners
+  }
+
+  if (kkDesktopApiKey)
+    ipcListeners
         .getBrowserInjection(kkDesktopApiKey)
         .then((injection: any) => webview.executeJavaScript(injection))
-  }
 }
 
 export const Browser = () => {
