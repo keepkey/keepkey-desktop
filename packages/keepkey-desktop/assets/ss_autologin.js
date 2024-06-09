@@ -56,3 +56,7 @@ openRequest.onerror = event => {
 localStorage.setItem('@app/serviceKey', KK_SDK_API_KEY)
 localStorage.setItem('localWalletType', 'keepkey')
 localStorage.setItem('localWalletDeviceId', KK_DEVICE_ID)
+
+window.ethereum = undefined
+
+window.location.reload()

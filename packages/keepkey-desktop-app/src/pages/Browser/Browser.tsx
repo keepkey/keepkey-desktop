@@ -82,8 +82,13 @@ const clearClipBoardIfWCString = async () => {
 
 const checkIfSSDApp = (currentUrl: string) => {
   const url = new URL(currentUrl)
-  if (url.origin === getConfig().REACT_APP_SHAPESHIFT_DAPP_URL) {
-    const webview = getWebview()
+  const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
+  const webview = getWebview()
+
+  if (
+    url.origin === getConfig().REACT_APP_SHAPESHIFT_DAPP_URL ||
+    url.origin === 'http://localhost:3000'
+  ) {
     if (!webview) return
 
     webview
@@ -95,7 +100,6 @@ const checkIfSSDApp = (currentUrl: string) => {
             .executeJavaScript('localStorage.getItem("localWalletDeviceId");', true)
             .then((savedWalletId: any) => {
               if (!savedWalletId || savedWalletId !== localWalletDeviceId) {
-                const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
                 if (!kkDesktopApiKey || !localWalletDeviceId) return
 
                 ipcListeners.getSSAutoLogin(localWalletDeviceId, kkDesktopApiKey).then(
@@ -110,6 +114,11 @@ const checkIfSSDApp = (currentUrl: string) => {
         }
       })
       .catch(console.error)
+  } else {
+    if (kkDesktopApiKey)
+      ipcListeners
+        .getBrowserInjection(kkDesktopApiKey)
+        .then((injection: any) => webview.executeJavaScript(injection))
   }
 }
 
@@ -192,10 +201,6 @@ export const Browser = () => {
       webview.executeJavaScript(`localStorage.setItem(
         'WCM_RECENT_WALLET_DATA',
         '{"id": "fdcaaa47c154988ff2ce28d39248eb10366ec60c7de725f73b0d33b5bb9b9a64","name": "KeepKey Desktop","homepage": "https://www.keepkey.com/","image_id": "eb4227d9-366c-466c-db8f-ab7e45985500","order": 5690,"desktop": {"native": "keepkey://launch","universal": ""}}')`)
-
-      ipcListeners
-        .getBrowserInjection(sdkApiKey)
-        .then((injection: any) => webview.executeJavaScript(injection))
     }
     webview.addEventListener('dom-ready', listener)
     return () => {
