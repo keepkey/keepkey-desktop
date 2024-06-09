@@ -59,10 +59,10 @@ const stopLoading = () => {
 const formatUrl = (inputUrl: string) => {
   try {
     return new URL(inputUrl).toString()
-  } catch {}
+  } catch { }
   try {
     return new URL(`https://${inputUrl}`).toString()
-  } catch {}
+  } catch { }
   return undefined
 }
 
@@ -103,7 +103,11 @@ const checkIfSSDApp = (currentUrl: string) => {
                 if (!kkDesktopApiKey || !localWalletDeviceId) return
 
                 ipcListeners.getSSAutoLogin(localWalletDeviceId, kkDesktopApiKey).then(
+<<<<<<< HEAD
                   injection => {
+=======
+                    (injection: any) => {
+>>>>>>> c3b527bb6ace50901852912e58793eeb2a4e7797
                     console.log('INJECTION', injection)
                     webview.executeJavaScript(injection)
                   },
@@ -114,11 +118,6 @@ const checkIfSSDApp = (currentUrl: string) => {
         }
       })
       .catch(console.error)
-  } else {
-    if (kkDesktopApiKey)
-      ipcListeners
-        .getBrowserInjection(kkDesktopApiKey)
-        .then((injection: any) => webview.executeJavaScript(injection))
   }
 }
 
