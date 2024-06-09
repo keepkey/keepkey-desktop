@@ -317,7 +317,6 @@ export const ipcListeners: IpcListeners = {
     })
   },
 
-
   async getSSAutoLogin(walletId: string, sdkApiKey: string) {
     const injection = readFileSync(path.join(__dirname, 'assets/ss_autologin.js'))
     return injection

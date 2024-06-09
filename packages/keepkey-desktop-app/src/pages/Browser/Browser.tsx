@@ -59,10 +59,10 @@ const stopLoading = () => {
 const formatUrl = (inputUrl: string) => {
   try {
     return new URL(inputUrl).toString()
-  } catch { }
+  } catch {}
   try {
     return new URL(`https://${inputUrl}`).toString()
-  } catch { }
+  } catch {}
   return undefined
 }
 
@@ -81,43 +81,42 @@ const clearClipBoardIfWCString = async () => {
 }
 
 const checkIfSSDApp = (currentUrl: string) => {
-  const url = new URL(currentUrl)
-  const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
-  const webview = getWebview()
+  try {
+    if (currentUrl === 'about:blank') return
+    const url = new URL(currentUrl)
+    if (
+      url.origin === getConfig().REACT_APP_SHAPESHIFT_DAPP_URL ||
+      url.origin === 'http://localhost:3000'
+    ) {
+      const webview = getWebview()
+      if (!webview) return
+      webview
+        .executeJavaScript('localStorage.getItem("localWalletType");', true)
+        .then((savedWalletType: any) => {
+          if (!savedWalletType || savedWalletType === 'keepkey') {
+            const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
+            webview
+              .executeJavaScript('localStorage.getItem("localWalletDeviceId");', true)
+              .then((savedWalletId: any) => {
+                if (!savedWalletId || savedWalletId !== localWalletDeviceId) {
+                  const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
+                  if (!kkDesktopApiKey || !localWalletDeviceId) return
 
-  if (
-    url.origin === getConfig().REACT_APP_SHAPESHIFT_DAPP_URL ||
-    url.origin === 'http://localhost:3000'
-  ) {
-    if (!webview) return
-
-    webview
-      .executeJavaScript('localStorage.getItem("localWalletType");', true)
-      .then((savedWalletType: any) => {
-        if (!savedWalletType || savedWalletType === 'keepkey') {
-          const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
-          webview
-            .executeJavaScript('localStorage.getItem("localWalletDeviceId");', true)
-            .then((savedWalletId: any) => {
-              if (!savedWalletId || savedWalletId !== localWalletDeviceId) {
-                if (!kkDesktopApiKey || !localWalletDeviceId) return
-
-                ipcListeners.getSSAutoLogin(localWalletDeviceId, kkDesktopApiKey).then(
-<<<<<<< HEAD
-                  injection => {
-=======
-                    (injection: any) => {
->>>>>>> c3b527bb6ace50901852912e58793eeb2a4e7797
-                    console.log('INJECTION', injection)
-                    webview.executeJavaScript(injection)
-                  },
-                  // .then(() => webview.reload())
-                )
-              }
-            })
-        }
-      })
-      .catch(console.error)
+                  ipcListeners.getSSAutoLogin(localWalletDeviceId, kkDesktopApiKey).then(
+                    injection => {
+                      console.log('INJECTION', injection)
+                      webview.executeJavaScript(injection)
+                    },
+                    // .then(() => webview.reload())
+                  )
+                }
+              })
+          }
+        })
+        .catch(console.error)
+    }
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -200,6 +199,7 @@ export const Browser = () => {
       webview.executeJavaScript(`localStorage.setItem(
         'WCM_RECENT_WALLET_DATA',
         '{"id": "fdcaaa47c154988ff2ce28d39248eb10366ec60c7de725f73b0d33b5bb9b9a64","name": "KeepKey Desktop","homepage": "https://www.keepkey.com/","image_id": "eb4227d9-366c-466c-db8f-ab7e45985500","order": 5690,"desktop": {"native": "keepkey://launch","universal": ""}}')`)
+      checkIfSSDApp(webview.getURL())
     }
     webview.addEventListener('dom-ready', listener)
     return () => {
@@ -211,7 +211,7 @@ export const Browser = () => {
     const webview = getWebviewWc()!
     const listener = () => {
       setWebviewWcReady(true)
-      ipcListeners.then((injection: any) => webview.executeJavaScript(injection))
+      //ipcListeners.then((injection: any) => webview.executeJavaScript(injection))
     }
     webview.addEventListener('dom-ready', listener)
     return () => {
@@ -274,20 +274,6 @@ export const Browser = () => {
       webview.removeEventListener('did-fail-load', listener)
     }
   }, [])
-
-  useEffect(() => {
-    const webview = getWebview()!
-    const listener = () => {
-      const url = webview.getURL()
-      if (url === 'about:blank') return
-      //dispatch({ type: WalletActions.SET_BROWSER_URL, payload: url })
-      checkIfSSDApp(url)
-    }
-    webview.addEventListener('did-finish-load', listener)
-    return () => {
-      webview.removeEventListener('did-finish-load', listener)
-    }
-  }, [dispatch])
 
   useEffect(() => {
     const webview = getWebview()!
