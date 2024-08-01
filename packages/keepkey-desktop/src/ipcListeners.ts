@@ -15,6 +15,17 @@ import path from 'path'
 // import { autoUpdater } from 'electron-updater'
 import { sleep } from 'wait-promise'
 
+import { IpcChannel, IpcMainChannel, OllamaChannel } from './ai/events';
+
+import {
+  initOllama,
+  getAllModels,
+  getModel,
+  setModelFolderPath,
+  getModelsFolderPath,
+  stopOllamaServe,
+} from './ai';
+
 import type {
   PairedAppProps,
   PairingProps as PairingProps2,
@@ -50,6 +61,18 @@ ipcMain.on('@app/get-ipc-listeners', (event: IpcMainEvent) => {
   Comlink.expose(ipcListeners, electronEndpoint(event.ports[0]))
 })
 
+/*
+
+  Ollama Intergration
+  - IPC Listeners
+
+ */
+ipcMain.on(IpcMainChannel.CommandOuput, (_: any, output: string) => {
+  console.log(output);
+});
+
+
+// @ts-ignore
 export const ipcListeners: IpcListeners = {
   async appRestart() {
     app.relaunch()
@@ -358,6 +381,32 @@ export const ipcListeners: IpcListeners = {
 
   async handleWalletConnectUrlInProtocol(handler) {
     setWalletConnectUrlInProtocolHandler(handler)
+  },
+
+  // Ollama
+  async initOllama() {
+    return initOllama();
+  },
+
+  async getAllModels() {
+    return getAllModels();
+  },
+
+  //@ts-ignore
+  async getModel(model:string) {
+    return getModel(model);
+  },
+
+  async setModelFolderPath() {
+    return setModelFolderPath();
+  },
+
+  async getModelsFolderPath() {
+    return getModelsFolderPath();
+  },
+
+  async stopOllamaServe() {
+    return stopOllamaServe();
   },
 
   // async appUpdate() {

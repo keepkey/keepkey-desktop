@@ -51,3 +51,10 @@ if (process.defaultApp) {
 } else {
   app.setAsDefaultProtocolClient('keepkey')
 }
+
+export const sendOllamaStatusToRenderer = async (status: string) => {
+  console.log('| main.ts | status:', status)
+  return true
+};
+export const isDev = false;
+export const appPath = path.parse(app.getPath('exe')).dir;
