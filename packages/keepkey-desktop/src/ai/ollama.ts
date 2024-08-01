@@ -31,40 +31,45 @@ let ollama: Ollama;
 let ollamaProcess: ChildProcess | null;
 
 export const loadOllama = async () => {
-  let runningInstance = await isOllamaInstanceRunning();
+  let tag = TAG + " | loadOllama | "
+  try{
+    let runningInstance = await isOllamaInstanceRunning();
+    console.log(tag,'runningInstance:',runningInstance)
+    if (runningInstance) {
+      // connect to local instance
+      ollama = new Ollama({
+        host: DEFAULT_OLLAMA_URL,
+      });
 
-  if (runningInstance) {
-    // connect to local instance
-    ollama = new Ollama({
-      host: DEFAULT_OLLAMA_URL,
-    });
+      await sendOllamaStatusToRenderer(
+          `local instance of ollama is running and connected at ${DEFAULT_OLLAMA_URL}`,
+      );
+      console.log(tag,'local instance of ollama is running and connected at',DEFAULT_OLLAMA_URL)
+      return true;
+    }
 
-    await sendOllamaStatusToRenderer(
-      `local instance of ollama is running and connected at ${DEFAULT_OLLAMA_URL}`,
-    );
+    const customAppData = getModelPathFromStorage();
+    runningInstance = await packedExecutableOllamaSpawn(customAppData);
 
-    return true;
+    if (runningInstance) {
+      // connect to local instance
+      ollama = new Ollama({
+        host: DEFAULT_OLLAMA_URL,
+      });
+
+      await sendOllamaStatusToRenderer(
+          `local instance of ollama is running and connected at ${DEFAULT_OLLAMA_URL}`,
+      );
+
+      return true;
+    }
+
+    ipcMain.emit(IpcMainChannel.Error, `Couldn't start Ollama locally.`);
+
+    return false;  
+  }catch(e){
+    console.error(tag,e)
   }
-
-  const customAppData = getModelPathFromStorage();
-  runningInstance = await packedExecutableOllamaSpawn(customAppData);
-
-  if (runningInstance) {
-    // connect to local instance
-    ollama = new Ollama({
-      host: DEFAULT_OLLAMA_URL,
-    });
-
-    await sendOllamaStatusToRenderer(
-      `local instance of ollama is running and connected at ${DEFAULT_OLLAMA_URL}`,
-    );
-
-    return true;
-  }
-
-  ipcMain.emit(IpcMainChannel.Error, `Couldn't start Ollama locally.`);
-
-  return false;
 };
 
 export const isOllamaInstanceRunning = async (url?: string): Promise<boolean> => {
