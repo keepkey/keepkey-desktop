@@ -359,6 +359,7 @@
         "IDR": "Indonesian Rupiah"
       },
       "tabs": {
+        "ollama": "Ollama",
         "general": "General",
         "app": "App",
         "keepkey": "KeepKey"

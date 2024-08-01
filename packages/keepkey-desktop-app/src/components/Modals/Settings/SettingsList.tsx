@@ -20,6 +20,7 @@ import type { RouteComponentProps } from 'react-router-dom'
 
 import { AppSettings } from './AppSettings'
 import { GeneralSettings } from './GeneralSettings'
+import { OllamaSettings } from './OllamaSettings'
 
 export type SettingsListProps = {
   appHistory: RouteComponentProps['history']
@@ -65,6 +66,9 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
             <Tab>
               <Text translation='modals.settings.tabs.keepkey' />
             </Tab>
+            <Tab>
+              <Text translation='modals.settings.tabs.ollama' />
+            </Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -81,6 +85,11 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
                   onDisconnect={disconnect}
                   type={type}
                 />
+              </Menu>
+            </TabPanel>
+            <TabPanel>
+              <Menu>
+                <MorpheosSettings></MorpheosSettings>
               </Menu>
             </TabPanel>
           </TabPanels>

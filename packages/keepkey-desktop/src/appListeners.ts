@@ -4,6 +4,16 @@ import { autoUpdater } from 'electron-updater'
 import { sleep } from 'wait-promise'
 
 import {
+  initOllama,
+  getAllModels,
+  askOlama,
+  getModel,
+  setModelFolderPath,
+  getModelsFolderPath,
+  stopOllamaServe,
+} from './ai/index';
+
+import {
   bridgeLogger,
   isLinux,
   setProtocolLaunchUrl,
@@ -23,6 +33,11 @@ export const startAppListeners = () => {
   // creates splash window to look for updates and then start the main window
   app.on('ready', async () => {
     await createUpdaterSplashWindow()
+    
+    //start ollama
+    //TODO is configured to auto-start?
+    await initOllama()
+    
     autoUpdater.setFeedURL({ provider: 'github', owner: 'keepkey', repo: 'keepkey-desktop' })
     autoUpdater.autoDownload = await settings.shouldAutoUpdate
     autoUpdater.allowPrerelease = await settings.allowPreRelease
@@ -32,7 +47,7 @@ export const startAppListeners = () => {
     if (!isDev && !isLinux) await autoUpdater.checkForUpdates()
   })
 
-  app.on('second-instance', async (e, argv) => {
+  app.on('second-instance', async (e: { preventDefault: () => void; }, argv: any[]) => {
     console.log('ARGV', argv)
     e.preventDefault()
     if (process.platform !== 'darwin') {
