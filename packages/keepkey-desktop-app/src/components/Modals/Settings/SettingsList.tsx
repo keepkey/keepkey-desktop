@@ -89,7 +89,7 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
             </TabPanel>
             <TabPanel>
               <Menu>
-                <MorpheosSettings></MorpheosSettings>
+                <OllamaSettings></OllamaSettings>
               </Menu>
             </TabPanel>
           </TabPanels>
