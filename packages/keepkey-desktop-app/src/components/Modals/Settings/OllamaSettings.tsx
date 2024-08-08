@@ -1,5 +1,6 @@
 import { Divider, HStack, Stack } from '@chakra-ui/layout';
-import { Avatar, Button, Icon, Text } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { Avatar, Link, Button, Icon, Text } from '@chakra-ui/react';
 import { useModal } from 'hooks/useModal/useModal';
 import { useEffect, useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
@@ -31,21 +32,6 @@ export const OllamaSettings: FC = () => {
     const [prevAppSettings, setPrevAppSettings] = useState<OllamaSettingsProps>(appSettings);
     const [isOllamaRunning, setIsOllamaRunning] = useState(false);
 
-    const handleViewModels = () => {
-        console.log('Viewing models...');
-        // Mock action: Display a message or simulate viewing models
-    };
-
-    const handleStartOllama = () => {
-        console.log('Starting Ollama...');
-        // Mock action: Display a message or simulate starting Ollama
-    };
-
-    const handleStopOllama = () => {
-        console.log('Stopping Ollama...');
-        // Mock action: Display a message or simulate stopping Ollama
-    };
-
     const handleTestConnection = async () => {
         try {
             const response = await axios.get('http://127.0.0.1:11434/');
@@ -62,53 +48,27 @@ export const OllamaSettings: FC = () => {
     }, []);
 
     useEffect(() => {
-        (async () => {
-            if (
-                prevAppSettings &&
-                appSettings.shouldAutoUpdate === prevAppSettings.shouldAutoUpdate &&
-                appSettings.shouldMinimizeToTray === prevAppSettings.shouldMinimizeToTray &&
-                appSettings.allowPreRelease === prevAppSettings.allowPreRelease &&
-                appSettings.autoScanQr === prevAppSettings.autoScanQr
-            )
-                return;
-            setPrevAppSettings(appSettings);
-            // Save settings
-            console.log('APP SETTINGS SAVED', appSettings);
-        })().catch(e => console.error(e));
+        if (
+            prevAppSettings &&
+            appSettings.shouldAutoUpdate === prevAppSettings.shouldAutoUpdate &&
+            appSettings.shouldMinimizeToTray === prevAppSettings.shouldMinimizeToTray &&
+            appSettings.allowPreRelease === prevAppSettings.allowPreRelease &&
+            appSettings.autoScanQr === prevAppSettings.autoScanQr
+        ) return;
+
+        setPrevAppSettings(appSettings);
+        console.log('APP SETTINGS SAVED', appSettings);
     }, [appSettings, prevAppSettings]);
 
     return (
         <Stack width='full' p={0}>
             <Divider my={1} />
-            <SettingsListItem
-                label={'View Models'}
-                onClick={handleViewModels}
-                icon={<Icon as={MdViewList} color='gray.500' />}
-            >
-                <Button variant={'ghost'} onClick={handleViewModels}>
-                    View Models
-                </Button>
-            </SettingsListItem>
-            <Divider my={1} />
-            <SettingsListItem
-                label={'Start Ollama'}
-                onClick={handleStartOllama}
-                icon={<Icon as={MdPlayArrow} color='gray.500' />}
-            >
-                <Button variant={'ghost'} onClick={handleStartOllama}>
-                    Start
-                </Button>
-            </SettingsListItem>
-            <Divider my={1} />
-            <SettingsListItem
-                label={'Stop Ollama'}
-                onClick={handleStopOllama}
-                icon={<Icon as={MdStop} color='gray.500' />}
-            >
-                <Button variant={'ghost'} onClick={handleStopOllama}>
-                    Stop
-                </Button>
-            </SettingsListItem>
+            <Link href='http://127.0.0.1:11434/' isExternal>
+                <SettingsListItem
+                    icon={<Icon as={ExternalLinkIcon} color='gray.500' />}
+                    label='connectWallet.menu.openDev'
+                />
+            </Link>
             <Divider my={1} />
             <HStack>
                 <SettingsListItem

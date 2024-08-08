@@ -19194,7 +19194,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/dot-prop-npm-9.0.0-e5f329106a-2c23524018.zip/node_modules/dot-prop/",\
         "packageDependencies": [\
           ["dot-prop", "npm:9.0.0"],\
-          ["type-fest", "npm:4.23.0"]\
+          ["type-fest", "npm:4.24.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -19510,7 +19510,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["electron-store", "npm:10.0.0"],\
           ["conf", "npm:13.0.1"],\
-          ["type-fest", "npm:4.23.0"]\
+          ["type-fest", "npm:4.24.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -25265,7 +25265,7 @@ const RAW_RUNTIME_STATE =
           ["uuid", "npm:9.0.0"],\
           ["wait-promise", "npm:0.4.1"],\
           ["web3", "npm:4.0.1"],\
-          ["winston", "npm:3.13.1"]\
+          ["winston", "npm:3.14.1"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -34380,10 +34380,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:4.23.0", {\
-        "packageLocation": "./.yarn/cache/type-fest-npm-4.23.0-cea2c34bb1-c411dea832.zip/node_modules/type-fest/",\
+      ["npm:4.24.0", {\
+        "packageLocation": "./.yarn/cache/type-fest-npm-4.24.0-651367e853-60efd6ec71.zip/node_modules/type-fest/",\
         "packageDependencies": [\
-          ["type-fest", "npm:4.23.0"]\
+          ["type-fest", "npm:4.24.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -36154,10 +36154,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["winston", [\
-      ["npm:3.13.1", {\
-        "packageLocation": "./.yarn/cache/winston-npm-3.13.1-d3d3332f9f-bc78202708.zip/node_modules/winston/",\
+      ["npm:3.14.1", {\
+        "packageLocation": "./.yarn/cache/winston-npm-3.14.1-de381991dc-b9158dc060.zip/node_modules/winston/",\
         "packageDependencies": [\
-          ["winston", "npm:3.13.1"],\
+          ["winston", "npm:3.14.1"],\
           ["@colors/colors", "npm:1.6.0"],\
           ["@dabh/diagnostics", "npm:2.0.3"],\
           ["async", "npm:3.2.4"],\
