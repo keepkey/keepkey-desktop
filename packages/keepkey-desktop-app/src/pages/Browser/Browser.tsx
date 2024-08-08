@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useCallback, useEffect, useState } from 'react'
 import {
   ArrowForwardIcon,
   ArrowLeftIcon,
@@ -14,7 +14,6 @@ import {
   DrawerOverlay,
   HStack,
   IconButton,
-  IconButton,
   Input,
   Stack,
   useDisclosure,
@@ -23,14 +22,12 @@ import * as Comlink from 'comlink'
 import { Main } from 'components/Layout/Main'
 import { getConfig } from 'config'
 import { ipcListeners } from 'electron-shim'
-// import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import React, { useCallback, useEffect, useState } from 'react'
 import { FaBug } from 'react-icons/fa'
 
 const getWebview = () => document.getElementById('webview') as Electron.WebviewTag | null
 const getWebviewWc = () =>
-  document.getElementById('second-webview-top') as Electron.WebviewTag | null
+    document.getElementById('second-webview-top') as Electron.WebviewTag | null
 
 const goBack = () => {
   const webview = getWebview()
@@ -85,35 +82,35 @@ const checkIfSSDApp = (currentUrl: string) => {
     if (currentUrl === 'about:blank') return
     const url = new URL(currentUrl)
     if (
-      url.origin === getConfig().REACT_APP_SHAPESHIFT_DAPP_URL ||
-      url.origin === 'http://localhost:3000'
+        url.origin === getConfig().REACT_APP_SHAPESHIFT_DAPP_URL ||
+        url.origin === 'http://localhost:3000'
     ) {
       const webview = getWebview()
       if (!webview) return
       webview
-        .executeJavaScript('localStorage.getItem("localWalletType");', true)
-        .then((savedWalletType: any) => {
-          if (!savedWalletType || savedWalletType === 'keepkey') {
-            const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
-            webview
-              .executeJavaScript('localStorage.getItem("localWalletDeviceId");', true)
-              .then((savedWalletId: any) => {
-                if (!savedWalletId || savedWalletId !== localWalletDeviceId) {
-                  const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
-                  if (!kkDesktopApiKey || !localWalletDeviceId) return
+          .executeJavaScript('localStorage.getItem("localWalletType");', true)
+          .then((savedWalletType: any) => {
+            if (!savedWalletType || savedWalletType === 'keepkey') {
+              const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
+              webview
+                  .executeJavaScript('localStorage.getItem("localWalletDeviceId");', true)
+                  .then((savedWalletId: any) => {
+                    if (!savedWalletId || savedWalletId !== localWalletDeviceId) {
+                      const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
+                      if (!kkDesktopApiKey || !localWalletDeviceId) return
 
-                  ipcListeners.getSSAutoLogin(localWalletDeviceId, kkDesktopApiKey).then(
-                    injection => {
-                      console.log('INJECTION', injection)
-                      webview.executeJavaScript(injection)
-                    },
-                    // .then(() => webview.reload())
-                  )
-                }
-              })
-          }
-        })
-        .catch(console.error)
+                      ipcListeners.getSSAutoLogin(localWalletDeviceId, kkDesktopApiKey).then(
+                          injection => {
+                            console.log('INJECTION', injection)
+                            webview.executeJavaScript(injection)
+                          },
+                          // .then(() => webview.reload())
+                      )
+                    }
+                  })
+            }
+          })
+          .catch(console.error)
     }
   } catch (error) {
     console.error(error)
@@ -254,8 +251,6 @@ export const Browser = () => {
       const webview = getWebviewWc()!
       const currentUrl = webview.getURL()
       setUrlWc(currentUrl)
-      // setCanGoBack(webview.canGoBack())
-      // setCanGoForward(webview.canGoForward())
       setLoadingWc(false)
     }
     webview.addEventListener('did-stop-loading', listener)
@@ -284,20 +279,20 @@ export const Browser = () => {
   }, [webviewReady, url, forceLoad])
 
   const formatAndSaveUrl = useCallback(
-    (e?: React.SyntheticEvent) => {
-      e?.preventDefault()
-      const newUrl = formatUrl(inputUrl) ?? url
-      setInputUrl(newUrl)
-      setUrl(newUrl)
-      setForceLoad(true)
-    },
-    [inputUrl, url],
+      (e?: React.SyntheticEvent) => {
+        e?.preventDefault()
+        const newUrl = formatUrl(inputUrl) ?? url
+        setInputUrl(newUrl)
+        setUrl(newUrl)
+        setForceLoad(true)
+      },
+      [inputUrl, url],
   )
 
   useEffect(() => {
     if (webviewWcReady && walletConnectUri) {
       const newUrl = `https://wallet-connect-dapp-ochre.vercel.app/wc?uri=${encodeURIComponent(
-        walletConnectUri,
+          walletConnectUri,
       )}`
       const webviewWc = getWebviewWc()
       webviewWc?.loadURL(newUrl)
@@ -310,11 +305,12 @@ export const Browser = () => {
     const newUrl = formatUrl(browserUrl)
 
     if (newUrl) {
-      console.log('browserUrl', browserUrl)
+      console.log('browserUrl:', browserUrl)
+      console.log('Formatted newUrl:', newUrl)
       setInputUrl(newUrl)
       setUrl(newUrl)
     } else {
-      console.error('invalid browserUrl', browserUrl)
+      console.error('invalid browserUrl:', browserUrl)
     }
   }, [browserUrl, webviewReady])
 
@@ -326,36 +322,25 @@ export const Browser = () => {
       if (!isOpen) {
         onOpen()
       }
-      console.log('walletConnectUri', walletConnectUri)
-      //src='https://wallet-connect-dapp-ochre.vercel.app/'
+      console.log('walletConnectUri:', walletConnectUri)
       if (walletConnectUri) {
         setUrlWc('https://wallet-connect-dapp-ochre.vercel.app/wc?=' + walletConnectUri)
       } else {
         setUrlWc('https://wallet-connect-dapp-ochre.vercel.app')
       }
     } else {
-      console.error('invalid browserUrl', browserUrl)
+      console.error('invalid browserUrl:', browserUrl)
     }
   }, [walletConnectUri, webviewWcReady])
 
-  //walletConnectOpen
   useEffect(() => {
-    console.log('walletConnectOpen: ', walletConnectOpen)
+    console.log('walletConnectOpen:', walletConnectOpen)
     if (walletConnectOpen) {
       onOpen()
     } else {
       onClose()
     }
   }, [walletConnectOpen])
-
-  // Add a button to manually toggle the drawer for debugging
-  // const toggleSecondWebview = () => {
-  //     if (isOpen) {
-  //         onClose();
-  //     } else {
-  //         onOpen();
-  //     }
-  // };
 
   useEffect(() => {
     if (!webviewReady) return
@@ -364,8 +349,8 @@ export const Browser = () => {
     const contentsId = webview.getWebContentsId()
     const loadURL = webview.loadURL.bind(webview)
     ipcListeners
-      .webviewAttachOpenHandler(contentsId, Comlink.proxy(loadURL))
-      .catch((e: any) => console.error('webviewAttachOpenHandler error:', e))
+        .webviewAttachOpenHandler(contentsId, Comlink.proxy(loadURL))
+        .catch((e: any) => console.error('webviewAttachOpenHandler error:', e))
   }, [webviewReady])
 
   useEffect(() => {
@@ -375,71 +360,71 @@ export const Browser = () => {
     const contentsId = webviewWc.getWebContentsId()
     const loadURL = webviewWc.loadURL.bind(webviewWc)
     ipcListeners
-      .webviewAttachOpenHandler(contentsId, Comlink.proxy(loadURL))
-      .catch((e: any) => console.error('webviewAttachOpenHandler error:', e))
+        .webviewAttachOpenHandler(contentsId, Comlink.proxy(loadURL))
+        .catch((e: any) => console.error('webviewAttachOpenHandler error:', e))
   }, [webviewWcReady])
 
   return (
-    <Main
-      height='full'
-      style={{
-        padding: 0,
-        minWidth: '100%',
-        flexGrow: 1,
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <Stack direction={{ base: 'column', md: 'column' }} height='full' style={{ margin: '5px' }}>
-        <form onSubmit={formatAndSaveUrl}>
-          <HStack>
-            <Input
-              disabled={loading}
-              value={inputUrl}
-              onChange={e => setInputUrl(e.target.value)}
-              onBlur={formatAndSaveUrl}
-            />
-            {loading ? (
-              <IconButton aria-label='Stop' icon={<CloseIcon />} onClick={stopLoading} />
-            ) : url === inputUrl && webviewLoadFailure === undefined ? (
-              <IconButton aria-label='Reload' icon={<RepeatIcon />} type='submit' />
-            ) : (
-              <IconButton aria-label='Go' icon={<ArrowForwardIcon />} type='submit' />
-            )}
-            <IconButton
-              aria-label='Back'
-              icon={<ArrowLeftIcon />}
-              onClick={goBack}
-              isLoading={loading}
-              isDisabled={!canGoBack}
-            />
-            <IconButton
-              aria-label='Forward'
-              icon={<ArrowRightIcon />}
-              onClick={goForward}
-              isLoading={loading}
-              isDisabled={!canGoForward}
-            />
-            <IconButton aria-label='Open developer tools' icon={<FaBug />} onClick={openDevTools} />
-          </HStack>
-        </form>
-      </Stack>
-      <Stack direction='row' flex={1}>
-        <webview
-          id='webview'
-          partition='browser'
-          src='about:blank'
-          style={{ flexGrow: 8 }}
-          allowpopups='true'
-        ></webview>
-        <Stack flex={4} display={isOpen ? 'flex' : 'none'}>
-          <webview
-            id='second-webview-top'
-            src={webviewWcReady ? `https://wallet-connect-dapp-ochre.vercel.app` : 'about:blank'}
-            style={{ flex: 4 }}
-          ></webview>
+      <Main
+          height='full'
+          style={{
+            padding: 0,
+            minWidth: '100%',
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+      >
+        <Stack direction={{ base: 'column', md: 'column' }} height='full' style={{ margin: '5px' }}>
+          <form onSubmit={formatAndSaveUrl}>
+            <HStack>
+              <Input
+                  disabled={loading}
+                  value={inputUrl}
+                  onChange={e => setInputUrl(e.target.value)}
+                  onBlur={formatAndSaveUrl}
+              />
+              {loading ? (
+                  <IconButton aria-label='Stop' icon={<CloseIcon />} onClick={stopLoading} />
+              ) : url === inputUrl && webviewLoadFailure === undefined ? (
+                  <IconButton aria-label='Reload' icon={<RepeatIcon />} type='submit' />
+              ) : (
+                  <IconButton aria-label='Go' icon={<ArrowForwardIcon />} type='submit' />
+              )}
+              <IconButton
+                  aria-label='Back'
+                  icon={<ArrowLeftIcon />}
+                  onClick={goBack}
+                  isLoading={loading}
+                  isDisabled={!canGoBack}
+              />
+              <IconButton
+                  aria-label='Forward'
+                  icon={<ArrowRightIcon />}
+                  onClick={goForward}
+                  isLoading={loading}
+                  isDisabled={!canGoForward}
+              />
+              <IconButton aria-label='Open developer tools' icon={<FaBug />} onClick={openDevTools} />
+            </HStack>
+          </form>
         </Stack>
-      </Stack>
-    </Main>
+        <Stack direction='row' flex={1}>
+          <webview
+              id='webview'
+              partition='browser'
+              src='about:blank'
+              style={{ flexGrow: 8 }}
+              allowpopups='true'
+          ></webview>
+          <Stack flex={4} display={isOpen ? 'flex' : 'none'}>
+            <webview
+                id='second-webview-top'
+                src={webviewWcReady ? `https://wallet-connect-dapp-ochre.vercel.app` : 'about:blank'}
+                style={{ flex: 4 }}
+            ></webview>
+          </Stack>
+        </Stack>
+      </Main>
   )
 }

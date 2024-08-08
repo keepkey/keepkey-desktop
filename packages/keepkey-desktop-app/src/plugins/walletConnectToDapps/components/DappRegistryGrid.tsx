@@ -30,7 +30,7 @@ import { useHistory } from 'react-router'
 
 import type { RegistryItem } from '../types'
 import { PageInput } from './PageInput'
-
+const TAG = ' | DappRegistryGrid.tsx | '
 const PAGE_SIZE = 20
 const loadingImg = kkIconBlack
 
@@ -106,8 +106,11 @@ export const DappRegistryGrid: FC = () => {
 
   const openDapp = useCallback(
     (app: RegistryItem) => {
-      dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.homepage })
+      console.log(TAG,'openDapp app: ', app)
       history.push('/browser')
+      setTimeout(() => {
+        dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.homepage })
+      }, 2000)
     },
     [dispatch, history],
   )
