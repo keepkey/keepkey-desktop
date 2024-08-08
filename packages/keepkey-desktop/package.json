@@ -26,7 +26,6 @@
     "build": {
         "appId": "com.keepkey.desktop",
         "productName": "KeepKey Desktop",
-        "afterSign": "./scripts/afterSign.js",
         "generateUpdatesFilesForAllChannels": true,
         "publish": "github",
         "files": [
@@ -49,6 +48,9 @@
             "entitlements": "entitlements.mac.plist",
             "entitlementsInherit": "entitlements.mac.plist",
             "mergeASARs": false,
+            "notarize": {
+              "teamId": "DR57X8Z394"
+            },
             "target": [
                 {
                     "target": "dmg",
