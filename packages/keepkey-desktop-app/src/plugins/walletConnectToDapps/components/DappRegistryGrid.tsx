@@ -108,6 +108,7 @@ export const DappRegistryGrid: FC = () => {
     (app: RegistryItem) => {
       console.log(TAG,'openDapp app: ', app)
       history.push('/browser')
+      dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.homepage })
       setTimeout(() => {
         dispatch({ type: WalletActions.SET_BROWSER_URL, payload: app.homepage })
       }, 2000)

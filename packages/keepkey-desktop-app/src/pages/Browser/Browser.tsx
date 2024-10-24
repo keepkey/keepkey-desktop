@@ -118,7 +118,7 @@ const checkIfSSDApp = (currentUrl: string) => {
 }
 
 export const Browser = () => {
-  const [url, setUrl] = useState('https://private.shapeshift.com/')
+  const [url, setUrl] = useState('https://keepkey.info/')
   const [urlWc, setUrlWc] = useState('https://wallet-connect-dapp-ochre.vercel.app')
   const [inputUrl, setInputUrl] = useState(url)
   const [loading, setLoading] = useState(false)

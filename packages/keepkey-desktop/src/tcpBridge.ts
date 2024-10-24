@@ -31,6 +31,7 @@ import { logger } from './helpers/middlewares/logger'
 import { rendererIpc } from './ipcListeners'
 import { createAndUpdateTray } from './tray'
 
+// Function to start TCP bridge
 export const startTcpBridge = async (port?: number) => {
   if (tcpBridgeRunning || tcpBridgeStarting) return
   setTcpBridgeStarting(true)
@@ -50,29 +51,62 @@ export const startTcpBridge = async (port?: number) => {
   appExpress.use('/spec', express.static(path.join(__dirname, 'api')))
 
   addMiddleware(logger)
-  setSdkPairingHandler(async (info: PairingInfo) => {
-    const apiKey = uuid.v4()
-    console.log('approving pairing request', info, apiKey)
-    // await promptUser(){}
-    let input = {
-      type: 'native',
-      data: info,
-    } satisfies PairingProps
-    let result = await (await rendererIpc).modalPair(input)
-    console.log('PAIR RESULT: ', result)
-    if (result) {
-      console.log('USER APPROVED!')
-      info.addedOn = Date.now()
+
+  // Set up pairing handler
+  setSdkPairingHandler(async (info: PairingInfo, req: express.Request) => {
+    const apiKey = uuid.v4(); // Generate a new API key
+    console.log('req: ',req)
+    // Ensure the request object is available
+    if (!req || !req.headers) {
+      console.error('Request object or headers are missing');
+      throw new Error('Request object or headers are missing');
+    }
+
+    // Get the request origin or referer to check where the request is coming from
+    const origin = req.headers.origin || req.headers.referer;
+
+    // Check if the origin or referer is "https://keepkey.info"
+    if (origin === 'https://app.keepkey.info') {
+      console.log('Auto-approving pairing request from keepkey.info', info, apiKey);
+
+      // Automatically approve the pairing and save to the database
+      info.addedOn = Date.now();
       await db.insertOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
         type: 'sdk-pairing',
         apiKey,
         info,
-      })
-      return apiKey
-    } else {
-      return 'rejected'
+      });
+
+      // Return the generated API key without user prompt
+      return apiKey;
     }
-  })
+
+    // If the request is not from "https://keepkey.info", proceed with the normal pairing flow
+    console.log('Prompting user for pairing approval', info, apiKey);
+    let input = {
+      type: 'native',
+      data: info,
+    } satisfies PairingProps;
+
+    // Show the modal to prompt the user
+    let result = await (await rendererIpc).modalPair(input);
+    console.log('PAIR RESULT: ', result);
+
+    if (result) {
+      console.log('USER APPROVED!');
+      info.addedOn = Date.now();
+      await db.insertOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
+        type: 'sdk-pairing',
+        apiKey,
+        info,
+      });
+      return apiKey;
+    } else {
+      return 'rejected';
+    }
+  });
+
+  // Set up client factory
   setSdkClientFactory(async (apiKey: string) => {
     const doc = await db.findOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
       type: 'sdk-pairing',
@@ -90,6 +124,8 @@ export const startTcpBridge = async (port?: number) => {
       logger: console.log.bind(console),
     }
   })
+
+  // Register routes
   RegisterRoutes(appExpress)
 
   await new Promise(resolve => setServer(appExpress.listen(API_PORT, () => resolve(true))))
@@ -100,6 +136,7 @@ export const startTcpBridge = async (port?: number) => {
   createAndUpdateTray()
 }
 
+// Function to stop TCP bridge
 export const stopTcpBridge = async () => {
   if (tcpBridgeClosing) return false
 
