@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   ArrowForwardIcon,
   ArrowLeftIcon,
@@ -14,7 +13,6 @@ import {
   DrawerOverlay,
   HStack,
   IconButton,
-  IconButton,
   Input,
   Stack,
   useDisclosure,
@@ -23,7 +21,6 @@ import * as Comlink from 'comlink'
 import { Main } from 'components/Layout/Main'
 import { getConfig } from 'config'
 import { ipcListeners } from 'electron-shim'
-// import { WalletActions } from 'context/WalletProvider/actions'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import React, { useCallback, useEffect, useState } from 'react'
 import { FaBug } from 'react-icons/fa'
@@ -254,8 +251,6 @@ export const Browser = () => {
       const webview = getWebviewWc()!
       const currentUrl = webview.getURL()
       setUrlWc(currentUrl)
-      // setCanGoBack(webview.canGoBack())
-      // setCanGoForward(webview.canGoForward())
       setLoadingWc(false)
     }
     webview.addEventListener('did-stop-loading', listener)
@@ -310,11 +305,12 @@ export const Browser = () => {
     const newUrl = formatUrl(browserUrl)
 
     if (newUrl) {
-      console.log('browserUrl', browserUrl)
+      console.log('browserUrl:', browserUrl)
+      console.log('Formatted newUrl:', newUrl)
       setInputUrl(newUrl)
       setUrl(newUrl)
     } else {
-      console.error('invalid browserUrl', browserUrl)
+      console.error('invalid browserUrl:', browserUrl)
     }
   }, [browserUrl, webviewReady])
 
@@ -326,36 +322,25 @@ export const Browser = () => {
       if (!isOpen) {
         onOpen()
       }
-      console.log('walletConnectUri', walletConnectUri)
-      //src='https://wallet-connect-dapp-ochre.vercel.app/'
+      console.log('walletConnectUri:', walletConnectUri)
       if (walletConnectUri) {
         setUrlWc('https://wallet-connect-dapp-ochre.vercel.app/wc?=' + walletConnectUri)
       } else {
         setUrlWc('https://wallet-connect-dapp-ochre.vercel.app')
       }
     } else {
-      console.error('invalid browserUrl', browserUrl)
+      console.error('invalid browserUrl:', browserUrl)
     }
   }, [walletConnectUri, webviewWcReady])
 
-  //walletConnectOpen
   useEffect(() => {
-    console.log('walletConnectOpen: ', walletConnectOpen)
+    console.log('walletConnectOpen:', walletConnectOpen)
     if (walletConnectOpen) {
       onOpen()
     } else {
       onClose()
     }
   }, [walletConnectOpen])
-
-  // Add a button to manually toggle the drawer for debugging
-  // const toggleSecondWebview = () => {
-  //     if (isOpen) {
-  //         onClose();
-  //     } else {
-  //         onOpen();
-  //     }
-  // };
 
   useEffect(() => {
     if (!webviewReady) return

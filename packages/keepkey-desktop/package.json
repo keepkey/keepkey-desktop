@@ -1,6 +1,6 @@
 {
     "name": "keepkey-desktop",
-    "version": "3.0.25",
+    "version": "3.1.1",
     "author": {
         "name": "KeepKey",
         "email": "support@keepkey.com"
@@ -26,11 +26,11 @@
     "build": {
         "appId": "com.keepkey.desktop",
         "productName": "KeepKey Desktop",
-        "afterSign": "./scripts/afterSign.js",
         "generateUpdatesFilesForAllChannels": true,
         "publish": "github",
         "files": [
-            "build/**/*"
+            "build/**/*",
+            "executables/*"
         ],
         "protocols": [
             {
@@ -49,6 +49,9 @@
             "entitlements": "entitlements.mac.plist",
             "entitlementsInherit": "entitlements.mac.plist",
             "mergeASARs": false,
+            "notarize": {
+                "teamId": "DR57X8Z394"
+            },
             "target": [
                 {
                     "target": "dmg",
@@ -103,6 +106,7 @@
         "bs58check": "^3.0.1",
         "bufferutil": "^4.0.7",
         "builder-util": "^25.0.0-alpha.6",
+        "check-disk-space": "^3.4.0",
         "comlink": "^4.3.1",
         "comlink-electron-endpoint": "^1.0.3",
         "common-utils": "workspace:*",
@@ -111,6 +115,7 @@
         "dotenv": "^16.0.3",
         "electron-is-dev": "^2.0.0",
         "electron-log": "^4.4.8",
+        "electron-store": "^10.0.0",
         "electron-unhandled": "^4.0.1",
         "electron-updater": "^6.1.8",
         "esbuild": "^0.15.14",
@@ -130,11 +135,13 @@
         "nedb-promises": "^6.2.1",
         "node-fetch": "^3.3.0",
         "node-hid": "^2.1.2",
+        "ollama": "^0.5.6",
         "promise.any": "^2.0.5",
         "protobufjs": "^7.2.6",
         "secp256k1": "^4.0.3",
         "semver": "^7.3.8",
         "source-map-support": "^0.5.21",
+        "sudo-prompt": "^9.2.1",
         "swagger-ui-dist": "^4.15.5",
         "swagger-ui-express": "^4.6.0",
         "tiny-secp256k1": "^1.1.6",
@@ -142,7 +149,8 @@
         "utf-8-validate": "^5.0.10",
         "uuid": "^9.0.0",
         "wait-promise": "^0.4.1",
-        "web3": "^4.0.1"
+        "web3": "^4.0.1",
+        "winston": "^3.13.1"
     },
     "devDependencies": {
         "@keepkey/common-esbuild-bits": "workspace:*",
@@ -166,7 +174,7 @@
         "@typescript-eslint/parser": "^5.45.0",
         "concurrently": "^7.6.0",
         "electron": "22.0.0",
-        "electron-builder": "24.0.0-alpha.5",
+        "electron-builder": "24.13.3",
         "electron-notarize-dmg": "^1.0.0",
         "eslint": "^8.28.0",
         "eslint-config-prettier": "^8.3.0",
