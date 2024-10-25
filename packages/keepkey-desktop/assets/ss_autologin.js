@@ -4,59 +4,69 @@ const KK_DEVICE_ID = 'WALLET_DEVICE_ID_HERE'
 
 console.log('LOADED SS AUTOLOGIN SCRIPT')
 
-const openRequest = indexedDB.open('localforage', 2)
+setTimeout(() => {
+  const openRequest = indexedDB.open('localforage', 2)
 
-openRequest.onupgradeneeded = event => {
-  const db = event.target.result
-  if (!db.objectStoreNames.contains('keyvaluepairs')) {
-    db.createObjectStore('keyvaluepairs')
-  }
-}
-
-openRequest.onsuccess = event => {
-  const db = event.target.result
-  const transaction = db.transaction(['keyvaluepairs'], 'readwrite')
-  const store = transaction.objectStore('keyvaluepairs')
-
-  const getRequest = store.get('persist:root')
-  getRequest.onerror = event => {
-    console.error('Error fetching data:', event.target.error)
-  }
-
-  getRequest.onsuccess = () => {
-    let data = getRequest.result
-    let walletSlice = {}
-
-    if (data) {
-      if (typeof data === 'string') {
-        data = JSON.parse(data)
-      }
-      if (data.localWalletSlice && typeof data.localWalletSlice === 'string') {
-        walletSlice = JSON.parse(data.localWalletSlice)
-      }
-    } else {
-      data = {}
-    }
-
-    walletSlice.walletType = 'keepkey'
-    walletSlice.walletDeviceId = KK_DEVICE_ID
-
-    data.localWalletSlice = JSON.stringify(walletSlice)
-    const updatedData = JSON.stringify(data)
-
-    store.put(updatedData, 'persist:root').onsuccess = () => {
-      console.log('IndexedDB updated with persist:root')
+  openRequest.onupgradeneeded = event => {
+    const db = event.target.result
+    if (!db.objectStoreNames.contains('keyvaluepairs')) {
+      db.createObjectStore('keyvaluepairs')
     }
   }
-}
 
-openRequest.onerror = event => {
-  console.error('Error opening database:', event.target.errorCode)
-}
+  openRequest.onsuccess = event => {
+    console.log('IndexedDB opened successfully')
+    const db = event.target.result
+    const transaction = db.transaction(['keyvaluepairs'], 'readwrite')
+    const store = transaction.objectStore('keyvaluepairs')
+
+    const getRequest = store.get('persist:localWalletSlice')
+    getRequest.onerror = event => {
+      console.error('Error fetching data:', event.target.error)
+    }
+
+    getRequest.onsuccess = () => {
+      let walletSlice = getRequest.result
+      console.log('Fetched walletSlice:', walletSlice)
+
+      if (walletSlice) {
+        if (typeof walletSlice === 'string') {
+          walletSlice = JSON.parse(walletSlice)
+          console.log('Parsed walletSlice:', walletSlice)
+        }
+      } else {
+        walletSlice = {}
+      }
+
+      const savedWalletId = walletSlice.walletDeviceId
+      const localWalletDeviceId = KK_DEVICE_ID
+
+      if (
+        !walletSlice ||
+        walletSlice.walletType === 'null' ||
+        walletSlice.walletType === 'keepkey'
+      ) {
+        if (!savedWalletId || savedWalletId !== localWalletDeviceId) {
+          // Add additional quotes to walletType and walletDeviceId
+          walletSlice.walletType = `"keepkey"`
+          walletSlice.walletDeviceId = `"${localWalletDeviceId}"`
+
+          const updatedWalletSlice = JSON.stringify(walletSlice)
+          console.log('Updated walletSlice:', updatedWalletSlice)
+
+          store.put(updatedWalletSlice, 'persist:localWalletSlice')
+        }
+      }
+    }
+  }
+
+  openRequest.onerror = event => {
+    console.error('Error opening database:', event.target.errorCode)
+  }
+}, 500)
+
 localStorage.setItem('@app/serviceKey', KK_SDK_API_KEY)
 localStorage.setItem('localWalletType', 'keepkey')
 localStorage.setItem('localWalletDeviceId', KK_DEVICE_ID)
 
 window.ethereum = undefined
-
-window.location.reload()

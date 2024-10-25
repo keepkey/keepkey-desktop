@@ -87,30 +87,31 @@ const checkIfSSDApp = (currentUrl: string) => {
     ) {
       const webview = getWebview()
       if (!webview) return
-      webview
-        .executeJavaScript('localStorage.getItem("localWalletType");', true)
-        .then((savedWalletType: any) => {
-          if (!savedWalletType || savedWalletType === 'keepkey') {
-            const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
-            webview
-              .executeJavaScript('localStorage.getItem("localWalletDeviceId");', true)
-              .then((savedWalletId: any) => {
-                if (!savedWalletId || savedWalletId !== localWalletDeviceId) {
-                  const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
-                  if (!kkDesktopApiKey || !localWalletDeviceId) return
+      const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
+      // webview
+      //   .executeJavaScript('localStorage.getItem("localWalletType");', true)
+      //   .then((savedWalletType: any) => {
+      // if (!savedWalletType || savedWalletType === 'keepkey') {
+      // const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
+      // webview
+      //   .executeJavaScript('localStorage.getItem("localWalletDeviceId");', true)
+      //   .then((savedWalletId: any) => {
+      // if (!savedWalletId || savedWalletId !== localWalletDeviceId) {
+      const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
+      if (!kkDesktopApiKey || !localWalletDeviceId) return
 
-                  ipcListeners.getSSAutoLogin(localWalletDeviceId, kkDesktopApiKey).then(
-                    injection => {
-                      console.log('INJECTION', injection)
-                      webview.executeJavaScript(injection)
-                    },
-                    // .then(() => webview.reload())
-                  )
-                }
-              })
-          }
-        })
-        .catch(console.error)
+      ipcListeners.getSSAutoLogin(localWalletDeviceId, kkDesktopApiKey).then(
+        injection => {
+          console.log('INJECTION', injection)
+          webview.executeJavaScript(injection)
+        },
+        // .then(() => webview.reload())
+      )
+      // }
+      // })
+      // }
+      // })
+      // .catch(console.error)
     }
   } catch (error) {
     console.error(error)
