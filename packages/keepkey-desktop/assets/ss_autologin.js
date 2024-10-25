@@ -55,6 +55,8 @@ setTimeout(() => {
           console.log('Updated walletSlice:', updatedWalletSlice)
 
           store.put(updatedWalletSlice, 'persist:localWalletSlice')
+
+          window.location.reload()
         }
       }
     }
