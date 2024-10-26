@@ -3,6 +3,8 @@ import { Readable } from 'stream'
 
 import { ApiController } from '../auth'
 
+export * from './ollama'
+
 export * from './addresses'
 export * from './auth'
 export * from './bnb'
