@@ -93,7 +93,7 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
         as={Link}
         isExternal
         size='sm'
-        href='https://keepkey-docs-o9qn.vercel.app/'
+        href='https://docs.keepkey.info'
         label={translate('common.joinDiscord')}
         leftIcon={<ChatIcon />}
         data-test='navigation-join-discord-button'
