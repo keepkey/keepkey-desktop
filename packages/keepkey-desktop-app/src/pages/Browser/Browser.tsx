@@ -19,6 +19,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import * as Comlink from 'comlink'
+import { useState, useEffect, useCallback } from 'react'
 import { Main } from 'components/Layout/Main'
 import { getConfig } from 'config'
 import { ipcListeners } from 'electron-shim'
@@ -82,17 +83,16 @@ const checkIfSSDApp = (currentUrl: string) => {
     if (currentUrl === 'about:blank') return
     const url = new URL(currentUrl)
     if (
-      url.origin === getConfig().REACT_APP_SHAPESHIFT_DAPP_URL ||
-      url.origin === 'http://localhost:3000'
+        url.origin === getConfig().REACT_APP_SHAPESHIFT_DAPP_URL ||
+        url.origin === 'http://localhost:3000'
     ) {
       const webview = getWebview()
       if (!webview) return
       const localWalletDeviceId = localStorage.getItem('localWalletDeviceId')
-
       const kkDesktopApiKey = localStorage.getItem('@app/serviceKey')
       if (!kkDesktopApiKey || !localWalletDeviceId) return
 
-      ipcListeners.getSSAutoLogin(localWalletDeviceId, kkDesktopApiKey).then(injection => {
+      ipcListeners.getSSAutoLogin(localWalletDeviceId, kkDesktopApiKey).then((injection) => {
         console.log('INJECTION', injection)
         webview.executeJavaScript(injection)
       })
