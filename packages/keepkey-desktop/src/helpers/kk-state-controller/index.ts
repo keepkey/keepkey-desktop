@@ -86,8 +86,8 @@ export class KKStateController {
       log.info('KKStateController detach')
       if (e.deviceDescriptor.idVendor !== 11044) return
       await this.updateState({ state: KKState.Disconnected })
-      app.relaunch()
-      app.exit()
+      // app.relaunch()
+      // app.exit()
     })
   }
 
