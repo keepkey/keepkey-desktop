@@ -86,7 +86,7 @@ export const Header = () => {
                 </Link>
               </Flex>
               <Flex justifyContent='flex-end' flex={1} rowGap={4} columnGap={2}>
-                <Avatar onClick={openWalletConnect} size="xs" src="https://pbs.twimg.com/profile_images/1737473466847125504/SN4QL9k3_400x400.jpg" />
+                <Avatar onClick={openWalletConnect} size="xs" src="https://i.imgur.com/ZCBkgPX.png" />
                 {/*<Button*/}
                 {/*    onClick={openWalletConnect}*/}
                 {/*    size="md"           // Set the size of the button*/}
