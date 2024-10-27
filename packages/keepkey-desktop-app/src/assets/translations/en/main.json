@@ -111,7 +111,8 @@
       "switchWallet": "Switch Wallet Provider",
       "disconnect": "Disconnect",
       "disconnected": "(Disconnected)",
-      "openDev": "Open API developer documentation"
+      "openDev": "Open API developer documentation",
+      "openOllama": "Check Api Status"
     }
   },
   "navBar": {

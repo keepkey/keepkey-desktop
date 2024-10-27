@@ -25481,6 +25481,7 @@ const RAW_RUNTIME_STATE =
           ["jest-watch-typeahead", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:2.2.1"],\
           ["js-file-download", "npm:0.4.12"],\
           ["keccak256", "npm:1.0.6"],\
+          ["keepkey-ollama", "npm:0.0.1"],\
           ["lit-html", "npm:2.4.0"],\
           ["localforage", "npm:1.10.0"],\
           ["lodash", "npm:4.17.21"],\
@@ -25580,6 +25581,16 @@ const RAW_RUNTIME_STATE =
           ["yaml-sort", "npm:1.2.1"]\
         ],\
         "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["keepkey-ollama", [\
+      ["npm:0.0.1", {\
+        "packageLocation": "./.yarn/cache/keepkey-ollama-npm-0.0.1-8ff74e7722-147e2ecf52.zip/node_modules/keepkey-ollama/",\
+        "packageDependencies": [\
+          ["keepkey-ollama", "npm:0.0.1"],\
+          ["whatwg-fetch", "npm:3.6.20"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["keepkey-sdk-server", [\

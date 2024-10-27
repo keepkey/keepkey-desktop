@@ -19492,6 +19492,7 @@ __metadata:
     jest-watch-typeahead: "npm:^2.2.1"
     js-file-download: "npm:^0.4.12"
     keccak256: "npm:^1.0.6"
+    keepkey-ollama: "npm:^0.0.1"
     lit-html: "npm:^2.2.5"
     localforage: "npm:^1.10.0"
     lodash: "npm:^4.17.21"
@@ -19716,6 +19717,15 @@ __metadata:
       unplugged: true
   languageName: unknown
   linkType: soft
+
+"keepkey-ollama@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "keepkey-ollama@npm:0.0.1"
+  dependencies:
+    whatwg-fetch: "npm:^3.6.20"
+  checksum: 10/147e2ecf527809da5b9d9a8da1c00cf8c2997bd86ba4b053941d33b1f797d470aff728d258c099a093ca3b778da2db640fbb573d2632a3617153a68527ec39a4
+  languageName: node
+  linkType: hard
 
 "keepkey-sdk-server@workspace:*, keepkey-sdk-server@workspace:packages/keepkey-sdk-server":
   version: 0.0.0-use.local
