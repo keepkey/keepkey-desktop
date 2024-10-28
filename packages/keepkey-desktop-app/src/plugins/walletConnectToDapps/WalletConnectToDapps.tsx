@@ -4,7 +4,13 @@ import { DappRegistryGrid } from './components/DappRegistryGrid'
 
 export const WalletConnectToDapps: FC = () => {
     return (
-        <Container p={4} maxW="container.lg" display="flex" alignItems="center" mt={20}>
+        <Container
+            p={{ base: 2, md: 4 }}
+            maxW={{ base: "100%", md: "container.md", lg: "container.lg" }}
+            display="flex"
+            alignItems="center"
+            mt={{ base: 10, md: 16, lg: 20 }}
+        >
             <DappRegistryGrid />
         </Container>
     )
