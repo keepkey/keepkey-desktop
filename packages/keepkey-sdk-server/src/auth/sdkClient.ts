@@ -19,6 +19,7 @@ export type PairingInfo = {
 export type SdkClient = {
   apiKey: string
   wallet: KeepKeyHDWallet
+  db: any
   info: PairingInfo
   logger: (...args: unknown[]) => void
 }

@@ -127,6 +127,7 @@ export const startTcpBridge = async (port?: number) => {
     return {
       apiKey: doc.apiKey,
       wallet,
+      db,
       info: doc.info,
       logger: console.log.bind(console),
     }

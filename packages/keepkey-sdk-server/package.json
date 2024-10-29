@@ -22,7 +22,8 @@
     "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
     "promise.any": "^2.0.5",
-    "protobufjs": "^7.2.3"
+    "protobufjs": "^7.2.3",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@keepkey/hdwallet-core": "^1.53.16",

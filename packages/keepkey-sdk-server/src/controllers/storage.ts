@@ -30,6 +30,8 @@ export class StorageController extends ApiController {
     ): Promise<any> {
         // @ts-ignore
         console.log("body: ",body)
+        console.log(this.context)
+        console.log(this.context.db)
         // Placeholder for potential future functionality
         return await this.returnHelloWorld();
     }

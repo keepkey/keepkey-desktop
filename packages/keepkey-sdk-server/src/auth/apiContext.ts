@@ -17,6 +17,7 @@ const horribleAccountsHack = new WeakMap<KeepKeyHDWallet, Record<string, BIP32Pa
 export class ApiContext {
   readonly sdkClient: SdkClient
   readonly wallet: KeepKeyHDWallet
+  readonly db: any
   readonly accounts: Record<string, BIP32Path>
   readonly path: string
   api: Pioneer
@@ -24,6 +25,7 @@ export class ApiContext {
   protected constructor(sdkClient: SdkClient, accounts: Record<string, BIP32Path>, path: string) {
     this.sdkClient = sdkClient
     this.wallet = sdkClient.wallet
+    this.db = sdkClient.db
     this.accounts = accounts
     this.path = path
     this.api = new Pioneer('https://pioneers.dev/spec/swagger.json', { queryKey: 'kkdesktop:1' })

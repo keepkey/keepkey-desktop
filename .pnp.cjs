@@ -9309,6 +9309,15 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@npmcli/fs", [\
+      ["npm:1.1.1", {\
+        "packageLocation": "./.yarn/cache/@npmcli-fs-npm-1.1.1-17f582e0b6-8b5e6d7575.zip/node_modules/@npmcli/fs/",\
+        "packageDependencies": [\
+          ["@npmcli/fs", "npm:1.1.1"],\
+          ["@gar/promisify", "npm:1.1.3"],\
+          ["semver", "npm:7.3.8"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.1.2", {\
         "packageLocation": "./.yarn/cache/@npmcli-fs-npm-2.1.2-08d434e77b-c5d4dfee80.zip/node_modules/@npmcli/fs/",\
         "packageDependencies": [\
@@ -9320,6 +9329,15 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@npmcli/move-file", [\
+      ["npm:1.1.2", {\
+        "packageLocation": "./.yarn/cache/@npmcli-move-file-npm-1.1.2-4f6c7b3354-c96381d4a3.zip/node_modules/@npmcli/move-file/",\
+        "packageDependencies": [\
+          ["@npmcli/move-file", "npm:1.1.2"],\
+          ["mkdirp", "npm:1.0.4"],\
+          ["rimraf", "npm:3.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.0.1", {\
         "packageLocation": "./.yarn/cache/@npmcli-move-file-npm-2.0.1-b593d8f741-52dc02259d.zip/node_modules/@npmcli/move-file/",\
         "packageDependencies": [\
@@ -11513,6 +11531,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@tootallnate/once", [\
+      ["npm:1.1.2", {\
+        "packageLocation": "./.yarn/cache/@tootallnate-once-npm-1.1.2-0517220057-e1fb1bbbc1.zip/node_modules/@tootallnate/once/",\
+        "packageDependencies": [\
+          ["@tootallnate/once", "npm:1.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.0.0", {\
         "packageLocation": "./.yarn/cache/@tootallnate-once-npm-2.0.0-e36cf4f140-ad87447820.zip/node_modules/@tootallnate/once/",\
         "packageDependencies": [\
@@ -14653,6 +14678,14 @@ const RAW_RUNTIME_STATE =
           ["humanize-ms", "npm:1.2.1"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:4.5.0", {\
+        "packageLocation": "./.yarn/cache/agentkeepalive-npm-4.5.0-f237b580b2-dd210ba2a2.zip/node_modules/agentkeepalive/",\
+        "packageDependencies": [\
+          ["agentkeepalive", "npm:4.5.0"],\
+          ["humanize-ms", "npm:1.2.1"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["aggregate-error", [\
@@ -16731,6 +16764,31 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["cacache", [\
+      ["npm:15.3.0", {\
+        "packageLocation": "./.yarn/cache/cacache-npm-15.3.0-a7e5239c6a-1432d84f3f.zip/node_modules/cacache/",\
+        "packageDependencies": [\
+          ["cacache", "npm:15.3.0"],\
+          ["@npmcli/fs", "npm:1.1.1"],\
+          ["@npmcli/move-file", "npm:1.1.2"],\
+          ["chownr", "npm:2.0.0"],\
+          ["fs-minipass", "npm:2.1.0"],\
+          ["glob", "npm:7.2.3"],\
+          ["infer-owner", "npm:1.0.4"],\
+          ["lru-cache", "npm:6.0.0"],\
+          ["minipass", "npm:3.3.6"],\
+          ["minipass-collect", "npm:1.0.2"],\
+          ["minipass-flush", "npm:1.0.5"],\
+          ["minipass-pipeline", "npm:1.2.4"],\
+          ["mkdirp", "npm:1.0.4"],\
+          ["p-map", "npm:4.0.0"],\
+          ["promise-inflight", "virtual:4e2088ed0df52533102f445d7e7aeba6560b7effa0cabbc7cc20dd1e36a86dd838cc541de4414688f4ce3ec77b0ad5298cea6de581350d934ceb35c3e0fe3462#npm:1.0.1"],\
+          ["rimraf", "npm:3.0.2"],\
+          ["ssri", "npm:8.0.1"],\
+          ["tar", "npm:6.2.1"],\
+          ["unique-filename", "npm:1.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:16.1.3", {\
         "packageLocation": "./.yarn/cache/cacache-npm-16.1.3-4e2088ed0d-a14524d90e.zip/node_modules/cacache/",\
         "packageDependencies": [\
@@ -22997,6 +23055,16 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["http-proxy-agent", [\
+      ["npm:4.0.1", {\
+        "packageLocation": "./.yarn/cache/http-proxy-agent-npm-4.0.1-ce9ef61788-2e17f5519f.zip/node_modules/http-proxy-agent/",\
+        "packageDependencies": [\
+          ["http-proxy-agent", "npm:4.0.1"],\
+          ["@tootallnate/once", "npm:1.1.2"],\
+          ["agent-base", "npm:6.0.2"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:5.0.0", {\
         "packageLocation": "./.yarn/cache/http-proxy-agent-npm-5.0.0-7f1f121b83-5ee19423bc.zip/node_modules/http-proxy-agent/",\
         "packageDependencies": [\
@@ -25623,6 +25691,7 @@ const RAW_RUNTIME_STATE =
           ["promise.any", "npm:2.0.5"],\
           ["protobufjs", "npm:7.2.3"],\
           ["rimraf", "npm:3.0.2"],\
+          ["sqlite3", "virtual:219d26d1d0771a5fbaf079c8f64baea913a84f98cec45e2913572135c9a5fabb9e1e0c018757dd6542cbd5e92b529717a307a4baa00928e557c1cc8fe9d6b336#npm:5.1.7"],\
           ["tsoa", "npm:4.1.3"],\
           ["typescript", "patch:typescript@npm%3A4.9.3#optional!builtin<compat/typescript>::version=4.9.3&hash=a66ed4"]\
         ],\
@@ -26297,6 +26366,29 @@ const RAW_RUNTIME_STATE =
           ["promise-retry", "npm:2.0.1"],\
           ["socks-proxy-agent", "npm:7.0.0"],\
           ["ssri", "npm:9.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:9.1.0", {\
+        "packageLocation": "./.yarn/cache/make-fetch-happen-npm-9.1.0-23184ad7f6-a868e74fc2.zip/node_modules/make-fetch-happen/",\
+        "packageDependencies": [\
+          ["make-fetch-happen", "npm:9.1.0"],\
+          ["agentkeepalive", "npm:4.5.0"],\
+          ["cacache", "npm:15.3.0"],\
+          ["http-cache-semantics", "npm:4.1.0"],\
+          ["http-proxy-agent", "npm:4.0.1"],\
+          ["https-proxy-agent", "npm:5.0.1"],\
+          ["is-lambda", "npm:1.0.1"],\
+          ["lru-cache", "npm:6.0.0"],\
+          ["minipass", "npm:3.3.6"],\
+          ["minipass-collect", "npm:1.0.2"],\
+          ["minipass-fetch", "npm:1.4.1"],\
+          ["minipass-flush", "npm:1.0.5"],\
+          ["minipass-pipeline", "npm:1.2.4"],\
+          ["negotiator", "npm:0.6.4"],\
+          ["promise-retry", "npm:2.0.1"],\
+          ["socks-proxy-agent", "npm:6.2.1"],\
+          ["ssri", "npm:8.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -27113,6 +27205,17 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["minipass-fetch", [\
+      ["npm:1.4.1", {\
+        "packageLocation": "./.yarn/cache/minipass-fetch-npm-1.4.1-2d67357feb-4c6f678d2c.zip/node_modules/minipass-fetch/",\
+        "packageDependencies": [\
+          ["minipass-fetch", "npm:1.4.1"],\
+          ["encoding", "npm:0.1.13"],\
+          ["minipass", "npm:3.3.6"],\
+          ["minipass-sized", "npm:1.0.3"],\
+          ["minizlib", "npm:2.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.1.2", {\
         "packageLocation": "./.yarn/cache/minipass-fetch-npm-2.1.2-9b21a5c930-8cfc589563.zip/node_modules/minipass-fetch/",\
         "packageDependencies": [\
@@ -27474,6 +27577,13 @@ const RAW_RUNTIME_STATE =
           ["negotiator", "npm:0.6.3"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:0.6.4", {\
+        "packageLocation": "./.yarn/cache/negotiator-npm-0.6.4-4a96086720-d98c04a136.zip/node_modules/negotiator/",\
+        "packageDependencies": [\
+          ["negotiator", "npm:0.6.4"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["neo-async", [\
@@ -27564,6 +27674,14 @@ const RAW_RUNTIME_STATE =
           ["node-gyp", "npm:9.3.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:7.1.1", {\
+        "packageLocation": "./.yarn/unplugged/node-addon-api-npm-7.1.1-bfb302df19/node_modules/node-addon-api/",\
+        "packageDependencies": [\
+          ["node-addon-api", "npm:7.1.1"],\
+          ["node-gyp", "npm:9.3.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["node-api-version", [\
@@ -27647,6 +27765,23 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["node-gyp", [\
+      ["npm:8.4.1", {\
+        "packageLocation": "./.yarn/unplugged/node-gyp-npm-8.4.1-13c90a9c9b/node_modules/node-gyp/",\
+        "packageDependencies": [\
+          ["node-gyp", "npm:8.4.1"],\
+          ["env-paths", "npm:2.2.1"],\
+          ["glob", "npm:7.2.3"],\
+          ["graceful-fs", "npm:4.2.10"],\
+          ["make-fetch-happen", "npm:9.1.0"],\
+          ["nopt", "npm:5.0.0"],\
+          ["npmlog", "npm:6.0.2"],\
+          ["rimraf", "npm:3.0.2"],\
+          ["semver", "npm:7.3.8"],\
+          ["tar", "npm:6.1.12"],\
+          ["which", "npm:2.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:9.3.0", {\
         "packageLocation": "./.yarn/unplugged/node-gyp-npm-9.3.0-21c41a4dfd/node_modules/node-gyp/",\
         "packageDependencies": [\
@@ -27754,6 +27889,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["nopt", [\
+      ["npm:5.0.0", {\
+        "packageLocation": "./.yarn/cache/nopt-npm-5.0.0-304b40fbfe-00f9bb2d16.zip/node_modules/nopt/",\
+        "packageDependencies": [\
+          ["nopt", "npm:5.0.0"],\
+          ["abbrev", "npm:1.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:6.0.0", {\
         "packageLocation": "./.yarn/cache/nopt-npm-6.0.0-5ea8050815-3c1128e07c.zip/node_modules/nopt/",\
         "packageDependencies": [\
@@ -32576,6 +32719,16 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["socks-proxy-agent", [\
+      ["npm:6.2.1", {\
+        "packageLocation": "./.yarn/cache/socks-proxy-agent-npm-6.2.1-42b7f43b1d-554749ba3b.zip/node_modules/socks-proxy-agent/",\
+        "packageDependencies": [\
+          ["socks-proxy-agent", "npm:6.2.1"],\
+          ["agent-base", "npm:6.0.2"],\
+          ["debug", "virtual:aa122e5b13a7ba613e8b9a1170012a02d11b187c0a178ff2ef2d2c9298b7fcf1baa21041ea52dd886ed859e3c879fe22fa65d9399272a0b454c8fe055fc87b84#npm:4.3.4"],\
+          ["socks", "npm:2.7.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:7.0.0", {\
         "packageLocation": "./.yarn/cache/socks-proxy-agent-npm-7.0.0-7aacf32ea0-26c75d9c62.zip/node_modules/socks-proxy-agent/",\
         "packageDependencies": [\
@@ -32754,6 +32907,31 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/sprintf-js-npm-1.1.2-ea16269a6d-0044322a25.zip/node_modules/sprintf-js/",\
         "packageDependencies": [\
           ["sprintf-js", "npm:1.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["sqlite3", [\
+      ["npm:5.1.7", {\
+        "packageLocation": "./.yarn/unplugged/sqlite3-virtual-eb00bf160b/node_modules/sqlite3/",\
+        "packageDependencies": [\
+          ["sqlite3", "npm:5.1.7"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:219d26d1d0771a5fbaf079c8f64baea913a84f98cec45e2913572135c9a5fabb9e1e0c018757dd6542cbd5e92b529717a307a4baa00928e557c1cc8fe9d6b336#npm:5.1.7", {\
+        "packageLocation": "./.yarn/unplugged/sqlite3-virtual-eb00bf160b/node_modules/sqlite3/",\
+        "packageDependencies": [\
+          ["sqlite3", "virtual:219d26d1d0771a5fbaf079c8f64baea913a84f98cec45e2913572135c9a5fabb9e1e0c018757dd6542cbd5e92b529717a307a4baa00928e557c1cc8fe9d6b336#npm:5.1.7"],\
+          ["@types/node-gyp", null],\
+          ["bindings", "npm:1.5.0"],\
+          ["node-addon-api", "npm:7.1.1"],\
+          ["node-gyp", "npm:8.4.1"],\
+          ["prebuild-install", "npm:7.1.1"],\
+          ["tar", "npm:6.1.12"]\
+        ],\
+        "packagePeers": [\
+          "@types/node-gyp"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -34660,6 +34838,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["unique-filename", [\
+      ["npm:1.1.1", {\
+        "packageLocation": "./.yarn/cache/unique-filename-npm-1.1.1-c885c5095b-9b6969d649.zip/node_modules/unique-filename/",\
+        "packageDependencies": [\
+          ["unique-filename", "npm:1.1.1"],\
+          ["unique-slug", "npm:2.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.0.1", {\
         "packageLocation": "./.yarn/cache/unique-filename-npm-2.0.1-183c6c7c2b-807acf3381.zip/node_modules/unique-filename/",\
         "packageDependencies": [\
@@ -34670,6 +34856,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["unique-slug", [\
+      ["npm:2.0.2", {\
+        "packageLocation": "./.yarn/cache/unique-slug-npm-2.0.2-f6ba1ddeb7-6cfaf91976.zip/node_modules/unique-slug/",\
+        "packageDependencies": [\
+          ["unique-slug", "npm:2.0.2"],\
+          ["imurmurhash", "npm:0.1.4"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:3.0.0", {\
         "packageLocation": "./.yarn/cache/unique-slug-npm-3.0.0-0b82e51577-26fc5bc209.zip/node_modules/unique-slug/",\
         "packageDependencies": [\
