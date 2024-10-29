@@ -15,6 +15,7 @@ export * from './system'
 export * from './thorchain'
 export * from './utxo'
 export * from './xrp'
+export * from './storage'
 
 @Tags('Raw')
 @Route('')
