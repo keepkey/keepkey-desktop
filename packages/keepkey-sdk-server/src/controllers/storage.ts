@@ -22,7 +22,7 @@ interface Pubkey {
     pathMaster?: string;
     context?: string;
     contextType?: string;
-    networks?: string;
+    networks?: string[];
     networkId?: string;
 }
 
@@ -52,19 +52,6 @@ interface Balance {
 @Response(500, 'Error processing request')
 export class StorageController extends ApiController {
     /**
-     * @summary Load Cached Data
-     */
-    @Post('foo')
-    @OperationId('bar')
-    public async getBar(
-        @Body() body: Record<string, any>
-    ): Promise<any> {
-        console.log("body: ", body);
-        console.log(this.context.db);
-        return await this.returnHelloWorld();
-    }
-
-    /**
      * @summary Retrieve all public keys
      */
     @Post('getPubkeys')
@@ -79,7 +66,7 @@ export class StorageController extends ApiController {
     }
 
     /**
-     * @summary Create a new public key entry
+     * @summary Create or update a public key entry
      * @param pubkey - The public key details to be stored
      */
     @Post('createPubkey')
@@ -88,10 +75,14 @@ export class StorageController extends ApiController {
         @Body() pubkey: Pubkey
     ): Promise<Pubkey> {
         try {
-            const newDoc: Pubkey = await this.context.db.insert({ ...pubkey, type: 'pubkey' });
+            const newDoc: Pubkey = await this.context.db.update(
+                { pubkey: pubkey.pubkey, type: 'pubkey' },
+                { $set: { ...pubkey, type: 'pubkey' } },
+                { upsert: true, returnUpdatedDocs: true }
+            );
             return newDoc;
         } catch (error: any) {
-            throw new Error(`Failed to create pubkey: ${error.message}`);
+            throw new Error(`Failed to create or update pubkey: ${error.message}`);
         }
     }
 
@@ -110,7 +101,7 @@ export class StorageController extends ApiController {
     }
 
     /**
-     * @summary Create a new balance entry
+     * @summary Create or update a balance entry
      * @param balance - The balance details to be stored
      */
     @Post('createBalance')
@@ -119,15 +110,14 @@ export class StorageController extends ApiController {
         @Body() balance: Balance
     ): Promise<Balance> {
         try {
-            const newDoc: Balance = await this.context.db.insert({ ...balance, type: 'balance' });
+            const newDoc: Balance = await this.context.db.update(
+                { caip: balance.caip, context: balance.context, type: 'balance' },
+                { $set: { ...balance, type: 'balance' } },
+                { upsert: true, returnUpdatedDocs: true }
+            );
             return newDoc;
         } catch (error: any) {
-            throw new Error(`Failed to create balance: ${error.message}`);
+            throw new Error(`Failed to create or update balance: ${error.message}`);
         }
-    }
-
-    // Helper function for modular code structure
-    private async returnHelloWorld(): Promise<string> {
-        return "Hello World";
     }
 }
