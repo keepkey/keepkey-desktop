@@ -64,9 +64,12 @@ export const startTcpBridge = async (port?: number) => {
 
     // Get the request origin or referer to check where the request is coming from
     const autoApproveOrigins = [
+        'https://private.shapeshift.com',
         'https://app.keepkey.com', 
         'https://app.keepkey.info',
-        'chrome-extension://dajbdedapcflmaaojleehmafomgjcdoh'
+        'http://localhost:3000',
+        'chrome-extension://dajbdedapcflmaaojleehmafomgjcdoh',
+        'chrome-extension://pnfinogeoemeiphgkpgnpnpchleifmcf'
     ];
 
     // Get the request origin or referer to check where the request is coming from

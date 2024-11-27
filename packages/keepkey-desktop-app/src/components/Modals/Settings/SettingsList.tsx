@@ -66,9 +66,9 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
               <Tab>
                 <Text translation='modals.settings.tabs.keepkey' />
               </Tab>
-              {/*<Tab>*/}
-              {/*  <Text translation='modals.settings.tabs.ollama' />*/}
-              {/*</Tab>*/}
+              <Tab>
+                <Text translation='modals.settings.tabs.ollama' />
+              </Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
