@@ -28,6 +28,7 @@ export function RegisterRoutes(app: express.Router) {
     if (err instanceof HDWalletError) {
       // @ts-ignore
       console.log("ActionCancelled: ",ActionCancelled)
+      // @ts-ignore
       console.log("Types: ",Types)
       //NERFED debugging node.js ActionCancelled error
       // if (err instanceof ActionCancelled) {

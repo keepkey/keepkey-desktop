@@ -29,6 +29,7 @@ interface Pubkey {
     master?: string;
     address?: string;
     pubkey: string;
+    scriptType: string;
     type?: string;
     path?: string;
     icon?: string;
@@ -122,10 +123,12 @@ export class StorageController extends ApiController {
         @Body() balance: Balance
     ): Promise<Balance> {
         try {
+            // Check if a balance with the same identifier already exists
+            // Update the document if identifier exists; otherwise, insert a new one
             const newDoc: Balance = await this.context.db.update(
-                { caip: balance.caip, context: balance.pubkey, type: 'balance' },
-                { $set: { ...balance, type: 'balance' } },
-                { upsert: true, returnUpdatedDocs: true }
+                { identifier: balance.identifier }, // Match on identifier
+                { $set: { ...balance, type: 'balance' } }, // Update or set the new fields
+                { upsert: true, returnUpdatedDocs: true } // Upsert ensures create or update
             );
             return newDoc;
         } catch (error: any) {
