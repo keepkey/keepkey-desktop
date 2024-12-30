@@ -7,6 +7,7 @@ import {
     Route,
     Security,
     Tags,
+    // @ts-ignore
 } from '@tsoa/runtime';
 
 import { ApiController } from '../auth';

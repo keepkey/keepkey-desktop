@@ -16,6 +16,7 @@ export class KeepKeySdk {
   readonly raw: apis.RawApi
   readonly utxo: apis.UTXOApi
   readonly storage: apis.StorageApi
+  readonly vault: apis.VaultApi
   readonly system: apis.SystemApi & {
     readonly debug: apis.DebugApi
     readonly info: apis.InfoApi
@@ -29,6 +30,7 @@ export class KeepKeySdk {
     this.auth = new apis.AuthApi(configuration)
     this.utxo = new apis.UTXOApi(configuration)
     this.storage = new apis.StorageApi(configuration)
+    this.vault = new apis.VaultApi(configuration)
     this.bnb = new apis.BNBApi(configuration)
     this.cosmos = new apis.CosmosApi(configuration)
     this.osmosis = new apis.OsmosisApi(configuration)

@@ -23,6 +23,7 @@
     "mkdirp": "^1.0.4",
     "promise.any": "^2.0.5",
     "protobufjs": "^7.2.3",
+    "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {

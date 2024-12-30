@@ -25698,6 +25698,7 @@ const RAW_RUNTIME_STATE =
           ["promise.any", "npm:2.0.5"],\
           ["protobufjs", "npm:7.2.3"],\
           ["rimraf", "npm:3.0.2"],\
+          ["sqlite", "npm:5.1.1"],\
           ["sqlite3", "virtual:219d26d1d0771a5fbaf079c8f64baea913a84f98cec45e2913572135c9a5fabb9e1e0c018757dd6542cbd5e92b529717a307a4baa00928e557c1cc8fe9d6b336#npm:5.1.7"],\
           ["tsoa", "npm:4.1.3"],\
           ["typescript", "patch:typescript@npm%3A4.9.3#optional!builtin<compat/typescript>::version=4.9.3&hash=a66ed4"]\
@@ -32914,6 +32915,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/sprintf-js-npm-1.1.2-ea16269a6d-0044322a25.zip/node_modules/sprintf-js/",\
         "packageDependencies": [\
           ["sprintf-js", "npm:1.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["sqlite", [\
+      ["npm:5.1.1", {\
+        "packageLocation": "./.yarn/cache/sqlite-npm-5.1.1-7f7c93defb-0b61164e73.zip/node_modules/sqlite/",\
+        "packageDependencies": [\
+          ["sqlite", "npm:5.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
