@@ -63,6 +63,7 @@ const RAW_RUNTIME_STATE =
           ["dotenv-cli", "npm:7.4.1"],\
           ["eslint", "npm:8.28.0"],\
           ["prettier", "npm:2.8.0"],\
+          ["sqlite3", "virtual:479e91aba732dfc5c837df32a82c907db9b1d39aa178929519c67467d04d784625c3e98cfe81a7c259ce054a0a3c575e063bd98c166a2b73974fb11820f1715e#npm:5.1.7"],\
           ["typescript", "patch:typescript@npm%3A4.9.3#optional!builtin<compat/typescript>::version=4.9.3&hash=a66ed4"],\
           ["web3", "npm:4.0.1"],\
           ["yaml-sort", "npm:1.2.1"]\
@@ -25358,6 +25359,7 @@ const RAW_RUNTIME_STATE =
           ["secp256k1", "npm:4.0.3"],\
           ["semver", "npm:7.3.8"],\
           ["source-map-support", "npm:0.5.21"],\
+          ["sqlite3", "virtual:479e91aba732dfc5c837df32a82c907db9b1d39aa178929519c67467d04d784625c3e98cfe81a7c259ce054a0a3c575e063bd98c166a2b73974fb11820f1715e#npm:5.1.7"],\
           ["sudo-prompt", "npm:9.2.1"],\
           ["swagger-ui-dist", "npm:4.15.5"],\
           ["swagger-ui-express", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:4.6.0"],\
@@ -25651,6 +25653,7 @@ const RAW_RUNTIME_STATE =
           ["dotenv-cli", "npm:7.4.1"],\
           ["eslint", "npm:8.28.0"],\
           ["prettier", "npm:2.8.0"],\
+          ["sqlite3", "virtual:479e91aba732dfc5c837df32a82c907db9b1d39aa178929519c67467d04d784625c3e98cfe81a7c259ce054a0a3c575e063bd98c166a2b73974fb11820f1715e#npm:5.1.7"],\
           ["typescript", "patch:typescript@npm%3A4.9.3#optional!builtin<compat/typescript>::version=4.9.3&hash=a66ed4"],\
           ["web3", "npm:4.0.1"],\
           ["yaml-sort", "npm:1.2.1"]\
@@ -25699,7 +25702,7 @@ const RAW_RUNTIME_STATE =
           ["protobufjs", "npm:7.2.3"],\
           ["rimraf", "npm:3.0.2"],\
           ["sqlite", "npm:5.1.1"],\
-          ["sqlite3", "virtual:219d26d1d0771a5fbaf079c8f64baea913a84f98cec45e2913572135c9a5fabb9e1e0c018757dd6542cbd5e92b529717a307a4baa00928e557c1cc8fe9d6b336#npm:5.1.7"],\
+          ["sqlite3", "virtual:479e91aba732dfc5c837df32a82c907db9b1d39aa178929519c67467d04d784625c3e98cfe81a7c259ce054a0a3c575e063bd98c166a2b73974fb11820f1715e#npm:5.1.7"],\
           ["tsoa", "npm:4.1.3"],\
           ["typescript", "patch:typescript@npm%3A4.9.3#optional!builtin<compat/typescript>::version=4.9.3&hash=a66ed4"]\
         ],\
@@ -32930,16 +32933,16 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["sqlite3", [\
       ["npm:5.1.7", {\
-        "packageLocation": "./.yarn/unplugged/sqlite3-virtual-eb00bf160b/node_modules/sqlite3/",\
+        "packageLocation": "./.yarn/unplugged/sqlite3-virtual-c34773cf1c/node_modules/sqlite3/",\
         "packageDependencies": [\
           ["sqlite3", "npm:5.1.7"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:219d26d1d0771a5fbaf079c8f64baea913a84f98cec45e2913572135c9a5fabb9e1e0c018757dd6542cbd5e92b529717a307a4baa00928e557c1cc8fe9d6b336#npm:5.1.7", {\
-        "packageLocation": "./.yarn/unplugged/sqlite3-virtual-eb00bf160b/node_modules/sqlite3/",\
+      ["virtual:479e91aba732dfc5c837df32a82c907db9b1d39aa178929519c67467d04d784625c3e98cfe81a7c259ce054a0a3c575e063bd98c166a2b73974fb11820f1715e#npm:5.1.7", {\
+        "packageLocation": "./.yarn/unplugged/sqlite3-virtual-c34773cf1c/node_modules/sqlite3/",\
         "packageDependencies": [\
-          ["sqlite3", "virtual:219d26d1d0771a5fbaf079c8f64baea913a84f98cec45e2913572135c9a5fabb9e1e0c018757dd6542cbd5e92b529717a307a4baa00928e557c1cc8fe9d6b336#npm:5.1.7"],\
+          ["sqlite3", "virtual:479e91aba732dfc5c837df32a82c907db9b1d39aa178929519c67467d04d784625c3e98cfe81a7c259ce054a0a3c575e063bd98c166a2b73974fb11820f1715e#npm:5.1.7"],\
           ["@types/node-gyp", null],\
           ["bindings", "npm:1.5.0"],\
           ["node-addon-api", "npm:7.1.1"],\

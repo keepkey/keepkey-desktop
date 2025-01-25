@@ -93,6 +93,7 @@
     "builder-util": "^25.0.0-alpha.6",
     "crypto": "^1.0.1",
     "dotenv-cli": "^7.4.1",
+    "sqlite3": "^5.1.7",
     "web3": "^4.0.1"
   }
 }

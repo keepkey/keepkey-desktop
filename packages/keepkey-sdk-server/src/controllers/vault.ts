@@ -43,7 +43,6 @@ export class VaultController extends ApiController {
     @OperationId('getVaults')
     public async getVaults(): Promise<Pubkey[]> {
         try {
-            
             return [];
         } catch (error: any) {
             throw new Error(`Failed to retrieve pubkeys: ${error.message}`);

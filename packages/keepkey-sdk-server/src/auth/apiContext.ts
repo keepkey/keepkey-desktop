@@ -8,11 +8,8 @@ import { isEqual } from 'lodash'
 import type { SdkClient } from './sdkClient'
 const horribleAccountsHack = new WeakMap<KeepKeyHDWallet, Record<string, BIP32Path>>()
 
-//@TODO get web3 providers
-
-//serve web3 provider
-
-//maintain network context from renderer selections
+// @ts-ignore
+// import sqlite3 from 'sqlite3'
 
 export class ApiContext {
   readonly sdkClient: SdkClient
@@ -21,6 +18,7 @@ export class ApiContext {
   readonly accounts: Record<string, BIP32Path>
   readonly path: string
   api: Pioneer
+  sql: any
 
   protected constructor(sdkClient: SdkClient, accounts: Record<string, BIP32Path>, path: string) {
     this.sdkClient = sdkClient
@@ -29,10 +27,31 @@ export class ApiContext {
     this.accounts = accounts
     this.path = path
     this.api = new Pioneer('https://pioneers.dev/spec/swagger.json', { queryKey: 'kkdesktop:1' })
+
+    // // Use the callback signature (err: Error | null) => void
+    // this.sql = new sqlite3.Database('./keepkey-vault.sqlite3', (err: Error | null) => {
+    //   if (err) {
+    //     console.error('Failed to connect to SQLite database:', err.message)
+    //   }
+    // })
+    //
+    // // Create a table if it doesn't exist yet
+    // this.sql.run(
+    //     `
+    //     CREATE TABLE IF NOT EXISTS accounts (
+    //       address TEXT PRIMARY KEY,
+    //       addressNList TEXT NOT NULL
+    //     )
+    //   `,
+    //     (err: Error | null) => {
+    //       if (err) {
+    //         console.error('Failed to create accounts table:', err.message)
+    //       }
+    //     }
+    // )
   }
 
   static async create(sdkClient: SdkClient, path: string): Promise<ApiContext> {
-    // TODO: something something database something
     if (!horribleAccountsHack.has(sdkClient.wallet)) {
       horribleAccountsHack.set(sdkClient.wallet, {})
     }
@@ -55,6 +74,5 @@ export class ApiContext {
       throw new Error('conflicting account entry already present')
     }
     this.accounts[address] = addressNList
-    // TODO: something something database something
   }
 }

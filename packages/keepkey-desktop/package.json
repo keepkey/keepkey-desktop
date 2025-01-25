@@ -141,6 +141,7 @@
         "secp256k1": "^4.0.3",
         "semver": "^7.3.8",
         "source-map-support": "^0.5.21",
+        "sqlite3": "^5.1.7",
         "sudo-prompt": "^9.2.1",
         "swagger-ui-dist": "^4.15.5",
         "swagger-ui-express": "^4.6.0",
