@@ -194,6 +194,7 @@
     "js-file-download": "^0.4.12",
     "keccak256": "^1.0.6",
     "keepkey-ollama": "^0.0.1",
+    "keepkey-support-widget-export": "^1.0.7",
     "lit-html": "^2.2.5",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",

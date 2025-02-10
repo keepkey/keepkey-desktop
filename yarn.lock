@@ -19573,6 +19573,7 @@ __metadata:
     js-file-download: "npm:^0.4.12"
     keccak256: "npm:^1.0.6"
     keepkey-ollama: "npm:^0.0.1"
+    keepkey-support-widget-export: "npm:^1.0.7"
     lit-html: "npm:^2.2.5"
     localforage: "npm:^1.10.0"
     lodash: "npm:^4.17.21"
@@ -19844,6 +19845,18 @@ __metadata:
     typescript: "npm:^4.7.0"
   languageName: unknown
   linkType: soft
+
+"keepkey-support-widget-export@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "keepkey-support-widget-export@npm:1.0.7"
+  dependencies:
+    react-icons: "npm:^5.4.0"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10/03b1c5345c37e0952af8906d49d4d5c5af7114265f2e23697b96b018724bdb39a7b7fb09d9297c62574cdd29769d2e059430c8f638708297f1c09318b84271f9
+  languageName: node
+  linkType: hard
 
 "keyv@npm:^4.0.0":
   version: 4.5.2
@@ -23931,6 +23944,15 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: 10/325f5915627cfdf42f758ea3169170caf2399a4c16490226fe8b8c9820937155262e552c0e8936a5228e0cd48b77224a125ed65fd61786ad10e5d273665f202f
+  languageName: node
+  linkType: hard
+
+"react-icons@npm:^5.4.0":
+  version: 5.4.0
+  resolution: "react-icons@npm:5.4.0"
+  peerDependencies:
+    react: "*"
+  checksum: 10/c900d475c64852b316d16bdc1a436c93e18e0ffb321ebc43a1d8741191baba736e0ef4c6d871399056832b69413cd13b56ae6a18eaa5ad17041df805d803651c
   languageName: node
   linkType: hard
 

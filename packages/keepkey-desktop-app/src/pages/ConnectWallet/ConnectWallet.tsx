@@ -13,6 +13,7 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import { useEffect } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { generatePath, matchPath, useHistory } from 'react-router'
+import { WalletAdvanced } from 'keepkey-support-widget-export/next'
 
 export const ConnectWallet = () => {
   const { state, dispatch } = useWallet()
@@ -143,7 +144,7 @@ export const ConnectWallet = () => {
               <Button
                 as={Link}
                 isExternal
-                href='https://discord.gg/stfRnW3Jys'
+                href='https://support.keepkey.info'
                 width='360px'
                 size='lg'
                 rightIcon={<ExternalLinkIcon />}
@@ -151,6 +152,7 @@ export const ConnectWallet = () => {
               >
                 <Text translation={'common.getSupport'} />
               </Button>
+              <WalletAdvanced></WalletAdvanced>
             </Flex>
           </Flex>
         </Flex>
