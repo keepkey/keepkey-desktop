@@ -1,7 +1,6 @@
 import { ChatIcon, SettingsIcon } from '@chakra-ui/icons'
 import type { StackProps } from '@chakra-ui/react'
 import { Flex, Link, Tooltip, Button } from '@chakra-ui/react'
-import { usePlugins } from 'context/PluginProvider/PluginProvider'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { union } from 'lodash'
@@ -23,7 +22,6 @@ type NavBarProps = {
 export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
   const { dispatch } = useWallet()
   const translate = useTranslate()
-  const { routes: pluginRoutes } = usePlugins()
   const { settings } = useModal()
 
   const {
@@ -33,7 +31,7 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
   const [supportsAuthenticator, setSupportsAuthenticator] = useState(false)
 
   const navItemGroups = useMemo(() => {
-    const allRoutes = union(routes, pluginRoutes).filter(route => !route.disable && !route.hide)
+    const allRoutes = routes.filter(route => !route.disable && !route.hide)
     const groups = allRoutes.reduce((entryMap, currentRoute) => {
       if (!entryMap.has(currentRoute.category)) entryMap.set(currentRoute.category, [])
       entryMap.get(currentRoute.category)!.push(currentRoute)
@@ -41,7 +39,7 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
     }, new Map<RouteCategory | undefined, Route[]>())
 
     return Array.from(groups.entries())
-  }, [pluginRoutes])
+  }, [])
 
   useEffect(() => {
     wallet?.getFirmwareVersion().then(version => {
@@ -51,7 +49,6 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
   
   let openSupport = () => {
     dispatch({ type: WalletActions.SET_BROWSER_URL, payload: 'https://keepkey-docs-o9qn.vercel.app/' })
-    // history.push('/browser')
   }
   
   return (
@@ -98,27 +95,6 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
         leftIcon={<ChatIcon />}
         data-test='navigation-join-discord-button'
       />
-
-      {/*<Tooltip label='support' placement='top'>*/}
-      {/*  <Button*/}
-      {/*      onClick={openSupport()}*/}
-      {/*      width='full'*/}
-      {/*      justifyContent={'center'}*/}
-      {/*      variant='nav-link'*/}
-      {/*      isActive={false}*/}
-      {/*      minWidth={'auto'}*/}
-      {/*  >*/}
-      {/*    <ChatIcon />*/}
-      {/*  </Button>*/}
-      {/*</Tooltip>*/}
-      
-      {/*<MainNavLink*/}
-      {/*    size='sm'*/}
-      {/*    onClick={openSupport()}*/}
-      {/*    label={translate('common.joinDiscord')}*/}
-      {/*    leftIcon={<ChatIcon />}*/}
-      {/*    data-test='navigation-join-discord-button'*/}
-      {/*/>*/}
     </Flex>
   )
 }

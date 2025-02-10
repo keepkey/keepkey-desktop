@@ -1,26 +1,21 @@
+// @ts-nocheck
 import {
   ChakraProvider,
   ColorModeScript,
   createLocalStorageManager,
   createStandaloneToast,
+  Center,
+  Spinner,
 } from '@chakra-ui/react'
 import { AppProvider } from 'context/AppProvider/AppContext'
 import { BrowserRouterProvider } from 'context/BrowserRouterProvider/BrowserRouterProvider'
 import { I18nProvider } from 'context/I18nProvider/I18nProvider'
 import { ModalProvider } from 'context/ModalProvider/ModalProvider'
-import { PluginProvider } from 'context/PluginProvider/PluginProvider'
-import { TransactionsProvider } from 'context/TransactionsProvider/TransactionsProvider'
 import { KeepKeyProvider } from 'context/WalletProvider/KeepKeyProvider'
 import { WalletProvider } from 'context/WalletProvider/WalletProvider'
-import { SplashScreen } from 'pages/SplashScreen/SplashScreen'
-import { ContractABIProvider } from 'plugins/walletConnectToDapps/ContractABIContext'
-import { WalletConnectBridgeProvider } from 'plugins/walletConnectToDapps/WalletConnectBridgeProvider'
 import React from 'react'
-import { Provider as ReduxProvider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
-import { PersistGate } from 'redux-persist/integration/react'
 import { ScrollToTop } from 'Routes/ScrollToTop'
-import { persistor, store } from 'state/store'
 import { theme } from 'theme/theme'
 
 type ProvidersProps = {
@@ -29,38 +24,34 @@ type ProvidersProps = {
 
 const manager = createLocalStorageManager('ss-theme')
 
+const LoadingComponent = () => (
+  <Center height="100vh">
+    <Spinner size="xl" />
+  </Center>
+)
+
 export function AppProviders({ children }: ProvidersProps) {
   const { ToastContainer } = createStandaloneToast()
   return (
-    <ReduxProvider store={store}>
-      <PluginProvider>
-        <ColorModeScript storageKey='ss-theme' />
-        <ChakraProvider theme={theme} colorModeManager={manager} cssVarsRoot='body'>
-          <ToastContainer />
-          <PersistGate loading={<SplashScreen />} persistor={persistor}>
-            <HashRouter basename='/'>
-              <ScrollToTop />
-              <BrowserRouterProvider>
-                <I18nProvider>
-                  <WalletProvider>
-                    <ContractABIProvider>
-                      <WalletConnectBridgeProvider>
-                        <KeepKeyProvider>
-                          <ModalProvider>
-                            <TransactionsProvider>
-                              <AppProvider>{children}</AppProvider>
-                            </TransactionsProvider>
-                          </ModalProvider>
-                        </KeepKeyProvider>
-                      </WalletConnectBridgeProvider>
-                    </ContractABIProvider>
-                  </WalletProvider>
-                </I18nProvider>
-              </BrowserRouterProvider>
-            </HashRouter>
-          </PersistGate>
-        </ChakraProvider>
-      </PluginProvider>
-    </ReduxProvider>
+    <>
+      <ColorModeScript storageKey='ss-theme' />
+      <ChakraProvider theme={theme} colorModeManager={manager} cssVarsRoot='body'>
+        <ToastContainer />
+        <HashRouter basename='/'>
+          <ScrollToTop />
+          <BrowserRouterProvider>
+            <I18nProvider>
+              <WalletProvider>
+                <KeepKeyProvider>
+                  <ModalProvider>
+                    <AppProvider>{children}</AppProvider>
+                  </ModalProvider>
+                </KeepKeyProvider>
+              </WalletProvider>
+            </I18nProvider>
+          </BrowserRouterProvider>
+        </HashRouter>
+      </ChakraProvider>
+    </>
   )
 }

@@ -9,7 +9,6 @@ import { KeepKeyRoutes } from 'context/WalletProvider/routes'
 import { ipcListeners } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
 import { useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { Routes } from 'Routes/Routes'
@@ -35,7 +34,6 @@ const mapPinRequestType = (pinRequestType: PinMatrixRequestType2) => {
 export const App = () => {
   const { dispatch, pairAndConnect, setDeviceState } = useWallet()
   const { setIsUpdatingKeepkey, state, disconnect } = useWallet()
-  const { legacyBridge, isLegacy, isConnected } = useWalletConnect()
   const { updateFeatures } = useKeepKey()
   const history = useHistory()
 
@@ -210,7 +208,6 @@ export const App = () => {
 
       async appClosing() {
         loading.open({ closing: true })
-        if (isLegacy && isConnected && legacyBridge) legacyBridge.disconnect()
         await state.wallet?.clearSession()
       },
 

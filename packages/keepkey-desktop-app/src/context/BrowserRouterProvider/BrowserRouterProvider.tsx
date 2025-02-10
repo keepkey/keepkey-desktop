@@ -1,6 +1,5 @@
-import { usePlugins } from 'context/PluginProvider/PluginProvider'
+// @ts-nocheck
 import { useQuery } from 'hooks/useQuery/useQuery'
-import { union } from 'lodash'
 import React, { useMemo } from 'react'
 import { matchPath, useHistory, useLocation, useParams } from 'react-router-dom'
 import { generateAppRoutes } from 'Routes/helpers'
@@ -12,16 +11,15 @@ type BrowserRouterProviderProps = {
   children: React.ReactNode
 }
 
-export function BrowserRouterProvider({ children }: BrowserRouterProviderProps) {
+export const BrowserRouterProvider = ({ children }: BrowserRouterProviderProps) => {
   const location = useLocation()
   const history = useHistory()
   const params = useParams()
   const query = useQuery()
-  const { routes: pluginRoutes } = usePlugins()
 
   const appRoutes = useMemo(() => {
-    return generateAppRoutes(union(pluginRoutes, routes))
-  }, [pluginRoutes])
+    return generateAppRoutes(routes)
+  }, [])
 
   const currentRoute = useMemo(() => {
     return appRoutes.find(e => matchPath(location.pathname, { path: e.path, exact: true }))

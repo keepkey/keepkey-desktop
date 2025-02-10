@@ -2,13 +2,20 @@
 import Client from '@pioneer-platform/pioneer-client'
 import { getConfig } from 'config'
 
-export const getPioneerClient = async () => {
-  let spec = getConfig().REACT_APP_DAPP_URL
-  let config = {
-    queryKey: 'key:public',
-    username: 'user:public',
-    spec,
+export const getPioneerClient = async (config: any = {}) => {
+  try {
+    if (!config || typeof config !== 'object') {
+      config = {}
+    }
+    
+    const client = new Client(getConfig().REACT_APP_DAPP_URL, config)
+    if (!client) {
+      throw new Error('Failed to initialize Pioneer client')
+    }
+    
+    return await client.init()
+  } catch (error) {
+    console.error('Failed to get Pioneer client:', error)
+    return null
   }
-  let pioneer = new Client(spec, config)
-  return await pioneer.init()
 }

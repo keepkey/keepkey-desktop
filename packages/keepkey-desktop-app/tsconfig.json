@@ -17,7 +17,8 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "noUnusedParameters": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "types": ["node", "react", "react-dom", "@chakra-ui/react", "react-redux", "react-router-dom"]
   },
   "include": ["src"]
 }

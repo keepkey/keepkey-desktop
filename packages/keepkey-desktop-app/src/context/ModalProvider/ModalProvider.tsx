@@ -1,15 +1,9 @@
 import { WipeModal } from 'components/Layout/Header/NavBar/KeepKey/Modals/WipeModal'
 import { AddAuthenticatorAccountModal } from 'components/Modals/AddAuthenticatorAccount/AddAuthenticatorAccount'
-import { AssetSearchModal } from 'components/Modals/AssetSearch/AssetSearch'
-import { ChainSelectorModal } from 'components/Modals/ChainSelector/ChainSelector'
-import { DappClickModal } from 'components/Modals/DappClick/DappClick'
-import { KKVote } from 'components/Modals/kkVote/KKVote'
 import { LoadingModal } from 'components/Modals/Loading/Loading'
 import { Languages } from 'components/Modals/OnboardingSteps/Languages'
 import { OnboardingSteps } from 'components/Modals/OnboardingSteps/OnboardingSteps'
 import { PairModal } from 'components/Modals/Pair/Pair'
-import { ReceiveModal } from 'components/Modals/Receive/Receive'
-import { SendModal } from 'components/Modals/Send/Send'
 import { SettingsModal } from 'components/Modals/Settings/Settings'
 import { SignModal } from 'components/Modals/Sign/Sign'
 import { HardwareErrorModal } from 'components/Modals/UpdateKeepKey/HardwareError/HardwareError'
@@ -17,7 +11,6 @@ import { RequestBootloaderMode } from 'components/Modals/UpdateKeepKey/RequestBo
 import { UpdateKeepKey } from 'components/Modals/UpdateKeepKey/UpdateKeepKey'
 import merge from 'lodash/merge'
 import noop from 'lodash/noop'
-import { AddAccountModal } from 'pages/Accounts/AddAccountModal'
 import React, { useMemo, useReducer } from 'react'
 
 import { ModalContext } from './ModalContext'
@@ -32,21 +25,14 @@ declare module 'csstype' {
 // the key is the name returned by the hook and the
 // component is the modal to be rendered
 const MODALS = {
-  receive: ReceiveModal,
-  send: SendModal,
   sign: SignModal,
   pair: PairModal,
   settings: SettingsModal,
   keepKeyWipe: WipeModal,
-  addAccount: AddAccountModal,
-  assetSearch: AssetSearchModal,
   addAuthenticatorAccount: AddAuthenticatorAccountModal,
   requestBootloaderMode: RequestBootloaderMode,
   updateKeepKey: UpdateKeepKey,
-  kkVote: KKVote,
   loading: LoadingModal,
-  chainSelector: ChainSelectorModal,
-  dappClick: DappClickModal,
   languages: Languages,
   hardwareError: HardwareErrorModal,
   onboardingSteps: OnboardingSteps,

@@ -56,6 +56,9 @@ const RAW_RUNTIME_STATE =
           ["@commitlint/cli", "npm:17.3.0"],\
           ["@commitlint/config-conventional", "npm:17.3.0"],\
           ["@pioneer-platform/harpie-client", "npm:8.1.17"],\
+          ["@types/node", "npm:22.13.1"],\
+          ["@types/react", "npm:19.0.8"],\
+          ["@types/react-dom", "virtual:479e91aba732dfc5c837df32a82c907db9b1d39aa178929519c67467d04d784625c3e98cfe81a7c259ce054a0a3c575e063bd98c166a2b73974fb11820f1715e#npm:19.0.3"],\
           ["@walletconnect/client", "npm:1.8.0"],\
           ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
           ["builder-util", "npm:25.0.0-alpha.6"],\
@@ -12301,6 +12304,14 @@ const RAW_RUNTIME_STATE =
           ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:22.13.1", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-22.13.1-f9de886009-d8ba7068b0.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:22.13.1"],\
+          ["undici-types", "npm:6.20.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@types/node-polyglot", [\
@@ -12454,6 +12465,14 @@ const RAW_RUNTIME_STATE =
           ["csstype", "npm:3.1.1"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:19.0.8", {\
+        "packageLocation": "./.yarn/cache/@types-react-npm-19.0.8-d37f2f1ef6-1080d5b96e.zip/node_modules/@types/react/",\
+        "packageDependencies": [\
+          ["@types/react", "npm:19.0.8"],\
+          ["csstype", "npm:3.1.1"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@types/react-datepicker", [\
@@ -12477,6 +12496,24 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@types/react-dom", "npm:18.0.9"],\
           ["@types/react", "npm:18.0.25"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:19.0.3", {\
+        "packageLocation": "./.yarn/cache/@types-react-dom-npm-19.0.3-c704dfd4e3-815907f7ad.zip/node_modules/@types/react-dom/",\
+        "packageDependencies": [\
+          ["@types/react-dom", "npm:19.0.3"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:479e91aba732dfc5c837df32a82c907db9b1d39aa178929519c67467d04d784625c3e98cfe81a7c259ce054a0a3c575e063bd98c166a2b73974fb11820f1715e#npm:19.0.3", {\
+        "packageLocation": "./.yarn/__virtual__/@types-react-dom-virtual-5a55a1f257/0/cache/@types-react-dom-npm-19.0.3-c704dfd4e3-815907f7ad.zip/node_modules/@types/react-dom/",\
+        "packageDependencies": [\
+          ["@types/react-dom", "virtual:479e91aba732dfc5c837df32a82c907db9b1d39aa178929519c67467d04d784625c3e98cfe81a7c259ce054a0a3c575e063bd98c166a2b73974fb11820f1715e#npm:19.0.3"],\
+          ["@types/react", "npm:19.0.8"]\
+        ],\
+        "packagePeers": [\
+          "@types/react"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -25647,6 +25684,9 @@ const RAW_RUNTIME_STATE =
           ["@commitlint/cli", "npm:17.3.0"],\
           ["@commitlint/config-conventional", "npm:17.3.0"],\
           ["@pioneer-platform/harpie-client", "npm:8.1.17"],\
+          ["@types/node", "npm:22.13.1"],\
+          ["@types/react", "npm:19.0.8"],\
+          ["@types/react-dom", "virtual:479e91aba732dfc5c837df32a82c907db9b1d39aa178929519c67467d04d784625c3e98cfe81a7c259ce054a0a3c575e063bd98c166a2b73974fb11820f1715e#npm:19.0.3"],\
           ["@walletconnect/client", "npm:1.8.0"],\
           ["@yarnpkg/sdks", "npm:3.0.0-rc.31"],\
           ["builder-util", "npm:25.0.0-alpha.6"],\
@@ -34838,6 +34878,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/undici-types-npm-5.26.5-de4f7c7bb9-0097779d94.zip/node_modules/undici-types/",\
         "packageDependencies": [\
           ["undici-types", "npm:5.26.5"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:6.20.0", {\
+        "packageLocation": "./.yarn/cache/undici-types-npm-6.20.0-bd21e669af-583ac7bbf4.zip/node_modules/undici-types/",\
+        "packageDependencies": [\
+          ["undici-types", "npm:6.20.0"]\
         ],\
         "linkType": "HARD"\
       }]\

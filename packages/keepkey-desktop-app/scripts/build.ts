@@ -139,19 +139,28 @@ const nodePolyfillPlugin = async (): Promise<esbuild.Plugin> => ({
     build.onResolve({ filter: /^zlib$/ }, async () => ({
       path: require.resolve('browserify-zlib'),
     }))
-    // Add polyfills for missing packages
-    // build.onResolve({ filter: /^events$/ }, async () => ({
-    //   path: require.resolve('events'),
-    // }))
-    // build.onResolve({ filter: /^buffer$/ }, async () => ({
-    //   path: require.resolve('buffer'),
-    // }))
-    // build.onResolve({ filter: /^util$/ }, async () => ({
-    //   path: require.resolve('util'),
-    // }))
-    // build.onResolve({ filter: /^url$/ }, async () => ({
-    //   path: require.resolve('url'),
-    // }))
+  },
+})
+
+const absoluteImportsPlugin = async (): Promise<esbuild.Plugin> => ({
+  name: 'absolute-imports',
+  setup: async build => {
+    build.onResolve({ filter: /^state\/|^components\/|^lib\/|^context\// }, async args => {
+      const srcPath = path.join(workspacePath, 'src')
+      const resolvedPath = path.join(srcPath, args.path)
+      
+      // Try different extensions
+      const extensions = ['.ts', '.tsx', '.js', '.jsx']
+      for (const ext of extensions) {
+        const pathWithExt = resolvedPath + ext
+        if (fs.existsSync(pathWithExt)) {
+          return { path: pathWithExt }
+        }
+      }
+
+      // If no extension found, return original path for esbuild to handle
+      return { path: resolvedPath }
+    })
   },
 })
 
@@ -222,6 +231,7 @@ const runEsbuild = async (defines: Record<string, string>) => {
     entryPoints: [path.join(workspacePath, '/src/loader.ts')],
     plugins: await Promise.all([
       nodePolyfillPlugin(),
+      absoluteImportsPlugin(),
       assetResolverPlugin(),
       workspacePlugin(rootPath, workspacePath),
     ]),
