@@ -123,7 +123,7 @@ jobs:
 
       - name: Linux - Upload .AppImage
         if: startsWith(matrix.os, 'ubuntu')
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: linux-AppImage
           path: |
@@ -133,22 +133,46 @@ jobs:
 
       - name: Mac - Upload .dmg
         if: startsWith(matrix.os, 'macos')
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mac-dmg
           path: |
             packages/keepkey-desktop/dist/*.dmg
             packages/keepkey-desktop/dist/*.dmg.blockmap
-            packages/keepkey-desktop/dist/*.zip
-            packages/keepkey-desktop/dist/*.zip.blockmap
           if-no-files-found: error
 
       - name: Windows - Upload .exe
         if: startsWith(matrix.os, 'windows')
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows-nsis
           path: |
             packages/keepkey-desktop/dist/*.exe
             packages/keepkey-desktop/dist/*.exe.blockmap
           if-no-files-found: error
+
+      - name: Upload Windows msi
+        if: startsWith(matrix.os, 'windows')
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-msi
+          path: |
+            packages/keepkey-desktop/dist/*.msi
+            packages/keepkey-desktop/dist/*.msi.blockmap
+          if-no-files-found: error
+
+      - name: Upload Linux deb
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+
+      - name: Upload Windows exe
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+
+      - name: Upload Windows msi
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+
+      - name: Upload macOS dmg
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
