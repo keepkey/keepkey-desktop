@@ -367,7 +367,8 @@
         "general": "General",
         "app": "App",
         "keepkey": "KeepKey"
-      }
+      },
+      "clearStorage": "Clear Storage"
     },
     "pair": {
       "header": "Wallet Connect",
