@@ -162,20 +162,20 @@ export const AppSettings: FC = () => {
         <Switch isChecked={appSettings.runBetaFirmware} pointerEvents='none' />
       </SettingsListItem>
       <Divider my={1} />
-      {/*<SettingsListItem*/}
-      {/*  label={'modals.settings.allowBetaFirmware'}*/}
-      {/*  onClick={() => {*/}
-      {/*    setAppSettings(currentSettings => {*/}
-      {/*      return {*/}
-      {/*        ...currentSettings,*/}
-      {/*        allowBetaFirmware: !currentSettings.allowBetaFirmware,*/}
-      {/*      }*/}
-      {/*    })*/}
-      {/*  }}*/}
-      {/*  icon={<Icon as={TbRefreshAlert} color='gray.500' />}*/}
-      {/*>*/}
-      {/*  <Switch isChecked={appSettings.allowBetaFirmware} pointerEvents='none' />*/}
-      {/*</SettingsListItem>*/}
+      <SettingsListItem
+        label={'modals.settings.allowBetaFirmware'}
+        onClick={() => {
+          setAppSettings(currentSettings => {
+            return {
+              ...currentSettings,
+              allowBetaFirmware: !currentSettings.allowBetaFirmware,
+            }
+          })
+        }}
+        icon={<Icon as={TbRefreshAlert} color='gray.500' />}
+      >
+        <Switch isChecked={appSettings.allowBetaFirmware} pointerEvents='none' />
+      </SettingsListItem>
       <Divider my={1} />
       <SettingsListItem
         label={'modals.settings.autoScanQr'}
