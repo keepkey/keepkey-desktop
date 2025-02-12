@@ -32,6 +32,9 @@ export enum WalletActions {
   OPEN_KEEPKEY_CHARACTER_REQUEST = 'OPEN_KEEPKEY_CHARACTER_REQUEST',
   SET_WALLET_CONNECT_APP = 'SET_WALLET_CONNECT_APP',
   SET_KEEPKEY_SDK = 'SET_KEEPKEY_SDK',
+  SET_WALLET_CONNECT_CHAIN = 'SET_WALLET_CONNECT_CHAIN',
+  SET_WALLET_CONNECT_OPEN = 'SET_WALLET_CONNECT_OPEN',
+  SET_WALLET_CONNECT_URI = 'SET_WALLET_CONNECT_URI',
   SET_BROWSER_URL = 'SET_BROWSER_URL',
   OPEN_KEEPKEY_WIPE = 'OPEN_KEEPKEY_WIPE',
   SET_SHOW_BACK_BUTTON = 'SET_SHOW_BACK_BUTTON',
@@ -104,6 +107,9 @@ export type ActionTypes =
     }
   | { type: WalletActions.SET_WALLET_CONNECT_APP; payload: WalletConnectApp | null }
   | { type: WalletActions.SET_KEEPKEY_SDK; payload: KeepKeySdk | null }
+  | { type: WalletActions.SET_WALLET_CONNECT_CHAIN; payload: string | null }
+  | { type: WalletActions.SET_WALLET_CONNECT_OPEN; payload: string | null }
+  | { type: WalletActions.SET_WALLET_CONNECT_URI; payload: string | null }
   | { type: WalletActions.SET_BROWSER_URL; payload: string | null }
   | { type: WalletActions.SET_AUTHENTICATOR_ERROR; payload: string | null }
   | {

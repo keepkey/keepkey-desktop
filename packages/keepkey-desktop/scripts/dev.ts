@@ -16,8 +16,14 @@ export const dev = async () => {
 
   await build()
 
+  // only build dir in dev, speeds up the process
   await electronBuilder.build({
     dir: true,
+    x64: false,
+    ia32: false,
+    armv7l: false,
+    arm64: false,
+    universal: false,
   })
 
   console.log('Launching unpacked app...')
@@ -51,7 +57,7 @@ export const dev = async () => {
 
   child.stderr.on('data', data => {
     console.error(`stderr [electron main] : ${data}`)
-    console.error("stderr [electron main] : ",JSON.stringify(data))
+    console.error('stderr [electron main] : ', JSON.stringify(data))
   })
 
   process.on('SIGINT', () => {

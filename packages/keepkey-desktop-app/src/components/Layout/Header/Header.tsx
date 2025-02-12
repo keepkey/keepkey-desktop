@@ -1,4 +1,3 @@
-import { ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
@@ -11,115 +10,104 @@ import {
   Image,
   useColorModeValue,
   useDisclosure,
-} from '@chakra-ui/react'
-import KeepKeyIconBlack from 'assets/kk-icon-black.png'
-import { useModal } from 'hooks/useModal/useModal'
-import { WalletConnectToDappsHeaderButton } from 'plugins/walletConnectToDapps/components/header/WalletConnectToDappsHeaderButton'
-import { useWalletConnect } from 'plugins/walletConnectToDapps/WalletConnectBridgeContext'
-import { useCallback, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
-
-import { AutoCompleteSearch } from './AutoCompleteSearch/AutoCompleteSearch'
-import { ChainMenu } from './NavBar/ChainMenu'
-import { SideNavContent } from './SideNavContent'
+  Avatar,
+  useToast
+} from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons';
+import KeepKeyIconBlack from 'assets/kk-icon-black.png';
+import { useCallback, useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { WalletActions } from 'context/WalletProvider/actions'
+// import { ChainMenu } from './NavBar/ChainMenu';
+import { SideNavContent } from './SideNavContent';
+import { useWallet } from 'hooks/useWallet/useWallet';
 
 export const Header = () => {
-  const { onToggle, isOpen, onClose } = useDisclosure()
-  const history = useHistory()
-  const bg = useColorModeValue('white', 'gray.800')
-  const borderColor = useColorModeValue('gray.100', 'gray.750')
-  const { chainSelector } = useModal()
-  const { isConnected, legacyWeb3 } = useWalletConnect()
+  const { onToggle, isOpen, onClose } = useDisclosure();
+  const [browserUrl, setBrowserUrl] = useState('');
+  const [walletConnectOpen, setWalletConnectOpen] = useState(false);
+  const history = useHistory();
+  const bg = useColorModeValue('white', 'gray.800');
+  const borderColor = useColorModeValue('gray.100', 'gray.750');
+  const { dispatch } = useWallet();
+  const toast = useToast();
 
-  /**
-   * FOR DEVELOPERS:
-   * Open the hidden flags menu via keypress
-   */
-  const handleKeyPress = useCallback(
-    (event: { altKey: unknown; shiftKey: unknown; keyCode: number }) => {
-      if (event.altKey && event.shiftKey && event.keyCode === 70) {
-        history.push('/flags')
-      }
-    },
-    [history],
-  )
+  const handleKeyPress = useCallback((event) => {
+    if (event.altKey && event.shiftKey && event.keyCode === 70) {
+      history.push('/flags');
+    }
+  }, [history]);
+
+  const openWalletConnect = async function() {
+    try {
+      history.push('/browser');
+      //dispatch
+      dispatch({ type: WalletActions.SET_WALLET_CONNECT_OPEN, payload: !walletConnectOpen });
+      setWalletConnectOpen(!walletConnectOpen);
+      // history.push('/browser?walletconnect=true');
+    } catch (e) {
+      console.error(e);
+      toast({
+        title: "Error",
+        description: "Failed to open the wallet connect",
+        status: "error",
+        duration: 9000,
+        isClosable: true
+      });
+    }
+  };
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyPress)
-    return () => document.removeEventListener('keydown', handleKeyPress)
-  }, [handleKeyPress])
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [handleKeyPress]);
 
   return (
-    <>
-      <Flex
-        direction='column'
-        bg={bg}
-        width='full'
-        // position='sticky'
-        // zIndex='banner'
-        // top={0}
-        paddingTop={{ base: 'env(safe-area-inset-top)', md: 0 }}
-      >
-        <HStack height='4.5rem' width='full' borderBottomWidth={1} borderColor={borderColor}>
-          <HStack width='full' margin='0 auto' px={{ base: 0, md: 4 }} spacing={0} columnGap={4}>
-            <Box flex={1} display={{ base: 'block', md: 'none' }}>
-              <IconButton
-                aria-label='Open menu'
-                variant='ghost'
-                onClick={onToggle}
-                icon={<HamburgerIcon />}
-              />
-            </Box>
-            <Flex justifyContent={{ base: 'center', md: 'flex-start' }}>
-              <Link to='/'>
-                <Image boxSize='48px' src={KeepKeyIconBlack} alt='Go to Dashboard' />
-              </Link>
-            </Flex>
-            <HStack
-              width='100%'
-              flex={1}
-              justifyContent='center'
-              display={{ base: 'none', md: 'block' }}
-            >
-              <AutoCompleteSearch />
-            </HStack>
-            <Flex justifyContent='flex-end' flex={1} rowGap={4} columnGap={2}>
-              <Box display={{ base: 'none', md: 'block' }}>
-                <WalletConnectToDappsHeaderButton />
-              </Box>
-              {/*{isConnected && (*/}
-              {/*  <Box display={{ base: 'none', md: 'block' }}>*/}
-              {/*    <Button rightIcon={<ChevronDownIcon />} onClick={() => chainSelector.open({})}>*/}
-              {/*      <Image*/}
-              {/*        boxSize={6}*/}
-              {/*        src={*/}
-              {/*          legacyWeb3?.image*/}
-              {/*            ? legacyWeb3.image*/}
-              {/*            : `https://pioneers.dev/coins/${legacyWeb3?.name*/}
-              {/*                .toLowerCase()*/}
-              {/*                .replaceAll('mainnet', '')*/}
-              {/*                .replaceAll(' ', '')}.png`*/}
-              {/*        }*/}
-              {/*      />*/}
-              {/*      {legacyWeb3?.chainId}*/}
-              {/*    </Button>*/}
-              {/*  </Box>*/}
-              {/*)}*/}
-              <ChainMenu display={{ base: 'none', md: 'block' }} />
-            </Flex>
-          </HStack>
-        </HStack>
-      </Flex>
-      <Drawer isOpen={isOpen} onClose={onClose} placement='left'>
-        <DrawerOverlay />
-        <DrawerContent
-          paddingTop='env(safe-area-inset-top)'
-          paddingBottom='max(1rem, env(safe-area-inset-top))'
-          overflowY='auto'
+      <>
+        <Flex
+            direction='column'
+            bg={bg}
+            width='full'
+            paddingTop={{ base: 'env(safe-area-inset-top)', md: 0 }}
         >
-          <SideNavContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-    </>
-  )
-}
+          <HStack height='2.3rem' width='full' borderBottomWidth={1} borderColor={borderColor}>
+            <HStack width='full' margin='0 auto' px={{ base: 0, md: 4 }} spacing={0} columnGap={4}>
+              <Box flex={1} display={{ base: 'block', md: 'none' }}>
+                <IconButton
+                    aria-label='Open menu'
+                    variant='ghost'
+                    onClick={onToggle}
+                    icon={<HamburgerIcon />}
+                />
+              </Box>
+              <Flex justifyContent={{ base: 'center', md: 'flex-start' }}>
+                <Link to='/'>
+                  <Image boxSize='33px' src={KeepKeyIconBlack} alt='Go to Dashboard' />
+                </Link>
+              </Flex>
+              <Flex justifyContent='flex-end' flex={1} rowGap={4} columnGap={2}>
+                <Avatar onClick={openWalletConnect} size="xs" src="https://i.imgur.com/ZCBkgPX.png" />
+                {/*<Button*/}
+                {/*    onClick={openWalletConnect}*/}
+                {/*    size="md"           // Set the size of the button*/}
+                {/*    leftIcon={<Avatar size="xs" src="https://pbs.twimg.com/profile_images/1737473466847125504/SN4QL9k3_400x400.jpg" />}  // Set the avatar as the icon of the button*/}
+                {/*>*/}
+                {/*</Button>*/}
+                {/*<ChainMenu display={{ base: 'none', md: 'block' }} />*/}
+              </Flex>
+            </HStack>
+          </HStack>
+        </Flex>
+        <Drawer isOpen={isOpen} onClose={onClose} placement='left'>
+          <DrawerOverlay />
+          <DrawerContent
+              paddingTop='env(safe-area-inset-top)'
+              paddingBottom='max(1rem, env(safe-area-inset-top))'
+              overflowY='auto'
+          >
+            <SideNavContent onClose={onClose} />
+          </DrawerContent>
+        </Drawer>
+      </>
+  );
+};

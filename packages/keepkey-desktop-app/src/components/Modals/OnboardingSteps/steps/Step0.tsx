@@ -1,53 +1,67 @@
-import { Box, Button, Flex, ModalBody, Stack } from '@chakra-ui/react'
+import { Box, Button, Flex, ModalBody, Select, Stack } from '@chakra-ui/react'
 import { locales } from 'assets/translations/constants'
-import { RawText } from 'components/Text'
-import { useCallback } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { preferences } from 'state/slices/preferencesSlice/preferencesSlice'
 import { useAppDispatch } from 'state/store'
 
 export const Step0 = ({
-  doNextStep,
-  doPreviousStep,
-}: {
-  doNextStep: () => any
-  doPreviousStep: () => any
+                          doNextStep,
+                          doPreviousStep,
+                      }: {
+    doNextStep: () => any
+    doPreviousStep: () => any
 }) => {
-  const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch()
+    const defaultLanguage = 'en'  // Set English as the default language
+    const [selectedLanguage, setSelectedLanguage] = useState(defaultLanguage)
 
-  const onLanguageSelect = useCallback(
-    (locale: any) => {
-      dispatch(preferences.actions.setSelectedLocale({ locale }))
-      window.localStorage.setItem('languageSelected', 'true')
-      doNextStep()
-    },
-    [dispatch, doNextStep],
-  )
-  return (
-    <ModalBody alignItems='center' justifyContent='center' textAlign='center'>
-      <Flex alignItems='center' justifyContent='center' flexDir='column'>
-        <Box boxSize='md'>
-          {locales.map((locale: any) => (
-            <Button
-              width='full'
-              justifyContent='center'
-              pl={12}
-              key={locale.key}
-              variant='ghost'
-              onClick={() => onLanguageSelect(locale.key)}
-            >
-              <RawText>{locale.label}</RawText>
-            </Button>
-          ))}
-        </Box>
-        <Stack>
-          <Button m='10px' p='10px' colorScheme='green' onClick={doPreviousStep}>
-            Previous
-          </Button>
-          <Button m='10px' p='10px' colorScheme='green' onClick={doNextStep}>
-            Next
-          </Button>
-        </Stack>
-      </Flex>
-    </ModalBody>
-  )
+    const onLanguageSelect = useCallback(
+        (locale: any) => {
+            dispatch(preferences.actions.setSelectedLocale({ locale }))
+            window.localStorage.setItem('languageSelected', 'true')
+        },
+        [dispatch]
+    )
+
+    useEffect(() => {
+        // Set default language on component mount
+        onLanguageSelect(defaultLanguage)
+    }, [onLanguageSelect, defaultLanguage])
+
+    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedLocale = event.target.value
+        setSelectedLanguage(selectedLocale)
+        onLanguageSelect(selectedLocale)
+    }
+
+    return (
+        <ModalBody>
+            <Flex alignItems="center" justifyContent="center" flexDirection="column" textAlign="center">
+                <Box width="full" maxWidth="md" mb={4}>
+                    <Select
+                        placeholder="Select Language"
+                        value={selectedLanguage}
+                        onChange={handleSelectChange}
+                        size="lg"
+                        variant="outline"
+                        textAlign="center"
+                    >
+                        {locales.map((locale: any) => (
+                            <option key={locale.key} value={locale.key}>
+                                {locale.label}
+                            </option>
+                        ))}
+                    </Select>
+                </Box>
+                <Stack direction="row" spacing={4} justify="center" width="full" maxWidth="md">
+                    <Button width="full" maxWidth="150px" colorScheme="green" onClick={doPreviousStep}>
+                        Previous
+                    </Button>
+                    <Button width="full" maxWidth="150px" colorScheme="green" onClick={doNextStep}>
+                        Next
+                    </Button>
+                </Stack>
+            </Flex>
+        </ModalBody>
+    )
 }

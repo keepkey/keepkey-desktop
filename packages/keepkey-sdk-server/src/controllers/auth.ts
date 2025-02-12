@@ -46,18 +46,22 @@ export class AuthController extends Controller {
   @OperationId('Pair')
   @Response(403, 'Pairing request rejected')
   public async pair(
-    @Body()
-    body: PairingInfo,
+      @Body() body: PairingInfo,
+      @Request() req: any,  // Use @Request() instead of @Req()
   ): Promise<{ apiKey: string }> {
-    console.log('pair body', body)
-    const apiKey = await (await getSdkPairingHandler)(body)
+    console.log('pair body', body);
+    console.log('pair req', req);
+
+    // Pass both body (PairingInfo) and req to the pairing handler
+    const apiKey = await (await getSdkPairingHandler)(body, req);
+
     if (!apiKey) {
-      this.setStatus(403)
-      throw {}
+      this.setStatus(403);
+      throw new Error('Pairing request rejected');
     }
 
     return {
       apiKey,
-    }
+    };
   }
 }

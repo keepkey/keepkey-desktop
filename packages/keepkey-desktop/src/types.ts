@@ -55,7 +55,14 @@ export type IpcListeners = {
   appUpdateSettings(data: Partial<Settings>): Promise<void>
   appSettings(): Promise<Settings>
   appPairings(): Promise<PairingProps2[]>
-
+  //Ollama
+  initOllama(): Promise<any>
+  getAllModels(): Promise<any>
+  getModel(): Promise<any>
+  setModelFolderPath(data: { path: string }): Promise<any>
+  getModelsFolderPath(): Promise<any>
+  stopOllamaServe(): Promise<any>
+  //keepkey
   bridgeServiceDetails(
     serviceKey: string,
   ): Promise<undefined | { app: PairedAppProps; logs: BridgeLog[] }>
@@ -99,7 +106,6 @@ export type IpcListeners = {
   forceReconnect(): Promise<void>
   setAlwaysOnTop(value: boolean): Promise<void>
   clearLocalStorage(): Promise<void>
-  getBrowserInjection(sdkApiKey: string): Promise<string>
   getSSAutoLogin(walletId: string, sdkApiKey: string): Promise<string>
   getProtocolLaunchUrl(): Promise<string | undefined>
   handleWalletConnectUrlInProtocol(connect: (uri: string) => Promise<void>): Promise<void>

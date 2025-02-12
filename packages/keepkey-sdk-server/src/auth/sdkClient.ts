@@ -31,10 +31,11 @@ export const [getSdkClientFactory, setSdkClientFactory] = (() => {
   return [promise, resolver!]
 })()
 
-export type SdkPairingHandler = (info: PairingInfo) => Promise<string | undefined>
+export type SdkPairingHandler = (info: PairingInfo, req: any) => Promise<string | undefined>;
+
 
 export const [getSdkPairingHandler, setSdkPairingHandler] = (() => {
-  let resolver: (_: SdkPairingHandler) => void
-  const promise = new Promise<SdkPairingHandler>(resolve => (resolver = resolve))
-  return [promise, resolver!]
-})()
+  let resolver: (_: SdkPairingHandler) => void;
+  const promise = new Promise<SdkPairingHandler>(resolve => (resolver = resolve));
+  return [promise, resolver!];
+})();

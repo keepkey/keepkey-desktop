@@ -4,7 +4,7 @@ import type { KeepKeyHDWallet } from '@keepkey/hdwallet-keepkey'
 import { assume } from 'common-utils'
 import log from 'electron-log'
 import { usb } from 'usb'
-
+import { app } from 'electron'
 import { getAllFirmwareData, getFirmwareBaseUrl, getLatestFirmwareData } from './firmwareUtils'
 import type {
   KeyringEventHandler,
@@ -86,6 +86,8 @@ export class KKStateController {
       log.info('KKStateController detach')
       if (e.deviceDescriptor.idVendor !== 11044) return
       await this.updateState({ state: KKState.Disconnected })
+      // app.relaunch()
+      // app.exit()
     })
   }
 

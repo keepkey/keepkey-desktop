@@ -28,6 +28,7 @@ export const AppSettings: FC = () => {
     allowBetaFirmware: false,
     bridgeApiPort: 1646,
     autoScanQr: false,
+    runBetaFirmware: false,
   })
 
   const [prevAppSettings, setPrevAppSettings] = useState<Settings>(appSettings)
@@ -60,7 +61,8 @@ export const AppSettings: FC = () => {
         appSettings.shouldMinimizeToTray === prevAppSettings.shouldMinimizeToTray &&
         appSettings.allowPreRelease === prevAppSettings.allowPreRelease &&
         appSettings.allowBetaFirmware === prevAppSettings.allowBetaFirmware &&
-        appSettings.autoScanQr === prevAppSettings.autoScanQr
+        appSettings.autoScanQr === prevAppSettings.autoScanQr &&
+        appSettings.runBetaFirmware === prevAppSettings.runBetaFirmware
       )
         return
       setPrevAppSettings(appSettings)
@@ -145,20 +147,20 @@ export const AppSettings: FC = () => {
         <Switch isChecked={appSettings.allowPreRelease} pointerEvents='none' />
       </SettingsListItem>
       <Divider my={1} />
-      {/*<SettingsListItem*/}
-      {/*  label={'modals.settings.allowBetaFirmware'}*/}
-      {/*  onClick={() => {*/}
-      {/*    setAppSettings(currentSettings => {*/}
-      {/*      return {*/}
-      {/*        ...currentSettings,*/}
-      {/*        allowBetaFirmware: !currentSettings.allowBetaFirmware,*/}
-      {/*      }*/}
-      {/*    })*/}
-      {/*  }}*/}
-      {/*  icon={<Icon as={TbRefreshAlert} color='gray.500' />}*/}
-      {/*>*/}
-      {/*  <Switch isChecked={appSettings.allowBetaFirmware} pointerEvents='none' />*/}
-      {/*</SettingsListItem>*/}
+      <SettingsListItem
+        label={'modals.settings.allowBetaFirmware'}
+        onClick={() => {
+          setAppSettings(currentSettings => {
+            return {
+              ...currentSettings,
+              allowBetaFirmware: !currentSettings.allowBetaFirmware,
+            }
+          })
+        }}
+        icon={<Icon as={TbRefreshAlert} color='gray.500' />}
+      >
+        <Switch isChecked={appSettings.allowBetaFirmware} pointerEvents='none' />
+      </SettingsListItem>
       <Divider my={1} />
       <SettingsListItem
         label={'modals.settings.autoScanQr'}

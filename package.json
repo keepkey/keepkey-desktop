@@ -12,6 +12,8 @@
     "build": "yarn workspaces foreach -pRi --topological-dev --from 'keepkey-desktop' run build",
     "publish": "yarn workspaces foreach -p run publish",
     "release": "yarn run build && yarn workspace keepkey-desktop run release",
+    "release-intel": "yarn run build && yarn workspace keepkey-desktop run release-intel",
+    "electron-builder": "yarn run build && yarn workspace keepkey-desktop run release",
     "dev": "yarn workspaces foreach -pRi --topological-dev --from 'keepkey-desktop' run dev",
     "lint": "yarn workspaces foreach -pi run lint",
     "lint:fix": "yarn workspaces foreach -pi run lint:fix",
@@ -30,6 +32,7 @@
     "forever-agent": "npm:noist@1.0.0",
     "tunnel-agent": "npm:noist@1.0.0",
     "tough-cookie": "^3.0.0",
+    "dmg-builder": "24.0.0-alpha.5",
     "fswin@^3.22.106": "patch:fswin@npm%3A3.22.106#./.yarn/patches/fswin-npm-3.22.106-41f613c183.patch",
     "fswin@^3.18.918": "patch:fswin@npm%3A3.22.106#./.yarn/patches/fswin-npm-3.22.106-41f613c183.patch",
     "bigint-buffer@^1.1.5": "patch:bigint-buffer@npm%3A1.1.5#./.yarn/patches/bigint-buffer-npm-1.1.5-785f4ccd92.patch",
@@ -54,6 +57,9 @@
       "unplugged": true
     },
     "app-builder-lib@24.0.0-alpha.5": {
+      "unplugged": true
+    },
+    "app-builder-lib@24.13.3": {
       "unplugged": true
     },
     "bigint-buffer@1.1.5": {
@@ -84,7 +90,9 @@
   "dependencies": {
     "@pioneer-platform/harpie-client": "8.1.17",
     "@walletconnect/client": "^1.8.0",
+    "builder-util": "^25.0.0-alpha.6",
     "crypto": "^1.0.1",
+    "dotenv-cli": "^7.4.1",
     "web3": "^4.0.1"
   }
 }

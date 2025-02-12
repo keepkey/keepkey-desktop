@@ -21,6 +21,8 @@ const appSource = path.join(
 const assetsSource = path.join(workspacePath, 'assets')
 const swaggerUiDistSource = pnpapi.resolveToUnqualified('swagger-ui-dist', workspacePath)!
 const firmwareSource = path.join(rootPath, 'firmware')
+const executablesSource = path.join(rootPath, 'executables');
+const executablesPath = path.join(buildPath, 'executables');
 
 const apiPath = path.join(buildPath, 'api')
 const appPath = path.join(buildPath, 'app')
@@ -70,6 +72,18 @@ const copySwaggerUiDist = async () => {
     recursive: true,
   })
 }
+//copyExecutables
+const copyExecutables = async () => {
+  if (fs.existsSync(executablesSource)) {
+    await fs.promises.cp(executablesSource, executablesPath, {
+      dereference: true,
+      recursive: true,
+    });
+    console.log('Executables copied successfully.');
+  } else {
+    console.warn('Executables source directory does not exist.');
+  }
+};
 
 const copyFirmware = async () => {
   const releases = JSON.parse(
@@ -224,6 +238,7 @@ export const build = async () => {
     copyAssetsDir(),
     copySwaggerUiDist(),
     copyFirmware(),
+    copyExecutables(),
     esbuild.then(async x => {
       if (isDev) {
         await fs.promises.writeFile(

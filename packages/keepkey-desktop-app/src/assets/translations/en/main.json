@@ -92,7 +92,7 @@
   "connectWalletPage": {
     "troubleshoot": "Troubleshoot Connection",
     "nextFrontier": "The Next Frontier of Crypto Security",
-    "protectYourCrypto": "Protect your cryptocurrencies, store your private keys offline, and safeguard your assets from hackers. It’s time to achieve financial freedom in the most secure way with KeepKey.",
+    "protectYourCrypto": "Protect your cryptocurrencies, store your private keys offline, and safeguard your assets from hackers. It's time to achieve financial freedom in the most secure way with KeepKey.",
     "shapeshift": "ShapeShift",
     "exploreThe": "Explore the",
     "defiUniverse": "DeFi Universe",
@@ -103,7 +103,8 @@
     "header": "Please connect a wallet to get started",
     "cta": "Connect Wallet",
     "viewADemo": "View a Demo",
-    "buyKeepKey": "No device? Buy a KeepKey"
+    "buyKeepKey": "No device? Buy a KeepKey",
+    "openFirmwareUpdate": "Open Firmware Update"
   },
   "connectWallet": {
     "menu": {
@@ -111,7 +112,8 @@
       "switchWallet": "Switch Wallet Provider",
       "disconnect": "Disconnect",
       "disconnected": "(Disconnected)",
-      "openDev": "Open API developer documentation"
+      "openDev": "Open API developer documentation",
+      "openOllama": "Check Api Status"
     }
   },
   "navBar": {
@@ -190,6 +192,9 @@
       "dappsText1": "The KeepKey Desktop client has a built-in DApp Store. This store allows you to discover and connect to a list of decentralized applications.",
       "dappsText2": "KeepKey makes it easy to interact with decentralized applications. You can use our in-app browser to easily access these dApps and use our wallet-connect integration. Our in-app browser leverages the power of communities to curate the best and most reputable dApps for you.",
       "dappsText3": "Join the ShapeShift community and use your FOX tokens to vote for the best DApps in the Pioneer DApp. Unlock exclusive benefits and rewards by being the first to track and develop dApps and assets!",
+      "bexText1": "Try the KeepKey Browser Extension to manage your crypto securely within your browser. Connect to dApps and enjoy hardware-level protection—all in one place.",
+      "bexText2": "Take control of your crypto experience with KeepKey's Browser Extension. Seamlessly interact with dApps, safeguard your assets, and stay updated on market movements, right from your browser.",
+      "bexText3": "Upgrade your crypto management! The KeepKey Browser Extension offers simple, secure, and real-time access to your assets. Download now to experience enhanced security and streamlined dApp connectivity.",
       "restoreTitle": "What is a Mnemonic?",
       "restoreText1": "BIP39 is an implementation that standardizes how wallets handle mnemonic phrases and seed phrases, which allow for account recovery in case you lose your device.",
       "restoreText2": "A BIP39 recovery phrase is universal, meaning it can be imported into any wallet in the cryptocurrency ecosystem.",
@@ -334,6 +339,7 @@
       "autoUpdate": "Automatically install updates",
       "downloadPreRelease": "Download pre release builds",
       "allowBetaFirmware": "Download beta KeepKey Firmware",
+      "runBetaFirmware": "Run beta release firmware",
       "autoScanQr": "Automatically scan QRs",
       "resetDefaultDapp": "Reset default dapp",
       "currencies": {
@@ -359,6 +365,7 @@
         "IDR": "Indonesian Rupiah"
       },
       "tabs": {
+        "ollama": "Ollama",
         "general": "General",
         "app": "App",
         "keepkey": "KeepKey"
@@ -706,11 +713,11 @@
     },
     "base": {
       "label": "Base fee",
-      "tooltip": "The base fee is set by the network and changes every 13-14 seconds depending on demand. Set the maximum price (not including priority fee) in gwei that you’re willing to pay for each unit of gas."
+      "tooltip": "The base fee is set by the network and changes every 13-14 seconds depending on demand. Set the maximum price (not including priority fee) in gwei that you're willing to pay for each unit of gas."
     },
     "priority": {
       "label": "Priority fee",
-      "tooltip": "The priority fee is an optional tip to incentivize block producers to prioritize your transaction. Set the priority fee in gwei that you’d like to pay for each unit of gas."
+      "tooltip": "The priority fee is an optional tip to incentivize block producers to prioritize your transaction. Set the priority fee in gwei that you'd like to pay for each unit of gas."
     },
     "custom": "Custom"
   }

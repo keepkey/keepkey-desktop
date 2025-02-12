@@ -14,13 +14,16 @@ import { getWalletConnect, WalletConnectWeb3Wallet } from 'kkdesktop/walletconne
 import type { FC, PropsWithChildren } from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { WalletConnectLogic } from 'walletconnect/WalletConnectLogic'
-
+import { WalletActions } from 'context/WalletProvider/actions'
+import { useHistory } from 'react-router'
 import { CallRequestModal } from './components/modal/callRequest/CallRequestModal'
 import { SessionProposalModal } from './components/modal/callRequest/SessionProposalModal'
 import { WalletConnectBridgeContext } from './WalletConnectBridgeContext'
 
 export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children }) => {
   const wallet = useWallet().state.wallet
+  const { dispatch } = useWallet()
+  const history = useHistory()
   const [legacyBridge, setLegacyBridge] = useState<LegacyWCService>()
   const [pairingMeta, setPairingMeta] = useState<
     CoreTypes.Metadata & { chainId: string | number }
@@ -159,36 +162,44 @@ export const WalletConnectBridgeProvider: FC<PropsWithChildren> = ({ children })
   const connect = useCallback(
     async (uri?: string) => {
       if (uri) {
-        connectWithUri(uri)
+          console.log("Connect URI: ", uri)
+          const uriParams = new URL(uri).search;
+          dispatch({ type: WalletActions.SET_WALLET_CONNECT_URI, payload: uri });
+          history.push('/browser')
+          // connectWithUri(uri)
       } else {
         let protocolUrl = await ipcListeners.getProtocolLaunchUrl()
         if (protocolUrl) {
           if (protocolUrl.includes('wc')) {
-            connectWithUri(protocolUrl)
+            // connectWithUri(protocolUrl)
+              // @ts-ignore
+              const uriParams = new URL(uri).search;
+              history.push('/browser')
+              dispatch({ type: WalletActions.SET_WALLET_CONNECT_URI, payload: uri });
           }
         }
-        const wcSessionJsonString = localStorage.getItem('walletconnect')
-        if (!wcSessionJsonString) return
-        const session = JSON.parse(wcSessionJsonString)
-        const bridgeFromSession = new LegacyWCService(
-          wallet as ETHWallet,
-          new LegacyWalletConnect({ session }),
-        )
-        setIsLegacy(true)
-        setLegacyEvents(bridgeFromSession)
-        await bridgeFromSession.connect()
-        setIsConnected(bridgeFromSession.connector.connected)
-        web3ByChainId(Number(bridgeFromSession.connector.chainId)).then(setLegacyWeb3)
-        if (bridgeFromSession.connector.peerMeta)
-          setPairingMeta({
-            ...bridgeFromSession.connector.peerMeta,
-            chainId: bridgeFromSession.connector.chainId,
-          })
-
-        setLegacyBridge(bridgeFromSession)
-
-        onDisconnect()
-        localStorage.removeItem('walletconnect')
+        // const wcSessionJsonString = localStorage.getItem('walletconnect')
+        // if (!wcSessionJsonString) return
+        // const session = JSON.parse(wcSessionJsonString)
+        // const bridgeFromSession = new LegacyWCService(
+        //   wallet as ETHWallet,
+        //   new LegacyWalletConnect({ session }),
+        // )
+        // setIsLegacy(true)
+        // setLegacyEvents(bridgeFromSession)
+        // await bridgeFromSession.connect()
+        // setIsConnected(bridgeFromSession.connector.connected)
+        // web3ByChainId(Number(bridgeFromSession.connector.chainId)).then(setLegacyWeb3)
+        // if (bridgeFromSession.connector.peerMeta)
+        //   setPairingMeta({
+        //     ...bridgeFromSession.connector.peerMeta,
+        //     chainId: bridgeFromSession.connector.chainId,
+        //   })
+        //
+        // setLegacyBridge(bridgeFromSession)
+        //
+        // onDisconnect()
+        // localStorage.removeItem('walletconnect')
       }
     },
     [connectWithUri, onDisconnect, setLegacyEvents, wallet],

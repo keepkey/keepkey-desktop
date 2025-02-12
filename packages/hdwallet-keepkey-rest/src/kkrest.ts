@@ -33,6 +33,7 @@ export class KeepKeyRestHDWallet
   readonly _supportsAvalanche = true
   readonly _supportsArbitrum = true
   readonly _supportsArbitrumNova = true
+  readonly _supportsBase = true
   readonly _supportsOptimism = true
   readonly _supportsBSC = true
   readonly _supportsBTC = true
@@ -51,8 +52,12 @@ export class KeepKeyRestHDWallet
   readonly _supportsKavaInfo = false
   readonly _supportsTerra = false
   readonly _supportsTerraInfo = false
+  readonly _supportsArbitrumInfo = true
+  readonly _supportsArbitrumNovaInfo = true
+  readonly _supportsBaseInfo = true
+  readonly _supportsGnosisInfo = true
+  readonly _supportsPolygonInfo = true
   
-
   private readonly sdk: KeepKeySdk
   private readonly abortControllers = new Map<AbortController, Promise<void>>()
 

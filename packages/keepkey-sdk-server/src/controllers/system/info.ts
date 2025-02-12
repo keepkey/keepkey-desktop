@@ -1,4 +1,4 @@
-import type { BTCInputScriptType } from '@keepkey/hdwallet-core'
+import type { BTCInputScriptType } from '@keepkey/hdwallet-core';
 import {
   Body,
   Middlewares,
@@ -9,12 +9,15 @@ import {
   Route,
   Security,
   Tags,
-} from '@tsoa/runtime'
-import { Readable } from 'stream'
+} from '@tsoa/runtime';
+import { Readable } from 'stream';
 
-import { ApiController } from '../../auth'
-import { extra } from '../../middlewares'
-import type * as types from '../../types'
+import { ApiController } from '../../auth';
+import { extra } from '../../middlewares';
+import type * as types from '../../types';
+
+let publicKeyCache = new Map<string, { xpub: string }>();
+let featuresCache: { timestamp: number, features: types.Features } | null = null;
 
 @Route('/system/info')
 @Tags('Info')
@@ -23,6 +26,7 @@ import type * as types from '../../types'
 @Response(400, 'Bad request')
 @Response(500, 'Error processing request')
 export class SystemInfoController extends ApiController {
+
   /**
    * Get entropy from the device's RNG.
    * @summary Get entropy
@@ -31,9 +35,9 @@ export class SystemInfoController extends ApiController {
   @OperationId('GetEntropy')
   @Produces('application/octet-stream')
   public async getEntropy(@Body() body: { size: types.numeric.U32 }): Promise<Readable> {
-    if (!this.context.wallet) throw undefined
+    if (!this.context.wallet) throw undefined;
 
-    return Readable.from(await this.context.wallet.getEntropy(body.size))
+    return Readable.from(await this.context.wallet.getEntropy(body.size));
   }
 
   /**
@@ -43,17 +47,24 @@ export class SystemInfoController extends ApiController {
   @Post('/get-features')
   @OperationId('GetFeatures')
   public async getFeatures(): Promise<types.Features> {
-    if (!this.context.wallet) throw undefined
+    if (!this.context.wallet) throw undefined;
 
-    const features = await this.context.wallet.getFeatures()
+    const cacheDuration = 10 * 1000; // 10 seconds
+    const now = Date.now();
 
-    const bufferFromMaybeBase64 = (x: string | Uint8Array | undefined): Buffer | undefined => {
-      if (x === undefined) return undefined
-      if (typeof x === 'string') return Buffer.from(x, 'base64')
-      return Buffer.from(x)
+    if (featuresCache && (now - featuresCache.timestamp < cacheDuration)) {
+      return featuresCache.features;
     }
 
-    return {
+    const features = await this.context.wallet.getFeatures();
+
+    const bufferFromMaybeBase64 = (x: string | Uint8Array | undefined): Buffer | undefined => {
+      if (x === undefined) return undefined;
+      if (typeof x === 'string') return Buffer.from(x, 'base64');
+      return Buffer.from(x);
+    };
+
+    const formattedFeatures: types.Features = {
       label: features.label,
       vendor: features.vendor,
       model: features.model,
@@ -80,7 +91,15 @@ export class SystemInfoController extends ApiController {
         policy_name: x.policyName!,
         enabled: x.enabled!,
       })),
-    }
+    };
+
+    // Update the cache
+    featuresCache = {
+      timestamp: now,
+      features: formattedFeatures,
+    };
+
+    return formattedFeatures;
   }
 
   /**
@@ -90,17 +109,20 @@ export class SystemInfoController extends ApiController {
   @Post('/get-public-key')
   @OperationId('GetPublicKey')
   public async getPublicKey(
-    @Body()
-    body: {
-      address_n: types.AddressNList
-      ecdsa_curve_name?: string
-      show_display?: boolean
-      coin_name?: string
-      script_type?: 'p2pkh' | 'p2wpkh' | 'p2sh-p2wpkh'
-    },
+      @Body()
+          body: {
+        address_n: types.AddressNList
+        ecdsa_curve_name?: string
+        show_display?: boolean
+        coin_name?: string
+        script_type?: 'p2pkh' | 'p2wpkh' | 'p2sh-p2wpkh'
+      },
   ): Promise<{ xpub: string }> {
-    if (!this.context.wallet) throw undefined
-
+    if (!this.context.wallet) throw undefined;
+    const requestBodyKey = JSON.stringify(body);
+    if (publicKeyCache.has(requestBodyKey)) {
+      return publicKeyCache.get(requestBodyKey)!;
+    }
     const [out] = await this.context.wallet.getPublicKeys([
       {
         addressNList: body.address_n,
@@ -110,22 +132,23 @@ export class SystemInfoController extends ApiController {
         scriptType: (x => {
           switch (x) {
             case 'p2pkh':
-              return x as BTCInputScriptType.SpendAddress
+              return x as BTCInputScriptType.SpendAddress;
             case 'p2wpkh':
-              return x as BTCInputScriptType.SpendWitness
+              return x as BTCInputScriptType.SpendWitness;
             case 'p2sh-p2wpkh':
-              return x as BTCInputScriptType.SpendP2SHWitness
+              return x as BTCInputScriptType.SpendP2SHWitness;
             default:
-              throw new Error('unrecognized script type')
+              throw new Error('unrecognized script type');
           }
         })(body.script_type),
       },
-    ])
+    ]);
 
-    if (!out) throw new Error('expected public key, got null')
-    return {
-      xpub: out.xpub,
-    }
+    if (!out) throw new Error('expected public key, got null');
+    // Store the result in the cache
+    const result = { xpub: out.xpub };
+    publicKeyCache.set(requestBodyKey, result);
+    return result;
   }
 
   /**
@@ -135,18 +158,18 @@ export class SystemInfoController extends ApiController {
   @Post('/list-coins')
   @OperationId('ListCoins')
   public async listCoins(): Promise<types.Coin[]> {
-    if (!this.context.wallet) throw undefined
+    if (!this.context.wallet) throw undefined;
 
-    const numCoins = await this.context.wallet.getNumCoins()
+    const numCoins = await this.context.wallet.getNumCoins();
     // chunkSize should actually be pulled from the device, but hdwallet doesn't expose it for some reason
-    const chunkSize = 24
+    const chunkSize = 24;
 
-    const coins = []
+    const coins = [];
     for (let i = 0; i < numCoins; i += chunkSize) {
-      coins.push(...(await this.context.wallet.getCoinTable(i, Math.min(numCoins, i + chunkSize))))
+      coins.push(...(await this.context.wallet.getCoinTable(i, Math.min(numCoins, i + chunkSize))));
     }
 
-    return coins
+    return coins;
   }
 
   /**
@@ -156,28 +179,28 @@ export class SystemInfoController extends ApiController {
   @Post('/ping')
   @OperationId('Ping')
   public async ping(
-    @Body()
-    body: {
-      button_protection?: boolean
-      pin_protection?: boolean
-      passphrase_protection?: boolean
-      wipe_code_protection?: boolean
-      message?: string
-    },
+      @Body()
+          body: {
+        button_protection?: boolean
+        pin_protection?: boolean
+        passphrase_protection?: boolean
+        wipe_code_protection?: boolean
+        message?: string
+      },
   ): Promise<{ message: string }> {
-    if (!this.context.wallet) throw undefined
+    if (!this.context.wallet) throw undefined;
 
-    if (body.wipe_code_protection) throw new Error('wipe code protection not supported')
+    if (body.wipe_code_protection) throw new Error('wipe code protection not supported');
 
     return {
       message: (
-        await this.context.wallet.ping({
-          msg: body.message ?? '',
-          button: body.button_protection,
-          pin: body.pin_protection,
-          passphrase: body.passphrase_protection,
-        })
+          await this.context.wallet.ping({
+            msg: body.message ?? '',
+            button: body.button_protection,
+            pin: body.pin_protection,
+            passphrase: body.passphrase_protection,
+          })
       ).msg,
-    }
+    };
   }
 }

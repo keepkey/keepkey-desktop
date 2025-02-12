@@ -20,6 +20,7 @@ import type { RouteComponentProps } from 'react-router-dom'
 
 import { AppSettings } from './AppSettings'
 import { GeneralSettings } from './GeneralSettings'
+import { OllamaSettings } from './OllamaSettings'
 
 export type SettingsListProps = {
   appHistory: RouteComponentProps['history']
@@ -48,44 +49,52 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
   const { isConnected, walletInfo, type } = state
 
   return (
-    <SlideTransition>
-      <ModalHeader textAlign='center' userSelect='none' onClick={handleHeaderClick}>
-        {translate('modals.settings.settings')}
-      </ModalHeader>
-      <ModalCloseButton />
-      <ModalBody alignItems='center' justifyContent='center' textAlign='center' pt={0} px={0}>
-        <Tabs>
-          <TabList>
-            <Tab>
-              <Text translation='modals.settings.tabs.general' />
-            </Tab>
-            <Tab>
-              <Text translation='modals.settings.tabs.app' />
-            </Tab>
-            <Tab>
-              <Text translation='modals.settings.tabs.keepkey' />
-            </Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <GeneralSettings appHistory={appHistory} {...routeProps} />
-            </TabPanel>
-            <TabPanel>
-              <AppSettings />
-            </TabPanel>
-            <TabPanel>
-              <Menu>
-                <WalletConnected
-                  isConnected={isConnected}
-                  walletInfo={walletInfo}
-                  onDisconnect={disconnect}
-                  type={type}
-                />
-              </Menu>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </ModalBody>
-    </SlideTransition>
+      <SlideTransition>
+        <ModalHeader textAlign='center' userSelect='none' onClick={handleHeaderClick}>
+          {translate('modals.settings.settings')}
+        </ModalHeader>
+        <ModalCloseButton />
+        <ModalBody alignItems='center' justifyContent='center' textAlign='center' pt={0} px={0}>
+          <Tabs>
+            <TabList justifyContent="center">
+              <Tab>
+                <Text translation='modals.settings.tabs.general' />
+              </Tab>
+              <Tab>
+                <Text translation='modals.settings.tabs.app' />
+              </Tab>
+              <Tab>
+                <Text translation='modals.settings.tabs.keepkey' />
+              </Tab>
+              {/*<Tab>*/}
+              {/*  <Text translation='modals.settings.tabs.ollama' />*/}
+              {/*</Tab>*/}
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <GeneralSettings appHistory={appHistory} {...routeProps} />
+              </TabPanel>
+              <TabPanel>
+                <AppSettings />
+              </TabPanel>
+              <TabPanel>
+                <Menu>
+                  <WalletConnected
+                      isConnected={isConnected}
+                      walletInfo={walletInfo}
+                      onDisconnect={disconnect}
+                      type={type}
+                  />
+                </Menu>
+              </TabPanel>
+              <TabPanel>
+                <Menu>
+                  <OllamaSettings></OllamaSettings>
+                </Menu>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </ModalBody>
+      </SlideTransition>
   )
 }

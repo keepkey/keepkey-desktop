@@ -13,7 +13,7 @@ import {
 import { ApiController } from '../auth'
 import { extra } from '../middlewares'
 import type * as types from '../types'
-
+let publicKeyCache = new Map<string, { address: string }>();
 @Route('/addresses')
 @Tags('Address')
 @Security('apiKey')
@@ -36,6 +36,10 @@ export class AddressesController extends ApiController {
       show_display?: boolean
     },
   ): Promise<{ address: any }> {
+    const requestBodyKey = JSON.stringify(body);
+    if (publicKeyCache.has(requestBodyKey)) {
+      return publicKeyCache.get(requestBodyKey)!;
+    }
     const response = await this.context.wallet.btcGetAddress({
       addressNList: body.address_n,
       coin: body.coin,
@@ -43,10 +47,9 @@ export class AddressesController extends ApiController {
       showDisplay: !!body.show_display,
     })
     await this.context.saveAccount(response!, body.address_n)
-
-    return {
-      address: response,
-    }
+    const result:any = { address: response };
+    publicKeyCache.set(requestBodyKey, result);
+    return result;
   }
 
   /**
@@ -62,15 +65,19 @@ export class AddressesController extends ApiController {
       show_display?: boolean
     },
   ): Promise<{ address: types.bnb.Address }> {
+    const requestBodyKey = JSON.stringify(body);
+    if (publicKeyCache.has(requestBodyKey)) {
+      return publicKeyCache.get(requestBodyKey)!;
+    }
     const response = await this.context.wallet.binanceGetAddress({
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
     await this.context.saveAccount(response!, body.address_n)
 
-    return {
-      address: response,
-    }
+    const result:any = { address: response };
+    publicKeyCache.set(requestBodyKey, result);
+    return result;
   }
 
   /**
@@ -86,15 +93,19 @@ export class AddressesController extends ApiController {
       show_display?: boolean
     },
   ): Promise<{ address: types.cosmos.Address }> {
+    const requestBodyKey = JSON.stringify(body);
+    if (publicKeyCache.has(requestBodyKey)) {
+      return publicKeyCache.get(requestBodyKey)!;
+    }
     const response = await this.context.wallet.cosmosGetAddress({
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
     await this.context.saveAccount(response!, body.address_n)
 
-    return {
-      address: response,
-    }
+    const result:any = { address: response };
+    publicKeyCache.set(requestBodyKey, result);
+    return result;
   }
 
   /**
@@ -110,15 +121,19 @@ export class AddressesController extends ApiController {
       show_display?: boolean
     },
   ): Promise<{ address: types.cosmos.Address }> {
+    const requestBodyKey = 'osmo:'+JSON.stringify(body);
+    if (publicKeyCache.has(requestBodyKey)) {
+      return publicKeyCache.get(requestBodyKey)!;
+    }
     const response = await this.context.wallet.osmosisGetAddress({
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
     await this.context.saveAccount(response!, body.address_n)
 
-    return {
-      address: response,
-    }
+    const result:any = { address: response };
+    publicKeyCache.set(requestBodyKey, result);
+    return result;
   }
 
   /**
@@ -134,15 +149,19 @@ export class AddressesController extends ApiController {
       show_display?: boolean
     },
   ): Promise<{ address: types.eth.Address }> {
+    const requestBodyKey = JSON.stringify(body);
+    if (publicKeyCache.has(requestBodyKey)) {
+      return publicKeyCache.get(requestBodyKey)!;
+    }
     const response = await this.context.wallet.ethGetAddress({
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
     await this.context.saveAccount(response!, body.address_n)
 
-    return {
-      address: response,
-    }
+    const result:any = { address: response };
+    publicKeyCache.set(requestBodyKey, result);
+    return result;
   }
 
   /**
@@ -158,15 +177,19 @@ export class AddressesController extends ApiController {
       show_display?: boolean
     },
   ): Promise<{ address: types.eth.Address }> {
+    const requestBodyKey = JSON.stringify(body);
+    if (publicKeyCache.has(requestBodyKey)) {
+      return publicKeyCache.get(requestBodyKey)!;
+    }
     const response = await this.context.wallet.cosmosGetAddress({
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
     await this.context.saveAccount(response!, body.address_n)
 
-    return {
-      address: response,
-    }
+    const result:any = { address: response };
+    publicKeyCache.set(requestBodyKey, result);
+    return result;
   }
 
   /**
@@ -182,15 +205,19 @@ export class AddressesController extends ApiController {
       show_display?: boolean
     },
   ): Promise<{ address: types.cosmos.Address }> {
+    const requestBodyKey = 'thor:'+JSON.stringify(body);
+    if (publicKeyCache.has(requestBodyKey)) {
+      return publicKeyCache.get(requestBodyKey)!;
+    }
     const response = await this.context.wallet.thorchainGetAddress({
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
     await this.context.saveAccount(response!, body.address_n)
 
-    return {
-      address: response!,
-    }
+    const result:any = { address: response };
+    publicKeyCache.set(requestBodyKey, result);
+    return result;
   }
 
   /**
@@ -206,16 +233,21 @@ export class AddressesController extends ApiController {
         show_display?: boolean
       },
   ): Promise<{ address: types.cosmos.Address }> {
+    const requestBodyKey = 'maya:'+JSON.stringify(body);
+    if (publicKeyCache.has(requestBodyKey)) {
+      return publicKeyCache.get(requestBodyKey)!;
+    }
     const response = await this.context.wallet.mayachainGetAddress({
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
     await this.context.saveAccount(response!, body.address_n)
 
-    return {
-      address: response!,
-    }
+    const result:any = { address: response };
+    publicKeyCache.set(requestBodyKey, result);
+    return result;
   }
+  
   
   /**
    * Get an XRP address, loading it into the current session and optionally displaying it on-device.
@@ -230,14 +262,18 @@ export class AddressesController extends ApiController {
       show_display?: boolean
     },
   ): Promise<{ address: types.cosmos.Address }> {
+    const requestBodyKey = JSON.stringify(body);
+    if (publicKeyCache.has(requestBodyKey)) {
+      return publicKeyCache.get(requestBodyKey)!;
+    }
     const response = await this.context.wallet.rippleGetAddress({
       addressNList: body.address_n,
       showDisplay: !!body.show_display,
     })
     await this.context.saveAccount(response!, body.address_n)
-
-    return {
-      address: response!,
-    }
+    
+    const result:any = { address: response };
+    publicKeyCache.set(requestBodyKey, result);
+    return result;
   }
 }

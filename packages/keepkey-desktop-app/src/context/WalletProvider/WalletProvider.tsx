@@ -97,6 +97,9 @@ export interface InitialState {
   disconnectOnCloseModal: boolean
   keepkeySdk: KeepKeySdk | null
   browserUrl: string | null
+  walletConnectOpen: boolean
+  walletConnectChain: string | null
+  walletConnectUri: string | null
   pinDeferred?: Deferred<string>
   passphraseDeferred?: Deferred<string>
   labelDeferred?: Deferred<string>
@@ -126,6 +129,9 @@ const initialState: InitialState = {
   disconnectOnCloseModal: false,
   keepkeySdk: null,
   browserUrl: null,
+  walletConnectOpen: false,
+  walletConnectChain: null,
+  walletConnectUri: null,
   isUpdatingKeepkey: false,
   authenticatorError: null,
 }
@@ -152,6 +158,12 @@ const reducer = (state: InitialState, action: ActionTypes) => {
       }
     case WalletActions.SET_BROWSER_URL:
       return { ...state, browserUrl: action.payload }
+    case WalletActions.SET_WALLET_CONNECT_CHAIN:
+      return { ...state, walletConnectChain: action.payload }
+    case WalletActions.SET_WALLET_CONNECT_URI:
+      return { ...state, walletConnectUri: action.payload }
+    case WalletActions.SET_WALLET_CONNECT_OPEN:
+      return { ...state, walletConnectOpen: action.payload }
     case WalletActions.SET_PROVIDER:
       return { ...state, provider: action.payload }
     case WalletActions.SET_IS_CONNECTED:
