@@ -21,7 +21,7 @@ export const ConnectWallet = () => {
   const translate = useTranslate()
   const query = useQuery<{ returnUrl: string }>()
 
-  const { onboardingSteps, keepKeyWipe } = useModal()
+  const { onboardingSteps, keepKeyWipe, updateKeepKey } = useModal()
 
   const debugDevice = async function () {
     await ipcListeners.appRestart()
@@ -141,9 +141,17 @@ export const ConnectWallet = () => {
                 Wipe keepkey
               </Button>
               <Button
+                width='360px'
+                rightIcon={<ExternalLinkIcon />}
+                colorScheme='green'
+                onClick={() => updateKeepKey.open({})}
+              >
+                {translate('connectWalletPage.openFirmwareUpdate')}
+              </Button>
+              <Button
                 as={Link}
                 isExternal
-                href='https://discord.gg/stfRnW3Jys'
+                href='https://support.keepkey.info'
                 width='360px'
                 size='lg'
                 rightIcon={<ExternalLinkIcon />}

@@ -16,9 +16,9 @@
   },
   "beta": {
     "firmware": {
-      "version": "v7.9.2",
-      "url": "v7.9.2/firmware.keepkey.bin",
-      "hash": "cac0256bd334fee270547c99ca77af1934863a95151b8dcac726c84da585b22f"
+      "version": "v7.10.0",
+      "url": "v7.10.0/firmware.keepkey.bin",
+      "hash": "958764cf3baa53eec0002eab9c54e02ce6f5fdab71e7efbbe723f958e26ff419"
     },
     "bootloader": {
       "version": "v2.1.4",
@@ -94,7 +94,7 @@
   },
   "links": {
     "app": "https://keepkey.com",
-    "support": "https://discord.gg/stfRnW3Jys",
+    "support": "https://support.keepkey.info",
     "updater": "https://github.com/keepkey/keepkey-desktop/releases/latest"
   },
   "strings": {
