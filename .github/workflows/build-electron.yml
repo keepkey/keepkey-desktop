@@ -138,7 +138,7 @@ jobs:
           path: |
             packages/keepkey-desktop/dist/*.msi
             packages/keepkey-desktop/dist/*.msi.blockmap
-          if-no-files-found: error
+          if-no-files-found: warn
 
       - name: Linux - Upload .AppImage
         if: startsWith(matrix.os, 'ubuntu')
