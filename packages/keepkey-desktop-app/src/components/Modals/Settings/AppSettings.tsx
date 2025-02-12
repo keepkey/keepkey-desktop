@@ -148,21 +148,6 @@ export const AppSettings: FC = () => {
       </SettingsListItem>
       <Divider my={1} />
       <SettingsListItem
-        label={'modals.settings.runBetaFirmware'}
-        onClick={() => {
-          setAppSettings(currentSettings => {
-            return {
-              ...currentSettings,
-              runBetaFirmware: !currentSettings.runBetaFirmware,
-            }
-          })
-        }}
-        icon={<Icon as={TbRefreshAlert} color='gray.500' />}
-      >
-        <Switch isChecked={appSettings.runBetaFirmware} pointerEvents='none' />
-      </SettingsListItem>
-      <Divider my={1} />
-      <SettingsListItem
         label={'modals.settings.allowBetaFirmware'}
         onClick={() => {
           setAppSettings(currentSettings => {
