@@ -338,6 +338,7 @@
       "autoUpdate": "Automatically install updates",
       "downloadPreRelease": "Download pre release builds",
       "allowBetaFirmware": "Download beta KeepKey Firmware",
+      "runBetaFirmware": "Run beta release firmware",
       "autoScanQr": "Automatically scan QRs",
       "resetDefaultDapp": "Reset default dapp",
       "currencies": {
@@ -367,8 +368,7 @@
         "general": "General",
         "app": "App",
         "keepkey": "KeepKey"
-      },
-      "clearStorage": "Clear Storage"
+      }
     },
     "pair": {
       "header": "Wallet Connect",
