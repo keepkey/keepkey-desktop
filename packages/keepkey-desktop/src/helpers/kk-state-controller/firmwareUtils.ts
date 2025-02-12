@@ -10,7 +10,7 @@ const FIRMWARE_BASE_URL =
   'https://raw.githubusercontent.com/keepkey/keepkey-desktop/master/firmware/'
 
 const FIRMWARE_BASE_URL_BETA =
-  'https://raw.githubusercontent.com/keepkey/keepkey-desktop/develop/firmware/'
+  'https://raw.githubusercontent.com/keepkey/keepkey-desktop/master/firmware/'
 
 export const getFirmwareBaseUrl = async () => {
   return (await settings.allowBetaFirmware) ? FIRMWARE_BASE_URL_BETA : FIRMWARE_BASE_URL

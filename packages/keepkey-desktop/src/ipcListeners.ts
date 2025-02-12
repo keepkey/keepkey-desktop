@@ -227,7 +227,15 @@ export const ipcListeners: IpcListeners = {
   async keepkeyUpdateFirmware() {
     const baseUrl = await getFirmwareBaseUrl()
     const firmwareData = await getAllFirmwareData(baseUrl)
-    const url = (await getLatestFirmwareData(firmwareData)).firmware.url
+    const latestFirmwareData = await getLatestFirmwareData(firmwareData)
+    const url = latestFirmwareData.firmware.url
+    
+    // Verify we're getting the expected version
+    const expectedVersion = (await settings.allowBetaFirmware) ? firmwareData.beta.firmware.version : firmwareData.latest.firmware.version
+    if (latestFirmwareData.firmware.version !== expectedVersion) {
+      throw new Error(`Firmware version mismatch. Expected ${expectedVersion} but got ${latestFirmwareData.firmware.version}`)
+    }
+    
     const firmware = await downloadFirmware(baseUrl, url)
     if (!firmware) throw new Error(`Failed to load firmware from url '${url}'`)
     const wallet = kkStateController.wallet
