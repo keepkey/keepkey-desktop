@@ -17,7 +17,6 @@ jobs:
       matrix:
         os: [macos-14, ubuntu-latest, windows-latest]
     steps:
-      # Existing Steps
       - name: Checkout
         uses: nschloe/action-cached-lfs-checkout@v1
         with:
@@ -46,7 +45,7 @@ jobs:
         run: yarn build
 
       - name: Upload Built App
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app-build-dir-${{ runner.os }}
           path: packages/keepkey-desktop/build/
@@ -62,7 +61,7 @@ jobs:
         shell: bash
 
       - name: Upload Checksum
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: checksum-${{ runner.os }}
           path: checksum.txt
@@ -121,31 +120,11 @@ jobs:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
 
-      - name: Linux - Upload .AppImage
-        if: startsWith(matrix.os, 'ubuntu')
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-AppImage
-          path: |
-            packages/keepkey-desktop/dist/*.AppImage
-            packages/keepkey-desktop/dist/*.AppImage.blockmap
-          if-no-files-found: error
-
-      - name: Mac - Upload .dmg
-        if: startsWith(matrix.os, 'macos')
-        uses: actions/upload-artifact@v4
-        with:
-          name: mac-dmg
-          path: |
-            packages/keepkey-desktop/dist/*.dmg
-            packages/keepkey-desktop/dist/*.dmg.blockmap
-          if-no-files-found: error
-
       - name: Windows - Upload .exe
         if: startsWith(matrix.os, 'windows')
         uses: actions/upload-artifact@v4
         with:
-          name: windows-nsis
+          name: windows-nsis-${{ matrix.os }}
           path: |
             packages/keepkey-desktop/dist/*.exe
             packages/keepkey-desktop/dist/*.exe.blockmap
@@ -155,24 +134,28 @@ jobs:
         if: startsWith(matrix.os, 'windows')
         uses: actions/upload-artifact@v4
         with:
-          name: windows-msi
+          name: windows-msi-${{ matrix.os }}
           path: |
             packages/keepkey-desktop/dist/*.msi
             packages/keepkey-desktop/dist/*.msi.blockmap
           if-no-files-found: error
 
-      - name: Upload Linux deb
-        if: matrix.os == 'ubuntu-latest'
+      - name: Linux - Upload .AppImage
+        if: startsWith(matrix.os, 'ubuntu')
         uses: actions/upload-artifact@v4
+        with:
+          name: linux-AppImage-${{ matrix.os }}
+          path: |
+            packages/keepkey-desktop/dist/*.AppImage
+            packages/keepkey-desktop/dist/*.AppImage.blockmap
+          if-no-files-found: error
 
-      - name: Upload Windows exe
-        if: matrix.os == 'windows-latest'
+      - name: Mac - Upload .dmg
+        if: startsWith(matrix.os, 'macos')
         uses: actions/upload-artifact@v4
-
-      - name: Upload Windows msi
-        if: matrix.os == 'windows-latest'
-        uses: actions/upload-artifact@v4
-
-      - name: Upload macOS dmg
-        if: matrix.os == 'macos-latest'
-        uses: actions/upload-artifact@v4
+        with:
+          name: mac-dmg-${{ matrix.os }}
+          path: |
+            packages/keepkey-desktop/dist/*.dmg
+            packages/keepkey-desktop/dist/*.dmg.blockmap
+          if-no-files-found: error
