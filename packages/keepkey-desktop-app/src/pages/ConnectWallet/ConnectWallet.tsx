@@ -188,39 +188,62 @@ export const ConnectWallet = () => {
                 <Button
                   as={Link}
                   isExternal
-                  width='360px'
+                  width='100%'
+                  height="50px"
                   href='https://keepkey.myshopify.com/'
                   rightIcon={<ExternalLinkIcon />}
                   colorScheme='green'
+                  fontSize="md"
+                  fontWeight="semibold"
+                  boxShadow="md"
+                  _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
+                  transition="all 0.2s"
                 >
-                  {translate('connectWalletPage.buyKeepKey')}
+                  No device? Buy a KeepKey
                 </Button>
                 <Button
-                  width='360px'
+                  width='100%'
+                  height="50px"
                   rightIcon={<ExternalLinkIcon />}
                   colorScheme='green'
                   onClick={debugDevice}
+                  fontSize="md"
+                  fontWeight="semibold"
+                  boxShadow="md"
+                  _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
+                  transition="all 0.2s"
                 >
-                  {translate('connectWalletPage.troubleshoot')}
+                  Troubleshoot Connection
                 </Button>
                 <Button
-                  width='360px'
+                  width='100%'
+                  height="50px"
                   rightIcon={<ExternalLinkIcon />}
                   colorScheme='green'
                   onClick={() => keepKeyWipe.open({})}
+                  fontSize="md"
+                  fontWeight="semibold"
+                  boxShadow="md"
+                  _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
+                  transition="all 0.2s"
                 >
-                  Wipe keepkey
+                  Wipe KeepKey
                 </Button>
                 <Button
                   as={Link}
                   isExternal
-                  href='https://discord.gg/stfRnW3Jys'
-                  width='360px'
-                  size='lg'
+                  href='https://support.keepkey.com'
+                  width='100%'
+                  height="50px"
                   rightIcon={<ExternalLinkIcon />}
                   colorScheme='green'
+                  fontSize="md"
+                  fontWeight="semibold"
+                  boxShadow="md"
+                  _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
+                  transition="all 0.2s"
                 >
-                  <Text translation={'common.getSupport'} />
+                  Need More help? Get Live Support
                 </Button>
               </Flex>
             </Flex>
