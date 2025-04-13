@@ -1,7 +1,33 @@
 import { DarkMode } from '@chakra-ui/color-mode'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Flex, Link } from '@chakra-ui/layout'
-import { Button, Image, Box, Code, Text as ChakraText, useClipboard, HStack, VStack, Divider } from '@chakra-ui/react'
+import { 
+  Button, 
+  Image, 
+  Box, 
+  Code, 
+  Text as ChakraText, 
+  useClipboard, 
+  HStack, 
+  VStack, 
+  Divider,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalCloseButton,
+  useDisclosure,
+  List,
+  ListItem,
+  ListIcon,
+  Progress,
+  Badge,
+  SimpleGrid,
+  useColorModeValue
+} from '@chakra-ui/react'
+import { FaUsb, FaCheck, FaTerminal, FaExclamationTriangle } from 'react-icons/fa'
 import logo from 'assets/kk-icon-gold.png'
 import heroBgImage from 'assets/splash-bg.png'
 import { Page } from 'components/Layout/Page'
@@ -10,7 +36,7 @@ import { ipcListeners } from 'electron-shim'
 import { useModal } from 'hooks/useModal/useModal'
 import { useQuery } from 'hooks/useQuery/useQuery'
 import { useWallet } from 'hooks/useWallet/useWallet'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useTranslate } from 'react-polyglot'
 import { generatePath, matchPath, useHistory } from 'react-router'
 
@@ -21,10 +47,9 @@ export const ConnectWallet = () => {
   const translate = useTranslate()
   const query = useQuery<{ returnUrl: string }>()
   const [serviceKey, setServiceKey] = useState<string>('')
-  const { onCopy, hasCopied } = useClipboard(serviceKey)
   const [copiedText, setCopiedText] = useState(false)
-
-  const { onboardingSteps, keepKeyWipe } = useModal()
+  
+  const { onboardingSteps, keepKeyWipe, troubleshootConnection } = useModal()
 
   const debugDevice = async function () {
     await ipcListeners.appRestart()
@@ -206,7 +231,7 @@ export const ConnectWallet = () => {
                   height="50px"
                   rightIcon={<ExternalLinkIcon />}
                   colorScheme='green'
-                  onClick={debugDevice}
+                  onClick={() => troubleshootConnection.open({})}
                   fontSize="md"
                   fontWeight="semibold"
                   boxShadow="md"
