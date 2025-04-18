@@ -54,6 +54,7 @@ const validators = {
   REACT_APP_ETHERSCAN_API_KEY: str(),
   REACT_APP_WALLET_CONNECT_PROJECT_ID: str(),
   REACT_APP_SHAPESHIFT_DAPP_URL: str({ default: 'https://private.shapeshift.com' }),
+  REACT_APP_HOME_URL: str({ default: 'https://app.keepkey.com' }),
 }
 
 function reporter<T>({ errors }: envalid.ReporterOptions<T>) {

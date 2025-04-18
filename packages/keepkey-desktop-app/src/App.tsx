@@ -71,15 +71,26 @@ export const App = () => {
       if (connected) {
         let defaultDapp = localStorage.getItem('@app/defaultDapp')
         if (!defaultDapp || defaultDapp === '' || defaultDapp.indexOf('shapeshift') > -1) {
-          const defaultDappShapeShift = {
-            imageUrl: 'https://assets.coincap.io/assets/icons/fox@2x.png',
-            url: 'https://private.shapeshift.com/',
-            name: 'ShapeShift',
-          }
 
-          //set SS as default dapp
-          localStorage.setItem('@app/defaultDapp', JSON.stringify(defaultDappShapeShift))
-          openDapp(defaultDappShapeShift.url)
+            const defaultDapp = {
+                imageUrl: 'https://keepkey.com/favicon.ico',
+                url: 'http://localhost:5001',
+                name: 'KeepKey Vault',
+            }
+
+            //set SS as default dapp
+            localStorage.setItem('@app/defaultDapp', JSON.stringify(defaultDapp))
+            openDapp(defaultDapp.url)
+
+          // const defaultDappShapeShift = {
+          //   imageUrl: 'https://assets.coincap.io/assets/icons/fox@2x.png',
+          //   url: 'https://private.shapeshift.com/',
+          //   name: 'ShapeShift',
+          // }
+          //
+          // //set SS as default dapp
+          // localStorage.setItem('@app/defaultDapp', JSON.stringify(defaultDappShapeShift))
+          // openDapp(defaultDappShapeShift.url)
         } else {
           try {
             const app = JSON.parse(defaultDapp)

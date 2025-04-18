@@ -64,8 +64,10 @@ export const startTcpBridge = async (port?: number) => {
 
     // Get the request origin or referer to check where the request is coming from
     const autoApproveOrigins = [
-        'https://app.keepkey.com', 
+        'https://localhost',
+        'https://app.keepkey.com',
         'https://app.keepkey.info',
+        'https://wallet-connect-dapp-ochre.vercel.app',
         'chrome-extension://dajbdedapcflmaaojleehmafomgjcdoh'
     ];
 
@@ -73,9 +75,8 @@ export const startTcpBridge = async (port?: number) => {
     const origin = req.headers.origin || req.headers.referer;
     console.log('origin: ',origin)
     // Check if the origin is in the auto-approve list
-    if (autoApproveOrigins.includes(origin)) {
+    if (autoApproveOrigins.includes(origin) || origin.includes('localhost') || origin.includes('127.0.0.1')) {
       console.log('Auto-approving pairing request from trusted origin:', origin, info, apiKey);
-
       // Automatically approve the pairing and save to the database
       info.addedOn = Date.now();
       await db.insertOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({

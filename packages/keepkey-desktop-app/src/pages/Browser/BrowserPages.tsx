@@ -29,7 +29,7 @@ export const Browser = () => {
                             <TabPanel>
                                 <Flex direction="column" height="100%">
                                     <Box flex="1" width="100%" height="100%">
-                                        <Webview id="primary-webview" initialUrl="https://private.shapeshift.com/" isOpen={true} onToggleOpen={onOpen} />
+                                        <Webview id="primary-webview" initialUrl={process.env['REACT_APP_HOME_URL'] || ''} isOpen={true} onToggleOpen={onOpen} />
                                     </Box>
                                 </Flex>
                             </TabPanel>

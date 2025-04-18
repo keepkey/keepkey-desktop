@@ -8754,21 +8754,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.53.16", {\
-        "packageLocation": "./.yarn/__virtual__/@keepkey-hdwallet-keepkey-nodewebusb-virtual-9f4c52c240/0/cache/@keepkey-hdwallet-keepkey-nodewebusb-npm-1.53.16-9e2eab1001-864c583c9f.zip/node_modules/@keepkey/hdwallet-keepkey-nodewebusb/",\
-        "packageDependencies": [\
-          ["@keepkey/hdwallet-keepkey-nodewebusb", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.53.16"],\
-          ["@keepkey/hdwallet-core", "npm:1.53.16"],\
-          ["@keepkey/hdwallet-keepkey", "npm:1.53.16"],\
-          ["@types/usb", null],\
-          ["usb", "npm:2.15.0"]\
-        ],\
-        "packagePeers": [\
-          "@types/usb",\
-          "usb"\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.53.16", {\
         "packageLocation": "./.yarn/__virtual__/@keepkey-hdwallet-keepkey-nodewebusb-virtual-c767049a5f/0/cache/@keepkey-hdwallet-keepkey-nodewebusb-npm-1.53.16-9e2eab1001-864c583c9f.zip/node_modules/@keepkey/hdwallet-keepkey-nodewebusb/",\
         "packageDependencies": [\
@@ -12739,13 +12724,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/w3c-web-usb", [\
-      ["npm:1.0.10", {\
-        "packageLocation": "./.yarn/cache/@types-w3c-web-usb-npm-1.0.10-82b33e05cb-6ac6786a07.zip/node_modules/@types/w3c-web-usb/",\
-        "packageDependencies": [\
-          ["@types/w3c-web-usb", "npm:1.0.10"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:1.0.6", {\
         "packageLocation": "./.yarn/cache/@types-w3c-web-usb-npm-1.0.6-4b8a47b48e-c8cf57876a.zip/node_modules/@types/w3c-web-usb/",\
         "packageDependencies": [\
@@ -25228,7 +25206,7 @@ const RAW_RUNTIME_STATE =
           ["@keepkey/hdwallet-core", "npm:1.53.16"],\
           ["@keepkey/hdwallet-keepkey", "npm:1.53.16"],\
           ["@keepkey/hdwallet-keepkey-nodehid", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.53.16"],\
-          ["@keepkey/hdwallet-keepkey-nodewebusb", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:1.53.16"],\
+          ["@keepkey/hdwallet-keepkey-nodewebusb", "virtual:8cbe448c133a5e4307c93c8647fb042968c9291005c45b48b4d24151e2227bbada2ebc065d1eb7e1a7dc047079b119ceb8f2d8201c296f7fd48fbef9b135c983#npm:1.53.16"],\
           ["@sentry/electron", "npm:4.1.2"],\
           ["@shapeshiftoss/chain-adapters", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:11.2.2"],\
           ["@shapeshiftoss/errors", "npm:1.1.3"],\
@@ -25312,7 +25290,7 @@ const RAW_RUNTIME_STATE =
           ["ts-node", "virtual:15149eb01efe6dae21a27159fdeb7f62cca0f4e19d09d3abd4eb0cc76d89fd1a64d234276982b5e754aae438c4679864c2b8ee064ff74d60a47dfedc442fd25f#npm:10.9.1"],\
           ["tsoa", "npm:4.1.3"],\
           ["typescript", "patch:typescript@npm%3A4.9.3#optional!builtin<compat/typescript>::version=4.9.3&hash=a66ed4"],\
-          ["usb", "npm:2.15.0"],\
+          ["usb", "patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A."],\
           ["utf-8-validate", "npm:5.0.10"],\
           ["uuid", "npm:9.0.0"],\
           ["wait-promise", "npm:0.4.1"],\
@@ -27586,14 +27564,6 @@ const RAW_RUNTIME_STATE =
           ["node-gyp", "npm:9.3.0"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:8.3.1", {\
-        "packageLocation": "./.yarn/unplugged/node-addon-api-npm-8.3.1-930b0a01a3/node_modules/node-addon-api/",\
-        "packageDependencies": [\
-          ["node-addon-api", "npm:8.3.1"],\
-          ["node-gyp", "npm:9.3.0"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["node-api-version", [\
@@ -27725,13 +27695,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/node-gyp-build-npm-4.8.0-effd06d874-80f410ab41.zip/node_modules/node-gyp-build/",\
         "packageDependencies": [\
           ["node-gyp-build", "npm:4.8.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:4.8.4", {\
-        "packageLocation": "./.yarn/cache/node-gyp-build-npm-4.8.4-106c2a0b4f-6a7d62289d.zip/node_modules/node-gyp-build/",\
-        "packageDependencies": [\
-          ["node-gyp-build", "npm:4.8.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -34894,17 +34857,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["usb", [\
-      ["npm:2.15.0", {\
-        "packageLocation": "./.yarn/unplugged/usb-npm-2.15.0-d7e696f68c/node_modules/usb/",\
-        "packageDependencies": [\
-          ["usb", "npm:2.15.0"],\
-          ["@types/w3c-web-usb", "npm:1.0.10"],\
-          ["node-addon-api", "npm:8.3.1"],\
-          ["node-gyp", "npm:9.3.0"],\
-          ["node-gyp-build", "npm:4.8.4"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["patch:usb@npm%3A2.5.2#./.yarn/patches/usb-npm-2.5.2-5ec3b3efcd.patch::version=2.5.2&hash=9d97be&locator=keepkey-monorepo%40workspace%3A.", {\
         "packageLocation": "./.yarn/unplugged/usb-patch-563cfb1f88/node_modules/usb/",\
         "packageDependencies": [\
