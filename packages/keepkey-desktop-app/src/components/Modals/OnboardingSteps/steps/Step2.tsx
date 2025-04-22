@@ -32,7 +32,7 @@ export const Step2 = ({
         <CardHeader bg={headerBg} borderBottomWidth="1px" borderColor={borderColor}>
           <Flex align="center" justify="center">
             <Icon as={FaLock} color={iconColor} boxSize={6} mr={3} />
-            <Text fontSize="xl" fontWeight="bold" translation='modals.onboarding.pinTitle' />
+            <Text fontSize="xl" fontWeight="bold">PIN Security</Text>
           </Flex>
         </CardHeader>
         <CardBody p={6}>
@@ -56,8 +56,12 @@ export const Step2 = ({
               <Card variant="outline" h="100%" borderColor={borderColor}>
                 <CardBody>
                   <Text fontWeight="bold" mb={2} fontSize="md" textAlign="center">PIN Instructions</Text>
-                  <Text fontSize="sm" color={textColor} translation='modals.onboarding.pinText1' />
-                  <Text mt={2} fontSize="sm" color={textColor} translation='modals.onboarding.pinText2' />
+                  <Text fontSize="sm" color={textColor}>
+                    Use the PIN layout shown on your KeepKey to enter your PIN on the screen.
+                  </Text>
+                  <Text mt={2} fontSize="sm" color={textColor}>
+                    The numbers are rearranged each time for security. Look at your device to see the current layout.
+                  </Text>
                 </CardBody>
               </Card>
             </GridItem>
