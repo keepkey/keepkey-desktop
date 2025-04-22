@@ -1,4 +1,4 @@
-import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/react'
+import { Box, Modal, ModalContent, ModalOverlay, useColorModeValue } from '@chakra-ui/react'
 import { Step, Steps, useSteps } from 'chakra-ui-steps'
 import { useModal } from 'hooks/useModal/useModal'
 import { useCallback } from 'react'
@@ -53,6 +53,12 @@ export const OnboardingSteps = () => {
     },
   ]
 
+  // Define colors for better visual hierarchy
+  const bgColor = useColorModeValue('gray.50', 'gray.900')
+  const cardBgColor = useColorModeValue('white', 'gray.800')
+  const borderColor = useColorModeValue('gray.200', 'gray.700')
+  const highlightColor = 'green.500'
+
   return (
     <Modal
       size='full'
@@ -66,14 +72,66 @@ export const OnboardingSteps = () => {
     >
       <div style={{ '--chakra-zIndices-modal': onboardingSteps.zIndex }}>
         <ModalOverlay />
-        <ModalContent p={3}>
-          <Steps activeStep={activeStep}>
-            {steps.map(({ label, content }: any) => (
-              <Step label={<h1>{label}</h1>} key={label}>
-                {content}
-              </Step>
-            ))}
-          </Steps>
+        <ModalContent 
+          p={6} 
+          bg={bgColor}
+          maxW="100%"
+          h="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Box 
+            w="100%" 
+            maxW="1000px" 
+            bg={cardBgColor} 
+            borderRadius="xl" 
+            boxShadow="xl"
+            borderWidth="1px"
+            borderColor={borderColor}
+            overflow="hidden"
+            p={6}
+          >
+            <Box mb={8}>
+              <img 
+                src="https://keepkey.com/favicon.ico" 
+                alt="KeepKey Logo" 
+                style={{ 
+                  height: '40px', 
+                  margin: '0 auto 20px auto',
+                  display: 'block'
+                }} 
+              />
+              <Box 
+                fontSize="2xl" 
+                fontWeight="bold" 
+                textAlign="center"
+                color={highlightColor}
+              >
+                KeepKey Desktop Setup
+              </Box>
+            </Box>
+            
+            <Steps 
+              activeStep={activeStep}
+              colorScheme="green"
+              borderWidth="1px"
+              borderRadius="lg"
+              p={4}
+              mb={4}
+            >
+              {steps.map(({ label, content }: any) => (
+                <Step 
+                  label={<Box fontWeight="medium">{label}</Box>} 
+                  key={label}
+                >
+                  <Box pt={6}>
+                    {content}
+                  </Box>
+                </Step>
+              ))}
+            </Steps>
+          </Box>
         </ModalContent>
       </div>
     </Modal>
