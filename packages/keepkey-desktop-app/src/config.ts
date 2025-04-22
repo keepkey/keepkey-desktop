@@ -35,7 +35,7 @@ const validators = {
   REACT_APP_AVALANCHE_NODE_URL: url(),
   REACT_APP_ALCHEMY_POLYGON_URL: url(),
   REACT_APP_KEEPKEY_VERSIONS_URL: url(),
-  REACT_APP_DAPP_URL: url({
+  REACT_APP_PIONEER_API_SPEC_URL: url({
     default: 'https://pioneers.dev/spec/swagger.json',
   }),
   REACT_APP_FEATURE_OSMOSIS: bool({ default: false }),

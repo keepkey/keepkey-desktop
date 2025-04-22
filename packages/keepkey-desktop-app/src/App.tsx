@@ -2,6 +2,7 @@ import { PinMatrixRequestType as PinMatrixRequestTypeDeviceProto } from '@keepke
 import * as Comlink from 'comlink'
 import { assertNever, deferred } from 'common-utils'
 import type { PairingProps } from 'components/Modals/Pair/types'
+import { getConfig } from 'config'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
@@ -72,9 +73,10 @@ export const App = () => {
         let defaultDapp = localStorage.getItem('@app/defaultDapp')
         if (!defaultDapp || defaultDapp === '' || defaultDapp.indexOf('shapeshift') > -1) {
 
+            // Use the environment variable from config instead of hard-coded URL
             const defaultDapp = {
                 imageUrl: 'https://keepkey.com/favicon.ico',
-                url: 'http://localhost:5001',
+                url: getConfig().REACT_APP_HOME_URL,
                 name: 'KeepKey Vault',
             }
 
