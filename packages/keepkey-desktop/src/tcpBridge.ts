@@ -63,10 +63,12 @@ export const startTcpBridge = async (port?: number) => {
     }
 
     // Get the request origin or referer to check where the request is coming from
+    // Whitelist entire domains for keepkey.info and keepkey.com, and all localhost/127.0.0.1 origins
     const autoApproveOrigins = [
-        'https://localhost',
-        'https://app.keepkey.com',
-        'https://app.keepkey.info',
+        'localhost',       // Any localhost origin regardless of protocol
+        '127.0.0.1',       // Any 127.0.0.1 origin regardless of protocol
+        'keepkey.com',     // Any keepkey.com subdomain
+        'keepkey.info',    // Any keepkey.info subdomain
         'https://wallet-connect-dapp-ochre.vercel.app',
         'chrome-extension://dajbdedapcflmaaojleehmafomgjcdoh'
     ];
@@ -74,8 +76,9 @@ export const startTcpBridge = async (port?: number) => {
     // Get the request origin or referer to check where the request is coming from
     const origin = req.headers.origin || req.headers.referer;
     console.log('origin: ',origin)
-    // Check if the origin is in the auto-approve list
-    if (autoApproveOrigins.includes(origin) || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+    // Check if the origin is in the auto-approve list or matches a whitelisted domain
+    const isWhitelisted = autoApproveOrigins.some(domain => origin && origin.includes(domain));
+    if (isWhitelisted) {
       console.log('Auto-approving pairing request from trusted origin:', origin, info, apiKey);
       // Automatically approve the pairing and save to the database
       info.addedOn = Date.now();
