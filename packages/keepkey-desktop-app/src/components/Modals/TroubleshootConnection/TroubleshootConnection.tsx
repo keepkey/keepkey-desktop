@@ -35,7 +35,14 @@ export const TroubleshootConnectionModal = ({ onComplete }: TroubleshootConnecti
 
   // Troubleshooting state
   const [troubleshootStep, setTroubleshootStep] = useState(1)
-  const [usbDevices, setUsbDevices] = useState<string[]>([])
+  type UsbDeviceInfo = {
+  vendorId: number
+  productId: number
+  manufacturer?: string
+  product?: string
+  serialNumber?: string
+}
+const [usbDevices, setUsbDevices] = useState<UsbDeviceInfo[]>([])
   const [initialDeviceCount, setInitialDeviceCount] = useState(0)
   const [currentDeviceCount, setCurrentDeviceCount] = useState(0)
   const [cableReplaced, setCableReplaced] = useState(false)
@@ -100,7 +107,6 @@ export const TroubleshootConnectionModal = ({ onComplete }: TroubleshootConnecti
   // Handle keepkey-cli installation (mock)
   const installKeepKeyCli = () => {
     // This would actually install the CLI tool in a real implementation
-    alert('keepkey-cli would be installed in a real implementation');
     if (onComplete) onComplete();
     close();
   };
@@ -250,7 +256,14 @@ export const TroubleshootConnectionModal = ({ onComplete }: TroubleshootConnecti
                           {usbDevices.map((device, index) => (
                             <ListItem key={index} color="gray.300">
                               <ListIcon as={FaUsb} color="blue.400" />
-                              {device}
+                              <span>
+  {device.manufacturer || 'Unknown Manufacturer'} — {device.product || 'Unknown Product'}
+  <br />
+  <span style={{ fontSize: '0.85em', color: '#888' }}>
+    VID: {device.vendorId?.toString(16).padStart(4, '0').toUpperCase() || '??'} | PID: {device.productId?.toString(16).padStart(4, '0').toUpperCase() || '??'}
+    {device.serialNumber ? <> | SN: {device.serialNumber}</> : null}
+  </span>
+</span>
                             </ListItem>
                           ))}
                         </List>
@@ -260,49 +273,30 @@ export const TroubleshootConnectionModal = ({ onComplete }: TroubleshootConnecti
                 </VStack>
               )}
               
-              {/* Step 3: Terminal / CLI installation */}
+              {/* Step 3: Get Live Support */}
               {troubleshootStep === 3 && (
                 <VStack align="stretch" spacing={4}>
                   <ChakraText color="white" fontWeight="bold">
-                    Step 3: Advanced Troubleshooting
+                    Step 3: Get Live Support
                   </ChakraText>
-                  
-                  <Box 
-                    bg="black" 
-                    p={4} 
-                    borderRadius="md" 
-                    fontFamily="monospace" 
-                    fontSize="sm"
-                    color="green.400"
-                    border="1px solid"
-                    borderColor="gray.700"
-                  >
-                    <ChakraText mb={2}>$ lsusb | grep -i "keepkey"</ChakraText>
-                    <ChakraText mb={2}>No KeepKey devices found</ChakraText>
-                    <ChakraText mb={4}>$</ChakraText>
-                    
-                    <ChakraText color="white" mb={3}>
-                      The CLI tool can help diagnose deeper connection issues.
+                  <Box bg="gray.700" p={6} borderRadius="md" textAlign="center">
+                    <ChakraText color="white" fontWeight="semibold" mb={3} fontSize="lg">
+                      Still having trouble connecting your KeepKey?
                     </ChakraText>
-                  </Box>
-                  
-                  <Box 
-                    bg="gray.700" 
-                    p={4} 
-                    borderRadius="md"
-                  >
-                    <ChakraText color="white" fontWeight="semibold" mb={3}>
-                      Installing the keepkey-cli tool will help with advanced troubleshooting:
+                    <ChakraText color="gray.300" mb={5}>
+                      Our support team is here to help you with advanced troubleshooting and device diagnostics.<br/>
+                      Click the button below to get live support now.
                     </ChakraText>
-                    <ChakraText color="gray.300" mb={3}>
-                      • Directly communicate with your device
-                    </ChakraText>
-                    <ChakraText color="gray.300" mb={3}>
-                      • Debug USB connection issues
-                    </ChakraText>
-                    <ChakraText color="gray.300" mb={4}>
-                      • Test device functionality
-                    </ChakraText>
+                    <Button
+                      colorScheme="blue"
+                      size="lg"
+                      as="a"
+                      href="https://support.keepkey.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Get Live Support
+                    </Button>
                   </Box>
                 </VStack>
               )}
@@ -329,7 +323,7 @@ export const TroubleshootConnectionModal = ({ onComplete }: TroubleshootConnecti
               
               {troubleshootStep === 3 && (
                 <Button colorScheme="blue" width="full" onClick={installKeepKeyCli}>
-                  Install keepkey-cli
+                  Get Live Support
                 </Button>
               )}
             </ModalFooter>
