@@ -115,7 +115,8 @@ jobs:
         if: startsWith(matrix.os, 'windows')
         run: |
           yarn run release
-          cp "packages/keepkey-desktop/dist/KeepKey-Desktop-*-*-arm64.dmg" "packages/keepkey-desktop/dist/KeepKey-Desktop-latest.dmg"
+          # List files in dist directory for debugging
+          dir packages/keepkey-desktop/dist
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
@@ -159,3 +160,23 @@ jobs:
             packages/keepkey-desktop/dist/*.dmg
             packages/keepkey-desktop/dist/*.dmg.blockmap
           if-no-files-found: error
+          
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release-candidate')
+        with:
+          files: |
+            packages/keepkey-desktop/dist/*.exe
+            packages/keepkey-desktop/dist/*.exe.blockmap
+            packages/keepkey-desktop/dist/*.msi
+            packages/keepkey-desktop/dist/*.msi.blockmap
+            packages/keepkey-desktop/dist/*.dmg
+            packages/keepkey-desktop/dist/*.dmg.blockmap
+            packages/keepkey-desktop/dist/*.zip
+            packages/keepkey-desktop/dist/*.AppImage
+            packages/keepkey-desktop/dist/*.AppImage.blockmap
+            packages/keepkey-desktop/dist/*.deb
+          prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('v{0}', github.run_number) }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
