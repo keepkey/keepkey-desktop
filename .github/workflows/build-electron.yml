@@ -42,8 +42,7 @@ jobs:
             --publish never \
             --config.mac.notarize=false \
             --config.mac.hardenedRuntime=true \
-            --config.mac.entitlements=entitlements.mac.plist \
-            --config.mac.skipSigning="**/*.pak"
+            --config.mac.entitlements=entitlements.mac.plist
         env:
           GH_TOKEN: ${{ secrets.github_token }}
           CSC_LINK: ${{ secrets.mac_certs }}
