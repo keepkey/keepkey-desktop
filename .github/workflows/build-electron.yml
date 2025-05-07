@@ -2,15 +2,11 @@ name: Build & Release Electron App
 
 on:
   push:
-    branches:
-      - master
-      - release-candidate
-      - release-candidate-*
-      - feature-*
+    branches: [ master, 'release-candidate*', 'feature-*' ]
   workflow_dispatch:
 
 jobs:
-  release:
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -18,165 +14,62 @@ jobs:
         os: [macos-14, ubuntu-latest, windows-latest]
     steps:
       - name: Checkout
-        uses: nschloe/action-cached-lfs-checkout@v1
+        uses: actions/checkout@v3
         with:
           submodules: true
+          lfs: true
+
+      - name: Cache Yarn
+        uses: actions/cache@v3
+        with:
+          path: ~/.yarn/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
 
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
 
-      - name: Restore Cached Electron Bundles
-        id: restore-cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/electron
-            ~/Library/Caches/electron
-            ~/AppData/Local/electron/Cache
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}
-
-      - name: Yarn Install
-        run: yarn install
-
-      - name: Yarn Build
-        run: yarn build
-
-      - name: Upload Built App
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-build-dir-${{ runner.os }}
-          path: packages/keepkey-desktop/build/
-          if-no-files-found: error
-
-      - name: Generate Checksum
+      - name: Yarn Install & Build
         run: |
-          if [[ "${{ runner.os }}" == "Windows" ]]; then
-            ./scripts/generate_checksum_windows.sh
-          else
-            ./scripts/generate_checksum_unix.sh
-          fi
-        shell: bash
+          yarn install --frozen-lockfile
+          yarn build
 
-      - name: Upload Checksum
-        uses: actions/upload-artifact@v4
-        with:
-          name: checksum-${{ runner.os }}
-          path: checksum.txt
-          if-no-files-found: error
-
-      - name: Mac - Prepare For App Notarization
-        if: startsWith(matrix.os, 'macos')
+      - name: Package Electron
         run: |
-          mkdir -p ~/private_keys/
-          echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
-          ls -al ~/private_keys # Debugging line to check the contents of the directory
-          chmod -R 755 ~/private_keys # Ensure proper permissions
-
-      - name: Linux - Build Electron App
-        if: startsWith(matrix.os, 'ubuntu')
-        run: yarn run release
+          yarn run release \
+            --publish never \
+            --config.mac.notarize=false \
+            --config.mac.hardenedRuntime=true \
+            --config.mac.entitlements=entitlements.mac.plist \
+            --config.mac.skipSigning="**/*.pak"
         env:
-          NODE_ENV: production
-          APPLE_ID: ${{ secrets.apple_id }}
-          APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
-          APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
-          GH_TOKEN: ${{ secrets.github_token }}
-
-      - name: Mac - Build Electron App
-        if: startsWith(matrix.os, 'macos')
-        run: |
-          yarn run release
-          # Copy the file with 'universal' in its name to a new version without 'universal'
-          for file in packages/keepkey-desktop/dist/*-universal.dmg; do
-            [ -f "$file" ] && cp "$file" "${file/-universal/}"
-          done
-          for file in packages/keepkey-desktop/dist/*-universal.dmg.blockmap; do
-            [ -f "$file" ] && cp "$file" "${file/-universal/}"
-          done
-          for file in packages/keepkey-desktop/dist/*-universal.zip; do
-            [ -f "$file" ] && cp "$file" "${file/-universal/}"
-          done
-        env:
-          NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
           CSC_LINK: ${{ secrets.mac_certs }}
           APPLE_API_KEY: ${{ secrets.apple_api_key }}
           APPLE_API_KEY_ID: ${{ secrets.apple_api_key_id }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.apple_app_specific_password }}
-          APPLE_ID: ${{ secrets.apple_id }}
-          APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
-          APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
-          CSC_KEY_PASSWORD: ${{ secrets.mac_certs_password }}
+          APPLE_API_KEY_PASSWORD: ${{ secrets.apple_api_key_password }}
 
-      - name: Windows - Build Electron App
-        if: startsWith(matrix.os, 'windows')
-        run: |
-          yarn run release
-          # List files in dist directory for debugging
-          dir packages/keepkey-desktop/dist
-        env:
-          NODE_ENV: production
-          GH_TOKEN: ${{ secrets.github_token }}
-
-      - name: Windows - Upload .exe
-        if: startsWith(matrix.os, 'windows')
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: windows-nsis-${{ matrix.os }}
-          path: |
-            packages/keepkey-desktop/dist/*.exe
-            packages/keepkey-desktop/dist/*.exe.blockmap
-          if-no-files-found: error
+          name: dist-${{ matrix.os }}
+          path: packages/keepkey-desktop/dist/
 
-      - name: Upload Windows msi
-        if: startsWith(matrix.os, 'windows')
-        uses: actions/upload-artifact@v4
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
         with:
-          name: windows-msi-${{ matrix.os }}
-          path: |
-            packages/keepkey-desktop/dist/*.msi
-            packages/keepkey-desktop/dist/*.msi.blockmap
-          if-no-files-found: warn
+          path: ./dist
 
-      - name: Linux - Upload .AppImage
-        if: startsWith(matrix.os, 'ubuntu')
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-AppImage-${{ matrix.os }}
-          path: |
-            packages/keepkey-desktop/dist/*.AppImage
-            packages/keepkey-desktop/dist/*.AppImage.blockmap
-          if-no-files-found: error
-
-      - name: Mac - Upload .dmg
-        if: startsWith(matrix.os, 'macos')
-        uses: actions/upload-artifact@v4
-        with:
-          name: mac-dmg-${{ matrix.os }}
-          path: |
-            packages/keepkey-desktop/dist/*.dmg
-            packages/keepkey-desktop/dist/*.dmg.blockmap
-          if-no-files-found: error
-          
-      - name: Upload Release Assets
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release-candidate')
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master'
         with:
-          files: |
-            packages/keepkey-desktop/dist/*.exe
-            packages/keepkey-desktop/dist/*.exe.blockmap
-            packages/keepkey-desktop/dist/*.msi
-            packages/keepkey-desktop/dist/*.msi.blockmap
-            packages/keepkey-desktop/dist/*.dmg
-            packages/keepkey-desktop/dist/*.dmg.blockmap
-            packages/keepkey-desktop/dist/*.zip
-            packages/keepkey-desktop/dist/*.AppImage
-            packages/keepkey-desktop/dist/*.AppImage.blockmap
-            packages/keepkey-desktop/dist/*.deb
-          prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
-          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('v{0}', github.run_number) }}
+          files: ./dist/**
         env:
           GITHUB_TOKEN: ${{ secrets.github_token }}
