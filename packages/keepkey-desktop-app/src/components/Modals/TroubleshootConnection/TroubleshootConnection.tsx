@@ -23,6 +23,7 @@ import { useModal } from 'hooks/useModal/useModal'
 import { SlideTransition } from 'components/SlideTransition'
 import { Text } from 'components/Text'
 import { useCallback, useEffect, useState } from 'react'
+import { ipcListeners } from 'electron-shim'
 
 export type TroubleshootConnectionProps = {
   onComplete?: () => void
@@ -52,35 +53,24 @@ export const TroubleshootConnectionModal = ({ onComplete }: TroubleshootConnecti
     }
   }, [isOpen])
 
-  // Mock function to simulate getting USB devices
-  const getUsbDevices = useCallback(() => {
-    setIsCheckingDevices(true)
-    
-    // Simulate API delay
-    setTimeout(() => {
-      // This is a mock implementation - in a real app, you would use a native API to detect USB devices
-      const mockDevices = [
-        'KeepKey Device (possibly disconnected)',
-        'USB Composite Device',
-        'Generic USB Hub',
-        'USB Input Device'
-      ];
-      
-      // Randomize the number of devices to simulate plugging/unplugging
-      const deviceCount = troubleshootStep === 1 
-        ? mockDevices.length 
-        : (cableReplaced ? mockDevices.length + 1 : mockDevices.length);
-      
-      setUsbDevices(mockDevices.slice(0, deviceCount));
-      setCurrentDeviceCount(deviceCount);
-      
+  // Fetch real USB devices from the main process
+  async function getUsbDevices() {
+    setIsCheckingDevices(true);
+    try {
+      const devices = await ipcListeners.enumerateUsbDevices();
+      console.log('devices', devices)
+      setUsbDevices(devices);
+      setCurrentDeviceCount(devices.length);
       if (troubleshootStep === 1) {
-        setInitialDeviceCount(deviceCount);
+        setInitialDeviceCount(devices.length);
       }
-      
-      setIsCheckingDevices(false);
-    }, 1500);
-  }, [troubleshootStep, cableReplaced]);
+    } catch (e) {
+      setUsbDevices([]);
+      setCurrentDeviceCount(0);
+      if (troubleshootStep === 1) setInitialDeviceCount(0);
+    }
+    setIsCheckingDevices(false);
+  }
 
   // Handle device reconnection check
   const checkDeviceReconnection = useCallback(() => {
@@ -149,9 +139,21 @@ export const TroubleshootConnectionModal = ({ onComplete }: TroubleshootConnecti
                   <Box bg="gray.700" p={4} borderRadius="md">
                     <HStack mb={2} justify="space-between">
                       <ChakraText color="white">USB Devices</ChakraText>
-                      <Badge colorScheme="blue">
-                        Total: {usbDevices.length}
-                      </Badge>
+                      <HStack>
+                        <Badge colorScheme="blue">
+                          Total: {usbDevices.length}
+                        </Badge>
+                        <Button
+                          size="xs"
+                          colorScheme="blue"
+                          variant="outline"
+                          isLoading={isCheckingDevices}
+                          onClick={getUsbDevices}
+                          ml={2}
+                        >
+                          Refresh
+                        </Button>
+                      </HStack>
                     </HStack>
                     
                     {isCheckingDevices ? (
@@ -163,7 +165,14 @@ export const TroubleshootConnectionModal = ({ onComplete }: TroubleshootConnecti
                         {usbDevices.map((device, index) => (
                           <ListItem key={index} color="gray.300">
                             <ListIcon as={FaUsb} color="blue.400" />
-                            {device}
+                            <span>
+                              {device.manufacturer || 'Unknown Manufacturer'} — {device.product || 'Unknown Product'}
+                              <br />
+                              <span style={{ fontSize: '0.85em', color: '#888' }}>
+                                VID: {device.vendorId?.toString(16).padStart(4, '0').toUpperCase() || '??'} | PID: {device.productId?.toString(16).padStart(4, '0').toUpperCase() || '??'}
+                                {device.serialNumber ? <> | SN: {device.serialNumber}</> : null}
+                              </span>
+                            </span>
                           </ListItem>
                         ))}
                       </List>
