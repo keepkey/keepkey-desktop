@@ -62,7 +62,7 @@ export const initializeWallet = async (
     const staleFeatures = wallet.features!
     return staleFeatures
   })()
-  console.log('WALLET FEATURES', features)
+  //console.log('WALLET FEATURES', features)
   const { majorVersion, minorVersion, patchVersion, bootloaderHash } = features
   const version = `v${majorVersion}.${minorVersion}.${patchVersion}`
 

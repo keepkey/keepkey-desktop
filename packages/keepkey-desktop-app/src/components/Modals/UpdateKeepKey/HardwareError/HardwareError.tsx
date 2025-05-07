@@ -31,7 +31,7 @@ export const HardwareErrorModal = (error: {
   needsReconnect?: boolean
   error?: string
 }) => {
-  const { hardwareError } = useModal()
+  const { hardwareError, troubleshootConnection } = useModal()
   const { isUpdatingKeepkey } = useWallet()
   const translate = useTranslate()
   const { close, isOpen } = hardwareError
@@ -65,93 +65,78 @@ export const HardwareErrorModal = (error: {
             <ModalCloseButton ml='auto' borderRadius='full' position='static' />
           )}
           <ModalBody>
-            {error && error.error && error.error.includes('claimInterface') ? (
-              <div>
-                <Card>
-                  <CardHeader>
-                    <Heading size='md'>
-                      <Text translation='modals.keepKey.hardware.claimTitle' />
-                    </Heading>
-                  </CardHeader>
-                  <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <WarningTwoIcon boxSize={24} color='yellow.500' />
-                  </div>
-                  <CardBody>
-                    <Stack divider={<StackDivider />} spacing='4'>
-                      <Box>
-                        <Heading size='xs' textTransform='uppercase'>
-                          Summary
-                        </Heading>
-                        <ReactMarkdown>
-                          {translate('modals.keepKey.hardware.claimInterface')}
-                        </ReactMarkdown>
-                      </Box>
-                      <Box>
-                        <Heading size='xs' textTransform='uppercase'>
-                          1. {translate('modals.keepKey.hardware.claimInterface2')}
-                        </Heading>
-                        <Heading size='xs' textTransform='uppercase'>
-                          2. {translate('modals.keepKey.hardware.claimInterface3')}
-                        </Heading>
-                        <Heading size='xs' textTransform='uppercase'>
-                          3. {translate('modals.keepKey.hardware.claimInterface4')}
-                        </Heading>
-                      </Box>
-                    </Stack>
-                  </CardBody>
-                </Card>
-              </div>
-            ) : (
-              <div>
-                <ModalHeader>
-                  <Text
-                    translation={
-                      error.needsReconnect
-                        ? 'modals.keepKey.hardware.headerReconnect'
-                        : 'modals.keepKey.hardware.headerConnect'
-                    }
-                  />
-                </ModalHeader>
-                <Image
-                  filter={colorMode === 'light' ? 'invert(100%);' : ''}
-                  src={KeepKeyConnect}
-                  alt='Reconnect Device!'
-                />
-                <style type='text/css'>{`
-                .hardwareErrorIntroText * {
-                  margin: 0.5em 0;
-                }
+            <Box width="100%" maxW="420px" mx="auto">
+              {/* Bold Welcome */}
+              <Box mb={4}>
+                <Heading fontSize="2xl" fontWeight="extrabold" color="yellow.400" textAlign="left" letterSpacing="tight" lineHeight={1.1}>
+                  Welcome to KeepKey Desktop!
+                </Heading>
+              </Box>
 
-                .hardwareErrorIntroText :is(h1, h2, h3, h4, h5, h6) {
-                  text-align: center;
-                }
-              `}</style>
-                <div className='hardwareErrorIntroText'>
-                  <ReactMarkdown>
-                    {translate(
-                      error.needsReconnect
-                        ? 'modals.keepKey.hardware.reconnect'
-                        : 'modals.keepKey.hardware.connect',
-                    )}
-                  </ReactMarkdown>
-                  <br />
-                  <h4>{translate('modals.keepKey.hardware.guide')}</h4>
-                  <a
-                    href={
-                      'https://support.keepkey.com'
-                    }
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    <small>{translate('modals.keepKey.hardware.moreInfo')}</small>
-                    <br />
-                    <Button colorScheme='blue' variant='outline'>
-                      Website
-                    </Button>
-                  </a>
-                </div>
-              </div>
-            )}
+              {/* Card 1: Device Animation + No Device Detected */}
+              <Box
+                borderWidth="2px"
+                borderRadius="xl"
+                borderColor="yellow.400"
+                bg={colorMode === 'light' ? 'white' : 'gray.900'}
+                boxShadow="lg"
+                p={6}
+                mb={4}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+              >
+                <Heading fontSize="lg" fontWeight="bold" color="red.400" mb={2} textAlign="left" width="100%">
+                  No device detected
+                </Heading>
+                <Box width="120px" height="80px" mb={2} display="flex" alignItems="center" justifyContent="center">
+                  <Image src={KeepKeyConnect} alt="KeepKey Device" width="100%" height="auto" />
+                </Box>
+              </Box>
+
+              {/* Card 2: Instructions */}
+              <Box
+                borderWidth="1px"
+                borderRadius="lg"
+                bg={colorMode === 'light' ? 'gray.50' : 'gray.800'}
+                boxShadow="md"
+                p={5}
+                mb={4}
+                textAlign="left"
+              >
+                <Heading fontSize="md" fontWeight="semibold" mb={2} color={colorMode === 'light' ? 'gray.700' : 'gray.100'}>
+                  Please follow these steps:
+                </Heading>
+                <Box as="ol" pl={5} fontSize="md" color={colorMode === 'light' ? 'gray.700' : 'gray.200'}>
+                  <li>Connect your KeepKey device to continue.</li>
+                  <li>If your device is already connected, disconnect and reconnect to reset your device state.</li>
+                </Box>
+              </Box>
+
+              {/* Card 3: Troubleshoot Connection */}
+              <Box
+                borderWidth="2px"
+                borderRadius="lg"
+                borderColor="blue.400"
+                bg={colorMode === 'light' ? 'blue.50' : 'blue.900'}
+                boxShadow="md"
+                p={5}
+                textAlign="center"
+              >
+                <Heading fontWeight="bold" color="blue.700" mb={2} fontSize="md">
+                  TROUBLESHOOTING GUIDE
+                </Heading>
+                <Button
+                  colorScheme='yellow'
+                  size='lg'
+                  fontWeight='bold'
+                  width='100%'
+                  onClick={() => troubleshootConnection.open({})}
+                >
+                  Troubleshoot Connection
+                </Button>
+              </Box>
+            </Box>
           </ModalBody>
         </ModalContent>
       </div>
