@@ -67,7 +67,8 @@ export const startTcpBridge = async (port?: number) => {
     const autoApproveOrigins = [
         'localhost',       // Any localhost origin regardless of protocol
         '127.0.0.1',       // Any 127.0.0.1 origin regardless of protocol
-        'keepkey.com',     // Any keepkey.com subdomain
+        'shapeshift.com',     // Any keepkey.com subdomain
+        'keepkey.com',     // Any shapeshift.com subdomain
         'keepkey.info',    // Any keepkey.info subdomain
         'https://wallet-connect-dapp-ochre.vercel.app',
         'chrome-extension://dajbdedapcflmaaojleehmafomgjcdoh'
