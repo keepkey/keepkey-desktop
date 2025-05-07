@@ -83,7 +83,7 @@ const checkIfSSDApp = (currentUrl: string) => {
     if (currentUrl === 'about:blank') return
     const url = new URL(currentUrl)
     if (
-        url.origin === getConfig().REACT_APP_SHAPESHIFT_DAPP_URL ||
+        url.origin === getConfig().REACT_APP_HOME_URL ||
         url.origin === 'http://localhost:3000'
     ) {
       const webview = getWebview()

@@ -72,9 +72,9 @@ export class LegacyWCService {
   async _onConnect() {
     if (this.connector.connected && this.connector.peerMeta) {
       console.log('On connect wc')
-      await ipcListeners.walletconnectPairing({
-        serviceName: this.connector.peerMeta.name,
-        serviceImageUrl: this.connector.peerMeta.icons[0],
+    await ipcListeners.walletconnectPairing({
+      serviceName: this.connector.peerMeta.name,
+      serviceImageUrl: this.connector.peerMeta.icons[0],
         serviceHomePage: this.connector.peerMeta.url,
       })
     }

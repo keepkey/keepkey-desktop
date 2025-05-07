@@ -222,6 +222,7 @@
         "button": "Submit Passphrase"
       },
       "hardware": {
+        "troubleshoot.title": "Troubleshoot KeepKey Connection",
         "claimTitle": "Already Claimed Interface!",
         "claimInterface": "Other software is currently using the KeepKey.",
         "claimInterface2": "close other software and try again.",

@@ -72,6 +72,56 @@ ipcMain.on(IpcMainChannel.CommandOuput, (_: any, output: string) => {
 });
 
 
+// USB device enumeration as reusable async function
+async function enumerateUsbDevices() {
+  const usb = require('usb');
+  const deviceList = usb.getDeviceList();
+
+  function getStringDescriptorAsync(device: any, index: number | undefined) {
+    return new Promise<string | undefined>(resolve => {
+      if (!index) return resolve(undefined);
+      try { device.open(); } catch (_) {}
+      device.getStringDescriptor(index, (err: any, data: string) => {
+        resolve(err ? undefined : data);
+      });
+    });
+  }
+
+  const deviceInfos = [];
+  for (const device of deviceList) {
+    const { deviceDescriptor } = device;
+    const idVendor = deviceDescriptor.idVendor;
+    const idProduct = deviceDescriptor.idProduct;
+    let manufacturer, product, serialNumber;
+    try {
+      manufacturer = await getStringDescriptorAsync(device, deviceDescriptor.iManufacturer);
+      product = await getStringDescriptorAsync(device, deviceDescriptor.iProduct);
+      serialNumber = await getStringDescriptorAsync(device, deviceDescriptor.iSerialNumber);
+    } catch (e) {
+      manufacturer = product = serialNumber = undefined;
+    }
+    deviceInfos.push({
+      vendorId: idVendor,
+      productId: idProduct,
+      manufacturer,
+      product,
+      serialNumber,
+    });
+    try { device.close(); } catch (_) {}
+  }
+  return deviceInfos;
+}
+
+// Log USB devices at startup
+enumerateUsbDevices()
+  .then(devices => {
+    console.log('[KeepKey Main] USB Devices:', devices);
+  })
+  .catch(err => {
+    console.error('[KeepKey Main] Error fetching USB devices:', err);
+  });
+
+
 // @ts-ignore
 export const ipcListeners: IpcListeners = {
   async appRestart() {
@@ -409,6 +459,10 @@ export const ipcListeners: IpcListeners = {
     return stopOllamaServe();
   },
 
+  async enumerateUsbDevices() {
+    return enumerateUsbDevices();
+  },
+  
   // async appUpdate() {
   //   if (isDev) {
   //     return { updateInfo: { version: app.getVersion() } }

@@ -111,7 +111,8 @@
       "switchWallet": "Zmień dostawcę portfela",
       "disconnect": "Rozłączyć się",
       "disconnected": "(Bezładny)",
-      "openDev": "Otwórz dokumentację programisty API"
+      "openDev": "Otwórz dokumentację programisty API",
+      "openOllama": "Sprawdź status Api"
     }
   },
   "navBar": {
@@ -190,6 +191,9 @@
       "dappsText1": "KeepKey Desktop ma wbudowany sklep dApp Store. Ten sklep umożliwia odkrywanie i łączenie się z listą zdecentralizowanych aplikacji.",
       "dappsText2": "KeepKey ułatwia interakcję ze zdecentralizowanymi aplikacjami. Możesz skorzystać z naszej przeglądarki w aplikacji, aby łatwo uzyskać dostęp do tych dApps i skorzystać z naszej integracji z portfelem. Nasza przeglądarka w aplikacji wykorzystuje siłę społeczności, aby wybierać dla Ciebie najlepsze i najbardziej renomowane aplikacje dApps.",
       "dappsText3": "Dołącz do społeczności ShapeShift i użyj swoich tokenów FOX, aby głosować na najlepsze dApps w Pioneer dApp. Odblokuj ekskluzywne korzyści i nagrody, będąc pierwszą osobą, która śledzi i rozwija dApps i zasoby!",
+      "bexText1": "Spróbuj rozszerzenia przeglądarki KeepKey do bezpiecznego zarządzania swoimi kryptowalutami bezpośrednio w przeglądarce. Połącz się z dAppami i ciesz się ochroną na poziomie sprzętowym - wszystko w jednym miejscu.",
+      "bexText2": "Zyskaj kontrolę nad swoim doświadczeniem z kryptowalutami dzięki Rozszerzeniu Przeglądarki KeepKey. Bezproblemowo współpracuj z dAppami, zabezpiecz swoje aktywa i bądź na bieżąco z ruchami na rynku, prosto z przeglądarki.",
+      "bexText3": "Zaktualizuj zarządzanie kryptowalutami! Rozszerzenie przeglądarki KeepKey oferuje prosty, bezpieczny i czasowy dostęp do Twoich aktywów. Pobierz teraz, aby doświadczyć zwiększonego bezpieczeństwa i zoptymalizowanej łączności z dApp.",
       "restoreTitle": "Co to jest mnemonik?",
       "restoreText1": "BIP39 to implementacja standaryzująca sposób, w jaki portfele obsługują frazy mnemoniczne i frazy początkowe, które umożliwiają odzyskanie konta w przypadku utraty urządzenia.",
       "restoreText2": "Fraza odzyskiwania BIP39 jest uniwersalna, co oznacza, że ​​można ją zaimportować do dowolnego portfela w ekosystemie kryptowalut.",
@@ -217,6 +221,7 @@
         "button": "Prześlij hasło"
       },
       "hardware": {
+        "troubleshoot": "Urządzenie podłączone? Rozwiązywanie problemów",
         "claimTitle": "Już zarezerwowany interfejs!",
         "claimInterface": "Inne oprogramowanie obecnie korzysta z KeepKey.",
         "claimInterface2": "Zamknij inne oprogramowanie i spróbuj ponownie.",
@@ -225,7 +230,6 @@
         "headerError": "Błąd sprzętowy!",
         "headerReconnect": "Podłącz ponownie swój KeepKey",
         "headerConnect": "Witamy w KeepKey Desktop!",
-        "troubleshoot": "Urządzenie podłączone? Rozwiązywanie problemów",
         "connect": "łączyć",
         "reconnect": "Aby kontynuować, odłącz i podłącz ponownie KeepKey.",
         "guide": "Podręcznik rozwiązywania problemów",
@@ -359,6 +363,7 @@
         "IDR": "Rupia indonezyjska"
       },
       "tabs": {
+        "ollama": "Ollama",
         "general": "Ogólne",
         "app": "Aplikacja",
         "keepkey": "KeepKey"
@@ -515,6 +520,27 @@
         "footer": "Nie masz portfela?",
         "create": "Utwórz jeden"
       }
+    },
+    "walletConnect": {
+      "errors": {
+        "unknown": "Wystąpił nieoczekiwany błąd podczas komunikacji z WalletConnect",
+        "connectFailure": "Nie można połączyć portfela WalletConnect"
+      },
+      "connect": {
+        "header": "Połącz z WalletConnect",
+        "body": "Kliknij \"Połącz\", a następnie wybierz \"WalletConnect\" z okna popup.",
+        "button": "Para"
+      },
+      "failure": {
+        "header": "Błąd",
+        "body": "Nie można połączyć portfela WalletConnect"
+      }
+    },
+    "selectModal": {
+      "header": "Połącz portfel",
+      "body": "Połączając portfel, zgadzasz się na Warunki korzystania z usług ShapeShift i potwierdzasz, że przeczytałeś i zrozumiałeś oświadczenie ShapeShift.",
+      "footer": "Nie masz portfela?",
+      "create": "Utwórz jedną"
     },
     "assets": {
       "assetDetails": {
@@ -704,4 +730,206 @@
           "priority": {
             "label": "Opłata Priorytetowa",
             "tooltip": "Opłata priorytetowa to opcjonalny napiwek, aby zmotywować producentów bloków do priorytetowego traktowania Twojej transakcji. Ustaw opłatę priorytetową w gwei, którą chcesz zapłacić za każdą jednostkę gazu."
-          }}}}}}
+          }
+        }
+      }
+    }
+  },
+  "assets": {
+    "assetDetails": {
+      "assetHeader": {
+        "balance": "Saldo",
+        "price": "Cena",
+        "marketCap": "Kapitalizacja rynkowa",
+        "24HrVolume": "Objętość 24h",
+        "dayChange": "Zmiana dzienna",
+        "aboutAsset": "O %{asset}",
+        "SegwitP2sh": "Segwit",
+        "SegwitNative": "Segwit Natywny",
+        "P2pkh": "Dziedziczne",
+        "SegwitNativeTooltip": "Zalecane dla większości użytkowników. Używaj innych adresów tylko jeśli wiesz, do czego służą.",
+        "btcFormat": "Format BTC",
+        "assetUnavailable": "Dane rynkowe dla tego aktywa nie są jeszcze dostępne. Pracujemy nad tym, bądź cierpliwy!",
+        "loading": "Pobieranie historii cen, proszę czekać...",
+        "maxTotalSupply": "Maksymalna Łączna Dostawa",
+        "availableSupply": "Dostępna podaż",
+        "marketData": "Dane rynkowe"
+      },
+      "assetDescription": {
+        "showMore": "Pokaż więcej",
+        "showLess": "Pokaż mniej"
+      },
+      "assetHistory": {
+        "transactionHistory": "Historia transakcji",
+        "recentTransactions": "Najnowsze transakcje",
+        "emptyTransactions": "Transakcje pojawią się tutaj."
+      },
+      "assetAccounts": {
+        "account": "Konto",
+        "assetAllocation": "Alokacja aktywów",
+        "allocation": "Przydział",
+        "amount": "Kwota",
+        "value": "Wartość"
+      },
+      "nft": {
+        "nftAllocation": "Kolekcja NFT"
+      }
+    },
+    "assetCards": {
+      "assetActions": {
+        "buy": "Kup",
+        "sell": "Sprzedaj",
+        "trade": "Handel"
+      },
+      "accountTokens": "Tokeny konta",
+      "showTokens": "Pokaż tokeny (%{amount})",
+      "hideTokens": "Ukryj tokeny (%{amount})",
+      "underlyingAssets": "Aktywa bazowe",
+      "rewards": {
+        "farmingRewards": "Nagrody z Farmingu",
+        "currentRewards": "Aktualne nagrody",
+        "currentAPY": "Aktualne APY",
+        "yourRewards": "Twoje nagrody",
+        "currentAPYLabel": "Bieżący APY dla Twoich nagród",
+        "claimRewards": "Zgłoś nagrody"
+      },
+      "accounts": "Konta",
+      "stakingVaults": "Staking i Skarbiec",
+      "stakingBody": "Zarabiaj pasywne dochody poprzez staking swoich aktywów lub ich depozytowanie w strategii DeFi.",
+      "pools": "Pule"
+    }
+  },
+  "accounts": {
+    "accounts": "Konta",
+    "selectAccount": "Wybierz konto",
+    "addAccount": "Dodaj konto",
+    "accountNumber": "Konto nr %{accountNumber}",
+    "accountChain": "Łańcuch konta",
+    "selectChain": "Wybierz łańcuch, dla którego chcesz utworzyć konto.",
+    "requiresPriorTxHistory": "Możesz dodać nowe konto tylko jeśli istniejące konto/konta mają historię transakcji.",
+    "newAccountAdded": "Nowe konto %{name} dodane",
+    "youCanNowUse": "Możesz teraz korzystać z konta %{name} numer konta #%{accountNumber}"
+  },
+  "plugins": {
+    "walletConnectToDapps": {
+      "registry": {
+        "availableDapps": "Dostępne dAppy",
+        "getStarted": "Rozpocznij",
+        "learnMore": "Dowiedz się więcej",
+        "banner": {
+          "title": "Połącz się z ponad 300+ dAppami",
+          "subtitle": "Połącz swoją portfel z dApp za pomocą WalletConnect i inicjuj transakcje"
+        },
+        "emptyStateDescription": "Spróbuj dostosować zapytanie wyszukiwania i spróbuj ponownie.",
+        "pageInput": {
+          "label": "%{current} z %{total}",
+          "nextPage": "Następna strona",
+          "prevPage": "Poprzednia strona"
+        }
+      },
+      "header": {
+        "connectDapp": "Połącz dApp",
+        "connectedDapp": "Połączona aplikacja dApp",
+        "menu": {
+          "disconnect": "Rozłącz",
+          "address": "Adres",
+          "connected": "Połączony",
+          "network": "Sieć",
+          "unsupportedNetwork": "Niewspierana sieć"
+        }
+      },
+      "modal": {
+        "title": "WalletConnect",
+        "ethereum": "Ethereum",
+        "sessionProposal": {
+          "title": "Propozycja sesji WalletConnect",
+          "approve": "Zatwierdź",
+          "reject": "Odrzuć",
+          "methods": "Metody",
+          "events": "Wydarzenia"
+        },
+        "signMessage": {
+          "signingFrom": "Podpisywanie z",
+          "requestFrom": "Żądanie od",
+          "message": "Wiadomość",
+          "description": "Będziesz musiał potwierdzić podpisanie tej wiadomości za pomocą połączonej portfela.",
+          "confirm": "Potwierdź",
+          "reject": "Odrzuć"
+        },
+        "sendTransaction": {
+          "sendingFrom": "Wysyłanie z",
+          "interactingWith": "Interakcja z",
+          "contractInteraction": {
+            "title": "Interakcja z kontraktem",
+            "sendingEth": "Wysyłanie ETH",
+            "amount": "Kwota",
+            "data": "Dane",
+            "insight": "Analiza",
+            "simulation": "symulacja",
+            "raw": "Surowe",
+            "contract": "Interfejs ABI"
+          },
+          "raw": {
+            "raw": "Surowa transakcja",
+            "to": "Interakcja z kontraktem",
+            "from": "Wysyłanie ETH",
+            "data": "Dane szesnastkowe"
+          },
+          "simulation": {
+            "title": "Informacje o symulacji TX (dostarczone przez blocknative.com)"
+          },
+          "insight": {
+            "title": "Informacje o transakcji (dostarczone przez harpie.io)",
+            "isDangerousOperation": "Czy ta akcja umowy jest niebezpieczna?",
+            "isMaliciousAddress": "Czy ten kontrakt jest złośliwy?",
+            "isTrustedAddress": "Czy ten kontrakt jest zaufany?",
+            "recommendedAction": "Zalecamy Ci",
+            "THEFT": "Czy ten kontrakt został zgłoszony jako kradzież?",
+            "CYBERCRIME": "Czy ten kontrakt ma związek z cyberprzestępczością?",
+            "SANCTIONED": "Czy ten kontrakt jest sankcjonowany?",
+            "BOT": "Czy ten kontrakt należy do bota?",
+            "WASH_TRADER": "Czy ten kontrakt należy do osoby zajmującej się praniem pieniędzy?",
+            "MIXER": "Czy ten kontrakt należy do miksera?"
+          },
+          "advancedParameters": {
+            "title": "Zaawansowane parametry",
+            "alert": "Tylko dla zaawansowanych użytkowników. Modyfikacja tych ustawień może skutkować utkniętymi transakcjami.",
+            "nonce": {
+              "title": "Nonce\" - \"Wartość Nonce",
+              "placeholder": "Nonce...",
+              "tooltip": "wyjaśnij tutaj nonce"
+            },
+            "gasLimit": {
+              "title": "Limit gazu",
+              "placeholder": "Limit gazu...",
+              "tooltip": "wyjaśnij tutaj limit gazu"
+            }
+          },
+          "estGasCost": "Koszt gazu (szac.)",
+          "description": "Zamierzasz utworzyć transakcję i będziesz musiał ją potwierdzić za pomocą obecnie podłączonego portfela."
+        },
+        "connect": {
+          "title": "Połącz swoją portfel z dApp za pomocą WalletConnect i inicjuj transakcje",
+          "howTo": "Jak połączyć się z dApp?",
+          "linkPlaceholder": "Kod QR lub link połączenia",
+          "connect": "Połącz"
+        }
+      }
+    }
+  },
+  "gasInput": {
+    "gasPrice": {
+      "label": "Cena gazu",
+      "tooltip": "Cena różnicy w Gwei"
+    },
+    "base": {
+      "label": "Podstawowa opłata",
+      "tooltip": "Podstawowa opłata jest ustawiana przez sieć i zmienia się co 13-14 sekund w zależności od popytu. Ustaw maksymalną cenę (bez opłaty priorytetowej) w gwei, którą jesteś gotowy zapłacić za każdą jednostkę gazu."
+    },
+    "priority": {
+      "label": "Opłata priorytetowa",
+      "tooltip": "Opłata priorytetowa to opcjonalna napiwka dla producentów bloków, aby zmotywować ich do priorytetowego traktowania Twojej transakcji. Ustaw opłatę priorytetową w gwei, którą chcesz zapłacić za każdą jednostkę gazu."
+    },
+    "custom": "Niestandardowy"
+  }
+}

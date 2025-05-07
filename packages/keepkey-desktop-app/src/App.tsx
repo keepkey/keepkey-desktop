@@ -2,6 +2,7 @@ import { PinMatrixRequestType as PinMatrixRequestTypeDeviceProto } from '@keepke
 import * as Comlink from 'comlink'
 import { assertNever, deferred } from 'common-utils'
 import type { PairingProps } from 'components/Modals/Pair/types'
+import { getConfig } from 'config'
 import { WalletActions } from 'context/WalletProvider/actions'
 import { PinMatrixRequestType } from 'context/WalletProvider/KeepKey/KeepKeyTypes'
 import { useKeepKey } from 'context/WalletProvider/KeepKeyProvider'
@@ -71,15 +72,27 @@ export const App = () => {
       if (connected) {
         let defaultDapp = localStorage.getItem('@app/defaultDapp')
         if (!defaultDapp || defaultDapp === '' || defaultDapp.indexOf('shapeshift') > -1) {
-          const defaultDappShapeShift = {
-            imageUrl: 'https://assets.coincap.io/assets/icons/fox@2x.png',
-            url: 'https://private.shapeshift.com/',
-            name: 'ShapeShift',
-          }
 
-          //set SS as default dapp
-          localStorage.setItem('@app/defaultDapp', JSON.stringify(defaultDappShapeShift))
-          openDapp(defaultDappShapeShift.url)
+            // Use the environment variable from config instead of hard-coded URL
+            const defaultDapp = {
+                imageUrl: 'https://keepkey.com/favicon.ico',
+                url: getConfig().REACT_APP_HOME_URL,
+                name: 'KeepKey Vault',
+            }
+
+            //set SS as default dapp
+            localStorage.setItem('@app/defaultDapp', JSON.stringify(defaultDapp))
+            openDapp(defaultDapp.url)
+
+          // const defaultDappShapeShift = {
+          //   imageUrl: 'https://assets.coincap.io/assets/icons/fox@2x.png',
+          //   url: 'https://private.shapeshift.com/',
+          //   name: 'ShapeShift',
+          // }
+          //
+          // //set SS as default dapp
+          // localStorage.setItem('@app/defaultDapp', JSON.stringify(defaultDappShapeShift))
+          // openDapp(defaultDappShapeShift.url)
         } else {
           try {
             const app = JSON.parse(defaultDapp)

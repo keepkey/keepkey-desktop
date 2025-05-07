@@ -1,0 +1,1 @@
+{ "launch": { "configurations": [ { "type": "node", "request": "launch", "name": "Launch Program", "skipFiles": [ "<node_internals>/**" ], "program": "${workspaceFolder}/packages/keepkey-desktop/scripts/dev.ts" } ] } }

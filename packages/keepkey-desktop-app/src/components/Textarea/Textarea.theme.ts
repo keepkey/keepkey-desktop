@@ -8,6 +8,8 @@ export const TextareaStyle = {
       _placeholder: {
         color: mode('gray.300', 'gray.700')(props),
       },
+      userSelect: 'text',
+      WebkitUserSelect: 'text',
     },
   }),
   // Styles for the size variations

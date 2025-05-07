@@ -12,6 +12,7 @@ import { ReceiveModal } from 'components/Modals/Receive/Receive'
 import { SendModal } from 'components/Modals/Send/Send'
 import { SettingsModal } from 'components/Modals/Settings/Settings'
 import { SignModal } from 'components/Modals/Sign/Sign'
+import { TroubleshootConnectionModal } from 'components/Modals/TroubleshootConnection/TroubleshootConnection'
 import { HardwareErrorModal } from 'components/Modals/UpdateKeepKey/HardwareError/HardwareError'
 import { RequestBootloaderMode } from 'components/Modals/UpdateKeepKey/RequestBootloaderMode/RequestBootloaderMode'
 import { UpdateKeepKey } from 'components/Modals/UpdateKeepKey/UpdateKeepKey'
@@ -50,6 +51,7 @@ const MODALS = {
   languages: Languages,
   hardwareError: HardwareErrorModal,
   onboardingSteps: OnboardingSteps,
+  troubleshootConnection: TroubleshootConnectionModal,
 }
 
 // Extra z-index to apply to various modals -- used to make things appear on top of WalletProvider modals, which show up at 9500.

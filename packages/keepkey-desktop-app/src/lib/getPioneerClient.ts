@@ -3,7 +3,7 @@ import Client from '@pioneer-platform/pioneer-client'
 import { getConfig } from 'config'
 
 export const getPioneerClient = async () => {
-  let spec = getConfig().REACT_APP_DAPP_URL
+  let spec = getConfig().REACT_APP_PIONEER_API_SPEC_URL
   let config = {
     queryKey: 'key:public',
     username: 'user:public',

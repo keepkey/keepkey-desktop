@@ -1,6 +1,7 @@
 import { ExternalLinkIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { Divider, Flex, Stack } from '@chakra-ui/layout'
 import { Icon, Switch, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { useState, useEffect, useCallback } from 'react'
 import { getLocaleLabel } from 'assets/translations/utils'
 import { RawText } from 'components/Text'
 import { FaCoins, FaDollarSign, FaGreaterThanEqual } from 'react-icons/fa'
@@ -26,6 +27,32 @@ export const GeneralSettings = ({ appHistory, ...routeProps }: SettingsListProps
   const selectedCurrencyFormat = useAppSelector(selectCurrencyFormat)
   // for both locale and currency
   const selectedPreferenceValueColor = useColorModeValue('blue.500', 'blue.200')
+  
+  // Service API Key state
+  const [serviceKey, setServiceKey] = useState('')
+  const [copiedText, setCopiedText] = useState(false)
+  
+  // Load service key from localStorage
+  useEffect(() => {
+    const key = window.localStorage.getItem('@app/serviceKey')
+    if (key) {
+      setServiceKey(key)
+    }
+  }, [])
+  
+  // Copy service key to clipboard
+  const copyServiceKey = useCallback(() => {
+    if (serviceKey) {
+      navigator.clipboard.writeText(serviceKey)
+        .then(() => {
+          setCopiedText(true)
+          setTimeout(() => setCopiedText(false), 2000) // Reset after 2 seconds
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err)
+        })
+    }
+  }, [serviceKey])
 
   return (
     <Stack width='full' p={0}>
@@ -93,6 +120,18 @@ export const GeneralSettings = ({ appHistory, ...routeProps }: SettingsListProps
           label='connectWallet.menu.openDev'
         />
       </Link>
+      <Divider my={1} />
+      <SettingsListItem
+        label='Service API Key'
+        icon={<Icon as={ExternalLinkIcon} color='gray.500' />}
+        onClick={copyServiceKey}
+      >
+        <Flex alignItems='center'>
+          <RawText color={selectedPreferenceValueColor} lineHeight={1} fontSize='sm'>
+            {copiedText ? 'Copied!' : serviceKey ? '••••••••••••••••' : 'Not set'}
+          </RawText>
+        </Flex>
+      </SettingsListItem>
       <Divider my={1} />
     </Stack>
   )
