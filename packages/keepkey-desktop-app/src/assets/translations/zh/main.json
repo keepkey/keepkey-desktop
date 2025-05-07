@@ -1,6 +1,7 @@
 {
   "common": {
     "back": "上一页",
+    "balance": "余额",
     "next": "下一页",
     "error": "错误",
     "cancel": "取消",
@@ -14,11 +15,15 @@
     "noResultsFound": "查询无结果。",
     "insufficientFunds": "资金不足",
     "estimatedGas": "预计 Gas 费用",
+    "relayerGasFee": "关联的Gas费用",
     "insufficientAmountForGas": "没有足够的 ETH 来支付 gas 费用",
     "invalidAddress": "无效地址",
+    "invalidAddressOrYat": "无效的地址或 Yat",
     "deposit": "存款",
     "withdraw": "提款",
     "withdrawal": "退出",
+    "claim": "领取",
+    "withdrawAndClaim": "提款与索取",
     "overview": "概述",
     "getStarted": "开始",
     "connectWallet": "连接钱包",
@@ -36,7 +41,12 @@
     "or": "或者",
     "somethingWentWrong": "出现问题",
     "somethingWentWrongBody": "出现问题",
+    "accountError": "加载 %{erroredAccountNames} 帐户时出错。",
+    "degradedState": "应用程序处于降级状态",
+    "degradedInfo": "无法获取部分账户的数据。",
     "success": "成功",
+    "retry": "重试",
+    "retryQuestion": "重试？",
     "transactionFailed": "交易失败",
     "transactionFailedBody": "交易失败",
     "submitFeedback": "提交反馈",
@@ -49,67 +59,52 @@
     "copyFailed": "无法复制到剪贴板",
     "copyFailedDescription": "请手动复制",
     "viewAsset": "查看资产",
-    "apy": "%{apy}% 年化收益率",
     "settings": "设置",
+    "joinDiscord": "支持",
+    "getSupport": "需要更多帮助吗？获取实时支持",
     "legalDated": "日期：2022 年 1 月",
     "approveOnWallet": "在钱包中批准",
     "confirmOnWallet": "在钱包中确认",
     "login": "登录",
     "verify": "证明",
     "notRobot": "我不是一个机器人",
-    "skip": "跳过"
+    "skip": "跳过",
+    "generalError": "发生了错误",
+    "showDetails": "显示详情",
+    "hideDetails": "隐藏细节",
+    "walletSupportsETHOnly": "仅限以太坊",
+    "loadingText": "加载中...",
+    "txId": "交易ID",
+    "selectAsset": "选择资产",
+    "switchNetwork": "切换网络",
+    "unsupportedNetwork": "不支持的网络",
+    "apy": "%{apy}% 年化收益率"
   },
   "updateToast": {
     "body": "应用有新版本",
     "cta": "重新加载应用"
   },
-  "dashboard": {
-    "portfolio": {
-      "addAsset": "添加资产",
-      "yourAssets": "您的资产",
-      "asset": "资产",
-      "portfolioBalance": "资产组合余额",
-      "balance": "余额",
-      "price": "价格",
-      "value": "价值",
-      "priceChange": "价格变化",
-      "allocation": "投资组合配置",
-      "empty": {
-        "title": "蟋蟀声...",
-        "cta": "发送加密资产给你自己"
-      },
-      "stakedInfo": "你不能发送或交易已质押的金额"
-    },
-    "recentTransactions": {
-      "recentTransactions": "近期交易"
+  "multiCurrency": {
+    "toast": {
+      "title": "加载 %{symbol} 数据时出错",
+      "description": "您的货币已重置为美元"
     }
   },
-  "fiatRamps": {
-    "routeTitle": "买入或卖出",
-    "routeTitleForGem": "斜坡上的Gem",
-    "title": "购买或出售加密货币",
-    "titleMessage": "ShapeShift 已与多家法定坡道供应商合作购买和销售加密货币。",
-    "gem": "GEM",
-    "junoPay": "JunoPay",
-    "comingSoon": "敬请期待 ...",
-    "buy": "买入",
-    "sell": "卖出",
-    "assetToBuy": "购买资产",
-    "selectAnAssetToBuy": "选择要购买的资产",
-    "assetToSell": "出售资产",
-    "selectAnAssetToSell": "选择要出售的资产",
-    "fundsTo": "资金将发送至",
-    "fundsFrom": "资金将从",
-    "headerLabel": "购买/出售加密货币",
-    "insufficientCryptoAmountToSell": "出售的最低金额为$%{Amount}"
-  },
   "connectWalletPage": {
+    "troubleshoot": "故障排除连接",
+    "nextFrontier": "加密安全的下一个前沿",
+    "protectYourCrypto": "保护您的加密货币，将您的私钥存储在离线设备上，并保护您的资产免受黑客攻击。现在是时候通过KeepKey以最安全的方式实现财务自由了。",
     "shapeshift": "ShapeShift 平台",
     "exploreThe": "探索",
     "defiUniverse": "去中心化金融的宇宙",
     "body": "100%免费。 完全开源。 社区拥有。 非托管。 高度私密。",
+    "body2": "欢迎来到新的ShapeShift。100%免费。开源。社区所有。非托管。私密。",
+    "betaSunset": "测试版已停用，了解更多",
+    "poweredBy": "由 ShapeShift 提供支持",
     "header": "请连接钱包开始使用",
     "cta": "连接钱包",
+    "viewADemo": "查看演示",
+    "buyKeepKey": "没有设备？购买 KeepKey",
     "orViewADemo": "或观看演示"
   },
   "connectWallet": {
@@ -117,255 +112,110 @@
       "triggerButton": "连接钱包",
       "switchWallet": "切换钱包提供商",
       "disconnect": "断开连接",
-      "disconnected": "（已断开）"
+      "disconnected": "（已断开）",
+      "openDev": "开放API开发者文档",
+      "openOllama": "检查 API 状态"
     }
   },
-  "defi": {
-    "modals": {
-      "learnMore": {
-        "next": "下一个",
-        "close": "关闭",
-        "headers": {
-          "aboutStakingRewards": "关于质押奖励",
-          "unstaking": "取消您的 %{assetName}",
-          "risks": "有风险吗？"
-        },
-        "bodies": {
-          "rateFluctuationInfo": "您赚取的 %{assetName} 比率，即年利率 (APR)，通常在 7% - 20% 之间波动。",
-          "amountStakingInfo": "您可以质押任意数量的 %{assetName}，他们会立即开始赚取奖励。",
-          "withdrawInfo": "您可以随时提取奖励，这需要大约 0.01 美元的小额 gas 费用。",
-          "unbondingInfo": "当您取消质押代币时，他们将被继续锁定 %{unbondingDays} 天，在此期间他们不会产生收益。 %{unbondingDays} 天后，您的 %{assetName} 将返还到您的主钱包。",
-          "slashingInfo": "质押是通过验证者完成的。这种情况非常罕见，但如果您质押的验证者因允许虚假或错误的交易通过而作恶，您可能会损失部分资产。",
-          "partnerInfo": "我们通过与信誉良好的验证者合作降低了这种风险，验证者拥有安全、可靠且经过审计的基础设施。"
-        },
-        "userProtectionInfo": "*回报率是预估的，会随着市场情况而波动。",
-        "cta": {
-          "startStaking": "开始质押",
-          "learnMore": "了解更多"
-        }
-      },
-      "getStarted": {
-        "header": "质押您的 %{assetName} 最高可赚取 %{apr}% 年利率*",
-        "body": "质押是在加密货币钱包中持有资金以支持区块链网络运营的过程，作为回报，质押者的贡献会得到回报。",
-        "userProtectionInfo": "*回报率是预估的，会随着市场情况而波动。",
-        "cta": {
-          "startStaking": "开始质押",
-          "learnMore": "了解更多"
-        }
-      },
-      "foxyOverview": {
-        "header": "存入 FOX 来获取 FOXy 收益",
-        "body": "FOXy 是与 FOX 价格挂钩的锚定代币。 FOXy 可跨不同的 DeFi 协议工作，以获取尽可能好的收益。",
-        "rewards": "您获得的收益将自动累积。",
-        "cta": "立即存入 FOX",
-        "foxyBalance": "FOXy 平衡",
-        "withdrawals": "提款",
-        "emptyWithdraws": "待处理或有效提款将在此处显示。",
-        "availableDate": "有效 %{date}"
-      },
-      "claim": {
-        "rewardDepositInfo": "您的收益将存入您的主钱包。",
-        "title": "领取 Staking 奖励",
-        "confirmAndClaim": "确认和领取",
-        "rewardAmount": "奖励金额",
-        "claimingRewards": "领取奖励",
-        "claimAmount": "领取金额",
-        "claimToAddress": "领取地址",
-        "confirmClaim": "确认领取",
-        "claimNow": "立即领取"
-      }
-    },
-    "amountToStake": "质押金额",
-    "amountToUnstake": "取消质押金额",
-    "confirmDetails": "确认详情",
-    "broadcastingTransaction": "广播交易",
-    "transactionComplete": "交易完成",
-    "transactionFailed": "交易失败",
-    "notEnoughFundsInReserve": "流动性储备合约资金不足",
-    "validator": "验证程序",
-    "validatorMoniker": "%{moniker} 验证程序",
-    "stakedAmount": "质押金额",
-    "unstakeFrom": "取消质押",
-    "gasFee": "Gas 费用",
-    "unbondInfoItWillTake": "当您的代币被质押时，您将无法转移或使用它们。解除质押后需要 %{unbondingDays} 天才能解锁。",
-    "unbondInfoItWillTakeShort": "取消质押代币需要 %{unbondingDays} 天",
-    "confirmAndBroadcast": "确认和广播",
-    "signAndBroadcast": "签名和广播",
-    "averageApr": "平均年利率",
-    "estimatedYearlyRewards": "预计年化奖励",
-    "staked": "已质押",
-    "amountStaked": "已质押金额",
-    "assetStaking": "%{assetName} 质押",
-    "stake": "质押",
-    "unstake": "取消质押",
-    "stakeAsset": "质押 %{assetSymbol}",
-    "unstakeAsset": "取消质押 %{assetSymbol}",
-    "claimAsset": "领取质押奖励",
-    "claim": "领取",
-    "rewards": "奖励",
-    "unstaking": "取消质押",
-    "available": "可用 %{unbondingEnd}",
-    "earn": "赚取",
-    "asset": "资产",
-    "category": "类别",
-    "tvl": "总锁仓量",
-    "apy": "年化收益率",
-    "apr": "年利率",
-    "balance": "余额",
-    "defi": "去中心化金融",
-    "defiBody": "探索成长中的去中心化金融宇宙。",
-    "netWorth": "净值",
-    "walletBalance": "钱包余额",
-    "earnBalance": "收益余额",
-    "earnBody": "质押资产赚取被动收入或者存入DeFi策略产品。",
-    "overview": "概览",
-    "liquidityPools": "流动性池",
-    "stakingVaults": "正在质押及金库",
-    "farming": "流动性挖矿",
-    "totalEarningBalance": "获益资产总计",
-    "stakingBalance": "质押余额",
-    "farmingBalance": "流动性挖矿余额",
-    "liquidityPoolBalance": "流动性池余额",
-    "poolValue": "流动性池价值",
-    "currentValue": "当前价值",
-    "currentAPY": "当前年化收益率",
-    "currentAPR": "当前年利率",
-    "yearn": "Yearn Finance",
-    "emptyEarn": "赚取机会将在这里出现。",
-    "empty": {
-      "farming": {
-        "body": "您当前未参与流动性挖矿。",
-        "cta": "查看投资机会"
-      },
-      "stakingVaults": {
-        "body": "为您的加密资产寻找赚取利息的机会。",
-        "cta": "查看投资机会"
-      },
-      "pools": {
-        "body": "您还未向流动性池存入资产。",
-        "cta": "查看投资机会"
-      }
-    },
-    "viewOnChain": "在链上查看"
-  },
-  "staking": {
-    "staking": "正在质押",
-    "itWillTake": "这将需要",
-    "toUnlock": "在您取消质押后解锁您的 Osmo。质押奖励需要单独提取。",
-    "assetStakingBalance": "%{assetName} 质押余额"
-  },
   "navBar": {
-    "dashboard": "仪表盘",
     "assets": "资产",
     "assetDetails": "资产详情",
     "accounts": "账户",
     "accountAsset": "账户资产",
     "accountDetails": "帐户详细信息",
-    "earn": "获取收益",
-    "defi": "去中心化金融",
     "transactionHistory": "交易记录",
     "overview": "概述",
     "transactions": "交易",
     "tradeHistory": "交易记录",
+    "dApps": "dApps",
+    "pairings": "交易对",
+    "authenticator": "身份验证器",
+    "clickToConnect": "点击连接钱包",
+    "wallet": "钱包",
+    "explore": "探索",
+    "trade": "交易",
+    "browser": "浏览器",
+    "dashboard": "仪表盘",
+    "earn": "获取收益",
+    "defi": "去中心化金融",
     "foxToken": "FOX Opportunities",
     "featureFlags": "功能开关标志"
   },
-  "transactionRow": {
-    "send": "已发送",
-    "receive": "已收到",
-    "moreDetails": "查看详情",
-    "date": "日期",
-    "txid": "交易 ID",
-    "fee": "手续费",
-    "status": "状态",
-    "confirmed": "已确认",
-    "pending": "待处理",
-    "failed": "未成功",
-    "network": "网络",
-    "blockHeight": "区块高度",
-    "to": "至",
-    "from": "从",
-    "trade": "交易",
-    "amount": "金额",
-    "for": "为了",
-    "parser": {
-      "weth": {
-        "deposit": "存款",
-        "approve": "批准",
-        "withdraw": "取款",
-        "receive": "收到"
-      },
-      "yearn": {
-        "deposit": "存款",
-        "approve": "批准",
-        "withdraw": "取款",
-        "receive": "收到"
-      },
-      "uniV2": {
-        "addLiquidityETH": "添加流动性",
-        "removeLiquidityETH": "移除流动性"
-      },
-      "thor": {
-        "transferOut": "转出"
-      },
-      "foxy": {
-        "stake": "质押",
-        "unstake": "取消质押",
-        "instantUnstake": "立即解除质押",
-        "claimWithdraw": "撤回申领"
-      }
+  "pairedApps": {
+    "header": "当前交易对",
+    "body": "当前已与您的KeepKey配对的所有应用程序列表",
+    "noApps": "目前没有配对的应用程序",
+    "cta": {
+      "unpair": "取消配对应用",
+      "launchDapp": "启动 Dapp",
+      "openLogs": "打开日志"
     },
-    "unknown": "交易"
+    "history": {
+      "header": "配对历史",
+      "wc": "钱包连接应用",
+      "sdk": "KeepKey SDK 应用程序",
+      "body": "已与 KeepKey 桌面端配对的所有应用程序列表",
+      "noApps": "之前没有配对的应用程序",
+      "notPairedWith": "尚未与 %{name} 配对任何应用程序"
+    }
   },
-  "trade": {
-    "searchingRate": "搜索最优兑换率。。。",
-    "previewTrade": "预览交易",
-    "rate": "兑换率",
-    "minerFee": "矿工费",
-    "shapeshiftFee": "ShapeShift 收取费用",
-    "confirmDetails": "确认交易细节",
-    "confirmAndTrade": "确认并交易",
-    "complete": "交易完成",
-    "approveAsset": "授权与%{symbol}交互",
-    "needPermission": "我们需要您的授权已使用 %{symbol}",
-    "whyNeedThis": "为什么您需要此项操作？",
-    "estimatedGasFee": "预估 Gas 费用",
-    "approvingAsset": "授权 %{symbol}中",
-    "viewTransaction": "查看交易",
-    "tooltip": {
-      "rate": "这是此交易对的预计兑换率。",
-      "minerFee": "此项为区块链网络处理交易所需收费。非 Shapeshift 收费。",
-      "shapeshiftFee": "ShapeShift 不额外收取任何费用 🎉"
+  "authenticator": {
+    "heading": "身份验证器",
+    "header": "账户",
+    "noAccounts": "您的KeepKey上目前没有保存任何账户。",
+    "actions": "操作",
+    "account": "账户",
+    "unsupported": {
+      "title": "功能不支持！",
+      "description1": "您需要将您的 KeepKey 固件更新至版本",
+      "description2": "或更高版本才能使用此功能"
     },
-    "errors": {
-      "title": "出现问题",
-      "notEnoughEth": "以太坊余额不足支付此交易的 gas 费用。",
-      "amountTooSmall": "金额过小。此交易对交易最低金额为%{minLimit}。",
-      "negativeMax": "资金余额不足支付此交易的矿工费用。预估矿工费为 %{estimatedMinerFee}",
-      "invalidMax": "无效金额。此交易对最大交易金额为%{maxLimit}。",
-      "insufficientFunds": "资金余额不足支付矿工费用及交易金额",
-      "transactionRejected": "用户拒绝交易",
-      "broadcastFailed": "广播交易出现错误",
-      "insufficientFundsForLimit": "资金不足。此交易对最低交易金额为%{minLimit}",
-      "insufficientFundsForAmount": "资金不足。 您的%{symbol} 余额少于所选金额",
-      "noLiquidityError": "当前流动性不足",
-      "overMaxSlippage": "此交易将造成超过%{slippagePercentage}%滑点。请降低交易金额以获得更优价格",
-      "balanceToLow": "余额过低。此交易对最低交易金额为%{minLimit}",
-      "dexTradeFailed": "交易失败，代币已返还",
-      "quoteFailed": "获取报价出现错误。",
-      "failedQuoteExecuted": "无法执行报价：报价失败",
-      "sellAssetRequired": "无法执行报价：资产不存在",
-      "sellAmountRequired": "无法执行报价：无交易金额",
-      "depositAddressRequired": "无法执行以太坊报价：未提供中心化交易平台地址",
-      "sellAssetNetworkAndSymbolRequired": "请提供资产所在网络及代码以执行报价",
-      "hdwalletInvalidConfig": "与硬件钱包通讯时出错",
-      "signing": {
-        "failed": "交易签名出现错误",
-        "required": "需要已签名的交易"
+    "cta": {
+      "generateOtp": "生成OTP",
+      "deleteAcc": "删除账户",
+      "addAcc": "添加账户",
+      "refresh": "刷新账户",
+      "wipeData": "清除数据"
+    },
+    "modal": {
+      "header": "添加账户",
+      "scan": "将二维码置于视野内，然后点击下方的扫描按钮。",
+      "cta": {
+        "manual": "手动添加",
+        "scan": "扫描二维码",
+        "back": "返回"
       }
     }
   },
+  "pairingDetails": {
+    "header": "请求日志",
+    "body": "所有发送到 KeepKey 桥接器的请求列表，由 %{name} 发起",
+    "noRequests": "目前尚未发出任何请求"
+  },
   "modals": {
+    "onboarding": {
+      "dappsTitle": "什么是 DApp？",
+      "dappsText1": "KeepKey桌面客户端内置了DApp商店。该商店允许您发现并连接到一系列去中心化应用程序。",
+      "dappsText2": "KeepKey 让与去中心化应用程序互动变得简单。您可以使用我们的应用内浏览器轻松访问这些 dApps，并使用我们的钱包连接集成。我们的应用内浏览器利用社区的力量为您筛选出最好、最有声望的 dApps。",
+      "dappsText3": "加入 ShapeShift 社区，使用您的 FOX 代币在 Pioneer DApp 中投票支持最佳 DApp。成为第一个跟踪和开发 dApps 和资产的人，解锁独家福利和奖励！",
+      "bexText1": "尝试使用KeepKey浏览器扩展程序，在浏览器内安全管理您的加密货币。连接到dApps并享受硬件级别的保护，一切尽在一个地方。",
+      "bexText2": "使用KeepKey的浏览器扩展程序，掌控您的加密体验。从您的浏览器中无缝互动dApps，保护您的资产，并随时了解市场动向。",
+      "bexText3": "升级您的加密货币管理！KeepKey浏览器扩展提供简单、安全和实时访问您的资产。立即下载，体验增强安全性和简化dApp连接。",
+      "restoreTitle": "什么是助记词？",
+      "restoreText1": "BIP39 是一种实现，标准化了钱包如何处理助记词和种子短语，这些短语允许在您丢失设备时进行账户恢复。",
+      "restoreText2": "一个BIP39恢复短语是通用的，意味着它可以导入到加密货币生态系统中的任何钱包中。",
+      "restoreText3": "永远不要与任何人分享您的恢复短语。如果您丢失了恢复短语，您将无法访问您的资金。",
+      "pinTitle": "什么是 PIN 密码？",
+      "pinText1": "Pin输入过程使用在设备上生成的Cipher。",
+      "pinText2": "请注意，右侧显示的密码代表设备上显示的内容。如下所示。要输入 PIN，请按照设备上 PIN 的位置按下 KeepKey 桌面应用程序中的 PIN 输入模态框的数字位置。",
+      "previous": "上一页"
+    },
+    "clickDapp": {
+      "header": "扩展验证",
+      "content": "这是内容部分。高地人用有用的内容替换这里。",
+      "verify": "验证",
+      "continue": "继续"
+    },
     "keepKey": {
       "passphrase": {
         "errors": {
@@ -374,7 +224,46 @@
         },
         "header": "请输入口令",
         "body": "提交口令后，请使用KeepKey上的按键批准",
+        "bodyConfirm": "按住 KeepKey 上的按钮以确认您的密码短语。",
         "button": "提交口令"
+      },
+      "hardware": {
+        "troubleshoot": "设备已连接？故障排除",
+        "claimTitle": "已领取接口！",
+        "claimInterface": "其他软件当前正在使用KeepKey。",
+        "claimInterface2": "关闭其他软件，然后重试。",
+        "claimInterface3": "检查所有浏览器标签页，并关闭 app.ShapeShift.com 如果它是打开的！",
+        "claimInterface4": "请断开并重新连接您的 KeepKey 以继续。",
+        "headerError": "硬件错误！",
+        "headerReconnect": "请重新连接您的 KeepKey",
+        "headerConnect": "欢迎来到 KeepKey 桌面版！",
+        "connect": "#### **开始**\n请连接您的 KeepKey 以继续。\n\n如果您的设备已连接，请断开并重新连接以重置设备状态。",
+        "reconnect": "请断开并重新连接您的 KeepKey 以继续。",
+        "guide": "故障排除指南",
+        "moreInfo": "仍然无法连接？欲了解更多信息，请阅读我们的故障排除指南。"
+      },
+      "bootloader": {
+        "header": "您的KeepKey需要更新引导程序！",
+        "cta": "您的KeepKey已过期！让我们更新您的引导程序。",
+        "bootloaderUpdate": "正在更新您的 KeepKey 的引导加载程序",
+        "update": "检查 KeepKey 状态",
+        "continue": "批准并继续",
+        "bootloaderNeeded": "为了继续，请更新您设备的引导程序。",
+        "bootloader": "引导程序版本",
+        "firmware": "固件版本",
+        "updater": "为了继续，请将您的 KeepKey 放入固件更新模式。",
+        "step1": "请断开连接",
+        "step2": "按住按钮",
+        "step3": "重新连接设备（同时按住按钮）进入固件更新模式并继续。"
+      },
+      "firmware": {
+        "header": "需要为您的KeepKey进行固件更新！",
+        "firmwareUpdate": "更新您的 KeepKey 固件",
+        "update": "检查 KeepKey 状态",
+        "cta": "请断开您的 KeepKey，按住按钮，然后重新连接它（同时按住按钮）以进入固件更新模式。",
+        "continue": "批准并继续",
+        "firmwareNeeded": "为了继续，请更新您设备的固件。",
+        "firmware": "固件版本"
       },
       "label": {
         "header": "标记您的KeepKey(可选)",
@@ -399,6 +288,12 @@
         "infoSecond": "永远不要告诉别人你的恢复短语，这能让拥有者动用你的所有的资金。",
         "awaitingButtonPress": "按照KeepKey上的步骤查看您的恢复短语。写下来！"
       },
+      "factoryState": {
+        "header": "开始使用KeepKey",
+        "body": "您的 KeepKey 已设置为出厂默认设置。您可以创建一个新钱包，或使用恢复助记词来恢复钱包。",
+        "createButton": "创建新钱包",
+        "recoverButton": "恢复钱包"
+      },
       "recoverySentenceEntry": {
         "header": "输入您的恢复短语",
         "body": "使用你的KeepKey上的加密键盘图例，输入每个单词的前4个字母。如果单词中少于4个字母，按Enter键，按空格键，或者在输入完成后单击next。",
@@ -409,6 +304,95 @@
       "recoverySettingUp": {
         "header": "设置设备…",
         "body": "我们正在初始化你的设备并同步你的地址，请稍候。"
+      },
+      "recoveryInvalid": {
+        "header": "无效的恢复短语",
+        "body": "您输入的恢复短语无效。",
+        "button": "重试"
+      },
+      "downloadUpdater": {
+        "header": "下载 KeepKey 更新程序",
+        "button": "下载 %{filename}",
+        "wrongPlatform": "不使用%{platform}吗？点击这里"
+      },
+      "requestBootloaderMode": {
+        "title": "有更新可用",
+        "versionAlert1": "您的 KeepKey 当前版本为 ",
+        "versionAlert2": "，版本",
+        "versionAlert3": "现已可用",
+        "requestUpdaterMode": "为了继续，请将您的 KeepKey 设备放入固件更新模式。",
+        "restart": "1. 拔掉您的设备",
+        "restart1": "2. 按住按钮",
+        "restart2": "3. 继续按住按钮，同时重新插入设备",
+        "skipUpdate": {
+          "text": "暂不更新感觉如何？",
+          "cta": "跳过更新"
+        }
+      }
+    },
+    "settings": {
+      "settings": "设置",
+      "devTools": "您可以在 macOS 上按下 Cmd + Opt + I，或者在 Windows 或 Linux 上按下 Ctrl + Shift + I，来触发开发者工具。",
+      "currency": "货币",
+      "clearWalletAccountData": "删除所有帐户和钱包数据",
+      "deleteAccountsConfirm": "您确定吗？\n\n这将删除所有个人数据，包括钱包、账户和余额。\n\n请确认您已备份您的钱包后继续。",
+      "currencyFormat": "货币格式",
+      "language": "语言",
+      "balanceThreshold": "余额阈值",
+      "balanceThresholdTooltip": "隐藏低于此值的余额",
+      "autoLaunch": "在启动时自动启动应用",
+      "minimizeToTray": "最小化到托盘",
+      "autoUpdate": "自动安装更新",
+      "downloadPreRelease": "下载预发布版本",
+      "allowBetaFirmware": "下载测试版 KeepKey 固件",
+      "autoScanQr": "自动扫描二维码",
+      "resetDefaultDapp": "重置默认 DApp",
+      "currencies": {
+        "CNY": "人民币",
+        "USD": "美元 (默认)",
+        "EUR": "欧元",
+        "JPY": "日元",
+        "GBP": "英镑",
+        "KRW": "韩元",
+        "INR": "印度卢比",
+        "CAD": "加拿大元",
+        "HKD": "港币",
+        "AUD": "澳大利亚元",
+        "TWD": "新台币",
+        "BRL": "巴西雷亚尔",
+        "CHF": "瑞士法郎",
+        "THB": "泰国铢",
+        "MXN": "墨西哥比索",
+        "RUB": "俄罗斯卢布",
+        "SAR": "沙特里亚尔",
+        "SGD": "新加坡元",
+        "ILS": "以色列谢克尔",
+        "IDR": "印尼盾"
+      },
+      "tabs": {
+        "ollama": "Ollama\" -> \"奥拉玛",
+        "general": "常规",
+        "app": "应用程序",
+        "keepkey": "KeepKey"
+      }
+    },
+    "pair": {
+      "header": "钱包连接",
+      "notFound": "此 Dapp 未被识别，请自行承担风险！",
+      "native": {
+        "header": "应用程序配对请求",
+        "body": "%{serviceName} 想要与您的 KeepKey 配对"
+      },
+      "walletconnect": {
+        "header": "钱包连接配对请求",
+        "chain": "区块链",
+        "relay": "中继协议",
+        "methods": "方法"
+      },
+      "cta": {
+        "makeDefault": "在启动时启动 dapp",
+        "pair": "配对",
+        "reject": "拒绝"
       }
     },
     "shapeShift": {
@@ -563,12 +547,6 @@
     },
     "connect": {
       "loadingText": "钱包配对中"
-    },
-    "settings": {
-      "settings": "设置",
-      "language": "语言",
-      "balanceThreshold": "余额阈值",
-      "balanceThresholdTooltip": "隐藏低于此值的余额"
     }
   },
   "walletProvider": {
@@ -578,6 +556,7 @@
     "keepKey": {
       "errors": {
         "unknown": "与您的 KeepKey 通讯出现未知错误",
+        "updateAlert": "需要固件版本6.1.0或更高才能在此客户端上使用您的Keepkey。请更新您的设备。",
         "pinCancelled": "个人识别码（PIN）输入已取消",
         "pinInvalid": "您输入的个人识别码（PIN）无效",
         "pinMismatch": "您输入的个人识别码（PIN）不匹配"
@@ -586,7 +565,8 @@
         "header": "配对 KeepKey",
         "body": "连接 KeepKey 并点击配对。",
         "button": "配对",
-        "conflictingApp": "无法找到您的 KeepKey 。 其他应用可能正在试图连接您的 KeepKey 。"
+        "conflictingApp": "无法找到您的 KeepKey 。 其他应用可能正在试图连接您的 KeepKey 。",
+        "downloadUpdaterApp": "下载更新程序应用"
       },
       "pin": {
         "header": "请输入您的个人识别码（PIN）",
@@ -603,8 +583,12 @@
         "body": "请在您的设备上输入个人识别码（PIN）。",
         "button": "保存个人识别码（PIN）"
       },
+      "remove": {
+        "header": "确认您的PIN码",
+        "body": "请确认您的 PIN 以从您的 KeepKey 中移除 PIN。",
+        "button": "确认"
+      },
       "settings": {
-        "loadingText": "加载中...",
         "menuLabels": {
           "bootloader": "引导加载程序",
           "firmware": "固件",
@@ -613,13 +597,16 @@
           "deviceTimeout": "设备超时",
           "passphrase": "密码",
           "wipeDevice": "擦除设备",
+          "removePin": "移除密码",
           "label": "标签"
         },
         "status": {
           "enabled": "启用",
           "disabled": "禁用",
           "upToDate": "最新的",
-          "updateAvailable": "可更新"
+          "updateAvailable": "可更新",
+          "hasPin": "••••••",
+          "noPin": "(无)"
         },
         "headings": {
           "deviceSetting": "设备%{setting}",
@@ -652,11 +639,13 @@
           "update": "更新%{setting}",
           "enable": "启用%{setting}",
           "learnMore": "了解更多"
-        }
+        },
+        "loadingText": "加载中..."
       },
       "modals": {
         "headings": {
-          "wipeKeepKey": "擦除你的KeepKey"
+          "wipeKeepKey": "擦除你的KeepKey",
+          "forgotPinWipeDevice": "忘记了您的 PIN 吗？清除设备"
         },
         "descriptions": {
           "wipeKeepKey": "我明白，如果我没有我的恢复短语，一旦擦除我的KeepKey，我将无法获取我的资金。"
@@ -671,6 +660,27 @@
           "wipeKeepKey": "我已经备份了我的恢复短语，并明白我在做什么"
         }
       }
+    },
+    "walletConnect": {
+      "errors": {
+        "unknown": "与您的 WalletConnect 通讯出现未知错误",
+        "connectFailure": "无法连接 WalletConnect"
+      },
+      "connect": {
+        "header": "与 WalletConnect 配对",
+        "body": "点击配对并在弹窗中选择 WalletConnect",
+        "button": "配对"
+      },
+      "failure": {
+        "header": "错误",
+        "body": "无法连接 WalletConnect"
+      }
+    },
+    "selectModal": {
+      "header": "连接一个钱包",
+      "body": "连接一个钱包代表您同意接受 ShapeShift 的服务条款并确认您已经阅读并理解 Shapeshift 的免责声明。",
+      "footer": "还没有钱包？",
+      "create": "创建一个"
     },
     "shapeShift": {
       "load": {
@@ -756,37 +766,6 @@
         "button": "下一步",
         "confirmDelete": "您确定删除此钱包的昵称吗？"
       }
-    },
-    "selectModal": {
-      "header": "连接一个钱包",
-      "body": "连接一个钱包代表您同意接受 ShapeShift 的服务条款并确认您已经阅读并理解 Shapeshift 的免责声明。",
-      "footer": "还没有钱包？",
-      "create": "创建一个"
-    },
-    "walletConnect": {
-      "errors": {
-        "unknown": "与您的 WalletConnect 通讯出现未知错误",
-        "connectFailure": "无法连接 WalletConnect"
-      },
-      "connect": {
-        "header": "与 WalletConnect 配对",
-        "body": "点击配对并在弹窗中选择 WalletConnect",
-        "button": "配对"
-      },
-      "failure": {
-        "header": "错误",
-        "body": "无法连接 WalletConnect"
-      }
-    }
-  },
-  "graph": {
-    "timeControls": {
-      "1H": "1小时",
-      "24H": "24小时",
-      "1W": "1周",
-      "1M": "1月",
-      "1Y": "1年",
-      "all": "全部"
     }
   },
   "assets": {
@@ -804,7 +783,10 @@
         "SegwitNativeTooltip": "建议多数用户使用。请在您完全确信的情况下使用其他地址。",
         "btcFormat": "BTC 格式",
         "assetUnavailable": "目前还没有这项资产的市场数据。我们正在想办法，坚持住!",
-        "loading": "正在获取历史价格，请稍候..."
+        "loading": "正在获取历史价格，请稍候...",
+        "maxTotalSupply": "最大总供应量",
+        "availableSupply": "可用供应量",
+        "marketData": "市场数据"
       },
       "assetDescription": {
         "showMore": "显示更多",
@@ -821,6 +803,9 @@
         "allocation": "配置",
         "amount": "金额",
         "value": "价值"
+      },
+      "nft": {
+        "nftAllocation": "NFT 收藏"
       }
     },
     "assetCards": {
@@ -848,7 +833,416 @@
     }
   },
   "accounts": {
-    "accounts": "账户"
+    "accounts": "账户",
+    "selectAccount": "选择账户",
+    "addAccount": "添加账户",
+    "accountNumber": "帐户＃%{accountNumber}",
+    "accountChain": "账户链",
+    "selectChain": "选择您想为其创建账户的链。",
+    "requiresPriorTxHistory": "只有在现有账户有先前的交易历史记录时，才能添加新账户。",
+    "newAccountAdded": "已添加新的 %{name} 账户",
+    "youCanNowUse": "您现在可以使用 %{name} 账户 #%{accountNumber}"
+  },
+  "plugins": {
+    "walletConnectToDapps": {
+      "registry": {
+        "availableDapps": "可用的 dApps",
+        "getStarted": "开始使用",
+        "learnMore": "了解更多",
+        "banner": {
+          "title": "连接到300多个dApps",
+          "subtitle": "通过 WalletConnect 将您的钱包连接到 dApp，并触发交易"
+        },
+        "emptyStateDescription": "尝试调整您的搜索查询，然后重试。",
+        "pageInput": {
+          "label": "%{current} / %{total}",
+          "nextPage": "下一页",
+          "prevPage": "上一页"
+        }
+      },
+      "header": {
+        "connectDapp": "连接 dApp",
+        "connectedDapp": "已连接的 dApp",
+        "menu": {
+          "disconnect": "断开连接",
+          "address": "地址",
+          "connected": "已连接",
+          "network": "网络",
+          "unsupportedNetwork": "不支持的网络"
+        }
+      },
+      "modal": {
+        "title": "钱包连接",
+        "ethereum": "以太坊",
+        "sessionProposal": {
+          "title": "钱包连接会话提议",
+          "approve": "批准",
+          "reject": "拒绝",
+          "methods": "方法",
+          "events": "事件"
+        },
+        "signMessage": {
+          "signingFrom": "签名来自",
+          "requestFrom": "请求来自",
+          "message": "消息",
+          "description": "您需要使用已连接的钱包确认签署此消息。",
+          "confirm": "确认",
+          "reject": "拒绝"
+        },
+        "sendTransaction": {
+          "sendingFrom": "发送自",
+          "interactingWith": "交互",
+          "contractInteraction": {
+            "title": "合约交互",
+            "sendingEth": "发送 ETH",
+            "amount": "金额",
+            "data": "数据",
+            "insight": "洞察",
+            "simulation": "模拟",
+            "raw": "原始",
+            "contract": "合约 ABI"
+          },
+          "raw": {
+            "raw": "原始交易",
+            "to": "合约交互",
+            "from": "发送 ETH",
+            "data": "十六进制数据"
+          },
+          "simulation": {
+            "title": "交易模拟信息（由blocknative.com提供支持）"
+          },
+          "insight": {
+            "title": "交易信息查看（由 harpie.io 提供支持）",
+            "isDangerousOperation": "这个合约操作是否危险？",
+            "isMaliciousAddress": "这个合约是恶意的吗？",
+            "isTrustedAddress": "此合约是否受信任？",
+            "recommendedAction": "我们建议您",
+            "THEFT": "这个合约是否已被报告为盗窃？",
+            "CYBERCRIME": "这份合同是否涉及网络犯罪？",
+            "SANCTIONED": "这份合约是否经过认可？",
+            "BOT": "这个合约是否由机器人拥有？",
+            "WASH_TRADER": "这个合约是否由洗钱交易者拥有？",
+            "MIXER": "这个合约是否由混币服务拥有？"
+          },
+          "advancedParameters": {
+            "title": "高级参数",
+            "alert": "仅供高级用户使用。修改这些设置可能导致交易卡住。",
+            "nonce": {
+              "title": "交易序号",
+              "placeholder": "Nonce...",
+              "tooltip": "在这里解释 nonce"
+            },
+            "gasLimit": {
+              "title": "燃气限制",
+              "placeholder": "燃气限制...",
+              "tooltip": "解释这里的Gas限制"
+            }
+          },
+          "estGasCost": "预计燃气费用",
+          "description": "您即将创建一笔交易，并需要使用您当前连接的钱包进行确认。"
+        },
+        "connect": {
+          "title": "通过WalletConnect将您的钱包连接到dApp，并触发交易。",
+          "howTo": "如何连接到 dApp？",
+          "linkPlaceholder": "二维码或连接链接",
+          "connect": "连接"
+        }
+      }
+    }
+  },
+  "gasInput": {
+    "gasPrice": {
+      "label": "燃气价格",
+      "tooltip": "Gwei 中的差价"
+    },
+    "base": {
+      "label": "基础费率",
+      "tooltip": "基础费用由网络设定，根据需求每13-14秒变化一次。设置您愿意为每单位燃气支付的最高价格（不包括优先费用）以 gwei 计。"
+    },
+    "priority": {
+      "label": "优先手续费",
+      "tooltip": "优先手续费是一个可选小费，用于激励区块生产者优先处理您的交易。设置您希望为每单位燃气支付的以太为优先手续费。"
+    },
+    "custom": "自定义"
+  },
+  "dashboard": {
+    "portfolio": {
+      "addAsset": "添加资产",
+      "yourAssets": "您的资产",
+      "asset": "资产",
+      "portfolioBalance": "资产组合余额",
+      "balance": "余额",
+      "price": "价格",
+      "value": "价值",
+      "priceChange": "价格变化",
+      "allocation": "投资组合配置",
+      "empty": {
+        "title": "蟋蟀声...",
+        "cta": "发送加密资产给你自己"
+      },
+      "stakedInfo": "你不能发送或交易已质押的金额"
+    },
+    "recentTransactions": {
+      "recentTransactions": "近期交易"
+    }
+  },
+  "fiatRamps": {
+    "routeTitle": "买入或卖出",
+    "routeTitleForGem": "斜坡上的Gem",
+    "title": "购买或出售加密货币",
+    "titleMessage": "ShapeShift 已与多家法定坡道供应商合作购买和销售加密货币。",
+    "gem": "GEM",
+    "junoPay": "JunoPay",
+    "comingSoon": "敬请期待 ...",
+    "buy": "买入",
+    "sell": "卖出",
+    "assetToBuy": "购买资产",
+    "selectAnAssetToBuy": "选择要购买的资产",
+    "assetToSell": "出售资产",
+    "selectAnAssetToSell": "选择要出售的资产",
+    "fundsTo": "资金将发送至",
+    "fundsFrom": "资金将从",
+    "headerLabel": "购买/出售加密货币",
+    "insufficientCryptoAmountToSell": "出售的最低金额为$%{Amount}"
+  },
+  "defi": {
+    "modals": {
+      "learnMore": {
+        "next": "下一个",
+        "close": "关闭",
+        "headers": {
+          "aboutStakingRewards": "关于质押奖励",
+          "unstaking": "取消您的 %{assetName}",
+          "risks": "有风险吗？"
+        },
+        "bodies": {
+          "rateFluctuationInfo": "您赚取的 %{assetName} 比率，即年利率 (APR)，通常在 7% - 20% 之间波动。",
+          "amountStakingInfo": "您可以质押任意数量的 %{assetName}，他们会立即开始赚取奖励。",
+          "withdrawInfo": "您可以随时提取奖励，这需要大约 0.01 美元的小额 gas 费用。",
+          "unbondingInfo": "当您取消质押代币时，他们将被继续锁定 %{unbondingDays} 天，在此期间他们不会产生收益。 %{unbondingDays} 天后，您的 %{assetName} 将返还到您的主钱包。",
+          "slashingInfo": "质押是通过验证者完成的。这种情况非常罕见，但如果您质押的验证者因允许虚假或错误的交易通过而作恶，您可能会损失部分资产。",
+          "partnerInfo": "我们通过与信誉良好的验证者合作降低了这种风险，验证者拥有安全、可靠且经过审计的基础设施。"
+        },
+        "userProtectionInfo": "*回报率是预估的，会随着市场情况而波动。",
+        "cta": {
+          "startStaking": "开始质押",
+          "learnMore": "了解更多"
+        }
+      },
+      "getStarted": {
+        "header": "质押您的 %{assetName} 最高可赚取 %{apr}% 年利率*",
+        "body": "质押是在加密货币钱包中持有资金以支持区块链网络运营的过程，作为回报，质押者的贡献会得到回报。",
+        "userProtectionInfo": "*回报率是预估的，会随着市场情况而波动。",
+        "cta": {
+          "startStaking": "开始质押",
+          "learnMore": "了解更多"
+        }
+      },
+      "foxyOverview": {
+        "header": "存入 FOX 来获取 FOXy 收益",
+        "body": "FOXy 是与 FOX 价格挂钩的锚定代币。 FOXy 可跨不同的 DeFi 协议工作，以获取尽可能好的收益。",
+        "rewards": "您获得的收益将自动累积。",
+        "cta": "立即存入 FOX",
+        "foxyBalance": "FOXy 平衡",
+        "withdrawals": "提款",
+        "emptyWithdraws": "待处理或有效提款将在此处显示。",
+        "availableDate": "有效 %{date}"
+      },
+      "claim": {
+        "rewardDepositInfo": "您的收益将存入您的主钱包。",
+        "title": "领取 Staking 奖励",
+        "confirmAndClaim": "确认和领取",
+        "rewardAmount": "奖励金额",
+        "claimingRewards": "领取奖励",
+        "claimAmount": "领取金额",
+        "claimToAddress": "领取地址",
+        "confirmClaim": "确认领取",
+        "claimNow": "立即领取"
+      }
+    },
+    "amountToStake": "质押金额",
+    "amountToUnstake": "取消质押金额",
+    "confirmDetails": "确认详情",
+    "broadcastingTransaction": "广播交易",
+    "transactionComplete": "交易完成",
+    "transactionFailed": "交易失败",
+    "notEnoughFundsInReserve": "流动性储备合约资金不足",
+    "validator": "验证程序",
+    "validatorMoniker": "%{moniker} 验证程序",
+    "stakedAmount": "质押金额",
+    "unstakeFrom": "取消质押",
+    "gasFee": "Gas 费用",
+    "unbondInfoItWillTake": "当您的代币被质押时，您将无法转移或使用它们。解除质押后需要 %{unbondingDays} 天才能解锁。",
+    "unbondInfoItWillTakeShort": "取消质押代币需要 %{unbondingDays} 天",
+    "confirmAndBroadcast": "确认和广播",
+    "signAndBroadcast": "签名和广播",
+    "averageApr": "平均年利率",
+    "estimatedYearlyRewards": "预计年化奖励",
+    "staked": "已质押",
+    "amountStaked": "已质押金额",
+    "assetStaking": "%{assetName} 质押",
+    "stake": "质押",
+    "unstake": "取消质押",
+    "stakeAsset": "质押 %{assetSymbol}",
+    "unstakeAsset": "取消质押 %{assetSymbol}",
+    "claimAsset": "领取质押奖励",
+    "claim": "领取",
+    "rewards": "奖励",
+    "unstaking": "取消质押",
+    "available": "可用 %{unbondingEnd}",
+    "earn": "赚取",
+    "asset": "资产",
+    "category": "类别",
+    "tvl": "总锁仓量",
+    "apy": "年化收益率",
+    "apr": "年利率",
+    "balance": "余额",
+    "defi": "去中心化金融",
+    "defiBody": "探索成长中的去中心化金融宇宙。",
+    "netWorth": "净值",
+    "walletBalance": "钱包余额",
+    "earnBalance": "收益余额",
+    "earnBody": "质押资产赚取被动收入或者存入DeFi策略产品。",
+    "overview": "概览",
+    "liquidityPools": "流动性池",
+    "stakingVaults": "正在质押及金库",
+    "farming": "流动性挖矿",
+    "totalEarningBalance": "获益资产总计",
+    "stakingBalance": "质押余额",
+    "farmingBalance": "流动性挖矿余额",
+    "liquidityPoolBalance": "流动性池余额",
+    "poolValue": "流动性池价值",
+    "currentValue": "当前价值",
+    "currentAPY": "当前年化收益率",
+    "currentAPR": "当前年利率",
+    "yearn": "Yearn Finance",
+    "emptyEarn": "赚取机会将在这里出现。",
+    "empty": {
+      "farming": {
+        "body": "您当前未参与流动性挖矿。",
+        "cta": "查看投资机会"
+      },
+      "stakingVaults": {
+        "body": "为您的加密资产寻找赚取利息的机会。",
+        "cta": "查看投资机会"
+      },
+      "pools": {
+        "body": "您还未向流动性池存入资产。",
+        "cta": "查看投资机会"
+      }
+    },
+    "viewOnChain": "在链上查看"
+  },
+  "staking": {
+    "staking": "正在质押",
+    "itWillTake": "这将需要",
+    "toUnlock": "在您取消质押后解锁您的 Osmo。质押奖励需要单独提取。",
+    "assetStakingBalance": "%{assetName} 质押余额"
+  },
+  "transactionRow": {
+    "send": "已发送",
+    "receive": "已收到",
+    "moreDetails": "查看详情",
+    "date": "日期",
+    "txid": "交易 ID",
+    "fee": "手续费",
+    "status": "状态",
+    "confirmed": "已确认",
+    "pending": "待处理",
+    "failed": "未成功",
+    "network": "网络",
+    "blockHeight": "区块高度",
+    "to": "至",
+    "from": "从",
+    "trade": "交易",
+    "amount": "金额",
+    "for": "为了",
+    "parser": {
+      "weth": {
+        "deposit": "存款",
+        "approve": "批准",
+        "withdraw": "取款",
+        "receive": "收到"
+      },
+      "yearn": {
+        "deposit": "存款",
+        "approve": "批准",
+        "withdraw": "取款",
+        "receive": "收到"
+      },
+      "uniV2": {
+        "addLiquidityETH": "添加流动性",
+        "removeLiquidityETH": "移除流动性"
+      },
+      "thor": {
+        "transferOut": "转出"
+      },
+      "foxy": {
+        "stake": "质押",
+        "unstake": "取消质押",
+        "instantUnstake": "立即解除质押",
+        "claimWithdraw": "撤回申领"
+      }
+    },
+    "unknown": "交易"
+  },
+  "trade": {
+    "searchingRate": "搜索最优兑换率。。。",
+    "previewTrade": "预览交易",
+    "rate": "兑换率",
+    "minerFee": "矿工费",
+    "shapeshiftFee": "ShapeShift 收取费用",
+    "confirmDetails": "确认交易细节",
+    "confirmAndTrade": "确认并交易",
+    "complete": "交易完成",
+    "approveAsset": "授权与%{symbol}交互",
+    "needPermission": "我们需要您的授权已使用 %{symbol}",
+    "whyNeedThis": "为什么您需要此项操作？",
+    "estimatedGasFee": "预估 Gas 费用",
+    "approvingAsset": "授权 %{symbol}中",
+    "viewTransaction": "查看交易",
+    "tooltip": {
+      "rate": "这是此交易对的预计兑换率。",
+      "minerFee": "此项为区块链网络处理交易所需收费。非 Shapeshift 收费。",
+      "shapeshiftFee": "ShapeShift 不额外收取任何费用 🎉"
+    },
+    "errors": {
+      "title": "出现问题",
+      "notEnoughEth": "以太坊余额不足支付此交易的 gas 费用。",
+      "amountTooSmall": "金额过小。此交易对交易最低金额为%{minLimit}。",
+      "negativeMax": "资金余额不足支付此交易的矿工费用。预估矿工费为 %{estimatedMinerFee}",
+      "invalidMax": "无效金额。此交易对最大交易金额为%{maxLimit}。",
+      "insufficientFunds": "资金余额不足支付矿工费用及交易金额",
+      "transactionRejected": "用户拒绝交易",
+      "broadcastFailed": "广播交易出现错误",
+      "insufficientFundsForLimit": "资金不足。此交易对最低交易金额为%{minLimit}",
+      "insufficientFundsForAmount": "资金不足。 您的%{symbol} 余额少于所选金额",
+      "noLiquidityError": "当前流动性不足",
+      "overMaxSlippage": "此交易将造成超过%{slippagePercentage}%滑点。请降低交易金额以获得更优价格",
+      "balanceToLow": "余额过低。此交易对最低交易金额为%{minLimit}",
+      "dexTradeFailed": "交易失败，代币已返还",
+      "quoteFailed": "获取报价出现错误。",
+      "failedQuoteExecuted": "无法执行报价：报价失败",
+      "sellAssetRequired": "无法执行报价：资产不存在",
+      "sellAmountRequired": "无法执行报价：无交易金额",
+      "depositAddressRequired": "无法执行以太坊报价：未提供中心化交易平台地址",
+      "sellAssetNetworkAndSymbolRequired": "请提供资产所在网络及代码以执行报价",
+      "hdwalletInvalidConfig": "与硬件钱包通讯时出错",
+      "signing": {
+        "failed": "交易签名出现错误",
+        "required": "需要已签名的交易"
+      }
+    }
+  },
+  "graph": {
+    "timeControls": {
+      "1H": "1小时",
+      "24H": "24小时",
+      "1W": "1周",
+      "1M": "1月",
+      "1Y": "1年",
+      "all": "全部"
+    }
   },
   "loremIpsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed lectus efficitur, iaculis sapien eu, luctus tellus. Maecenas eget sapien dignissim, finibus mauris nec, mollis ipsum. Donec sodales sit amet felis sagittis vestibulum. Ut in consectetur lacus. Suspendisse potenti. Aenean at massa consequat lectus semper pretium. Cras sed bibendum enim. Mauris euismod sit amet dolor in placerat.",
   "transactionHistory": {

@@ -257,13 +257,13 @@ const [usbDevices, setUsbDevices] = useState<UsbDeviceInfo[]>([])
                             <ListItem key={index} color="gray.300">
                               <ListIcon as={FaUsb} color="blue.400" />
                               <span>
-  {device.manufacturer || 'Unknown Manufacturer'} — {device.product || 'Unknown Product'}
-  <br />
-  <span style={{ fontSize: '0.85em', color: '#888' }}>
-    VID: {device.vendorId?.toString(16).padStart(4, '0').toUpperCase() || '??'} | PID: {device.productId?.toString(16).padStart(4, '0').toUpperCase() || '??'}
-    {device.serialNumber ? <> | SN: {device.serialNumber}</> : null}
-  </span>
-</span>
+                                {device.manufacturer || 'Unknown Manufacturer'} — {device.product || 'Unknown Product'}
+                                <br />
+                                <span style={{ fontSize: '0.85em', color: '#888' }}>
+                                  VID: {device.vendorId?.toString(16).padStart(4, '0').toUpperCase() || '??'} | PID: {device.productId?.toString(16).padStart(4, '0').toUpperCase() || '??'}
+                                  {device.serialNumber ? <> | SN: {device.serialNumber}</> : null}
+                                </span>
+                              </span>
                             </ListItem>
                           ))}
                         </List>
