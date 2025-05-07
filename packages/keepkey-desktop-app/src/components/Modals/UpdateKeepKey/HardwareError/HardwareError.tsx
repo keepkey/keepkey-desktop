@@ -138,7 +138,7 @@ export const HardwareErrorModal = (error: {
                   <h4>{translate('modals.keepKey.hardware.guide')}</h4>
                   <a
                     href={
-                      'https://medium.com/@highlander_35968/troubleshooting-connections-with-the-keepkey-4599f1aaee0'
+                      'https://support.keepkey.com'
                     }
                     target='_blank'
                     rel='noopener noreferrer'
