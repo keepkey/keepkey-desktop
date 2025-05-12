@@ -33,15 +33,13 @@ jobs:
         run: |
           # Install Python for Windows
           choco install python3 -y
-          # Set environment variables for node-gyp
-          echo "Setting up environment for node-gyp..."
-          echo "PYTHON=$(where python)" >> $env:GITHUB_ENV
-          # Install build tools and handle errors
-          try {
-              npm install --global --production windows-build-tools@4.0.0
-          } catch {
-              Write-Host "windows-build-tools installation failed, continuing..."
-          }
+          # Make Python available in the PATH
+          Write-Host "Setting up Python for node-gyp..."
+          $pythonPath = (Get-Command python).Path
+          Write-Host "Python path: $pythonPath"
+          $env:PYTHON = $pythonPath
+          
+          # Install node-gyp globally
           npm install --global node-gyp
         shell: powershell
 
@@ -71,9 +69,19 @@ jobs:
           cat .yarnrc.yml | grep nodeLinker
 
       # Install dependencies with specific flags
-      - name: Yarn Install
+      - name: Yarn Install (Windows)
+        if: startsWith(matrix.os, 'windows')
         run: |
-          echo "Installing dependencies..."
+          echo "Installing dependencies (Windows)..."
+          $env:SKIP_POSTINSTALL = "true"
+          yarn install
+        shell: powershell
+
+      # Install dependencies with specific flags
+      - name: Yarn Install (Unix)
+        if: "!startsWith(matrix.os, 'windows')"
+        run: |
+          echo "Installing dependencies (Unix)..."
           SKIP_POSTINSTALL=true yarn install
 
       # Build step
@@ -150,10 +158,17 @@ jobs:
       - name: Windows - Build Electron App
         if: startsWith(matrix.os, 'windows')
         run: |
+          $env:NODE_ENV = "production"
           yarn run release
-          cp "packages/keepkey-desktop/dist/KeepKey-Desktop-*-*-arm64.dmg" "packages/keepkey-desktop/dist/KeepKey-Desktop-latest.dmg"
+          
+          # PowerShell equivalent of cp command
+          $sourcePath = "packages/keepkey-desktop/dist/KeepKey-Desktop-*-*-arm64.dmg"
+          $targetPath = "packages/keepkey-desktop/dist/KeepKey-Desktop-latest.dmg"
+          if (Test-Path -Path $sourcePath) {
+            Copy-Item -Path $sourcePath -Destination $targetPath
+          }
+        shell: powershell
         env:
-          NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
 
       - name: Windows - Upload .exe
