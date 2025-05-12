@@ -2,7 +2,7 @@
   "name": "keepkey-desktop-app",
   "private": true,
   "scripts": {
-    "postinstall": "yarn build",
+    "postinstall": "node -e \"process.env.SKIP_POSTINSTALL !== 'true' && process.exit(1)\" || yarn build",
     "build": "ts-node --skipProject --swc ./scripts/build.ts",
     "dev": "NODE_ENV=development yarn build",
     "dev-web": "TODO how do i?",

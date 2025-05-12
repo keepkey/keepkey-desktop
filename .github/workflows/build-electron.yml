@@ -26,6 +26,22 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
+          
+      # Install native build tools on Windows
+      - name: Install Windows Build Tools
+        if: startsWith(matrix.os, 'windows')
+        run: |
+          # Ensure we have the right build tools for native modules
+          npm config set msvs_version 2019
+          # Explicitly set Python location for node-gyp
+          npm config set python python3
+
+      # Install native build tools on Ubuntu
+      - name: Install Linux Dependencies
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential python3-dev libudev-dev libusb-1.0-0-dev
 
       - name: Restore Cached Electron Bundles
         id: restore-cache
@@ -38,9 +54,20 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}
 
-      - name: Yarn Install
-        run: yarn install
+      # Verify nodeLinker setting
+      - name: Verify Yarn Configuration
+        run: |
+          echo "Checking nodeLinker setting..."
+          grep "nodeLinker:" .yarnrc.yml || echo "nodeLinker: node-modules" >> .yarnrc.yml
+          cat .yarnrc.yml | grep nodeLinker
 
+      # Install dependencies with specific flags
+      - name: Yarn Install
+        run: |
+          echo "Installing dependencies..."
+          SKIP_POSTINSTALL=true yarn install
+
+      # Build step
       - name: Yarn Build
         run: yarn build
 
