@@ -14,6 +14,7 @@
 !/.yarn/versions/**
 !/.yarn/cache/
 !/.yarn/cache/**
+!/docs/**
 !/executables/**
 !/firmware/**
 !/packages/**
