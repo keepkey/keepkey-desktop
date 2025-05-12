@@ -31,10 +31,15 @@ jobs:
       - name: Install Windows Build Tools
         if: startsWith(matrix.os, 'windows')
         run: |
-          # Ensure we have the right build tools for native modules
-          npm config set msvs_version 2019
-          # Explicitly set Python location for node-gyp
-          npm config set python python3
+          # Install Python for Windows
+          choco install python3 -y
+          # Set environment variables for node-gyp
+          echo "Setting up environment for node-gyp..."
+          echo "PYTHON=$(where python)" >> $GITHUB_ENV
+          # Install build tools via npm
+          npm install --global --production windows-build-tools@4.0.0 || true
+          npm install --global node-gyp
+        shell: powershell
 
       # Install native build tools on Ubuntu
       - name: Install Linux Dependencies
