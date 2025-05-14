@@ -1,0 +1,150 @@
+version: 2.1
+
+orbs:
+  win: circleci/windows@5.0
+
+commands:
+  setup-node-env:
+    steps:
+      - run:
+          name: Setup Node Environment
+          command: |
+            # Use NVS to manage Node versions
+            if (-not (Get-Command nvs -ErrorAction SilentlyContinue)) {
+              Write-Host "Installing NVS..."
+              $env:NVS_HOME = "$env:LOCALAPPDATA\nvs"
+              git clone https://github.com/jasongin/nvs "$env:NVS_HOME"
+              . "$env:NVS_HOME\nvs.ps1" install
+            }
+            
+            # Read Node version from .nvmrc
+            $nodeVersion = Get-Content .nvmrc -Raw
+            Write-Host "Setting up Node $nodeVersion..."
+            
+            # Install and use the correct Node version
+            nvs add $nodeVersion
+            nvs use $nodeVersion
+            
+            # Verify node version
+            node --version
+            npm --version
+  
+  setup-yarn-berry:
+    steps:
+      - run:
+          name: Setup Yarn Berry
+          command: |
+            # Install Yarn Berry
+            corepack enable
+            yarn set version stable
+            
+            # Configure node_modules linker for Electron compatibility
+            if (-not (Select-String -Path .yarnrc.yml -Pattern "nodeLinker:")) {
+              Add-Content .yarnrc.yml "nodeLinker: node-modules"
+            }
+            
+            # Set up Yarn cache
+            $yarnCacheFolder = "$env:LOCALAPPDATA\YarnCache"
+            Write-Host "Setting YARN_CACHE_FOLDER to $yarnCacheFolder"
+            $env:YARN_CACHE_FOLDER = $yarnCacheFolder
+            
+            # Configure Yarn for CI
+            Add-Content .yarnrc.yml "enableGlobalCache: true"
+            Add-Content .yarnrc.yml "enableImmutableInstalls: false"
+            
+            # Display Yarn config for debugging
+            yarn config
+  
+  install-windows-deps:
+    steps:
+      - run:
+          name: Install Windows Dependencies
+          command: |
+            # Install Windows build tools
+            Write-Host "Installing Windows build tools..."
+            
+            # Install Python for node-gyp
+            choco install python3 -y
+            
+            # Add Python to PATH
+            $pythonPath = (Get-Command python).Path
+            Write-Host "Python path: $pythonPath"
+            $env:PYTHON = $pythonPath
+            
+            # Setup for node-gyp
+            npm config set msvs_version 2022 -g
+            npm install --global node-gyp
+            
+            # Install VS Build Tools if not present
+            if (-not (Test-Path "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2022")) {
+              Write-Host "Installing VS Build Tools..."
+              choco install visualstudio2022buildtools -y --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+            }
+            
+            # Configure git for long paths
+            git config --global core.longpaths true
+
+jobs:
+  build-windows:
+    executor:
+      name: win/default
+    steps:
+      - checkout
+      - setup-node-env
+      - setup-yarn-berry
+      - install-windows-deps
+      
+      - run:
+          name: Install Dependencies
+          command: |
+            # Set environment variables
+            $env:SKIP_POSTINSTALL = "true"
+            $env:YARN_ENABLE_IMMUTABLE_INSTALLS = "false"
+            
+            # Install dependencies
+            Write-Host "Installing dependencies..."
+            yarn install --no-immutable
+            
+            # Verify installation
+            yarn list --depth=0
+      
+      - run:
+          name: Build Application
+          command: |
+            # Build the application
+            Write-Host "Building application..."
+            yarn build
+      
+      - run:
+          name: Generate Checksum
+          command: |
+            # Generate checksum for artifacts
+            Write-Host "Generating checksum..."
+            ./scripts/generate_checksum_windows.sh
+      
+      - run:
+          name: Package Electron App
+          command: |
+            # Set environment variables for production build
+            $env:NODE_ENV = "production"
+            $env:GH_TOKEN = "$env:GITHUB_TOKEN"
+            
+            # Build and package app
+            Write-Host "Packaging Electron app..."
+            yarn run release
+      
+      - store_artifacts:
+          path: packages/keepkey-desktop/dist
+          destination: electron-artifacts
+          
+      - persist_to_workspace:
+          root: packages/keepkey-desktop
+          paths:
+            - dist
+            - build
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build-windows 
