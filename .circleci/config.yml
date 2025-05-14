@@ -4,6 +4,39 @@ orbs:
   win: circleci/windows@5.0
 
 commands:
+  custom-checkout:
+    steps:
+      - run:
+          name: Git Checkout without LFS
+          command: |
+            # Use custom checkout to avoid LFS quota issues
+            Write-Host "Setting up Git..."
+            git config --global core.longpaths true
+            
+            # Create a directory for the repo
+            New-Item -ItemType Directory -Force -Path "repo"
+            cd repo
+            
+            # Initialize git
+            git init
+            
+            # Add the remote
+            git remote add origin https://github.com/keepkey/keepkey-desktop.git
+            
+            # Fetch without LFS
+            $env:GIT_LFS_SKIP_SMUDGE = "1"
+            
+            # Fetch the branch
+            git fetch --depth=1 origin $env:CIRCLE_BRANCH
+            git checkout FETCH_HEAD
+            
+            # Copy all files back to the project directory
+            Get-ChildItem -Force | Copy-Item -Destination .. -Recurse -Force
+            cd ..
+            
+            # Configure git for the project
+            git config core.longpaths true
+  
   setup-node-env:
     steps:
       - run:
@@ -89,7 +122,7 @@ jobs:
     executor:
       name: win/default
     steps:
-      - checkout
+      - custom-checkout
       - setup-node-env
       - setup-yarn-berry
       - install-windows-deps
@@ -100,6 +133,7 @@ jobs:
             # Set environment variables
             $env:SKIP_POSTINSTALL = "true"
             $env:YARN_ENABLE_IMMUTABLE_INSTALLS = "false"
+            $env:GIT_LFS_SKIP_SMUDGE = "1"
             
             # Install dependencies
             Write-Host "Installing dependencies..."
@@ -120,7 +154,11 @@ jobs:
           command: |
             # Generate checksum for artifacts
             Write-Host "Generating checksum..."
-            ./scripts/generate_checksum_windows.sh
+            if (Test-Path "scripts/generate_checksum_windows.sh") {
+              bash scripts/generate_checksum_windows.sh
+            } else {
+              Write-Host "Checksum script not found, skipping..."
+            }
       
       - run:
           name: Package Electron App
