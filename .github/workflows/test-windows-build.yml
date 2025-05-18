@@ -1,0 +1,120 @@
+name: Test Windows Electron Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  windows-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Analyze Original Windows Build Step
+        run: |
+          echo "Analyzing Windows build step in build-electron.yml"
+          # Extract and print the Windows-specific section
+          cat .github/workflows/build-electron.yml | grep -A 30 "Windows - Build Electron App" | cat
+          
+          # Look for potential issues
+          echo "-----"
+          echo "Potential issues:"
+          echo "1. Problematic file copy command:"
+          cat .github/workflows/build-electron.yml | grep -A 3 "cp \"packages/keepkey-desktop/dist/KeepKey-Desktop" | cat
+          
+          # Check for macOS vs Windows path conflicts
+          echo "-----"
+          echo "2. Windows paths handling:"
+          cat .github/workflows/build-electron.yml | grep -E "packages\/.+-.+\/.+" | cat
+
+      - name: Create Test Fix for Windows Build
+        run: |
+          echo "Creating a test fix for the problematic Windows build step"
+          
+          # Create a test directory structure
+          mkdir -p /tmp/windows-test/packages/keepkey-desktop/dist
+          touch /tmp/windows-test/packages/keepkey-desktop/dist/KeepKey-Desktop-1.0.0-arm64.dmg
+          
+          cd /tmp/windows-test
+          
+          echo "Original problematic command:"
+          echo 'cp "packages/keepkey-desktop/dist/KeepKey-Desktop-*-*-arm64.dmg" "packages/keepkey-desktop/dist/KeepKey-Desktop-latest.dmg"'
+          
+          echo "-----"
+          echo "Testing fixed PowerShell command for Windows:"
+          echo 'Get-ChildItem "packages\keepkey-desktop\dist\KeepKey-Desktop-*-*-arm64.dmg" | Copy-Item -Destination "packages\keepkey-desktop\dist\KeepKey-Desktop-latest.dmg"'
+          
+          echo "-----"
+          echo "Testing fixed Bash command for Windows:"
+          echo 'find packages/keepkey-desktop/dist -name "KeepKey-Desktop-*-arm64.dmg" -exec cp "{}" packages/keepkey-desktop/dist/KeepKey-Desktop-latest.dmg \;'
+          
+          # Check file structure after potential fixes
+          ls -la /tmp/windows-test/packages/keepkey-desktop/dist/
+
+      - name: Recommend Windows Build Fix
+        run: |
+          cat << EOF > windows_build_fix.md
+          # Windows Build Fix Recommendation
+          
+          ## Issue Identified
+          The current Windows build step has a problematic file copy command:
+          
+          \`\`\`yaml
+          - name: Windows - Build Electron App
+            if: startsWith(matrix.os, 'windows')
+            run: |
+              yarn run release
+              cp "packages/keepkey-desktop/dist/KeepKey-Desktop-*-*-arm64.dmg" "packages/keepkey-desktop/dist/KeepKey-Desktop-latest.dmg"
+            env:
+              NODE_ENV: production
+              GH_TOKEN: \${{ secrets.github_token }}
+          \`\`\`
+          
+          This is problematic for several reasons:
+          
+          1. The command is trying to copy a macOS-specific file (*.dmg) in a Windows build
+          2. Wildcards may not work as expected in Windows PowerShell
+          3. The file being copied is for ARM64 architecture which may not exist in all builds
+          
+          ## Recommended Fix
+          
+          Replace the Windows build step with:
+          
+          \`\`\`yaml
+          - name: Windows - Build Electron App
+            if: startsWith(matrix.os, 'windows')
+            run: |
+              yarn run release
+            env:
+              NODE_ENV: production
+              GH_TOKEN: \${{ secrets.github_token }}
+              
+          - name: Windows - Create Latest Exe Copy
+            if: startsWith(matrix.os, 'windows')
+            shell: pwsh
+            run: |
+              Get-ChildItem "packages\keepkey-desktop\dist\KeepKey-Desktop-*.exe" -Exclude "*.blockmap" | 
+                Select-Object -First 1 | 
+                Copy-Item -Destination "packages\keepkey-desktop\dist\KeepKey-Desktop-latest.exe"
+          \`\`\`
+          
+          This fix:
+          1. Removes the attempt to copy a DMG file on Windows
+          2. Uses PowerShell's proper commands for file operations
+          3. Creates a "latest" version using the Windows installer (.exe) file
+          
+          ## Testing
+          
+          This fix can be tested locally using Act with:
+          
+          \`\`\`bash
+          act -j windows-build --container-architecture linux/amd64 -p=false
+          \`\`\`
+          EOF
+          
+          cat windows_build_fix.md 

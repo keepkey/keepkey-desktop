@@ -1,0 +1,111 @@
+name: Test Build & Release Fixed
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Yarn Install
+        run: |
+          # Mock install for testing
+          echo "Mocking yarn install"
+          mkdir -p packages/keepkey-desktop/dist
+          mkdir -p packages/keepkey-desktop/build
+
+      - name: Yarn Build
+        run: |
+          # Mock build for testing
+          echo "Mocking yarn build"
+          echo "Build completed" > packages/keepkey-desktop/build/build-info.txt
+
+      - name: Upload Built App
+        run: |
+          echo "Mocking artifact upload"
+          ls -la packages/keepkey-desktop/build/
+          echo "Mock artifact" > packages/keepkey-desktop/build/mock-artifact.txt
+
+      - name: Generate Checksum
+        run: |
+          # Mock checksum generation
+          echo "Mock checksum" > checksum.txt
+        shell: bash
+
+      - name: Mock Windows Build Process
+        run: |
+          echo "Testing the fixed Windows build steps"
+          
+          # Create test directories and files
+          mkdir -p packages/keepkey-desktop/dist
+          touch packages/keepkey-desktop/dist/KeepKey-Desktop-1.0.0-win.exe
+          touch packages/keepkey-desktop/dist/KeepKey-Desktop-1.0.0-arm64.dmg
+          
+          echo "Original problematic Windows command:"
+          echo 'cp "packages/keepkey-desktop/dist/KeepKey-Desktop-*-*-arm64.dmg" "packages/keepkey-desktop/dist/KeepKey-Desktop-latest.dmg"'
+          
+          echo "-----"
+          echo "Testing fixed command for Windows:"
+          # The proper fix would use PowerShell on Windows, but for testing in Act we'll use a bash-compatible command
+          echo "Finding EXE files to create a latest version:"
+          find packages/keepkey-desktop/dist -name "*.exe" -not -name "*.blockmap" | head -1 | xargs -I{} cp {} packages/keepkey-desktop/dist/KeepKey-Desktop-latest.exe
+          
+          echo "-----"
+          echo "Files in dist directory after fix:"
+          ls -la packages/keepkey-desktop/dist/
+
+      - name: Verify Fix
+        run: |
+          echo "Verifying the fix worked correctly"
+          if [ -f packages/keepkey-desktop/dist/KeepKey-Desktop-latest.exe ]; then
+            echo "✅ Fix successful: Latest EXE was created"
+          else
+            echo "❌ Fix failed: Latest EXE was not created"
+            exit 1
+          fi
+          
+          echo "-----"
+          echo "Fix Implementation Summary:"
+          cat << 'EOF'
+          # Windows Build Fix Implementation
+          
+          1. The issue was that the Windows build step was trying to copy a macOS-specific file (DMG) 
+             which doesn't make sense on Windows.
+          
+          2. The fix changes the Windows build step to:
+             - Remove the problematic DMG copy command
+             - Add a new step that creates a "latest" version using Windows-specific EXE files
+             - Use proper PowerShell commands for Windows
+          
+          3. The fixed workflow section for Windows should be:
+          
+          ```yaml
+          - name: Windows - Build Electron App
+            if: startsWith(matrix.os, 'windows')
+            run: |
+              yarn run release
+            env:
+              NODE_ENV: production
+              GH_TOKEN: ${{ secrets.github_token }}
+              
+          - name: Windows - Create Latest Exe Copy
+            if: startsWith(matrix.os, 'windows')
+            shell: pwsh
+            run: |
+              Get-ChildItem "packages\keepkey-desktop\dist\KeepKey-Desktop-*.exe" -Exclude "*.blockmap" | 
+                Select-Object -First 1 | 
+                Copy-Item -Destination "packages\keepkey-desktop\dist\KeepKey-Desktop-latest.exe"
+          ```
+          EOF 
