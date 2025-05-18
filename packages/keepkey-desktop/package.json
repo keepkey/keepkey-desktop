@@ -10,7 +10,7 @@
         "type": "git",
         "url": "https://github.com/keepkey/keepkey-desktop"
     },
-    "homepage": "undefined",
+    "homepage": "https://keepkey.com",
     "private": true,
     "scripts": {
         "build": "ts-node --skipProject --swc ./scripts/build.ts",
