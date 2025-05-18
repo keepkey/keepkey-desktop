@@ -8,12 +8,9 @@
 !/.yarn/plugins/**
 !/.yarn/releases/
 !/.yarn/releases/**
-!/.yarn/sdks/
 !/.yarn/sdks/**
 !/.yarn/versions/
 !/.yarn/versions/**
-!/.yarn/cache/
-!/.yarn/cache/**
 !/executables/**
 !/firmware/**
 !/packages/**
@@ -28,3 +25,15 @@
 !/package.json
 !/tsconfig.json
 !/yarn.lock
+
+# Ignore .yarn directory and its cache
+.yarn/
+.yarn/cache/
+.yarn/unplugged/
+
+# Ignore build and dist directories
+**/build/
+**/dist/
+
+# Ignore .secrets file for act
+.secrets

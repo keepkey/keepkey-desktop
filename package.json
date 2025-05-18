@@ -6,7 +6,6 @@
     "packages/*"
   ],
   "scripts": {
-    "prerec-mac": "brew install git-lfs && git lfs fetch && git lfs install",
     "postinstall": "yaml-sort -i .yarnrc.yml",
     "clean": "yarn workspaces foreach -A run clean",
     "build": "yarn workspaces foreach -pRi --topological-dev --from 'keepkey-desktop' run build",
