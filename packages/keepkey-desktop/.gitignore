@@ -1,3 +1,4 @@
 /build
 /dist
 /src/helpers/routes/routes.ts
+.env
