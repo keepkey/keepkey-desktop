@@ -14,7 +14,7 @@
     "private": true,
     "scripts": {
         "build": "ts-node --skipProject --swc ./scripts/build.ts",
-        "release": "yarn run -T build && rimraf build/metafile.json build/app/metafile.json && DEBUG=electron-builder electron-builder",
+        "release": "yarn run -T build && rimraf build/metafile.json build/app/metafile.json && DEBUG=electron-builder,@electron/notarize,notarize-cli electron-builder",
         "release-intel": "yarn run -T build && rimraf build/metafile.json build/app/metafile.json && DEBUG=electron-builder electron-builder -- --x64",
         "electron-builder": "DEBUG=electron-builder electron-builder",
         "dev": "ts-node --skipProject --swc ./scripts/dev.ts",
@@ -50,7 +50,10 @@
             "entitlementsInherit": "entitlements.mac.plist",
             "mergeASARs": false,
             "notarize": {
-                "teamId": "DR57X8Z394"
+                "teamId": "DR57X8Z394",
+                "appleId": "${process.env.APPLE_ID}",
+                "appleIdPassword": "${process.env.APPLE_APP_SPECIFIC_PASSWORD}",
+                "ascProvider": "DR57X8Z394"
             },
             "target": [
                 {
