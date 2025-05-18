@@ -115,10 +115,17 @@ jobs:
         if: startsWith(matrix.os, 'windows')
         run: |
           yarn run release
-          cp "packages/keepkey-desktop/dist/KeepKey-Desktop-*-*-arm64.dmg" "packages/keepkey-desktop/dist/KeepKey-Desktop-latest.dmg"
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
+          
+      - name: Windows - Create Latest Exe Copy
+        if: startsWith(matrix.os, 'windows')
+        shell: pwsh
+        run: |
+          Get-ChildItem "packages\keepkey-desktop\dist\KeepKey-Desktop-*.exe" -Exclude "*.blockmap" | 
+            Select-Object -First 1 | 
+            Copy-Item -Destination "packages\keepkey-desktop\dist\KeepKey-Desktop-latest.exe"
 
       - name: Windows - Upload .exe
         if: startsWith(matrix.os, 'windows')
