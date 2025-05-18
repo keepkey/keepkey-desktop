@@ -18,7 +18,7 @@ jobs:
         os: [macos-14, ubuntu-latest, windows-latest]
     steps:
       - name: Checkout
-        uses: nschloe/action-cached-lfs-checkout@v1
+        uses: actions/checkout@v3
         with:
           submodules: true
 
