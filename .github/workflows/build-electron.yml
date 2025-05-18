@@ -27,6 +27,11 @@ jobs:
         with:
           node-version-file: '.nvmrc'
 
+      - name: Clear Yarn Cache
+        run: |
+          rm -rf .yarn/cache || true
+          echo "Cleared Yarn cache"
+
       - name: Restore Cached Electron Bundles
         id: restore-cache
         uses: actions/cache@v3
