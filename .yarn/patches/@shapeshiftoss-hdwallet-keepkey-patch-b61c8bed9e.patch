@@ -1,0 +1,18 @@
+diff --git a/dist/transport.js b/dist/transport.js
+index 13a9b616750f2e48a8bc7ca78c3b54dfa39afe02..9093ba90e7a3d2e0a301f315bf9f5d908ba1d23f 100644
+--- a/dist/transport.js
++++ b/dist/transport.js
+@@ -275,7 +275,12 @@ class Transport extends core.Transport {
+                 if (response.message_enum === Messages.MessageType.MESSAGETYPE_FAILURE &&
+                     response.message.code === Types.FailureType.FAILURE_ACTIONCANCELLED) {
+                     this.callInProgress = { main: undefined, debug: undefined };
+-                    throw new core.ActionCancelled();
++                    if (response.message.message === 'PINs do not match') {
++                        response.message.code = Types.FailureType.FAILURE_PINMISMATCH;
++                        throw response;
++                    } else {
++                        throw new core.ActionCancelled();
++                    }
+                 }
+                 if (response.message_type === core.Events.FAILURE)
+                     throw response;

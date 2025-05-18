@@ -1,0 +1,13 @@
+diff --git a/fsevents.js b/fsevents.js
+index 9f17e0994fae70b3dada7e29c661157e276425b1..50f5b6eb513e816880f1af4006b2c6a464f28e3e 100644
+--- a/fsevents.js
++++ b/fsevents.js
+@@ -10,7 +10,7 @@ if (process.platform !== "darwin") {
+   throw new Error(`Module 'fsevents' is not compatible with platform '${process.platform}'`);
+ }
+ 
+-const Native = require("./fsevents.node");
++const Native = require(__dirname + "/fsevents.node");
+ const events = Native.constants;
+ 
+ function watch(path, since, handler) {

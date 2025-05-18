@@ -1,0 +1,22 @@
+diff --git a/dist/ethereum.js b/dist/ethereum.js
+index bdfb2fbb120e3488ebcc0f29c72a99215f549fcf..6eb89d78a49fb7e239c39fdafdf769ccf10ed6a6 100644
+--- a/dist/ethereum.js
++++ b/dist/ethereum.js
+@@ -216,7 +216,7 @@ function ethSignMessage(transport, msg) {
+ }
+ exports.ethSignMessage = ethSignMessage;
+ function ethSignTypedData(transport, msg) {
+-    return __awaiter(this, void 0, void 0, function* () {
++    return transport.lockDuring(() => __awaiter(this, void 0, void 0, function* () {
+         /**
+          * If the message to be signed is sufficiently small, the KeepKey can calculate the
+          * domain separator and message hashes. Otherwise, we need to pre-calculate hashes
+@@ -281,7 +281,7 @@ function ethSignTypedData(transport, msg) {
+             console.error({ error });
+             throw new Error("Failed to sign typed ETH message");
+         }
+-    });
++    }));
+ }
+ exports.ethSignTypedData = ethSignTypedData;
+ function ethVerifyMessage(transport, msg) {

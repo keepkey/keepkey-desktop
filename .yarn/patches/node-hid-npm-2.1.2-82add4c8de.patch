@@ -1,0 +1,21 @@
+diff --git a/nodehid.js b/nodehid.js
+index 4b645da559fe90db8f53860d8efa1b3d859baea1..60e45eb86230cf5830f3bb9f206d20f63167a345 100644
+--- a/nodehid.js
++++ b/nodehid.js
+@@ -16,13 +16,13 @@ function loadBinding() {
+         if( os.platform() === 'linux' ) {
+             // Linux defaults to hidraw
+             if( !driverType || driverType === 'hidraw' ) {
+-                binding = require('bindings')('HID_hidraw.node');
++                binding = require('bindings')({ bindings: 'HID_hidraw.node', module_root: __dirname });
+             } else {
+-                binding = require('bindings')('HID.node');
++                binding = require('bindings')({ bindings: 'HID.node', module_root: __dirname });
+             }
+         }
+         else {
+-            binding = require('bindings')('HID.node');
++            binding = require('bindings')({ bindings: 'HID.node', module_root: __dirname });
+         }
+     }
+ }

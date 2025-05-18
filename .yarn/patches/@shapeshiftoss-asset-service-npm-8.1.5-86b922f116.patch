@@ -1,0 +1,22 @@
+diff --git a/dist/service/generatedAssetData.json b/dist/service/generatedAssetData.json
+index 5b58c27defc5a0e80d8743619ff7930e7efb9975..9af7464a34922d91c1d02f700196ab3fdd4d5c94 100644
+--- a/dist/service/generatedAssetData.json
++++ b/dist/service/generatedAssetData.json
+@@ -69614,5 +69614,17 @@
+         "explorer": "https://snowtrace.io",
+         "explorerAddressLink": "https://snowtrace.io/address/",
+         "explorerTxLink": "https://snowtrace.io/tx/"
++    },
++    "eip155:1/erc20:0x168EF867E3009c1864103c746d399b66482536fF": {
++        "assetId": "eip155:1/erc20:0x168EF867E3009c1864103c746d399b66482536fF",
++        "chainId": "eip155:1",
++        "name": "KeepKey Open Development Initiative",
++        "precision": 18,
++        "color": "#343434",
++        "icon": "https://kodib.sfo3.digitaloceanspaces.com/kodo_logo.png",
++        "symbol": "KODI",
++        "explorer": "https://etherscan.io",
++        "explorerAddressLink": "https://etherscan.io/address/",
++        "explorerTxLink": "https://etherscan.io/tx/"
+     }
+ }
