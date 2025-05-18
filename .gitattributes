@@ -1,3 +1,2 @@
-/.yarn/cache/**/*.zip filter=lfs diff=lfs merge=lfs -text
-/executables/* filter=lfs diff=lfs merge=lfs -text
-executables/ollama-darwin filter=lfs diff=lfs merge=lfs -text
+# Standard git attributes file
+# No LFS tracking
