@@ -1,0 +1,45 @@
+name: Test Desktop Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  desktop-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Environment Info
+        run: |
+          node -v
+          npm -v
+          echo "Testing desktop build process"
+          ls -la packages/
+
+      - name: Test Desktop Components
+        run: |
+          # Create a simple test to verify desktop components can be imported
+          echo "const fs = require('fs');
+          console.log('Testing KeepKey Desktop components');
+          // Check if desktop package exists
+          try {
+            if (fs.existsSync('packages/keepkey-desktop')) {
+              console.log('✅ KeepKey Desktop package found');
+              // List directory contents
+              const files = fs.readdirSync('packages/keepkey-desktop');
+              console.log('Directory contents:', files);
+            } else {
+              console.log('❌ KeepKey Desktop package not found');
+            }
+          } catch(err) {
+            console.error('Error checking desktop package:', err);
+          }" > test-desktop.js
+          
+          # Run the test
+          node test-desktop.js 

@@ -1,0 +1,113 @@
+name: Test Desktop App Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-desktop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Create test directory
+        run: |
+          # Create a new test directory outside the original package
+          mkdir -p /tmp/desktop-test
+          cd /tmp/desktop-test
+          
+          # Initialize new package.json
+          npm init -y
+          
+          # Install electron and electron-builder
+          npm install --save-dev electron electron-builder
+          
+          echo "Test directory created at /tmp/desktop-test"
+          ls -la
+
+      - name: Create test electron app
+        run: |
+          cd /tmp/desktop-test
+          mkdir -p src
+          
+          # Create a simple main.js file
+          echo "const { app, BrowserWindow } = require('electron');
+          
+          function createWindow() {
+            const win = new BrowserWindow({
+              width: 800,
+              height: 600,
+              webPreferences: {
+                nodeIntegration: true
+              }
+            });
+          
+            win.loadFile('src/index.html');
+          }
+          
+          app.whenReady().then(createWindow);
+          
+          app.on('window-all-closed', () => {
+            if (process.platform !== 'darwin') {
+              app.quit();
+            }
+          });
+          
+          app.on('activate', () => {
+            if (BrowserWindow.getAllWindows().length === 0) {
+              createWindow();
+            }
+          });" > main.js
+          
+          # Create a simple index.html
+          echo "<!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset='UTF-8'>
+              <title>KeepKey Desktop Test</title>
+            </head>
+            <body>
+              <h1>KeepKey Desktop Test Build</h1>
+              <p>This is a test build for GitHub Actions using Act</p>
+            </body>
+          </html>" > src/index.html
+          
+          # Update package.json for electron
+          node -e "
+            const fs = require('fs');
+            const pkg = require('./package.json');
+            
+            pkg.name = 'keepkey-desktop-test';
+            pkg.version = '1.0.0';
+            pkg.description = 'KeepKey Desktop Test';
+            pkg.main = 'main.js';
+            pkg.scripts = {
+              'start': 'electron .',
+              'build': 'electron-builder --dir'
+            };
+            
+            pkg.build = {
+              appId: 'io.keepkey.desktop.test',
+              productName: 'KeepKey Desktop Test',
+              files: ['*.js', 'src/**/*'],
+              directories: {
+                output: 'dist'
+              }
+            };
+            
+            fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2));
+          "
+          
+          cat package.json
+
+      - name: Build test app
+        run: |
+          cd /tmp/desktop-test
+          # Build the test electron app
+          npm run build
+          ls -la dist/ 

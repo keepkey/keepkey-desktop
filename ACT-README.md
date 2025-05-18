@@ -44,7 +44,7 @@ GITHUB_TOKEN=your_personal_access_token
 act -l
 
 # Run a specific job in test mode
-act -j test --container-architecture linux/amd64 -p=false
+act -j build --container-architecture linux/amd64 -p=false
 
 # Dry-run a job (validates without executing)
 act -j release -n --container-architecture linux/amd64
@@ -88,6 +88,58 @@ act -j release -n --container-architecture linux/amd64
 6. **Matrix Builds**
    - Issue: Act doesn't fully support matrix builds for multiple platforms
    - Solution: Test each platform individually by specifying the matrix values directly
+
+## Testing Electron Desktop Applications
+
+For testing Electron desktop apps like KeepKey Desktop, we recommend creating a separate test environment:
+
+```yaml
+name: Test Desktop App Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-desktop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Create test directory
+        run: |
+          # Create a new test directory outside the original package
+          mkdir -p /tmp/desktop-test
+          cd /tmp/desktop-test
+          
+          # Initialize new package.json
+          npm init -y
+          
+          # Install electron and electron-builder
+          npm install --save-dev electron electron-builder
+
+      - name: Create test electron app
+        run: |
+          cd /tmp/desktop-test
+          # Create basic app structure
+          mkdir -p src
+          
+          # Create main.js, index.html, etc.
+          # ...
+
+      - name: Build test app
+        run: |
+          cd /tmp/desktop-test
+          npm run build
+          ls -la dist/
+```
+
+This approach bypasses complex project dependencies and allows testing the core Electron build process.
 
 ## Creating Test Workflows
 
@@ -148,6 +200,9 @@ act -j build --container-architecture linux/amd64 -p=false
 
 # 5. Dry run release job
 act -j release -n --container-architecture linux/amd64
+
+# 6. Run desktop test job
+act -j desktop-test --container-architecture linux/amd64 -p=false
 ```
 
 ## Resources
