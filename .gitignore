@@ -26,10 +26,13 @@
 !/tsconfig.json
 !/yarn.lock
 
-# Ignore .yarn directory and its cache
-.yarn/
-.yarn/cache/
-.yarn/unplugged/
+# Ignore .yarn directory except releases
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/patches
+!.yarn/versions
 
 # Ignore build and dist directories
 **/build/
@@ -37,3 +40,4 @@
 
 # Ignore .secrets file for act
 .secrets
+.actrc
