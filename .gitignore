@@ -31,3 +31,7 @@
 
 # Ignore .yarn directory
 .yarn/
+
+# Ignore .secrets file for act
+.secrets
+.actrc

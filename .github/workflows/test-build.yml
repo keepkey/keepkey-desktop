@@ -1,0 +1,29 @@
+name: Test Build Process
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Environment Info
+        run: |
+          node -v
+          npm -v
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          echo "GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
+          ls -la
+
+      - name: Test Basic Script
+        run: |
+          echo "console.log('This is a test script running on GitHub Actions')" > test.js
+          node test.js 
