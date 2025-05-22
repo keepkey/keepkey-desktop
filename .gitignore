@@ -1,5 +1,6 @@
 *
 !/*/
+!/.cursor/rules/*
 !/.github/**
 !/.vscode/**
 !/.yarn/patches/
@@ -27,18 +28,6 @@
 !/tsconfig.json
 !/yarn.lock
 
-# Ignore .yarn directory except releases
-.yarn/*
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/patches
-!.yarn/versions
-
-# Ignore build and dist directories
-**/build/
-**/dist/
-
-# Ignore .secrets file for act
-.secrets
-.actrc
+# Exclude node_modules directories
+/packages/**/node_modules/
+**/node_modules/
