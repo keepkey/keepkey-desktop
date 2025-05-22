@@ -1,0 +1,100 @@
+name: Local Windows Build Only
+
+on:
+  workflow_dispatch:
+
+jobs:
+  windows-exe-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        run: |
+          echo "Working directory: $(pwd)"
+          echo "Repository contents:"
+          ls -la
+
+      - name: Check Node.js Version
+        run: |
+          echo "Node.js version:"
+          node --version
+          echo "NPM version:"
+          npm --version
+
+      - name: Install pnpm
+        run: |
+          echo "Installing pnpm..."
+          npm install -g pnpm
+          pnpm --version
+
+      - name: Install Project Dependencies
+        run: |
+          echo "Installing project dependencies..."
+          if [ -f "package.json" ]; then
+            echo "Found package.json, installing dependencies..."
+            pnpm install
+          else
+            echo "No package.json found in current directory"
+            exit 1
+          fi
+
+      - name: Build Project
+        run: |
+          echo "Building project..."
+          pnpm run build
+
+      - name: Create Windows Executable
+        run: |
+          echo "Building Windows executable..."
+          cd packages/keepkey-desktop
+          
+          # Set environment variables for electron-builder
+          export NODE_ENV=production
+          
+          # Build the Windows executable
+          echo "Running pnpm run release..."
+          pnpm run release
+        env:
+          NODE_ENV: production
+
+      - name: Create Output Directory
+        run: |
+          mkdir -p windows-build-output
+          echo "Created output directory: windows-build-output/"
+
+      - name: Copy Windows Files to Output
+        run: |
+          echo "Searching for Windows executables..."
+          
+          # Find all potential Windows build files
+          find . -name "*.exe" -type f 2>/dev/null || echo "No .exe files found"
+          find . -name "*.msi" -type f 2>/dev/null || echo "No .msi files found"
+          
+          # Look in the typical electron-builder output directory
+          if [ -d "packages/keepkey-desktop/dist" ]; then
+            echo "Contents of packages/keepkey-desktop/dist:"
+            ls -la packages/keepkey-desktop/dist/
+            
+            # Copy any Windows executables found
+            cp packages/keepkey-desktop/dist/*.exe windows-build-output/ 2>/dev/null || echo "No .exe files to copy"
+            cp packages/keepkey-desktop/dist/*.msi windows-build-output/ 2>/dev/null || echo "No .msi files to copy"
+            cp packages/keepkey-desktop/dist/*.exe.blockmap windows-build-output/ 2>/dev/null || echo "No .exe.blockmap files to copy"
+            cp packages/keepkey-desktop/dist/*.msi.blockmap windows-build-output/ 2>/dev/null || echo "No .msi.blockmap files to copy"
+          else
+            echo "packages/keepkey-desktop/dist directory not found"
+          fi
+          
+          echo "Final output directory contents:"
+          ls -la windows-build-output/ || echo "Output directory is empty"
+
+      - name: Generate Build Report
+        run: |
+          echo "=== Windows Build Report ===" > windows-build-output/BUILD_REPORT.txt
+          echo "Build Date: $(date)" >> windows-build-output/BUILD_REPORT.txt
+          echo "Node Version: $(node --version)" >> windows-build-output/BUILD_REPORT.txt
+          echo "Platform: Windows (cross-compiled on Linux)" >> windows-build-output/BUILD_REPORT.txt
+          echo "" >> windows-build-output/BUILD_REPORT.txt
+          echo "Files Generated:" >> windows-build-output/BUILD_REPORT.txt
+          ls -la windows-build-output/ | grep -v BUILD_REPORT.txt >> windows-build-output/BUILD_REPORT.txt || echo "No files generated" >> windows-build-output/BUILD_REPORT.txt
+          
+          echo "Build completed! Check windows-build-output/ folder for results."
+          cat windows-build-output/BUILD_REPORT.txt 

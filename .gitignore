@@ -27,7 +27,20 @@
 !/package.json
 !/tsconfig.json
 !/yarn.lock
+!/build-windows-local.ps1
 
 # Exclude node_modules directories
 /packages/**/node_modules/
 **/node_modules/
+
+# Act configuration and secrets
+!/.actrc
+!/.secrets.example
+.secrets
+
+# Windows build output folder
+!/windows-build-output/
+windows-build-output/*.exe
+windows-build-output/*.msi
+windows-build-output/*.blockmap
+!windows-build-output/BUILD_REPORT.txt

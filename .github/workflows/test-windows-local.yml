@@ -1,0 +1,85 @@
+name: Test Windows Build Locally
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-windows-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/electron
+            ~/.cache/electron-builder
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build Project
+        run: pnpm run build
+
+      - name: Simulate Windows Release Build
+        run: |
+          echo "Simulating Windows executable build..."
+          cd packages/keepkey-desktop
+          
+          # Create mock dist directory structure
+          mkdir -p dist
+          
+          # Simulate Windows executable creation
+          echo "Mock Windows executable content" > dist/KeepKey-Desktop-1.0.0.exe
+          echo "Mock Windows executable blockmap" > dist/KeepKey-Desktop-1.0.0.exe.blockmap
+          echo "Mock Windows MSI installer" > dist/KeepKey-Desktop-1.0.0.msi
+          echo "Mock Windows MSI blockmap" > dist/KeepKey-Desktop-1.0.0.msi.blockmap
+          
+          # Create latest version copy (Windows PowerShell simulation)
+          cp dist/KeepKey-Desktop-1.0.0.exe dist/KeepKey-Desktop-latest.exe
+          
+          echo "Windows build artifacts created:"
+          ls -la dist/
+
+      - name: Generate Checksum
+        run: |
+          echo "Generating checksums for Windows build..."
+          ./scripts/generate_checksum_windows.sh
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-test-build
+          path: |
+            packages/keepkey-desktop/dist/*.exe
+            packages/keepkey-desktop/dist/*.exe.blockmap
+            packages/keepkey-desktop/dist/*.msi
+            packages/keepkey-desktop/dist/*.msi.blockmap
+            checksum.txt
+          if-no-files-found: warn
+
+      - name: Display Build Summary
+        run: |
+          echo "🎉 Windows build test completed!"
+          echo "Build artifacts:"
+          find packages/keepkey-desktop/dist -type f -name "*.exe" -o -name "*.msi" | head -10
+          echo ""
+          echo "To run this locally with Act:"
+          echo "act -j test-windows-build --container-architecture linux/amd64" 
