@@ -30,6 +30,7 @@ import {
 import { logger } from './helpers/middlewares/logger'
 import { rendererIpc } from './ipcListeners'
 import { createAndUpdateTray } from './tray'
+import { registerMcpEndpoints } from './mcp/server'
 
 // Function to start TCP bridge
 export const startTcpBridge = async (port?: number) => {
@@ -137,9 +138,13 @@ export const startTcpBridge = async (port?: number) => {
     }
   })
   RegisterRoutes(appExpress)
+  
+  // Register MCP endpoints
+  registerMcpEndpoints(appExpress)
 
   await new Promise(resolve => setServer(appExpress.listen(API_PORT, () => resolve(true))))
   log.info(`Tcp bridge started at http://localhost:${API_PORT}`)
+  log.info(`MCP server available at http://localhost:${API_PORT}/mcp`)
 
   setTcpBridgeStarting(false)
   setTcpBridgeRunning(true)

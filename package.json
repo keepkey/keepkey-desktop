@@ -21,6 +21,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.3.0",
+    "@types/express": "^5.0.2",
     "@yarnpkg/sdks": "^3.0.0-rc.31",
     "eslint": "^8.28.0",
     "prettier": "^2.3.2",

@@ -1,2 +1,3 @@
 # Standard git attributes file
 # No LFS tracking
+executables/version.txt !text !filter !merge !diff

@@ -1,6 +1,6 @@
 {
     "name": "keepkey-desktop",
-    "version": "3.0.32",
+    "version": "3.0.34",
     "author": {
         "name": "KeepKey",
         "email": "support@keepkey.com"
@@ -50,9 +50,7 @@
             "entitlementsInherit": "entitlements.mac.plist",
             "mergeASARs": false,
             "notarize": {
-                "teamId": "DR57X8Z394",
-                "appleId": "${process.env.APPLE_ID}",
-                "appleIdPassword": "${process.env.APPLE_APP_SPECIFIC_PASSWORD}",
+                "appBundleId": "com.keepkey.desktop",
                 "ascProvider": "DR57X8Z394"
             },
             "target": [
