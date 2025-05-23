@@ -2,12 +2,14 @@
 
 import * as fs from 'fs'
 import * as path from 'path'
-import * as pnpapi from 'pnpapi'
 
 const workspacePath = path.resolve(__dirname, '..')
 const buildPath = path.join(workspacePath, 'dist')
+
+// Use require.resolve instead of pnpapi
+const keepkeySdkServerPath = require.resolve('keepkey-sdk-server/package.json', { paths: [workspacePath] })
 const specPath = path.join(
-  pnpapi.resolveToUnqualified('keepkey-sdk-server', workspacePath)!,
+  path.dirname(keepkeySdkServerPath),
   'dist/swagger.json',
 )
 

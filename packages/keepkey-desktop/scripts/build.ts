@@ -6,7 +6,6 @@ import { dirnamePlugin, workspacePlugin } from '@keepkey/common-esbuild-bits'
 import * as esbuild from 'esbuild'
 import * as fs from 'fs'
 import * as path from 'path'
-import * as pnpapi from 'pnpapi'
 
 process.env.NODE_ENV ??= 'production'
 const isDev = process.env.NODE_ENV === 'production'
@@ -14,12 +13,16 @@ const isDev = process.env.NODE_ENV === 'production'
 const workspacePath = path.resolve(__dirname, '..')
 const buildPath = path.join(workspacePath, 'build')
 const rootPath = path.normalize(path.join(workspacePath, '../..'))
-const appSource = path.join(
-  pnpapi.resolveToUnqualified('keepkey-desktop-app', workspacePath)!,
-  'build',
-)
+
+// Use require.resolve instead of pnpapi
+const appSourcePackage = require.resolve('keepkey-desktop-app/package.json', { paths: [workspacePath] })
+const appSource = path.join(path.dirname(appSourcePackage), 'build')
+
 const assetsSource = path.join(workspacePath, 'assets')
-const swaggerUiDistSource = pnpapi.resolveToUnqualified('swagger-ui-dist', workspacePath)!
+
+// Use require.resolve for swagger-ui-dist
+const swaggerUiDistSource = path.dirname(require.resolve('swagger-ui-dist/package.json', { paths: [workspacePath] }))
+
 const firmwareSource = path.join(rootPath, 'firmware')
 const executablesSource = path.join(rootPath, 'executables');
 const executablesPath = path.join(buildPath, 'executables');
@@ -112,13 +115,18 @@ const copyFirmware = async () => {
 const copyPrebuilds = async (packages: string[]) => {
   await Promise.all(
     packages.map(async x => {
-      const prebuildsSource = pnpapi.resolveToUnqualified(`${x}/prebuilds`, workspacePath)!
-      const targetPath = path.join(nativeModulesPath, x, 'prebuilds')
-      await fs.promises.mkdir(targetPath, { recursive: true })
-      await fs.promises.cp(prebuildsSource, targetPath, {
-        dereference: true,
-        recursive: true,
-      })
+      try {
+        const packagePath = require.resolve(`${x}/package.json`, { paths: [workspacePath] })
+        const prebuildsSource = path.join(path.dirname(packagePath), 'prebuilds')
+        const targetPath = path.join(nativeModulesPath, x, 'prebuilds')
+        await fs.promises.mkdir(targetPath, { recursive: true })
+        await fs.promises.cp(prebuildsSource, targetPath, {
+          dereference: true,
+          recursive: true,
+        })
+      } catch (error) {
+        console.warn(`Could not find prebuilds for ${x}`)
+      }
     }),
   )
 }
@@ -126,17 +134,21 @@ const copyPrebuilds = async (packages: string[]) => {
 const copyBindings = async (items: [source: string, target: string][]) => {
   await Promise.all(
     items.map(async ([source, target]) => {
-      const targetPath = pnpapi.resolveToUnqualified(source, workspacePath)!
-      if (
-        !(await fs.promises
-          .stat(targetPath)
-          .then(() => true)
-          .catch(() => false))
-      )
-        return
+      try {
+        const targetPath = require.resolve(source, { paths: [workspacePath] })
+        if (
+          !(await fs.promises
+            .stat(targetPath)
+            .then(() => true)
+            .catch(() => false))
+        )
+          return
 
-      await fs.promises.mkdir(path.dirname(path.join(buildPath, target)), { recursive: true })
-      await fs.promises.copyFile(targetPath, path.join(buildPath, target))
+        await fs.promises.mkdir(path.dirname(path.join(buildPath, target)), { recursive: true })
+        await fs.promises.copyFile(targetPath, path.join(buildPath, target))
+      } catch (error) {
+        console.warn(`Could not find binding ${source}`)
+      }
     }),
   )
 }
@@ -149,7 +161,7 @@ const runEsbuild = async (
     bundle: true,
     absWorkingDir: rootPath,
     outdir: buildPath,
-    external: ['/resources/*', 'electron', 'pnpapi'],
+    external: ['/resources/*', 'electron'],
     loader: {
       '.png': 'file',
       '.svg': 'file',
@@ -180,10 +192,10 @@ const runEsbuild = async (
 export const build = async () => {
   await sanitizeBuildDir()
 
-  const specPath = path.join(
-    pnpapi.resolveToUnqualified('keepkey-sdk-server', workspacePath)!,
-    'dist/swagger.json',
-  )
+  // Use require.resolve for keepkey-sdk-server
+  const sdkServerPackage = require.resolve('keepkey-sdk-server/package.json', { paths: [workspacePath] })
+  const specPath = path.join(path.dirname(sdkServerPackage), 'dist/swagger.json')
+  
   await fs.promises.copyFile(specPath, path.join(apiPath, 'swagger.json'))
 
   const esbuild = collectDefines().then(defines =>

@@ -211,7 +211,7 @@ const runEsbuild = async (defines: Record<string, string>) => {
     bundle: true,
     absWorkingDir: rootPath,
     outdir: buildPath,
-    external: ['/public/*', 'electron', 'pnpapi'],
+    external: ['/public/*', 'electron'],
     loader: {
       '.png': 'file',
       '.svg': 'file',
