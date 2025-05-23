@@ -32,6 +32,9 @@
             "build/**/*",
             "executables/*"
         ],
+        "asarUnpack": [
+            "**/*.node"
+        ],
         "protocols": [
             {
                 "name": "Keepkey Desktop",

@@ -343,6 +343,18 @@
       "runBetaFirmware": "Run beta release firmware",
       "autoScanQr": "Automatically scan QRs",
       "resetDefaultDapp": "Reset default dapp",
+      "mcp": {
+        "title": "Model Context Protocol",
+        "enabled": "Enable MCP Integration",
+        "signingEnabled": "Enable Transaction Signing",
+        "serverUrl": "MCP Server URL",
+        "testConnection": "Test Connection",
+        "setupInstructions": "Setup Instructions",
+        "connectionStatus": "MCP Server Status",
+        "securityNotice": "Security Notice",
+        "availableTools": "Available MCP Tools",
+        "configurationFiles": "Configuration Files"
+      },
       "currencies": {
         "CNY": "Chinese Yuan",
         "USD": "United States Dollar (default)",
@@ -369,7 +381,8 @@
         "ollama": "Ollama",
         "general": "General",
         "app": "App",
-        "keepkey": "KeepKey"
+        "keepkey": "KeepKey",
+        "mcp": "MCP"
       }
     },
     "pair": {

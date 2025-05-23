@@ -20,7 +20,7 @@ import type { RouteComponentProps } from 'react-router-dom'
 
 import { AppSettings } from './AppSettings'
 import { GeneralSettings } from './GeneralSettings'
-import { OllamaSettings } from './OllamaSettings'
+import { McpSettings } from './McpSettings'
 
 export type SettingsListProps = {
   appHistory: RouteComponentProps['history']
@@ -66,6 +66,9 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
               <Tab>
                 <Text translation='modals.settings.tabs.keepkey' />
               </Tab>
+              <Tab>
+                <Text translation='modals.settings.tabs.mcp' />
+              </Tab>
               {/*<Tab>*/}
               {/*  <Text translation='modals.settings.tabs.ollama' />*/}
               {/*</Tab>*/}
@@ -89,7 +92,7 @@ export const SettingsList = ({ appHistory, ...routeProps }: SettingsListProps) =
               </TabPanel>
               <TabPanel>
                 <Menu>
-                  <OllamaSettings></OllamaSettings>
+                  <McpSettings></McpSettings>
                 </Menu>
               </TabPanel>
             </TabPanels>
