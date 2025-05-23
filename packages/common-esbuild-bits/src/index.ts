@@ -5,7 +5,6 @@ import escapeStringRegexp from 'escape-string-regexp'
 import * as fs from 'fs'
 import glob from 'glob'
 import * as path from 'path'
-import * as pnpapi from 'pnpapi'
 import { promisify } from 'util'
 
 export async function getWorkspaces(rootPath: string): Promise<{ name: string; path: string }[]> {
@@ -51,10 +50,15 @@ export async function workspacePlugin(
           { filter: new RegExp(`^${escapeStringRegexp(name)}(\/.*)?`) },
           async args => {
             if (args.namespace !== 'file') return
-            const path = pnpapi.resolveRequest(args.path, issuerPath)!
-            // console.log(`resolving ${args.path} to ${path}`)
-            return {
-              path,
+            try {
+              const resolvedPath = require.resolve(args.path, { paths: [issuerPath] })
+              // console.log(`resolving ${args.path} to ${resolvedPath}`)
+              return {
+                path: resolvedPath,
+              }
+            } catch (error) {
+              // Fallback to original path if resolution fails
+              return { path: args.path }
             }
           },
         )
