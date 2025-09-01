@@ -28,6 +28,7 @@
         "productName": "KeepKey Desktop",
         "generateUpdatesFilesForAllChannels": true,
         "publish": "github",
+        "afterSign": "scripts/afterSign.js",
         "files": [
             "build/**/*",
             "executables/*"
@@ -49,12 +50,7 @@
             "entitlements": "entitlements.mac.plist",
             "entitlementsInherit": "entitlements.mac.plist",
             "mergeASARs": false,
-            "notarize": {
-                "teamId": "DR57X8Z394",
-                "appleId": "${process.env.APPLE_ID}",
-                "appleIdPassword": "${process.env.APPLE_APP_SPECIFIC_PASSWORD}",
-                "ascProvider": "DR57X8Z394"
-            },
+            "notarize": false,
             "target": [
                 {
                     "target": "dmg",

@@ -103,9 +103,9 @@ const checkIfSSDApp = (currentUrl: string) => {
 }
 
 export const Browser = () => {
-  const [url, setUrl] = useState('https://private.shapeshift.com/')
+  const [url, setUrl] = useState('https://vault.keepkey.com/')
   const [urlWc, setUrlWc] = useState('https://wallet-connect-dapp-ochre.vercel.app')
-  const [inputUrl, setInputUrl] = useState(url)
+  const [inputUrl, setInputUrl] = useState('https://vault.keepkey.com/')
   const [loading, setLoading] = useState(false)
   const [loadingWc, setLoadingWc] = useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure({
@@ -257,11 +257,13 @@ export const Browser = () => {
 
   useEffect(() => {
     const webview = getWebview()!
-    if (webviewReady && (url !== webview.getURL() || forceLoad)) {
+    if (webviewReady && forceLoad) {
       setForceLoad(false)
-      webview.loadURL(url)
+      if (inputUrl && inputUrl !== 'about:blank') {
+        webview.loadURL(inputUrl)
+      }
     }
-  }, [webviewReady, url, forceLoad])
+  }, [webviewReady, inputUrl, forceLoad])
 
   const formatAndSaveUrl = useCallback(
       (e?: React.SyntheticEvent) => {
@@ -398,7 +400,7 @@ export const Browser = () => {
           <webview
               id='webview'
               partition='browser'
-              src='about:blank'
+              src='https://vault.keepkey.com/'
               style={{ flexGrow: 8 }}
               allowpopups='true'
           ></webview>
