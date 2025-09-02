@@ -6,6 +6,7 @@ on:
       - master
       - release-candidate
       - release-candidate-*
+      - release-3.2.0
       - feature-*
   workflow_dispatch:
 
@@ -89,9 +90,14 @@ jobs:
           ls -al ~/private_keys # Debugging line to check the contents of the directory
           chmod -R 755 ~/private_keys # Ensure proper permissions
 
-      - name: Linux - Build Electron App
+      - name: Linux - Build Electron App (All Platforms)
         if: startsWith(matrix.os, 'ubuntu')
-        run: yarn run release
+        run: |
+          # Build for Linux
+          yarn run release
+          # Also build Windows packages from Linux (cross-platform)
+          cd packages/keepkey-desktop
+          yarn electron-builder --win --publish=never
         env:
           NODE_ENV: production
           APPLE_ID: ${{ secrets.apple_id }}
@@ -163,6 +169,18 @@ jobs:
             packages/keepkey-desktop/dist/*.AppImage
             packages/keepkey-desktop/dist/*.AppImage.blockmap
           if-no-files-found: error
+
+      - name: Linux - Upload Windows packages (cross-platform build)
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-from-linux-${{ matrix.os }}
+          path: |
+            packages/keepkey-desktop/dist/*.exe
+            packages/keepkey-desktop/dist/*.msi
+            packages/keepkey-desktop/dist/*.exe.blockmap
+            packages/keepkey-desktop/dist/*.msi.blockmap
+          if-no-files-found: warn
 
       - name: Mac - Upload .dmg
         if: startsWith(matrix.os, 'macos')
