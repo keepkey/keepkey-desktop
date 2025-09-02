@@ -54,54 +54,86 @@ ipcMain.on('@app/get-ipc-listeners', (event: IpcMainEvent) => {
   Comlink.expose(ipcListeners, electronEndpoint(event.ports[0]))
 })
 
-// USB device enumeration as reusable async function
+// USB device enumeration as reusable async function with robust error handling
 async function enumerateUsbDevices() {
-  const usb = require('usb');
-  const deviceList = usb.getDeviceList();
-
-  function getStringDescriptorAsync(device: any, index: number | undefined) {
-    return new Promise<string | undefined>(resolve => {
-      if (!index) return resolve(undefined);
-      try { device.open(); } catch (_) {}
-      device.getStringDescriptor(index, (err: any, data: string) => {
-        resolve(err ? undefined : data);
-      });
-    });
-  }
-
-  const deviceInfos = [];
-  for (const device of deviceList) {
-    const { deviceDescriptor } = device;
-    const idVendor = deviceDescriptor.idVendor;
-    const idProduct = deviceDescriptor.idProduct;
-    let manufacturer, product, serialNumber;
-    try {
-      manufacturer = await getStringDescriptorAsync(device, deviceDescriptor.iManufacturer);
-      product = await getStringDescriptorAsync(device, deviceDescriptor.iProduct);
-      serialNumber = await getStringDescriptorAsync(device, deviceDescriptor.iSerialNumber);
-    } catch (e) {
-      manufacturer = product = serialNumber = undefined;
+  try {
+    const usb = require('usb');
+    
+    // Check if USB module loaded properly
+    if (!usb || !usb.getDeviceList) {
+      console.warn('[KeepKey Main] USB module not available');
+      return [];
     }
-    deviceInfos.push({
-      vendorId: idVendor,
-      productId: idProduct,
-      manufacturer,
-      product,
-      serialNumber,
-    });
-    try { device.close(); } catch (_) {}
+
+    const deviceList = usb.getDeviceList();
+    if (!deviceList || !Array.isArray(deviceList)) {
+      console.warn('[KeepKey Main] USB device list not available');
+      return [];
+    }
+
+    function getStringDescriptorAsync(device: any, index: number | undefined) {
+      return new Promise<string | undefined>(resolve => {
+        if (!index) return resolve(undefined);
+        try { 
+          device.open(); 
+          device.getStringDescriptor(index, (err: any, data: string) => {
+            try { device.close(); } catch (_) {}
+            resolve(err ? undefined : data);
+          });
+        } catch (_) { 
+          resolve(undefined);
+        }
+      });
+    }
+
+    const deviceInfos = [];
+    for (const device of deviceList) {
+      try {
+        const { deviceDescriptor } = device;
+        if (!deviceDescriptor) continue;
+        
+        const idVendor = deviceDescriptor.idVendor;
+        const idProduct = deviceDescriptor.idProduct;
+        let manufacturer, product, serialNumber;
+        
+        try {
+          manufacturer = await getStringDescriptorAsync(device, deviceDescriptor.iManufacturer);
+          product = await getStringDescriptorAsync(device, deviceDescriptor.iProduct);
+          serialNumber = await getStringDescriptorAsync(device, deviceDescriptor.iSerialNumber);
+        } catch (e) {
+          manufacturer = product = serialNumber = undefined;
+        }
+        
+        deviceInfos.push({
+          vendorId: idVendor,
+          productId: idProduct,
+          manufacturer,
+          product,
+          serialNumber,
+        });
+      } catch (e) {
+        console.warn('[KeepKey Main] Error processing USB device:', e);
+        continue;
+      }
+    }
+    return deviceInfos;
+  } catch (e) {
+    console.warn('[KeepKey Main] USB enumeration failed, continuing without USB info:', e);
+    return [];
   }
-  return deviceInfos;
 }
 
-// Log USB devices at startup
-enumerateUsbDevices()
-  .then(devices => {
-    console.log('[KeepKey Main] USB Devices:', devices);
-  })
-  .catch(err => {
-    console.error('[KeepKey Main] Error fetching USB devices:', err);
-  });
+// USB enumeration disabled at startup to prevent native module crashes
+// This will be called on-demand when needed by the application
+// setTimeout(() => {
+//   enumerateUsbDevices()
+//     .then(devices => {
+//       console.log('[KeepKey Main] USB Devices:', devices);
+//     })
+//     .catch(err => {
+//       console.warn('[KeepKey Main] Error fetching USB devices (non-fatal):', err);
+//     });
+// }, 2000);
 
 
 // @ts-ignore
