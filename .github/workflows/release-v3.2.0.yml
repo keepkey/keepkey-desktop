@@ -1,0 +1,156 @@
+name: Build KeepKey Desktop v3.2.0 Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-release:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+    
+    steps:
+      - name: Checkout v3.2.0 tag
+        uses: actions/checkout@v4
+        with:
+          ref: v3.2.0
+          submodules: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/electron
+            ~/Library/Caches/electron
+            ~/AppData/Local/electron/Cache
+            .yarn/cache
+          key: ${{ runner.os }}-deps-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-deps-
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Build Application
+        run: yarn build
+
+      - name: Build Windows Packages
+        if: startsWith(matrix.os, 'windows')
+        run: |
+          cd packages/keepkey-desktop
+          yarn electron-builder --win --publish=never
+        env:
+          NODE_ENV: production
+
+      - name: Build macOS Packages  
+        if: startsWith(matrix.os, 'macos')
+        run: |
+          cd packages/keepkey-desktop
+          yarn electron-builder --mac --publish=never
+        env:
+          NODE_ENV: production
+
+      - name: Build Linux Packages
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          cd packages/keepkey-desktop
+          yarn electron-builder --linux --publish=never
+        env:
+          NODE_ENV: production
+
+      - name: Upload Windows Artifacts
+        if: startsWith(matrix.os, 'windows')
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-packages
+          path: |
+            packages/keepkey-desktop/dist/*.exe
+            packages/keepkey-desktop/dist/*.msi
+            packages/keepkey-desktop/dist/*.exe.blockmap
+            packages/keepkey-desktop/dist/*.msi.blockmap
+          if-no-files-found: error
+
+      - name: Upload macOS Artifacts
+        if: startsWith(matrix.os, 'macos')
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-packages
+          path: |
+            packages/keepkey-desktop/dist/*.dmg
+            packages/keepkey-desktop/dist/*.zip
+            packages/keepkey-desktop/dist/*.dmg.blockmap
+          if-no-files-found: error
+
+      - name: Upload Linux Artifacts
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-packages
+          path: |
+            packages/keepkey-desktop/dist/*.deb
+            packages/keepkey-desktop/dist/*.AppImage
+            packages/keepkey-desktop/dist/*.deb.blockmap
+            packages/keepkey-desktop/dist/*.AppImage.blockmap
+          if-no-files-found: error
+
+  sign-and-upload:
+    needs: build-release
+    runs-on: windows-latest
+    steps:
+      - name: Download Windows Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-packages
+          path: ./windows-packages
+
+      - name: List Downloaded Files
+        run: |
+          Write-Host "Downloaded Windows packages:"
+          Get-ChildItem -Path ./windows-packages -Recurse | ForEach-Object {
+            Write-Host "  $($_.Name) ($([math]::Round($_.Length / 1MB, 2)) MB)"
+          }
+
+      - name: Sign Windows Packages (if certificate available)
+        run: |
+          $signTool = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe"
+          $thumbprint = "986AEBA61CF6616393E74D8CBD3A09E836213BAA"
+          
+          if (Test-Path $signTool) {
+            Write-Host "SignTool found, checking for certificate..."
+            $cert = Get-ChildItem -Path "Cert:\CurrentUser\My" | Where-Object { $_.Thumbprint -eq $thumbprint }
+            if (-not $cert) {
+              $cert = Get-ChildItem -Path "Cert:\LocalMachine\My" | Where-Object { $_.Thumbprint -eq $thumbprint }
+            }
+            
+            if ($cert) {
+              Write-Host "Certificate found, signing packages..."
+              $windowsFiles = Get-ChildItem -Path ./windows-packages -Filter "*.exe" -Recurse
+              $windowsFiles += Get-ChildItem -Path ./windows-packages -Filter "*.msi" -Recurse
+              
+              foreach ($file in $windowsFiles) {
+                Write-Host "Signing $($file.Name)..."
+                & $signTool sign /sha1 $thumbprint /fd sha256 /tr "http://timestamp.sectigo.com" /td sha256 /v $file.FullName
+              }
+            } else {
+              Write-Host "Certificate not found, skipping signing"
+            }
+          } else {
+            Write-Host "SignTool not found, skipping signing"
+          }
+
+      - name: Upload Signed Packages to Release
+        run: |
+          Write-Host "Uploading packages to v3.2.0 release..."
+          $files = Get-ChildItem -Path ./windows-packages -File -Recurse
+          foreach ($file in $files) {
+            Write-Host "Uploading $($file.Name)..."
+            gh release upload v3.2.0 $file.FullName --clobber --repo keepkey/keepkey-desktop
+          }
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
