@@ -94,14 +94,14 @@ async function enumerateUsbDevices() {
   return deviceInfos;
 }
 
-// Log USB devices at startup - temporarily disabled to debug native module crash
-// enumerateUsbDevices()
-//   .then(devices => {
-//     console.log('[KeepKey Main] USB Devices:', devices);
-//   })
-//   .catch(err => {
-//     console.error('[KeepKey Main] Error fetching USB devices:', err);
-//   });
+// Log USB devices at startup
+enumerateUsbDevices()
+  .then(devices => {
+    console.log('[KeepKey Main] USB Devices:', devices);
+  })
+  .catch(err => {
+    console.error('[KeepKey Main] Error fetching USB devices:', err);
+  });
 
 
 // @ts-ignore
