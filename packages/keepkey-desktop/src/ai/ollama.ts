@@ -112,6 +112,13 @@ export const spawnLocalExecutable = async (customDataPath?: string) => {
     console.log(tag,'customDataPath:', customDataPath)
     const { executablePath, appDataPath } = await getOllamaExecutableAndAppDataPath(customDataPath);
     console.log(tag,'appDataPath:', appDataPath)
+    
+    // Check if ollama executable is available
+    if (!executablePath) {
+      logger.warn('Ollama executable not found - skipping ollama startup');
+      return false;
+    }
+    
     if (!fs.existsSync(appDataPath)) {
       console.log(tag,'No app data path found, creating one')
       createDirectoryElevated(appDataPath);
@@ -125,23 +132,27 @@ export const spawnLocalExecutable = async (customDataPath?: string) => {
     ollamaProcess = execFile(executablePath, ['serve'], { env }, (err, stdout, stderr) => {
       if (err) {
         console.error(tag,'err:', err)
-        throw new Error(`exec error: ${err.message}`);
+        logger.error(`exec error: ${err.message}`);
+        return;
       }
 
       if (stderr) {
         console.error(tag,'stderr:', stderr)
-        throw new Error(`stderr: ${stderr}`);
+        logger.error(`stderr: ${stderr}`);
+        return;
       }
     });
+    return true;
   } catch (err) {
     logger.error(err);
+    return false;
   }
 };
 
 export const getOllamaExecutableAndAppDataPath = async (
     customDataPath?: string,
 ): Promise<{
-  executablePath: string;
+  executablePath: string | null;
   appDataPath: string;
 }> => {
   const appDataPath = customDataPath || app.getPath('userData');

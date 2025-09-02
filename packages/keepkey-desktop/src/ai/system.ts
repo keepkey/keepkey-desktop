@@ -193,7 +193,9 @@ export const getExecutablePathByPlatform = async () => {
   if (!fs.existsSync(executablePath)) {
     const error = `Executable not found at path: ${executablePath}`;
     logger.error(error);
-    throw new Error(error);
+    // Don't throw error - make ollama optional to allow app to launch
+    logger.warn('Ollama executable not found - AI features will be disabled');
+    return null;
   }
 
   return executablePath;
