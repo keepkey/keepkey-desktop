@@ -52,9 +52,6 @@ if (process.defaultApp) {
   app.setAsDefaultProtocolClient('keepkey')
 }
 
-export const sendOllamaStatusToRenderer = async (status: string) => {
-  console.log('| main.ts | status:', status)
-  return true
-};
+// Ollama functionality removed;
 export const isDev = false;
 export const appPath = path.parse(app.getPath('exe')).dir;

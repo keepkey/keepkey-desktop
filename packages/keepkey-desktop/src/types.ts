@@ -56,12 +56,7 @@ export type IpcListeners = {
   appSettings(): Promise<Settings>
   appPairings(): Promise<PairingProps2[]>
   //Ollama
-  initOllama(): Promise<any>
-  getAllModels(): Promise<any>
-  getModel(): Promise<any>
-  setModelFolderPath(data: { path: string }): Promise<any>
-  getModelsFolderPath(): Promise<any>
-  stopOllamaServe(): Promise<any>
+  // AI functionality removed
   //keepkey
   bridgeServiceDetails(
     serviceKey: string,

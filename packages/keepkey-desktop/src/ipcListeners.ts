@@ -15,16 +15,9 @@ import path from 'path'
 // import { autoUpdater } from 'electron-updater'
 import { sleep } from 'wait-promise'
 
-import { IpcChannel, IpcMainChannel, OllamaChannel } from './ai/events';
+// AI functionality removed
 
-import {
-  initOllama,
-  getAllModels,
-  getModel,
-  setModelFolderPath,
-  getModelsFolderPath,
-  stopOllamaServe,
-} from './ai';
+// AI functionality removed
 
 import type {
   PairedAppProps,
@@ -60,17 +53,6 @@ ipcMain.on('@app/register-render-listeners', (event: IpcMainEvent) => {
 ipcMain.on('@app/get-ipc-listeners', (event: IpcMainEvent) => {
   Comlink.expose(ipcListeners, electronEndpoint(event.ports[0]))
 })
-
-/*
-
-  Ollama Intergration
-  - IPC Listeners
-
- */
-ipcMain.on(IpcMainChannel.CommandOuput, (_: any, output: string) => {
-  console.log(output);
-});
-
 
 // USB device enumeration as reusable async function
 async function enumerateUsbDevices() {
@@ -112,14 +94,14 @@ async function enumerateUsbDevices() {
   return deviceInfos;
 }
 
-// Log USB devices at startup
-enumerateUsbDevices()
-  .then(devices => {
-    console.log('[KeepKey Main] USB Devices:', devices);
-  })
-  .catch(err => {
-    console.error('[KeepKey Main] Error fetching USB devices:', err);
-  });
+// Log USB devices at startup - temporarily disabled to debug native module crash
+// enumerateUsbDevices()
+//   .then(devices => {
+//     console.log('[KeepKey Main] USB Devices:', devices);
+//   })
+//   .catch(err => {
+//     console.error('[KeepKey Main] Error fetching USB devices:', err);
+//   });
 
 
 // @ts-ignore
@@ -434,30 +416,7 @@ export const ipcListeners: IpcListeners = {
   },
 
   // Ollama
-  async initOllama() {
-    return initOllama();
-  },
-
-  async getAllModels() {
-    return getAllModels();
-  },
-
-  //@ts-ignore
-  async getModel(model:string) {
-    return getModel(model);
-  },
-
-  async setModelFolderPath() {
-    return setModelFolderPath();
-  },
-
-  async getModelsFolderPath() {
-    return getModelsFolderPath();
-  },
-
-  async stopOllamaServe() {
-    return stopOllamaServe();
-  },
+  // AI functionality removed
 
   async enumerateUsbDevices() {
     return enumerateUsbDevices();

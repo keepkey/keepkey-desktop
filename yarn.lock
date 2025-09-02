@@ -19651,7 +19651,6 @@ __metadata:
     nedb-promises: "npm:^6.2.1"
     node-fetch: "npm:^3.3.0"
     node-hid: "npm:^2.1.2"
-    ollama: "npm:^0.5.6"
     prettier: "npm:^2.3.2"
     promise.any: "npm:^2.0.5"
     protobufjs: "npm:^7.2.6"
@@ -21893,15 +21892,6 @@ __metadata:
   dependencies:
     http-https: "npm:^1.0.0"
   checksum: 10/451d0c28b45f518fc86d4689075cf74c7fea92fb09e2f994dd1208e5c5516a6958f9dc476714b61c62c959a3e7e0db8a69999c59ff63777c7a8af24fbddd0848
-  languageName: node
-  linkType: hard
-
-"ollama@npm:^0.5.6":
-  version: 0.5.6
-  resolution: "ollama@npm:0.5.6"
-  dependencies:
-    whatwg-fetch: "npm:^3.6.20"
-  checksum: 10/3fe8d81a8a0e7896e396f730b447ca403596cb27f4bb95e621e1addde7e015cd9aaa523a91c960fae4bf8f62e532c85571a7b42c5ec6a0dba9a6a962ec84cdc5
   languageName: node
   linkType: hard
 

@@ -25275,7 +25275,6 @@ const RAW_RUNTIME_STATE =
           ["nedb-promises", "npm:6.2.1"],\
           ["node-fetch", "npm:3.3.0"],\
           ["node-hid", "patch:node-hid@npm%3A2.1.2#./.yarn/patches/node-hid-npm-2.1.2-82add4c8de.patch::version=2.1.2&hash=1e3ac2&locator=keepkey-monorepo%40workspace%3A."],\
-          ["ollama", "npm:0.5.6"],\
           ["prettier", "npm:2.8.0"],\
           ["promise.any", "npm:2.0.5"],\
           ["protobufjs", "npm:7.2.6"],\
@@ -27995,16 +27994,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["oboe", "npm:2.1.5"],\
           ["http-https", "npm:1.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["ollama", [\
-      ["npm:0.5.6", {\
-        "packageLocation": "./.yarn/cache/ollama-npm-0.5.6-fff9382dc7-3fe8d81a8a.zip/node_modules/ollama/",\
-        "packageDependencies": [\
-          ["ollama", "npm:0.5.6"],\
-          ["whatwg-fetch", "npm:3.6.20"]\
         ],\
         "linkType": "HARD"\
       }]\

@@ -3,15 +3,7 @@ import isDev from 'electron-is-dev'
 import { autoUpdater } from 'electron-updater'
 import { sleep } from 'wait-promise'
 
-import {
-  initOllama,
-  getAllModels,
-  askOlama,
-  getModel,
-  setModelFolderPath,
-  getModelsFolderPath,
-  stopOllamaServe,
-} from './ai/index';
+// AI functionality removed
 
 import {
   bridgeLogger,
@@ -34,9 +26,7 @@ export const startAppListeners = () => {
   app.on('ready', async () => {
     await createUpdaterSplashWindow()
     
-    //start ollama
-    //TODO is configured to auto-start?
-    await initOllama()
+    // AI functionality removed - no ollama initialization needed
     
     autoUpdater.setFeedURL({ provider: 'github', owner: 'keepkey', repo: 'keepkey-desktop' })
     autoUpdater.autoDownload = await settings.shouldAutoUpdate

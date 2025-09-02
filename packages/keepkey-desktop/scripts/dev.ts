@@ -13,6 +13,16 @@ const distPath = path.join(workspacePath, 'dist')
 export const dev = async () => {
   process.env.NODE_ENV ??= 'development'
   process.env.ELECTRON_IS_DEV ??= '1'
+  // Disable code signing completely in development
+  process.env.CSC_IDENTITY_AUTO_DISCOVERY = 'false'
+  delete process.env.CSC_LINK
+  delete process.env.CSC_KEY_PASSWORD
+  delete process.env.WIN_CSC_LINK
+  delete process.env.WIN_CSC_KEY_PASSWORD
+  delete process.env.CSC_NAME
+  delete process.env.WIN_CSC_NAME
+  process.env.ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES = 'true'
+  process.env.SKIP_SIGNING = 'true'
 
   await build()
 
@@ -24,6 +34,35 @@ export const dev = async () => {
     armv7l: false,
     arm64: false,
     universal: false,
+    config: {
+      // Completely disable signing and signing-related operations in development
+      win: {
+        sign: undefined,
+        certificateFile: undefined,
+        certificatePassword: undefined,
+        signingHashAlgorithms: undefined,
+        signAndEditExecutable: false,
+        signDlls: false,
+        target: [
+          {
+            target: "dir",
+            arch: ["x64"]
+          }
+        ]
+      },
+      mac: {
+        identity: null,
+        sign: undefined,
+      },
+      // Skip code signing entirely
+      forceCodeSigning: false,
+      // Disable all signing-related hooks and operations
+      afterSign: undefined,
+      afterAllArtifactBuild: undefined,
+      beforeBuild: undefined,
+      // Override any inherited signing configuration
+      extends: null,
+    },
   })
 
   console.log('Launching unpacked app...')

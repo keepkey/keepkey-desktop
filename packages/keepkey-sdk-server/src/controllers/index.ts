@@ -3,7 +3,7 @@ import { Readable } from 'stream'
 
 import { ApiController } from '../auth'
 
-export * from './ollama'
+// AI functionality removed
 
 export * from './addresses'
 export * from './auth'
