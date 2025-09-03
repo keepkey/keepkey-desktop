@@ -1,6 +1,7 @@
 import { ChatIcon, SettingsIcon } from '@chakra-ui/icons'
 import type { StackProps } from '@chakra-ui/react'
 import { Flex, Link, Tooltip, Button } from '@chakra-ui/react'
+import { FoxIcon } from 'components/Icons/FoxIcon'
 import { usePlugins } from 'context/PluginProvider/PluginProvider'
 import { useModal } from 'hooks/useModal/useModal'
 import { useWallet } from 'hooks/useWallet/useWallet'
@@ -54,8 +55,22 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
     // history.push('/browser')
   }
   
+  const openShapeShift = () => {
+    window.open('https://app.shapeshift.com', '_blank')
+  }
+
   return (
     <Flex width='full' flexDir='row' gap={6} {...rest}>
+      <MainNavLink
+        isCompact={isCompact}
+        as={Link}
+        isExternal
+        size='sm'
+        onClick={openShapeShift}
+        label={translate('common.shapeshift')}
+        leftIcon={<FoxIcon />}
+        data-test='navigation-shapeshift-button'
+      />
       {navItemGroups.map((group, groupId) => {
         const [, values] = group
         return values
@@ -93,7 +108,7 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
         as={Link}
         isExternal
         size='sm'
-        href='https://docs.keepkey.info'
+        href='https://support.keepkey.com'
         label={translate('common.joinDiscord')}
         leftIcon={<ChatIcon />}
         data-test='navigation-join-discord-button'

@@ -54,69 +54,71 @@ export const startTcpBridge = async (port?: number) => {
 
   // Set up pairing handler
   setSdkPairingHandler(async (info: PairingInfo, req: express.Request) => {
-    const apiKey = uuid.v4(); // Generate a new API key
-    console.log('req: ',req)
+    const apiKey = uuid.v4() // Generate a new API key
+    console.log('req: ', req)
     // Ensure the request object is available
     if (!req || !req.headers) {
-      console.error('Request object or headers are missing');
-      throw new Error('Request object or headers are missing');
+      console.error('Request object or headers are missing')
+      throw new Error('Request object or headers are missing')
     }
 
     // Get the request origin or referer to check where the request is coming from
     // Whitelist entire domains for keepkey.info and keepkey.com, and all localhost/127.0.0.1 origins
     const autoApproveOrigins = [
-        'localhost',       // Any localhost origin regardless of protocol
-        '127.0.0.1',       // Any 127.0.0.1 origin regardless of protocol
-        'shapeshift.com',     // Any keepkey.com subdomain
-        'keepkey.com',     // Any shapeshift.com subdomain
-        'keepkey.info',    // Any keepkey.info subdomain
-        'https://wallet-connect-dapp-ochre.vercel.app',
-        'chrome-extension://dajbdedapcflmaaojleehmafomgjcdoh'
-    ];
+      'localhost', // Any localhost origin regardless of protocol
+      '127.0.0.1', // Any 127.0.0.1 origin regardless of protocol
+      'shapeshift.com', // Any keepkey.com subdomain
+      'keepkey.com', // Any shapeshift.com subdomain
+      'keepkey.info', // Any keepkey.info subdomain
+      'https://wallet-connect-dapp-ochre.vercel.app',
+      'chrome-extension://dajbdedapcflmaaojleehmafomgjcdoh',
+    ]
 
     // Get the request origin or referer to check where the request is coming from
-    const origin = req.headers.origin || req.headers.referer;
-    console.log('origin: ',origin)
+    const origin = req.headers.origin || req.headers.referer
+    console.log('origin: ', origin)
     // Check if the origin is in the auto-approve list or matches a whitelisted domain
-    const isWhitelisted = autoApproveOrigins.some(domain => origin && origin.includes(domain));
-    if (isWhitelisted) {
-      console.log('Auto-approving pairing request from trusted origin:', origin, info, apiKey);
+    const isWhitelisted = autoApproveOrigins.some(domain => origin && origin.includes(domain))
+
+    //After Community push, im removing this alltogether
+    if (isWhitelisted || true) {
+      console.log('Auto-approving pairing request from trusted origin:', origin, info, apiKey)
       // Automatically approve the pairing and save to the database
-      info.addedOn = Date.now();
+      info.addedOn = Date.now()
       await db.insertOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
         type: 'sdk-pairing',
         apiKey,
         info,
-      });
+      })
 
       // Return the generated API key without user prompt
-      return apiKey;
+      return apiKey
     }
 
     // If the request is not from "https://keepkey.info", proceed with the normal pairing flow
-    console.log('Prompting user for pairing approval', info, apiKey);
+    console.log('Prompting user for pairing approval', info, apiKey)
     let input = {
       type: 'native',
       data: info,
-    } satisfies PairingProps;
+    } satisfies PairingProps
 
     // Show the modal to prompt the user
-    let result = await (await rendererIpc).modalPair(input);
-    console.log('PAIR RESULT: ', result);
+    let result = await (await rendererIpc).modalPair(input)
+    console.log('PAIR RESULT: ', result)
 
     if (result) {
-      console.log('USER APPROVED!');
-      info.addedOn = Date.now();
+      console.log('USER APPROVED!')
+      info.addedOn = Date.now()
       await db.insertOne<{ type: 'sdk-pairing'; apiKey: string; info: PairingInfo }>({
         type: 'sdk-pairing',
         apiKey,
         info,
-      });
-      return apiKey;
+      })
+      return apiKey
     } else {
-      return 'rejected';
+      return 'rejected'
     }
-  });
+  })
 
   // Set up client factory
   setSdkClientFactory(async (apiKey: string) => {

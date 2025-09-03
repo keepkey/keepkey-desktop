@@ -4,7 +4,7 @@
 REST api for intergrating with the KeepKey hardware wallet.
 
 - [KeepKey Website](https://www.keepkey.com/)
-- [SDK tutorial](https://medium.com/@highlander_35968/creating-a-dapp-for-the-keepkey-desktop-f61e506f5026)
+- [SDK tutorial](https://keepkey.com/blog/troubleshooting_connecting_your_keepkey)
 
 REST (REpresentational State Transfer) is an architectural style used for designing distributed systems. It is based on a client-server model, where the client makes requests to the server and the server responds with a representation of the requested resource. REST is used to build public APIs that are easy to use and maintain.
 
