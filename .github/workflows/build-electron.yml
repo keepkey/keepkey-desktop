@@ -94,7 +94,7 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu')
         run: |
           # Build for Linux
-          yarn run release
+          yarn run release --publish always
         env:
           NODE_ENV: production
           APPLE_ID: ${{ secrets.apple_id }}
