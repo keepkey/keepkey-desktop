@@ -27,7 +27,7 @@
         "appId": "com.keepkey.desktop",
         "productName": "KeepKey Desktop",
         "generateUpdatesFilesForAllChannels": true,
-        "publish": "github",
+        "publish": null,
         "files": [
             "build/**/*",
             "executables/*"
