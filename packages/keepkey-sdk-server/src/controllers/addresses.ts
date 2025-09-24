@@ -1,4 +1,4 @@
-import type { BTCInputScriptType } from '@keepkey/hdwallet-core'
+import { BTCInputScriptType } from '@keepkey/hdwallet-core'
 import {
   Body,
   Middlewares,
@@ -46,7 +46,7 @@ export class AddressesController extends ApiController {
       scriptType: body.script_type,
       showDisplay: !!body.show_display,
     })
-    await this.context.saveAccount(response!, body.address_n)
+    this.context.saveAccount(response!, body.address_n)
     const result:any = { address: response };
     publicKeyCache.set(requestBodyKey, result);
     return result;
