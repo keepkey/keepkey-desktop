@@ -2,20 +2,25 @@ name: Build KeepKey Desktop v3.2.0 Release
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - release-3.2.0
 
 jobs:
   build-release:
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-14]
-    
+        os: [ubuntu-latest]
+
     steps:
-      - name: Checkout v3.2.0 tag
+      - name: Checkout release-3.2.0 branch
         uses: actions/checkout@v4
         with:
-          ref: v3.2.0
+          ref: release-3.2.0
           submodules: true
 
       - name: Setup Node
@@ -60,9 +65,10 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu')
         run: |
           cd packages/keepkey-desktop
-          yarn electron-builder --linux --publish=never
+          yarn electron-builder --linux --publish always
         env:
           NODE_ENV: production
+          GH_TOKEN: ${{ github.token }}
 
       - name: Upload Windows Artifacts
         if: startsWith(matrix.os, 'windows')
@@ -99,58 +105,49 @@ jobs:
             packages/keepkey-desktop/dist/*.AppImage.blockmap
           if-no-files-found: error
 
-  sign-and-upload:
+  create-and-upload-release:
     needs: build-release
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Download Windows Artifacts
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: release-3.2.0
+
+      - name: Download Linux Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: windows-packages
-          path: ./windows-packages
+          name: linux-packages
+          path: ./dist
 
       - name: List Downloaded Files
         run: |
-          Write-Host "Downloaded Windows packages:"
-          Get-ChildItem -Path ./windows-packages -Recurse | ForEach-Object {
-            Write-Host "  $($_.Name) ($([math]::Round($_.Length / 1MB, 2)) MB)"
-          }
+          echo "Downloaded packages:"
+          ls -la ./dist/
+          for file in ./dist/*; do
+            echo "  $(basename $file) ($(du -h $file | cut -f1))"
+          done
 
-      - name: Sign Windows Packages (if certificate available)
+      - name: Create Release (if not exists) and Upload
         run: |
-          $signTool = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe"
-          $thumbprint = "986AEBA61CF6616393E74D8CBD3A09E836213BAA"
-          
-          if (Test-Path $signTool) {
-            Write-Host "SignTool found, checking for certificate..."
-            $cert = Get-ChildItem -Path "Cert:\CurrentUser\My" | Where-Object { $_.Thumbprint -eq $thumbprint }
-            if (-not $cert) {
-              $cert = Get-ChildItem -Path "Cert:\LocalMachine\My" | Where-Object { $_.Thumbprint -eq $thumbprint }
-            }
-            
-            if ($cert) {
-              Write-Host "Certificate found, signing packages..."
-              $windowsFiles = Get-ChildItem -Path ./windows-packages -Filter "*.exe" -Recurse
-              $windowsFiles += Get-ChildItem -Path ./windows-packages -Filter "*.msi" -Recurse
-              
-              foreach ($file in $windowsFiles) {
-                Write-Host "Signing $($file.Name)..."
-                & $signTool sign /sha1 $thumbprint /fd sha256 /tr "http://timestamp.sectigo.com" /td sha256 /v $file.FullName
-              }
-            } else {
-              Write-Host "Certificate not found, skipping signing"
-            }
-          } else {
-            Write-Host "SignTool not found, skipping signing"
-          }
+          # Create release if it doesn't exist
+          if ! gh release view v3.2.0 --repo keepkey/keepkey-desktop &>/dev/null; then
+            echo "Creating v3.2.0 release..."
+            gh release create v3.2.0 \
+              --title "KeepKey Desktop v3.2.0" \
+              --notes "Release v3.2.0" \
+              --target release-3.2.0 \
+              --repo keepkey/keepkey-desktop
+          fi
 
-      - name: Upload Signed Packages to Release
-        run: |
-          Write-Host "Uploading packages to v3.2.0 release..."
-          $files = Get-ChildItem -Path ./windows-packages -File -Recurse
-          foreach ($file in $files) {
-            Write-Host "Uploading $($file.Name)..."
-            gh release upload v3.2.0 $file.FullName --clobber --repo keepkey/keepkey-desktop
-          }
+          # Upload all artifacts with proper names
+          echo "Uploading artifacts to release..."
+          for file in ./dist/*; do
+            filename=$(basename "$file")
+            echo "Uploading $filename..."
+            gh release upload v3.2.0 "$file" --clobber --repo keepkey/keepkey-desktop
+          done
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
