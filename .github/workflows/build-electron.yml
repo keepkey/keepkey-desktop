@@ -82,14 +82,10 @@ jobs:
           path: checksum.txt
           if-no-files-found: error
 
-      - name: Linux - Build Electron App (All Platforms)
+      - name: Linux - Build Electron App
         if: startsWith(matrix.os, 'ubuntu')
         run: |
-          # Build for Linux
           yarn run release
-          # Also build Windows packages from Linux (cross-platform)
-          cd packages/keepkey-desktop
-          yarn electron-builder --win --publish=never
         env:
           NODE_ENV: production
           GH_TOKEN: ${{ secrets.github_token }}
@@ -151,18 +147,6 @@ jobs:
             packages/keepkey-desktop/dist/*.AppImage
             packages/keepkey-desktop/dist/*.AppImage.blockmap
           if-no-files-found: error
-
-      - name: Linux - Upload Windows packages (cross-platform build)
-        if: startsWith(matrix.os, 'ubuntu')
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-from-linux-${{ matrix.os }}
-          path: |
-            packages/keepkey-desktop/dist/*.exe
-            packages/keepkey-desktop/dist/*.msi
-            packages/keepkey-desktop/dist/*.exe.blockmap
-            packages/keepkey-desktop/dist/*.msi.blockmap
-          if-no-files-found: warn
 
       - name: Mac - Upload .dmg
         if: startsWith(matrix.os, 'macos')
