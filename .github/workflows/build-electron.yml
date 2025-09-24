@@ -6,7 +6,7 @@ on:
       - master
       - release-candidate
       - release-candidate-*
-      - release-3.2.0
+      - release-*
       - feature-*
   workflow_dispatch:
 
