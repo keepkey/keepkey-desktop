@@ -43,13 +43,14 @@
         "asar": true,
         "extends": null,
         "mac": {
-            "hardenedRuntime": true,
+            "hardenedRuntime": false,
             "category": "public.app-category.finance",
             "icon": "icon.png",
             "entitlements": "entitlements.mac.plist",
             "entitlementsInherit": "entitlements.mac.plist",
             "mergeASARs": false,
             "notarize": false,
+            "identity": null,
             "target": [
                 {
                     "target": "dmg",
