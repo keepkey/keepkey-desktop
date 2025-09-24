@@ -19,11 +19,38 @@ export const Step2 = ({
 
   return (
     <ModalBody p='6'>
-      <Card 
-        width="full" 
-        bg={cardBgColor} 
-        borderWidth="1px" 
-        borderColor={borderColor} 
+      <Flex justify="center" mb={6}>
+        <Stack direction="row" spacing={4} width="full" maxWidth="md">
+          <Button
+            width="full"
+            maxWidth="150px"
+            colorScheme="gray"
+            onClick={doPreviousStep}
+            borderRadius="md"
+            boxShadow="sm"
+          >
+            Previous
+          </Button>
+          <Button
+            width="full"
+            maxWidth="150px"
+            colorScheme="green"
+            onClick={doNextStep}
+            borderRadius="md"
+            boxShadow="sm"
+            _hover={{ transform: 'translateY(-2px)', boxShadow: 'md' }}
+            transition="all 0.2s"
+          >
+            Next
+          </Button>
+        </Stack>
+      </Flex>
+
+      <Card
+        width="full"
+        bg={cardBgColor}
+        borderWidth="1px"
+        borderColor={borderColor}
         borderRadius="lg"
         boxShadow="md"
         overflow="hidden"
@@ -39,7 +66,7 @@ export const Step2 = ({
           <Text mb={6} color={textColor} fontSize="md">
             Your PIN is your first layer of security. It will be required every time you connect your KeepKey.
           </Text>
-          
+
           <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
             <GridItem colSpan={{ base: 1, md: 1 }}>
               <Card variant="outline" h="100%" borderColor={borderColor}>
@@ -51,7 +78,7 @@ export const Step2 = ({
                 </CardBody>
               </Card>
             </GridItem>
-            
+
             <GridItem colSpan={{ base: 1, md: 1 }}>
               <Card variant="outline" h="100%" borderColor={borderColor}>
                 <CardBody>
@@ -65,7 +92,7 @@ export const Step2 = ({
                 </CardBody>
               </Card>
             </GridItem>
-            
+
             <GridItem colSpan={{ base: 1, md: 1 }}>
               <Card variant="outline" h="100%" borderColor={borderColor}>
                 <CardBody>
@@ -77,7 +104,7 @@ export const Step2 = ({
               </Card>
             </GridItem>
           </Grid>
-          
+
           <Box mt={6} p={4} bg={headerBg} borderRadius="md" borderWidth="1px" borderColor={borderColor}>
             <Text fontWeight="bold" fontSize="sm" color={iconColor}>Security Tip:</Text>
             <Text fontSize="sm" color={textColor}>
@@ -86,33 +113,6 @@ export const Step2 = ({
           </Box>
         </CardBody>
       </Card>
-
-      <Flex justify="center">
-        <Stack direction="row" spacing={4} width="full" maxWidth="md">
-          <Button 
-            width="full" 
-            maxWidth="150px" 
-            colorScheme="gray" 
-            onClick={doPreviousStep}
-            borderRadius="md"
-            boxShadow="sm"
-          >
-            Previous
-          </Button>
-          <Button 
-            width="full" 
-            maxWidth="150px" 
-            colorScheme="green" 
-            onClick={doNextStep}
-            borderRadius="md"
-            boxShadow="sm"
-            _hover={{ transform: 'translateY(-2px)', boxShadow: 'md' }}
-            transition="all 0.2s"
-          >
-            Next
-          </Button>
-        </Stack>
-      </Flex>
     </ModalBody>
   )
 }

@@ -19,11 +19,38 @@ export const Step4 = ({
     
     return (
         <ModalBody p='6'>
-            <Card 
-                width="full" 
-                bg={cardBgColor} 
-                borderWidth="1px" 
-                borderColor={borderColor} 
+            <Flex justify="center" mb={6}>
+                <Stack direction="row" spacing={4} width="full" maxWidth="md">
+                    <Button
+                        width="full"
+                        maxWidth="150px"
+                        colorScheme="gray"
+                        onClick={doPreviousStep}
+                        borderRadius="md"
+                        boxShadow="sm"
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        width="full"
+                        maxWidth="150px"
+                        colorScheme="green"
+                        onClick={doNextStep}
+                        borderRadius="md"
+                        boxShadow="sm"
+                        _hover={{ transform: 'translateY(-2px)', boxShadow: 'md' }}
+                        transition="all 0.2s"
+                    >
+                        Finish
+                    </Button>
+                </Stack>
+            </Flex>
+
+            <Card
+                width="full"
+                bg={cardBgColor}
+                borderWidth="1px"
+                borderColor={borderColor}
                 borderRadius="lg"
                 boxShadow="md"
                 overflow="hidden"
@@ -36,8 +63,8 @@ export const Step4 = ({
                     </Flex>
                 </CardHeader>
                 <CardBody p={6}>
-                    
-                    <Flex 
+
+                    <Flex
                         direction={{ base: 'column', md: 'row' }}
                         align="center"
                         justify="space-between"
@@ -48,58 +75,31 @@ export const Step4 = ({
                         borderColor={borderColor}
                     >
                         <Box maxW={{ base: '100%', md: '45%' }} mb={{ base: 6, md: 0 }}>
-                            <Image 
-                                src={bex} 
-                                borderRadius="md" 
-                                boxShadow="md" 
+                            <Image
+                                src={bex}
+                                borderRadius="md"
+                                boxShadow="md"
                                 objectFit="contain"
                             />
                         </Box>
 
                         <Box flex="1" ml={{ md: 6 }}>
                             <Text mb={4} fontSize="md">
-                                Try the KeepKey Browser Extension to manage your crypto securely within your browser. 
+                                Try the KeepKey Browser Extension to manage your crypto securely within your browser.
                                 Connect to dApps and enjoy hardware-level protection—all in one place.
                             </Text>
                             <Text mb={4} fontSize="md">
-                                Take control of your crypto experience with KeepKey's Browser Extension. Seamlessly interact 
+                                Take control of your crypto experience with KeepKey's Browser Extension. Seamlessly interact
                                 with dApps, safeguard your assets, and stay updated on market movements, right from your browser.
                             </Text>
                             <Text fontSize="md">
-                                Upgrade your crypto management! The KeepKey Browser Extension offers simple, secure, and real-time 
+                                Upgrade your crypto management! The KeepKey Browser Extension offers simple, secure, and real-time
                                 access to your assets. Download now to experience the future of crypto management.
                             </Text>
                         </Box>
                     </Flex>
                 </CardBody>
             </Card>
-
-            <Flex justify="center">
-                <Stack direction="row" spacing={4} width="full" maxWidth="md">
-                    <Button 
-                        width="full" 
-                        maxWidth="150px" 
-                        colorScheme="gray" 
-                        onClick={doPreviousStep}
-                        borderRadius="md"
-                        boxShadow="sm"
-                    >
-                        Previous
-                    </Button>
-                    <Button 
-                        width="full" 
-                        maxWidth="150px" 
-                        colorScheme="green" 
-                        onClick={doNextStep}
-                        borderRadius="md"
-                        boxShadow="sm"
-                        _hover={{ transform: 'translateY(-2px)', boxShadow: 'md' }}
-                        transition="all 0.2s"
-                    >
-                        Finish
-                    </Button>
-                </Stack>
-            </Flex>
         </ModalBody>
     )
 }

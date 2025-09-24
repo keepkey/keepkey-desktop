@@ -43,13 +43,46 @@ export const Step0 = ({
     return (
         <ModalBody>
             <Flex alignItems="center" justifyContent="center" flexDirection="column" textAlign="center">
-                <Card 
-                    width="full" 
-                    maxWidth="md" 
-                    mb={6} 
-                    bg={cardBgColor} 
-                    borderWidth="1px" 
-                    borderColor={borderColor} 
+                <Stack
+                    direction="row"
+                    spacing={4}
+                    justify="center"
+                    width="full"
+                    maxWidth="md"
+                    mb={6}
+                >
+                    <Button
+                        width="full"
+                        maxWidth="150px"
+                        colorScheme="gray"
+                        onClick={doPreviousStep}
+                        borderRadius="md"
+                        boxShadow="sm"
+                        isDisabled={true}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        width="full"
+                        maxWidth="150px"
+                        colorScheme="green"
+                        onClick={doNextStep}
+                        borderRadius="md"
+                        boxShadow="sm"
+                        _hover={{ transform: 'translateY(-2px)', boxShadow: 'md' }}
+                        transition="all 0.2s"
+                    >
+                        Next
+                    </Button>
+                </Stack>
+
+                <Card
+                    width="full"
+                    maxWidth="md"
+                    mb={6}
+                    bg={cardBgColor}
+                    borderWidth="1px"
+                    borderColor={borderColor}
                     borderRadius="lg"
                     boxShadow="md"
                     overflow="hidden"
@@ -86,39 +119,6 @@ export const Step0 = ({
                         </Box>
                     </CardBody>
                 </Card>
-                
-                <Stack 
-                    direction="row" 
-                    spacing={4} 
-                    justify="center" 
-                    width="full" 
-                    maxWidth="md"
-                    mt={2}
-                >
-                    <Button 
-                        width="full" 
-                        maxWidth="150px" 
-                        colorScheme="gray" 
-                        onClick={doPreviousStep}
-                        borderRadius="md"
-                        boxShadow="sm"
-                        isDisabled={true}
-                    >
-                        Previous
-                    </Button>
-                    <Button 
-                        width="full" 
-                        maxWidth="150px" 
-                        colorScheme="green" 
-                        onClick={doNextStep}
-                        borderRadius="md"
-                        boxShadow="sm"
-                        _hover={{ transform: 'translateY(-2px)', boxShadow: 'md' }}
-                        transition="all 0.2s"
-                    >
-                        Next
-                    </Button>
-                </Stack>
             </Flex>
         </ModalBody>
     )

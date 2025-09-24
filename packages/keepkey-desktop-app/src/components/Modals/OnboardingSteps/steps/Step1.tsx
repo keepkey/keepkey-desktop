@@ -10,17 +10,17 @@ export const Step1 = ({
 }) => {
   return (
     <ModalBody alignItems='center' justifyContent='center' textAlign='center'>
-      <AppSettings />
-      <Center>
-        <Stack>
-          <Button m='10px' p='10px' colorScheme='green' onClick={doPreviousStep}>
+      <Center mb={6}>
+        <Stack direction='row' spacing={4}>
+          <Button colorScheme='gray' onClick={doPreviousStep} width='150px'>
             Previous
           </Button>
-          <Button m='10px' p='10px' colorScheme='green' onClick={doNextStep}>
+          <Button colorScheme='green' onClick={doNextStep} width='150px'>
             Next
           </Button>
         </Stack>
       </Center>
+      <AppSettings />
     </ModalBody>
   )
 }
