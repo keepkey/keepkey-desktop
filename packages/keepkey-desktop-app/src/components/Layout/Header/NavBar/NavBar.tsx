@@ -8,7 +8,7 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import { union } from 'lodash'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslate } from 'react-polyglot'
-import { Link as ReactRouterLink } from 'react-router-dom'
+import { Link as ReactRouterLink, useHistory } from 'react-router-dom'
 import type { Route, RouteCategory } from 'Routes/helpers'
 import { routes } from 'Routes/RoutesCommon'
 import * as semver from 'semver'
@@ -26,6 +26,7 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
   const translate = useTranslate()
   const { routes: pluginRoutes } = usePlugins()
   const { settings } = useModal()
+  const history = useHistory()
 
   const {
     state: { wallet },
@@ -50,13 +51,15 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
     })
   }, [wallet])
   
-  let openSupport = () => {
-    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: 'https://keepkey-docs-o9qn.vercel.app/' })
-    // history.push('/browser')
+  const openSupport = () => {
+    // Open support in external browser
+    window.open('https://support.keepkey.com', '_blank')
   }
-  
+
   const openShapeShift = () => {
-    window.open('https://app.shapeshift.com', '_blank')
+    // Navigate to internal browser with ShapeShift URL
+    dispatch({ type: WalletActions.SET_BROWSER_URL, payload: 'https://app.shapeshift.com' })
+    history.push('/browser')
   }
 
   return (
@@ -105,10 +108,8 @@ export const NavBar = ({ isCompact, onClick, ...rest }: NavBarProps) => {
       />
       <MainNavLink
         isCompact={isCompact}
-        as={Link}
-        isExternal
         size='sm'
-        href='https://support.keepkey.com'
+        onClick={openSupport}
         label={translate('common.joinDiscord')}
         leftIcon={<ChatIcon />}
         data-test='navigation-join-discord-button'

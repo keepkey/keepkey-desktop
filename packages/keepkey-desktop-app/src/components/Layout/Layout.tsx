@@ -5,7 +5,6 @@ import { useWallet } from 'hooks/useWallet/useWallet'
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router'
 
-import { BottomNav } from './Header/BottomNav'
 import { Header } from './Header/Header'
 
 export const Layout: React.FC<ContainerProps> = ({ children, ...rest }) => {
@@ -64,7 +63,6 @@ export const Layout: React.FC<ContainerProps> = ({ children, ...rest }) => {
           {children}
         </Container>
       </div>
-      <BottomNav />
     </div>
   )
 }

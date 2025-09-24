@@ -18,6 +18,26 @@ export const MainNavLink = memo(
       const { href, label } = rest
       const location = useLocation()
       const active = location?.pathname.includes(href ?? '')
+
+      // For non-compact mode (horizontal navigation), show icon and label
+      if (!isCompact) {
+        return (
+          <Button
+            width='auto'
+            justifyContent='flex-start'
+            variant='nav-link'
+            isActive={href ? active : false}
+            minWidth='auto'
+            leftIcon={leftIcon}
+            ref={ref}
+            {...rest}
+          >
+            {label}
+          </Button>
+        )
+      }
+
+      // For compact mode (vertical navigation), show only icon with tooltip
       return (
         <Tooltip label={label} placement='top'>
           <Button

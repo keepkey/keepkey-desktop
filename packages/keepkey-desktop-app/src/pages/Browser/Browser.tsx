@@ -25,6 +25,7 @@ import { getConfig } from 'config'
 import { ipcListeners } from 'electron-shim'
 import { useWallet } from 'hooks/useWallet/useWallet'
 import { FaBug } from 'react-icons/fa'
+import { WalletActions } from 'context/WalletProvider/actions'
 
 const getWebview = () => document.getElementById('webview') as Electron.WebviewTag | null
 const getWebviewWc = () =>
@@ -296,10 +297,17 @@ export const Browser = () => {
       console.log('Formatted newUrl:', newUrl)
       setInputUrl(newUrl)
       setUrl(newUrl)
+      // Force the webview to load the new URL
+      const webview = getWebview()
+      if (webview && newUrl !== webview.getURL()) {
+        webview.loadURL(newUrl)
+      }
+      // Clear the browserUrl after loading to prevent re-loading on subsequent visits
+      dispatch({ type: WalletActions.SET_BROWSER_URL, payload: '' })
     } else {
       console.error('invalid browserUrl:', browserUrl)
     }
-  }, [browserUrl, webviewReady])
+  }, [browserUrl, webviewReady, dispatch])
 
   useEffect(() => {
     if (!webviewWcReady) return
