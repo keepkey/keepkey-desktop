@@ -13,6 +13,8 @@ on:
 jobs:
   release:
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
@@ -100,7 +102,7 @@ jobs:
           APPLE_ID: ${{ secrets.apple_id }}
           APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
-          GH_TOKEN: ${{ secrets.github_token }}
+          GH_TOKEN: ${{ github.token }}
 
       - name: Mac - Build Electron App
         if: startsWith(matrix.os, 'macos')
@@ -118,7 +120,7 @@ jobs:
           done
         env:
           NODE_ENV: production
-          GH_TOKEN: ${{ secrets.github_token }}
+          GH_TOKEN: ${{ github.token }}
           CSC_LINK: ${{ secrets.mac_certs }}
           APPLE_API_KEY: ${{ secrets.apple_api_key }}
           APPLE_API_KEY_ID: ${{ secrets.apple_api_key_id }}
@@ -135,7 +137,7 @@ jobs:
           cp "packages/keepkey-desktop/dist/KeepKey-Desktop-*-*-arm64.dmg" "packages/keepkey-desktop/dist/KeepKey-Desktop-latest.dmg"
         env:
           NODE_ENV: production
-          GH_TOKEN: ${{ secrets.github_token }}
+          GH_TOKEN: ${{ github.token }}
 
       - name: Windows - Upload .exe
         if: startsWith(matrix.os, 'windows')
